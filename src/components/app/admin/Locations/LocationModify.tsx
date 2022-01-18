@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
-import Textarea from '../../../inputs/basic/Textarea';
 import {
   BottomWrapper,
   GrayWrapper,

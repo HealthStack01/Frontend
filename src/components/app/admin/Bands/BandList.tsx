@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DataTable from 'react-data-table-component';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
@@ -15,7 +15,6 @@ interface Props {
 }
 
 const Bands: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
-  const [details, setDetails] = useState();
   return (
     <PageWrapper>
       <h2>Bands</h2>

@@ -3,14 +3,11 @@ import { ThemeProvider } from 'styled-components';
 import AppRoutes from './routes/routes';
 import { GlobalStyle } from './styles/global';
 import { darkTheme, lightTheme } from './styles/theme';
-import { Scrollbar } from 'smooth-scrollbar-react';
 import { AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router';
 import gsap from 'gsap';
 import { ObjectProvider } from './context/context';
 
 function App() {
-  const location = useLocation();
   useEffect(() => {
     gsap.to('body', 0, { css: { visibility: 'visible' } });
   });
@@ -19,6 +16,8 @@ function App() {
   const themeToggler = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light');
   };
+
+  console.log(themeToggler);
 
   return (
     <>

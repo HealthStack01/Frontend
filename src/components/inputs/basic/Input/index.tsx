@@ -1,6 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
 import { FormControl, TextField } from '@mui/material';
-import { InputField } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

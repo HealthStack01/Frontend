@@ -1,4 +1,3 @@
-import React from 'react';
 import Breadcrumbs from '../breadcrumb';
 import { Avatar, Profile, TopMenuWrapper } from './styles';
 // import { avatar } from '../../assets/images/img_avatar.png';

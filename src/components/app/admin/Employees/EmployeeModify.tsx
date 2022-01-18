@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
-import Textarea from '../../../inputs/basic/Textarea';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -16,8 +14,6 @@ interface Props {
   row?: any;
   backClick: () => void;
 }
-
-const bandTypeOptions: string[] = ['Band 1', 'Band 2', 'Band 3', 'Band 4'];
 
 const EmployeeModify: React.FC<Props> = ({
   cancelEditClicked,

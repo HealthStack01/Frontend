@@ -21,13 +21,13 @@ const IndividualSignup = () => {
 
         <div className='bottom-center'>
           <p>or continue with</p>
-          <a href=''>
+          <a href='www.google.com'>
             <i className='bi bi-google'></i>
           </a>
-          <a href=''>
+          <a href='www.google.com'>
             <i className='bi bi-facebook'></i>
           </a>
-          <a href=''>
+          <a href='www.google.com'>
             <i className='bi bi-linkedin'></i>
           </a>
 

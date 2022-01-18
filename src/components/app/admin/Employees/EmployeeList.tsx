@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DataTable from 'react-data-table-component';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import { PageWrapper } from '../../styles';
 import { columnHead, rowData } from './data';
-
 
 interface Props {
   handleCreate?: () => void;
@@ -25,7 +24,6 @@ interface Props {
 }
 
 const Employees: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
-  const [details, setDetails] = useState();
   return (
     <PageWrapper>
       <h2>Employees</h2>

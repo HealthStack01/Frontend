@@ -1,8 +1,6 @@
-import { width } from '@mui/system';
 import React, { useState, useEffect } from 'react';
 import Side from '../components/banner/side';
 import Preloader from '../components/utilities/Preloader';
-import { Container } from '../styles/global';
 import { AuthContainer, PageWrapper } from './styles';
 
 interface AuthProps {

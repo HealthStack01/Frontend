@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import React from 'react';
 import { backgroundVariants } from '../../../animations/utils';
 import { InnerWrapper, SideBanner } from './styles';
 

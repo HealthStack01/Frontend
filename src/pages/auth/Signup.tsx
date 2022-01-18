@@ -3,9 +3,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
-import CheckboxInput from '../../components/inputs/basic/Checkbox';
-import Input from '../../components/inputs/basic/Input';
-import PasswordInput from '../../components/inputs/basic/Password';
 import AuthWrapper from '../../helper/AuthWrapper';
 import AddAdmin from './forms/AddAdmin';
 import CreateOrganization from './forms/CreateOrganization';
@@ -56,19 +53,7 @@ const Signup = () => {
     setActiveStep(step);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  console.log(activeStep);
+  console.log(activeStep, setCompleted);
 
   const onSubmit = () => {
     navigate('/app');

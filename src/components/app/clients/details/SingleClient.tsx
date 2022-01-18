@@ -3,7 +3,6 @@ import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import Select from '../../../inputs/basic/Select';
 import Textarea from '../../../inputs/basic/Textarea';
-import { useParams } from 'react-router-dom';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -63,8 +62,6 @@ const SingleClient: React.FC<SingleProps> = ({ row, onClick }) => {
   });
 
   console.log(values);
-
-  const { id } = useParams();
 
   return (
     <>

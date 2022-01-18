@@ -1,5 +1,4 @@
 import React, { InputHTMLAttributes } from 'react';
-import Input from '../basic/Input';
 
 interface EmailProps extends InputHTMLAttributes<HTMLInputElement> {}
 

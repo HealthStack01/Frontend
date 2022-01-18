@@ -13,6 +13,8 @@ const Clients = () => {
 
   const [createClient, setCreateClient] = useState(false);
   const [showSingleClient, setShowSingleClient] = useState(false);
+
+  console.log(showSingleClient);
   const [singleClient, setSingleClient] = useState<ClientDataRow>({
     id: 0,
     fname: '',

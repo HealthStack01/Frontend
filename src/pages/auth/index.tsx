@@ -1,5 +1,4 @@
-import { Alert, Stack } from '@mui/material';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../components/buttons/Button';
 import CheckboxInput from '../../components/inputs/basic/Checkbox';
 import Input from '../../components/inputs/basic/Input';
@@ -7,7 +6,6 @@ import PasswordInput from '../../components/inputs/basic/Password';
 import { useNavigate } from 'react-router-dom';
 import AuthWrapper from '../../helper/AuthWrapper';
 import { Link } from 'react-router-dom';
-import CustomSnackBar from '../../components/snackbar';
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +29,9 @@ const Login = () => {
   const onSubmit = () => {
     navigate('/app');
   };
+
+  console.log(isOpen, onClose);
+
   return (
     <>
       <AuthWrapper paragraph='Login here as an organization'>
@@ -43,13 +44,13 @@ const Login = () => {
 
         <div className='bottom-center'>
           <p>or continue with</p>
-          <a href=''>
+          <a href='www.google.com'>
             <i className='bi bi-google'></i>
           </a>
-          <a href=''>
+          <a href='www.google.com'>
             <i className='bi bi-facebook'></i>
           </a>
-          <a href=''>
+          <a href='www.google.com'>
             <i className='bi bi-linkedin'></i>
           </a>
 
