@@ -13,18 +13,6 @@ import {
   PageWrapper,
 } from '../../styles';
 
-const appointmentFormData = [
-  { title: 'Date and Time', type: 'datetime-local' },
-  { title: 'First Name' },
-  { title: 'Last Name' },
-  { title: 'Classification' },
-  { title: 'Location' },
-  { title: 'Type' },
-  { title: 'Status' },
-  { title: 'Reason' },
-  { title: 'Practitioner' },
-];
-
 const appointmetOptions = [
   {
     value: 'Onsite',
@@ -48,7 +36,6 @@ const typeOptions = [
   'Type E',
   'Type F',
 ];
-const statusOptions = ['Status A', 'Status B'];
 
 const AppointmentForm = () => {
   return (
