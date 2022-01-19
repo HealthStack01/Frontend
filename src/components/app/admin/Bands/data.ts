@@ -25,7 +25,7 @@ export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'Description',
     selector: row => row.description,
-    sortable: true,
+    sortable: false,
   },
 ];
 

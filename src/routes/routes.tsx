@@ -31,10 +31,7 @@ const AppRoutes = () => {
           <Route path='/app/clients/:id' element={<ClientDetails />} />
           <Route path='/app/clients/appointments' element={<Appointments />} />
 
-          <Route
-            path='/app/clients/appointments/:id'
-            element={<AppointmentDetails />}
-          />
+          <Route path='/app/clients/appointments/:id' element={<AppointmentDetails />} />
           <Route path='/app/admin' element={<AdminDashboard />} />
           <Route path='/app/admin/bands' element={<AppBands />} />
           <Route path='/app/admin/employees' element={<AppEmployees />} />
