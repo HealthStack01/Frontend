@@ -21,6 +21,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^5.5.5",
     "gsap": "^3.9.1",
+    "postcss": "8.1.0",
     "react": "^17.0.2",
     "react-data-table-component": "^7.4.6",
     "react-dom": "^17.0.2",
