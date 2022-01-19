@@ -22,9 +22,10 @@ const bandTypeOptions: string[] = ['Band 1', 'Band 2', 'Band 3', 'Band 4'];
 const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
-    name: row.name,
-    bandType: row.bandType,
+    date: row.date,
     description: row.description,
+    status: row.status,
+    amount: row.amount,
   });
 
   return (
@@ -55,22 +56,20 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
         <GridWrapper>
           <Input label='ID' value={values.id} disabled />
           <Input
-            label='Name'
-            value={values.name}
-            placeholder={values.name}
-            onChange={e => setValue({ ...values, name: e.target.value })}
+            label='Date'
+            value={values.date}
+            type='datetime-local'
+            onChange={e => setValue({ ...values, date: e.target.value })}
           />
-          <CustomSelect
-            name={values.bandType}
-            label='Band Type'
-            options={bandTypeOptions}
-            value={values.bandType}
-            onChange={e =>
-              setValue({
-                ...values,
-                bandType: e.target.value,
-              })
-            }
+          <Input
+            label='Status'
+            value={values.status}
+            onChange={e => setValue({ ...values, status: e.target.value })}
+          />
+          <Input
+            label='Amount'
+            value={values.amount}
+            onChange={e => setValue({ ...values, amount: e.target.value })}
           />
           <Textarea
             label='Description'

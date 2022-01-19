@@ -8,15 +8,17 @@ import BillModify from './BillModify';
 const AppBills = () => {
   const { resource, setResource } = useObjectState();
 
+  console.log(resource.billServicesResource.show);
+
   return (
     <>
-      {resource.bandResource.show === 'lists' && (
+      {resource.billServicesResource.show === 'lists' && (
         <Bills
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
-              illResource: {
-                ...prevState.bandResource,
+              billServicesResource: {
+                ...prevState.billServicesResource,
                 show: 'create',
               },
             }))
@@ -26,35 +28,35 @@ const AppBills = () => {
 
             setResource(prevState => ({
               ...prevState,
-              bandResource: {
+              billServicesResource: {
                 show: 'details',
-                selectedBand: row,
+                selectedBillService: row,
               },
             }));
           }}
         />
       )}
-      {resource.bandResource.show === 'create' && (
+      {resource.billServicesResource.show === 'create' && (
         <BillCreate
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
+              billServicesResource: {
+                ...prevState.billServicesResource,
                 show: 'lists',
               },
             }))
           }
         />
       )}
-      {resource.bandResource.show === 'details' && (
+      {resource.billServicesResource.show === 'details' && (
         <BillDetails
-          row={resource.bandResource.selectedBand}
+          row={resource.billServicesResource.selectedBillService}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
+              billServicesResource: {
+                ...prevState.billServicesResource,
                 show: 'lists',
               },
             }))
@@ -62,22 +64,22 @@ const AppBills = () => {
           editBtnClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
+              billServicesResource: {
+                ...prevState.billServicesResource,
                 show: 'edit',
               },
             }))
           }
         />
       )}
-      {resource.bandResource.show === 'edit' && (
+      {resource.billServicesResource.show === 'edit' && (
         <BillModify
-          row={resource.bandResource.selectedBand}
+          row={resource.billServicesResource.selectedBillService}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
+              billServicesResource: {
+                ...prevState.billServicesResource,
                 show: 'lists',
               },
             }))

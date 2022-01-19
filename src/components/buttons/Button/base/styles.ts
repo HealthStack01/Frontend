@@ -7,6 +7,7 @@ export const CustomButton = styled(BaseButton)`
   /* background: ${({ theme }) => theme.blueTwo}; */
   background: ${props => (props.background ? props.background : '#0364FF')};
   padding: 1rem;
+  margin: 0 0.4rem;
   border: 0;
   border-radius: 4px;
   font-weight: bold;

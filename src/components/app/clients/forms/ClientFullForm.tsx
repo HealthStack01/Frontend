@@ -213,7 +213,7 @@ const ClientFullForm = () => {
               />
             </HeadWrapper>
             {/* Names */}
-            <DetailsWrapper title='Names'>
+            <DetailsWrapper title='Names' defaultExpanded={true}>
               <h2>Names</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.names.map((name, index) => (
@@ -223,7 +223,7 @@ const ClientFullForm = () => {
             </DetailsWrapper>
 
             {/*   BioData */}
-            <DetailsWrapper title='Bio-data'>
+            <DetailsWrapper title='Bio-data' defaultExpanded={true}>
               <h2>Bio-data</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.biodata.map((bio, index) => {
@@ -246,7 +246,7 @@ const ClientFullForm = () => {
             </DetailsWrapper>
 
             {/* Address   */}
-            <DetailsWrapper title='Address'>
+            <DetailsWrapper title='Address' defaultExpanded={true}>
               <h2>Address</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.address.map((address, index) => {
@@ -273,7 +273,7 @@ const ClientFullForm = () => {
             </DetailsWrapper>
 
             {/* Other Details  */}
-            <DetailsWrapper title='Other Details'>
+            <DetailsWrapper title='Other Details' defaultExpanded={true}>
               <h2>Other Details</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.address.map((address, index) => {
@@ -294,7 +294,7 @@ const ClientFullForm = () => {
             </DetailsWrapper>
 
             {/* Next of Kin  */}
-            <DetailsWrapper title='Next of Kin'>
+            <DetailsWrapper title='Next of Kin' defaultExpanded={true}>
               <h2>Next of Kin</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.nextOfKin.map((address, index) => {
@@ -315,7 +315,10 @@ const ClientFullForm = () => {
             </DetailsWrapper>
 
             {/* Non Hosiptal Idenfiers  */}
-            <DetailsWrapper title='Non-Hospitalsiptal Idenfiers'>
+            <DetailsWrapper
+              title='Non-Hospitalsiptal Idenfiers'
+              defaultExpanded={true}
+            >
               <h2>Non-Hospital Indetifiers</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.nonHospitalIndetifiers.map(
@@ -337,7 +340,7 @@ const ClientFullForm = () => {
             </DetailsWrapper>
 
             {/* Medical Data   */}
-            <DetailsWrapper title='Medical Data'>
+            <DetailsWrapper title='Medical Data' defaultExpanded={true}>
               <h2>Medical Data</h2>
               <GridWrapper className='subgrid'>
                 {clientFullFormData.medicalData.map((address, index) => {

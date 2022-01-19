@@ -4,7 +4,7 @@ import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
 import {
   BottomWrapper,
-  FullDetailsWrapper,
+  DetailsWrapper,
   GrayWrapper,
   GridWrapper,
   HeadWrapper,
@@ -52,34 +52,64 @@ const BillCreate: React.FC<Props> = ({ backClick }) => {
           />
         </HeadWrapper>
         <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Bill'>
+          <DetailsWrapper title='Create Bill Service' defaultExpanded={true}>
             <GridWrapper>
-              <CustomSelect
-                label='Choose a Bill Type'
-                name='bandType'
+              <Input
+                label='Search for Client'
+                name='clientSearch'
                 onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
                   })
                 }
-                options={bandType}
               />
-              {clientFormData.map((client, index) => (
-                <Input
-                  key={index}
-                  label={client.title}
-                  name={client.title}
-                  onChange={e =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                ></Input>
-              ))}
+              <CustomSelect
+                label='Choose a Billing Mode'
+                name='billingMode'
+                onChange={e =>
+                  setValues({
+                    ...values,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+                options={['Mode 1', 'Mode 2']}
+              />
+
+              <Input
+                name='datetime'
+                type='datetime-local'
+                onChange={e =>
+                  setValues({
+                    ...values,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+              <Input
+                label='Phone Number'
+                name='phoneNumber'
+                type='tel'
+                onChange={e =>
+                  setValues({
+                    ...values,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+
+              <Input
+                label='Choose a Service Item'
+                name='chooseServiceItem'
+                onChange={e =>
+                  setValues({
+                    ...values,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
             </GridWrapper>
-          </FullDetailsWrapper>
+          </DetailsWrapper>
 
           <BottomWrapper>
             <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />

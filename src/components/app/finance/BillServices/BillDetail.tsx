@@ -56,16 +56,21 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
             </div>
 
             <div>
-              <label>Bill Type</label>
-              <p>{row.bandType}</p>
+              <label>Date</label>
+              <p>{row.date}</p>
             </div>
+
             <div>
-              <label>Bill Name</label>
-              <p>{row.name}</p>
-            </div>
-            <div>
-              <label>Bill Description</label>
+              <label>Bill Service Description</label>
               <p>{row.description}</p>
+            </div>
+            <div>
+              <label>Bill Status</label>
+              <p>{row.status}</p>
+            </div>
+            <div>
+              <label>Bill Amount</label>
+              <p>{row.amount}</p>
             </div>
           </GridWrapper>
         </FullDetailsWrapper>
