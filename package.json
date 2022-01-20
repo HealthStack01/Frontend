@@ -34,6 +34,7 @@
     "react-hook-form": "^7.24.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-toastify": "^8.1.0",
     "smooth-scrollbar": "^8.7.2",
     "smooth-scrollbar-react": "^2.3.0",
     "socket.io-client": "2.0.1",
@@ -46,7 +47,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "tsc --noEmit && eslint 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +69,18 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.18"
+    "@types/styled-components": "^5.1.18",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "^2.5.1"
   }
 }

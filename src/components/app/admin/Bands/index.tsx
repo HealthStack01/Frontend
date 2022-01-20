@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import BandCreate from './BandCreate';
 import BandDetails from './BandDetail';
 import Bands from './BandList';
 import BandModify from './BandModify';
 
-
-const AppBands = () => {
+function AppBands() {
   const { resource, setResource } = useObjectState();
 
   return (
@@ -14,7 +14,7 @@ const AppBands = () => {
       {resource.bandResource.show === 'lists' && (
         <Bands
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -22,10 +22,8 @@ const AppBands = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 show: 'details',
@@ -38,7 +36,7 @@ const AppBands = () => {
       {resource.bandResource.show === 'create' && (
         <BandCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -52,7 +50,7 @@ const AppBands = () => {
         <BandDetails
           row={resource.bandResource.selectedBand}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -61,7 +59,7 @@ const AppBands = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -75,7 +73,7 @@ const AppBands = () => {
         <BandModify
           row={resource.bandResource.selectedBand}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -84,7 +82,7 @@ const AppBands = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -96,6 +94,6 @@ const AppBands = () => {
       )}
     </>
   );
-};
+}
 
 export default AppBands;

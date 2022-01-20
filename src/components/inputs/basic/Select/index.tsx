@@ -1,14 +1,14 @@
-import React, { SelectHTMLAttributes } from 'react';
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
+import React, { SelectHTMLAttributes } from 'react';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   options: any[];
   name?: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -16,32 +16,29 @@ const CustomSelect: React.FC<SelectProps> = ({
   options,
   name,
   onChange,
-  ...props
-}) => {
-  return (
-    <div>
-      <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
-        <InputLabel id='demo-simple-select-autowidth-label'>{label}</InputLabel>
-        <Select
-          labelId='demo-simple-select-autowidth-label'
-          id='demo-simple-select-autowidth'
-          autoWidth
-          label={label}
-          name={name}
-          onChange={e => onChange}
-        >
-          <MenuItem value='' sx={{ width: '100%' }}>
-            <em>None</em>
+}) => (
+  <div>
+    <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
+      <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
+      <Select
+        labelId="demo-simple-select-autowidth-label"
+        id="demo-simple-select-autowidth"
+        autoWidth
+        label={label}
+        name={name}
+        onChange={(_) => onChange}
+      >
+        <MenuItem value="" sx={{ width: '100%' }}>
+          <em>None</em>
+        </MenuItem>
+        {options.map((option, index) => (
+          <MenuItem value={option} key={index} sx={{ width: '100%' }}>
+            {option}
           </MenuItem>
-          {options.map((option, index) => (
-            <MenuItem value={option} key={index} sx={{ width: '100%' }}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
-};
+        ))}
+      </Select>
+    </FormControl>
+  </div>
+);
 
 export default CustomSelect;

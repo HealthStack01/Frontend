@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material';
 import React, { useState } from 'react';
+
 import Button from '../../../components/buttons/Button';
 import Input from '../../../components/inputs/basic/Input';
 import CustomSelect from '../../../components/inputs/basic/Select';
@@ -10,17 +11,17 @@ import {
   unitsOptions,
 } from '../../../utils/data';
 
-const NewEmployee = () => {
+function NewEmployee() {
   const [values, setValues] = useState({});
   console.log(values);
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      <form action=''>
+      <form action="">
         <Input
-          label='Organization Email'
-          name='organizationEmail'
-          onChange={e =>
+          label="Organization Email"
+          name="organizationEmail"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -28,10 +29,10 @@ const NewEmployee = () => {
           }
         />
         <Input
-          label='Email Address'
-          type='email'
-          name='email'
-          onChange={e =>
+          label="Email Address"
+          type="email"
+          name="email"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -39,10 +40,10 @@ const NewEmployee = () => {
           }
         />
         <Input
-          label='Phone Number'
-          type='tel'
-          name='phoneNumber'
-          onChange={e =>
+          label="Phone Number"
+          type="tel"
+          name="phoneNumber"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -50,10 +51,10 @@ const NewEmployee = () => {
           }
         />
         <CustomSelect
-          label='Country'
+          label="Country"
           options={countriesOptions}
-          name='country'
-          onChange={e =>
+          name="country"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -61,10 +62,10 @@ const NewEmployee = () => {
           }
         />
         <CustomSelect
-          label='State'
+          label="State"
           options={statesOptions}
-          name='state'
-          onChange={e =>
+          name="state"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -72,10 +73,10 @@ const NewEmployee = () => {
           }
         />
         <CustomSelect
-          label='Department'
+          label="Department"
           options={departmentOptions}
-          name='Department'
-          onChange={e =>
+          name="Department"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -83,10 +84,10 @@ const NewEmployee = () => {
           }
         />
         <CustomSelect
-          label='Unit'
+          label="Unit"
           options={unitsOptions}
-          name='unit'
-          onChange={e =>
+          name="unit"
+          onChange={(e) =>
             setValues({
               ...values,
               [e.target.name]: e.target.value,
@@ -94,10 +95,10 @@ const NewEmployee = () => {
           }
         />
 
-        <Button type='submit' label='Create Admin' fullwidth />
+        <Button type="submit" label="Create Admin" fullwidth />
       </form>
     </Stack>
   );
-};
+}
 
 export default NewEmployee;

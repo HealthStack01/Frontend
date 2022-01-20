@@ -4,18 +4,16 @@ import React from 'react';
 interface CheckboxProps {
   label: string;
   name?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckboxInput: React.FC<CheckboxProps> = ({ label, name, onChange }) => {
-  return (
-    <FormGroup>
-      <FormControlLabel
-        control={<Checkbox name={name} onChange={onChange} />}
-        label={label}
-      />
-    </FormGroup>
-  );
-};
+const CheckboxInput: React.FC<CheckboxProps> = ({ label, name, onChange }) => (
+  <FormGroup>
+    <FormControlLabel
+      control={<Checkbox name={name} onChange={onChange} />}
+      label={label}
+    />
+  </FormGroup>
+);
 
 export default CheckboxInput;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import {
@@ -73,34 +74,34 @@ const EmployeeCreate: React.FC<Props> = ({ backClick }) => {
             </span>
           </div>
           <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Employee'>
+        <form action="" onSubmit={() => {}}>
+          <FullDetailsWrapper title="Create Employee">
             <GridWrapper>
               {clientFormData.map((client, index) => (
                 <Input
                   key={index}
                   label={client.title}
                   name={client.title}
-                  onChange={e =>
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
                     })
                   }
-                ></Input>
+                />
               ))}
             </GridWrapper>
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-            <Button label='Save Form' type='submit' />
+            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+            <Button label="Save Form" type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>

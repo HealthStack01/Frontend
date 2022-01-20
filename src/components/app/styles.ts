@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import AccordionBox from '../accordion';
 
 export const PageWrapper = styled.div`

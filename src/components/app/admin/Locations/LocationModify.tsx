@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
-import Textarea from '../../../inputs/basic/Textarea';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -40,37 +40,37 @@ const LocationModify: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
-              label={'Cancel Editing'}
-              background={'#f2f2f2'}
-              color={'#333'}
-              showicon={true}
-              icon='bi bi-pen-fill'
+              label="Cancel Editing"
+              background="#f2f2f2"
+              color="#333"
+              showicon
+              icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
           </div>
         </HeadWrapper>
         <GridWrapper>
-          <Input label='ID' value={values.id} disabled />
+          <Input label="ID" value={values.id} disabled />
           <Input
-            label='Name'
+            label="Name"
             value={values.locationname}
             placeholder={values.locationname}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, locationname: e.target.value })
             }
           />
           <CustomSelect
             name={values.locationType}
-            label='Band Type'
+            label="Band Type"
             options={locationTypeOptions}
             value={values.locationType}
-            onChange={e =>
+            onChange={(e) =>
               setValue({
                 ...values,
                 locationType: e.target.value,
@@ -81,11 +81,11 @@ const LocationModify: React.FC<Props> = ({
 
         <BottomWrapper>
           <Button
-            label='Delete Location'
-            background='#FFE9E9'
-            color='#ED0423'
+            label="Delete Location"
+            background="#FFE9E9"
+            color="#ED0423"
           />
-          <Button label='Save Location' />
+          <Button label="Save Location" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

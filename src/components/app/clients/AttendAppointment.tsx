@@ -1,7 +1,7 @@
 import React from 'react';
 
-const AttendAppointment = () => {
-  return <div></div>;
-};
+function AttendAppointment() {
+  return <div />;
+}
 
 export default AttendAppointment;

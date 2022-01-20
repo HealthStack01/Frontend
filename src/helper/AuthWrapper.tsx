@@ -1,8 +1,7 @@
-import { width } from '@mui/system';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import Side from '../components/banner/side';
 import Preloader from '../components/utilities/Preloader';
-import { Container } from '../styles/global';
 import { AuthContainer, PageWrapper } from './styles';
 
 interface AuthProps {
@@ -27,11 +26,11 @@ const AuthWrapper: React.FC<AuthProps> = ({ paragraph, children }) => {
         <PageWrapper>
           <Side />
           <AuthContainer>
-            <div className='aside-container'>
-              <img src='/public/Healthstack.png' alt='' />
+            <div className="aside-container">
+              <img src="/public/Healthstack.png" alt="" />
               <h2>Welcome to Healthstack</h2>
               <p>{paragraph}</p>
-              <div className='aside-child'>{children}</div>
+              <div className="aside-child">{children}</div>
             </div>
           </AuthContainer>
         </PageWrapper>
