@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Controller, useForm } from "react-hook-form";
+import { UserContext } from '../../../../context/context';
+import client from '../../../../feathers'
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -13,28 +17,83 @@ import {
 } from '../../styles';
 
 const clientFormData = [
-  {
+   {
     title: 'Name of Band',
-    name: 'bandname',
+    name: 'name',
     description: 'Enter name of band',
     required: true,
   },
   {
     title: 'Description of Band',
-    name: 'banddescription',
+    name: 'description',
     description: 'Enter description of band',
     required: false,
   },
 ];
 
-const bandType = ['Type 1', 'Type 2', 'Type 3'];
+const bandTypes =["Provider","Company", "Patient","Plan" ]
 interface Props {
   backClick: () => void;
 }
 
-const BandCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
 
+
+const BandCreate: React.FC<Props> = ({ backClick }) => {
+  const { register, handleSubmit, control } = useForm();
+
+  const {user} = useContext(UserContext)
+  let  BandServ = null;
+
+
+  const onSubmit = (data,e) =>{
+   console.log({data});
+   
+   if (data.bandType===""){
+       alert("Kindly choose band type")
+       return
+   }
+   //TODO: setMessage("")
+   //TODO: setError(false)
+   //TODO: setSuccess(false)
+     if (user.currentEmployee){
+    data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
+     }
+   BandServ.create(data)
+   .then((res)=>{
+    console.log({res})
+           //console.log(JSON.stringify(res))
+           e.target.reset();
+           backClick();
+           // TODO:
+          /*  setMessage("Created Band successfully") */
+           // setSuccess(true)
+           // toast({
+           //     message: 'Band created succesfully',
+           //     type: 'is-success',
+           //     dismissible: true,
+           //     pauseOnHover: true,
+           //   })
+             // TODO: setSuccess(false)
+       })
+       .catch((err)=>{
+        console.log({err})
+        backClick();
+           // TODO:
+           // toast({
+           //     message: 'Error creating Band ' + err,
+           //     type: 'is-danger',
+           //     dismissible: true,
+           //     pauseOnHover: true,
+           //   })
+       })
+  
+  } 
+  
+  useEffect(() => {           
+   BandServ = client.service('bands');
+   return () => { BandServ  = null };
+  },[user])
+  
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -52,32 +111,24 @@ const BandCreate: React.FC<Props> = ({ backClick }) => {
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action='' onSubmit={() => {}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title='Create Band'>
             <GridWrapper>
-              <CustomSelect
-                label='Choose a Band Type'
-                name='bandType'
-                onChange={e =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                options={bandType}
-              />
+            <Controller
+               key="bandType"
+               name="bandType"
+               control={control}
+               render={({ field }) => (
+                <CustomSelect {...field} label="Choose a Band Type" options={bandTypes} />) }
+            />
               {clientFormData.map((client, index) => (
-                <Input
+                <Controller
                   key={index}
-                  label={client.title}
-                  name={client.title}
-                  onChange={e =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                ></Input>
+                  name={client.name}
+                  control={control}
+                  render={({ field }) => (
+                    <Input {...field} />) }
+                />
               ))}
             </GridWrapper>
           </FullDetailsWrapper>

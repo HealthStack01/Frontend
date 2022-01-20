@@ -5,7 +5,10 @@ import React, {
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
 } from 'react';
+
+import client from '../feathers';
 
 interface UserContextProps {
   user?: any;
@@ -47,6 +50,20 @@ export const UserContext = createContext<UserContextProps>(userDefaultValues);
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
   const memoedValue = useMemo(() => ({ user, setUser }), [user]);
+
+  const authenticateUser = () => {
+    client.reAuthenticate()
+    .then(resp => {
+     setUser({...resp.user, stacker: true})
+    }).catch(error =>  {
+     console.log(error)
+    });
+  }
+
+  useEffect(() =>{
+   authenticateUser()
+  },[])
+
   return (
     <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>
   );

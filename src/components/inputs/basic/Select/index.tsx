@@ -27,7 +27,6 @@ const CustomSelect: React.FC<SelectProps> = ({
           id='demo-simple-select-autowidth'
           autoWidth
           label={label}
-          defaultValue=''
           name={name}
           onChange={e => onChange}
         >

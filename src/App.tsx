@@ -7,7 +7,7 @@ import { Scrollbar } from 'smooth-scrollbar-react';
 import { AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router';
 import gsap from 'gsap';
-import { ObjectProvider } from './context/context';
+import { ObjectProvider, UserProvider } from './context/context';
 
 function App() {
   const location = useLocation();
@@ -24,10 +24,12 @@ function App() {
     <>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <ObjectProvider>
+         <UserProvider>
           <GlobalStyle />
           <AnimatePresence initial={true} exitBeforeEnter>
             <AppRoutes />
           </AnimatePresence>
+          </UserProvider>
         </ObjectProvider>
       </ThemeProvider>
     </>

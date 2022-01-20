@@ -5,50 +5,9 @@ import BandDetails from './BandDetail';
 import Bands from './BandList';
 import BandModify from './BandModify';
 
-import client from '../../../../feathers'
 
 const AppBands = () => {
   const { resource, setResource } = useObjectState();
-  const [bands, setBands]=useState([]);
-  let bandServ = null;
-
-  const handleSearch=async(val)=>{
-        
-   const field='bandName'
-  
-   if (val.length>=3){
-    bandServ.find({query: {    
-            [field]: {
-                $regex:val,
-                $options:'i'
-               
-            },
-            $limit:10,
-            $sort: {
-                createdAt: -1
-              }
-                }}).then(({data})=>{
-           setBands(data)
-           console.log({data});
-            //TODO: setSearchMessage(" facility  fetched successfully")
-            //TODO: setShowPanel(true)
-        })
-        .catch((err)=>{
-            console.log(err)
-            //TODO: setSearchMessage("Error searching facility, probable network issues "+ err )
-            //TODO: setSearchError(true)
-        })
-    }
-   else{
-       //TODO: setShowPanel(false)
-       setBands([])
-   }
-}
-
-useEffect(() =>  {
- bandServ = client.service('facility')
- return ()  => { bandServ = null; };
-}, []);
 
   return (
     <>

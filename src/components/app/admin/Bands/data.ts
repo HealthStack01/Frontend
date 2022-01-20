@@ -1,6 +1,6 @@
 import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
-  id: any;
+  _id: any;
   name: string;
   bandType: string;
   description: string;
@@ -9,7 +9,7 @@ export interface DataProps {
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: row => row._id && row._id.substring(0, 7),
     sortable: true,
   },
   {
