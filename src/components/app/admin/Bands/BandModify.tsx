@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
-import { UserContext } from '../../../../context/context';
-import client from '../../../../feathers';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
+import { BandSchema } from '../../ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -16,59 +14,24 @@ import {
   PageWrapper,
 } from '../../styles';
 
-const clientFormData = [
-  {
-    title: 'Name of Band',
-    name: 'name',
-    description: 'Enter name of band',
-    required: true,
-  },
-  {
-    title: 'Description of Band',
-    name: 'description',
-    description: 'Enter description of band',
-    required: false,
-  },
-];
-
 const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
 
 interface Props {
   cancelEditClicked?: () => void;
   row?: any;
   backClick: () => void;
+  onSubmit: (_data) => void;
 }
 
 const BandModify: React.FC<Props> = ({
   cancelEditClicked,
+  onSubmit,
   row: band,
   backClick,
 }) => {
-  let BandServ = null;
   const { handleSubmit, control } = useForm({
     defaultValues: band,
   });
-  const { user } = useContext(UserContext);
-
-  const onSubmit = (data, _) => {
-    data.facility = band.facility;
-    BandServ.patch(band._id, data)
-      .then(() => {
-        toast('Band updated succesfully');
-
-        backClick();
-      })
-      .catch((err) => {
-        toast(`Error updating Band, probable network issues or ' + ${err}`);
-      });
-  };
-
-  useEffect(() => {
-    BandServ = client.service('bands');
-    return () => {
-      BandServ = null;
-    };
-  }, [user]);
 
   return (
     <PageWrapper>
@@ -110,7 +73,7 @@ const BandModify: React.FC<Props> = ({
                   />
                 )}
               />
-              {clientFormData.map((client, index) => (
+              {BandSchema.map((client, index) => (
                 <Controller
                   key={index}
                   name={client.name}

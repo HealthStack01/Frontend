@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
-import { UserContext } from '../../../../context/context';
-import client from '../../../../feathers';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
+import { BandSchema } from '../../ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -16,58 +14,14 @@ import {
   PageWrapper,
 } from '../../styles';
 
-const clientFormData = [
-  {
-    title: 'Name of Band',
-    name: 'name',
-    description: 'Enter name of band',
-    required: true,
-  },
-  {
-    title: 'Description of Band',
-    name: 'description',
-    description: 'Enter description of band',
-    required: false,
-  },
-];
-
 const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
 }
 
-const BandCreate: React.FC<Props> = ({ backClick }) => {
+const BandCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
   const { handleSubmit, control } = useForm();
-
-  const { user } = useContext(UserContext);
-  let BandServ = null;
-
-  const onSubmit = (data) => {
-    if (data.bandType === '') {
-      alert('Kindly choose band type');
-      return;
-    }
-
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-    BandServ.create(data)
-      .then((_) => {
-        toast('Band created succesfully');
-        backClick();
-      })
-      .catch((err) => {
-        toast.error(`Error creating Band ${err}`);
-        backClick();
-      });
-  };
-
-  useEffect(() => {
-    BandServ = client.service('bands');
-    return () => {
-      BandServ = null;
-    };
-  }, [user]);
 
   return (
     <PageWrapper>
@@ -101,7 +55,7 @@ const BandCreate: React.FC<Props> = ({ backClick }) => {
                   />
                 )}
               />
-              {clientFormData.map((client, index) => (
+              {BandSchema.map((client, index) => (
                 <Controller
                   key={index}
                   name={client.name}
