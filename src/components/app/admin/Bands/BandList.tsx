@@ -5,8 +5,8 @@ import { ToastContainer } from 'react-toastify';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import { BandSchema } from '../../ModelSchema';
 import { PageWrapper } from '../../styles';
-import { columnHead } from './data';
 
 interface Props {
   handleCreate?: () => void;
@@ -47,7 +47,7 @@ const Bands: React.FC<Props> = ({
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
           title="Bands"
-          columns={columnHead}
+          columns={BandSchema}
           data={items}
           selectableRows
           pointerOnHover
