@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import { DebounceInput } from 'react-debounce-input';
 import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
@@ -34,6 +35,14 @@ const Bands: React.FC<Props> = ({
             placeholder="Search here"
             label="Search here"
             onChange={handleSearch}
+          />
+          <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Bands"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
           />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>

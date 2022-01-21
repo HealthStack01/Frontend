@@ -59,12 +59,12 @@ function AppBands() {
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (text) => {
     const field = 'name';
     BandServ.find({
       query: {
         [field]: {
-          $regex: e.target.value,
+          $regex: text,
           $options: 'i',
         },
         facility: user?.currentEmployee?.facilityDetail?._id || '',
@@ -76,20 +76,10 @@ function AppBands() {
     })
       .then((res) => {
         setBands(res.data);
-        toast({
-          message: 'Band fetched succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast('Band fetched succesfully');
       })
       .catch((err) => {
-        toast({
-          message: 'Error updating Band, probable network issues or ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast('Error updating Band, probable network issues or ' + err);
       });
   };
 
