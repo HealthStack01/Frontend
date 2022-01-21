@@ -15,6 +15,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   label,
   options,
   name,
+  value,
   onChange,
 }) => (
   <div>
@@ -26,6 +27,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         autoWidth
         label={label}
         name={name}
+        defaultValue={value}
         onChange={onChange}
       >
         <MenuItem value="" sx={{ width: '100%' }}>
