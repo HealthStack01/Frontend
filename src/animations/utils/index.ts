@@ -6,7 +6,12 @@ export const containerVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { type: 'spring', delay: 0.5, stiffness: 40, mass: 2.5 },
+    transition: {
+      type: 'spring',
+      delay: 0.5,
+      stiffness: 40,
+      mass: 2.5,
+    },
   },
   exit: {
     x: '-100vh',

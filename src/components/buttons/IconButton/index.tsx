@@ -2,8 +2,6 @@ import React from 'react';
 
 interface Props {}
 
-const IconButton: React.FC<Props> = () => {
-  return <div></div>;
-};
+const IconButton: React.FC<Props> = () => <div />;
 
 export default IconButton;

@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
-const Dropdown = () => {
-  return <div></div>;
-};
+function Dropdown() {
+  return <div />;
+}
 
 export default Dropdown;

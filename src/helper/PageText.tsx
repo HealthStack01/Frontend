@@ -6,6 +6,6 @@ interface PageTextProps {
   color?: string;
 }
 
-export const PageText: React.FC<PageTextProps> = ({ className, children }) => {
-  return <span className={className}>{children}</span>;
-};
+export const PageText: React.FC<PageTextProps> = ({ className, children }) => (
+  <span className={className}>{children}</span>
+);

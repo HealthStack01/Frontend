@@ -7,13 +7,11 @@ interface Props {
   value: string;
 }
 
-const ToggleButton: React.FC<Props> = ({ label, onClick, inputId, value }) => {
-  return (
-    <label className='switch'>
-      <input type='checkbox' />
-      <span className='slider round'></span>
-    </label>
-  );
-};
+const ToggleButton: React.FC<Props> = () => (
+  <label className="switch">
+    <input type="checkbox" />
+    <span className="slider round" />
+  </label>
+);
 
 export default ToggleButton;

@@ -1,4 +1,5 @@
 import { TableColumn } from 'react-data-table-component';
+
 export interface BandDataRow {
   id: number;
   name: string;
@@ -20,64 +21,64 @@ export interface EmployeesDataRow {
 export const columnBand: TableColumn<BandDataRow>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Name',
-    selector: row => row.name,
+    selector: (row) => row.name,
     sortable: true,
   },
   {
     name: 'Band Type',
-    selector: row => row.bandType,
+    selector: (row) => row.bandType,
     sortable: true,
   },
   {
     name: 'Description',
-    selector: row => row.description,
+    selector: (row) => row.description,
     sortable: true,
   },
 ];
 export const columnEmployees: TableColumn<EmployeesDataRow>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'First Name',
-    selector: row => row.fname,
+    selector: (row) => row.fname,
     sortable: true,
   },
   {
     name: 'Last Name',
-    selector: row => row.lname,
+    selector: (row) => row.lname,
     sortable: true,
   },
   {
     name: 'Profession',
-    selector: row => row.profession,
+    selector: (row) => row.profession,
     sortable: true,
   },
   {
     name: 'Phone',
-    selector: row => row.phone,
+    selector: (row) => row.phone,
     sortable: true,
   },
   {
     name: 'Email',
-    selector: row => row.email,
+    selector: (row) => row.email,
     sortable: true,
   },
   {
     name: 'Department',
-    selector: row => row.department,
+    selector: (row) => row.department,
     sortable: true,
   },
   {
     name: 'Departmental Unit',
-    selector: row => row.departmentalUnit,
+    selector: (row) => row.departmentalUnit,
     sortable: true,
   },
 ];

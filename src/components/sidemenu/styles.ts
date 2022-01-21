@@ -49,8 +49,10 @@ export const MainMenu = styled.div`
   }
 
   &.main-menu::-webkit-scrollbar {
-  display: none;
-} {}
+    display: none;
+  }
+   {
+  }
 
   &.main-menu .menu-item {
     color: ${({ theme }) => theme.btnText};

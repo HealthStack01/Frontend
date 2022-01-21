@@ -12,9 +12,8 @@ interface CardWrapperProps {
   padding?: string;
 }
 
-export const CardWrapper: React.FC<CardWrapperProps> = ({
-  children,
-  className,
-}) => {
-  return <div className={className}>{children}</div>;
-};
+const CardWrapper: React.FC<CardWrapperProps> = ({ children, className }) => (
+  <div className={className}>{children}</div>
+);
+
+export default CardWrapper;

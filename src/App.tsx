@@ -1,36 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import React, { useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
+
+import { ObjectProvider, UserProvider } from './context/context';
 import AppRoutes from './routes/routes';
 import { GlobalStyle } from './styles/global';
 import { darkTheme, lightTheme } from './styles/theme';
-import { Scrollbar } from 'smooth-scrollbar-react';
-import { AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router';
-import gsap from 'gsap';
-import { ObjectProvider } from './context/context';
 
 function App() {
-  const location = useLocation();
   useEffect(() => {
     gsap.to('body', 0, { css: { visibility: 'visible' } });
-  });
+  }, []);
 
-  const [theme, setTheme] = useState('light');
-  const themeToggler = () => {
-    theme === 'light' ? setTheme('dark') : setTheme('light');
-  };
+  const [theme] = useState('light');
+  //TODO:  Handle  with  appropriate button
+  // const themeToggler = () => {
+  //   theme === 'light' ? setTheme('dark') : setTheme('light');
+  // };
 
   return (
-    <>
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-        <ObjectProvider>
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <ObjectProvider>
+        <UserProvider>
           <GlobalStyle />
-          <AnimatePresence initial={true} exitBeforeEnter>
+          <AnimatePresence initial exitBeforeEnter>
             <AppRoutes />
           </AnimatePresence>
-        </ObjectProvider>
-      </ThemeProvider>
-    </>
+        </UserProvider>
+      </ObjectProvider>
+      <ToastContainer />
+    </ThemeProvider>
   );
 }
 

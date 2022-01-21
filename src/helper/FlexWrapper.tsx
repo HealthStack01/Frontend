@@ -9,8 +9,8 @@ interface FlexWrapperProps {
   margin?: string;
 }
 
-const FlexWrapper: React.FC<FlexWrapperProps> = ({ children, className }) => {
-  return <div className={className}></div>;
-};
+const FlexWrapper: React.FC<FlexWrapperProps> = ({ className }) => (
+  <div className={className} />
+);
 
 export default FlexWrapper;

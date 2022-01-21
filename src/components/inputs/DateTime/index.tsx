@@ -1,7 +1,7 @@
 import React from 'react';
 
-const DateTime = () => {
-  return <div></div>;
-};
+function DateTime() {
+  return <div />;
+}
 
 export default DateTime;

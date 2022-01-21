@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+
 import { Link, ListItem, Lists } from './style';
 
 interface MenuItemProps {
@@ -21,16 +22,16 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   return (
     <ListItem onClick={onClick}>
-      <Link onClick={() => setExpand(!expand)} to={to} className='menu-item'>
-        <div className='menu-label'>
-          <div className='menu-label-right'>
-            <div className='menu-icon'>
-              <i className={iconClassName}></i>
+      <Link onClick={() => setExpand(!expand)} to={to} className="menu-item">
+        <div className="menu-label">
+          <div className="menu-label-right">
+            <div className="menu-icon">
+              <i className={iconClassName} />
             </div>
             <span>{name}</span>
           </div>
 
-          {subMenus.length > 0 ? <i className='bi bi-chevron-down'></i> : ''}
+          {subMenus.length > 0 ? <i className="bi bi-chevron-down" /> : ''}
         </div>
 
         {subMenus && subMenus.length > 0 ? (

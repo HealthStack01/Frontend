@@ -1,8 +1,5 @@
-import React from 'react';
-import Input from '../basic/Input';
-
-const Date = () => {
-  return <div>{/* <Input type='date' /> */}</div>;
-};
+function Date() {
+  return <div></div>;
+}
 
 export default Date;

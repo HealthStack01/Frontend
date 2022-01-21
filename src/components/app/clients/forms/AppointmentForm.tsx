@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
@@ -12,18 +13,6 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
-
-const appointmentFormData = [
-  { title: 'Date and Time', type: 'datetime-local' },
-  { title: 'First Name' },
-  { title: 'Last Name' },
-  { title: 'Classification' },
-  { title: 'Location' },
-  { title: 'Type' },
-  { title: 'Status' },
-  { title: 'Reason' },
-  { title: 'Practitioner' },
-];
 
 const appointmetOptions = [
   {
@@ -48,9 +37,8 @@ const typeOptions = [
   'Type E',
   'Type F',
 ];
-const statusOptions = ['Status A', 'Status B'];
 
-const AppointmentForm = () => {
+function AppointmentForm() {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -60,34 +48,34 @@ const AppointmentForm = () => {
             <span>Create a new appointment by filling out the form below.</span>
           </div>
         </HeadWrapper>
-        <DetailsWrapper title='Appointment Form'>
-          <Input placeholder='Search for Client' />
-          <Input placeholder='Search for Location, Typing or Active state' />
-          <Input placeholder='Search for Employee' />
+        <DetailsWrapper title="Appointment Form">
+          <Input placeholder="Search for Client" />
+          <Input placeholder="Search for Location, Typing or Active state" />
+          <Input placeholder="Search for Employee" />
           <RadioButton
-            title='Appointment Schedule'
+            title="Appointment Schedule"
             options={appointmetOptions}
           />
 
-          <GridWrapper className='subgrid two-columns'>
-            <Input label='Date of Appointment' type='date' />
-            <Input label='Time of Appointment' type='time' />
-            <CustomSelect label='Appointment Type' options={typeOptions} />
-            <CustomSelect label='Appointment Status' options={typeOptions} />
+          <GridWrapper className="subgrid two-columns">
+            <Input label="Date of Appointment" type="date" />
+            <Input label="Time of Appointment" type="time" />
+            <CustomSelect label="Appointment Type" options={typeOptions} />
+            <CustomSelect label="Appointment Status" options={typeOptions} />
           </GridWrapper>
-          <Textarea label='Reason for Appointment' />
+          <Textarea label="Reason for Appointment" />
         </DetailsWrapper>
         <BottomWrapper>
           <Button
-            label='Close without Saving'
-            background='#ECF3FF'
-            color='#0364FF'
+            label="Close without Saving"
+            background="#ECF3FF"
+            color="#0364FF"
           />
-          <Button label='Create Appointment' />
+          <Button label="Create Appointment" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );
-};
+}
 
 export default AppointmentForm;

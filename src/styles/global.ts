@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { createGlobalStyle } from 'styled-components';
-import { PageText as NavText } from '../helper/PageText';
-import { ItemWrapper as NavItemWrapper } from '../helper/ItemWrapper';
-import { CardWrapper as StatWrapper } from '../helper/CardWrapper';
 import { Stack } from '@mui/material';
+import styled, { createGlobalStyle } from 'styled-components';
+
+import StatWrapper from '../helper/CardWrapper';
+import { ItemWrapper as NavItemWrapper } from '../helper/ItemWrapper';
+import { PageText as NavText } from '../helper/PageText';
 
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
@@ -25,11 +25,6 @@ body{
   overflow-y:hidden
 
 }
-
-
-
-
-
 `;
 
 export const Container = styled.div`
@@ -63,8 +58,8 @@ export const Container = styled.div`
 `;
 
 export const Text = styled(NavText)`
-  color: ${props => (props.color ? props.color : '#ffffff')};
-  font-size: ${props => (props.fontSize ? props.fontSize : '.9em')};
+  color: ${(props) => (props.color ? props.color : '#ffffff')};
+  font-size: ${(props) => (props.fontSize ? props.fontSize : '.9em')};
   margin-right: 1em;
   border: 1px solid #232f3e;
   padding: 0.5em 0.1em;
@@ -86,9 +81,10 @@ export const LeftText = styled(Text)`
 
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
-  flex-direction: ${props =>
+  flex-direction: ${(props) =>
     props.flexDirection ? props.flexDirection : 'column'};
-  align-items: ${props => (props.alignItems ? props.alignItems : 'flex-start')};
+  align-items: ${(props) =>
+    props.alignItems ? props.alignItems : 'flex-start'};
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -103,17 +99,18 @@ export const Wrapper = styled(NavItemWrapper)`
 `;
 
 export const Stat = styled(StatWrapper)`
-  padding: ${props => (props.padding ? props.padding : '30px')};
+  padding: ${(props) => (props.padding ? props.padding : '30px')};
   display: flex;
-  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
+  align-items: ${(props) => (props.alignItems ? props.alignItems : 'center')};
   background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '15px')};
+  border-radius: ${(props) =>
+    props.borderRadius ? props.borderRadius : '15px'};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
-  margin-bottom: ${props =>
+  margin-bottom: ${(props) =>
     props.margingBottom ? props.margingBottom : '30px'};
 
   &::before {

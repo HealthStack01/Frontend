@@ -1,19 +1,20 @@
 import { motion } from 'framer-motion';
 import React from 'react';
+
 import { backgroundVariants } from '../../../animations/utils';
 import { InnerWrapper, SideBanner } from './styles';
 
-const Side = () => {
+function Side() {
   return (
     <SideBanner>
       <InnerWrapper>
         <motion.img
-          src='/Healthstack.svg'
-          alt='Healthstack logo'
-          className='side-logo'
+          src="/Healthstack.svg"
+          alt="Healthstack logo"
+          className="side-logo"
           variants={backgroundVariants}
-          initial='hidden'
-          animate='visible'
+          initial="hidden"
+          animate="visible"
         />
         <h1> Africa's No. 1 Digital Healthcare Platform</h1>
 
@@ -32,13 +33,13 @@ const Side = () => {
         </ul>
       </InnerWrapper>
       <img
-        src='/hstack-backround.png'
-        alt='background'
-        className='fixed'
-        aria-hidden='true'
+        src="/hstack-backround.png"
+        alt="background"
+        className="fixed"
+        aria-hidden="true"
       />
     </SideBanner>
   );
-};
+}
 
 export default Side;

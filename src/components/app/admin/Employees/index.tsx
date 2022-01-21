@@ -1,11 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import EmployeeCreate from './EmployeeCreate';
 import EmployeeDetails from './EmployeeDetail';
 import Employees from './EmployeeList';
 import EmployeeModify from './EmployeeModify';
 
-const AppEmployees = () => {
+function AppEmployees() {
   const { resource, setResource } = useObjectState();
 
   return (
@@ -13,7 +14,7 @@ const AppEmployees = () => {
       {resource.employeeResource.show === 'lists' && (
         <Employees
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -21,10 +22,10 @@ const AppEmployees = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
+          onRowClicked={(row, _) => {
             // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
 
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 show: 'details',
@@ -37,7 +38,7 @@ const AppEmployees = () => {
       {resource.employeeResource.show === 'create' && (
         <EmployeeCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -51,7 +52,7 @@ const AppEmployees = () => {
         <EmployeeDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -60,7 +61,7 @@ const AppEmployees = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -74,7 +75,7 @@ const AppEmployees = () => {
         <EmployeeModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -83,7 +84,7 @@ const AppEmployees = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -95,6 +96,6 @@ const AppEmployees = () => {
       )}
     </>
   );
-};
+}
 
 export default AppEmployees;
