@@ -1,3 +1,4 @@
+import React from 'react';
 import { useObjectState } from '../../../../context/context';
 import EmployeeCreate from './PaymentCreate';
 import EmployeeDetails from './PaymentDetail';

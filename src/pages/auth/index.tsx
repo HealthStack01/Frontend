@@ -21,8 +21,6 @@ function Login() {
     navigate('/app');
   };
 
-  console.log(isOpen, onClose);
-
   return (
     <AuthWrapper paragraph="Login here as an organization">
       <form action="" onSubmit={() => onSubmit()}>
