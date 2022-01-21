@@ -60,10 +60,9 @@ function AppBands() {
   };
 
   const handleSearch = (text) => {
-    const field = 'name';
     BandServ.find({
       query: {
-        [field]: {
+        name: {
           $regex: text,
           $options: 'i',
         },
