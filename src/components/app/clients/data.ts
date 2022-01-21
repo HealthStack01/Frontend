@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/named
 import { TableColumn } from 'react-data-table-component';
 
 export interface AppointmentDataRow {

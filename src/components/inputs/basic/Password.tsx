@@ -24,8 +24,11 @@ const PasswordInput: React.FC<PasswordInputProps> = () => {
   });
   const handleChange =
     (prop: keyof PasswordInputProps) =>
+    // eslint-disable-next-line prettier/prettier
       (event: React.ChangeEvent<HTMLInputElement>) => {
+      // eslint-disable-next-line prettier/prettier
         setValues({ ...values, [prop]: event.target.value });
+      // eslint-disable-next-line prettier/prettier
       };
   const handleClickShowPassword = () => {
     setValues({
