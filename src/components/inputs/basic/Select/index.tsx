@@ -8,7 +8,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   options: any[];
   name?: string;
-  onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (_: any) => void;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -26,14 +26,18 @@ const CustomSelect: React.FC<SelectProps> = ({
         autoWidth
         label={label}
         name={name}
-        onChange={(_) => onChange}
+        onChange={onChange}
       >
         <MenuItem value="" sx={{ width: '100%' }}>
           <em>None</em>
         </MenuItem>
         {options.map((option, index) => (
-          <MenuItem value={option} key={index} sx={{ width: '100%' }}>
-            {option}
+          <MenuItem
+            value={option.value ? option.value : option}
+            key={index}
+            sx={{ width: '100%' }}
+          >
+            {option.label ? option.label : option}
           </MenuItem>
         ))}
       </Select>

@@ -94,7 +94,7 @@ function AppBands() {
     }
     BandServ[values.action](data)
       .then((_) => {
-        toast(`Band ${values.message} succesfully`);
+        toast(`Band ${values.message}`);
         backClick();
       })
       .catch((err) => {
