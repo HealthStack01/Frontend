@@ -92,7 +92,6 @@ const clientData = [
 const ClientDetails: React.FC<ClientDetailsProps> = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState({});
-  console.log(value);
   return (
     <PageWrapper>
       <GrayWrapper>

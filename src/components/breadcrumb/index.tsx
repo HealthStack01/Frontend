@@ -7,7 +7,6 @@ function Breadcrumbs() {
 
   const pathnames = location.pathname.split('/').filter((x) => x);
 
-  console.log(pathnames);
   return (
     <MUIBreadcrumbs aria-label="breadcrumb">
       {pathnames.map((name, index) => {

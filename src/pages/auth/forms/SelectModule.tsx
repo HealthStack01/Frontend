@@ -7,8 +7,6 @@ import { modules } from '../../../utils/data';
 function SelectModule() {
   const [values, setValues] = useState({});
 
-  console.log(values);
-
   return (
     <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
       <form action="">

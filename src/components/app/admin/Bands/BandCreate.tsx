@@ -53,22 +53,12 @@ const BandCreate: React.FC<Props> = ({ backClick }) => {
     }
     BandServ.create(data)
       .then((_) => {
-        toast({
-          message: 'Band created succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        // backClick();
+        toast('Band created succesfully');
+        backClick();
       })
       .catch((err) => {
+        toast.error(`Error creating Band ${err}`);
         backClick();
-        toast({
-          message: `Error creating Band ${err}`,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
       });
   };
 

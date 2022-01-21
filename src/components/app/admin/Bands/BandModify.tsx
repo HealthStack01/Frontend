@@ -54,22 +54,12 @@ const BandModify: React.FC<Props> = ({
     data.facility = band.facility;
     BandServ.patch(band._id, data)
       .then(() => {
-        toast({
-          message: 'Band updated succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast('Band updated succesfully');
 
         backClick();
       })
       .catch((err) => {
-        toast({
-          message: 'Error updating Band, probable network issues or ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast(`Error updating Band, probable network issues or ' + ${err}`);
       });
   };
 

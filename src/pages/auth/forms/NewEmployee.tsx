@@ -13,7 +13,6 @@ import {
 
 function NewEmployee() {
   const [values, setValues] = useState({});
-  console.log(values);
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>

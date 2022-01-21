@@ -8,7 +8,6 @@ import { createOrganizationData } from '../../../utils/data';
 function CreateOrganization() {
   const [values, setValues] = useState({});
 
-  console.log(values);
   return (
     <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
       <form action="">

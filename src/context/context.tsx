@@ -58,7 +58,7 @@ export const UserProvider: React.FC = ({ children }) => {
         setUser({ ...resp.user, stacker: true });
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 

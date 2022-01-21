@@ -28,7 +28,7 @@ export const BasicTextFields: React.FC<InputProps> = ({ onChange }) => (
 function CustomInput() {
   return (
     <div>
-      <BasicTextFields onChange={(e) => console.log(e)} />
+      <BasicTextFields />
     </div>
   );
 }

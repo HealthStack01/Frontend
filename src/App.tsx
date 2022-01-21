@@ -1,3 +1,5 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import { AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import React, { useEffect, useState } from 'react';

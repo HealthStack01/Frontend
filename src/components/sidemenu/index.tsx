@@ -138,7 +138,6 @@ function SideMenu() {
 
   useEffect(() => {
     const menuItems = document.querySelectorAll('.menu-item');
-    console.log(menuItems);
 
     menuItems.forEach((el) => {
       el.addEventListener('click', () => {
@@ -146,7 +145,6 @@ function SideMenu() {
         removeActiveClassFromSubMenu();
         menuItems.forEach((el) => el.classList.remove('active'));
         el.classList.toggle('active');
-        console.log(next, 'click');
 
         if (next !== null) {
           next.classList.toggle('active');

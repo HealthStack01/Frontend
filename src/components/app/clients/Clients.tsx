@@ -14,7 +14,7 @@ function Clients() {
 
   const [createClient, setCreateClient] = useState(false);
   const [, setShowSingleClient] = useState(false);
-  const [singleClient, setSingleClient] = useState<ClientDataRow>({
+  const [, setSingleClient] = useState<ClientDataRow>({
     id: 0,
     fname: '',
     lname: '',
@@ -54,7 +54,6 @@ function Clients() {
     coMobidities: '',
     specificDetails: '',
   });
-  console.log(singleClient);
   return (
     <>
       {!createClient ? (

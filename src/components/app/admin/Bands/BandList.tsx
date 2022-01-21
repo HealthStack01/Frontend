@@ -1,6 +1,8 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 import { UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
@@ -50,9 +52,10 @@ const Bands: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       })
         .then((res) => {
           setBands(res.data);
+          toast('Bands fetched succesfully');
         })
         .catch((error) => {
-          console.error({ error });
+          toast.error(error);
         });
     }
   };
@@ -134,6 +137,7 @@ const Bands: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
           style={{ overflow: 'hidden' }}
         />
       </div>
+      <ToastContainer />
     </PageWrapper>
   );
 };
