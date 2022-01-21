@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
+import { BandSchema } from '../../ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -50,23 +51,12 @@ const BandDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => (
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>
-          <div>
-            <label>ID</label>
-            <p>{row.id}</p>
-          </div>
-
-          <div>
-            <label>Band Type</label>
-            <p>{row.bandType}</p>
-          </div>
-          <div>
-            <label>Band Name</label>
-            <p>{row.name}</p>
-          </div>
-          <div>
-            <label>Band Description</label>
-            <p>{row.description}</p>
-          </div>
+          {BandSchema.map((schema) => (
+            <div>
+              <label>{schema.name}</label>
+              <p>{schema.selector(row)}</p>
+            </div>
+          ))}
         </GridWrapper>
       </FullDetailsWrapper>
     </GrayWrapper>

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
+import DynamicInput from '../../DynamicInput';
 import { BandSchema } from '../../ModelSchema';
 import {
   BottomWrapper,
@@ -61,24 +60,14 @@ const BandModify: React.FC<Props> = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Band">
             <GridWrapper>
-              <Controller
-                key="bandType"
-                name="bandType"
-                control={control}
-                render={({ field }) => (
-                  <CustomSelect
-                    {...field}
-                    label="Choose a Band Type"
-                    options={bandTypes}
-                  />
-                )}
-              />
               {BandSchema.map((client, index) => (
-                <Controller
+                <DynamicInput
                   key={index}
-                  name={client.name}
+                  name={client.key}
                   control={control}
-                  render={({ field }) => <Input {...field} />}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={bandTypes}
                 />
               ))}
             </GridWrapper>

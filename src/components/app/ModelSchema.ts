@@ -6,8 +6,8 @@ enum InputType {
 
 const BandSchema = [
   {
-    title: 'S/N',
-    name: 'name',
+    name: 'S/N',
+    key: '_id',
     description: 'Enter name of band',
     selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
@@ -15,8 +15,8 @@ const BandSchema = [
     inputType: InputType.HIDDEN,
   },
   {
-    title: 'Name of Band',
-    name: 'name',
+    name: 'Name of Band',
+    key: 'name',
     description: 'Enter name of band',
     selector: (row) => row.name,
     sortable: true,
@@ -24,8 +24,8 @@ const BandSchema = [
     inputType: InputType.TEXT,
   },
   {
-    title: 'Band Type',
-    name: 'name',
+    name: 'Band Type',
+    key: 'bandType',
     description: 'Enter name of band',
     selector: (row) => row.bandType,
     sortable: true,
@@ -33,8 +33,8 @@ const BandSchema = [
     inputType: InputType.SELECT,
   },
   {
-    title: 'Description of Band',
-    name: 'description',
+    name: 'Description of Band',
+    key: 'description',
     description: 'Enter description of band',
     selector: (row) => row.description,
     sortable: true,
@@ -43,4 +43,4 @@ const BandSchema = [
   },
 ];
 
-export { BandSchema };
+export { BandSchema, InputType };
