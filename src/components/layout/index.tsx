@@ -3,18 +3,18 @@ import SideMenu from '../sidemenu';
 import TopMenu from '../topmenu';
 import { LayoutWrapper } from './styles';
 
-const Layout = () => {
+function Layout() {
   return (
     <LayoutWrapper>
       <SideMenu />
-      <div className='layout__content'>
+      <div className="layout__content">
         <TopMenu />
-        <div className='layout__content-main'>
+        <div className="layout__content-main">
           <AppRoutes />
         </div>
       </div>
     </LayoutWrapper>
   );
-};
+}
 
 export default Layout;

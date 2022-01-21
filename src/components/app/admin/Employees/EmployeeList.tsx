@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
@@ -8,19 +9,7 @@ import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
-  onRowClicked?: (
-    row: {
-      id: any;
-      fname: string;
-      lname: string;
-      profession: string;
-      phone: string;
-      email: string;
-      department: string;
-      departmentalUnit: string;
-    },
-    event: any
-  ) => void;
+  onRowClicked?: (_, _event: any) => void;
 }
 
 const Employees: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
@@ -29,20 +18,20 @@ const Employees: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <h2>Employees</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down" />
           </div>
         </div>
 
-        <Button label='Add new' onClick={handleCreate} />
+        <Button label="Add new" onClick={handleCreate} />
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title='Employees'
+          title="Employees"
           columns={columnHead}
           data={rowData}
           selectableRows

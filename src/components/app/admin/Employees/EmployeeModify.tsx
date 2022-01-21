@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import {
@@ -41,64 +42,68 @@ const EmployeeModify: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
-              label={'Cancel Editing'}
-              background={'#f2f2f2'}
-              color={'#333'}
-              showicon={true}
-              icon='bi bi-pen-fill'
+              label="Cancel Editing"
+              background="#f2f2f2"
+              color="#333"
+              showicon
+              icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
           </div>
         </HeadWrapper>
         <GridWrapper>
-          <Input label='ID' value={values.id} disabled />
+          <Input label="ID" value={values.id} disabled />
           <Input
-            label='First Name'
+            label="First Name"
             value={values.fname}
             placeholder={values.fname}
-            onChange={e => setValue({ ...values, fname: e.target.value })}
+            onChange={(e) => setValue({ ...values, fname: e.target.value })}
           />
           <Input
-            label='Last Name'
+            label="Last Name"
             value={values.lname}
             placeholder={values.lname}
-            onChange={e => setValue({ ...values, lname: e.target.value })}
+            onChange={(e) => setValue({ ...values, lname: e.target.value })}
           />
           <Input
-            label='Profession'
+            label="Profession"
             value={values.profession}
             placeholder={values.profession}
-            onChange={e => setValue({ ...values, profession: e.target.value })}
+            onChange={(e) =>
+              setValue({ ...values, profession: e.target.value })
+            }
           />
           <Input
-            label='Phone'
+            label="Phone"
             value={values.phone}
             placeholder={values.phone}
-            onChange={e => setValue({ ...values, phone: e.target.value })}
+            onChange={(e) => setValue({ ...values, phone: e.target.value })}
           />
           <Input
-            label='Email'
+            label="Email"
             value={values.email}
             placeholder={values.email}
-            onChange={e => setValue({ ...values, email: e.target.value })}
+            onChange={(e) => setValue({ ...values, email: e.target.value })}
           />
           <Input
-            label='Department'
+            label="Department"
             value={values.department}
             placeholder={values.department}
-            onChange={e => setValue({ ...values, department: e.target.value })}
+            onChange={(e) =>
+              setValue({ ...values, department: e.target.value })
+            }
           />
           <Input
-            label='Departmental Unit'
+            label="Departmental Unit"
             value={values.departmentalUnit}
             placeholder={values.departmentalUnit}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, departmentalUnit: e.target.value })
             }
           />
@@ -106,11 +111,11 @@ const EmployeeModify: React.FC<Props> = ({
 
         <BottomWrapper>
           <Button
-            label='Delete Employee'
-            background='#FFE9E9'
-            color='#ED0423'
+            label="Delete Employee"
+            background="#FFE9E9"
+            color="#ED0423"
           />
-          <Button label='Save Employee' />
+          <Button label="Save Employee" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

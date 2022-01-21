@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+
 import AdminDashboard from '../components/app/admin/AdminDashboard';
 import AppBands from '../components/app/admin/Bands';
 import AppEmployees from '../components/app/admin/Employees';
@@ -20,7 +21,7 @@ import IndividualSignup from '../pages/auth/IndividualSignup';
 import Signup from '../pages/auth/Signup';
 import Dashboard from '../pages/Dashboard';
 
-const AppRoutes = () => {
+function AppRoutes() {
   return (
     <>
       <Routes>
@@ -61,6 +62,6 @@ const AppRoutes = () => {
       </Routes>
     </>
   );
-};
+}
 
 export default AppRoutes;

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Number = () => {
-  return <div></div>;
-};
+function Number() {
+  return <div />;
+}
 
 export default Number;

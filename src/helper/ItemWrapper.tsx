@@ -12,6 +12,4 @@ interface ItemWrapperProps {
 export const ItemWrapper: React.FC<ItemWrapperProps> = ({
   className,
   children,
-}) => {
-  return <div className={className}>{children}</div>;
-};
+}) => <div className={className}>{children}</div>;

@@ -1,9 +1,9 @@
 import React from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
-import CollapsableTable from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
 import { PageWrapper } from '../../styles';
 

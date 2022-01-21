@@ -1,11 +1,14 @@
 import React, {
-  useState,
   createContext,
-  useMemo,
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react';
+
+import client from '../feathers';
 
 interface UserContextProps {
   user?: any;
@@ -81,6 +84,22 @@ export const UserContext = createContext<UserContextProps>(userDefaultValues);
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
   const memoedValue = useMemo(() => ({ user, setUser }), [user]);
+
+  const authenticateUser = () => {
+    client
+      .reAuthenticate()
+      .then((resp) => {
+        setUser({ ...resp.user, stacker: true });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    authenticateUser();
+  }, []);
+
   return (
     <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>
   );
@@ -91,13 +110,13 @@ export const ObjectContext = createContext({
   setResource: {} as Dispatch<SetStateAction<Partial<ObjectContextProps>>>,
 });
 
-export const ObjectProvider = ({
+export function ObjectProvider({
   children,
   value = objectDefaultValues as ObjectContextProps,
 }: {
   children: React.ReactNode;
   value?: Partial<ObjectContextProps>;
-}) => {
+}) {
   const [resource, setResource] = useState(value);
   // const memoedValue = useMemo(() => ({ state }), [state]);
 
@@ -106,7 +125,7 @@ export const ObjectProvider = ({
       {children}
     </ObjectContext.Provider>
   );
-};
+}
 
 export const useObjectState = () => {
   const context = useContext(ObjectContext);

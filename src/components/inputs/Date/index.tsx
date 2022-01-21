@@ -1,5 +1,5 @@
-const Date = () => {
-  return <div>{/* <Input type='date' /> */}</div>;
-};
+function Date() {
+  return <div></div>;
+}
 
 export default Date;

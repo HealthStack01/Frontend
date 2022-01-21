@@ -1,15 +1,16 @@
+import { useState } from 'react';
+import DataTable from 'react-data-table-component';
+import { useNavigate } from 'react-router-dom';
+
 import { TableMenu } from '../../../styles/global';
 import Button from '../../buttons/Button';
 import Input from '../../inputs/basic/Input';
 import { PageWrapper } from '../styles';
-import DataTable from 'react-data-table-component';
-import { useState } from 'react';
 import { columnsAppointment, dataAppointments } from './data';
-import { useNavigate } from 'react-router-dom';
 import AppointmentForm from './forms/AppointmentForm';
 
-const Appointments = () => {
-  let navigate = useNavigate();
+function Appointments() {
+  const navigate = useNavigate();
   const [newAppointment, setNewAppointments] = useState(false);
 
   return (
@@ -18,15 +19,15 @@ const Appointments = () => {
         <PageWrapper>
           <h2>Appointments</h2>
           <TableMenu>
-            <div className='inner-table'>
-              <Input placeholder='Search here' />
+            <div className="inner-table">
+              <Input placeholder="Search here" />
               <div>
                 <span>Filer by</span>
-                <i className='bi bi-chevron-down'></i>
+                <i className="bi bi-chevron-down" />
               </div>
             </div>
 
-            <Button label='Add new' onClick={() => setNewAppointments(true)} />
+            <Button label="Add new" onClick={() => setNewAppointments(true)} />
           </TableMenu>
           <div
             style={{
@@ -37,7 +38,7 @@ const Appointments = () => {
             }}
           >
             <DataTable
-              title='Appointment Listing'
+              title="Appointment Listing"
               columns={columnsAppointment}
               data={dataAppointments}
               selectableRows
@@ -45,7 +46,7 @@ const Appointments = () => {
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={(row, event) => {
+              onRowClicked={(row) => {
                 navigate(`/dashboard/clients/appointments/${row.id}`);
               }}
             />
@@ -56,6 +57,6 @@ const Appointments = () => {
       )}
     </>
   );
-};
+}
 
 export default Appointments;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../buttons/Button';
 import Input from '../../inputs/basic/Input';
 import {
@@ -88,10 +89,9 @@ const clientData = [
   },
 ];
 
-const ClientDetails: React.FC<ClientDetailsProps> = ({ row }) => {
+const ClientDetails: React.FC<ClientDetailsProps> = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState({});
-  console.log(value);
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -104,8 +104,8 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ row }) => {
             label={isEditing ? 'Cancel Editing' : 'Edit Details'}
             background={isEditing ? '#f2f2f2' : '#ECF3FF'}
             color={isEditing ? '#333' : '#0364FF'}
-            showicon={true}
-            icon='bi bi-pen-fill'
+            showicon
+            icon="bi bi-pen-fill"
             onClick={() => setIsEditing(!isEditing)}
             // disabled={isEditing ? true : false}
           />
@@ -120,25 +120,24 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ row }) => {
                     label={client.title}
                     placeholder={client.description}
                     name={client.title}
-                    onChange={e =>
+                    onChange={(e) =>
                       setValue({ ...value, [e.target.name]: e.target.value })
                     }
                   />
                 );
-              } else {
-                return (
-                  <div key={index}>
-                    <label>{client.title}</label>
-                    <p>{client.description}</p>
-                  </div>
-                );
               }
+              return (
+                <div key={index}>
+                  <label>{client.title}</label>
+                  <p>{client.description}</p>
+                </div>
+              );
             })}
           </GridWrapper>
         </DetailsWrapper>
         <BottomWrapper>
-          <Button label='Delete Client' background='#FFE9E9' color='#ED0423' />
-          <Button label='Attend to Client' />
+          <Button label="Delete Client" background="#FFE9E9" color="#ED0423" />
+          <Button label="Attend to Client" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

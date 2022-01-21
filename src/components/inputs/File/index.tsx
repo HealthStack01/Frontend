@@ -1,6 +1,6 @@
 
-const File = () => {
-  return <div></div>;
-};
+function File() {
+  return <div />;
+}
 
 export default File;

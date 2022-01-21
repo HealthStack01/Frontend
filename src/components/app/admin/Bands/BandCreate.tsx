@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
+import DynamicInput from '../../DynamicInput';
+import { BandSchema } from '../../ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -11,28 +13,14 @@ import {
   PageWrapper,
 } from '../../styles';
 
-const clientFormData = [
-  {
-    title: 'Name of Band',
-    name: 'bandname',
-    description: 'Enter name of band',
-    required: true,
-  },
-  {
-    title: 'Description of Band',
-    name: 'banddescription',
-    description: 'Enter description of band',
-    required: false,
-  },
-];
-
-const bandType = ['Type 1', 'Type 2', 'Type 3'];
+const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
 }
 
-const BandCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
+const BandCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
+  const { handleSubmit, control } = useForm();
 
   return (
     <PageWrapper>
@@ -45,45 +33,31 @@ const BandCreate: React.FC<Props> = ({ backClick }) => {
             </span>
           </div>
           <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Band'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FullDetailsWrapper title="Create Band">
             <GridWrapper>
-              <CustomSelect
-                label='Choose a Band Type'
-                name='bandType'
-                onChange={e =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                options={bandType}
-              />
-              {clientFormData.map((client, index) => (
-                <Input
+              {BandSchema.map((client, index) => (
+                <DynamicInput
                   key={index}
-                  label={client.title}
-                  name={client.title}
-                  onChange={e =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                ></Input>
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={bandTypes}
+                />
               ))}
             </GridWrapper>
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-            <Button label='Save Form' type='submit' />
+            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+            <Button label="Save Form" type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>

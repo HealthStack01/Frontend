@@ -223,8 +223,8 @@
 
 import React from 'react';
 
-const ClientDetails = () => {
-  return <div></div>;
-};
+function ClientDetails() {
+  return <div />;
+}
 
 export default ClientDetails;

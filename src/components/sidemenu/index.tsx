@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import MenuItem from '../menuitem';
 import { Lists } from '../menuitem/style';
 import { MainMenu, Sidemenu, TopSection } from './styles';
@@ -13,7 +14,7 @@ export const menuItems = [
   {
     name: 'Client',
     exact: true,
-    to: `/app/clients`,
+    to: '/app/clients',
     iconClassName: 'bi bi-people',
     subMenus: [
       { name: 'Dashboard', to: '/app/clients' },
@@ -24,7 +25,7 @@ export const menuItems = [
   {
     name: 'Clinic',
     exact: true,
-    to: `/`,
+    to: '/',
     iconClassName: 'bi bi-file-medical',
     subMenus: [
       { name: 'Dashboard', to: '/' },
@@ -34,7 +35,7 @@ export const menuItems = [
   {
     name: 'Pharmacy',
     exact: true,
-    to: `/`,
+    to: '/',
     iconClassName: 'bi bi-file-medical',
     subMenus: [
       { name: 'Dashboard', to: '/' },
@@ -50,7 +51,7 @@ export const menuItems = [
   {
     name: 'Laboratory',
     exact: true,
-    to: `/`,
+    to: '/',
     iconClassName: 'bi bi-binoculars',
     subMenus: [
       { name: 'Dashboard', to: '/' },
@@ -63,7 +64,7 @@ export const menuItems = [
   {
     name: 'Managed Care',
     exact: true,
-    to: `/`,
+    to: '/',
     iconClassName: 'bi bi-alarm',
     subMenus: [
       { name: 'Dashboard', to: '/' },
@@ -82,7 +83,7 @@ export const menuItems = [
   {
     name: 'Finance',
     exact: true,
-    to: `/app/finance`,
+    to: '/',
     iconClassName: 'bi bi-cash',
     subMenus: [
       { name: 'Dashboard', to: '/app/finance' },
@@ -97,7 +98,7 @@ export const menuItems = [
   {
     name: 'Epidemiology',
     exact: true,
-    to: `/`,
+    to: '/',
     iconClassName: 'bi bi-bezier',
     subMenus: [
       { name: 'Dashboard', to: '/' },
@@ -108,7 +109,7 @@ export const menuItems = [
   {
     name: 'Admin',
     exact: true,
-    to: `/app/admin`,
+    to: '/app/admin',
     iconClassName: 'bi bi-person',
     subMenus: [
       { name: 'Dashboard', to: '/app/admin' },
@@ -120,12 +121,12 @@ export const menuItems = [
   {
     name: 'Logout',
     exact: true,
-    to: `/`,
+    to: '/',
     iconClassName: 'bi bi-box-arrow-right',
   },
 ];
 
-const SideMenu = () => {
+function SideMenu() {
   const [inactive, setInactive] = useState(false);
 
   useEffect(() => {
@@ -137,16 +138,14 @@ const SideMenu = () => {
   const removeActiveClassFromSubMenu = () => {};
 
   useEffect(() => {
-    let menuItems = document.querySelectorAll('.menu-item');
-    console.log(menuItems);
+    const menuItems = document.querySelectorAll('.menu-item');
 
-    menuItems.forEach(el => {
-      el.addEventListener('click', e => {
+    menuItems.forEach((el) => {
+      el.addEventListener('click', () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach(el => el.classList.remove('active'));
+        menuItems.forEach((el) => el.classList.remove('active'));
         el.classList.toggle('active');
-        console.log(next, 'click');
 
         if (next !== null) {
           next.classList.toggle('active');
@@ -158,12 +157,12 @@ const SideMenu = () => {
   useEffect(() => {}, []);
 
   return (
-    <Sidemenu className='side-menu'>
+    <Sidemenu className="side-menu">
       <TopSection>
         <h1>Your Company</h1>
-        <i className='bi bi-list'></i>
+        <i className="bi bi-list" />
       </TopSection>
-      <MainMenu className='main-menu'>
+      <MainMenu className="main-menu">
         <Lists>
           {menuItems.map((menuItem, index) => (
             <MenuItem
@@ -183,6 +182,6 @@ const SideMenu = () => {
       </MainMenu>
     </Sidemenu>
   );
-};
+}
 
 export default SideMenu;
