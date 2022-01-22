@@ -20,6 +20,7 @@ function Login() {
   const onSubmit = () => {
     navigate('/app');
   };
+
   return (
     <AuthWrapper paragraph="Login here as an organization">
       <form action="" onSubmit={() => onSubmit()}>
