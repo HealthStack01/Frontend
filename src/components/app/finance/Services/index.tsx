@@ -1,21 +1,21 @@
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './RevenueCreate';
-import EmployeeDetails from './RevenueDetail';
-import Employees from './RevenueList';
-import EmployeeModify from './RevenueModify';
+import ServiceCreate from './ServiceCreate';
+import ServiceDetails from './ServiceDetail';
+import Servicess from './ServiceList';
+import ServiceModify from './ServiceModify';
 
 const AppServices = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Employees
+      {resource.servicesResource.show === 'lists' && (
+        <Servicess
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              servicesResource: {
+                ...prevState.servicesResource,
                 show: 'create',
               },
             }))
@@ -25,35 +25,35 @@ const AppServices = () => {
 
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
+              servicesResource: {
                 show: 'details',
-                selectedEmployee: row,
+                selectedService: row,
               },
             }));
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+      {resource.servicesResource.show === 'create' && (
+        <ServiceCreate
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              servicesResource: {
+                ...prevState.servicesResource,
                 show: 'lists',
               },
             }))
           }
         />
       )}
-      {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
+      {resource.servicesResource.show === 'details' && (
+        <ServiceDetails
+          row={resource.servicesResource.selectedService}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              servicesResource: {
+                ...prevState.servicesResource,
                 show: 'lists',
               },
             }))
@@ -61,22 +61,22 @@ const AppServices = () => {
           editBtnClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              servicesResource: {
+                ...prevState.servicesResource,
                 show: 'edit',
               },
             }))
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
+      {resource.servicesResource.show === 'edit' && (
+        <ServiceModify
+          row={resource.servicesResource.selectedService}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              servicesResource: {
+                ...prevState.servicesResource,
                 show: 'lists',
               },
             }))
@@ -84,8 +84,8 @@ const AppServices = () => {
           cancelEditClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              servicesResource: {
+                ...prevState.servicesResource,
                 show: 'details',
               },
             }))

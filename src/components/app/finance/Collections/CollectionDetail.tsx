@@ -1,4 +1,7 @@
 import React from 'react';
+import DataTable from 'react-data-table-component';
+
+import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
 import {
   FullDetailsWrapper,
@@ -7,6 +10,7 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
+import { columnHead } from './data';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -34,46 +38,41 @@ const CollectionDetails: React.FC<Props> = ({
               color='#333'
               onClick={backClick}
             />
-            <Button
-              label={'Delete'}
-              background='#FFE9E9'
-              color='#ED0423'
-              showicon={true}
-              icon='bi bi-pen-fill'
-              onClick={editBtnClicked}
-            />
-            <Button
-              label={'Edit Details'}
-              background={'#ECF3FF'}
-              color='#0364FF'
-              showicon={true}
-              icon='bi bi-pen-fill'
-              onClick={editBtnClicked}
-            />
+            <label
+              style={{
+                padding: '14px 20px',
+                background: '#b3ffed',
+                color: '#062e12',
+                border: 'none',
+                borderRadius: '4px',
+              }}
+            >
+              Current Balance {row.amount}
+            </label>
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Collection Name</label>
-              <p>{row.name}</p>
-            </div>
-            <div>
-              <label>Client</label>
-              <p>{row.client}</p>
-            </div>
-            <div>
-              <label>Amount</label>
-              <p>{row.amount}</p>
-            </div>
-            <div>
-              <label>Mode</label>
-              <p>{row.mode}</p>
-            </div>
+          <GridWrapper className='two-columns'>
+            <AccordionBox defaultExpanded={true} title='Credit'>
+              <DataTable
+                data={row.credit}
+                columns={columnHead}
+                title='Credit'
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
+            </AccordionBox>
+            <AccordionBox defaultExpanded={true} title='Debit'>
+              <DataTable
+                data={row.debit}
+                columns={columnHead}
+                title='Debit'
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
+            </AccordionBox>
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

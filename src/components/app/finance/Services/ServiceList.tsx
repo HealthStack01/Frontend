@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableColumn } from 'react-data-table-component';
+import DataTable, { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
@@ -9,64 +9,48 @@ import { PageWrapper } from '../../styles';
 
 interface Props {
   handleCreate?: () => void;
-  onRowClicked?: (
-    row: {
-      id: any;
-      date: any;
-      status: string;
-      description: string;
-      amount: string;
-    },
-    event: any
-  ) => void;
+  onRowClicked?: (row: any, event: any) => void;
 }
 
 export interface DataProps {
   id: any;
-  date: string;
-  description: string;
-  status: string;
+  name: string;
+  panel: string;
   amount: string;
 }
 
 export const rowData = [
   {
     id: 1,
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
+    name: 'Contour 1',
+    panel: 'No',
     amount: '5000',
   },
   {
     id: 2,
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
+    name: 'Contour 1',
+    panel: 'No',
     amount: '5000',
   },
   {
     id: 3,
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
+    name: 'Contour 1',
+    panel: 'No',
     amount: '5000',
   },
 ];
 
 const dataTree = [
   {
-    title: 'Ada Chris',
-    description: 'Prescription of one unpaid bill(s)',
+    title: 'Service 1',
     data: rowData,
   },
   {
-    title: 'John Doela Pat',
-    description: 'Prescription of one unpaid bill(s)',
+    title: 'Service 2',
     data: rowData,
   },
   {
-    title: 'Simpa E Dania',
-    description: 'Prescription of one unpaid bill(s)',
+    title: 'Service 3',
     data: rowData,
   },
 ];
@@ -78,20 +62,16 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Date',
-    selector: row => row.date,
+    name: 'Name',
+    selector: row => row.name,
     sortable: true,
   },
   {
-    name: 'Description',
-    selector: row => row.description,
+    name: 'Panel',
+    selector: row => row.panel,
     sortable: true,
   },
-  {
-    name: 'Status',
-    selector: row => row.status,
-    sortable: true,
-  },
+
   {
     name: 'Amount',
     selector: row => row.amount,
@@ -99,10 +79,10 @@ export const columnHead: TableColumn<DataProps>[] = [
   },
 ];
 
-const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   return (
     <PageWrapper>
-      <h2>Bill Services</h2>
+      <h2>Services </h2>
 
       <TableMenu>
         <div className='inner-table'>
@@ -121,7 +101,7 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
           <CollapsableGrid
             key={index}
             columnHead={columnHead}
-            description={data.description}
+            description={data.title}
             title={data.title}
             rowData={data.data}
             onRowClicked={onRowClicked}
@@ -132,4 +112,4 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   );
 };
 
-export default Bills;
+export default Servicess;

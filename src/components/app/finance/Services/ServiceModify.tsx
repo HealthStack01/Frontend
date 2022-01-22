@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -16,17 +16,16 @@ interface Props {
   backClick: () => void;
 }
 
-const locationTypeOptions: string[] = ['Locations 1', 'Location 2'];
-
-const RevenueModify: React.FC<Props> = ({
+const ServiceModify: React.FC<Props> = ({
   cancelEditClicked,
   row,
   backClick,
 }) => {
   const [values, setValue] = useState({
     id: row.id,
-    locationname: row.locationname,
-    locationType: row.locationType,
+    name: row.name,
+    panel: row.panel,
+    amount: row.amount,
   });
 
   return (
@@ -34,8 +33,8 @@ const RevenueModify: React.FC<Props> = ({
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Location Details</h2>
-            <span>Below are your location’s details</span>
+            <h2>Service Details</h2>
+            <span>Below are your service's details</span>
           </div>
           <div>
             <Button
@@ -58,37 +57,31 @@ const RevenueModify: React.FC<Props> = ({
           <Input label='ID' value={values.id} disabled />
           <Input
             label='Name'
-            value={values.locationname}
-            placeholder={values.locationname}
-            onChange={e =>
-              setValue({ ...values, locationname: e.target.value })
-            }
+            value={values.name}
+            placeholder={values.name}
+            onChange={e => setValue({ ...values, name: e.target.value })}
           />
-          <CustomSelect
-            name={values.locationType}
-            label='Band Type'
-            options={locationTypeOptions}
-            value={values.locationType}
-            onChange={e =>
-              setValue({
-                ...values,
-                locationType: e.target.value,
-              })
-            }
+          <Input
+            label='Panel'
+            value={values.panel}
+            placeholder={values.panel}
+            onChange={e => setValue({ ...values, panel: e.target.value })}
+          />
+          <Input
+            label='Amount'
+            value={values.amount}
+            placeholder={values.amount}
+            onChange={e => setValue({ ...values, amount: e.target.value })}
           />
         </GridWrapper>
 
         <BottomWrapper>
-          <Button
-            label='Delete Location'
-            background='#FFE9E9'
-            color='#ED0423'
-          />
-          <Button label='Save Location' />
+          <Button label='Delete Service' background='#FFE9E9' color='#ED0423' />
+          <Button label='Save Service' />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );
 };
 
-export default RevenueModify;
+export default ServiceModify;

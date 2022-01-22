@@ -1,10 +1,8 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './CollectionCreate';
-import EmployeeDetails from './CollectionDetail';
-import Employees from './CollectionList';
-import EmployeeModify from './CollectionModify';
+import CollectionDetails from './CollectionDetail';
+import Collections from './CollectionList';
 
 const AppCollections = () => {
   const { resource, setResource } = useObjectState();
@@ -12,7 +10,7 @@ const AppCollections = () => {
   return (
     <>
       {resource.collectionsResource.show === 'lists' && (
-        <Employees
+        <Collections
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
@@ -35,21 +33,9 @@ const AppCollections = () => {
           }}
         />
       )}
-      {resource.collectionsResource.show === 'create' && (
-        <EmployeeCreate
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              collectionsResource: {
-                ...prevState.collectionsResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
+
       {resource.collectionsResource.show === 'details' && (
-        <EmployeeDetails
+        <CollectionDetails
           row={resource.collectionsResource.selectedCollection}
           backClick={() =>
             setResource(prevState => ({
@@ -66,29 +52,6 @@ const AppCollections = () => {
               collectionsResource: {
                 ...prevState.collectionsResource,
                 show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.collectionsResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.collectionsResource.selectedCollection}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              collectionsResource: {
-                ...prevState.collectionsResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource(prevState => ({
-              ...prevState,
-              collectionsResource: {
-                ...prevState.collectionsResource,
-                show: 'details',
               },
             }))
           }

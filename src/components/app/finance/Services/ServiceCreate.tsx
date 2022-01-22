@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -15,9 +16,9 @@ interface Props {
   backClick: () => void;
 }
 
-const CollectionMode = ['Mode 1', 'Mode 2', 'Mode 3'];
+const locationType = ['Type 1', 'Type 2', 'Type 3'];
 
-const CollectionCreate: React.FC<Props> = ({ backClick }) => {
+const ServiceCreate: React.FC<Props> = ({ backClick }) => {
   const [values, setValues] = useState({});
 
   return (
@@ -25,10 +26,9 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Create Collection</h2>
+            <h2>Create Service</h2>
             <span>
-              Create a new Collection by filling out the form below to get
-              started.
+              Create a new Service by filling out the form below to get started.
             </span>
           </div>
           <Button
@@ -39,11 +39,11 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
           />
         </HeadWrapper>
         <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Collection'>
-            <GridWrapper>
+          <FullDetailsWrapper title='Create Employee'>
+            <GridWrapper className='two-columns'>
               <Input
-                label='Name of Collection'
-                name='collectionname'
+                label='Search for Service Category'
+                name='Servicesearch'
                 onChange={e =>
                   setValues({
                     ...values,
@@ -52,37 +52,29 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
                 }
               />
               <Input
-                label='Collection Amount'
-                name='collectionamount'
+                label='Name of Service'
+                name='Servicename'
                 onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
                   })
                 }
-              />
-              <Input
-                name='collectiondate'
-                onChange={e =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                type='date'
-              />
-              <CustomSelect
-                label='Choose a Collection Mode'
-                name='CollectionMode'
-                onChange={e =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                options={CollectionMode}
               />
             </GridWrapper>
+
+            <h2>Add Pricing Info</h2>
+
+            <Input
+              label='Price'
+              name='price'
+              onChange={e =>
+                setValues({
+                  ...values,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
           </FullDetailsWrapper>
 
           <BottomWrapper>
@@ -95,4 +87,4 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
   );
 };
 
-export default CollectionCreate;
+export default ServiceCreate;

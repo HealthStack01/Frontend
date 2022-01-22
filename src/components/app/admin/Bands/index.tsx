@@ -92,8 +92,8 @@ function AppBands() {
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
-    BandServ[values.action](data)
-      .then((_) => {
+    (data._id ? BandServ.update(data._id, data) : BandServ.create(data))
+      .then(() => {
         toast(`Band ${values.message}`);
         backClick();
       })

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Button from '../../../buttons/Button';
 import {
   FullDetailsWrapper,
@@ -14,7 +15,7 @@ interface Props {
   row?: any;
 }
 
-const RevenueDetails: React.FC<Props> = ({
+const ServiceDetails: React.FC<Props> = ({
   editBtnClicked,
   row,
   backClick,
@@ -24,8 +25,8 @@ const RevenueDetails: React.FC<Props> = ({
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Employee Details</h2>
-            <span>Below are your employee’s details</span>
+            <h2>Service Details</h2>
+            <span>Below are your Service’s details</span>
           </div>
           <div>
             <Button
@@ -60,11 +61,15 @@ const RevenueDetails: React.FC<Props> = ({
             </div>
             <div>
               <label>Name</label>
-              <p>{row.locationname}</p>
+              <p>{row.name}</p>
             </div>
             <div>
-              <label>Band Type</label>
-              <p>{row.locationType}</p>
+              <label>Panel</label>
+              <p>{row.panel}</p>
+            </div>
+            <div>
+              <label>Cash Price</label>
+              <p>{row.amount}</p>
             </div>
           </GridWrapper>
         </FullDetailsWrapper>
@@ -73,4 +78,4 @@ const RevenueDetails: React.FC<Props> = ({
   );
 };
 
-export default RevenueDetails;
+export default ServiceDetails;
