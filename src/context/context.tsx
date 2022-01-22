@@ -21,9 +21,19 @@ const userDefaultValues: UserContextProps = {
 interface ObjectContextProps {
   facilityResource: { show: string; selectedFacility: {} };
   // epidiologyModule: { show: string; selectedEpid: {} };
+
+  // Admin Module
   bandResource: { show: string; selectedBand: {} };
   locationResource: { show: string; selectedLocation: {} };
   employeeResource: { show: string; selectedEmployee: {} };
+
+  // Finance Module
+  billServicesResource: { show: string; selectedBillService: {} };
+  paymentsResource: { show: string; selectedPayment: {} };
+  revenuesResource: { show: string; selectedRevenue: {} };
+  collectionsResource: { show: string; selectedCollection: {} };
+  servicesResource: { show: string; selectedService: {} };
+  hmoAuthorizationsResource: { show: string; selectedHMOAuthorization: {} };
 }
 
 const objectDefaultValues: ObjectContextProps = {
@@ -42,6 +52,30 @@ const objectDefaultValues: ObjectContextProps = {
   employeeResource: {
     show: 'lists',
     selectedEmployee: {},
+  },
+  billServicesResource: {
+    show: 'lists',
+    selectedBillService: {},
+  },
+  paymentsResource: {
+    show: 'lists',
+    selectedPayment: {},
+  },
+  revenuesResource: {
+    show: 'lists',
+    selectedRevenue: {},
+  },
+  collectionsResource: {
+    show: 'lists',
+    selectedCollection: {},
+  },
+  servicesResource: {
+    show: 'lists',
+    selectedService: {},
+  },
+  hmoAuthorizationsResource: {
+    show: 'lists',
+    selectedHMOAuthorization: {},
   },
 };
 

@@ -4,7 +4,7 @@ import AccordionBox from '../accordion';
 
 export const PageWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 60px);
   overflow-y: hidden;
   padding: 3.2rem;
 
@@ -63,7 +63,7 @@ export const FullDetailsWrapper = styled.div`
 export const GrayWrapper = styled.div`
   background: ${({ theme }) => theme.grayFour};
   border-radius: 4px;
-  height: auto;
+  height: 100%;
   padding: 2rem;
   /* padding-bottom: 30rem; */
   overflow-y: auto;
