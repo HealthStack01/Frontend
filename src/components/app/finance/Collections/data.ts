@@ -10,27 +10,27 @@ export interface DataProps {
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Name',
-    selector: row => row.name,
+    selector: (row) => row.name,
     sortable: true,
   },
   {
     name: 'Client',
-    selector: row => row.client,
+    selector: (row) => row.client,
     sortable: true,
   },
   {
     name: 'Amount',
-    selector: row => row.amount,
+    selector: (row) => row.amount,
     sortable: true,
   },
   {
     name: 'Mode',
-    selector: row => row.mode,
+    selector: (row) => row.mode,
     sortable: true,
   },
 ];

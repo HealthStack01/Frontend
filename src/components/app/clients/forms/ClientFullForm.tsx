@@ -205,18 +205,18 @@ function ClientFullForm() {
                 </span>
               </div>
               <Button
-                label='Quick Registration'
-                background='#ECF3FF'
-                color='#0364FF'
+                label="Quick Registration"
+                background="#ECF3FF"
+                color="#0364FF"
                 showicon
-                icon='bi bi-pen-fill'
+                icon="bi bi-pen-fill"
                 onClick={() => setFullRegistration(false)}
               />
             </HeadWrapper>
             {/* Names */}
-            <DetailsWrapper title='Names'>
+            <DetailsWrapper title="Names">
               <h2>Names</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.names.map((name, index) => (
                   <Input label={name.title} key={index} />
                 ))}
@@ -224,9 +224,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/*   BioData */}
-            <DetailsWrapper title='Bio-data'>
+            <DetailsWrapper title="Bio-data">
               <h2>Bio-data</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.biodata.map((bio, index) => {
                   if (bio.options) {
                     return (
@@ -245,9 +245,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/* Address   */}
-            <DetailsWrapper title='Address'>
+            <DetailsWrapper title="Address">
               <h2>Address</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.address.map((address, index) => {
                   if (address.options) {
                     return (
@@ -264,9 +264,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/* Other Details  */}
-            <DetailsWrapper title='Other Details'>
+            <DetailsWrapper title="Other Details">
               <h2>Other Details</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.address.map((address, index) => {
                   if (address.options) {
                     return (
@@ -283,9 +283,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/* Next of Kin  */}
-            <DetailsWrapper title='Next of Kin'>
+            <DetailsWrapper title="Next of Kin">
               <h2>Next of Kin</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.nextOfKin.map((address, index) => {
                   if (address.options) {
                     return (
@@ -302,9 +302,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/* Non Hosiptal Idenfiers  */}
-            <DetailsWrapper title='Non-Hospitalsiptal Idenfiers'>
+            <DetailsWrapper title="Non-Hospitalsiptal Idenfiers">
               <h2>Non-Hospital Indetifiers</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.nonHospitalIndetifiers.map(
                   (address, index) => (
                     <Input label={address.title} key={index} />
@@ -314,9 +314,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/* Payment Information   */}
-            <DetailsWrapper title='Payment Information'>
+            <DetailsWrapper title="Payment Information">
               <h2>Payment Information</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.paymentInformation.map((address, index) => (
                   <Input label={address.title} key={index} />
                 ))}
@@ -324,9 +324,9 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             {/* Medical Data   */}
-            <DetailsWrapper title='Medical Data'>
+            <DetailsWrapper title="Medical Data">
               <h2>Medical Data</h2>
-              <GridWrapper className='subgrid'>
+              <GridWrapper className="subgrid">
                 {clientFullFormData.medicalData.map((address, index) => {
                   if (address.textarea) {
                     return <Textarea label={address.title} key={index} />;
@@ -337,8 +337,8 @@ function ClientFullForm() {
             </DetailsWrapper>
 
             <BottomWrapper>
-              <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-              <Button label='Save Form' />
+              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+              <Button label="Save Form" />
             </BottomWrapper>
           </GrayWrapper>
         </PageWrapper>

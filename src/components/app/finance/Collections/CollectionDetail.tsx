@@ -18,11 +18,7 @@ interface Props {
   row?: any;
 }
 
-const CollectionDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
+const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -33,9 +29,9 @@ const CollectionDetails: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <label
@@ -52,22 +48,22 @@ const CollectionDetails: React.FC<Props> = ({
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <GridWrapper className='two-columns'>
-            <AccordionBox defaultExpanded={true} title='Credit'>
+          <GridWrapper className="two-columns">
+            <AccordionBox defaultExpanded={true} title="Credit">
               <DataTable
                 data={row.credit}
                 columns={columnHead}
-                title='Credit'
+                title="Credit"
                 pointerOnHover
                 highlightOnHover
                 striped
               />
             </AccordionBox>
-            <AccordionBox defaultExpanded={true} title='Debit'>
+            <AccordionBox defaultExpanded={true} title="Debit">
               <DataTable
                 data={row.debit}
                 columns={columnHead}
-                title='Debit'
+                title="Debit"
                 pointerOnHover
                 highlightOnHover
                 striped

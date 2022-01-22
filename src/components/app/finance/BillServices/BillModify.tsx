@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
 import Textarea from '../../../inputs/basic/Textarea';
 import {
   BottomWrapper,
@@ -16,8 +16,6 @@ interface Props {
   row?: any;
   backClick: () => void;
 }
-
-const bandTypeOptions: string[] = ['Band 1', 'Band 2', 'Band 3', 'Band 4'];
 
 const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
@@ -38,9 +36,9 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
@@ -48,39 +46,41 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
               background={'#f2f2f2'}
               color={'#333'}
               showicon={true}
-              icon='bi bi-pen-fill'
+              icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
           </div>
         </HeadWrapper>
         <GridWrapper>
-          <Input label='ID' value={values.id} disabled />
+          <Input label="ID" value={values.id} disabled />
           <Input
-            label='Date'
+            label="Date"
             value={values.date}
-            type='datetime-local'
-            onChange={e => setValue({ ...values, date: e.target.value })}
+            type="datetime-local"
+            onChange={(e) => setValue({ ...values, date: e.target.value })}
           />
           <Input
-            label='Status'
+            label="Status"
             value={values.status}
-            onChange={e => setValue({ ...values, status: e.target.value })}
+            onChange={(e) => setValue({ ...values, status: e.target.value })}
           />
           <Input
-            label='Amount'
+            label="Amount"
             value={values.amount}
-            onChange={e => setValue({ ...values, amount: e.target.value })}
+            onChange={(e) => setValue({ ...values, amount: e.target.value })}
           />
           <Textarea
-            label='Description'
+            label="Description"
             value={values.description}
-            onChange={e => setValue({ ...values, description: e.target.value })}
+            onChange={(e) =>
+              setValue({ ...values, description: e.target.value })
+            }
           />
         </GridWrapper>
 
         <BottomWrapper>
-          <Button label='Delete Band' background='#FFE9E9' color='#ED0423' />
-          <Button label='Save Band' />
+          <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
+          <Button label="Save Band" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

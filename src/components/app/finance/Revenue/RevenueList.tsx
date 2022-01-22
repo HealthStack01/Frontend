@@ -18,20 +18,20 @@ const Revenue: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <h2>Revenue</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
         </div>
 
-        <Button label='Add new' onClick={handleCreate} />
+        <Button label="Add new" onClick={handleCreate} />
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title='Revenue'
+          title="Revenue"
           columns={columnHead}
           data={rowData}
           selectableRows

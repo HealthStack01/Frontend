@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import BillCreate from './BillCreate';
 import BillDetails from './BillDetail';
@@ -13,7 +14,7 @@ const AppBills = () => {
       {resource.bandResource.show === 'lists' && (
         <Bills
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               illResource: {
                 ...prevState.bandResource,
@@ -21,10 +22,8 @@ const AppBills = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 show: 'details',
@@ -37,7 +36,7 @@ const AppBills = () => {
       {resource.bandResource.show === 'create' && (
         <BillCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -51,7 +50,7 @@ const AppBills = () => {
         <BillDetails
           row={resource.bandResource.selectedBand}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -60,7 +59,7 @@ const AppBills = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -74,7 +73,7 @@ const AppBills = () => {
         <BillModify
           row={resource.bandResource.selectedBand}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -83,7 +82,7 @@ const AppBills = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,

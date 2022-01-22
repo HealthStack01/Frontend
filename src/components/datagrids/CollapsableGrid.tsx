@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+
 import AccordionBox from '../accordion';
 
 interface Props {

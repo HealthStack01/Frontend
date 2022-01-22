@@ -25,37 +25,37 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/signupindividual' element={<IndividualSignup />} />
-        <Route path='/app' element={<Dashboard />}>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signupindividual" element={<IndividualSignup />} />
+        <Route path="/app" element={<Dashboard />}>
           <Route index element={<Overview />} />
 
           {/* Clients */}
-          <Route path='/app/clients' element={<Clients />} />
-          <Route path='/app/clients/:id' element={<ClientDetails />} />
-          <Route path='/app/clients/appointments' element={<Appointments />} />
+          <Route path="/app/clients" element={<Clients />} />
+          <Route path="/app/clients/:id" element={<ClientDetails />} />
+          <Route path="/app/clients/appointments" element={<Appointments />} />
 
           <Route
-            path='/app/clients/appointments/:id'
+            path="/app/clients/appointments/:id"
             element={<AppointmentDetails />}
           />
 
           {/* Admin */}
-          <Route path='/app/admin' element={<AdminDashboard />} />
-          <Route path='/app/admin/bands' element={<AppBands />} />
-          <Route path='/app/admin/employees' element={<AppEmployees />} />
-          <Route path='/app/admin/location' element={<AppLocation />} />
+          <Route path="/app/admin" element={<AdminDashboard />} />
+          <Route path="/app/admin/bands" element={<AppBands />} />
+          <Route path="/app/admin/employees" element={<AppEmployees />} />
+          <Route path="/app/admin/location" element={<AppLocation />} />
 
           {/* Finance */}
-          <Route path='/app/finance' element={<FinanceDashboard />} />
-          <Route path='/app/finance/billservices' element={<AppBills />} />
-          <Route path='/app/finance/collections' element={<AppCollections />} />
-          <Route path='/app/finance/payment' element={<AppPayments />} />
-          <Route path='/app/finance/revenue' element={<AppRevenue />} />
-          <Route path='/app/finance/services' element={<AppServices />} />
+          <Route path="/app/finance" element={<FinanceDashboard />} />
+          <Route path="/app/finance/billservices" element={<AppBills />} />
+          <Route path="/app/finance/collections" element={<AppCollections />} />
+          <Route path="/app/finance/payment" element={<AppPayments />} />
+          <Route path="/app/finance/revenue" element={<AppRevenue />} />
+          <Route path="/app/finance/services" element={<AppServices />} />
           <Route
-            path='/app/finance/hmoauthorization'
+            path="/app/finance/hmoauthorization"
             element={<AppHMOAuthorization />}
           />
         </Route>
