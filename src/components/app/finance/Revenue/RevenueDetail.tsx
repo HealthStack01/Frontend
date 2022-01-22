@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Button from '../../../buttons/Button';
 import {
   FullDetailsWrapper,
@@ -24,8 +25,8 @@ const RevenueDetails: React.FC<Props> = ({
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Employee Details</h2>
-            <span>Below are your employee’s details</span>
+            <h2>Revenue Details</h2>
+            <span>Below are your Revenue’s details</span>
           </div>
           <div>
             <Button
@@ -33,22 +34,6 @@ const RevenueDetails: React.FC<Props> = ({
               background='#fdfdfd'
               color='#333'
               onClick={backClick}
-            />
-            <Button
-              label={'Delete'}
-              background='#FFE9E9'
-              color='#ED0423'
-              showicon={true}
-              icon='bi bi-pen-fill'
-              onClick={editBtnClicked}
-            />
-            <Button
-              label={'Edit Details'}
-              background={'#ECF3FF'}
-              color='#0364FF'
-              showicon={true}
-              icon='bi bi-pen-fill'
-              onClick={editBtnClicked}
             />
           </div>
         </HeadWrapper>
@@ -59,12 +44,24 @@ const RevenueDetails: React.FC<Props> = ({
               <p>{row.id}</p>
             </div>
             <div>
-              <label>Name</label>
-              <p>{row.locationname}</p>
+              <label>Date</label>
+              <p>{row.date}</p>
             </div>
             <div>
-              <label>Band Type</label>
-              <p>{row.locationType}</p>
+              <label>Description</label>
+              <p>{row.description}</p>
+            </div>
+            <div>
+              <label>Client</label>
+              <p>{row.client}</p>
+            </div>
+            <div>
+              <label>Amont</label>
+              <p>{row.amount}</p>
+            </div>
+            <div>
+              <label>Mode</label>
+              <p>{row.mode}</p>
             </div>
           </GridWrapper>
         </FullDetailsWrapper>

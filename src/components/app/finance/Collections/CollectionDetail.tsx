@@ -24,8 +24,8 @@ const CollectionDetails: React.FC<Props> = ({
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Employee Details</h2>
-            <span>Below are your employee’s details</span>
+            <h2>Collection Details</h2>
+            <span>Below are your Collection’s details</span>
           </div>
           <div>
             <Button
@@ -59,12 +59,20 @@ const CollectionDetails: React.FC<Props> = ({
               <p>{row.id}</p>
             </div>
             <div>
-              <label>Name</label>
-              <p>{row.locationname}</p>
+              <label>Collection Name</label>
+              <p>{row.name}</p>
             </div>
             <div>
-              <label>Band Type</label>
-              <p>{row.locationType}</p>
+              <label>Client</label>
+              <p>{row.client}</p>
+            </div>
+            <div>
+              <label>Amount</label>
+              <p>{row.amount}</p>
+            </div>
+            <div>
+              <label>Mode</label>
+              <p>{row.mode}</p>
             </div>
           </GridWrapper>
         </FullDetailsWrapper>

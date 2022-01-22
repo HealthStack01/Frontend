@@ -5,9 +5,10 @@ import AccordionBox from '../accordion';
 interface Props {
   title: string;
   description: string;
-  rowData: any;
-  columnHead: any;
+  rowData?: any;
+  columnHead?: any;
   onRowClicked?: (row: any, event: any) => void;
+  table?: boolean;
 }
 
 const CollapsableGrid: React.FC<Props> = ({
@@ -16,21 +17,24 @@ const CollapsableGrid: React.FC<Props> = ({
   rowData,
   columnHead,
   onRowClicked,
+  table = true,
 }) => {
   return (
     <>
       <AccordionBox title={title} defaultExpanded={true}>
         <AccordionBox title={description}>
-          <DataTable
-            title={description}
-            columns={columnHead}
-            data={rowData}
-            selectableRows
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={onRowClicked}
-          />
+          {table && (
+            <DataTable
+              title={description}
+              columns={columnHead}
+              data={rowData}
+              selectableRows
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={onRowClicked}
+            />
+          )}
         </AccordionBox>
       </AccordionBox>
     </>

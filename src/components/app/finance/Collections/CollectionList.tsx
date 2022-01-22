@@ -9,7 +9,13 @@ import { columnHead, rowData } from './data';
 interface Props {
   handleCreate?: () => void;
   onRowClicked?: (
-    row: { id: any; name: string; locationType: string },
+    row: {
+      id: any;
+      name: string;
+      client: string;
+      amount: string;
+      mode: string;
+    },
     event: any
   ) => void;
 }

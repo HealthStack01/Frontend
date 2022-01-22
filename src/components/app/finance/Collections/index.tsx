@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import EmployeeCreate from './CollectionCreate';
 import EmployeeDetails from './CollectionDetail';
@@ -10,13 +11,13 @@ const AppCollections = () => {
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
+      {resource.collectionsResource.show === 'lists' && (
         <Employees
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'create',
               },
             }))
@@ -26,35 +27,35 @@ const AppCollections = () => {
 
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
+              collectionsResource: {
                 show: 'details',
-                selectedEmployee: row,
+                selectedCollection: row,
               },
             }));
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
+      {resource.collectionsResource.show === 'create' && (
         <EmployeeCreate
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'lists',
               },
             }))
           }
         />
       )}
-      {resource.employeeResource.show === 'details' && (
+      {resource.collectionsResource.show === 'details' && (
         <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
+          row={resource.collectionsResource.selectedCollection}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'lists',
               },
             }))
@@ -62,22 +63,22 @@ const AppCollections = () => {
           editBtnClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'edit',
               },
             }))
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
+      {resource.collectionsResource.show === 'edit' && (
         <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
+          row={resource.collectionsResource.selectedCollection}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'lists',
               },
             }))
@@ -85,8 +86,8 @@ const AppCollections = () => {
           cancelEditClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'details',
               },
             }))

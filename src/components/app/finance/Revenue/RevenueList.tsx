@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
@@ -8,10 +9,7 @@ import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
-  onRowClicked?: (
-    row: { id: any; name: string; locationType: string },
-    event: any
-  ) => void;
+  onRowClicked?: (row: any, event: any) => void;
 }
 
 const Revenue: React.FC<Props> = ({ handleCreate, onRowClicked }) => {

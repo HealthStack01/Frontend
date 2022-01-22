@@ -1,22 +1,20 @@
 import React from 'react';
-import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './PaymentCreate';
-import EmployeeDetails from './PaymentDetail';
-import Employees from './PaymentList';
-import EmployeeModify from './PaymentModify';
 
+import { useObjectState } from '../../../../context/context';
+import PaymentDetails from './PaymentDetail';
+import Payments from './PaymentList';
 const AppPayments = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Employees
+      {resource.paymentsResource.show === 'lists' && (
+        <Payments
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              paymentsResource: {
+                ...prevState.paymentsResource,
                 show: 'create',
               },
             }))
@@ -26,35 +24,23 @@ const AppPayments = () => {
 
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
+              paymentsResource: {
                 show: 'details',
-                selectedEmployee: row,
+                selectedPayment: row,
               },
             }));
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+
+      {resource.paymentsResource.show === 'details' && (
+        <PaymentDetails
+          row={resource.paymentsResource.selectedPayment}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              paymentsResource: {
+                ...prevState.paymentsResource,
                 show: 'lists',
               },
             }))
@@ -62,32 +48,9 @@ const AppPayments = () => {
           editBtnClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              paymentsResource: {
+                ...prevState.paymentsResource,
                 show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
               },
             }))
           }

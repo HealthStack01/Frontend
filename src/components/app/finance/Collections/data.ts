@@ -2,7 +2,9 @@ import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
   name: string;
-  locationType: string;
+  client: string;
+  amount: string;
+  mode: string;
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -17,8 +19,18 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Location Type',
-    selector: row => row.locationType,
+    name: 'Client',
+    selector: row => row.client,
+    sortable: true,
+  },
+  {
+    name: 'Amount',
+    selector: row => row.amount,
+    sortable: true,
+  },
+  {
+    name: 'Mode',
+    selector: row => row.mode,
     sortable: true,
   },
 ];
@@ -26,47 +38,58 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: '1',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
   {
     id: '2',
-    name: 'Location 2',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
   {
     id: '3',
-    name: 'Location 3',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
+  },
+  {
+    id: '3',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
   {
     id: '4',
-    name: 'Location 4',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
   {
     id: '5',
-    name: 'Location 5',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
   {
     id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
   {
     id: '7',
-    name: 'Location 7',
-    locationType: 'Company',
-  },
-  {
-    id: '8',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'Client 1',
+    client: 'Client',
+    amount: '300000',
+    mode: 'Cash',
   },
 ];

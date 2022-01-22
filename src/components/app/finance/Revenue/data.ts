@@ -1,8 +1,13 @@
 import { TableColumn } from 'react-data-table-component';
+
+import client from '../../../../feathers';
 export interface DataProps {
   id: any;
-  name: string;
-  locationType: string;
+  date: string;
+  client: string;
+  description: string;
+  amount: string;
+  mode: string;
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -12,13 +17,28 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Name',
-    selector: row => row.name,
+    name: 'Date',
+    selector: row => row.date,
     sortable: true,
   },
   {
-    name: 'Location Type',
-    selector: row => row.locationType,
+    name: 'Client',
+    selector: row => row.client,
+    sortable: true,
+  },
+  {
+    name: 'Description',
+    selector: row => row.description,
+    sortable: true,
+  },
+  {
+    name: 'Amount',
+    selector: row => row.amount,
+    sortable: true,
+  },
+  {
+    name: 'Mode',
+    selector: row => row.mode,
     sortable: true,
   },
 ];
@@ -26,47 +46,42 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: '1',
-    name: 'Location 1',
-    locationType: 'Company',
+    date: '2022-01-20 19:45',
+    description: 'lorem',
+    client: 'Alex Doe',
+    amount: '40000',
+    mode: 'Cash',
   },
   {
     id: '2',
-    name: 'Location 2',
-    locationType: 'Company',
+    date: '2022-01-20 19:45',
+    description: 'lorem',
+    client: 'Alex Doe',
+    amount: '40000',
+    mode: 'Cash',
   },
   {
     id: '3',
-    name: 'Location 3',
-    locationType: 'Company',
+    date: '2022-01-20 19:45',
+    description: 'lorem',
+    client: 'Alex Doe',
+    amount: '40000',
+    mode: 'Cash',
   },
   {
     id: '4',
-    name: 'Location 4',
-    locationType: 'Company',
+    date: '2022-01-20 19:45',
+    description: 'lorem',
+    client: 'Alex Doe',
+    amount: '40000',
+    mode: 'Cash',
   },
   {
     id: '5',
-    name: 'Location 5',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '7',
-    name: 'Location 7',
-    locationType: 'Company',
-  },
-  {
-    id: '8',
-    name: 'Location 1',
-    locationType: 'Company',
+    date: '2022-01-20 19:45',
+    description: 'lorem',
+    client: 'Alex Doe',
+    amount: '40000',
+    mode: 'Cash',
   },
 ];

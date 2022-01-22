@@ -15,7 +15,7 @@ interface Props {
   backClick: () => void;
 }
 
-const locationType = ['Type 1', 'Type 2', 'Type 3'];
+const CollectionMode = ['Mode 1', 'Mode 2', 'Mode 3'];
 
 const CollectionCreate: React.FC<Props> = ({ backClick }) => {
   const [values, setValues] = useState({});
@@ -25,9 +25,9 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Create Location</h2>
+            <h2>Create Collection</h2>
             <span>
-              Create a new location by filling out the form below to get
+              Create a new Collection by filling out the form below to get
               started.
             </span>
           </div>
@@ -39,11 +39,11 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
           />
         </HeadWrapper>
         <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Employee'>
+          <FullDetailsWrapper title='Create Collection'>
             <GridWrapper>
               <Input
-                label='Name of Location'
-                name='locationname'
+                label='Name of Collection'
+                name='collectionname'
                 onChange={e =>
                   setValues({
                     ...values,
@@ -51,16 +51,36 @@ const CollectionCreate: React.FC<Props> = ({ backClick }) => {
                   })
                 }
               />
-              <CustomSelect
-                label='Choose a Location Type'
-                name='locationType'
+              <Input
+                label='Collection Amount'
+                name='collectionamount'
                 onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
                   })
                 }
-                options={locationType}
+              />
+              <Input
+                name='collectiondate'
+                onChange={e =>
+                  setValues({
+                    ...values,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+                type='date'
+              />
+              <CustomSelect
+                label='Choose a Collection Mode'
+                name='CollectionMode'
+                onChange={e =>
+                  setValues({
+                    ...values,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+                options={CollectionMode}
               />
             </GridWrapper>
           </FullDetailsWrapper>
