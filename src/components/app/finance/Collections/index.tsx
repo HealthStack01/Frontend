@@ -1,93 +1,55 @@
 import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './CollectionCreate';
-import EmployeeDetails from './CollectionDetail';
-import Employees from './CollectionList';
-import EmployeeModify from './CollectionModify';
+import CollectionDetails from './CollectionDetail';
+import Collections from './CollectionList';
 
 const AppCollections = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Employees
+      {resource.collectionsResource.show === 'lists' && (
+        <Collections
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'create',
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
+              collectionsResource: {
                 show: 'details',
-                selectedEmployee: row,
+                selectedCollection: row,
               },
             }));
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+
+      {resource.collectionsResource.show === 'details' && (
+        <CollectionDetails
+          row={resource.collectionsResource.selectedCollection}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'lists',
               },
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              collectionsResource: {
+                ...prevState.collectionsResource,
                 show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
               },
             }))
           }

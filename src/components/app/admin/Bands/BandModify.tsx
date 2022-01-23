@@ -14,7 +14,6 @@ import {
 } from '../../styles';
 
 const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
-
 interface Props {
   cancelEditClicked?: () => void;
   row?: any;

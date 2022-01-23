@@ -1,93 +1,55 @@
 import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './RevenueCreate';
-import EmployeeDetails from './RevenueDetail';
-import Employees from './RevenueList';
-import EmployeeModify from './RevenueModify';
+import RevenueDetails from './RevenueDetail';
+import Revenue from './RevenueList';
 
 const AppRevenue = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Employees
+      {resource.revenuesResource.show === 'lists' && (
+        <Revenue
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              revenuesResource: {
+                ...prevState.revenuesResource,
                 show: 'create',
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
+              revenuesResource: {
                 show: 'details',
-                selectedEmployee: row,
+                selectedRevenue: row,
               },
             }));
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+
+      {resource.revenuesResource.show === 'details' && (
+        <RevenueDetails
+          row={resource.revenuesResource.selectedRevenue}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              revenuesResource: {
+                ...prevState.revenuesResource,
                 show: 'lists',
               },
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              revenuesResource: {
+                ...prevState.revenuesResource,
                 show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
               },
             }))
           }
