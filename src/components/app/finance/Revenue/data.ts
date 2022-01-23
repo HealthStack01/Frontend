@@ -1,6 +1,4 @@
 import { TableColumn } from 'react-data-table-component';
-
-import client from '../../../../feathers';
 export interface DataProps {
   id: any;
   date: string;
@@ -13,32 +11,32 @@ export interface DataProps {
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Date',
-    selector: row => row.date,
+    selector: (row) => row.date,
     sortable: true,
   },
   {
     name: 'Client',
-    selector: row => row.client,
+    selector: (row) => row.client,
     sortable: true,
   },
   {
     name: 'Description',
-    selector: row => row.description,
+    selector: (row) => row.description,
     sortable: true,
   },
   {
     name: 'Amount',
-    selector: row => row.amount,
+    selector: (row) => row.amount,
     sortable: true,
   },
   {
     name: 'Mode',
-    selector: row => row.mode,
+    selector: (row) => row.mode,
     sortable: true,
   },
 ];

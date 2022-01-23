@@ -38,9 +38,9 @@ const ServiceModify: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
@@ -48,36 +48,36 @@ const ServiceModify: React.FC<Props> = ({
               background={'#f2f2f2'}
               color={'#333'}
               showicon={true}
-              icon='bi bi-pen-fill'
+              icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
           </div>
         </HeadWrapper>
         <GridWrapper>
-          <Input label='ID' value={values.id} disabled />
+          <Input label="ID" value={values.id} disabled />
           <Input
-            label='Name'
+            label="Name"
             value={values.name}
             placeholder={values.name}
-            onChange={e => setValue({ ...values, name: e.target.value })}
+            onChange={(e) => setValue({ ...values, name: e.target.value })}
           />
           <Input
-            label='Panel'
+            label="Panel"
             value={values.panel}
             placeholder={values.panel}
-            onChange={e => setValue({ ...values, panel: e.target.value })}
+            onChange={(e) => setValue({ ...values, panel: e.target.value })}
           />
           <Input
-            label='Amount'
+            label="Amount"
             value={values.amount}
             placeholder={values.amount}
-            onChange={e => setValue({ ...values, amount: e.target.value })}
+            onChange={(e) => setValue({ ...values, amount: e.target.value })}
           />
         </GridWrapper>
 
         <BottomWrapper>
-          <Button label='Delete Service' background='#FFE9E9' color='#ED0423' />
-          <Button label='Save Service' />
+          <Button label="Delete Service" background="#FFE9E9" color="#ED0423" />
+          <Button label="Save Service" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

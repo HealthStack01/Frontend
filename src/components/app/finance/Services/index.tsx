@@ -12,7 +12,7 @@ const AppServices = () => {
       {resource.servicesResource.show === 'lists' && (
         <Servicess
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -20,10 +20,8 @@ const AppServices = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 show: 'details',
@@ -36,7 +34,7 @@ const AppServices = () => {
       {resource.servicesResource.show === 'create' && (
         <ServiceCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -50,7 +48,7 @@ const AppServices = () => {
         <ServiceDetails
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -59,7 +57,7 @@ const AppServices = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -73,7 +71,7 @@ const AppServices = () => {
         <ServiceModify
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -82,7 +80,7 @@ const AppServices = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,

@@ -15,11 +15,7 @@ interface Props {
   row?: any;
 }
 
-const RevenueDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
+const RevenueDetails: React.FC<Props> = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -30,9 +26,9 @@ const RevenueDetails: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
           </div>

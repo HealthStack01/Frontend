@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import BillCreate from './BillCreate';
 import BillDetails from './BillDetail';
@@ -15,7 +16,7 @@ const AppBills = () => {
       {resource.billServicesResource.show === 'lists' && (
         <Bills
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billServicesResource: {
                 ...prevState.billServicesResource,
@@ -23,10 +24,8 @@ const AppBills = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               billServicesResource: {
                 show: 'details',
@@ -39,7 +38,7 @@ const AppBills = () => {
       {resource.billServicesResource.show === 'create' && (
         <BillCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billServicesResource: {
                 ...prevState.billServicesResource,
@@ -53,7 +52,7 @@ const AppBills = () => {
         <BillDetails
           row={resource.billServicesResource.selectedBillService}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billServicesResource: {
                 ...prevState.billServicesResource,
@@ -62,7 +61,7 @@ const AppBills = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billServicesResource: {
                 ...prevState.billServicesResource,
@@ -76,7 +75,7 @@ const AppBills = () => {
         <BillModify
           row={resource.billServicesResource.selectedBillService}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billServicesResource: {
                 ...prevState.billServicesResource,
@@ -85,7 +84,7 @@ const AppBills = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,

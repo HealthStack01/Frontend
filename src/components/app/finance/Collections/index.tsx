@@ -12,7 +12,7 @@ const AppCollections = () => {
       {resource.collectionsResource.show === 'lists' && (
         <Collections
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               collectionsResource: {
                 ...prevState.collectionsResource,
@@ -20,10 +20,8 @@ const AppCollections = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               collectionsResource: {
                 show: 'details',
@@ -38,7 +36,7 @@ const AppCollections = () => {
         <CollectionDetails
           row={resource.collectionsResource.selectedCollection}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               collectionsResource: {
                 ...prevState.collectionsResource,
@@ -47,7 +45,7 @@ const AppCollections = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               collectionsResource: {
                 ...prevState.collectionsResource,

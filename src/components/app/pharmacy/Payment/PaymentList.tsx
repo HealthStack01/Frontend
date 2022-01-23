@@ -207,11 +207,11 @@ const Payments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <h2>Payments</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
         </div>
       </TableMenu>

@@ -48,11 +48,30 @@ const PaymentDetails: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
+<<<<<<< HEAD
+=======
+            <Button
+              label={'Delete'}
+              background="#FFE9E9"
+              color="#ED0423"
+              showicon={true}
+              icon="bi bi-pen-fill"
+              onClick={editBtnClicked}
+            />
+            <Button
+              label={'Edit Details'}
+              background={'#ECF3FF'}
+              color="#0364FF"
+              showicon={true}
+              icon="bi bi-pen-fill"
+              onClick={editBtnClicked}
+            />
+>>>>>>> 6f32e02b5e290369d0c6d4adec27b1d49d4851d0
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>

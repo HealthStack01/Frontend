@@ -14,7 +14,7 @@ export interface BandDataRow {
 export const columnBand: TableColumn<BandDataRow>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {

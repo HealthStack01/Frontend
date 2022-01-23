@@ -1,5 +1,5 @@
 import React from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
@@ -58,23 +58,23 @@ const dataTree = [
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Name',
-    selector: row => row.name,
+    selector: (row) => row.name,
     sortable: true,
   },
   {
     name: 'Panel',
-    selector: row => row.panel,
+    selector: (row) => row.panel,
     sortable: true,
   },
 
   {
     name: 'Amount',
-    selector: row => row.amount,
+    selector: (row) => row.amount,
     sortable: true,
   },
 ];
@@ -85,15 +85,15 @@ const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <h2>Services </h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
         </div>
 
-        <Button label='Add new' onClick={handleCreate} />
+        <Button label="Add new" onClick={handleCreate} />
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>

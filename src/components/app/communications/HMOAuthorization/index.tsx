@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import EmployeeCreate from './HMOAuthorizationCreate';
 import EmployeeDetails from './HMOAuthorizationDetail';
@@ -13,7 +14,7 @@ const AppHMOAuthorization = () => {
       {resource.employeeResource.show === 'lists' && (
         <Employees
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -21,10 +22,8 @@ const AppHMOAuthorization = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 show: 'details',
@@ -37,7 +36,7 @@ const AppHMOAuthorization = () => {
       {resource.employeeResource.show === 'create' && (
         <EmployeeCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -51,7 +50,7 @@ const AppHMOAuthorization = () => {
         <EmployeeDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -60,7 +59,7 @@ const AppHMOAuthorization = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -74,7 +73,7 @@ const AppHMOAuthorization = () => {
         <EmployeeModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -83,7 +82,7 @@ const AppHMOAuthorization = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,

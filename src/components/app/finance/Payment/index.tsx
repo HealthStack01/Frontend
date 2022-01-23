@@ -11,7 +11,7 @@ const AppPayments = () => {
       {resource.paymentsResource.show === 'lists' && (
         <Payments
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -19,10 +19,8 @@ const AppPayments = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 show: 'details',
@@ -37,7 +35,7 @@ const AppPayments = () => {
         <PaymentDetails
           row={resource.paymentsResource.selectedPayment}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -46,7 +44,7 @@ const AppPayments = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
