@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -18,11 +19,7 @@ interface Props {
 
 const locationTypeOptions: string[] = ['Locations 1', 'Location 2'];
 
-const RevenueModify: React.FC<Props> = ({
-  cancelEditClicked,
-  row,
-  backClick,
-}) => {
+const POSModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
     locationname: row.locationname,
@@ -91,4 +88,4 @@ const RevenueModify: React.FC<Props> = ({
   );
 };
 
-export default RevenueModify;
+export default POSModify;

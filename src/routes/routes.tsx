@@ -21,6 +21,8 @@ import AppBillPrescriptionSent from '../components/app/pharmacy/BillPrescription
 import AppDispensary from '../components/app/pharmacy/Dispensory';
 import AppPaymentsPharmacy from '../components/app/pharmacy/Payment';
 import PharmacyDashboard from '../components/app/pharmacy/PharmacyDashboard';
+import AppPOS from '../components/app/pharmacy/POS';
+import AppProductEntry from '../components/app/pharmacy/ProductEntry';
 import AppInventory from '../components/app/pharmacy/StoreInventory';
 import Login from '../pages/auth';
 import IndividualSignup from '../pages/auth/IndividualSignup';
@@ -31,27 +33,27 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signupindividual" element={<IndividualSignup />} />
-        <Route path="/app" element={<Dashboard />}>
+        <Route path='/' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/signupindividual' element={<IndividualSignup />} />
+        <Route path='/app' element={<Dashboard />}>
           <Route index element={<Overview />} />
 
           {/* Clients */}
-          <Route path="/app/clients" element={<Clients />} />
-          <Route path="/app/clients/:id" element={<ClientDetails />} />
-          <Route path="/app/clients/appointments" element={<Appointments />} />
+          <Route path='/app/clients' element={<Clients />} />
+          <Route path='/app/clients/:id' element={<ClientDetails />} />
+          <Route path='/app/clients/appointments' element={<Appointments />} />
 
           <Route
-            path="/app/clients/appointments/:id"
+            path='/app/clients/appointments/:id'
             element={<AppointmentDetails />}
           />
 
           {/* Admin */}
-          <Route path="/app/admin" element={<AdminDashboard />} />
-          <Route path="/app/admin/bands" element={<AppBands />} />
-          <Route path="/app/admin/employees" element={<AppEmployees />} />
-          <Route path="/app/admin/location" element={<AppLocation />} />
+          <Route path='/app/admin' element={<AdminDashboard />} />
+          <Route path='/app/admin/bands' element={<AppBands />} />
+          <Route path='/app/admin/employees' element={<AppEmployees />} />
+          <Route path='/app/admin/location' element={<AppLocation />} />
 
           {/* Finance */}
           <Route path='/app/finance' element={<FinanceDashboard />} />
@@ -75,8 +77,11 @@ function AppRoutes() {
           />
           <Route path='/app/pharmacy/dispensory' element={<AppDispensary />} />
           <Route path='/app/pharmacy/inventory' element={<AppInventory />} />
-          <Route path='/app/pharmacy/productentry' element={<AppServices />} />
-          <Route path='/app/pharmacy/pos' element={<AppHMOAuthorization />} />
+          <Route
+            path='/app/pharmacy/productentry'
+            element={<AppProductEntry />}
+          />
+          <Route path='/app/pharmacy/pos' element={<AppPOS />} />
         </Route>
       </Routes>
     </>

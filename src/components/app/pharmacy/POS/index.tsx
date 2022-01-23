@@ -1,17 +1,19 @@
 import React from 'react';
-import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './RevenueCreate';
-import EmployeeDetails from './RevenueDetail';
-import Employees from './RevenueList';
-import EmployeeModify from './RevenueModify';
 
-const AppRevenue = () => {
+import { useObjectState } from '../../../../context/context';
+import POSCreate from './POSCreate';
+import EmployeeCreate from './POSCreate';
+import POSDetails from './POSDetail';
+import POS from './POSList';
+import POSModify from './POSModify';
+
+const AppPOS = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Employees
+        <POS
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
@@ -35,7 +37,7 @@ const AppRevenue = () => {
         />
       )}
       {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+        <POSCreate
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
@@ -48,7 +50,7 @@ const AppRevenue = () => {
         />
       )}
       {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
+        <POSDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource(prevState => ({
@@ -71,7 +73,7 @@ const AppRevenue = () => {
         />
       )}
       {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
+        <POSModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource(prevState => ({
@@ -97,4 +99,4 @@ const AppRevenue = () => {
   );
 };
 
-export default AppRevenue;
+export default AppPOS;
