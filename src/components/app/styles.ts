@@ -73,6 +73,7 @@ export const GridWrapper = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: center;
   grid-gap: 2rem;
   margin-top: 3.2rem;
   overflow-y: auto;
@@ -85,7 +86,9 @@ export const GridWrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
 
-  
+  &.four-columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
 
   & label {
     display: block;

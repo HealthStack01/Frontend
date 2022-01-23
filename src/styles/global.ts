@@ -186,4 +186,12 @@ export const FlexBox = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  &.between {
+    justify-content: space-between;
+  }
+`;
+
+export const Htag = styled.h5`
+  margin-right: 8rem;
 `;

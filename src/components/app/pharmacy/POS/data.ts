@@ -1,8 +1,13 @@
 import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
-  name: string;
-  locationType: string;
+  date: string;
+  type: string;
+  source: string;
+  documentNo: string;
+  amount: string;
+  actions: boolean;
+  data: [];
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -12,13 +17,33 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Name',
-    selector: row => row.name,
+    name: 'Date',
+    selector: row => row.date,
     sortable: true,
   },
   {
-    name: 'Location Type',
-    selector: row => row.locationType,
+    name: 'Type',
+    selector: row => row.type,
+    sortable: true,
+  },
+  {
+    name: 'Source',
+    selector: row => row.source,
+    sortable: true,
+  },
+  {
+    name: 'Document No',
+    selector: row => row.documentNo,
+    sortable: true,
+  },
+  {
+    name: 'Total Amount',
+    selector: row => row.amount,
+    sortable: true,
+  },
+  {
+    name: 'Actions',
+    selector: row => row.actions,
     sortable: true,
   },
 ];
@@ -26,47 +51,102 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: '1',
-    name: 'Location 1',
-    locationType: 'Company',
+    date: '2021-03-19 19:45',
+    type: 'Dispense',
+    source: 'Pharm Medical',
+    documentNo: '01234',
+    amount: '50000',
+    actions: false,
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: '2',
-    name: 'Location 2',
-    locationType: 'Company',
+    date: '2021-03-19 19:45',
+    type: 'Dispense',
+    source: 'Pharm Medical',
+    documentNo: '01234',
+    amount: '50000',
+    actions: false,
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: '3',
-    name: 'Location 3',
-    locationType: 'Company',
+    date: '2021-03-19 19:45',
+    type: 'Dispense',
+    source: 'Pharm Medical',
+    documentNo: '01234',
+    amount: '50000',
+    actions: false,
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: '4',
-    name: 'Location 4',
-    locationType: 'Company',
+    date: '2021-03-19 19:45',
+    type: 'Dispense',
+    source: 'Pharm Medical',
+    documentNo: '01234',
+    amount: '50000',
+    actions: false,
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: '5',
-    name: 'Location 5',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '7',
-    name: 'Location 7',
-    locationType: 'Company',
-  },
-  {
-    id: '8',
-    name: 'Location 1',
-    locationType: 'Company',
+    date: '2021-03-19 19:45',
+    type: 'Dispense',
+    source: 'Pharm Medical',
+    documentNo: '01234',
+    amount: '50000',
+    actions: false,
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
 ];

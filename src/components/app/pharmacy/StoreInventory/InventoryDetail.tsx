@@ -35,38 +35,30 @@ const InventoryDetails: React.FC<Props> = ({
               color='#333'
               onClick={backClick}
             />
-            <Button
-              label={'Delete'}
-              background='#FFE9E9'
-              color='#ED0423'
-              showicon={true}
-              icon='bi bi-pen-fill'
-              onClick={editBtnClicked}
-            />
-            <Button
-              label={'Edit Details'}
-              background={'#ECF3FF'}
-              color='#0364FF'
-              showicon={true}
-              icon='bi bi-pen-fill'
-              onClick={editBtnClicked}
-            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Name</label>
-              <p>{row.locationname}</p>
-            </div>
-            <div>
-              <label>Band Type</label>
-              <p>{row.locationType}</p>
-            </div>
+          <h4>Product Name: {row.product} </h4>
+          <GridWrapper className='four-columns'>
+            <Button
+              label={'Set Price'}
+              background='#fefffb'
+              color='#04ed6d'
+              showicon={true}
+            />
+            <Button label='Batches' background='#fdfdfd' color='#333' />
+            <Button
+              label={'Reoder Level'}
+              background={'#ECF3FF'}
+              color='#0364FF'
+              showicon={true}
+            />
+            <Button
+              label={'Audit'}
+              background='#FFE9E9'
+              color='#ED0423'
+              showicon={true}
+            />
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

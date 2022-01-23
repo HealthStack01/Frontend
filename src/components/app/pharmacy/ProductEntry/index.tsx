@@ -1,17 +1,17 @@
 import React from 'react';
-import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './HMOAuthorizationCreate';
-import EmployeeDetails from './HMOAuthorizationDetail';
-import Employees from './HMOAuthorizationList';
-import EmployeeModify from './HMOAuthorizationModify';
 
-const AppHMOAuthorization = () => {
+import { useObjectState } from '../../../../context/context';
+import ProductEntryCreate from './ProductEntryCreate';
+import ProductEntryDetails from './ProductEntryDetail';
+import ProductEntryList from './ProductEntryList';
+
+const AppProductEntry = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Employees
+        <ProductEntryList
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
@@ -35,7 +35,7 @@ const AppHMOAuthorization = () => {
         />
       )}
       {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+        <ProductEntryCreate
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
@@ -48,7 +48,7 @@ const AppHMOAuthorization = () => {
         />
       )}
       {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
+        <ProductEntryDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource(prevState => ({
@@ -70,31 +70,9 @@ const AppHMOAuthorization = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource(prevState => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
-              },
-            }))
-          }
-        />
-      )}
+      =
     </>
   );
 };
 
-export default AppHMOAuthorization;
+export default AppProductEntry;
