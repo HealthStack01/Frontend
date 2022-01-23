@@ -1,20 +1,14 @@
 import { TableColumn } from 'react-data-table-component';
 export interface BandDataRow {
   id: number;
-  name: string;
-  bandType: string;
-  description: string;
-}
-
-export interface EmployeesDataRow {
-  id: number;
-  fname: string;
-  lname: string;
-  profession: string;
-  phone: string;
-  email: string;
-  department: string;
-  departmentalUnit: string;
+  product: string;
+  quantity: string;
+  baseUnit: string;
+  stockValue: string;
+  costPrice: string;
+  sellingPrice: string;
+  reOrderLevel: string;
+  expiry: string;
 }
 
 export const columnBand: TableColumn<BandDataRow>[] = [
@@ -24,60 +18,43 @@ export const columnBand: TableColumn<BandDataRow>[] = [
     sortable: true,
   },
   {
-    name: 'Name',
-    selector: row => row.name,
+    name: 'Product',
+    selector: row => row.product,
     sortable: true,
   },
   {
-    name: 'Band Type',
-    selector: row => row.bandType,
+    name: 'Quantity',
+    selector: row => row.quantity,
     sortable: true,
   },
   {
-    name: 'Description',
-    selector: row => row.description,
-    sortable: true,
-  },
-];
-export const columnEmployees: TableColumn<EmployeesDataRow>[] = [
-  {
-    name: 'S/N',
-    selector: row => row.id,
+    name: 'Base Unit',
+    selector: row => row.baseUnit,
     sortable: true,
   },
   {
-    name: 'First Name',
-    selector: row => row.fname,
+    name: 'Stock Value',
+    selector: row => row.stockValue,
     sortable: true,
   },
   {
-    name: 'Last Name',
-    selector: row => row.lname,
+    name: 'Cost Price',
+    selector: row => row.costPrice,
     sortable: true,
   },
   {
-    name: 'Profession',
-    selector: row => row.profession,
+    name: 'Selling Price',
+    selector: row => row.sellingPrice,
     sortable: true,
   },
   {
-    name: 'Phone',
-    selector: row => row.phone,
+    name: 'Re-Order Level',
+    selector: row => row.reOrderLevel,
     sortable: true,
   },
   {
-    name: 'Email',
-    selector: row => row.email,
-    sortable: true,
-  },
-  {
-    name: 'Department',
-    selector: row => row.department,
-    sortable: true,
-  },
-  {
-    name: 'Departmental Unit',
-    selector: row => row.departmentalUnit,
+    name: 'Expiry',
+    selector: row => row.expiry,
     sortable: true,
   },
 ];
@@ -85,57 +62,68 @@ export const columnEmployees: TableColumn<EmployeesDataRow>[] = [
 export const dataBands = [
   {
     id: 1,
-    name: 'Band 1',
-    bandType: 'Company',
-    description: 'Band...',
+    product: 'Product 1',
+    quantity: '180',
+    baseUnit: 'Tablet',
+    stockValue: '54000',
+    costPrice: '400',
+    sellingPrice: '900',
+    reOrderLevel: '4',
+    expiry: 'exist',
   },
   {
     id: 2,
-    name: 'Band 3',
-    bandType: 'Company',
-    description: 'Band...',
+    product: 'Product 1',
+    quantity: '180',
+    baseUnit: 'Tablet',
+    stockValue: '54000',
+    costPrice: '400',
+    sellingPrice: '900',
+    reOrderLevel: '4',
+    expiry: 'exist',
   },
   {
     id: 3,
-    name: 'Band 3',
-    bandType: 'Company',
-    description: 'Band...',
+    product: 'Product 1',
+    quantity: '180',
+    baseUnit: 'Tablet',
+    stockValue: '54000',
+    costPrice: '400',
+    sellingPrice: '900',
+    reOrderLevel: '4',
+    expiry: 'exist',
   },
   {
     id: 4,
-    name: 'Band 4',
-    bandType: 'Company',
-    description: 'Band...',
+    product: 'Product 1',
+    quantity: '180',
+    baseUnit: 'Tablet',
+    stockValue: '54000',
+    costPrice: '400',
+    sellingPrice: '900',
+    reOrderLevel: '4',
+    expiry: 'exist',
   },
   {
     id: 5,
-    name: 'Band 5',
-    bandType: 'Company',
-    description: 'Band...',
+    product: 'Product 1',
+    quantity: '180',
+    baseUnit: 'Tablet',
+    stockValue: '54000',
+    costPrice: '400',
+    sellingPrice: '900',
+    reOrderLevel: '4',
+    expiry: 'exist',
   },
   {
     id: 6,
-    name: 'Band 6',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-  {
-    id: 7,
-    name: 'Band 7',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-];
-
-export const dataEmployees = [
-  {
-    id: 1,
-    fname: 'Bebby ',
-    lname: 'Imayoh',
-    profession: 'Lab Technician',
-    phone: '08066858155',
-    email: 'obi.test.com',
-    department: 'Laboratory',
-    departmentalUnit: 'Laboratory',
+    product: 'Product 1',
+    quantity: '180',
+    baseUnit: 'Tablet',
+    stockValue: '54000',
+    costPrice: '400',
+    sellingPrice: '900',
+    reOrderLevel: '4',
+    expiry: 'exist',
   },
 ];
