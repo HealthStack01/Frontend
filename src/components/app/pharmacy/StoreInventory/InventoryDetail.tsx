@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DataTable from 'react-data-table-component';
 
 import Button from '../../../buttons/Button';
+import Input from '../../../inputs/basic/Input';
+import { columnHead } from '../../admin/Employees/data';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -20,6 +23,7 @@ const InventoryDetails: React.FC<Props> = ({
   row,
   backClick,
 }) => {
+  const [values, setValues] = useState({});
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -42,8 +46,8 @@ const InventoryDetails: React.FC<Props> = ({
           <GridWrapper className='four-columns'>
             <Button
               label={'Set Price'}
-              background='#fefffb'
-              color='#04ed6d'
+              color='#fefffb'
+              background='#04ed6d'
               showicon={true}
             />
             <Button label='Batches' background='#fdfdfd' color='#333' />
@@ -67,3 +71,84 @@ const InventoryDetails: React.FC<Props> = ({
 };
 
 export default InventoryDetails;
+
+const SetPrice = () => {
+  const [values, setValues] = useState({});
+
+  return (
+    <PageWrapper>
+      <GrayWrapper>
+        <FullDetailsWrapper>
+          <GridWrapper>
+            <Input
+              label='New Selling Price'
+              name='newPrice'
+              onChange={e =>
+                setValues({
+                  ...values,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+            <Input
+              label='Old Price'
+              name='oldPrice'
+              onChange={e =>
+                setValues({
+                  ...values,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          </GridWrapper>
+        </FullDetailsWrapper>
+      </GrayWrapper>
+    </PageWrapper>
+  );
+};
+
+const SetBatches = () => {
+  const [values, setValues] = useState({});
+
+  return (
+    <PageWrapper>
+      <GrayWrapper>
+        <FullDetailsWrapper>
+          <GridWrapper>
+            <Input
+              label='Batch Number'
+              name='batchNo'
+              onChange={e =>
+                setValues({
+                  ...values,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+            <Input
+              label='Expiry Date'
+              name='expiry'
+              type='date'
+              onChange={e =>
+                setValues({
+                  ...values,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          </GridWrapper>
+
+          {/* <DataTable
+            title='Batches'
+            columns={columnHead}
+            data={row.data}
+            selectableRows
+            pointerOnHover
+            highlightOnHover
+            striped
+          /> */}
+        </FullDetailsWrapper>
+      </GrayWrapper>
+    </PageWrapper>
+  );
+};
