@@ -188,7 +188,6 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({
                 })
               }
             />
-
             <Input
               label='Quantity'
               name='quantity'
@@ -209,7 +208,18 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({
                 })
               }
             />
-            <Button label='+' type='submit' fullwidth={false} />
+            <button
+              style={{
+                borderRadius: '32px',
+                background: '#f3f3f3',
+                border: 'none',
+                width: '32px',
+                height: '32px',
+              }}
+              type='submit'
+            >
+              +
+            </button>{' '}
           </GridWrapper>
           <BottomWrapper>
             <Button label='Adjust' type='submit' />

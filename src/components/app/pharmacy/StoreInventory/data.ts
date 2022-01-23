@@ -9,6 +9,7 @@ export interface BandDataRow {
   sellingPrice: string;
   reOrderLevel: string;
   expiry: string;
+  data: [];
 }
 
 export const columnHead: TableColumn<BandDataRow>[] = [
@@ -70,6 +71,17 @@ export const rowData = [
     sellingPrice: '900',
     reOrderLevel: '4',
     expiry: 'exist',
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: 2,
@@ -81,6 +93,17 @@ export const rowData = [
     sellingPrice: '900',
     reOrderLevel: '4',
     expiry: 'exist',
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: 3,
@@ -92,6 +115,17 @@ export const rowData = [
     sellingPrice: '900',
     reOrderLevel: '4',
     expiry: 'exist',
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: 4,
@@ -103,6 +137,17 @@ export const rowData = [
     sellingPrice: '900',
     reOrderLevel: '4',
     expiry: 'exist',
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: 5,
@@ -114,6 +159,17 @@ export const rowData = [
     sellingPrice: '900',
     reOrderLevel: '4',
     expiry: 'exist',
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
   {
     id: 6,
@@ -125,5 +181,16 @@ export const rowData = [
     sellingPrice: '900',
     reOrderLevel: '4',
     expiry: 'exist',
+    data: [
+      {
+        id: '1',
+        date: '2021-03-19 19:45',
+        type: 'Dispense',
+        source: 'Pharm Medical',
+        documentNo: '01234',
+        amount: '50000',
+        actions: false,
+      },
+    ],
   },
 ];

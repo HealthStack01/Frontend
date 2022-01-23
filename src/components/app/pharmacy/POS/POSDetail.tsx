@@ -16,6 +16,7 @@ import { columnHead } from '../Payment/PaymentList';
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  row?: any;
 }
 
 const POSDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
