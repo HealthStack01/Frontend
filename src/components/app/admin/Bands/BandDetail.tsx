@@ -13,10 +13,16 @@ import {
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  handleDelete: (_event) => void;
   row?: any;
 }
 
-const BandDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => (
+const BandDetails: React.FC<Props> = ({
+  editBtnClicked,
+  row,
+  backClick,
+  handleDelete,
+}) => (
   <PageWrapper>
     <GrayWrapper>
       <HeadWrapper>
@@ -37,7 +43,7 @@ const BandDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => (
             color="#ED0423"
             showicon
             icon="bi bi-pen-fill"
-            onClick={editBtnClicked}
+            onClick={handleDelete}
           />
           <Button
             label="Edit Details"

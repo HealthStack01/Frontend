@@ -14,6 +14,7 @@ function AppBands() {
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [bands, setBands] = useState([]);
+  let Emp = resource.bandResource.selectedBand;
 
   const backClick = () => {
     setResource((prevState) => ({
@@ -57,6 +58,32 @@ function AppBands() {
           toast.error(error);
         });
     }
+  };
+  const handleDelete = () => {
+    const row = resource;
+    // const dleteId = data._id;
+    console.log(row);
+
+    BandServ.remove()
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+
+        toast({
+          message: 'Channel deleted succesfully',
+          type: 'is-success',
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        getBands();
+      })
+      .catch((err) => {
+        toast({
+          message: 'Error deleting Channel, probable network issues or ' + err,
+          type: 'is-danger',
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
   };
 
   const handleSearch = (text) => {
@@ -177,6 +204,7 @@ function AppBands() {
               },
             }))
           }
+          handleDelete={handleDelete}
         />
       )}
       {resource.bandResource.show === 'edit' && (
