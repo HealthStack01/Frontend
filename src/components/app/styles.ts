@@ -85,6 +85,8 @@ export const GridWrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
   }
 
+  
+
   & label {
     display: block;
     font-size: 0.75rem;
