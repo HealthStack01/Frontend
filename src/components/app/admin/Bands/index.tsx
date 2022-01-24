@@ -60,29 +60,22 @@ function AppBands() {
     }
   };
   const handleDelete = () => {
-    const row = resource;
+    const row = Emp;
     // const dleteId = data._id;
     console.log(row);
 
-    BandServ.remove()
+    BandServ.remove(row)
       .then((res) => {
         //console.log(JSON.stringify(res))
 
-        toast({
-          message: 'Channel deleted succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast('Channel deleted successfully');
         getBands();
+        backClick();
       })
       .catch((err) => {
-        toast({
-          message: 'Error deleting Channel, probable network issues or ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast(
+          `'Error deleting Channel, probable network issues or ' + ${err}'`
+        );
       });
   };
 

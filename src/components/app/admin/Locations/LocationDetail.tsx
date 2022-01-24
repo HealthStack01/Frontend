@@ -13,6 +13,7 @@ import {
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  handleDelete: (_event) => void;
   row?: any;
 }
 
@@ -20,6 +21,7 @@ const LocationDetails: React.FC<Props> = ({
   editBtnClicked,
   row,
   backClick,
+  handleDelete,
 }) => (
   <PageWrapper>
     <GrayWrapper>
@@ -41,7 +43,7 @@ const LocationDetails: React.FC<Props> = ({
             color="#ED0423"
             showicon
             icon="bi bi-pen-fill"
-            onClick={editBtnClicked}
+            onClick={handleDelete}
           />
           <Button
             label="Edit Details"

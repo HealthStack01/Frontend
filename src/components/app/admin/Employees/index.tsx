@@ -13,6 +13,7 @@ function AppEmployees() {
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [employee, setEmployee] = useState([]);
+  let Employe = resource.employeeResource.selectedEmployee;
 
   const backClick = () => {
     setResource((prevState) => ({
@@ -56,6 +57,24 @@ function AppEmployees() {
           toast.error(error);
         });
     }
+  };
+
+  const handleDelete = () => {
+    const row = Employe;
+    // const dleteId = data._id;
+    console.log(row);
+
+    EmployeeServ.remove(row)
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+
+        toast('Channel deleted successfully');
+        getEmployee();
+        backClick();
+      })
+      .catch((err) => {
+        toast(`'Error deleting Channel, probable network issues or ' + err'`);
+      });
   };
 
   const handleSearch = (text) => {
@@ -177,6 +196,7 @@ function AppEmployees() {
               },
             }))
           }
+          handleDelete={handleDelete}
         />
       )}
       {resource.employeeResource.show === 'edit' && (
