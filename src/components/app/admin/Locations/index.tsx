@@ -15,7 +15,8 @@ function AppLocations() {
   const { user } = useContext(UserContext);
   const [locations, setLocations] = useState([]);
   let location = resource.locationResource.selectedLocation;
-
+ console.log(user);
+ 
   const backClick = () => {
     setResource((prevState) => ({
       ...prevState,
@@ -109,8 +110,10 @@ function AppLocations() {
       return;
     }
 
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id;
+    if (user.employeeData) {
+       
+      
+      data.facility = user.employeeData[0].facility;
     }
     (data._id ? LocationServ.update(data._id, data) : LocationServ.create(data))
       .then(() => {
@@ -120,7 +123,10 @@ function AppLocations() {
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
         console.log(err);
+        
       });
+      
+    
   };
 
   useEffect(() => {
