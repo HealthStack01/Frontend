@@ -74,5 +74,9 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.20"
+  },
+  "engines": {
+   "node": "16.x",
+   "yarn": "1.x"
   }
 }

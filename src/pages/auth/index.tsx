@@ -1,14 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Button from '../../components/buttons/Button';
 import CheckboxInput from '../../components/inputs/basic/Checkbox';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
+import { UserContext } from '../../context/context';
+import client from '../../feathers';
 import AuthWrapper from '../../helper/AuthWrapper';
 
 function Login() {
   const navigate = useNavigate();
+  const { handleSubmit, control } = useForm();
+  const { setUser } = useContext(UserContext);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -17,15 +24,38 @@ function Login() {
     document.title = 'Health Stack - Login';
   }, []);
 
-  const onSubmit = () => {
-    navigate('/app');
+  const onSubmit = ({ email, password }) => {
+    client
+      .authenticate({
+        strategy: 'local',
+        email,
+        password,
+      })
+      .then((res) => {
+        setUser(res.user);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        navigate('/app');
+      })
+      .catch((err) => {
+        toast.error(`Error loggin in User, probable network issues ${err}`);
+      });
   };
 
   return (
     <AuthWrapper paragraph="Login here as an organization">
-      <form action="" onSubmit={() => onSubmit()}>
-        <Input label="Email" placeholder="Enter your email" />
-        <PasswordInput />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <Input {...field} label="Email" placeholder="Enter your email" />
+          )}
+        />
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => <PasswordInput {...field} />}
+        />
         <CheckboxInput label="Keep me Logged in" />
         <Button type="submit" label="Login" fullwidth />
       </form>
