@@ -28,7 +28,7 @@ const PasswordInput: React.FC<PasswordInputProps> = (
   };
 
   const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
   };

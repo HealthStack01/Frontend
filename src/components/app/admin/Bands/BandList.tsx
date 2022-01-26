@@ -14,7 +14,7 @@ interface Props {
   handleSearch: (_event) => void;
   onRowClicked?: (
     _row: { id: any; name: string; bandType: string; description: string },
-    _event: any
+    _event: any,
   ) => void;
   items: any[];
 }

@@ -11,7 +11,7 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
 }
 
-const Revenue: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Revenue: React.FC<Props> = ({ onRowClicked }) => {
   return (
     <PageWrapper>
       <h2>Revenue</h2>

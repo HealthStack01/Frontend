@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { FlexBox } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -31,19 +30,19 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
             </span>
           </div>
           <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Employee'>
-            <GridWrapper className='two-columns'>
+        <form action="" onSubmit={() => {}}>
+          <FullDetailsWrapper title="Create Employee">
+            <GridWrapper className="two-columns">
               <CustomSelect
-                label='Purchase Invoice'
-                name='purchaseMode'
-                onChange={e =>
+                label="Purchase Invoice"
+                name="purchaseMode"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -52,9 +51,9 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
                 options={['Mode 1', 'Mode 2']}
               />
               <Input
-                label='Supplier'
-                name='supplier'
-                onChange={e =>
+                label="Supplier"
+                name="supplier"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -62,10 +61,10 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
                 }
               />
               <Input
-                label='Date'
-                name='date'
-                type='date'
-                onChange={e =>
+                label="Date"
+                name="date"
+                type="date"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -73,9 +72,9 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
                 }
               />
               <Input
-                label='Invoice Number'
-                name='invoiceNo'
-                onChange={e =>
+                label="Invoice Number"
+                name="invoiceNo"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -83,9 +82,9 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
                 }
               />
               <Input
-                label='Total Amount'
-                name='amount'
-                onChange={e =>
+                label="Total Amount"
+                name="amount"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -97,9 +96,9 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
             <h2>Add Product Items</h2>
 
             <Input
-              label='Search Product'
-              name='search'
-              onChange={e =>
+              label="Search Product"
+              name="search"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -109,9 +108,9 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
 
             <GridWrapper>
               <Input
-                label='Quantity'
-                name='quantity'
-                onChange={e =>
+                label="Quantity"
+                name="quantity"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -119,9 +118,9 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
                 }
               />
               <Input
-                label='Cost Price'
-                name='price'
-                onChange={e =>
+                label="Cost Price"
+                name="price"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -136,7 +135,7 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
                   width: '32px',
                   height: '32px',
                 }}
-                type='submit'
+                type="submit"
               >
                 +
               </button>
@@ -144,7 +143,7 @@ const POSCreate: React.FC<Props> = ({ backClick }) => {
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label='Adjust' type='submit' />
+            <Button label="Adjust" type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>

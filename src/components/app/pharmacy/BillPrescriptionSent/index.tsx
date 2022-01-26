@@ -12,7 +12,7 @@ const AppBillPrescriptionSent = () => {
       {resource.billPrescriptionSentResource.show === 'lists' && (
         <BillPrescriptionSent
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -20,10 +20,8 @@ const AppBillPrescriptionSent = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row, _event) => {
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 show: 'details',
@@ -40,7 +38,7 @@ const AppBillPrescriptionSent = () => {
             resource.billPrescriptionSentResource.selectedBillPrescriptionSent
           }
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -49,7 +47,7 @@ const AppBillPrescriptionSent = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,

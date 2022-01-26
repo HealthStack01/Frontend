@@ -20,17 +20,17 @@ const CustomSelect: React.FC<SelectProps> = ({
 }) => (
   <div>
     <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
-      <InputLabel id='demo-simple-select-autowidth-label'>{label}</InputLabel>
+      <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
       <Select
-        labelId='demo-simple-select-autowidth-label'
-        id='demo-simple-select-autowidth'
+        labelId="demo-simple-select-autowidth-label"
+        id="demo-simple-select-autowidth"
         autoWidth
         label={label}
         name={name}
         defaultValue={value}
         onChange={onChange}
       >
-        <MenuItem value='' sx={{ width: '100%' }}>
+        <MenuItem value="" sx={{ width: '100%' }}>
           <em>None</em>
         </MenuItem>
         {options.map((option, index) => (

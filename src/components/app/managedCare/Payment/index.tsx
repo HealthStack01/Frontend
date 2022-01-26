@@ -12,7 +12,7 @@ const AppPayments = () => {
       {resource.employeeResource.show === 'lists' && (
         <Employees
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -20,10 +20,8 @@ const AppPayments = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row, _event) => {
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 show: 'details',
@@ -36,7 +34,7 @@ const AppPayments = () => {
       {resource.employeeResource.show === 'create' && (
         <EmployeeCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -50,7 +48,7 @@ const AppPayments = () => {
         <EmployeeDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -59,7 +57,7 @@ const AppPayments = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -73,7 +71,7 @@ const AppPayments = () => {
         <EmployeeModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -82,7 +80,7 @@ const AppPayments = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,

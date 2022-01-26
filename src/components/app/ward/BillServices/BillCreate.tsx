@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -45,19 +46,19 @@ const BillCreate: React.FC<Props> = ({ backClick }) => {
             </span>
           </div>
           <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Bill'>
+        <form action="" onSubmit={() => {}}>
+          <FullDetailsWrapper title="Create Bill">
             <GridWrapper>
               <CustomSelect
-                label='Choose a Bill Type'
-                name='bandType'
-                onChange={e =>
+                label="Choose a Bill Type"
+                name="bandType"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -70,7 +71,7 @@ const BillCreate: React.FC<Props> = ({ backClick }) => {
                   key={index}
                   label={client.title}
                   name={client.title}
-                  onChange={e =>
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -82,8 +83,8 @@ const BillCreate: React.FC<Props> = ({ backClick }) => {
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-            <Button label='Save Form' type='submit' />
+            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+            <Button label="Save Form" type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>

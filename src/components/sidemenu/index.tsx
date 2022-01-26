@@ -25,11 +25,11 @@ export const menuItems = [
   {
     name: 'Clinic',
     exact: true,
-    to: '/',
+    to: '/app/clinic',
     iconClassName: 'bi bi-file-medical',
     subMenus: [
-      { name: 'Dashboard', to: '/' },
-      { name: 'Appointment', to: '/' },
+      { name: 'Dashboard', to: '/app/clinic' },
+      { name: 'Appointment', to: '/app/clinic/appointments' },
     ],
   },
   {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -37,9 +38,9 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
@@ -47,25 +48,25 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
               background={'#f2f2f2'}
               color={'#333'}
               showicon={true}
-              icon='bi bi-pen-fill'
+              icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
           </div>
         </HeadWrapper>
         <GridWrapper>
-          <Input label='ID' value={values.id} disabled />
+          <Input label="ID" value={values.id} disabled />
           <Input
-            label='Name'
+            label="Name"
             value={values.name}
             placeholder={values.name}
-            onChange={e => setValue({ ...values, name: e.target.value })}
+            onChange={(e) => setValue({ ...values, name: e.target.value })}
           />
           <CustomSelect
             name={values.bandType}
-            label='Band Type'
+            label="Band Type"
             options={bandTypeOptions}
             value={values.bandType}
-            onChange={e =>
+            onChange={(e) =>
               setValue({
                 ...values,
                 bandType: e.target.value,
@@ -73,15 +74,17 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
             }
           />
           <Textarea
-            label='Description'
+            label="Description"
             value={values.description}
-            onChange={e => setValue({ ...values, description: e.target.value })}
+            onChange={(e) =>
+              setValue({ ...values, description: e.target.value })
+            }
           />
         </GridWrapper>
 
         <BottomWrapper>
-          <Button label='Delete Band' background='#FFE9E9' color='#ED0423' />
-          <Button label='Save Band' />
+          <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
+          <Button label="Save Band" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

@@ -16,7 +16,7 @@ interface Props {
       description: string;
       amount: string;
     },
-    event: any
+    event: any,
   ) => void;
 }
 
@@ -176,32 +176,32 @@ const dataTree = [
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Date',
-    selector: row => row.date,
+    selector: (row) => row.date,
     sortable: true,
   },
   {
     name: 'Description',
-    selector: row => row.description,
+    selector: (row) => row.description,
     sortable: true,
   },
   {
     name: 'Status',
-    selector: row => row.status,
+    selector: (row) => row.status,
     sortable: true,
   },
   {
     name: 'Amount',
-    selector: row => row.amount,
+    selector: (row) => row.amount,
     sortable: true,
   },
 ];
 
-const Payments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Payments: React.FC<Props> = ({ onRowClicked }) => {
   return (
     <PageWrapper>
       <h2>Payments</h2>
@@ -219,8 +219,7 @@ const Payments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {dataTree.map((data, index) => (
           <AccordionBox title={data.title} key={index}>
-            {data.children.map((child, index) => {
-              console.log(child);
+            {data.children.map((child) => {
               return (
                 <AccordionBox title={child.title}>
                   <DataTable

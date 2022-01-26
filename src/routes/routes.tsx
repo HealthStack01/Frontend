@@ -8,10 +8,11 @@ import Appointments from '../components/app/clients/Appointments';
 import Clients from '../components/app/clients/Clients';
 import AppointmentDetails from '../components/app/clients/details/AppointmentDetails';
 import ClientDetails from '../components/app/clients/details/ClientDetails';
+import AppClinic from '../components/app/clinic/Appointments/';
+import ClinicDashboard from '../components/app/clinic/ClinicDashboard';
 import AppBills from '../components/app/finance/BillServices';
 import AppCollections from '../components/app/finance/Collections';
 import FinanceDashboard from '../components/app/finance/FinanceDashboard';
-import AppHMOAuthorization from '../components/app/finance/HMOAuthorization';
 import AppPayments from '../components/app/finance/Payment';
 import AppRevenue from '../components/app/finance/Revenue';
 import AppServices from '../components/app/finance/Services';
@@ -33,55 +34,59 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/signupindividual' element={<IndividualSignup />} />
-        <Route path='/app' element={<Dashboard />}>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signupindividual" element={<IndividualSignup />} />
+        <Route path="/app" element={<Dashboard />}>
           <Route index element={<Overview />} />
 
           {/* Clients */}
-          <Route path='/app/clients' element={<Clients />} />
-          <Route path='/app/clients/:id' element={<ClientDetails />} />
-          <Route path='/app/clients/appointments' element={<Appointments />} />
+          <Route path="/app/clients" element={<Clients />} />
+          <Route path="/app/clients/:id" element={<ClientDetails />} />
+          <Route path="/app/clients/appointments" element={<Appointments />} />
 
           <Route
-            path='/app/clients/appointments/:id'
+            path="/app/clients/appointments/:id"
             element={<AppointmentDetails />}
           />
 
           {/* Admin */}
-          <Route path='/app/admin' element={<AdminDashboard />} />
-          <Route path='/app/admin/bands' element={<AppBands />} />
-          <Route path='/app/admin/employees' element={<AppEmployees />} />
-          <Route path='/app/admin/location' element={<AppLocation />} />
+          <Route path="/app/admin" element={<AdminDashboard />} />
+          <Route path="/app/admin/bands" element={<AppBands />} />
+          <Route path="/app/admin/employees" element={<AppEmployees />} />
+          <Route path="/app/admin/location" element={<AppLocation />} />
 
           {/* Finance */}
-          <Route path='/app/finance' element={<FinanceDashboard />} />
-          <Route path='/app/finance/billservices' element={<AppBills />} />
-          <Route path='/app/finance/collections' element={<AppCollections />} />
-          <Route path='/app/finance/payment' element={<AppPayments />} />
-          <Route path='/app/finance/revenue' element={<AppRevenue />} />
-          <Route path='/app/finance/services' element={<AppServices />} />
+          <Route path="/app/finance" element={<FinanceDashboard />} />
+          <Route path="/app/finance/billservices" element={<AppBills />} />
+          <Route path="/app/finance/collections" element={<AppCollections />} />
+          <Route path="/app/finance/payment" element={<AppPayments />} />
+          <Route path="/app/finance/revenue" element={<AppRevenue />} />
+          <Route path="/app/finance/services" element={<AppServices />} />
 
           {/* Pharmacy */}
 
-          <Route path='/app/pharmacy' element={<PharmacyDashboard />} />
-          <Route path='/app/pharmacy/billclient' element={<AppBillClient />} />
+          <Route path="/app/pharmacy" element={<PharmacyDashboard />} />
+          <Route path="/app/pharmacy/billclient" element={<AppBillClient />} />
           <Route
-            path='/app/pharmacy/billsent'
+            path="/app/pharmacy/billsent"
             element={<AppBillPrescriptionSent />}
           />
           <Route
-            path='/app/pharmacy/payment'
+            path="/app/pharmacy/payment"
             element={<AppPaymentsPharmacy />}
           />
-          <Route path='/app/pharmacy/dispensory' element={<AppDispensary />} />
-          <Route path='/app/pharmacy/inventory' element={<AppInventory />} />
+          <Route path="/app/pharmacy/dispensory" element={<AppDispensary />} />
+          <Route path="/app/pharmacy/inventory" element={<AppInventory />} />
           <Route
-            path='/app/pharmacy/productentry'
+            path="/app/pharmacy/productentry"
             element={<AppProductEntry />}
           />
-          <Route path='/app/pharmacy/pos' element={<AppPOS />} />
+          <Route path="/app/pharmacy/pos" element={<AppPOS />} />
+
+          {/* Clinic */}
+          <Route path="/app/clinic" element={<ClinicDashboard />} />
+          <Route path="/app/clinic/appointments" element={<AppClinic />} />
         </Route>
       </Routes>
     </>
