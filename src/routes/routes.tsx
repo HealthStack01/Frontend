@@ -8,6 +8,8 @@ import Appointments from '../components/app/clients/Appointments';
 import Clients from '../components/app/clients/Clients';
 import AppointmentDetails from '../components/app/clients/details/AppointmentDetails';
 import ClientDetails from '../components/app/clients/details/ClientDetails';
+import AppClinic from '../components/app/clinic/Appointments/';
+import ClinicDashboard from '../components/app/clinic/ClinicDashboard';
 import AppBills from '../components/app/finance/BillServices';
 import AppCollections from '../components/app/finance/Collections';
 import FinanceDashboard from '../components/app/finance/FinanceDashboard';
@@ -82,6 +84,10 @@ function AppRoutes() {
             element={<AppProductEntry />}
           />
           <Route path='/app/pharmacy/pos' element={<AppPOS />} />
+
+          {/* Clinic */}
+          <Route path='/app/clinic' element={<ClinicDashboard />} />
+          <Route path='/app/clinic/appointments' element={<AppClinic />} />
         </Route>
       </Routes>
     </>
