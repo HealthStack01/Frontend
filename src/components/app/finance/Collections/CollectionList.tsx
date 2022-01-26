@@ -16,11 +16,11 @@ interface Props {
       amount: string;
       mode: string;
     },
-    event: any
+    event: any,
   ) => void;
 }
 
-const Collections: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Collections: React.FC<Props> = ({ onRowClicked }) => {
   return (
     <PageWrapper>
       <h2>Collections</h2>

@@ -308,7 +308,7 @@ function ClientFullForm() {
                 {clientFullFormData.nonHospitalIndetifiers.map(
                   (address, index) => (
                     <Input label={address.title} key={index} />
-                  )
+                  ),
                 )}
               </GridWrapper>
             </DetailsWrapper>

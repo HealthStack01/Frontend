@@ -11,7 +11,7 @@ interface Props {
   handleCreate?: () => void;
   onRowClicked?: (
     _row: { id: any; name: string; locationType: string },
-    _: any
+    _: any,
   ) => void;
 }
 

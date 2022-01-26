@@ -127,10 +127,10 @@ export const UserProvider: React.FC = ({ children }) => {
   const authenticateUser = () => {
     client
       .reAuthenticate()
-      .then(resp => {
+      .then((resp) => {
         setUser({ ...resp.user, stacker: true });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   };

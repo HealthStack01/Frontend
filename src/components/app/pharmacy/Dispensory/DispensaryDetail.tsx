@@ -20,11 +20,7 @@ interface Props {
   row?: any;
 }
 
-const DispensaryDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
+const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
   const [values, setValues] = useState({});
 
   const rowData = [
@@ -47,25 +43,25 @@ const DispensaryDetails: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
           </div>
         </HeadWrapper>
 
         <FullDetailsWrapper>
-          <GridWrapper className='two-columns' style={{ alignItems: 'end' }}>
+          <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
             <div>
               <label>Name</label>
               <p>{row.name}</p>
             </div>
 
             <CustomSelect
-              label='Dispensary Mode'
-              name='hmo'
-              onChange={e =>
+              label="Dispensary Mode"
+              name="hmo"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -76,10 +72,10 @@ const DispensaryDetails: React.FC<Props> = ({
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'end' }}>
             <Input
-              label='Date'
-              name='date'
-              type='date'
-              onChange={e =>
+              label="Date"
+              name="date"
+              type="date"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -87,10 +83,10 @@ const DispensaryDetails: React.FC<Props> = ({
               }
             />
             <Input
-              label='Phone Number'
-              name='phone'
-              type='tel'
-              onChange={e =>
+              label="Phone Number"
+              name="phone"
+              type="tel"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -98,9 +94,9 @@ const DispensaryDetails: React.FC<Props> = ({
               }
             />
             <Input
-              label='Quantity'
-              name='quantity'
-              onChange={e =>
+              label="Quantity"
+              name="quantity"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -115,11 +111,11 @@ const DispensaryDetails: React.FC<Props> = ({
           <h2>Billing Status: {row.mode}</h2>
           <br />
 
-          <GridWrapper style={{ alignItems: 'center' }} className='two-columns'>
+          <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
             <Input
-              label='Search Product'
-              name='search'
-              onChange={e =>
+              label="Search Product"
+              name="search"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -128,9 +124,9 @@ const DispensaryDetails: React.FC<Props> = ({
             />
 
             <Input
-              label='Quantity'
-              name='quantity'
-              onChange={e =>
+              label="Quantity"
+              name="quantity"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -138,23 +134,23 @@ const DispensaryDetails: React.FC<Props> = ({
               }
             />
             <Input
-              label='Amount'
-              name='amount'
-              onChange={e =>
+              label="Amount"
+              name="amount"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
                 })
               }
             />
-            <Button label='+' type='submit' fullwidth={false} />
+            <Button label="+" type="submit" fullwidth={false} />
           </GridWrapper>
           <BottomWrapper>
-            <Button label='Adjust' type='submit' />
+            <Button label="Adjust" type="submit" />
           </BottomWrapper>
 
           <DataTable
-            title='Product Items'
+            title="Product Items"
             columns={columnHead}
             data={rowData}
             selectableRows
@@ -164,8 +160,8 @@ const DispensaryDetails: React.FC<Props> = ({
           />
         </FullDetailsWrapper>
         <BottomWrapper>
-          <Button label='Clear ' background='#FFE9E9' color='#ED0423' />
-          <Button label='Sell' />
+          <Button label="Clear " background="#FFE9E9" color="#ED0423" />
+          <Button label="Sell" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

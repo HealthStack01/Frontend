@@ -33,9 +33,9 @@ const AppointmentModify: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
@@ -43,46 +43,46 @@ const AppointmentModify: React.FC<Props> = ({
               background={'#f2f2f2'}
               color={'#333'}
               showicon={true}
-              icon='bi bi-pen-fill'
+              icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
           </div>
         </HeadWrapper>
         <GridWrapper>
-          <Input label='ID' value={row.id} disabled />
+          <Input label="ID" value={row.id} disabled />
           <Input
-            label='Date and Time'
-            type='date'
+            label="Date and Time"
+            type="date"
             value={row.dtime}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
           <Input
-            label='First Name'
+            label="First Name"
             value={row.fname}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
           <Input
-            label='Last Name'
+            label="Last Name"
             value={row.lname}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
           <Input
-            label='Classification'
+            label="Classification"
             value={row.classification}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
           <Input
-            label='Location'
+            label="Location"
             value={row.location}
-            onChange={e =>
+            onChange={(e) =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
@@ -90,11 +90,11 @@ const AppointmentModify: React.FC<Props> = ({
 
         <BottomWrapper>
           <Button
-            label='Delete Appointment'
-            background='#FFE9E9'
-            color='#ED0423'
+            label="Delete Appointment"
+            background="#FFE9E9"
+            color="#ED0423"
           />
-          <Button label='Save Appointment' />
+          <Button label="Save Appointment" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

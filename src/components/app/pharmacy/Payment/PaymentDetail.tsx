@@ -32,11 +32,7 @@ const typeOptions = [
   },
 ];
 
-const PaymentDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
+const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
   const [values, setValues] = useState({});
   return (
     <PageWrapper>
@@ -48,9 +44,9 @@ const PaymentDetails: React.FC<Props> = ({
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
           </div>
@@ -74,13 +70,13 @@ const PaymentDetails: React.FC<Props> = ({
               </label>
             </div>
           </HeadWrapper>
-          <form action=''>
+          <form action="">
             <GridWrapper>
               <CustomSelect
                 options={paymentOptions}
-                name='paymentOptions'
-                label='Payment Options'
-                onChange={e =>
+                name="paymentOptions"
+                label="Payment Options"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -88,9 +84,9 @@ const PaymentDetails: React.FC<Props> = ({
                 }
               />
               <Input
-                label='Amount'
-                name='name'
-                onChange={e =>
+                label="Amount"
+                name="name"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -98,9 +94,9 @@ const PaymentDetails: React.FC<Props> = ({
                 }
               />
               <Input
-                label='Description'
-                name='description'
-                onChange={e =>
+                label="Description"
+                name="description"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -109,7 +105,7 @@ const PaymentDetails: React.FC<Props> = ({
               />
             </GridWrapper>
             <BottomWrapper>
-              <Button label='Accept Payment' type='submit' />
+              <Button label="Accept Payment" type="submit" />
             </BottomWrapper>
           </form>
         </FullDetailsWrapper>
@@ -132,7 +128,7 @@ const PaymentDetails: React.FC<Props> = ({
               <label>Status</label>
               <p>{row.status}</p>
             </div>
-            <RadioButton title='Type' options={typeOptions} />
+            <RadioButton title="Type" options={typeOptions} />
             <div>
               <label>Description</label>
               <p>{row.decription}</p>
@@ -143,7 +139,7 @@ const PaymentDetails: React.FC<Props> = ({
             </div>
           </GridWrapper>
           <BottomWrapper>
-            <Button label='Pay' type='submit' />
+            <Button label="Pay" type="submit" />
           </BottomWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

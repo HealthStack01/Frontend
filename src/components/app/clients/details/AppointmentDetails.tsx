@@ -19,7 +19,7 @@ function AppointmentDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const [attendMode, setAttendMode] = useState(false);
   const details = dataAppointments.filter(
-    (appointment) => appointment.id === id
+    (appointment) => appointment.id === id,
   );
   const [values, setValues] = useState<AppointmentDataRow>({
     id: details[0].id,
