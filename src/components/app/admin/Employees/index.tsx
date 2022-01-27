@@ -51,8 +51,6 @@ function AppEmployees() {
       })
         .then((res) => {
           setEmployee(res.data);
-          console.log(res.data);
-          
           toast('Employees fetched succesfully');
         })
         .catch((error) => {
@@ -98,11 +96,6 @@ function AppEmployees() {
 
   const onSubmit = (data) => {
     const values = getFormStrings(data._id);
-    // if (data.bandType === '') {
-    //   alert('Kindly choose band type');
-    //   return;
-    // }
-
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }

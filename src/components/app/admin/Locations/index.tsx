@@ -90,12 +90,10 @@ function AppLocations() {
     LocationServ.remove(location)
       .then((res) => {
         toast('Location deleted successfully');
-        
         backClick();
       })
       .catch((err) => {
         toast(`'Error deleting location, probable network issues or ' + err'`);
-        console.log(err);
       });
   };
 
@@ -110,9 +108,7 @@ function AppLocations() {
         backClick();
       })
       .catch((err) => {
-        toast.error(`Error occurred : ${err}`);
-        console.log(err);
-        
+        toast.error(`Error occurred : ${err}`); 
       });
       
     

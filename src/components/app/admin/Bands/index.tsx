@@ -64,8 +64,6 @@ function AppBands() {
 
     BandServ.remove(band)
       .then((res) => {
-        //console.log(JSON.stringify(res))
-
         toast('Band deleted successfully');
         getBands();
         backClick();
