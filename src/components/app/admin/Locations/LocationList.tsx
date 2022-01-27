@@ -12,7 +12,7 @@ interface Props {
   handleCreate?: () => void;
   handleSearch: (_event) => void;
   onRowClicked?: (
-    _row: { id: any; name: string; locationType: string; description: string },
+    _row: { id: any; name: string; locationType: string },
     _event: any
   ) => void;
   items: any[];
