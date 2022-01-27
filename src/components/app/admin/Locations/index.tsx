@@ -15,7 +15,7 @@ function AppLocations() {
   const { user } = useContext(UserContext);
   const [locations, setLocations] = useState([]);
   let location = resource.locationResource.selectedLocation;
- console.log(user);
+ 
  
   const backClick = () => {
     setResource((prevState) => ({
@@ -41,7 +41,7 @@ function AppLocations() {
       })
         .then(() => {})
         .catch((error) => {
-          console.error({ error });
+          toast(error)
         });
     } else if (user.stacker) {
       LocationServ.find({
@@ -57,7 +57,7 @@ function AppLocations() {
           toast('Locations fetched succesfully');
         })
         .catch((error) => {
-          toast.error(error);
+          toast("Error feching locations"+error);
         });
     }
   };
@@ -85,14 +85,10 @@ function AppLocations() {
       });
   };
   const handleDelete = () => {
-    const row = location;
-    // const dleteId = data._id;
-    console.log(row);
+    
 
-    LocationServ.remove(row)
+    LocationServ.remove(location)
       .then((res) => {
-        //console.log(JSON.stringify(res))
-
         toast('Location deleted successfully');
         
         backClick();
@@ -105,14 +101,7 @@ function AppLocations() {
 
   const onSubmit = (data) => {
     const values = getFormStrings(data._id);
-    if (data.locationType === '') {
-      alert('Kindly choose Location type');
-      return;
-    }
-
     if (user.employeeData) {
-       
-      
       data.facility = user.employeeData[0].facility;
     }
     (data._id ? LocationServ.update(data._id, data) : LocationServ.create(data))
