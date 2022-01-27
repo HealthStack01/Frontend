@@ -51,6 +51,8 @@ function AppEmployees() {
       })
         .then((res) => {
           setEmployee(res.data);
+          console.log(res.data);
+          
           toast('Employees fetched succesfully');
         })
         .catch((error) => {

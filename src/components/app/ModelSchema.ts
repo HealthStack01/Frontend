@@ -82,9 +82,9 @@ const EmployeeSchema = [
   },
   {
     name: 'Phone number',
-    key: 'phonenumber',
+    key: 'phone',
     description: 'Enter phone number',
-    selector: (row) => row.phonenumber,
+    selector: (row) => row.phone,
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
@@ -109,9 +109,9 @@ const EmployeeSchema = [
   },
   {
     name: 'Department Unit',
-    key: 'departmentunit',
+    key: 'deptunit',
     description: 'Enter department',
-    selector: (row) => row.departmentunit,
+    selector: (row) => row.deptunit,
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
