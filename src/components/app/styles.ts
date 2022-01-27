@@ -67,6 +67,11 @@ export const GrayWrapper = styled.div`
   padding: 2rem;
   /* padding-bottom: 30rem; */
   overflow-y: auto;
+
+  &.grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
 `;
 
 export const GridWrapper = styled.div`
