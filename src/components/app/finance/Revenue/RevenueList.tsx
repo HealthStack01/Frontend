@@ -18,50 +18,44 @@ interface Props {
   items: any[];
 }
 
-const Revenue: React.FC<Props> = ({
-  handleSearch,
-  onRowClicked,
-  items,
-}) => {
+const Revenue: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Revenue</h2>
 
       <TableMenu>
-      <div className="inner-table">
+        <div className='inner-table'>
           <Input
-            placeholder="Search here"
-            label="Search here"
+            placeholder='Search here'
+            label='Search here'
             onChange={handleSearch}
           />
           <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Revenues"
+            className='input is-small '
+            type='text'
+            placeholder='Search Revenues'
             minLength={1}
             debounceTimeout={400}
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <span>Filter by</span>
-            <i className="bi bi-chevron-down" />
+            <i className='bi bi-chevron-down' />
           </div>
         </div>
-
-       
       </TableMenu>
 
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+      <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
         <DataTable
-           title="Revenues"
-           columns={RevenueSchema}
-           data={items}
-           selectableRows
-           pointerOnHover
-           highlightOnHover
-           striped
-           onRowClicked={onRowClicked}
-           style={{ overflow: 'hidden' }}
+          title='Revenues'
+          columns={RevenueSchema}
+          data={items}
+          selectableRows
+          pointerOnHover
+          highlightOnHover
+          striped
+          onRowClicked={onRowClicked}
+          style={{ overflow: "hidden" }}
         />
       </div>
       <ToastContainer />
