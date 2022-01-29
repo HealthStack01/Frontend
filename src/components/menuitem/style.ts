@@ -16,7 +16,7 @@ export const Lists = styled.ul`
     transition: max-height 0.2s ease-in;
   }
   &.sub-menu.active {
-    max-height: 200px;
+    max-height: 400px;
   }
 `;
 

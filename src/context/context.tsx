@@ -12,6 +12,7 @@ import client from '../feathers';
 
 interface UserContextProps {
   user?: any;
+  setUser?: (_user: any) => void;
 }
 
 const userDefaultValues: UserContextProps = {
@@ -21,9 +22,30 @@ const userDefaultValues: UserContextProps = {
 interface ObjectContextProps {
   facilityResource: { show: string; selectedFacility: {} };
   // epidiologyModule: { show: string; selectedEpid: {} };
+
+  // Admin Module
   bandResource: { show: string; selectedBand: {} };
   locationResource: { show: string; selectedLocation: {} };
   employeeResource: { show: string; selectedEmployee: {} };
+
+  // Finance Module
+  billServicesResource: { show: string; selectedBillService: {} };
+  paymentsResource: { show: string; selectedPayment: {} };
+  revenuesResource: { show: string; selectedRevenue: {} };
+  collectionsResource: { show: string; selectedCollection: {} };
+  servicesResource: { show: string; selectedService: {} };
+  hmoAuthorizationsResource: { show: string; selectedHMOAuthorization: {} };
+
+  // Pharmacy Module
+  billClientResource: { show: string; selectedBillClient: {} };
+  billPrescriptionSentResource: {
+    show: string;
+    selectedBillPrescriptionSent: {};
+  };
+  dispensaryResource: { show: string; selectedDispensary: {} };
+  storyInventoryResource: { show: string; selectedStoreInventory: {} };
+  productEntryResource: { show: string; selectedProductEntry: {} };
+  posResource: { show: string; selectedPOS: {} };
 }
 
 const objectDefaultValues: ObjectContextProps = {
@@ -42,6 +64,58 @@ const objectDefaultValues: ObjectContextProps = {
   employeeResource: {
     show: 'lists',
     selectedEmployee: {},
+  },
+
+  // Finance
+  billServicesResource: {
+    show: 'lists',
+    selectedBillService: {},
+  },
+  paymentsResource: {
+    show: 'lists',
+    selectedPayment: {},
+  },
+  revenuesResource: {
+    show: 'lists',
+    selectedRevenue: {},
+  },
+  collectionsResource: {
+    show: 'lists',
+    selectedCollection: {},
+  },
+  servicesResource: {
+    show: 'lists',
+    selectedService: {},
+  },
+  hmoAuthorizationsResource: {
+    show: 'lists',
+    selectedHMOAuthorization: {},
+  },
+
+  // Pharmacy
+  billClientResource: {
+    show: 'lists',
+    selectedBillClient: {},
+  },
+  billPrescriptionSentResource: {
+    show: 'lists',
+    selectedBillPrescriptionSent: {},
+  },
+  dispensaryResource: {
+    show: 'lists',
+    selectedDispensary: {},
+  },
+  storyInventoryResource: {
+    show: 'lists',
+    selectedStoreInventory: {},
+  },
+  productEntryResource: {
+    show: 'lists',
+    selectedProductEntry: {},
+  },
+  posResource: {
+    show: 'lists',
+    selectedPOS: {},
   },
 };
 
