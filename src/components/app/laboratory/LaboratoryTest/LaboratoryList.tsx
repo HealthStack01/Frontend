@@ -11,24 +11,24 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
 }
 
-const Inventory: React.FC<Props> = ({ onRowClicked }) => {
+const Laboratory: React.FC<Props> = ({ onRowClicked }) => {
   return (
     <PageWrapper>
-      <h2>Inventory</h2>
+      <h2>Laboratory</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
+        <div className='inner-table'>
+          <Input placeholder='Search here' label='Search here' />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
+            <i className='bi bi-chevron-down'></i>
           </div>
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title="Inventory"
+          title='Laboratory'
           columns={columnHead}
           data={rowData}
           selectableRows
@@ -43,4 +43,4 @@ const Inventory: React.FC<Props> = ({ onRowClicked }) => {
   );
 };
 
-export default Inventory;
+export default Laboratory;

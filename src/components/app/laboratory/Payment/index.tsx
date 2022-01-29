@@ -3,7 +3,7 @@ import React from 'react';
 import { useObjectState } from '../../../../context/context';
 import PaymentDetails from './PaymentDetail';
 import Payments from './PaymentList';
-const AppPaymentsPharmacy = () => {
+const AppPaymentsLab = () => {
   const { resource, setResource } = useObjectState();
 
   return (
@@ -11,7 +11,7 @@ const AppPaymentsPharmacy = () => {
       {resource.paymentsResource.show === 'lists' && (
         <Payments
           handleCreate={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -19,8 +19,8 @@ const AppPaymentsPharmacy = () => {
               },
             }))
           }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
+          onRowClicked={row => {
+            setResource(prevState => ({
               ...prevState,
               paymentsResource: {
                 show: 'details',
@@ -35,7 +35,7 @@ const AppPaymentsPharmacy = () => {
         <PaymentDetails
           row={resource.paymentsResource.selectedPayment}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -44,7 +44,7 @@ const AppPaymentsPharmacy = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -58,4 +58,4 @@ const AppPaymentsPharmacy = () => {
   );
 };
 
-export default AppPaymentsPharmacy;
+export default AppPaymentsLab;

@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import InventoryDetails from './InventoryDetail';
-import Inventory from './InventoryList';
+import LaboratoryDetails from './LaboratoryDetail';
+import Laboratory from './LaboratoryList';
 
-const AppInventory = () => {
+const AppLaboratory = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Inventory
+        <Laboratory
           handleCreate={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -21,7 +21,7 @@ const AppInventory = () => {
             }))
           }
           onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               employeeResource: {
                 show: 'details',
@@ -33,10 +33,10 @@ const AppInventory = () => {
       )}
 
       {resource.employeeResource.show === 'details' && (
-        <InventoryDetails
+        <LaboratoryDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -45,7 +45,7 @@ const AppInventory = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -59,4 +59,4 @@ const AppInventory = () => {
   );
 };
 
-export default AppInventory;
+export default AppLaboratory;

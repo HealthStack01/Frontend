@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   overflow-y: hidden;
-  padding: 3.2rem;
+  padding: 2.2rem 1.4rem;
 
   & span {
     display: inline-block;

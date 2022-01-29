@@ -9,20 +9,20 @@ export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
 
 *::-webkit-scrollbar-track{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+	-webkit-box-shadow: inset 0 0 6px 12px rgba(0,0,0,0.08);
+	border-radius: 8px;
+	background-color: #FeFeFe;
 }
 
 *::-webkit-scrollbar{
-	width: 10px;
-	background-color: #F5F5F5;
+	width: 8px;
+	background-color: #FeFeFe;
 }
 
 *::-webkit-scrollbar-thumb{
-	border-radius: 10px;
+	border-radius: 2px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #ccc;
+	background-color: #fcfcfc;
 }
 
 *{
@@ -40,7 +40,9 @@ export const GlobalStyle = createGlobalStyle`
 body{
   width:100vw
   height: 100vh;
-  overflow-y:hidden
+  overflow-y:hidden;
+  font-size:0.76rem;
+
 
 }
 

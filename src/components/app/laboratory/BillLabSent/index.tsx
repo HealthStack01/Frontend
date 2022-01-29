@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import BillPrescriptionSentDetails from './BillPrescriptionSentDetail';
-import BillPrescriptionSent from './BillPrescriptionSentList';
+import BillLabSentDetails from './BillLabSentDetail';
+import BillLabSent from './BillLabSentList';
 
-const AppBillPrescriptionSent = () => {
+const AppBillLabSent = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.billPrescriptionSentResource.show === 'lists' && (
-        <BillPrescriptionSent
+        <BillLabSent
           handleCreate={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -21,7 +21,7 @@ const AppBillPrescriptionSent = () => {
             }))
           }
           onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billPrescriptionSentResource: {
                 show: 'details',
@@ -33,12 +33,12 @@ const AppBillPrescriptionSent = () => {
       )}
 
       {resource.billPrescriptionSentResource.show === 'details' && (
-        <BillPrescriptionSentDetails
+        <BillLabSentDetails
           row={
             resource.billPrescriptionSentResource.selectedBillPrescriptionSent
           }
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -47,7 +47,7 @@ const AppBillPrescriptionSent = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -61,4 +61,4 @@ const AppBillPrescriptionSent = () => {
   );
 };
 
-export default AppBillPrescriptionSent;
+export default AppBillLabSent;
