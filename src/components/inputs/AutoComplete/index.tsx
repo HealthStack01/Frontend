@@ -1,7 +1,34 @@
-import React from 'react';
+import * as React from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import { width } from '@mui/system';
 
-interface AutoCompleteProps {}
+interface Props {
+  options: any;
+  label: string;
+  name?: string;
+  value: any;
+  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const AutoCompleteBox: React.FC<Props> = ({
+  options,
+  label,
+  value,
+  onChange,
+  name,
+}) => {
+  return (
+    <Autocomplete
+      disablePortal
+      options={options}
+      value={value}
+      onChange={onChange}
+      sx={{ width: 300 }}
+      renderInput={params => (
+        <TextField {...params} label={label} name={name} />
+      )}
+    />
+  );
+};
 
-const AutoComplete: React.FC<AutoCompleteProps> = () => <div />;
-
-export default AutoComplete;
+export default AutoCompleteBox;

@@ -51,14 +51,14 @@ export const menuItems = [
   {
     name: 'Laboratory',
     exact: true,
-    to: '/',
+    to: '/app/laboratory',
     iconClassName: 'bi bi-binoculars',
     subMenus: [
-      { name: 'Dashboard', to: '/' },
-      { name: 'Bill client', to: '/' },
-      { name: 'Bill Lab Orders Sent', to: '/' },
-      { name: 'Payment', to: '/' },
-      { name: 'Lab Result', to: '/' },
+      { name: 'Dashboard', to: '/app/laboratory' },
+      { name: 'Bill client', to: '/app/laboratory/billclient' },
+      { name: 'Bill Lab Orders Sent', to: '/app/laboratory/billlabsent' },
+      { name: 'Payment', to: '/app/laboratory/payment' },
+      { name: 'Lab Result', to: '/app/laboratory/result' },
     ],
   },
   {
