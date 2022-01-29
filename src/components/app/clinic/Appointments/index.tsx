@@ -4,7 +4,7 @@ import AppointmentDetails from './AppointmentDetail';
 import Appointments from './AppointmentList';
 import AppointmentModify from './AppointmentModify';
 
-const AppClinic = () => {
+const AppAppointment = () => {
   const { resource, setResource } = useObjectState();
 
   return (
@@ -12,7 +12,7 @@ const AppClinic = () => {
       {resource.servicesResource.show === 'lists' && (
         <Appointments
           handleCreate={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -20,8 +20,8 @@ const AppClinic = () => {
               },
             }))
           }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
+          onRowClicked={row => {
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 show: 'details',
@@ -34,7 +34,7 @@ const AppClinic = () => {
       {resource.servicesResource.show === 'create' && (
         <AppointmentCreate
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -48,7 +48,7 @@ const AppClinic = () => {
         <AppointmentDetails
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -57,7 +57,7 @@ const AppClinic = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -71,7 +71,7 @@ const AppClinic = () => {
         <AppointmentModify
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -80,7 +80,7 @@ const AppClinic = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -94,4 +94,4 @@ const AppClinic = () => {
   );
 };
 
-export default AppClinic;
+export default AppAppointment;

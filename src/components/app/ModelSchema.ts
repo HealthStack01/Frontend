@@ -43,4 +43,109 @@ const BandSchema = [
   },
 ];
 
-export { BandSchema, InputType };
+const EmployeeSchema = [
+  {
+    name: 'S/N',
+    key: '_id',
+    description: 'Enter name of employee',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'Firstname',
+    key: 'firstname',
+    description: 'Enter firstname',
+    selector: (row) => row.firstname,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Last Name',
+    key: 'lastname',
+    description: 'Enter lastname',
+    selector: (row) => row.lastname,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Profession',
+    key: 'profession',
+    description: 'Enter profession',
+    selector: (row) => row.profession,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Phone number',
+    key: 'phone',
+    description: 'Enter phone number',
+    selector: (row) => row.phone,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Email',
+    key: 'email',
+    description: 'Enter Email',
+    selector: (row) => row.email,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Department',
+    key: 'department',
+    description: 'Enter department',
+    selector: (row) => row.department,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Department Unit',
+    key: 'deptunit',
+    description: 'Enter department',
+    selector: (row) => row.deptunit,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+];
+
+const LocationSchema = [
+  {
+    name: 'S/N',
+    key: '_id',
+    description: 'Enter name of location',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'Name of Location',
+    key: 'name',
+    description: 'Enter name of Location',
+    selector: (row) => row.name,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Location Type',
+    key: 'locationType',
+    description: 'Enter name of Location',
+    selector: (row) => row.locationType,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT,
+  },
+];
+
+export { BandSchema, EmployeeSchema, LocationSchema, InputType };

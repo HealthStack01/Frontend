@@ -14,6 +14,10 @@ import {
   PageWrapper,
 } from '../../styles';
 
+interface Props {
+  backClick: () => void;
+}
+
 const appointmetOptions = [
   {
     value: 'Onsite',
@@ -38,7 +42,7 @@ const typeOptions = [
   'Type F',
 ];
 
-function AppointmentForm() {
+const AppointmentCreate: React.FC<Props> = () => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -48,34 +52,34 @@ function AppointmentForm() {
             <span>Create a new appointment by filling out the form below.</span>
           </div>
         </HeadWrapper>
-        <DetailsWrapper title="Appointment Form">
-          <Input placeholder="Search for Client" />
-          <Input placeholder="Search for Location, Typing or Active state" />
-          <Input placeholder="Search for Employee" />
+        <DetailsWrapper title='Appointment Form' defaultExpanded={true}>
+          <Input placeholder='Search for Client' />
+          <Input placeholder='Search for Location, Typing or Active state' />
+          <Input placeholder='Search for Employee' />
           <RadioButton
-            title="Appointment Schedule"
+            title='Appointment Schedule'
             options={appointmetOptions}
           />
 
-          <GridWrapper className="subgrid two-columns">
-            <Input label="Date of Appointment" type="date" />
-            <Input label="Time of Appointment" type="time" />
-            <CustomSelect label="Appointment Type" options={typeOptions} />
-            <CustomSelect label="Appointment Status" options={typeOptions} />
+          <GridWrapper className='subgrid two-columns'>
+            <Input label='Date of Appointment' type='date' />
+            <Input label='Time of Appointment' type='time' />
+            <CustomSelect label='Appointment Type' options={typeOptions} />
+            <CustomSelect label='Appointment Status' options={typeOptions} />
           </GridWrapper>
-          <Textarea label="Reason for Appointment" />
+          <Textarea label='Reason for Appointment' />
         </DetailsWrapper>
         <BottomWrapper>
           <Button
-            label="Close without Saving"
-            background="#ECF3FF"
-            color="#0364FF"
+            label='Close without Saving'
+            background='#ECF3FF'
+            color='#0364FF'
           />
-          <Button label="Create Appointment" />
+          <Button label='Create Appointment' />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );
-}
+};
 
-export default AppointmentForm;
+export default AppointmentCreate;

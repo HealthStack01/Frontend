@@ -19,7 +19,7 @@ export const menuItems = [
     subMenus: [
       { name: 'Dashboard', to: '/app/clients' },
       { name: 'Appointment', to: '/app/clients/appointments' },
-      { name: 'Client', to: '/app/clients/client' },
+      { name: 'Client', to: '/app/clients/clients' },
     ],
   },
   {
@@ -51,14 +51,14 @@ export const menuItems = [
   {
     name: 'Laboratory',
     exact: true,
-    to: '/',
+    to: '/app/laboratory',
     iconClassName: 'bi bi-binoculars',
     subMenus: [
-      { name: 'Dashboard', to: '/' },
-      { name: 'Bill client', to: '/' },
-      { name: 'Bill Lab Orders Sent', to: '/' },
-      { name: 'Payment', to: '/' },
-      { name: 'Lab Result', to: '/' },
+      { name: 'Dashboard', to: '/app/laboratory' },
+      { name: 'Bill client', to: '/app/laboratory/billclient' },
+      { name: 'Bill Lab Orders Sent', to: '/app/laboratory/billlabsent' },
+      { name: 'Payment', to: '/app/laboratory/payment' },
+      { name: 'Lab Result', to: '/app/laboratory/result' },
     ],
   },
   {
@@ -140,11 +140,11 @@ function SideMenu() {
   useEffect(() => {
     const menuItems = document.querySelectorAll('.menu-item');
 
-    menuItems.forEach((el) => {
+    menuItems.forEach(el => {
       el.addEventListener('click', () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach((el) => el.classList.remove('active'));
+        menuItems.forEach(el => el.classList.remove('active'));
         el.classList.toggle('active');
 
         if (next !== null) {
@@ -157,12 +157,12 @@ function SideMenu() {
   useEffect(() => {}, []);
 
   return (
-    <Sidemenu className="side-menu">
+    <Sidemenu className='side-menu'>
       <TopSection>
         <h1>Your Company</h1>
-        <i className="bi bi-list" />
+        <i className='bi bi-list' />
       </TopSection>
-      <MainMenu className="main-menu">
+      <MainMenu className='main-menu'>
         <Lists>
           {menuItems.map((menuItem, index) => (
             <MenuItem

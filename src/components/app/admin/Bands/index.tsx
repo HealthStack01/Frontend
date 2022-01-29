@@ -14,6 +14,7 @@ function AppBands() {
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [bands, setBands] = useState([]);
+  let band = resource.bandResource.selectedBand;
 
   const backClick = () => {
     setResource((prevState) => ({
@@ -58,6 +59,21 @@ function AppBands() {
         });
     }
   };
+  const handleDelete = () => {
+
+
+    BandServ.remove(band)
+      .then((res) => {
+        toast('Band deleted successfully');
+        getBands();
+        backClick();
+      })
+      .catch((err) => {
+        toast(
+          `'Error deleting Band, probable network issues or ' + ${err}'`
+        );
+      });
+  };
 
   const handleSearch = (text) => {
     BandServ.find({
@@ -84,11 +100,6 @@ function AppBands() {
 
   const onSubmit = (data) => {
     const values = getFormStrings(data._id);
-    if (data.bandType === '') {
-      alert('Kindly choose band type');
-      return;
-    }
-
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
@@ -177,6 +188,7 @@ function AppBands() {
               },
             }))
           }
+          handleDelete={handleDelete}
         />
       )}
       {resource.bandResource.show === 'edit' && (

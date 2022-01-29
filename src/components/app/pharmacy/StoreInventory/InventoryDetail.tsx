@@ -33,9 +33,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           <FullDetailsWrapper>
             <GridWrapper>
               <Input
-                label="New Selling Price"
-                name="newPrice"
-                onChange={(e) =>
+                label='New Selling Price'
+                name='newPrice'
+                onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -43,10 +43,10 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label="Old Price"
-                name="oldPrice"
+                label='Old Price'
+                name='oldPrice'
                 value={row.price}
-                onChange={(e) =>
+                onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -56,14 +56,14 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
             </GridWrapper>
             <BottomWrapper>
               <Button
-                label="Clear Form"
-                background="#FFE9E9"
-                color="#ED0423"
+                label='Clear Form'
+                background='#FFE9E9'
+                color='#ED0423'
                 onClick={() => setState('all')}
               />
               <Button
-                label="Save Form"
-                type="submit"
+                label='Save Form'
+                type='submit'
                 onClick={() => setState('all')}
               />
             </BottomWrapper>
@@ -81,9 +81,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           <FullDetailsWrapper>
             <GridWrapper>
               <Input
-                label="New Reoder Level"
-                name="newReOrder"
-                onChange={(e) =>
+                label='New Reoder Level'
+                name='newReOrder'
+                onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -91,10 +91,10 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label="Old Reoder Level"
-                name="oldReOrder"
+                label='Old Reoder Level'
+                name='oldReOrder'
                 value={row.reOrderLevel}
-                onChange={(e) =>
+                onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -104,14 +104,14 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
             </GridWrapper>
             <BottomWrapper>
               <Button
-                label="Clear Form"
-                background="#FFE9E9"
-                color="#ED0423"
+                label='Clear Form'
+                background='#FFE9E9'
+                color='#ED0423'
                 onClick={() => setState('all')}
               />
               <Button
-                label="Save Form"
-                type="submit"
+                label='Save Form'
+                type='submit'
                 onClick={() => setState('all')}
               />
             </BottomWrapper>
@@ -123,13 +123,13 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
 
   const SetAudit = () => {
     return (
-      <form action="" onSubmit={() => {}}>
-        <FullDetailsWrapper title="Purchase Invoice">
-          <GridWrapper className="two-columns">
+      <form action='' onSubmit={() => {}}>
+        <FullDetailsWrapper title='Purchase Invoice'>
+          <GridWrapper className='two-columns'>
             <CustomSelect
-              label="Purchase Invoice"
-              name="purchaseMode"
-              onChange={(e) =>
+              label='Purchase Invoice'
+              name='purchaseMode'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -138,9 +138,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
               options={['Mode 1', 'Mode 2']}
             />
             <Input
-              label="Supplier"
-              name="supplier"
-              onChange={(e) =>
+              label='Supplier'
+              name='supplier'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -148,10 +148,10 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label="Date"
-              name="date"
-              type="date"
-              onChange={(e) =>
+              label='Date'
+              name='date'
+              type='date'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -159,9 +159,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label="Invoice Number"
-              name="invoiceNo"
-              onChange={(e) =>
+              label='Invoice Number'
+              name='invoiceNo'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -169,9 +169,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label="Total Amount"
-              name="amount"
-              onChange={(e) =>
+              label='Total Amount'
+              name='amount'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -183,9 +183,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           <h2>Add Product Items</h2>
 
           <Input
-            label="Search Product"
-            name="search"
-            onChange={(e) =>
+            label='Search Product'
+            name='search'
+            onChange={e =>
               setValues({
                 ...values,
                 [e.target.name]: e.target.value,
@@ -195,9 +195,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
 
           <GridWrapper>
             <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
+              label='Quantity'
+              name='quantity'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -205,9 +205,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label="Cost Price"
-              name="price"
-              onChange={(e) =>
+              label='Cost Price'
+              name='price'
+              onChange={e =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -222,7 +222,7 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
                 width: '32px',
                 height: '32px',
               }}
-              type="submit"
+              type='submit'
             >
               +
             </button>
@@ -231,8 +231,8 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
 
         <BottomWrapper>
           <Button
-            label="Adjust"
-            type="submit"
+            label='Adjust'
+            type='submit'
             onClick={() => setState('all')}
           />
         </BottomWrapper>
@@ -249,9 +249,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           <FullDetailsWrapper>
             <GridWrapper>
               <Input
-                label="Batch Number"
-                name="batchNo"
-                onChange={(e) =>
+                label='Batch Number'
+                name='batchNo'
+                onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -259,10 +259,10 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label="Expiry Date"
-                name="expiry"
-                type="date"
-                onChange={(e) =>
+                label='Expiry Date'
+                name='expiry'
+                type='date'
+                onChange={e =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -272,7 +272,7 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
             </GridWrapper>
 
             <DataTable
-              title="Batches"
+              title='Batches'
               columns={columnHead}
               data={row.data}
               selectableRows
@@ -283,14 +283,14 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           </FullDetailsWrapper>
           <BottomWrapper>
             <Button
-              label="Clear Form"
-              background="#FFE9E9"
-              color="#ED0423"
+              label='Clear Form'
+              background='#FFE9E9'
+              color='#ED0423'
               onClick={() => setState('all')}
             />
             <Button
-              label="Save Form"
-              type="submit"
+              label='Save Form'
+              type='submit'
               onClick={() => setState('all')}
             />
           </BottomWrapper>
@@ -309,9 +309,9 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
           </div>
           <div>
             <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
+              label='Back to List'
+              background='#fdfdfd'
+              color='#333'
               onClick={backClick}
             />
           </div>
@@ -319,31 +319,31 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
         <FullDetailsWrapper>
           <h4>Product Name: {row.product} </h4>
           {state === 'all' && (
-            <GridWrapper className="four-columns">
+            <GridWrapper className='four-columns'>
               <Button
                 label={'Set Price'}
-                color="#fefffb"
-                background="#04ed6d"
+                color='#fefffb'
+                background='#04ed6d'
                 showicon={true}
                 onClick={() => setState('price')}
               />
               <Button
-                label="Batches"
-                background="#fdfdfd"
-                color="#333"
+                label='Batches'
+                background='#fdfdfd'
+                color='#333'
                 onClick={() => setState('batch')}
               />
               <Button
                 label={'Reoder Level'}
                 background={'#ECF3FF'}
-                color="#0364FF"
+                color='#0364FF'
                 showicon={true}
                 onClick={() => setState('reorder')}
               />
               <Button
                 label={'Audit'}
-                background="#FFE9E9"
-                color="#ED0423"
+                background='#FFE9E9'
+                color='#ED0423'
                 showicon={true}
                 onClick={() => setState('audit')}
               />

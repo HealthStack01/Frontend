@@ -22,16 +22,16 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
   return (
     <ListItem onClick={onClick}>
-      <Link onClick={() => setExpand(!expand)} to={to} className="menu-item">
-        <div className="menu-label">
-          <div className="menu-label-right">
-            <div className="menu-icon">
+      <Link onClick={() => setExpand(!expand)} to={to} className='menu-item'>
+        <div className='menu-label'>
+          <div className='menu-label-right'>
+            <div className='menu-icon'>
               <i className={iconClassName} />
             </div>
-            <span>{name}</span>
+            <span style={{ fontSize: '0.75rem' }}>{name}</span>
           </div>
 
-          {subMenus.length > 0 ? <i className="bi bi-chevron-down" /> : ''}
+          {subMenus.length > 0 ? <i className='bi bi-chevron-down' /> : ''}
         </div>
 
         {subMenus && subMenus.length > 0 ? (
@@ -40,7 +40,11 @@ const MenuItem: React.FC<MenuItemProps> = ({
               <ListItem key={index}>
                 <NavLink
                   to={menu.to}
-                  style={{ color: 'white', textDecoration: 'none' }}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    fontSize: '0.75rem',
+                  }}
                 >
                   {menu.name}
                 </NavLink>
