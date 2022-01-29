@@ -110,42 +110,42 @@ const dataTree = [
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: (row) => row.id,
+    selector: row => row.id,
     sortable: true,
   },
   {
     name: 'Date',
-    selector: (row) => row.date,
+    selector: row => row.date,
     sortable: true,
   },
   {
     name: 'Description',
-    selector: (row) => row.description,
+    selector: row => row.description,
     sortable: true,
   },
   {
     name: 'Status',
-    selector: (row) => row.status,
+    selector: row => row.status,
     sortable: true,
   },
   {
     name: 'Amount',
-    selector: (row) => row.amount,
+    selector: row => row.amount,
     sortable: true,
   },
 ];
 
-const BillPrescriptionSent: React.FC<Props> = ({ onRowClicked }) => {
+const BillLabSent: React.FC<Props> = ({ onRowClicked }) => {
   return (
     <PageWrapper>
-      <h2>Bill Prescription Sent</h2>
+      <h2>Bill Lab Sent</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
+        <div className='inner-table'>
+          <Input placeholder='Search here' label='Search here' />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
+            <i className='bi bi-chevron-down'></i>
           </div>
         </div>
       </TableMenu>
@@ -170,4 +170,4 @@ const BillPrescriptionSent: React.FC<Props> = ({ onRowClicked }) => {
   );
 };
 
-export default BillPrescriptionSent;
+export default BillLabSent;

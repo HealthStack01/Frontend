@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
+import AutoCompleteBox from '../../../inputs/AutoComplete';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
 import Textarea from '../../../inputs/basic/Textarea';
@@ -52,7 +53,6 @@ const ClientModify: React.FC<Props> = ({
         </HeadWrapper>
         <GridWrapper>
           <Input label='ID' value={row.id} disabled />
-
           <Input
             label='First Name'
             value={row.fname}
@@ -131,16 +131,20 @@ const ClientModify: React.FC<Props> = ({
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
-          <Input
+          <AutoCompleteBox
             label='Country'
             value={row.country}
+            name='Country'
+            options={['Nigeria', 'Ghana']}
             onChange={e =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
-          <Input
+          <AutoCompleteBox
             label='State'
             value={row.state}
+            name='State'
+            options={['Lagos', 'Oyo']}
             onChange={e =>
               setValue({ ...values, [e.target.name]: e.target.value })
             }
@@ -159,6 +163,153 @@ const ClientModify: React.FC<Props> = ({
               setValue({ ...values, [e.target.name]: e.target.value })
             }
           />
+          <Input
+            label='Neighnourhood'
+            value={row.neighborhood}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Street Address'
+            value={row.streetAddress}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Tags'
+            value={row.tags}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Other Bio Data'
+            value={row.otherBioData}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Next of Kin'
+            value={row.nextOfKin}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Non Hospital Identifiers'
+            value={row.nonHospitalIndetifiers}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Payment Information'
+            value={row.paymentInformation}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Assign to Care Team'
+            value={row.assignToCareTeam}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Next of Kin Full Name'
+            value={row.nextOfKinFullName}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />{' '}
+          <Input
+            label='Next of Kin Phone Number'
+            value={row.nextOfKinPhone}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Next of Kin Email'
+            value={row.nextOfKinEmail}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Next of Kin Relationship'
+            value={row.nextOfKinRelationship}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='National ID'
+            value={row.nationalID}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='International Passport Number'
+            value={row.internationPassportNumber}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Voters Card Number'
+            value={row.votersCardNumber}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Drivers License Number'
+            value={row.driversLicenseNumber}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Blood Group'
+            value={row.bloodGroup}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Genotype'
+            value={row.genotype}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Disabilities'
+            value={row.disabilities}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Allergies'
+            value={row.allergies}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+          <Input
+            label='Co Morbidities'
+            value={row.coMobidities}
+            onChange={e =>
+              setValue({ ...values, [e.target.name]: e.target.value })
+            }
+          />
           <Textarea
             label='Description'
             value={row.specificDetails}
@@ -169,8 +320,8 @@ const ClientModify: React.FC<Props> = ({
         </GridWrapper>
 
         <BottomWrapper>
-          <Button label='Delete Band' background='#FFE9E9' color='#ED0423' />
-          <Button label='Save Band' />
+          <Button label='Delete Client' background='#FFE9E9' color='#ED0423' />
+          <Button label='Save Client' />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

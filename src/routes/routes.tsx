@@ -14,6 +14,11 @@ import FinanceDashboard from '../components/app/finance/FinanceDashboard';
 import AppPayments from '../components/app/finance/Payment';
 import AppRevenue from '../components/app/finance/Revenue';
 import AppServices from '../components/app/finance/Services';
+import AppBillClientLab from '../components/app/laboratory/BillClient';
+import AppBillLabSent from '../components/app/laboratory/BillLabSent';
+import LaboratoryDashboard from '../components/app/laboratory/LaboratoryDashboard';
+import AppLaboratory from '../components/app/laboratory/LaboratoryTest';
+import AppPaymentsLab from '../components/app/laboratory/Payment';
 import Overview from '../components/app/Overview';
 import AppBillClient from '../components/app/pharmacy/BillClient';
 import AppBillPrescriptionSent from '../components/app/pharmacy/BillPrescriptionSent';
@@ -61,6 +66,19 @@ function AppRoutes() {
           <Route path='/app/admin/bands' element={<AppBands />} />
           <Route path='/app/admin/employees' element={<AppEmployees />} />
           <Route path='/app/admin/location' element={<AppLocation />} />
+
+          {/* Laboratory */}
+          <Route path='/app/laboratory' element={<LaboratoryDashboard />} />
+          <Route
+            path='/app/laboratory/billlabsent'
+            element={<AppBillLabSent />}
+          />
+          <Route
+            path='/app/laboratory/billclient'
+            element={<AppBillClientLab />}
+          />
+          <Route path='/app/laboratory/payment' element={<AppPaymentsLab />} />
+          <Route path='/app/laboratory/result' element={<AppLaboratory />} />
 
           {/* Finance */}
           <Route path='/app/finance' element={<FinanceDashboard />} />

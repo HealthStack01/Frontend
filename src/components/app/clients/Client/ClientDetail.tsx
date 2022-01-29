@@ -146,6 +146,62 @@ const ClientDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               <p>{row.paymentInformation}</p>
             </div>
             <div>
+              <label>Assign to Care Team</label>
+              <p>{row.assignToCareTeam}</p>
+            </div>
+            <div>
+              <label>Next of Kin Full Name</label>
+              <p>{row.nextOfKinFullName}</p>
+            </div>
+            <div>
+              <label>Next of Kin Phone Number</label>
+              <p>{row.nextOfKinPhone}</p>
+            </div>
+            <div>
+              <label>Next of Kin Email</label>
+              <p>{row.nextOfKinEmail}</p>
+            </div>
+            <div>
+              <label>Next of Kin Relationship</label>
+              <p>{row.nextOfKinRelationship}</p>
+            </div>
+            <div>
+              <label>National ID</label>
+              <p>{row.nationalID}</p>
+            </div>
+            <div>
+              <label>International Passport Number</label>
+              <p>{row.internationPassportNumber}</p>
+            </div>
+            <div>
+              <label>Voter's Card Number</label>
+              <p>{row.votersCardNumber}</p>
+            </div>
+            <div>
+              <label>Drivers License Number</label>
+              <p>{row.driversLicenseNumber}</p>
+            </div>
+            <div>
+              <label>Blood Group</label>
+              <p>{row.bloodGroup}</p>
+            </div>
+            <div>
+              <label>Genotype</label>
+              <p>{row.genotype}</p>
+            </div>
+            <div>
+              <label>Disabilities</label>
+              <p>{row.disabilities}</p>
+            </div>
+            <div>
+              <label>Allergies</label>
+              <p>{row.allergies}</p>
+            </div>
+            <div>
+              <label>Co-Morbidities</label>
+              <p>{row.coMobidities}</p>
+            </div>
+            <div>
               <label>Sepcific Details</label>
               <p>{row.specificDetails}</p>
             </div>

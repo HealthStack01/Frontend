@@ -6,7 +6,7 @@ import BillDetails from './BillDetail';
 import BillClient from './BillList';
 import BillModify from './BillModify';
 
-const AppBillClient = () => {
+const AppBillClientLab = () => {
   const { resource, setResource } = useObjectState();
 
   console.log(resource.billClientResource.show);
@@ -16,7 +16,7 @@ const AppBillClient = () => {
       {resource.billClientResource.show === 'lists' && (
         <BillClient
           handleCreate={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -25,7 +25,7 @@ const AppBillClient = () => {
             }))
           }
           onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billClientResource: {
                 show: 'details',
@@ -38,7 +38,7 @@ const AppBillClient = () => {
       {resource.billClientResource.show === 'create' && (
         <BillCreate
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -52,7 +52,7 @@ const AppBillClient = () => {
         <BillDetails
           row={resource.billClientResource.selectedBillClient}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -61,7 +61,7 @@ const AppBillClient = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -75,7 +75,7 @@ const AppBillClient = () => {
         <BillModify
           row={resource.billClientResource.selectedBillClient}
           backClick={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -84,7 +84,7 @@ const AppBillClient = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource((prevState) => ({
+            setResource(prevState => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -98,4 +98,4 @@ const AppBillClient = () => {
   );
 };
 
-export default AppBillClient;
+export default AppBillClientLab;
