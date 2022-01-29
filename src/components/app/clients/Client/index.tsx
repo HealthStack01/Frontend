@@ -1,57 +1,61 @@
-import { useObjectState } from '../../../../context/context';
-import AppointmentCreate from './AppointmentCreate';
-import AppointmentDetails from './AppointmentDetail';
-import Appointments from './AppointmentList';
-import AppointmentModify from './AppointmentModify';
+import React from 'react';
 
-const AppAppointment = () => {
+import { useObjectState } from '../../../../context/context';
+import ClientCreate from './ClientCreate';
+import ClientDetails from './ClientDetail';
+import Clients from './ClientList';
+import ClientModify from './ClientModify';
+
+const AppClient = () => {
   const { resource, setResource } = useObjectState();
+
+  console.log(resource.billClientResource.show);
 
   return (
     <>
-      {resource.servicesResource.show === 'lists' && (
-        <Appointments
+      {resource.billClientResource.show === 'lists' && (
+        <Clients
           handleCreate={() =>
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
+              billClientResource: {
+                ...prevState.billClientResource,
                 show: 'create',
               },
             }))
           }
-          onRowClicked={row => {
+          onRowClicked={(row, _event) => {
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
+              billClientResource: {
                 show: 'details',
-                selectedService: row,
+                selectedBillClient: row,
               },
             }));
           }}
         />
       )}
-      {resource.servicesResource.show === 'create' && (
-        <AppointmentCreate
+      {resource.billClientResource.show === 'create' && (
+        <ClientCreate
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
+              billClientResource: {
+                ...prevState.billClientResource,
                 show: 'lists',
               },
             }))
           }
         />
       )}
-      {resource.servicesResource.show === 'details' && (
-        <AppointmentDetails
-          row={resource.servicesResource.selectedService}
+      {resource.billClientResource.show === 'details' && (
+        <ClientDetails
+          row={resource.billClientResource.selectedBillClient}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
+              billClientResource: {
+                ...prevState.billClientResource,
                 show: 'lists',
               },
             }))
@@ -59,22 +63,22 @@ const AppAppointment = () => {
           editBtnClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
+              billClientResource: {
+                ...prevState.billClientResource,
                 show: 'edit',
               },
             }))
           }
         />
       )}
-      {resource.servicesResource.show === 'edit' && (
-        <AppointmentModify
-          row={resource.servicesResource.selectedService}
+      {resource.billClientResource.show === 'edit' && (
+        <ClientModify
+          row={resource.billClientResource.selectedBillClient}
           backClick={() =>
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
+              billClientResource: {
+                ...prevState.billClientResource,
                 show: 'lists',
               },
             }))
@@ -82,8 +86,8 @@ const AppAppointment = () => {
           cancelEditClicked={() =>
             setResource(prevState => ({
               ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
+              bandResource: {
+                ...prevState.bandResource,
                 show: 'details',
               },
             }))
@@ -94,4 +98,4 @@ const AppAppointment = () => {
   );
 };
 
-export default AppAppointment;
+export default AppClient;

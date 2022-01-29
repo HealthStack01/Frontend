@@ -4,11 +4,9 @@ import AdminDashboard from '../components/app/admin/AdminDashboard';
 import AppBands from '../components/app/admin/Bands';
 import AppEmployees from '../components/app/admin/Employees';
 import AppLocation from '../components/app/admin/Locations';
-// import Appointments from '../components/app/clients/Appointments';
-// import Clients from '../components/app/clients/Clients';
-// import AppointmentDetails from '../components/app/clients/details/AppointmentDetails';
-// import ClientDetails from '../components/app/clients/details/ClientDetails';
-import AppClinic from '../components/app/clinic/Appointments/';
+import AppClient from '../components/app/clients/Client';
+import ClientDashboard from '../components/app/clients/ClientDashboard';
+import AppAppointment from '../components/app/clinic/Appointments/';
 import ClinicDashboard from '../components/app/clinic/ClinicDashboard';
 import AppBills from '../components/app/finance/BillServices';
 import AppCollections from '../components/app/finance/Collections';
@@ -51,7 +49,12 @@ function AppRoutes() {
           /> */}
 
           {/* Clients */}
-          
+          <Route path='/app/clients' element={<ClientDashboard />} />
+          <Route
+            path='/app/clients/appointments'
+            element={<AppAppointment />}
+          />
+          <Route path='/app/clients/clients' element={<AppClient />} />
 
           {/* Admin */}
           <Route path='/app/admin' element={<AdminDashboard />} />
@@ -89,7 +92,7 @@ function AppRoutes() {
 
           {/* Clinic */}
           <Route path='/app/clinic' element={<ClinicDashboard />} />
-          <Route path='/app/clinic/appointments' element={<AppClinic />} />
+          <Route path='/app/clinic/appointments' element={<AppAppointment />} />
         </Route>
       </Routes>
     </>

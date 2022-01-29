@@ -2,12 +2,12 @@ import React from 'react';
 
 import { PageWrapper } from '../styles';
 
-const ClinicDashboard = () => {
+const PharmacyDashboard = () => {
   return (
     <PageWrapper>
-      <h2>Clinic Dashboard</h2>
+      <h2>Finance Dashboard</h2>
     </PageWrapper>
   );
 };
 
-export default ClinicDashboard;
+export default PharmacyDashboard;
