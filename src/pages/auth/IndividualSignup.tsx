@@ -14,7 +14,7 @@ function IndividualSignup() {
         <Input label="Last Name" placeholder="Enter your last name" />
         <Input label="Email address" placeholder="Enter your email" />
         <Input label="Phone number" placeholder="Enter your phone number" />
-        <PasswordInput />
+        <PasswordInput onChange={() => {}} />
 
         <Button type="submit" label="Signup" fullwidth />
       </form>

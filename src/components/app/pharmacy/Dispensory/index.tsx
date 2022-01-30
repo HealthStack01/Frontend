@@ -12,7 +12,7 @@ const AppDispensary = () => {
       {resource.dispensaryResource.show === 'lists' && (
         <Dispensary
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               dispensaryResource: {
                 ...prevState.dispensaryResource,
@@ -20,10 +20,8 @@ const AppDispensary = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row, _event) => {
+            setResource((prevState) => ({
               ...prevState,
               dispensaryResource: {
                 show: 'details',
@@ -38,7 +36,7 @@ const AppDispensary = () => {
         <DispensaryDetails
           row={resource.dispensaryResource.selectedDispensary}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               dispensaryResource: {
                 ...prevState.dispensaryResource,
@@ -47,7 +45,7 @@ const AppDispensary = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               dispensaryResource: {
                 ...prevState.dispensaryResource,

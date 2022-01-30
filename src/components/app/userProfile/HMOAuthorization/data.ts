@@ -8,17 +8,17 @@ export interface DataProps {
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Name',
-    selector: row => row.name,
+    selector: (row) => row.name,
     sortable: true,
   },
   {
     name: 'Location Type',
-    selector: row => row.locationType,
+    selector: (row) => row.locationType,
     sortable: true,
   },
 ];

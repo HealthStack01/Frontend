@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
 import POSCreate from './POSCreate';
-import EmployeeCreate from './POSCreate';
 import POSDetails from './POSDetail';
 import POS from './POSList';
 import POSModify from './POSModify';
@@ -15,7 +14,7 @@ const AppPOS = () => {
       {resource.employeeResource.show === 'lists' && (
         <POS
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -23,10 +22,8 @@ const AppPOS = () => {
               },
             }))
           }
-          onRowClicked={(row, event) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
-            setResource(prevState => ({
+          onRowClicked={(row, _event) => {
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 show: 'details',
@@ -39,7 +36,7 @@ const AppPOS = () => {
       {resource.employeeResource.show === 'create' && (
         <POSCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -53,7 +50,7 @@ const AppPOS = () => {
         <POSDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -62,7 +59,7 @@ const AppPOS = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -76,7 +73,7 @@ const AppPOS = () => {
         <POSModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -85,7 +82,7 @@ const AppPOS = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,

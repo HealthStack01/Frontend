@@ -4,10 +4,8 @@ import DataTable from 'react-data-table-component';
 import { FlexBox, Htag } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import {
-  BottomWrapper,
   FullDetailsWrapper,
   GrayWrapper,
-  GridWrapper,
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
@@ -19,7 +17,7 @@ interface Props {
   row?: any;
 }
 
-const POSDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const POSDetails: React.FC<Props> = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -30,37 +28,37 @@ const POSDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
           </div>
           <div>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <FlexBox className='between'>
+          <FlexBox className="between">
             <div>
-              <FlexBox className='between'>
+              <FlexBox className="between">
                 <Htag>Type</Htag>
                 <label>{row.type}</label>
               </FlexBox>
 
-              <FlexBox className='between'>
+              <FlexBox className="between">
                 <Htag>Date</Htag>
                 <label>{row.date}</label>
               </FlexBox>
-              <FlexBox className='between'>
+              <FlexBox className="between">
                 <Htag>Total Amount</Htag>
                 <label>{row.amount}</label>
               </FlexBox>
             </div>
 
             <div>
-              <FlexBox className='between'>
+              <FlexBox className="between">
                 <Htag>Supplier</Htag>
                 <label>{row.source}</label>
               </FlexBox>
-              <FlexBox className='between'>
+              <FlexBox className="between">
                 <Htag>Invoice No</Htag>
                 <label>{row.documentNo}</label>
               </FlexBox>
@@ -69,7 +67,7 @@ const POSDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
         </FullDetailsWrapper>
         <FullDetailsWrapper>
           <DataTable
-            title='Product Items'
+            title="Product Items"
             columns={columnHead}
             data={row.data}
             selectableRows

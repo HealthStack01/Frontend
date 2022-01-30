@@ -11,24 +11,24 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
 }
 
-const Inventory: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Inventory: React.FC<Props> = ({ onRowClicked }) => {
   return (
     <PageWrapper>
       <h2>Inventory</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title='Inventory'
+          title="Inventory"
           columns={columnHead}
           data={rowData}
           selectableRows

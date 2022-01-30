@@ -20,11 +20,7 @@ interface Props {
   row?: any;
 }
 
-const InventoryDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
+const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
   const [values, setValues] = useState({});
   const [state, setState] = useState('all');
 

@@ -16,7 +16,7 @@ interface Props {
       amount: string;
       mode: string;
     },
-    event: any
+    event: any,
   ) => void;
 }
 

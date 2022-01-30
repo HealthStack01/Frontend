@@ -97,8 +97,7 @@ const AppCollections = () => {
               },
             }));
           }}
-          items={collection}
-          handleSearch={handleSearch}
+         
         />
       )}
 

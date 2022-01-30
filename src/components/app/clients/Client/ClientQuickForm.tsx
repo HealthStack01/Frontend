@@ -101,29 +101,29 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
                 </span>
               </div>
               <Button
-                label="Full Registration"
-                background="#ECF3FF"
-                color="#0364FF"
+                label='Full Registration'
+                background='#ECF3FF'
+                color='#0364FF'
                 showicon
-                icon="bi bi-pen-fill"
+                icon='bi bi-pen-fill'
                 onClick={() => setFullRegistration(true)}
               />
             </HeadWrapper>
             <form
-              action=""
+              action=''
               onSubmit={() => {
                 navigate('/dashboard/clients/appointments');
                 alert('submitted');
               }}
             >
-              <DetailsWrapper title="Create Client">
+              <DetailsWrapper title='Create Client' defaultExpanded={true}>
                 <GridWrapper>
                   {clientFormData.map((client, index) => (
                     <Input
                       key={index}
                       label={client.title}
                       name={client.title}
-                      onChange={(e) =>
+                      onChange={e =>
                         setValues({
                           ...values,
                           [e.target.name]: e.target.value,
@@ -136,11 +136,11 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
 
               <BottomWrapper>
                 <Button
-                  label="Clear Form"
-                  background="#FFE9E9"
-                  color="#ED0423"
+                  label='Clear Form'
+                  background='#FFE9E9'
+                  color='#ED0423'
                 />
-                <Button label="Save Form" type="submit" />
+                <Button label='Save Form' type='submit' />
               </BottomWrapper>
             </form>
           </GrayWrapper>

@@ -15,47 +15,47 @@ export interface BandDataRow {
 export const columnHead: TableColumn<BandDataRow>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Product',
-    selector: row => row.product,
+    selector: (row) => row.product,
     sortable: true,
   },
   {
     name: 'Quantity',
-    selector: row => row.quantity,
+    selector: (row) => row.quantity,
     sortable: true,
   },
   {
     name: 'Base Unit',
-    selector: row => row.baseUnit,
+    selector: (row) => row.baseUnit,
     sortable: true,
   },
   {
     name: 'Stock Value',
-    selector: row => row.stockValue,
+    selector: (row) => row.stockValue,
     sortable: true,
   },
   {
     name: 'Cost Price',
-    selector: row => row.costPrice,
+    selector: (row) => row.costPrice,
     sortable: true,
   },
   {
     name: 'Selling Price',
-    selector: row => row.sellingPrice,
+    selector: (row) => row.sellingPrice,
     sortable: true,
   },
   {
     name: 'Re-Order Level',
-    selector: row => row.reOrderLevel,
+    selector: (row) => row.reOrderLevel,
     sortable: true,
   },
   {
     name: 'Expiry',
-    selector: row => row.expiry,
+    selector: (row) => row.expiry,
     sortable: true,
   },
 ];

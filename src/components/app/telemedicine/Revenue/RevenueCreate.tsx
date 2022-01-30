@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -31,19 +32,19 @@ const RevenueCreate: React.FC<Props> = ({ backClick }) => {
             </span>
           </div>
           <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action='' onSubmit={() => {}}>
-          <FullDetailsWrapper title='Create Employee'>
+        <form action="" onSubmit={() => {}}>
+          <FullDetailsWrapper title="Create Employee">
             <GridWrapper>
               <Input
-                label='Name of Revenue'
-                name='Revenuename'
-                onChange={e =>
+                label="Name of Revenue"
+                name="Revenuename"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -51,9 +52,9 @@ const RevenueCreate: React.FC<Props> = ({ backClick }) => {
                 }
               />
               <CustomSelect
-                label='Choose a Revenue Type'
-                name='locationType'
-                onChange={e =>
+                label="Choose a Revenue Type"
+                name="locationType"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -65,8 +66,8 @@ const RevenueCreate: React.FC<Props> = ({ backClick }) => {
           </FullDetailsWrapper>
 
           <BottomWrapper>
-            <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-            <Button label='Save Form' type='submit' />
+            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+            <Button label="Save Form" type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>

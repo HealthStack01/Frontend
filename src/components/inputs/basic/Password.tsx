@@ -14,31 +14,21 @@ interface PasswordInputProps {
   name?: string;
   password?: string;
   showPassword?: boolean;
+  onChange: (_value) => void;
   errors?: boolean;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = () => {
-  const [values, setValues] = React.useState({
-    password: '',
-    showPassword: false,
-  });
-  const handleChange =
-    (prop: keyof PasswordInputProps) =>
-    // eslint-disable-next-line prettier/prettier
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-      // eslint-disable-next-line prettier/prettier
-        setValues({ ...values, [prop]: event.target.value });
-      // eslint-disable-next-line prettier/prettier
-      };
+const PasswordInput: React.FC<PasswordInputProps> = (
+  props: PasswordInputProps
+) => {
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
+    setShowPassword(false);
   };
 
   const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
   };
@@ -48,9 +38,7 @@ const PasswordInput: React.FC<PasswordInputProps> = () => {
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
-          type={values.showPassword ? 'text' : 'password'}
-          value={values.password}
-          onChange={handleChange('password')}
+          type={showPassword ? 'text' : 'password'}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -59,11 +47,11 @@ const PasswordInput: React.FC<PasswordInputProps> = () => {
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
               >
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           }
-          label="Password"
+          {...props}
         />
       </FormControl>
     </div>

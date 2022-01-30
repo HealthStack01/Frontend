@@ -13,8 +13,8 @@ function TopMenu() {
           @workspace.com
           {/* Pass employee location context */}
         </span>
-        <i className="bi bi-bell-fill" />
-        <Avatar src="/img_avatar.png" alt="" />
+        <i className='bi bi-bell-fill' />
+        <Avatar src='/img_avatar.png' alt='' />
       </Profile>
     </TopMenuWrapper>
   );

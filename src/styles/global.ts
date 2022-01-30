@@ -7,6 +7,24 @@ import { PageText as NavText } from '../helper/PageText';
 
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
+
+*::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px 12px rgba(0,0,0,0.08);
+	border-radius: 8px;
+	background-color: #FeFeFe;
+}
+
+*::-webkit-scrollbar{
+	width: 8px;
+	background-color: #FeFeFe;
+}
+
+*::-webkit-scrollbar-thumb{
+	border-radius: 2px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #fcfcfc;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -22,7 +40,9 @@ export const GlobalStyle = createGlobalStyle`
 body{
   width:100vw
   height: 100vh;
-  overflow-y:hidden
+  overflow-y:hidden;
+  font-size:0.76rem;
+
 
 }
 
