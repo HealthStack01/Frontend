@@ -14,6 +14,8 @@ import {
 } from '../../styles';
 import ClientQuickForm from './ClientQuickForm';
 
+
+
 const clientFullFormData = {
   names: [
     { title: 'First Name', description: 'Enter your first name' },
@@ -188,7 +190,16 @@ const clientFullFormData = {
     },
   ],
 };
-function ClientFullForm() {
+
+
+interface ClientDetailsProps {
+  // row?: RowProps;
+  backClick: () => void;
+  onSubmit: (_) => void;
+}
+
+
+const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => {
   const [isFullRegistration, setFullRegistration] = useState(true);
 
   return (
@@ -343,7 +354,7 @@ function ClientFullForm() {
           </GrayWrapper>
         </PageWrapper>
       ) : (
-        <ClientQuickForm />
+        <ClientQuickForm backClick ={backClick} onSubmit ={onSubmit} />
       )}
     </>
   );

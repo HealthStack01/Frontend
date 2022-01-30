@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
 import { GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import ClientQuickForm from './ClientQuickForm';
+
+import ClientQuickForm from './ClientQuickForm'
+// import ClientFullForm from './ClientFullForm'
+
 
 interface Props {
   backClick: () => void;
+  onSubmit: (_) => void;
 }
 
-const ClientCreate: React.FC<Props> = ({ backClick }) => {
+
+const ClientCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -26,7 +31,8 @@ const ClientCreate: React.FC<Props> = ({ backClick }) => {
             onClick={backClick}
           />
         </HeadWrapper>
-        <ClientQuickForm />
+        <ClientQuickForm backClick ={backClick} onSubmit ={onSubmit} />
+        {/* <ClientFullForm backClick ={backClick} onSubmit ={onSubmit} /> */}
       </GrayWrapper>
     </PageWrapper>
   );

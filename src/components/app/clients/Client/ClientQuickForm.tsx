@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import { useForm } from 'react-hook-form';
+
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -13,80 +14,28 @@ import {
 } from '../../styles';
 import ClientFullForm from './ClientFullForm';
 
+import { clientFormData } from '../../ModelSchema'
+
+import DynamicInput from '../../DynamicInput'
+
+
 interface RowProps {
   id: any;
 }
 
 interface ClientDetailsProps {
   row?: RowProps;
+  backClick: () => void;
+  onSubmit: (_) => void;
 }
-const clientFormData = [
-  {
-    title: 'First Name',
-    name: 'fname',
-    description: 'John',
-    required: true,
-  },
-  {
-    title: 'Midlle Name',
-    description: 'Onyekachi',
-    required: false,
-  },
-  {
-    title: 'Last Name',
-    description: 'Mabdiwe',
-  },
-  {
-    title: 'Date of Birth',
-    description: '2021-12-08',
-  },
-  {
-    title: 'Gender',
-    description: 'Male',
-  },
-  {
-    title: 'Marital Status',
-    description: 'Single',
-  },
-  {
-    title: 'Email',
-    description: 'johndoe@mail.com',
-  },
-  {
-    title: 'Phone Number',
-    description: '0806478263',
-  },
-  {
-    title: 'Residential Address',
-    description: 'Ozumba Mbadiwe',
-  },
-  {
-    title: 'Town',
-    description: 'Ikate Elegushi',
-  },
-  {
-    title: 'State',
-    description: 'Lagos',
-  },
-  {
-    title: 'Country',
-    description: 'Nigeria',
-  },
-  {
-    title: 'Next of Kin',
-    description: 'Cheif OBA Elegushi',
-  },
-  {
-    title: 'Next of kin Phone',
-    description: '0806478263',
-  },
-];
 
-const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
-  const [values, setValues] = useState({});
+
+const ClientQuickForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => {
   const [isFullRegistration, setFullRegistration] = useState(false);
 
-  const navigate = useNavigate();
+  const { control, handleSubmit } = useForm();
+
+
   return (
     <>
       {!isFullRegistration ? (
@@ -110,27 +59,21 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
               />
             </HeadWrapper>
             <form
-              action=''
-              onSubmit={() => {
-                navigate('/dashboard/clients/appointments');
-                alert('submitted');
-              }}
+                onSubmit={handleSubmit(onSubmit) }
             >
               <DetailsWrapper title='Create Client' defaultExpanded={true}>
                 <GridWrapper>
-                  {clientFormData.map((client, index) => (
-                    <Input
-                      key={index}
-                      label={client.title}
-                      name={client.title}
-                      onChange={e =>
-                        setValues({
-                          ...values,
-                          [e.target.name]: e.target.value,
-                        })
-                      }
-                    />
-                  ))}
+                    {clientFormData.map(({inputType, key, name }) => (
+
+                        <DynamicInput
+                            key = {key}
+                            inputType = {inputType}
+                            name = {key}
+                            label= {name}
+                            control = {control}
+                        />
+
+                    ))}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -146,7 +89,7 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
           </GrayWrapper>
         </PageWrapper>
       ) : (
-        <ClientFullForm />
+        <ClientFullForm backClick ={backClick} onSubmit ={onSubmit} />
       )}
     </>
   );

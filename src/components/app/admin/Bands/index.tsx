@@ -15,6 +15,9 @@ function AppBands() {
   const { user } = useContext(UserContext);
   const [bands, setBands] = useState([]);
 
+  console.log(resource)
+
+
   const backClick = () => {
     setResource((prevState) => ({
       ...prevState,
