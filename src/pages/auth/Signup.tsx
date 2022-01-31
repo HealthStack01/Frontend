@@ -38,7 +38,7 @@ function Signup() {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   const handleStep = (step: number) => () => {
@@ -62,11 +62,11 @@ function Signup() {
     navigate('/app');
   };
   return (
-    <AuthWrapper paragraph="Signup here as an organization">
+    <AuthWrapper paragraph='Signup here as an organization'>
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
+            <StepButton color='inherit' onClick={handleStep(index)}>
               {label}
             </StepButton>
           </Step>
@@ -85,7 +85,7 @@ function Signup() {
         }}
       >
         <Button
-          color="inherit"
+          color='inherit'
           disabled={activeStep === 0}
           onClick={handleBack}
           style={{ background: 'lightgray', color: 'black' }}
@@ -94,26 +94,43 @@ function Signup() {
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
         {activeStep === 2 ? (
-          <Button type="submit" onClick={onSubmit}>
+          <Button type='submit' onClick={onSubmit}>
             Complete
           </Button>
         ) : (
           <Button onClick={handleNext}>Next</Button>
         )}
       </Box>
+      <p style={{ padding: '2rem 0' }}>
+        Have an account?
+        <Link
+          className='nav-link'
+          style={{
+            padding: '0',
+            background: 'transparent',
+            color: 'blue',
+            marginLeft: '0.6rem',
+          }}
+          to='/'
+        >
+          Login
+        </Link>
+      </p>
 
       <Link
-        className="nav-link"
+        className='nav-link'
         style={{
-          padding: '0',
-          background: 'transparent',
-          color: 'blue',
+          padding: '16px 32px',
+          color: '#333',
+          borderRadius: '4px',
+          background: '#eeeeee',
           marginLeft: '0.6rem',
           position: 'fixed',
           top: '20px',
           right: '20px',
+          textDecoration: 'none',
         }}
-        to="/signupindividual"
+        to='/signupindividual'
       >
         Signup as Individual
       </Link>

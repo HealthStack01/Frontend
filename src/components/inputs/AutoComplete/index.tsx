@@ -19,11 +19,12 @@ const AutoCompleteBox: React.FC<Props> = ({
 }) => {
   return (
     <Autocomplete
+      freeSolo
       disablePortal
       options={options}
       value={value}
       onChange={onChange}
-      sx={{ width: 300 }}
+      sx={{ width: '100%' }}
       renderInput={params => (
         <TextField {...params} label={label} name={name} />
       )}
