@@ -63,8 +63,8 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               <label
                 style={{
                   padding: '14px 20px',
-                  background: '#bdffb3',
-                  color: '#17ed04',
+                  background: '#ebffe8',
+                  color: '#0d4a07',
                   border: 'none',
                   borderRadius: '4px',
                 }}
