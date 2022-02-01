@@ -5,7 +5,7 @@ import CustomSelect from '../inputs/basic/Select';
 import { InputType } from './ModelSchema';
 
 const DynamicInput = (props) => {
-  const { inputType, name, label, options, control } = props;
+  const { inputType, key, name, options, description, control } = props;
   if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -13,10 +13,10 @@ const DynamicInput = (props) => {
   if (inputType === InputType.TEXT) {
     return (
       <Controller
-        key={name}
+        key={key}
         control={control}
-        name={name}
-        render={({ field }) => <Input {...field} label={label} />}
+        name={key}
+        render={({ field }) => <Input {...field} label={name} />}
       />
     );
   }
@@ -24,13 +24,13 @@ const DynamicInput = (props) => {
   if (inputType === InputType.SELECT) {
     return (
       <Controller
-        key={name}
+        key={key}
         control={control}
-        name={name}
+        name={key}
         render={({ field }) => (
           <CustomSelect
             {...field}
-            label="Choose a Band Type"
+            label={description}
             options={options}
           />
         )}
@@ -38,7 +38,14 @@ const DynamicInput = (props) => {
     );
   }
 
-  return <></>;
+  return (
+   <Controller
+     key={key}
+     control={control}
+     name={key}
+     render={({ field }) => <Input {...field} label={name} />}
+   />
+ );
 };
 
 export default DynamicInput;

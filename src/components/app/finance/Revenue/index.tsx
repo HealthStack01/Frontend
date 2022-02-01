@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
-import { getFormStrings } from '../../Utils';
 
 import RevenueDetails from './RevenueDetail';
 import Revenue from './RevenueList';

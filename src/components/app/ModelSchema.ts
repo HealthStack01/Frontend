@@ -2,6 +2,8 @@ enum InputType {
   HIDDEN,
   TEXT,
   SELECT,
+  EMAIL,
+  PHONE,
 }
 
 const BandSchema = [
@@ -254,4 +256,135 @@ const LocationSchema = [
     inputType: InputType.SELECT,
   },
 ]
-export { BandSchema, RevenueSchema, CollectionSchema,EmployeeSchema,LocationSchema, InputType };
+
+
+const OrganisationSchema = [
+ {
+   name: 'S/N',
+   key: '_id',
+   description: 'ID',
+   selector: (row) => row._id && row._id.substring(0, 7),
+   sortable: true,
+   required: true,
+   inputType: InputType.HIDDEN,
+ }, 
+ {
+  name: 'Name',
+  key: 'facilityName',
+  description: 'Name of Organization',
+  selector: (row) => row.facilityName,
+  sortable: true,
+  required: true,
+  inputType: InputType.TEXT,
+}, 
+{
+ name: 'CAC Number',
+ key: 'facilityRCNumber',
+ description: 'CAC Number',
+ selector: (row) => row.facilityName,
+ sortable: true,
+ required: true,
+ inputType: InputType.TEXT,
+}, 
+{
+ name: 'Country',
+ key: 'facilityCountry',
+ description: 'Facility Country',
+ selector: (row) => row.facilityCountry,
+ sortable: true,
+ required: true,
+ options: ['Nigeria'],
+ inputType: InputType.SELECT,
+},
+{
+ name: 'State',
+ key: 'facilityState',
+ description: 'Organization State',
+ selector: (row) => row.facilityState,
+ sortable: true,
+ required: true,
+ options: ['Lagos'],
+ inputType: InputType.SELECT,
+},
+{
+ name: 'LGA',
+ key: 'facilityLGA',
+ description: 'LGA',
+ selector: (row) => row.facilityLGA,
+ sortable: true,
+ required: true,
+ options: ['Lagos'],
+ inputType: InputType.SELECT,
+},
+
+{
+ name: 'City',
+ key: 'facilityCity',
+ description: 'Organization City',
+ selector: (row) => row.facilityCity,
+ sortable: true,
+ required: true,
+ options: ['Lagos'],
+ inputType: InputType.SELECT,
+},
+
+{
+ name: 'Address',
+ key: 'facilityAddress',
+ description: 'Organization Registered Address',
+ selector: (row) => row.facilityAddress,
+ sortable: true,
+ required: true,
+ inputType: InputType.TEXT,
+},
+
+{
+ name: 'Phone  Number',
+ key: 'facilityContactPhone',
+ description: 'Organization Contact Phone Number',
+ selector: (row) => row.facilityContactPhone,
+ sortable: true,
+ required: true,
+ inputType: InputType.PHONE,
+},
+
+{
+ name: 'Email',
+ key: 'facilityEmail',
+ description: 'Organization Email',
+ selector: (row) => row.facilityContactPhone,
+ sortable: true,
+ required: true,
+ inputType: InputType.EMAIL,
+},
+{
+ name: 'CEO',
+ key: 'facilityOwner',
+ description: 'Organization CEO',
+ selector: (row) => row.facilityOwner,
+ sortable: true,
+ required: true,
+ inputType: InputType.TEXT,
+},
+
+{
+ name: 'Org Type',
+ key: 'facilityType',
+ description: 'Organization Type',
+ selector: (row) => row.facilityType,
+ sortable: true,
+ required: true,
+ inputType: InputType.TEXT,
+},
+{
+ name: 'Org Category',
+ key: 'facilityCategory',
+ description: 'Organization Category',
+ selector: (row) => row.facilityCategory,
+ sortable: true,
+ required: true,
+ inputType: InputType.TEXT,
+}];
+
+
+export { BandSchema, OrganisationSchema, RevenueSchema, CollectionSchema,EmployeeSchema,LocationSchema, InputType };
