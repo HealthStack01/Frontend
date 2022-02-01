@@ -1,11 +1,12 @@
 import { Controller } from 'react-hook-form';
+import CheckboxInput from '../inputs/basic/Checkbox';
 
 import Input from '../inputs/basic/Input';
 import CustomSelect from '../inputs/basic/Select';
 import { InputType } from './ModelSchema';
 
 const DynamicInput = (props) => {
-  const { inputType, key, name, options, description, control } = props;
+  const { inputType,  name, options, description, control } = props;
   if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -13,10 +14,9 @@ const DynamicInput = (props) => {
   if (inputType === InputType.TEXT) {
     return (
       <Controller
-        key={key}
+        name={name}
         control={control}
-        name={key}
-        render={({ field }) => <Input {...field} label={name} />}
+        render={({ field }) => <Input {...field} label={description} />}
       />
     );
   }
@@ -24,9 +24,8 @@ const DynamicInput = (props) => {
   if (inputType === InputType.SELECT) {
     return (
       <Controller
-        key={key}
         control={control}
-        name={key}
+        name={name}
         render={({ field }) => (
           <CustomSelect
             {...field}
@@ -38,12 +37,27 @@ const DynamicInput = (props) => {
     );
   }
 
+  if  (inputType === InputType.CHECKBOX) {
+   return (
+     options.map((option, i) => (<Controller
+      key={i} 
+      control={control}
+       name={option}
+       render={({ field }) => (
+        <CheckboxInput
+        {  ...field }
+        label={option}
+      />
+       )}
+     />))
+   );
+  }
+
   return (
    <Controller
-     key={key}
+     name={name}
      control={control}
-     name={key}
-     render={({ field }) => <Input {...field} label={name} />}
+     render={({ field }) => <Input {...field} label={description} />}
    />
  );
 };

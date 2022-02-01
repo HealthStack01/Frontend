@@ -2,6 +2,7 @@ enum InputType {
   HIDDEN,
   TEXT,
   SELECT,
+  CHECKBOX,
   EMAIL,
   PHONE,
 }
@@ -386,5 +387,102 @@ const OrganisationSchema = [
  inputType: InputType.TEXT,
 }];
 
+const ModulesSchema = [
+ {
+  name: 'Module 1',
+  key: 'modules',
+  description: 'Modules',
+  selector: (row) => row._id && row._id.substring(0, 7),
+  sortable: true,
+  required: true,
+  options: [
+   'Accounting',
+   'Admin',
+   'Blood Bank',
+   'Client',
+   'Clinic',
+   'Communication',
+   'Continous Mediscal Education',
+   'Documentation',
+   'Epidemiology',
+   'Finance',
+   'Immunization',
+ ],
+  inputType: InputType.CHECKBOX,
+},
+{
+ name: 'Module 2',
+ key: 'modules',
+ description: 'Modules',
+ selector: (row) => row._id && row._id.substring(0, 7),
+ sortable: true,
+ required: true,
+ options: [
+  'Inventory',
+  'Laboratory',
+  'Managed Care',
+  'Patient Portal',
+  'Pharmacy',
+  'Radiology',
+  'Report',
+  'Research and Data Exhange',
+  'Telemedicine',
+  'Theatre',
+  'User Profile',
+],
+ inputType: InputType.CHECKBOX,
+}, 
+]
 
-export { BandSchema, OrganisationSchema, RevenueSchema, CollectionSchema,EmployeeSchema,LocationSchema, InputType };
+
+const OnboardingEmployeeSchema = [
+ {
+   name: 'Organization Email',
+   key: 'email',
+   description: 'Organnisation  Email',
+   inputType: InputType.TEXT,
+ },
+ {
+     name: 'Personal email',
+   key: 'personalEmail',
+   description: 'Personal email',
+   inputType: InputType.TEXT,
+ },
+ {
+   name: 'Phone number',
+   key: 'phone',
+   description: 'Enter phone number',
+   inputType: InputType.TEXT,
+ },
+  
+{
+ name: 'Country',
+ key: 'facilityCountry',
+ description: 'Facility Country',
+ options: ['Nigeria'],
+ inputType: InputType.SELECT,
+},
+{
+ name: 'State',
+ key: 'facilityState',
+ description: 'Organization State',
+ options: ['Lagos'],
+ inputType: InputType.SELECT,
+},
+ {
+   name: 'Department',
+   key: 'department',
+   description: 'Enter department',
+   options: ['Front Desk', 'Accounting', 'Clinic', 'Pharmacy'],
+   inputType: InputType.SELECT,
+ },
+ {
+   name: 'Department Unit',
+   key: 'deptunit',
+   description: 'Enter department',
+   options: ['Unit 1', 'Unnit 1', 'Unit 1', 'unit 2'],
+   inputType: InputType.SELECT,
+ },
+];
+
+export { BandSchema, OrganisationSchema, ModulesSchema, RevenueSchema, CollectionSchema,EmployeeSchema,LocationSchema, OnboardingEmployeeSchema, InputType };

@@ -1,5 +1,6 @@
 import { Box, Step, StepButton, Stepper } from '@mui/material';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/buttons/Button';
@@ -17,22 +18,26 @@ const steps = [
 function Signup() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
-  const [completed] = useState<{
-    [k: number]: boolean;
+  const [completedSteps, setCompletedSteps] = useState<{
+    [k: number]: any;
   }>({});
+
+  const { handleSubmit, control } = useForm();
 
   const totalSteps = () => steps.length;
 
-  const completedSteps = () => Object.keys(completed).length;
+  const getCompletedSteps = () => Object.keys(completedSteps).length;
 
   const isLastStep = () => activeStep === totalSteps() - 1;
 
-  const allStepsCompleted = () => completedSteps() === totalSteps();
+  const allStepsCompleted = () => getCompletedSteps() === totalSteps();
 
-  const handleNext = () => {
+  const handleNext = (data) => {
+    console.log({  data  });
+    setCompletedSteps({...completedSteps, [activeStep]: data});
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ? steps.findIndex((step, i) => !(i in completed))
+        ? steps.findIndex((step, i) => !(i in completedSteps))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
@@ -65,17 +70,18 @@ function Signup() {
     <AuthWrapper paragraph='Signup here as an organization'>
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
-          <Step key={label} completed={completed[index]}>
+          <Step key={label} completed={!!completedSteps[index]}>
             <StepButton color='inherit' onClick={handleStep(index)}>
               {label}
             </StepButton>
           </Step>
         ))}
       </Stepper>
-      {activeStep === 0 && <CreateOrganization />}
-      {activeStep === 1 && <SelectModule />}
+      <form onSubmit={handleSubmit(handleNext)}>
+      {activeStep === 0 && <CreateOrganization control={control} />}
+      {activeStep === 1 && <SelectModule control={control} />}
       {activeStep === 2 && <AddAdmin />}
-
+   
       <Box
         sx={{
           display: 'flex',
@@ -98,9 +104,10 @@ function Signup() {
             Complete
           </Button>
         ) : (
-          <Button onClick={handleNext}>Next</Button>
+          <Button>Next</Button>
         )}
       </Box>
+      </form>
       <p style={{ padding: '2rem 0' }}>
         Have an account?
         <Link
