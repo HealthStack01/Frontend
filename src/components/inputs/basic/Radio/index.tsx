@@ -10,18 +10,25 @@ import React from 'react';
 interface RadioProps {
   title?: string;
   options: { value: string; label: string; disabled?: boolean }[];
+  onChange?: (e: any) => void;
 }
 
-const RadioButton: React.FC<RadioProps> = ({ title, options, ...props }) => (
-  <FormControl component="fieldset" sx={{ width: '100%', mt: 1, mb: 1 }}>
-    <FormLabel component="legend">{title}</FormLabel>
+const RadioButton: React.FC<RadioProps> = ({
+  title,
+  options,
+  onChange,
+  ...props
+}) => (
+  <FormControl component='fieldset' sx={{ width: '100%', mt: 1, mb: 1 }}>
+    <FormLabel component='legend'>{title}</FormLabel>
     <RadioGroup
       row
-      aria-label="gender"
-      name="row-radio-buttons-group"
+      aria-label='gender'
+      name='row-radio-buttons-group'
+      onChange={onChange}
       {...props}
     >
-      {options.map((option) => (
+      {options.map(option => (
         <FormControlLabel
           value={option.value}
           control={<Radio />}

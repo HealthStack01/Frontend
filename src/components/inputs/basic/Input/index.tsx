@@ -26,11 +26,11 @@ const Input: React.FC<InputProps> = ({
   value,
   placeholder,
 }) => (
-  <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
+  <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
     <TextField
       error={errors}
       helperText={helperText}
-      id="component-simple"
+      id='component-simple'
       onChange={onChange}
       type={type}
       label={label}
