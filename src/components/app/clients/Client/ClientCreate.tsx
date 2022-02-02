@@ -32,7 +32,6 @@ const ClientCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
           />
         </HeadWrapper>
         <ClientQuickForm backClick ={backClick} onSubmit ={onSubmit} />
-        {/* <ClientFullForm backClick ={backClick} onSubmit ={onSubmit} /> */}
       </GrayWrapper>
     </PageWrapper>
   );

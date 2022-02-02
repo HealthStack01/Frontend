@@ -13,6 +13,7 @@ import ClientModify from './ClientModify';
 
 const AppClient = () => {
   let ClientServ = client.service('client');
+
   const { resource, setResource } = useObjectState();
   const {user} = useContext(UserContext);
   const [newClients, setNewClients] = useState([]);
@@ -30,17 +31,18 @@ const AppClient = () => {
   }
 
   const getClients = async () => {
-    if(user.employeeData) {
+    if(user.employeeData[0]) {
       ClientServ.find({
         query: {
-          facility: user.employeeData.facilityDetail._id,
+          facility: user.employeeData[0]._id,
           $limit: 200,
           $sort: {
             createdAt: -1,
           }
         }
       })
-      .then(() => {})
+      .then((res) => { setNewClients(res.data)})
+
       .catch(err => {
         console.error(err)
       })
@@ -55,29 +57,59 @@ const AppClient = () => {
       })
       .then(res => {
         setNewClients(res.data);
+
         toast('Clients fetched successfully');
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
     }
-  }
+  };
+
+
+  const handleSearch = (text) => {
+    ClientServ.find({
+      query: {
+        name: {
+          $regex: text,
+          $options: 'i',
+        },
+        facility: user?.employeeData[0]?._id || '',
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((res) => {
+        setNewClients(res.data);
+        toast('Client fetched succesfully');
+      })
+      .catch((err) => {
+        toast('Error updating Client, probable network issues or ' + err);
+      });
+  };
+
 
 
   const onSubmit = (data) => {
-    const values = getFormStrings(data._id);
+    const values = getFormStrings(user.employeeData[0]._id);
     
 
-    if (user.employeeData) {
-      data.facility = user.employeeData.facilityDetail._id;
+    if (user.employeeData[0]) {
+      data.facility = user.employeeData[0]._id;
+
     }
-    (data._id ? ClientServ.update(data._id, data) : ClientServ.create(data))
+    
+    (data._id ? ClientServ.update(data.facility, data) : ClientServ.create(data))
       .then(() => {
         toast(`Client ${values.message}`);
+
         backClick();
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
+
       });
   }
 
@@ -88,14 +120,16 @@ const AppClient = () => {
       ClientServ.on('patched', (_) => getClients());
       ClientServ.on('removed', (_) => getClients());
     }
+
     user && getClients();
+
     return () => {
       ClientServ = null;
     };
   }, [user]);
 
-  console.log(newClients)
-  console.log(user)
+
+
 
   return (
     <>
@@ -119,6 +153,9 @@ const AppClient = () => {
               },
             }));
           }}
+
+          items = {newClients}
+          handleSearch = {handleSearch}
         />
       )}
 

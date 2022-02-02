@@ -15,7 +15,6 @@ function AppBands() {
   const { user } = useContext(UserContext);
   const [bands, setBands] = useState([]);
 
-  console.log(resource)
 
 
   const backClick = () => {
@@ -87,6 +86,8 @@ function AppBands() {
 
   const onSubmit = (data) => {
     const values = getFormStrings(data._id);
+    console.log(data)
+
     if (data.bandType === '') {
       alert('Kindly choose band type');
       return;
@@ -103,6 +104,8 @@ function AppBands() {
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
       });
+
+      console.log(data)
   };
 
   useEffect(() => {

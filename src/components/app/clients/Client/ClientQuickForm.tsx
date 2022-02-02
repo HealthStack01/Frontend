@@ -58,19 +58,18 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) =>
                 onClick={() => setFullRegistration(true)}
               />
             </HeadWrapper>
-            <form
-                onSubmit={handleSubmit(onSubmit) }
-            >
+
+            <form onSubmit={handleSubmit(onSubmit) } >
               <DetailsWrapper title='Create Client' defaultExpanded={true}>
                 <GridWrapper>
                     {clientFormData.map(({inputType, key, name }) => (
 
                         <DynamicInput
                             key = {key}
-                            inputType = {inputType}
                             name = {key}
-                            label= {name}
                             control = {control}
+                            inputType = {inputType}
+                            label= {name}
                         />
 
                     ))}
