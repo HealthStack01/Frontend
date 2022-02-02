@@ -7,7 +7,6 @@ import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import { PageWrapper } from '../../styles';
-// import { columnsClient, dataClient } from '../data';
 
 import { clientFormData } from '../../ModelSchema'
 
@@ -20,7 +19,6 @@ interface Props {
 }
 
 const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, items }) => {
-  console.log(items)
 
   
   return (
@@ -54,7 +52,7 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, it
               pointerOnHover
               highlightOnHover
               onRowClicked={onRowClicked}
-              // striped
+              striped
               style={{ overflow: 'hidden' }}
             />
       </div>
