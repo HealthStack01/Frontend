@@ -113,6 +113,10 @@ const AppClient = () => {
   const onSubmit = (data) => {
     const values = getFormStrings(Client['_id']);
 
+    if (user.employeeData) {
+      data.facility = user.employeeData[0]._id;
+    }
+
     (data._id
       ? ClientServ.update(Client['_id'], data)
       : ClientServ.create(data)
@@ -125,8 +129,6 @@ const AppClient = () => {
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
       });
-
-    console.log(data);
   };
 
   useEffect(() => {
