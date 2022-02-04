@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-
-
 import Button from '../../../buttons/Button';
 import {
   BottomWrapper,
@@ -13,14 +11,9 @@ import {
 } from '../../styles';
 
 import ClientQuickForm from './ClientQuickForm';
-import { clientFullFormData } from '../../ModelSchema'
+import { clientFullFormData } from '../../ModelSchema';
 import { useForm } from 'react-hook-form';
 import DynamicInput from '../../DynamicInput';
-
-
-
-
-
 
 interface ClientDetailsProps {
   // row?: RowProps;
@@ -28,15 +21,13 @@ interface ClientDetailsProps {
   onSubmit: (_) => void;
 }
 
-
-const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => {
+const ClientFullForm: React.FC<ClientDetailsProps> = ({
+  backClick,
+  onSubmit,
+}) => {
   const [isFullRegistration, setFullRegistration] = useState(true);
 
   const { control, handleSubmit } = useForm();
-
-  // console.log(clientFullFormData);
-  console.log(clientFullFormData.biodata);
-
 
   return (
     <>
@@ -61,22 +52,20 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               />
             </HeadWrapper>
 
-            <form onSubmit={handleSubmit(onSubmit) } >
+            <form onSubmit={handleSubmit(onSubmit)}>
               {/* Names */}
               <DetailsWrapper title="Names">
                 <h2>Names</h2>
                 <GridWrapper>
-                    {clientFullFormData.names.map(({inputType, key, name }) => (
-
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                        />
-
-                    ))}
+                  {clientFullFormData.names.map(({ inputType, key, name }) => (
+                    <DynamicInput
+                      key={key}
+                      name={key}
+                      control={control}
+                      inputType={inputType}
+                      label={name}
+                    />
+                  ))}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -84,16 +73,18 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Bio-data">
                 <h2>Bio-data</h2>
                 <GridWrapper>
-                    {clientFullFormData.biodata.map(({inputType, key, name, options }) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                            options = {options || []}
-                        />
-                    ))}
+                  {clientFullFormData.biodata.map(
+                    ({ inputType, key, name, options }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                        options={options || []}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -101,16 +92,18 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Address">
                 <h2>Address</h2>
                 <GridWrapper>
-                    {clientFullFormData.address.map(({inputType, key, name, options }) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                            options = {options || []}
-                        />
-                    ))}
+                  {clientFullFormData.address.map(
+                    ({ inputType, key, name, options }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                        options={options || []}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -118,16 +111,18 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Other Details">
                 <h2>Other Details</h2>
                 <GridWrapper>
-                    {clientFullFormData.otherDetails.map(({inputType, key, name, options }) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                            options = {options || []}
-                        />
-                    ))}
+                  {clientFullFormData.otherDetails.map(
+                    ({ inputType, key, name, options }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                        options={options || []}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -135,16 +130,18 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Next of Kin">
                 <h2>Next of Kin</h2>
                 <GridWrapper>
-                    {clientFullFormData.nextOfKin.map(({inputType, key, name, options }) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                            options = {options || []}
-                        />
-                    ))}
+                  {clientFullFormData.nextOfKin.map(
+                    ({ inputType, key, name, options }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                        options={options || []}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -152,15 +149,17 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Non-Hospitalsiptal Idenfiers">
                 <h2>Non-Hospital Indetifiers</h2>
                 <GridWrapper>
-                    {clientFullFormData.nonHospitalIndetifiers.map(({inputType, key, name}) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                        />
-                    ))}
+                  {clientFullFormData.nonHospitalIndetifiers.map(
+                    ({ inputType, key, name }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -168,15 +167,17 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Payment Information">
                 <h2>Payment Information</h2>
                 <GridWrapper>
-                    {clientFullFormData.paymentInformation.map(({inputType, key, name }) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                        />
-                    ))}
+                  {clientFullFormData.paymentInformation.map(
+                    ({ inputType, key, name }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
 
@@ -184,30 +185,36 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({backClick, onSubmit}) => 
               <DetailsWrapper title="Medical Data">
                 <h2>Medical Data</h2>
                 <GridWrapper>
-                    {clientFullFormData.medicalData.map(({inputType, key, name }) => (
-                        <DynamicInput
-                            key = {key}
-                            name = {key}
-                            control = {control}
-                            inputType = {inputType}
-                            label= {name}
-                        />
-                    ))}
+                  {clientFullFormData.medicalData.map(
+                    ({ inputType, key, name }) => (
+                      <DynamicInput
+                        key={key}
+                        name={key}
+                        control={control}
+                        inputType={inputType}
+                        label={name}
+                      />
+                    )
+                  )}
                 </GridWrapper>
               </DetailsWrapper>
-            </form>
 
-            <BottomWrapper>
-              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-              <Button label="Save Form" />
-            </BottomWrapper>
+              <BottomWrapper>
+                <Button
+                  label="Clear Form"
+                  background="#FFE9E9"
+                  color="#ED0423"
+                />
+                <Button label="Save Form" />
+              </BottomWrapper>
+            </form>
           </GrayWrapper>
         </PageWrapper>
       ) : (
-        <ClientQuickForm backClick ={backClick} onSubmit ={onSubmit} />
+        <ClientQuickForm backClick={backClick} onSubmit={onSubmit} />
       )}
     </>
   );
-}
+};
 
 export default ClientFullForm;

@@ -292,9 +292,9 @@ const clientFullFormData = {
     
     {
       name: 'Marital Status',
-      key: 'maritalStatus',
+      key: 'maritalstatus',
       description: 'Single',
-      selector: (row) => row.maritalStatus,
+      selector: (row) => row.maritalstatus,
       sortable: true,
       required: true,
       inputType: InputType.SELECT,
@@ -390,9 +390,9 @@ const clientFullFormData = {
     
     {
       name: 'Local Government',
-      key: 'localGovernment',
+      key: 'localgovernment',
       description: 'Kosofe',
-      selector: (row) => row.localGovernment,
+      selector: (row) => row.localgovernment,
       sortable: true,
       required: true,
       inputType: InputType.SELECT,
@@ -435,9 +435,9 @@ const clientFullFormData = {
   otherDetails: [
     {
       name: 'Medical Data',
-      key: 'medicalData',
+      key: 'medicaldata',
       description: 'Enter your Medical Data line 1 here',
-      selector: (row) => row.medicalData,
+      selector: (row) => row.medicaldata,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -455,9 +455,9 @@ const clientFullFormData = {
 
   {
     name: 'Other Bio-data',
-    key: 'otherBiodata',
+    key: 'otherbiodata',
     description: 'Enter your Medical Data line 1 here',
-    selector: (row) => row.otherBiodata,
+    selector: (row) => row.otherbiodata,
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
@@ -476,9 +476,9 @@ const clientFullFormData = {
   
   {
     name: 'Non Hospital Indetifiers',
-    key: 'nonHospitalIndetifiers',
+    key: 'nonhospitalindetifiers',
     description: 'Cheif OBA Elegushi',
-    selector: (row) => row.nonHospitalIndetifiers,
+    selector: (row) => row.nonhospitalindetifiers,
     sortable: true,
     required: true,
     inputType: InputType.SELECT,
@@ -487,9 +487,9 @@ const clientFullFormData = {
 
   {
     name: 'Payment Information',
-    key: 'paymentInformation',
+    key: 'paymentinformation',
     description: 'Cheif OBA Elegushi',
-    selector: (row) => row.paymentInformation,
+    selector: (row) => row.paymentinformation,
     sortable: true,
     required: true,
     inputType: InputType.SELECT,
@@ -498,9 +498,9 @@ const clientFullFormData = {
 
   {
     name: 'Assignt to Care Team',
-    key: 'assignttoCareTeam',
+    key: 'assignttocareteam',
     description: 'Cheif OBA Elegushi',
-    selector: (row) => row.assignttoCareTeam,
+    selector: (row) => row.assignttocareteam,
     sortable: true,
     required: true,
     inputType: InputType.SELECT,
@@ -565,9 +565,9 @@ const clientFullFormData = {
 
     {
       name: 'International Passport Number',
-      key: 'passportNumber',
+      key: 'passportnumber',
       description:  'Enter your International Passport Number here',
-      selector: (row) => row.passportNumber,
+      selector: (row) => row.passportnumber,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -575,9 +575,9 @@ const clientFullFormData = {
 
     {
       name: 'Voters Card Number',
-      key: 'votersCardNumber',
+      key: 'voterscardnumber',
       description: '0806478263',
-      selector: (row) => row.votersCardNumber,
+      selector: (row) => row.voterscardnumber,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -585,9 +585,9 @@ const clientFullFormData = {
 
     {
       name: 'Drivers License Number',
-      key: 'driversLicenseNumber',
+      key: 'driverslicensenumber',
       description: 'Enter your Drivers License Number here',
-      selector: (row) => row.driversLicenseNumber,
+      selector: (row) => row.driverslicensenumber,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -597,9 +597,9 @@ const clientFullFormData = {
   paymentInformation: [
     {
       name: 'Account Holder Name',
-      key: 'accountName',
+      key: 'accountname',
       description: 'Enter account holder name here',
-      selector: (row) => row.accountName,
+      selector: (row) => row.accountname,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -617,9 +617,9 @@ const clientFullFormData = {
 
     {
       name: 'Account Number',
-      key: 'accountNumber',
+      key: 'accountnumber',
       description: '000 0000 000',
-      selector: (row) => row.accountNumber,
+      selector: (row) => row.accountnumber,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -627,9 +627,9 @@ const clientFullFormData = {
 
     {
       name: 'Payment Method',
-      key: 'paymentMethod',
+      key: 'paymentmethod',
       description: 'Payment Method',
-      selector: (row) => row.paymentMethod,
+      selector: (row) => row.paymentmethod,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,
@@ -639,9 +639,9 @@ const clientFullFormData = {
   medicalData: [
     {
       name: 'Blood Group',
-      key: 'bloodGroup',
+      key: 'bloodgroup',
       description: 'Enter blood group here',
-      selector: (row) => row.bloodGroup,
+      selector: (row) => row.bloodgroup,
       sortable: true,
       required: true,
       inputType: InputType.TEXT,

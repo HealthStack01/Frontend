@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { toast } from 'react-toastify';
-import client from '../../../../feathers'
+import client from '../../../../feathers';
 import { useObjectState, UserContext } from '../../../../context/context';
 import { getFormStrings } from '../../Utils';
 
@@ -10,62 +10,66 @@ import ClientDetails from './ClientDetail';
 import Clients from './ClientList';
 import ClientModify from './ClientModify';
 
-
 const AppClient = () => {
   let ClientServ = client.service('client');
 
   const { resource, setResource } = useObjectState();
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [newClients, setNewClients] = useState([]);
 
+  const Client = resource.billClientResource.selectedBillClient;
+  // console.log(Client['_id']);
+  // console.log(Client);
+
+  // console.log(resource);
 
   const backClick = () => {
     setResource((prevState) => ({
       ...prevState,
-      bandResource: {
-        ...prevState.bandResource,
+      billClientResource: {
+        ...prevState.billClientResource,
         show: 'lists',
-      }
-
-    }))
-  }
+      },
+    }));
+  };
 
   const getClients = async () => {
-    if(user.employeeData[0]) {
+    if (user.employeeData[0]) {
       ClientServ.find({
         query: {
           facility: user.employeeData[0]._id,
           $limit: 200,
           $sort: {
             createdAt: -1,
-          }
-        }
+          },
+        },
       })
-      .then((res) => { setNewClients(res.data)})
+        .then((res) => {
+          setNewClients(res.data);
+        })
 
-      .catch(err => {
-        console.error(err)
-      })
-    }else if (user.stacker) {
+        .catch((err) => {
+          console.error(err);
+        });
+    } else if (user.stacker) {
       ClientServ.find({
         query: {
           $limit: 200,
           $sort: {
             facility: -1,
-          }
-        }
+          },
+        },
       })
-      .then(res => {
-        setNewClients(res.data);
+        .then((res) => {
+          setNewClients(res.data);
 
-        toast('Clients fetched successfully');
-      })
-      .catch(err => {
-        console.error(err)
-      })
+          toast('Clients fetched successfully');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
-
 
   const handleSearch = (text) => {
     ClientServ.find({
@@ -90,28 +94,40 @@ const AppClient = () => {
       });
   };
 
+  const handleDelete = async () => {
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
+    const dleteId = Client['_id'];
+    if (conf) {
+      ClientServ.remove(dleteId)
+        .then((res) => {
+          toast('Client deleted succesfully');
+          backClick();
+        })
+        .catch((err) => {
+          toast('Error deleting Client, probable network issues or ' + err);
+        });
+    }
+  };
 
   const onSubmit = (data) => {
-    const values = getFormStrings(user.employeeData[0]._id);
-    
+    const values = getFormStrings(Client['_id']);
 
-    if (user.employeeData[0]) {
-      data.facility = user.employeeData[0]._id;
-
-    }
-    
-    (data._id ? ClientServ.update(data.facility, data) : ClientServ.create(data))
-      .then(() => {
+    (data._id
+      ? ClientServ.update(Client['_id'], data)
+      : ClientServ.create(data)
+    )
+      .then((res) => {
         toast(`Client ${values.message}`);
 
         backClick();
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
-
       });
-  }
+
+    console.log(data);
+  };
 
   useEffect(() => {
     if (!ClientServ) {
@@ -128,15 +144,12 @@ const AppClient = () => {
     };
   }, [user]);
 
-
-
-
   return (
     <>
       {resource.billClientResource.show === 'lists' && (
         <Clients
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -145,7 +158,7 @@ const AppClient = () => {
             }))
           }
           onRowClicked={(row, _event) => {
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billClientResource: {
                 show: 'details',
@@ -153,16 +166,15 @@ const AppClient = () => {
               },
             }));
           }}
-
-          items = {newClients}
-          handleSearch = {handleSearch}
+          items={newClients}
+          handleSearch={handleSearch}
         />
       )}
 
       {resource.billClientResource.show === 'create' && (
         <ClientCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -170,18 +182,15 @@ const AppClient = () => {
               },
             }))
           }
-
-          onSubmit = {onSubmit}
+          onSubmit={onSubmit}
         />
-      )} 
-
-
+      )}
 
       {resource.billClientResource.show === 'details' && (
         <ClientDetails
           row={resource.billClientResource.selectedBillClient}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -190,7 +199,7 @@ const AppClient = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -198,13 +207,14 @@ const AppClient = () => {
               },
             }))
           }
+          handleDelete={() => handleDelete()}
         />
       )}
       {resource.billClientResource.show === 'edit' && (
         <ClientModify
           row={resource.billClientResource.selectedBillClient}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billClientResource: {
                 ...prevState.billClientResource,
@@ -213,7 +223,7 @@ const AppClient = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               bandResource: {
                 ...prevState.bandResource,
@@ -221,6 +231,8 @@ const AppClient = () => {
               },
             }))
           }
+          onSubmit={onSubmit}
+          handleDelete={() => handleDelete()}
         />
       )}
     </>
