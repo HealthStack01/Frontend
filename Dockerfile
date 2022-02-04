@@ -11,6 +11,7 @@ ENV API_HOST=${API_HOST}
 ENV DOLLAR=${DOLLAR}
 RUN envsubst < /app/nginx.tmpl > /app/nginx.conf
 RUN cat /app/nginx.conf | tee /my-install-cmd.log
+RUN mv .env.prod .env
 RUN npm run build
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.15
