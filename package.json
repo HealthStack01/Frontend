@@ -12,7 +12,7 @@
     "@feathersjs/socketio-client": "^4.5.13",
     "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.66",
-    "@mui/material": "^5.2.7",
+    "@mui/material": "^5.4.0",
     "@mui/styled-engine-sc": "^5.1.0",
     "@testing-library/dom": "^8.11.2",
     "@testing-library/jest-dom": "^5.16.1",
