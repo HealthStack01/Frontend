@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
+import { EmployeeSchema } from '../../ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -9,16 +10,11 @@ import {
   PageWrapper,
 } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const EmployeeDetails: React.FC<Props> = ({
+const EmployeeDetails = ({
   editBtnClicked,
   row,
   backClick,
+  handleDelete,
 }) => (
   <PageWrapper>
     <GrayWrapper>
@@ -40,7 +36,7 @@ const EmployeeDetails: React.FC<Props> = ({
             color="#ED0423"
             showicon
             icon="bi bi-pen-fill"
-            onClick={editBtnClicked}
+            onClick={handleDelete}
           />
           <Button
             label="Edit Details"
@@ -54,38 +50,12 @@ const EmployeeDetails: React.FC<Props> = ({
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>
-          <div>
-            <label>ID</label>
-            <p>{row.id}</p>
-          </div>
-          <div>
-            <label>First Name</label>
-            <p>{row.fname}</p>
-          </div>
-          <div>
-            <label>Last Name</label>
-            <p>{row.lname}</p>
-          </div>
-          <div>
-            <label>Profession</label>
-            <p>{row.profession}</p>
-          </div>
-          <div>
-            <label>Phone Number</label>
-            <p>{row.phone}</p>
-          </div>
-          <div>
-            <label>Email Address</label>
-            <p>{row.email}</p>
-          </div>
-          <div>
-            <label>Department</label>
-            <p>{row.department}</p>
-          </div>
-          <div>
-            <label>Departmental Unit</label>
-            <p>{row.departmentalUnit}</p>
-          </div>
+          {EmployeeSchema.map((schema) => (
+            <div>
+              <label>{schema.name}</label>
+              <p>{schema.selector(row)}</p>
+            </div>
+          ))}
         </GridWrapper>
       </FullDetailsWrapper>
     </GrayWrapper>

@@ -1,53 +1,28 @@
 import { Box, FormGroup, Stack } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
+import DynamicInput from '../../../components/app/DynamicInput';
+import { ModulesSchema } from '../../../components/app/ModelSchema';
 
-import CheckboxInput from '../../../components/inputs/basic/Checkbox';
-import { modules } from '../../../utils/data';
 
-function SelectModule() {
-  const [values, setValues] = useState({});
+function SelectModule({control}) {
 
   return (
     <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
-      <form action="">
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
           }}
         >
-          <FormGroup>
-            {modules.first.map((module, index) => (
-              <CheckboxInput
-                label={module}
-                key={index}
-                name={module}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
+         {ModulesSchema.map((schema,  i) => (
+           <FormGroup key={i}>
+              <DynamicInput
+                control={control}
+                {...schema}
               />
-            ))}
           </FormGroup>
-          <FormGroup>
-            {modules.second.map((module, index) => (
-              <CheckboxInput
-                label={module}
-                key={index}
-                name={module}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            ))}
-          </FormGroup>
+        ))}
         </Box>
-      </form>
     </Stack>
   );
 }

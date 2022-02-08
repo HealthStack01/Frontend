@@ -5,12 +5,14 @@ import AccordionBox from '../../../components/accordion';
 import ExistingAdminEmployee from './ExistingAdminEmployee';
 import NewEmployee from './NewEmployee';
 
-function AddAdmin() {
+function AddAdmin({ control, adminEmployee }) {
   return (
     <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
-      <AccordionBox title="Add Admin Employye">
-        <AccordionBox title="New Admin Employye">
-          <NewEmployee />
+      <AccordionBox
+        title={adminEmployee ? 'Admin Employee' : 'Add Admin Employye'}
+      >
+        <AccordionBox title="New Admin Employee">
+          <NewEmployee control={control} />
         </AccordionBox>
         <AccordionBox title="Inivte an existing user">
           <ExistingAdminEmployee />

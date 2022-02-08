@@ -94,7 +94,7 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
           <GrayWrapper>
             <HeadWrapper>
               <div>
-                <h2>Create Client</h2>
+                <h2>Quick Register Client</h2>
                 <span>
                   Create a New client by filling out the form below to get
                   started.
@@ -116,7 +116,7 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = () => {
                 alert('submitted');
               }}
             >
-              <DetailsWrapper title='Create Client' defaultExpanded={true}>
+              <DetailsWrapper title='Quick Client' defaultExpanded={true}>
                 <GridWrapper>
                   {clientFormData.map((client, index) => (
                     <Input

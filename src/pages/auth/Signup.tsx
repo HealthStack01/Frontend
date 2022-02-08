@@ -1,8 +1,18 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Step, StepButton, Stepper } from '@mui/material';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import {
+  EmployeeSchema,
+  getResolver,
+  OnboardingEmployeeSchema,
+  OrganisationSchema,
+} from '../../components/app/ModelSchema';
 import Button from '../../components/buttons/Button';
+import client from '../../feathers';
 import AuthWrapper from '../../helper/AuthWrapper';
 import AddAdmin from './forms/AddAdmin';
 import CreateOrganization from './forms/CreateOrganization';
@@ -14,31 +24,43 @@ const steps = [
   'Add Admin Employees',
 ];
 
+const STEP_ORGANISATION = 0;
+const STEP_MODULES = 1;
+const STEP_EMPLOYEE = 2;
+
 function Signup() {
+  const FacilityServ = client.service('facility');
+  const EmployeeServ = client.service('employee');
+  const organnisationResolver = getResolver(OrganisationSchema);
+  const employeeResolver = getResolver(OnboardingEmployeeSchema);
+
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
-  const [completed] = useState<{
-    [k: number]: boolean;
-  }>({});
+  const [createdFacility, setCreatedFacility] = useState<any>();
+  const [createdAdminEmployee, setCreatedAdminEmployee] = useState<any>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(organnisationResolver),
+  });
 
-  const totalSteps = () => steps.length;
-
-  const completedSteps = () => Object.keys(completed).length;
-
-  const isLastStep = () => activeStep === totalSteps() - 1;
-
-  const allStepsCompleted = () => completedSteps() === totalSteps();
-
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
+  const handleNext = (data) => {
+    processStep(data)
+      .then((_) => {
+        const newActiveStep =
+          activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
+        setActiveStep(newActiveStep);
+      })
+      .catch((error) => {
+        console.log({ error });
+        toast.error(error.message ? error.message : error);
+      });
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep(activeStep > STEP_ORGANISATION ? activeStep - 1 : activeStep);
   };
 
   const handleStep = (step: number) => () => {
@@ -58,67 +80,139 @@ function Signup() {
   //   handleNext();
   // };
 
-  const onSubmit = () => {
-    navigate('/app');
+  const processStep = async (data) => {
+    if (activeStep === STEP_ORGANISATION) {
+      return Promise.resolve(true);
+    } else if (activeStep === STEP_MODULES) {
+      const selectedModules = Object.keys(data).filter(
+        (key) => key.includes('module') && data[key]
+      );
+      if (selectedModules.length > 1) {
+        return createFacility(data)
+          .then((res) => {
+            setCreatedFacility(res);
+            return true;
+          })
+          .catch((error) => {
+            return Promise.reject(
+              `Error occurred creating facility ${error.message}`
+            );
+          });
+      } else {
+        return Promise.reject('Please select 2 modules or more!');
+      }
+    } else if (activeStep === STEP_EMPLOYEE) {
+      return createAdminEmployee(data)
+        .then((res) => {
+          setCreatedAdminEmployee(res);
+          navigate('/');
+        })
+        .catch((error) => {
+          return Promise.reject(
+            `Error occurred creating admin employee ${error.message}`
+          );
+        });
+    }
   };
+
+  const createFacility = (data) => {
+    const facility = {
+      ...data,
+      facilityModules: Object.keys(data)
+        .filter((key) => key.includes('module') && data[key])
+        .map((key) => key.substring(6)),
+    };
+    return FacilityServ.create(facility);
+  };
+
+  const createAdminEmployee = async (data) => {
+    return employeeResolver
+      .validate(data)
+      .then(_ => {
+        const employee = {
+          ...data,
+          relatedfacilities: [
+            {
+              facility: createdFacility && createdFacility._id,
+              roles: ['Admin'],
+              deptunit: data.deptunit,
+              email: data.email,
+            },
+          ],
+        };
+        return EmployeeServ.create(employee);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  };
+
   return (
-    <AuthWrapper paragraph='Signup here as an organization'>
+    <AuthWrapper paragraph="Signup here as an organization">
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
-          <Step key={label} completed={completed[index]}>
-            <StepButton color='inherit' onClick={handleStep(index)}>
+          <Step key={label} completed={activeStep > index}>
+            <StepButton color="inherit" onClick={handleStep(index)}>
               {label}
             </StepButton>
           </Step>
         ))}
       </Stepper>
-      {activeStep === 0 && <CreateOrganization />}
-      {activeStep === 1 && <SelectModule />}
-      {activeStep === 2 && <AddAdmin />}
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          pt: 2,
-          gap: 10,
-        }}
-      >
-        <Button
-          color='inherit'
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          style={{ background: 'lightgray', color: 'black' }}
-        >
-          Back
-        </Button>
-        <Box sx={{ flex: '1 1 auto' }} />
-        {activeStep === 2 ? (
-          <Button type='submit' onClick={onSubmit}>
-            Complete
-          </Button>
-        ) : (
-          <Button onClick={handleNext}>Next</Button>
+      <form onSubmit={handleSubmit(handleNext)}>
+        {activeStep === STEP_ORGANISATION && (
+          <CreateOrganization control={control} errors={errors} />
         )}
-      </Box>
+        {activeStep === STEP_MODULES && <SelectModule control={control} />}
+        {activeStep === STEP_EMPLOYEE && (
+          <AddAdmin control={control} adminEmployee={createdAdminEmployee} />
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            pt: 2,
+            gap: 10,
+          }}
+        >
+          {activeStep > STEP_ORGANISATION && !createdFacility ? (
+            <Button
+              color="inherit"
+              disabled={activeStep === STEP_ORGANISATION}
+              onClick={handleBack}
+              style={{ background: 'lightgray', color: 'black' }}
+            >
+              Back
+            </Button>
+          ) : (
+            <></>
+          )}
+          <Box sx={{ flex: '1 1 auto' }} />
+          {activeStep === STEP_EMPLOYEE ? (
+            <Button>Complete</Button>
+          ) : (
+            <Button>Next</Button>
+          )}
+        </Box>
+      </form>
       <p style={{ padding: '2rem 0' }}>
         Have an account?
         <Link
-          className='nav-link'
+          className="nav-link"
           style={{
             padding: '0',
             background: 'transparent',
             color: 'blue',
             marginLeft: '0.6rem',
           }}
-          to='/'
+          to="/"
         >
           Login
         </Link>
       </p>
 
       <Link
-        className='nav-link'
+        className="nav-link"
         style={{
           padding: '16px 32px',
           color: '#333',
@@ -130,7 +224,7 @@ function Signup() {
           right: '20px',
           textDecoration: 'none',
         }}
-        to='/signupindividual'
+        to="/signupindividual"
       >
         Signup as Individual
       </Link>

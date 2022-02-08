@@ -1,13 +1,127 @@
-import React from 'react';
-
-import { useObjectState } from '../../../../context/context';
+import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useObjectState, UserContext } from '../../../../context/context';
+import client from '../../../../feathers';
 import EmployeeCreate from './EmployeeCreate';
+import { getFormStrings } from '../../Utils';
 import EmployeeDetails from './EmployeeDetail';
 import Employees from './EmployeeList';
 import EmployeeModify from './EmployeeModify';
 
 function AppEmployees() {
+  let EmployeeServ = client.service('employee');
   const { resource, setResource } = useObjectState();
+  const { user } = useContext(UserContext);
+  const [employees, setEmployees] = useState<any>([]);
+  let Employee = resource.employeeResource.selectedEmployee;
+
+  const backClick = () => {
+    setResource((prevState) => ({
+      ...prevState,
+      employeeResource: {
+        ...prevState.employeeResource,
+        show: 'lists',
+      },
+    }));
+  };
+
+  const getEmployee = async () => {
+    if (user.currentEmployee) {
+      EmployeeServ.find({
+        query: {
+          facility: user.currentEmployee.facilityDetail._id,
+          $limit: 200,
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      })
+        .then(() => {})
+        .catch((error) => {
+          console.error({ error });
+        });
+    } else if (user.stacker) {
+      EmployeeServ.find({
+        query: {
+          $limit: 200,
+          $sort: {
+            facility: -1,
+          },
+        },
+      })
+        .then((res) => {
+          setEmployees(res.data);
+          toast('Employees fetched succesfully');
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+    }
+  };
+
+  const handleDelete = () => {
+     EmployeeServ.remove(Employee)
+      .then((res) => {
+        toast('Employee deleted successfully');
+        getEmployee();
+        backClick();
+      })
+      .catch((err) => {
+        toast('Error deleting Employee, probable network issues or ' + err);
+      });
+  };
+
+  const handleSearch = (text) => {
+    EmployeeServ.find({
+      query: {
+        name: {
+          $regex: text,
+          $options: 'i',
+        },
+        facility: user?.currentEmployee?.facilityDetail?._id || '',
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((res) => {
+        setEmployees(res.data);
+        toast('Employee fetched succesfully');
+      })
+      .catch((err) => {
+        toast('Error updating Employee, probable network issues or ' + err);
+      });
+  };
+
+  const onSubmit = (data) => {
+    const values = getFormStrings(data._id);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id;
+    }
+    (data._id ? EmployeeServ.update(data._id, data) : EmployeeServ.create(data))
+      .then(() => {
+        toast(`Employee ${values.message}`);
+        backClick();
+      })
+      .catch((err) => {
+        toast(`Error occurred : ${err}`);
+      });
+  };
+
+  useEffect(() => {
+    if (!EmployeeServ) {
+      EmployeeServ = client.service('employee');
+      EmployeeServ.on('created', (_) => getEmployee());
+      EmployeeServ.on('updated', (_) => getEmployee());
+      EmployeeServ.on('patched', (_) => getEmployee());
+      EmployeeServ.on('removed', (_) => getEmployee());
+    }
+    user && getEmployee();
+    return () => {
+      EmployeeServ = null;
+    };
+  }, [user]);
 
   return (
     <>
@@ -23,8 +137,6 @@ function AppEmployees() {
             }))
           }
           onRowClicked={(row, _) => {
-            // https://stackoverflow.com/questions/54150783/react-hooks-usestate-with-object
-
             setResource((prevState) => ({
               ...prevState,
               employeeResource: {
@@ -33,6 +145,8 @@ function AppEmployees() {
               },
             }));
           }}
+          items={employees}
+          handleSearch={handleSearch}
         />
       )}
       {resource.employeeResource.show === 'create' && (
@@ -46,6 +160,7 @@ function AppEmployees() {
               },
             }))
           }
+          onSubmit={onSubmit}
         />
       )}
       {resource.employeeResource.show === 'details' && (
@@ -69,6 +184,7 @@ function AppEmployees() {
               },
             }))
           }
+          handleDelete={handleDelete}
         />
       )}
       {resource.employeeResource.show === 'edit' && (
@@ -92,6 +208,7 @@ function AppEmployees() {
               },
             }))
           }
+          onSubmit={onSubmit}
         />
       )}
     </>

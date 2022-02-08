@@ -1,23 +1,22 @@
 import { Stack } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
+import DynamicInput from '../../../components/app/DynamicInput';
+import { InputType } from '../../../components/app/ModelSchema';
 import Button from '../../../components/buttons/Button';
-import Input from '../../../components/inputs/basic/Input';
 
 function ExistingAdminEmployee() {
-  const [values, setValues] = useState({});
+  const { control } = useForm();
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      <form action="">
-        <Input
-          label="Organization Email"
+      <form>
+        <DynamicInput
+          inputType={InputType.TEXT}
+          key={'mail'}
           name="organizationEmail"
-          onChange={(e) =>
-            setValues({
-              ...values,
-              [e.target.name]: e.target.value,
-            })
-          }
+          desceription="Organization Email"
+          control={control}
         />
 
         <Button type="submit" label="Send Invitation" fullwidth />
