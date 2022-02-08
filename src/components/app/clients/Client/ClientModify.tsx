@@ -2,10 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-// import AutoCompleteBox from '../../../inputs/AutoComplete';
-// import Input from '../../../inputs/basic/Input';
-// import CustomSelect from '../../../inputs/basic/Select';
-// import Textarea from '../../../inputs/basic/Textarea';
+import DynamicInput from '../../DynamicInput';
+import { ClientFullSchema } from '../../schema';
 import {
   BottomWrapper,
   // DetailsWrapper,
@@ -14,9 +12,6 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
-
-import DynamicInput from '../../DynamicInput';
-import { clientFullFormData } from '../../ModelSchema';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -65,7 +60,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Names</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.names.map(({ inputType, key, name }) => (
+              {ClientFullSchema.names.map(({ inputType, key, name }) => (
                 <DynamicInput
                   key={key}
                   name={key}
@@ -80,7 +75,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Bio-Data</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.biodata.map(
+              {ClientFullSchema.biodata.map(
                 ({ inputType, key, name, options }) => (
                   <DynamicInput
                     key={key}
@@ -98,7 +93,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Address </h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.address.map(
+              {ClientFullSchema.address.map(
                 ({ inputType, key, name, options }) => (
                   <DynamicInput
                     key={key}
@@ -116,7 +111,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Other Details</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.otherDetails.map(
+              {ClientFullSchema.otherDetails.map(
                 ({ inputType, key, name, options }) => (
                   <DynamicInput
                     key={key}
@@ -134,7 +129,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Next Of Kin</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.nextOfKin.map(
+              {ClientFullSchema.nextOfKin.map(
                 ({ inputType, key, name, options }) => (
                   <DynamicInput
                     key={key}
@@ -152,7 +147,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Non-Hospital Indetifiers</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.nonHospitalIndetifiers.map(
+              {ClientFullSchema.nonHospitalIndetifiers.map(
                 ({ inputType, key, name }) => (
                   <DynamicInput
                     key={key}
@@ -169,7 +164,7 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Payment Information</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.paymentInformation.map(
+              {ClientFullSchema.paymentInformation.map(
                 ({ inputType, key, name }) => (
                   <DynamicInput
                     key={key}
@@ -186,17 +181,15 @@ const ClientModify: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Medical Data</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.medicalData.map(
-                ({ inputType, key, name }) => (
-                  <DynamicInput
-                    key={key}
-                    name={key}
-                    control={control}
-                    inputType={inputType}
-                    label={name}
-                  />
-                )
-              )}
+              {ClientFullSchema.medicalData.map(({ inputType, key, name }) => (
+                <DynamicInput
+                  key={key}
+                  name={key}
+                  control={control}
+                  inputType={inputType}
+                  label={name}
+                />
+              ))}
             </GridWrapper>
           </div>
 

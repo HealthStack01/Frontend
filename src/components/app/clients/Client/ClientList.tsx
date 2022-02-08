@@ -5,9 +5,8 @@ import { ToastContainer } from 'react-toastify';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import { ClientMiniSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
-
-import { clientFormData } from '../../ModelSchema';
 
 interface Props {
   handleCreate?: () => void;
@@ -22,7 +21,6 @@ const Clients: React.FC<Props> = ({
   handleSearch,
   items,
 }) => {
-
   return (
     <PageWrapper>
       <h2> Client </h2>
@@ -47,7 +45,7 @@ const Clients: React.FC<Props> = ({
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
           title="Clients"
-          columns={clientFormData}
+          columns={ClientMiniSchema}
           data={items}
           selectableRows
           pointerOnHover

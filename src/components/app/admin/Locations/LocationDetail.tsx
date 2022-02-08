@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
+import { LocationSchema } from '../../schema/ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -12,6 +13,7 @@ import {
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  handleDelete: (_event) => void;
   row?: any;
 }
 
@@ -19,13 +21,14 @@ const LocationDetails: React.FC<Props> = ({
   editBtnClicked,
   row,
   backClick,
+  handleDelete,
 }) => (
   <PageWrapper>
     <GrayWrapper>
       <HeadWrapper>
         <div>
-          <h2>Employee Details</h2>
-          <span>Below are your employee’s details</span>
+          <h2>Location Details</h2>
+          <span>Below are your Location details</span>
         </div>
         <div>
           <Button
@@ -40,7 +43,7 @@ const LocationDetails: React.FC<Props> = ({
             color="#ED0423"
             showicon
             icon="bi bi-pen-fill"
-            onClick={editBtnClicked}
+            onClick={handleDelete}
           />
           <Button
             label="Edit Details"
@@ -54,18 +57,12 @@ const LocationDetails: React.FC<Props> = ({
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>
-          <div>
-            <label>ID</label>
-            <p>{row.id}</p>
-          </div>
-          <div>
-            <label>Name</label>
-            <p>{row.locationname}</p>
-          </div>
-          <div>
-            <label>Band Type</label>
-            <p>{row.locationType}</p>
-          </div>
+          {LocationSchema.map((schema) => (
+            <div>
+              <label>{schema.name}</label>
+              <p>{schema.selector(row)}</p>
+            </div>
+          ))}
         </GridWrapper>
       </FullDetailsWrapper>
     </GrayWrapper>

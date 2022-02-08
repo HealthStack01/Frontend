@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
+import DynamicInput from '../../DynamicInput';
+import { ClientMiniSchema } from '../../schema';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -12,10 +13,6 @@ import {
   PageWrapper,
 } from '../../styles';
 import ClientFullForm from './ClientFullForm';
-
-import { clientFormData } from '../../ModelSchema';
-
-import DynamicInput from '../../DynamicInput';
 
 interface RowProps {
   id: any;
@@ -61,7 +58,7 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsWrapper title="Create Client" defaultExpanded={true}>
                 <GridWrapper>
-                  {clientFormData.map(({ inputType, key, name }) => (
+                  {ClientMiniSchema.map(({ inputType, key, name }) => (
                     <DynamicInput
                       key={key}
                       name={key}

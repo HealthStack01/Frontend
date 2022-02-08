@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
+import DynamicInput from '../../DynamicInput';
+import { EmployeeSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -11,56 +13,13 @@ import {
   PageWrapper,
 } from '../../styles';
 
-const clientFormData = [
-  {
-    title: 'First Name',
-    name: 'fname',
-    description: 'Enter first name',
-    required: true,
-  },
-  {
-    title: 'Last Name',
-    name: 'lname',
-    description: 'Enter last name',
-    required: true,
-  },
-  {
-    title: 'Profession',
-    name: 'profession',
-    description: 'Enter profession',
-    required: true,
-  },
-  {
-    title: 'Phone Number',
-    name: 'phone',
-    description: 'Enter phone number',
-    required: true,
-  },
-  {
-    title: 'Email',
-    name: 'email',
-    description: 'Enter email address',
-    required: true,
-  },
-  {
-    title: 'Department',
-    name: 'department',
-    description: 'Enter department',
-    required: true,
-  },
-  {
-    title: 'Department Unit',
-    name: 'departmentalUnit',
-    description: 'Enter departmental unit',
-    required: true,
-  },
-];
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
 }
 
-const EmployeeCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
+const EmployeeCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
+  const { handleSubmit, control } = useForm();
 
   return (
     <PageWrapper>
@@ -80,20 +39,16 @@ const EmployeeCreate: React.FC<Props> = ({ backClick }) => {
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Employee">
             <GridWrapper>
-              {clientFormData.map((client, index) => (
-                <Input
+              {EmployeeSchema.map((client, index) => (
+                <DynamicInput
                   key={index}
-                  label={client.title}
-                  name={client.title}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
                 />
               ))}
             </GridWrapper>

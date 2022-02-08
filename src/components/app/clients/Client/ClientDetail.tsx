@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
+import { ClientFullSchema } from '../../schema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -8,8 +9,6 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
-
-import { clientFullFormData } from '../../ModelSchema';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -62,7 +61,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Names</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.names.map((client) => (
+              {ClientFullSchema.names.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -74,7 +73,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Bio-Data</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.biodata.map((client) => (
+              {ClientFullSchema.biodata.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -86,7 +85,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Address</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.address.map((client) => (
+              {ClientFullSchema.address.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -98,7 +97,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Other Details</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.otherDetails.map((client) => (
+              {ClientFullSchema.otherDetails.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -110,7 +109,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Next Of Kin</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.nextOfKin.map((client) => (
+              {ClientFullSchema.nextOfKin.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -122,7 +121,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Non-Hospital Indetifiers</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.nonHospitalIndetifiers.map((client) => (
+              {ClientFullSchema.nonHospitalIndetifiers.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -134,7 +133,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Payment Information</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.paymentInformation.map((client) => (
+              {ClientFullSchema.paymentInformation.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>
@@ -146,7 +145,7 @@ const ClientDetails: React.FC<Props> = ({
           <div style={{ marginTop: '30px' }}>
             <h2>Medical Data</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
-              {clientFullFormData.medicalData.map((client) => (
+              {ClientFullSchema.medicalData.map((client) => (
                 <div>
                   <label>{client.name}</label>
                   <p>{client.selector(row)}</p>

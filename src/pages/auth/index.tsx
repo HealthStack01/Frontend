@@ -32,13 +32,13 @@ function Login() {
         password,
       })
       .then((res) => {
-        setUser(res.user);
+        const user = { ...res.user, currentEmployee: res.user.employeeData[0] };
+        setUser(user);
         localStorage.setItem('user', JSON.stringify(res.user));
         navigate('/app');
       })
       .catch((err) => {
         toast.error(`Error loggin in User, probable network issues ${err}`);
-        navigate('/app');
       });
   };
 

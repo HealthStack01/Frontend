@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
+import DynamicInput from '../../DynamicInput';
+import { LocationSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -14,13 +15,13 @@ import {
 
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
 }
 
-const locationType = ['Type 1', 'Type 2', 'Type 3'];
+const locationType = ['Front Desk', 'Clinic', 'Store', 'Laboratory', 'Finance'];
 
-const LocationCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
-
+const LocationCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
+  const { handleSubmit, control } = useForm();
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -39,30 +40,19 @@ const LocationCreate: React.FC<Props> = ({ backClick }) => {
             onClick={backClick}
           />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Employee">
             <GridWrapper>
-              <Input
-                label="Name of Location"
-                name="locationname"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <CustomSelect
-                label="Choose a Location Type"
-                name="locationType"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                options={locationType}
-              />
+              {LocationSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={locationType}
+                />
+              ))}
             </GridWrapper>
           </FullDetailsWrapper>
 

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
+import DynamicInput from '../../DynamicInput';
+import { ClientFullSchema } from '../../schema';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -9,11 +12,7 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
-
 import ClientQuickForm from './ClientQuickForm';
-import { clientFullFormData } from '../../ModelSchema';
-import { useForm } from 'react-hook-form';
-import DynamicInput from '../../DynamicInput';
 
 interface ClientDetailsProps {
   // row?: RowProps;
@@ -57,7 +56,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Names">
                 <h2>Names</h2>
                 <GridWrapper>
-                  {clientFullFormData.names.map(({ inputType, key, name }) => (
+                  {ClientFullSchema.names.map(({ inputType, key, name }) => (
                     <DynamicInput
                       key={key}
                       name={key}
@@ -73,7 +72,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Bio-data">
                 <h2>Bio-data</h2>
                 <GridWrapper>
-                  {clientFullFormData.biodata.map(
+                  {ClientFullSchema.biodata.map(
                     ({ inputType, key, name, options }) => (
                       <DynamicInput
                         key={key}
@@ -92,7 +91,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Address">
                 <h2>Address</h2>
                 <GridWrapper>
-                  {clientFullFormData.address.map(
+                  {ClientFullSchema.address.map(
                     ({ inputType, key, name, options }) => (
                       <DynamicInput
                         key={key}
@@ -111,7 +110,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Other Details">
                 <h2>Other Details</h2>
                 <GridWrapper>
-                  {clientFullFormData.otherDetails.map(
+                  {ClientFullSchema.otherDetails.map(
                     ({ inputType, key, name, options }) => (
                       <DynamicInput
                         key={key}
@@ -130,7 +129,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Next of Kin">
                 <h2>Next of Kin</h2>
                 <GridWrapper>
-                  {clientFullFormData.nextOfKin.map(
+                  {ClientFullSchema.nextOfKin.map(
                     ({ inputType, key, name, options }) => (
                       <DynamicInput
                         key={key}
@@ -149,7 +148,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Non-Hospitalsiptal Idenfiers">
                 <h2>Non-Hospital Indetifiers</h2>
                 <GridWrapper>
-                  {clientFullFormData.nonHospitalIndetifiers.map(
+                  {ClientFullSchema.nonHospitalIndetifiers.map(
                     ({ inputType, key, name }) => (
                       <DynamicInput
                         key={key}
@@ -167,7 +166,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Payment Information">
                 <h2>Payment Information</h2>
                 <GridWrapper>
-                  {clientFullFormData.paymentInformation.map(
+                  {ClientFullSchema.paymentInformation.map(
                     ({ inputType, key, name }) => (
                       <DynamicInput
                         key={key}
@@ -185,7 +184,7 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Medical Data">
                 <h2>Medical Data</h2>
                 <GridWrapper>
-                  {clientFullFormData.medicalData.map(
+                  {ClientFullSchema.medicalData.map(
                     ({ inputType, key, name }) => (
                       <DynamicInput
                         key={key}

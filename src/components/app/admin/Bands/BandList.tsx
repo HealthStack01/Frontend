@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import { BandSchema } from '../../ModelSchema';
+import { BandSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   handleSearch: (_event) => void;
   onRowClicked?: (
     _row: { id: any; name: string; bandType: string; description: string },
-    _event: any,
+    _event: any
   ) => void;
   items: any[];
 }

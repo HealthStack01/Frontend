@@ -7,7 +7,7 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface PasswordInputProps {
   label?: string;
@@ -21,31 +21,32 @@ interface PasswordInputProps {
 const PasswordInput: React.FC<PasswordInputProps> = (
   props: PasswordInputProps
 ) => {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
-    setShowPassword(false);
+    setShowPassword(!showPassword);
   };
 
   const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
   return (
     <div>
-      <FormControl sx={{ width: '100%', mt: 1, mb: 1 }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+      <FormControl sx={{ width: '100%', mt: 1, mb: 1 }} variant='outlined'>
+        <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
         <OutlinedInput
-          id="outlined-adornment-password"
+          id='outlined-adornment-password'
+          placeholder='Enter your password'
           type={showPassword ? 'text' : 'password'}
           endAdornment={
-            <InputAdornment position="end">
+            <InputAdornment position='end'>
               <IconButton
-                aria-label="toggle password visibility"
+                aria-label='toggle password visibility'
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
-                edge="end"
+                edge='end'
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>

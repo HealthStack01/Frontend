@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
+import DynamicInput from '../../DynamicInput';
+import { EmployeeSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -14,22 +16,17 @@ interface Props {
   cancelEditClicked?: () => void;
   row?: any;
   backClick: () => void;
+  onSubmit: (_data) => void;
 }
 
 const EmployeeModify: React.FC<Props> = ({
   cancelEditClicked,
-  row,
+  onSubmit,
+  row: employee,
   backClick,
 }) => {
-  const [values, setValue] = useState({
-    id: row.id,
-    fname: row.fname,
-    lname: row.lname,
-    profession: row.profession,
-    phone: row.phone,
-    email: row.email,
-    department: row.department,
-    departmentalUnit: row.departmentalUnit,
+  const { handleSubmit, control } = useForm({
+    defaultValues: employee,
   });
 
   return (
@@ -57,66 +54,29 @@ const EmployeeModify: React.FC<Props> = ({
             />
           </div>
         </HeadWrapper>
-        <GridWrapper>
-          <Input label="ID" value={values.id} disabled />
-          <Input
-            label="First Name"
-            value={values.fname}
-            placeholder={values.fname}
-            onChange={(e) => setValue({ ...values, fname: e.target.value })}
-          />
-          <Input
-            label="Last Name"
-            value={values.lname}
-            placeholder={values.lname}
-            onChange={(e) => setValue({ ...values, lname: e.target.value })}
-          />
-          <Input
-            label="Profession"
-            value={values.profession}
-            placeholder={values.profession}
-            onChange={(e) =>
-              setValue({ ...values, profession: e.target.value })
-            }
-          />
-          <Input
-            label="Phone"
-            value={values.phone}
-            placeholder={values.phone}
-            onChange={(e) => setValue({ ...values, phone: e.target.value })}
-          />
-          <Input
-            label="Email"
-            value={values.email}
-            placeholder={values.email}
-            onChange={(e) => setValue({ ...values, email: e.target.value })}
-          />
-          <Input
-            label="Department"
-            value={values.department}
-            placeholder={values.department}
-            onChange={(e) =>
-              setValue({ ...values, department: e.target.value })
-            }
-          />
-          <Input
-            label="Departmental Unit"
-            value={values.departmentalUnit}
-            placeholder={values.departmentalUnit}
-            onChange={(e) =>
-              setValue({ ...values, departmentalUnit: e.target.value })
-            }
-          />
-        </GridWrapper>
 
-        <BottomWrapper>
-          <Button
-            label="Delete Employee"
-            background="#FFE9E9"
-            color="#ED0423"
-          />
-          <Button label="Save Employee" />
-        </BottomWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <GridWrapper>
+            {EmployeeSchema.map((client, index) => (
+              <DynamicInput
+                key={index}
+                name={client.key}
+                control={control}
+                label={client.name}
+                inputType={client.inputType}
+              />
+            ))}
+          </GridWrapper>
+
+          <BottomWrapper>
+            <Button
+              label="Delete Employee"
+              background="#FFE9E9"
+              color="#ED0423"
+            />
+            <Button label="Save Employee" />
+          </BottomWrapper>
+        </form>
       </GrayWrapper>
     </PageWrapper>
   );
