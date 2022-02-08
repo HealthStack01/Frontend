@@ -10,6 +10,7 @@
     "@feathersjs/client": "^4.5.13",
     "@feathersjs/feathers": "^4.5.12",
     "@feathersjs/socketio-client": "^4.5.13",
+    "@hookform/resolvers": "^2.8.8",
     "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.66",
     "@mui/material": "^5.4.0",
@@ -76,7 +77,7 @@
     "@types/styled-components": "^5.1.20"
   },
   "engines": {
-   "node": "16.x",
-   "yarn": "1.x"
+    "node": "16.x",
+    "yarn": "1.x"
   }
 }

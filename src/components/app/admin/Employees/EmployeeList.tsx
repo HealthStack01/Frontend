@@ -27,7 +27,7 @@ interface Props {
   ) => void;
   items: any[];
 }
-const Employees: React.FC<Props> = ({
+const Employees = ({
   handleCreate,
   handleSearch,
   onRowClicked,

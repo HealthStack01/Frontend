@@ -12,7 +12,7 @@ function AppEmployees() {
   let EmployeeServ = client.service('employee');
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
-  const [employee, setEmployee] = useState([]);
+  const [employees, setEmployees] = useState<any>([]);
   let Employee = resource.employeeResource.selectedEmployee;
 
   const backClick = () => {
@@ -50,7 +50,7 @@ function AppEmployees() {
         },
       })
         .then((res) => {
-          setEmployee(res.data);
+          setEmployees(res.data);
           toast('Employees fetched succesfully');
         })
         .catch((error) => {
@@ -86,7 +86,7 @@ function AppEmployees() {
       },
     })
       .then((res) => {
-        setEmployee(res.data);
+        setEmployees(res.data);
         toast('Employee fetched succesfully');
       })
       .catch((err) => {
@@ -145,7 +145,7 @@ function AppEmployees() {
               },
             }));
           }}
-          items={employee}
+          items={employees}
           handleSearch={handleSearch}
         />
       )}

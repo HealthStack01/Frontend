@@ -11,14 +11,7 @@ import {
   PageWrapper,
 } from '../../styles';
 
-interface Props {
-  cancelEditClicked?: () => void;
-  row?: any;
-  backClick: () => void;
-  onSubmit: (_data) => void;
-}
-
-const EmployeeModify: React.FC<Props> = ({
+const EmployeeModify= ({
   cancelEditClicked,
   onSubmit,
   row: employee,

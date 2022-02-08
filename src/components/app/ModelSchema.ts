@@ -1,3 +1,5 @@
+import * as yup from 'yup';
+
 enum InputType {
   HIDDEN,
   TEXT,
@@ -5,7 +7,20 @@ enum InputType {
   CHECKBOX,
   EMAIL,
   PHONE,
+  NUMBER,
 }
+
+type Schema = {
+  name: string;
+  key: string;
+  description: string;
+  selector?: (_row) => string;
+  sortable?: boolean;
+  inputType: InputType;
+  required?: boolean;
+  validator?: any;
+  options?: any[];
+};
 
 const BandSchema = [
   {
@@ -46,7 +61,7 @@ const BandSchema = [
   },
 ];
 
-const RevenueSchema=[
+const RevenueSchema = [
   {
     name: 'S/N',
     key: '_id',
@@ -60,7 +75,7 @@ const RevenueSchema=[
     name: 'Date',
     key: 'createdAt',
     description: 'Enter date',
-    selector: (row) => row.createdAt  && row.createdAt.substring(0, 10),
+    selector: (row) => row.createdAt && row.createdAt.substring(0, 10),
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
@@ -101,9 +116,9 @@ const RevenueSchema=[
     required: false,
     inputType: InputType.TEXT,
   },
-]
+];
 
-const CollectionSchema =[
+const CollectionSchema = [
   {
     name: 'S/N',
     key: '_id',
@@ -131,7 +146,7 @@ const CollectionSchema =[
     required: true,
     inputType: InputType.TEXT,
   },
- 
+
   {
     name: 'Amount',
     key: 'amount',
@@ -150,7 +165,7 @@ const CollectionSchema =[
     required: false,
     inputType: InputType.TEXT,
   },
-]
+];
 const EmployeeSchema = [
   {
     name: 'S/N',
@@ -172,7 +187,7 @@ const EmployeeSchema = [
     inputType: InputType.TEXT,
   },
   {
-      name: 'Last Name',
+    name: 'Last Name',
     key: 'lastname',
     description: 'Enter lastname',
     selector: (row) => row.lastname,
@@ -182,7 +197,7 @@ const EmployeeSchema = [
     inputType: InputType.TEXT,
   },
   {
-     name: 'Profession',
+    name: 'Profession',
     key: 'profession',
     description: 'Enter profession',
     selector: (row) => row.profession,
@@ -256,233 +271,290 @@ const LocationSchema = [
     required: true,
     inputType: InputType.SELECT,
   },
-]
-
-
-const OrganisationSchema = [
- {
-   name: 'S/N',
-   key: '_id',
-   description: 'ID',
-   selector: (row) => row._id && row._id.substring(0, 7),
-   sortable: true,
-   required: true,
-   inputType: InputType.HIDDEN,
- }, 
- {
-  name: 'Name',
-  key: 'facilityName',
-  description: 'Name of Organization',
-  selector: (row) => row.facilityName,
-  sortable: true,
-  required: true,
-  inputType: InputType.TEXT,
-}, 
-{
- name: 'CAC Number',
- key: 'facilityRCNumber',
- description: 'CAC Number',
- selector: (row) => row.facilityName,
- sortable: true,
- required: true,
- inputType: InputType.TEXT,
-}, 
-{
- name: 'Country',
- key: 'facilityCountry',
- description: 'Facility Country',
- selector: (row) => row.facilityCountry,
- sortable: true,
- required: true,
- options: ['Nigeria'],
- inputType: InputType.SELECT,
-},
-{
- name: 'State',
- key: 'facilityState',
- description: 'Organization State',
- selector: (row) => row.facilityState,
- sortable: true,
- required: true,
- options: ['Lagos'],
- inputType: InputType.SELECT,
-},
-{
- name: 'LGA',
- key: 'facilityLGA',
- description: 'LGA',
- selector: (row) => row.facilityLGA,
- sortable: true,
- required: true,
- options: ['Lagos'],
- inputType: InputType.SELECT,
-},
-
-{
- name: 'City',
- key: 'facilityCity',
- description: 'Organization City',
- selector: (row) => row.facilityCity,
- sortable: true,
- required: true,
- options: ['Lagos'],
- inputType: InputType.SELECT,
-},
-
-{
- name: 'Address',
- key: 'facilityAddress',
- description: 'Organization Registered Address',
- selector: (row) => row.facilityAddress,
- sortable: true,
- required: true,
- inputType: InputType.TEXT,
-},
-
-{
- name: 'Phone  Number',
- key: 'facilityContactPhone',
- description: 'Organization Contact Phone Number',
- selector: (row) => row.facilityContactPhone,
- sortable: true,
- required: true,
- inputType: InputType.PHONE,
-},
-
-{
- name: 'Email',
- key: 'facilityEmail',
- description: 'Organization Email',
- selector: (row) => row.facilityContactPhone,
- sortable: true,
- required: true,
- inputType: InputType.EMAIL,
-},
-{
- name: 'CEO',
- key: 'facilityOwner',
- description: 'Organization CEO',
- selector: (row) => row.facilityOwner,
- sortable: true,
- required: true,
- inputType: InputType.TEXT,
-},
-
-{
- name: 'Org Type',
- key: 'facilityType',
- description: 'Organization Type',
- selector: (row) => row.facilityType,
- sortable: true,
- required: true,
- inputType: InputType.TEXT,
-},
-{
- name: 'Org Category',
- key: 'facilityCategory',
- description: 'Organization Category',
- selector: (row) => row.facilityCategory,
- sortable: true,
- required: true,
- inputType: InputType.TEXT,
-}];
-
-const ModulesSchema = [
- {
-  name: 'Module 1',
-  key: 'modules',
-  description: 'Modules',
-  selector: (row) => row._id && row._id.substring(0, 7),
-  sortable: true,
-  required: true,
-  options: [
-   'Accounting',
-   'Admin',
-   'Blood Bank',
-   'Client',
-   'Clinic',
-   'Communication',
-   'Continous Mediscal Education',
-   'Documentation',
-   'Epidemiology',
-   'Finance',
-   'Immunization',
- ],
-  inputType: InputType.CHECKBOX,
-},
-{
- name: 'Module 2',
- key: 'modules',
- description: 'Modules',
- selector: (row) => row._id && row._id.substring(0, 7),
- sortable: true,
- required: true,
- options: [
-  'Inventory',
-  'Laboratory',
-  'Managed Care',
-  'Patient Portal',
-  'Pharmacy',
-  'Radiology',
-  'Report',
-  'Research and Data Exhange',
-  'Telemedicine',
-  'Theatre',
-  'User Profile',
-],
- inputType: InputType.CHECKBOX,
-}, 
-]
-
-
-const OnboardingEmployeeSchema = [
- {
-   name: 'Organization Email',
-   key: 'email',
-   description: 'Organnisation  Email',
-   inputType: InputType.TEXT,
- },
- {
-     name: 'Personal email',
-   key: 'personalEmail',
-   description: 'Personal email',
-   inputType: InputType.TEXT,
- },
- {
-   name: 'Phone number',
-   key: 'phone',
-   description: 'Enter phone number',
-   inputType: InputType.TEXT,
- },
-  
-{
- name: 'Country',
- key: 'facilityCountry',
- description: 'Facility Country',
- options: ['Nigeria'],
- inputType: InputType.SELECT,
-},
-{
- name: 'State',
- key: 'facilityState',
- description: 'Organization State',
- options: ['Lagos'],
- inputType: InputType.SELECT,
-},
- {
-   name: 'Department',
-   key: 'department',
-   description: 'Enter department',
-   options: ['Front Desk', 'Accounting', 'Clinic', 'Pharmacy'],
-   inputType: InputType.SELECT,
- },
- {
-   name: 'Department Unit',
-   key: 'deptunit',
-   description: 'Enter department',
-   options: ['Unit 1', 'Unnit 1', 'Unit 1', 'unit 2'],
-   inputType: InputType.SELECT,
- },
 ];
 
-export { BandSchema, OrganisationSchema, ModulesSchema, RevenueSchema, CollectionSchema,EmployeeSchema,LocationSchema, OnboardingEmployeeSchema, InputType };
+const OrganisationSchema: Schema[] = [
+  {
+    name: 'S/N',
+    key: '_id',
+    description: 'ID',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'Name',
+    key: 'facilityName',
+    description: 'Name of Organization',
+    selector: (row) => row.facilityName,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+    validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+  },
+  {
+    name: 'CAC Number',
+    key: 'facilityCACNumber',
+    description: 'CAC Number',
+    selector: (row) => row.facilityName,
+    sortable: true,
+    required: true,
+    inputType: InputType.NUMBER,
+    validator: yup.number().min(5, 'Enter a valid CAC number'),
+  },
+  {
+    name: 'Country',
+    key: 'facilityCountry',
+    description: 'Facility Country',
+    selector: (row) => row.facilityCountry,
+    sortable: true,
+    required: true,
+    options: ['Nigeria'],
+    inputType: InputType.SELECT,
+  },
+  {
+    name: 'State',
+    key: 'facilityState',
+    description: 'Organization State',
+    selector: (row) => row.facilityState,
+    sortable: true,
+    required: true,
+    options: ['Lagos'],
+    inputType: InputType.SELECT,
+  },
+  {
+    name: 'LGA',
+    key: 'facilityLGA',
+    description: 'LGA',
+    selector: (row) => row.facilityLGA,
+    sortable: true,
+    required: true,
+    options: ['Lagos'],
+    inputType: InputType.SELECT,
+  },
+
+  {
+    name: 'City',
+    key: 'facilityCity',
+    description: 'Organization City',
+    selector: (row) => row.facilityCity,
+    sortable: true,
+    required: true,
+    options: ['Lagos'],
+    inputType: InputType.SELECT,
+  },
+
+  {
+    name: 'Address',
+    key: 'facilityAddress',
+    description: 'Organization Registered Address',
+    selector: (row) => row.facilityAddress,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+    validator: yup.string().min(10, 'Enter a valid Address'),
+  },
+
+  {
+    name: 'Phone  Number',
+    key: 'facilityContactPhone',
+    description: 'Organization Contact Phone Number',
+    selector: (row) => row.facilityContactPhone,
+    sortable: true,
+    required: true,
+    inputType: InputType.PHONE,
+    validator: yup
+      .string()
+      .min(10, 'Enter a  Phone number')
+      .max(13, 'Enter a Phone number'),
+  },
+
+  {
+    name: 'Email',
+    key: 'facilityEmail',
+    description: 'Organization Email',
+    selector: (row) => row.facilityContactPhone,
+    sortable: true,
+    required: true,
+    inputType: InputType.EMAIL,
+    validator: yup.string().email(),
+  },
+  {
+    name: 'CEO',
+    key: 'facilityOwner',
+    description: 'Organization CEO',
+    selector: (row) => row.facilityOwner,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+
+  {
+    name: 'Org Type',
+    key: 'facilityType',
+    description: 'Organization Type',
+    selector: (row) => row.facilityType,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT,
+    options: ['Hospital', 'Laboratory'],
+  },
+  {
+    name: 'Org Category',
+    key: 'facilityCategory',
+    description: 'Organization Category',
+    selector: (row) => row.facilityCategory,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT,
+    options: ['Health', 'Finance'],
+  },
+];
+
+const ModulesSchema = [
+  {
+    name: 'Module 1',
+    key: 'modules',
+    description: 'Modules',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    options: [
+      { label: 'Accounting', value: 'moduleAccounting' },
+      { label: 'Admin', value: 'moduleAdmin' },
+      { label: 'Blood Bank', value: 'moduleBlood Bank' },
+      { label: 'Client', value: 'moduleClient' },
+      { label: 'Clinic', value: 'moduleClinic' },
+      { label: 'Communication', value: 'moduleCommunication' },
+      {
+        label: 'Continous Mediscal Education',
+        value: 'moduleContinous Mediscal Education',
+      },
+      { label: 'Documentation', value: 'moduleDocumentation' },
+      { label: 'Epidemiology', value: 'moduleEpidemiology' },
+      { label: 'Finance', value: 'moduleFinance' },
+      { label: 'Immunization', value: 'moduleImmunization' },
+    ],
+    inputType: InputType.CHECKBOX,
+  },
+  {
+    name: 'Module 2',
+    key: 'modules',
+    description: 'Modules',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    sortable: true,
+    required: true,
+    options: [
+      { label: 'Inventory', value: 'moduleInventory' },
+      { label: 'Laboratory', value: 'moduleLaboratory' },
+      { label: 'Managed Care', value: 'moduleManaged Care' },
+      { label: 'Patient Portal', value: 'modulePatient Portal' },
+      { label: 'Pharmacy', value: 'modulePharmacy' },
+      { label: 'Radiology', value: 'moduleRadiology' },
+      { label: 'Report', value: 'moduleReport' },
+      {
+        label: 'Research and Data Exhange',
+        value: 'moduleResearch and Data Exhange',
+      },
+      { label: 'Telemedicine', value: 'moduleTelemedicine' },
+      { label: 'Theatre', value: 'moduleTheatre' },
+      { label: 'User Profile', value: 'moduleUser Profile' },
+    ],
+    inputType: InputType.CHECKBOX,
+  },
+];
+
+const OnboardingEmployeeSchema = [
+  {
+    name: 'Firstname',
+    key: 'firstname',
+    description: 'Firstname',
+    inputType: InputType.TEXT,
+    required: true,
+  },
+  {
+    name: 'Lastname',
+    key: 'lastname',
+    description: 'Lastname',
+    inputType: InputType.TEXT,
+    required: true,
+  },
+  {
+    name: 'Organization Email',
+    key: 'email',
+    description: 'Organnisation  Email',
+    inputType: InputType.TEXT,
+    required: true,
+  },
+  {
+    name: 'Personal email',
+    key: 'personalEmail',
+    description: 'Personal email',
+    inputType: InputType.TEXT,
+    required: true,
+  },
+  {
+    name: 'Phone number',
+    key: 'phone',
+    description: 'Enter phone number',
+    inputType: InputType.TEXT,
+    required: true,
+  },
+
+  {
+    name: 'Country',
+    key: 'facilityCountry',
+    description: 'Facility Country',
+    options: ['Nigeria'],
+    inputType: InputType.SELECT,
+    required: true,
+  },
+  {
+    name: 'State',
+    key: 'facilityState',
+    description: 'Organization State',
+    options: ['Lagos'],
+    inputType: InputType.SELECT,
+    required: true,
+  },
+  {
+    name: 'Department',
+    key: 'department',
+    description: 'Enter department',
+    options: ['Front Desk', 'Accounting', 'Clinic', 'Pharmacy'],
+    inputType: InputType.SELECT,
+    required: true,
+  },
+  {
+    name: 'Department Unit',
+    key: 'deptunit',
+    description: 'Enter department',
+    options: ['Unit 1', 'Unnit 1', 'Unit 1', 'unit 2'],
+    inputType: InputType.SELECT,
+    required: true,
+  },
+];
+
+const getResolver = (schema: Schema[]) => {
+  const validators = {};
+  const requiredValidator = (required, name) =>
+    required && yup.string().required(`Field: ${name} is required`);
+  schema.forEach(({ name, key, validator, required }) => {
+    const func = validator || requiredValidator(required, name);
+    if (func) validators[key] = func;
+  });
+  return yup.object(validators);
+};
+
+export {
+  BandSchema,
+  CollectionSchema,
+  EmployeeSchema,
+  getResolver,
+  InputType,
+  LocationSchema,
+  ModulesSchema,
+  OnboardingEmployeeSchema,
+  OrganisationSchema,
+  RevenueSchema,
+};
