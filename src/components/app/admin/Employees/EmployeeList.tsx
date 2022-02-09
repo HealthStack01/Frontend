@@ -2,11 +2,12 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 import { DebounceInput } from 'react-debounce-input';
 import { ToastContainer } from 'react-toastify';
+
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import { EmployeeSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
-import { EmployeeSchema } from '../../ModelSchema';
 
 interface Props {
   handleCreate?: () => void;

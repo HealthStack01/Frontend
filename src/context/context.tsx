@@ -126,14 +126,19 @@ export const UserProvider: React.FC = ({ children }) => {
   const memoedValue = useMemo(() => ({ user, setUser }), [user]);
 
   const authenticateUser = () => {
-    client
-      .reAuthenticate()
-      .then((resp) => {
-        setUser({ ...resp.user, stacker: true });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const user = localStorage.getItem('user');
+    if (user) {
+      setUser(JSON.parse(user));
+    } else {
+      return client
+        .reAuthenticate()
+        .then((resp) => {
+          setUser({ ...resp.user, currentEmployee: resp.employeeData[0] });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   useEffect(() => {

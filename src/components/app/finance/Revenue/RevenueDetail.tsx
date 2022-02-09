@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
-import { RevenueSchema } from '../../ModelSchema';
+import { RevenueSchema } from '../../schema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
@@ -36,12 +36,12 @@ const RevenueDetails: React.FC<Props> = ({ row, backClick }) => {
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-          {RevenueSchema.map((schema) => (
-            <div>
-              <label>{schema.name}</label>
-              <p>{schema.selector(row)}</p>
-            </div>
-          ))}
+            {RevenueSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

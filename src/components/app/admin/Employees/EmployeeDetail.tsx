@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
-import { EmployeeSchema } from '../../ModelSchema';
+import { EmployeeSchema } from '../../schema/ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,

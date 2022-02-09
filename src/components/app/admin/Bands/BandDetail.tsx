@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
-import { BandSchema } from '../../ModelSchema';
+import { BandSchema } from '../../schema/ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,

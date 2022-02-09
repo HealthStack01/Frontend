@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
-import { EmployeeSchema } from '../../ModelSchema';
+import { EmployeeSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -12,13 +13,12 @@ import {
   PageWrapper,
 } from '../../styles';
 
-
 interface Props {
   backClick: () => void;
   onSubmit: (_data, _event) => void;
 }
 
-const EmployeeCreate: React.FC<Props> = ({ backClick , onSubmit }) => {
+const EmployeeCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
   const { handleSubmit, control } = useForm();
 
   return (
@@ -49,7 +49,6 @@ const EmployeeCreate: React.FC<Props> = ({ backClick , onSubmit }) => {
                   control={control}
                   label={client.name}
                   inputType={client.inputType}
-                  
                 />
               ))}
             </GridWrapper>

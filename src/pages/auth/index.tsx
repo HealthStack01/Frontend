@@ -25,6 +25,7 @@ function Login() {
   }, []);
 
   const onSubmit = ({ email, password }) => {
+    console.log({email, password})
     client
       .authenticate({
         strategy: 'local',
@@ -32,13 +33,15 @@ function Login() {
         password,
       })
       .then((res) => {
-        setUser(res.user);
+       console.log('thennn')
+        const user = { ...res.user, currentEmployee: res.user.employeeData[0] };
+        setUser(user);
         localStorage.setItem('user', JSON.stringify(res.user));
         navigate('/app');
       })
       .catch((err) => {
+       console.log('error')
         toast.error(`Error loggin in User, probable network issues ${err}`);
-        navigate('/app');
       });
   };
 

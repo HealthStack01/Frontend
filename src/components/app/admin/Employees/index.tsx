@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
-import EmployeeCreate from './EmployeeCreate';
 import { getFormStrings } from '../../Utils';
+import EmployeeCreate from './EmployeeCreate';
 import EmployeeDetails from './EmployeeDetail';
 import Employees from './EmployeeList';
 import EmployeeModify from './EmployeeModify';
@@ -12,7 +13,7 @@ function AppEmployees() {
   let EmployeeServ = client.service('employee');
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
-  const [employee, setEmployee] = useState([]);
+  const [employee, setEmployees] = useState([]);
   let Employee = resource.employeeResource.selectedEmployee;
 
   const backClick = () => {
@@ -25,45 +26,33 @@ function AppEmployees() {
     }));
   };
 
-  const getEmployee = async () => {
-    if (user.currentEmployee) {
-      EmployeeServ.find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          $limit: 200,
-          $sort: {
-            createdAt: -1,
-          },
+  const getEmployees = async () => {
+    EmployeeServ.find({
+      query: {
+        facility:
+          user.currentEmployee && user.currentEmployee.facilityDetail._id,
+        $limit: 200,
+        $sort: {
+          createdAt: user.currentEmployee && -1,
+          facility: user.stacker && -1,
         },
+      },
+    })
+      .then((res) => {
+        setEmployees(res.data);
+        toast('Employees fetched succesfully');
       })
-        .then(() => {})
-        .catch((error) => {
-          console.error({ error });
-        });
-    } else if (user.stacker) {
-      EmployeeServ.find({
-        query: {
-          $limit: 200,
-          $sort: {
-            facility: -1,
-          },
-        },
-      })
-        .then((res) => {
-          setEmployee(res.data);
-          toast('Employees fetched succesfully');
-        })
-        .catch((error) => {
-          toast.error(error);
-        });
-    }
+      .catch((error) => {
+        console.error({ error });
+        toast.error(error);
+      });
   };
 
   const handleDelete = () => {
-     EmployeeServ.remove(Employee)
-      .then((res) => {
+    EmployeeServ.remove(Employee)
+      .then(() => {
         toast('Employee deleted successfully');
-        getEmployee();
+        getEmployees();
         backClick();
       })
       .catch((err) => {
@@ -86,7 +75,7 @@ function AppEmployees() {
       },
     })
       .then((res) => {
-        setEmployee(res.data);
+        setEmployees(res.data);
         toast('Employee fetched succesfully');
       })
       .catch((err) => {
@@ -110,14 +99,12 @@ function AppEmployees() {
   };
 
   useEffect(() => {
-    if (!EmployeeServ) {
-      EmployeeServ = client.service('employee');
-      EmployeeServ.on('created', (_) => getEmployee());
-      EmployeeServ.on('updated', (_) => getEmployee());
-      EmployeeServ.on('patched', (_) => getEmployee());
-      EmployeeServ.on('removed', (_) => getEmployee());
-    }
-    user && getEmployee();
+    EmployeeServ = client.service('employee');
+    EmployeeServ.on('created', (_) => getEmployees());
+    EmployeeServ.on('updated', (_) => getEmployees());
+    EmployeeServ.on('patched', (_) => getEmployees());
+    EmployeeServ.on('removed', (_) => getEmployees());
+    getEmployees();
     return () => {
       EmployeeServ = null;
     };

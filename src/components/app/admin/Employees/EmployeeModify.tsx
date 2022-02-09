@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
-import { EmployeeSchema } from '../../ModelSchema';
+import { EmployeeSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
   GrayWrapper,

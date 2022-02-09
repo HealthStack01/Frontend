@@ -39,6 +39,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
     "react-toastify": "^8.1.0",
+    "serve": "^13.0.2",
     "smooth-scrollbar": "^8.7.2",
     "smooth-scrollbar-react": "^2.3.0",
     "socket.io-client": "^2.4.0",
@@ -48,7 +49,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:dev": "react-scripts start",
+    "start:prod": "yarn build && serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -76,7 +78,10 @@
     "@types/styled-components": "^5.1.20"
   },
   "engines": {
-   "node": "16.x",
-   "yarn": "1.x"
-  }
+    "node": "16.x",
+    "yarn": "1.x"
+  },
+  "resolutions": {
+   "styled-components": "^5"
+ }
 }

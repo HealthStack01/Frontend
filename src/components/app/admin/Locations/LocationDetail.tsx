@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
-import { LocationSchema } from '../../ModelSchema';
+import { LocationSchema } from '../../schema/ModelSchema';
 import {
   FullDetailsWrapper,
   GrayWrapper,
