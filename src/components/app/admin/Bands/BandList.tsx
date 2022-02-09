@@ -66,7 +66,6 @@ const Bands: React.FC<Props> = ({
           style={{ overflow: 'hidden' }}
         />
       </div>
-      <ToastContainer />
     </PageWrapper>
   );
 };

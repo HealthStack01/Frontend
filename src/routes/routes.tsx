@@ -32,7 +32,7 @@ import AppInventory from '../components/app/pharmacy/StoreInventory';
 import Login from '../pages/auth';
 import IndividualSignup from '../pages/auth/IndividualSignup';
 import Signup from '../pages/auth/Signup';
-import Dashboard from '../pages/Dashboard';
+import PrivateOutlet from './PrivateOutlet';
 
 function AppRoutes() {
   useEffect(() => {
@@ -44,7 +44,7 @@ function AppRoutes() {
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signupindividual" element={<IndividualSignup />} />
-        <Route path="/app" element={<Dashboard />}>
+        <Route path="/app" element={<PrivateOutlet />}>
           <Route index element={<Overview />} />
 
           {/* Clients */}
