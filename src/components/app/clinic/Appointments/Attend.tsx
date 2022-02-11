@@ -1,4 +1,5 @@
-import { Menu, MenuItem, Portal } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
+import Portal from '@mui/material/Portal';
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 

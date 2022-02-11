@@ -20,64 +20,64 @@ export interface EmployeesDataRow {
 export const columnBand: TableColumn<BandDataRow>[] = [
   {
     name: 'S/N',
-    selector: (row) => row.id,
+    selector: row => row.id,
     sortable: true,
   },
   {
     name: 'Name',
-    selector: (row) => row.name,
+    selector: row => row.name,
     sortable: true,
   },
   {
     name: 'Band Type',
-    selector: (row) => row.bandType,
+    selector: row => row.bandType,
     sortable: true,
   },
   {
     name: 'Description',
-    selector: (row) => row.description,
+    selector: row => row.description,
     sortable: true,
   },
 ];
 export const columnEmployees: TableColumn<EmployeesDataRow>[] = [
   {
     name: 'S/N',
-    selector: (row) => row.id,
+    selector: row => row.id,
     sortable: true,
   },
   {
     name: 'First Name',
-    selector: (row) => row.fname,
+    selector: row => row.fname,
     sortable: true,
   },
   {
     name: 'Last Name',
-    selector: (row) => row.lname,
+    selector: row => row.lname,
     sortable: true,
   },
   {
     name: 'Profession',
-    selector: (row) => row.profession,
+    selector: row => row.profession,
     sortable: true,
   },
   {
     name: 'Phone',
-    selector: (row) => row.phone,
+    selector: row => row.phone,
     sortable: true,
   },
   {
     name: 'Email',
-    selector: (row) => row.email,
+    selector: row => row.email,
     sortable: true,
   },
   {
     name: 'Department',
-    selector: (row) => row.department,
+    selector: row => row.department,
     sortable: true,
   },
   {
     name: 'Departmental Unit',
-    selector: (row) => row.departmentalUnit,
+    selector: row => row.departmentalUnit,
     sortable: true,
   },
 ];
@@ -156,52 +156,62 @@ export interface AppointmentDataRow {
 export const columnsAppointment: TableColumn<AppointmentDataRow>[] = [
   {
     name: 'S/N',
-    selector: (row) => row.id,
+    selector: row => row.id,
     sortable: true,
   },
   {
-    name: 'Date/Time',
-    selector: (row) => row.dtime,
+    name: 'DATE/TIME',
+    selector: row => row.dtime,
     sortable: true,
   },
   {
-    name: 'First Name',
-    selector: (row) => row.fname,
+    name: 'FIRST NAME',
+    selector: row => row.fname,
+    sortable: true,
+    style: {
+      color: '#0364FF',
+      fontSize: '14px',
+      fontWeight: 500,
+    },
+  },
+  {
+    name: 'LAST NAME',
+    selector: row => row.lname,
+    sortable: true,
+    style: {
+      color: '#0364FF',
+      fontSize: '14px',
+      fontWeight: 500,
+    },
+  },
+  {
+    name: 'CLASSIFICATION',
+    selector: row => row.classification,
     sortable: true,
   },
   {
-    name: 'Last Name',
-    selector: (row) => row.lname,
+    name: 'LOCATION',
+    selector: row => row.location,
     sortable: true,
   },
   {
-    name: 'Classification',
-    selector: (row) => row.classification,
+    name: 'TYPE',
+    selector: row => row.type,
     sortable: true,
   },
   {
-    name: 'Location',
-    selector: (row) => row.location,
+    name: 'STATUS',
+    selector: row => row.status,
     sortable: true,
   },
   {
-    name: 'Type',
-    selector: (row) => row.type,
+    name: 'REASON',
+    selector: row => row.reason,
     sortable: true,
   },
   {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-  },
-  {
-    name: 'Reason',
-    selector: (row) => row.reason,
-    sortable: true,
-  },
-  {
-    name: 'Practitioner',
-    selector: (row) => row.practitioner,
+    name: 'PRATICTIONER',
+    selector: row => row.practitioner,
     sortable: true,
   },
 ];

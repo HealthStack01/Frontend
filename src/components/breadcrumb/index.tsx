@@ -5,17 +5,17 @@ import { useLocation } from 'react-router-dom';
 function Breadcrumbs() {
   const location = useLocation();
 
-  const pathnames = location.pathname.split('/').filter((x) => x);
+  const pathnames = location.pathname.split('/').filter(x => x);
 
   return (
-    <MUIBreadcrumbs aria-label="breadcrumb">
+    <MUIBreadcrumbs aria-label='breadcrumb'>
       {pathnames.map((name, index) => {
         const last = index === pathnames.length - 1;
         const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 
         return last ? (
           <Typography
-            color="text.primary"
+            color='text.primary'
             key={to}
             style={{
               textDecoration: 'none',
@@ -23,7 +23,7 @@ function Breadcrumbs() {
               fontWeight: 'medium',
             }}
           >
-            {name} / path
+            {name} <i className='bi bi-chevron-right'></i> path
             {/* Pass breadcrumb context  */}
           </Typography>
         ) : null;

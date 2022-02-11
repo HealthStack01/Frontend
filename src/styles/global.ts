@@ -215,3 +215,7 @@ export const FlexBox = styled.div`
 export const Htag = styled.h5`
   margin-right: 8rem;
 `;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+`;

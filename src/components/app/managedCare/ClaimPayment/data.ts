@@ -1,62 +1,125 @@
-import React from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
-
-import { TableMenu } from '../../../../styles/global';
-import AccordionBox from '../../../accordion';
-import Input from '../../../inputs/basic/Input';
-import { PageWrapper } from '../../styles';
-
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (
-    row: {
-      id: any;
-      date: any;
-      status: string;
-      description: string;
-      amount: string;
-    },
-    event: any,
-  ) => void;
-}
-
+import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
-  name: any;
+  name: string;
   date: string;
+  category: string;
   description: string;
   status: string;
   amount: string;
+  serviceDetails: [];
+  authorizationCode: string;
+  coPayAmount: string;
 }
+
+export const columnHead: TableColumn<DataProps>[] = [
+  {
+    name: 'S/N',
+    selector: row => row.id,
+    sortable: true,
+  },
+
+  {
+    name: 'DATE',
+    selector: row => row.date,
+    sortable: true,
+  },
+  {
+    name: 'DESCRIPTION',
+    selector: row => row.description,
+    sortable: true,
+  },
+  {
+    name: 'STATUS',
+    selector: row => row.status,
+    sortable: true,
+  },
+  {
+    name: 'AMOUNT',
+    selector: row => row.amount,
+    sortable: true,
+  },
+];
 
 export const rowData = [
   {
     id: 1,
     name: 'Simpa',
     date: '2022-01-20 19:45',
+    category: 'Microbiology',
     description: 'lorem',
     status: 'unpaid',
     amount: '5000',
+    serviceDetails: [
+      {
+        HMO: 'Anchor',
+        PlAN: 'Ultimate',
+        Class: 'Fee for Service',
+        RequireCode: false,
+      },
+      {
+        HMO: 'Anchor',
+        PlAN: 'Ultimate',
+        Class: 'Fee for Service',
+        RequireCode: false,
+      },
+    ],
+    authorizationCode: '',
+    coPayAmount: 0,
   },
   {
     id: 2,
     name: 'Simpa',
     date: '2022-01-20 19:45',
+    category: 'Microbiology',
     description: 'lorem',
     status: 'unpaid',
     amount: '5000',
+    serviceDetails: [
+      {
+        HMO: 'Anchor',
+        PlAN: 'Ultimate',
+        Class: 'Fee for Service',
+        RequireCode: false,
+      },
+      {
+        HMO: 'Anchor',
+        PlAN: 'Ultimate',
+        Class: 'Fee for Service',
+        RequireCode: false,
+      },
+    ],
+    authorizationCode: '',
+    coPayAmount: 0,
   },
   {
     id: 3,
     name: 'Simpa',
     date: '2022-01-20 19:45',
+    category: 'Microbiology',
     description: 'lorem',
     status: 'unpaid',
     amount: '5000',
+    serviceDetails: [
+      {
+        HMO: 'Anchor',
+        PlAN: 'Ultimate',
+        Class: 'Fee for Service',
+        RequireCode: false,
+      },
+      {
+        HMO: 'Anchor',
+        PlAN: 'Ultimate',
+        Class: 'Fee for Service',
+        RequireCode: false,
+      },
+    ],
+    authorizationCode: '',
+    coPayAmount: 0,
   },
 ];
 
-const dataTree = [
+export const dataTree = [
   {
     title: 'Ada Chris',
     description: 'Prescription of one unpaid bill(s)',
@@ -172,74 +235,3 @@ const dataTree = [
     ],
   },
 ];
-
-export const columnHead: TableColumn<DataProps>[] = [
-  {
-    name: 'S/N',
-    selector: (row) => row.id,
-    sortable: true,
-  },
-  {
-    name: 'Date',
-    selector: (row) => row.date,
-    sortable: true,
-  },
-  {
-    name: 'Description',
-    selector: (row) => row.description,
-    sortable: true,
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-  },
-  {
-    name: 'Amount',
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-];
-
-const Payments: React.FC<Props> = ({ onRowClicked }) => {
-  return (
-    <PageWrapper>
-      <h2>Payments</h2>
-
-      <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-        </div>
-      </TableMenu>
-
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        {dataTree.map((data, index) => (
-          <AccordionBox title={data.title} key={index}>
-            {data.children.map((child, index) => {
-              return (
-                <AccordionBox key={index} title={child.title}>
-                  <DataTable
-                    title={child.description}
-                    columns={columnHead}
-                    data={child.data}
-                    selectableRows
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={onRowClicked}
-                  />
-                </AccordionBox>
-              );
-            })}
-          </AccordionBox>
-        ))}
-      </div>
-    </PageWrapper>
-  );
-};
-
-export default Payments;

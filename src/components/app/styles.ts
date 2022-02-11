@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   overflow-y: hidden;
-  padding: 2.2rem 1.4rem;
+  padding: 3.2rem;
 
   & span {
     display: inline-block;
@@ -97,14 +97,20 @@ export const GridWrapper = styled.div`
 
   & label {
     display: block;
-    font-size: 0.75rem;
+    font-size: 16px;
+    font-weight: regular;
+    color: #03045e;
     margin-bottom: 0.5rem;
   }
   & p {
     background: ${({ theme }) => theme.grayFour};
     padding: 0.9rem;
     height: 50px;
-    border-radius: 2px;
+    border-radius: 4px;
+    border: 1px solid #d2d2d2;
+    font-weight: bold;
+    font-size: 16px;
+    color: #03045e;
   }
 `;
 
@@ -113,6 +119,7 @@ export const BottomWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  height: 44px;
   margin-top: 2rem;
   & button {
     margin-left: 1rem;

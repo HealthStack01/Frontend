@@ -3,7 +3,9 @@ import DataTable from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 import { columnsAppointment, dataAppointments } from '../data';
 
@@ -18,28 +20,41 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <h2>Appointments </h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className='inner-table'
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder='Search here' label='Search here' size='small' />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
+            <i className='bi bi-chevron-down'></i>
           </div>
+          <SwitchButton />
         </div>
 
-        <Button label="Add new" onClick={handleCreate} />
+        <Button onClick={handleCreate}>
+          <i className='bi bi-plus-circle'></i> Add new
+        </Button>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <DataTable
-          title="Appointments"
+        <CustomTable
           columns={columnsAppointment}
           data={dataAppointments}
-          selectableRows
           pointerOnHover
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
-          style={{ overflow: 'hidden' }}
         />
       </div>
     </PageWrapper>
