@@ -13,6 +13,8 @@ RUN npm i react-scripts -g
 
 USER root
 
+RUN npm i react-scripts -g
+
 RUN rm -Rf **/node_modules && rm -Rf node_modules 
 
 RUN npm install -g --silent --no-audit --no-fund --no-package-lock
