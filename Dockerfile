@@ -9,6 +9,8 @@ WORKDIR /home/node/app
 
 COPY  --chown=node:node . .
 
+RUN npm i react-scripts -g
+
 USER root
 
 RUN rm -Rf **/node_modules && rm -Rf node_modules 
