@@ -2,6 +2,10 @@ FROM node:16 as build
 
 ENV NODE_ENV=development
 ENV NODE_OPTIONS=--max_old_space_size=1024
+ENV GENERATE_SOURCEMAP=false
+ENV DISABLE_ESLINT_PLUGIN=true
+ENV ESLINT_NO_DEV_ERRORS=true
+
 
 RUN mkdir /home/node/app
 
