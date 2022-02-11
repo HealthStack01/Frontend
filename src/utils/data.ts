@@ -58,6 +58,28 @@ export const bandTypeOptions: string[] = [
   'Band 4',
 ];
 
+export const status: string[] = ['Single', 'Married', 'Divorced'];
+export const religion: string[] = ['Christianity', 'Islam', 'Rather not say'];
+export const medicalRecords = ['Record 1', 'Record 2', 'Record 3'];
+export const profession = ['Profession 1', 'Profession  2', 'Profession 3'];
+export const localGovt = [
+  'Ibadan S/W',
+  'Lagos Central',
+  'Abuja Central',
+  'Kaduna Central',
+];
+export const townCity = ['Ikeja', 'Epe', 'Ofa', 'Ibadan'];
+export const nextOfKin = [
+  'Wale Romi',
+  'Blond Games',
+  'Williams Tosin',
+  'Wale Romi',
+];
+export const nonHospIndentifiers = ['CD120', 'CD122', 'CD120', 'CD130'];
+export const payInfo = ['Paid', 'Out of cash'];
+export const assignToCareTeam = ['Yes', 'No'];
+export const relationship = ['Parent(s)', 'Sibling(s)', 'Spouse', 'Friend(s)'];
+
 interface CreateOrganizationProps {
   type?: string;
   label?: string;

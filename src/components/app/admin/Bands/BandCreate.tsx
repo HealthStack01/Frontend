@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 // import DynamicInput from '../../DynamicInput';
-import { BandSchema } from '../../ModelSchema';
+import { BandSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
   FullDetailsWrapper,

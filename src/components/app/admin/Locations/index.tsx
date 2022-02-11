@@ -1,23 +1,106 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './LocationCreate';
-import EmployeeDetails from './LocationDetail';
-import Employees from './LocationList';
-import EmployeeModify from './LocationModify';
+import { useObjectState, UserContext } from '../../../../context/context';
+import client from '../../../../feathers';
+import { getFormStrings } from '../../Utils';
+import LocationCreate from './LocationCreate';
+import LocationDetails from './LocationDetail';
+import Locations from './LocationList';
+import LocationModify from './LocationModify';
 
 function AppLocations() {
+  let LocationServ = client.service('location');
   const { resource, setResource } = useObjectState();
+  const { user } = useContext(UserContext);
+  const [locations, setLocations] = useState([]);
+  let location = resource.locationResource.selectedLocation;
+
+  const backClick = () => {
+    setResource((prevState) => ({
+      ...prevState,
+      locationResource: {
+        ...prevState.locationResource,
+        show: 'lists',
+      },
+    }));
+    getLocations();
+  };
+
+  const getLocations = async (text?: string) => {
+    LocationServ.find({
+      query: {
+        name: text && {
+          $regex: text,
+          $options: 'i',
+        },
+        facility:
+          user.currentEmployee && user.currentEmployee.facilityDetail._id,
+        $limit: 200,
+        $sort: {
+          createdAt: user.currentEmployee && -1,
+          facility: user.stacker && -1,
+        },
+      },
+    })
+      .then((res) => {
+        setLocations(res.data);
+        toast('Location fetched succesfully');
+      })
+      .catch((error) => {
+        toast(error);
+      });
+  };
+
+  const handleDelete = () => {
+    LocationServ.remove(location)
+      .then((_) => {
+        toast('Location deleted successfully');
+        backClick();
+      })
+      .catch((err) => {
+        toast(`Error deleting location, probable network issues or ${err}`);
+      });
+  };
+
+  const onSubmit = (data) => {
+    const values = getFormStrings(data._id);
+    if (user.employeeData) {
+      data.facility = user.employeeData[0].facility;
+    }
+    (data._id ? LocationServ.update(data._id, data) : LocationServ.create(data))
+      .then(() => {
+        toast(`Location ${values.message}`);
+        backClick();
+      })
+      .catch((err) => {
+        toast.error(`Error occurred : ${err}`);
+      });
+  };
+
+  useEffect(() => {
+    if (!LocationServ) {
+      LocationServ = client.service('location');
+      LocationServ.on('created', (_) => getLocations());
+      LocationServ.on('updated', (_) => getLocations());
+      LocationServ.on('patched', (_) => getLocations());
+      LocationServ.on('removed', (_) => getLocations());
+    }
+    user && getLocations();
+    return () => {
+      LocationServ = null;
+    };
+  }, [user]);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Employees
+      {resource.locationResource.show === 'lists' && (
+        <Locations
           handleCreate={() =>
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              locationResource: {
+                ...prevState.locationResource,
                 show: 'create',
               },
             }))
@@ -25,35 +108,38 @@ function AppLocations() {
           onRowClicked={(row) => {
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
+              locationResource: {
                 show: 'details',
-                selectedEmployee: row,
+                selectedLocation: row,
               },
             }));
           }}
+          items={locations}
+          handleSearch={getLocations}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+      {resource.locationResource.show === 'create' && (
+        <LocationCreate
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              locationResource: {
+                ...prevState.locationResource,
                 show: 'lists',
               },
             }))
           }
+          onSubmit={onSubmit}
         />
       )}
-      {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
+      {resource.locationResource.show === 'details' && (
+        <LocationDetails
+          row={resource.locationResource.selectedLocation}
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              locationResource: {
+                ...prevState.locationResource,
                 show: 'lists',
               },
             }))
@@ -61,22 +147,23 @@ function AppLocations() {
           editBtnClicked={() =>
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              locationResource: {
+                ...prevState.locationResource,
                 show: 'edit',
               },
             }))
           }
+          handleDelete={handleDelete}
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
+      {resource.locationResource.show === 'edit' && (
+        <LocationModify
+          row={resource.locationResource.selectedLocation}
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              locationResource: {
+                ...prevState.locationResource,
                 show: 'lists',
               },
             }))
@@ -84,12 +171,13 @@ function AppLocations() {
           cancelEditClicked={() =>
             setResource((prevState) => ({
               ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
+              locationResource: {
+                ...prevState.locationResource,
                 show: 'details',
               },
             }))
           }
+          onSubmit={onSubmit}
         />
       )}
     </>

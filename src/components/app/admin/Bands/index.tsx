@@ -14,6 +14,7 @@ function AppBands() {
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [bands, setBands] = useState([]);
+  let band = resource.bandResource.selectedBand;
 
   const backClick = () => {
     setResource((prevState) => ({
@@ -36,7 +37,9 @@ function AppBands() {
           },
         },
       })
-        .then(() => {})
+        .then((res) => {
+          setBands(res.data);
+        })
         .catch((error) => {
           console.error({ error });
         });
@@ -57,6 +60,17 @@ function AppBands() {
           toast.error(error);
         });
     }
+  };
+  const handleDelete = () => {
+    BandServ.remove(band)
+      .then((_) => {
+        toast('Band deleted successfully');
+        getBands();
+        backClick();
+      })
+      .catch((err) => {
+        toast(`'Error deleting Band, probable network issues or ' + ${err}'`);
+      });
   };
 
   const handleSearch = (text) => {
@@ -84,8 +98,9 @@ function AppBands() {
 
   const onSubmit = (data) => {
     const values = getFormStrings(data._id);
+
     if (data.bandType === '') {
-      alert('Kindly choose band type');
+      toast('Kindly choose band type');
       return;
     }
 
@@ -100,21 +115,21 @@ function AppBands() {
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
       });
+
+    // console.log(data);
   };
 
   useEffect(() => {
-    if (!BandServ) {
-      BandServ = client.service('bands');
-      BandServ.on('created', (_) => getBands());
-      BandServ.on('updated', (_) => getBands());
-      BandServ.on('patched', (_) => getBands());
-      BandServ.on('removed', (_) => getBands());
-    }
-    user && getBands();
+    BandServ = client.service('bands');
+    BandServ.on('created', (_) => getBands());
+    BandServ.on('updated', (_) => getBands());
+    BandServ.on('patched', (_) => getBands());
+    BandServ.on('removed', (_) => getBands());
+    getBands();
     return () => {
       BandServ = null;
     };
-  }, [user]);
+  }, []);
 
   return (
     <>
@@ -177,6 +192,7 @@ function AppBands() {
               },
             }))
           }
+          handleDelete={handleDelete}
         />
       )}
       {resource.bandResource.show === 'edit' && (

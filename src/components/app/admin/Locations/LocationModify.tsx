@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
+import DynamicInput from '../../DynamicInput';
+import { LocationSchema } from '../../schema';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -15,19 +16,19 @@ interface Props {
   cancelEditClicked?: () => void;
   row?: any;
   backClick: () => void;
+  onSubmit: (_data) => void;
 }
 
-const locationTypeOptions: string[] = ['Locations 1', 'Location 2'];
+const locationType = ['Front Desk', 'Clinic', 'Store', 'Laboratory', 'Finance'];
 
 const LocationModify: React.FC<Props> = ({
   cancelEditClicked,
-  row,
+  onSubmit,
+  row: location,
   backClick,
 }) => {
-  const [values, setValue] = useState({
-    id: row.id,
-    locationname: row.locationname,
-    locationType: row.locationType,
+  const { handleSubmit, control } = useForm({
+    defaultValues: location,
   });
 
   return (
@@ -55,38 +56,29 @@ const LocationModify: React.FC<Props> = ({
             />
           </div>
         </HeadWrapper>
-        <GridWrapper>
-          <Input label="ID" value={values.id} disabled />
-          <Input
-            label="Name"
-            value={values.locationname}
-            placeholder={values.locationname}
-            onChange={(e) =>
-              setValue({ ...values, locationname: e.target.value })
-            }
-          />
-          <CustomSelect
-            name={values.locationType}
-            label="Band Type"
-            options={locationTypeOptions}
-            value={values.locationType}
-            onChange={(e) =>
-              setValue({
-                ...values,
-                locationType: e.target.value,
-              })
-            }
-          />
-        </GridWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <GridWrapper>
+            {LocationSchema.map((client, index) => (
+              <DynamicInput
+                key={index}
+                name={client.key}
+                control={control}
+                label={client.name}
+                inputType={client.inputType}
+                options={locationType}
+              />
+            ))}
+          </GridWrapper>
 
-        <BottomWrapper>
-          <Button
-            label="Delete Location"
-            background="#FFE9E9"
-            color="#ED0423"
-          />
-          <Button label="Save Location" />
-        </BottomWrapper>
+          <BottomWrapper>
+            <Button
+              label="Delete Location"
+              background="#FFE9E9"
+              color="#ED0423"
+            />
+            <Button label="Save Location" />
+          </BottomWrapper>
+        </form>
       </GrayWrapper>
     </PageWrapper>
   );
