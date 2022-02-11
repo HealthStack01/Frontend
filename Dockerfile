@@ -15,11 +15,13 @@ RUN rm -Rf **/node_modules && rm -Rf node_modules
 
 RUN npm install -g --silent --no-audit --no-fund --no-package-lock
 
+RUN npm i -g react-scripts
+
 RUN chmod +x entrypoint.sh
 
 RUN chown -R node:node /home/node/app
 
 ENTRYPOINT [ "./entrypoint.sh" ]
 
-ENV PORT=8080
-EXPOSE 8080
+ENV PORT=3000
+EXPOSE 3000
