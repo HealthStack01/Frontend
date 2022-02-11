@@ -4,6 +4,7 @@ function install_run_app {
 
 if [ $NODE_ENV = "development" ]; then
  npm install
+ npm i -g react-scripts
  npm run start:dev
 fi
 
