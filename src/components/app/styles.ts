@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+// import styled from 'styled-components';
+
+import styled from '@emotion/styled';
 
 import AccordionBox from '../accordion';
 
@@ -26,7 +28,7 @@ export const HeadWrapper = styled.div`
 
 export const DetailsWrapper = styled(AccordionBox)`
   width: 100%;
-  background: ${({ theme }) => theme.neutralwhite};
+  background: ${({ theme }) => 'theme.neutralwhite'};
   padding: 2rem;
   border-radius: 4px;
   margin-top: 2rem;
@@ -44,7 +46,7 @@ export const DetailsWrapper = styled(AccordionBox)`
 
 export const FullDetailsWrapper = styled.div`
   width: 100%;
-  background: ${({ theme }) => theme.neutralwhite};
+  background: ${({ theme }) => 'theme.neutralwhite'};
   padding: 2rem;
   border-radius: 4px;
   margin-top: 2rem;
@@ -61,11 +63,10 @@ export const FullDetailsWrapper = styled.div`
 `;
 
 export const GrayWrapper = styled.div`
-  background: ${({ theme }) => theme.grayFour};
+  background: ${({ theme }) => 'theme.grayFour'};
   border-radius: 4px;
   height: 100%;
   padding: 2rem;
-  /* padding-bottom: 30rem; */
   overflow-y: auto;
 
   &.grid {
@@ -101,7 +102,7 @@ export const GridWrapper = styled.div`
     margin-bottom: 0.5rem;
   }
   & p {
-    background: ${({ theme }) => theme.grayFour};
+    background: ${({ theme }) => 'theme.grayFour'};
     padding: 0.9rem;
     height: 50px;
     border-radius: 2px;
