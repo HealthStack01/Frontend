@@ -13,7 +13,7 @@ function AppEmployees() {
   let EmployeeServ = client.service('employee');
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
-  const [employee, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState<any>([]);
   let Employee = resource.employeeResource.selectedEmployee;
 
   const backClick = () => {
@@ -132,7 +132,7 @@ function AppEmployees() {
               },
             }));
           }}
-          items={employee}
+          items={employees}
           handleSearch={handleSearch}
         />
       )}

@@ -10,14 +10,7 @@ import {
   PageWrapper,
 } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  handleDelete: (_event) => void;
-  row?: any;
-}
-
-const EmployeeDetails: React.FC<Props> = ({
+const EmployeeDetails = ({
   editBtnClicked,
   row,
   backClick,

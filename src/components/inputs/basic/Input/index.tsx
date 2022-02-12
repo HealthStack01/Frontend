@@ -17,19 +17,18 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = ({
   label,
-  errors,
+  errorText,
   type = 'text',
   name,
   onChange,
   onKeyDown,
-  helperText,
   value,
   placeholder,
 }) => (
   <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
     <TextField
-      error={errors}
-      helperText={helperText}
+      error={!!errorText}
+      helperText={errorText}
       id='component-simple'
       onChange={onChange}
       type={type}

@@ -1,3 +1,4 @@
+import { FormHelperText } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,6 +9,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   options: any[];
   name?: string;
+  errorText?: string;
   onChange?: (_: any) => void;
 }
 
@@ -17,6 +19,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   name,
   value,
   onChange,
+  errorText,
 }) => (
   <div>
     <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
@@ -43,6 +46,7 @@ const CustomSelect: React.FC<SelectProps> = ({
           </MenuItem>
         ))}
       </Select>
+      {errorText && <FormHelperText error>{errorText}</FormHelperText>}
     </FormControl>
   </div>
 );

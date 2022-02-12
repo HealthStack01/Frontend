@@ -6,7 +6,7 @@ import CustomSelect from '../inputs/basic/Select';
 import { InputType } from './schema/util';
 
 const DynamicInput = (props) => {
-  const { inputType, name, label, options, control } = props;
+  const { inputType, name, options, description, control, errors = {} } = props;
   if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -14,10 +14,32 @@ const DynamicInput = (props) => {
   if (inputType === InputType.TEXT) {
     return (
       <Controller
-        key={name}
-        control={control}
         name={name}
-        render={({ field }) => <Input {...field} label={label} />}
+        control={control}
+        render={({ field }) => (
+          <Input
+            {...field}
+            label={description}
+            errorText={errors[name]?.message}
+          />
+        )}
+      />
+    );
+  }
+
+  if (inputType === InputType.NUMBER) {
+    return (
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <Input
+            {...field}
+            label={description}
+            errorText={errors[name]?.message}
+            type="number"
+          />
+        )}
       />
     );
   }
@@ -25,28 +47,50 @@ const DynamicInput = (props) => {
   if (inputType === InputType.SELECT) {
     return (
       <Controller
-        key={name}
         control={control}
         name={name}
         render={({ field }) => (
-          <CustomSelect {...field} label={label} options={options} />
+          <CustomSelect
+            {...field}
+            label={description}
+            options={options}
+            errorText={errors[name]?.message}
+          />
         )}
       />
     );
   }
 
   if (inputType === InputType.CHECKBOX) {
-    return (
+    return options.map((option, i) => (
       <Controller
-        key={name}
+        key={i}
         control={control}
-        name={name}
-        render={({ field }) => <CheckboxInput {...field} label={label} />}
+        name={option.value || option}
+        render={({ field }) => (
+          <CheckboxInput
+            {...field}
+            label={option.label || option}
+            errorText={errors[name]?.message}
+          />
+        )}
       />
-    );
+    ));
   }
 
-  return <></>;
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Input
+          {...field}
+          label={description}
+          errorText={errors[name]?.message}
+        />
+      )}
+    />
+  );
 };
 
 export default DynamicInput;

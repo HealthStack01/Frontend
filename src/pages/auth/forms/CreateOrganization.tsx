@@ -1,51 +1,21 @@
 import { Stack } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
-import Input from '../../../components/inputs/basic/Input';
-import CustomSelect from '../../../components/inputs/basic/Select';
-import { createOrganizationData } from '../../../utils/data';
+import DynamicInput from '../../../components/app/DynamicInput';
+import { OrganisationSchema } from '../../../components/app/ModelSchema';
 
-function CreateOrganization() {
-  const [values, setValues] = useState({});
-
+function CreateOrganization({ control, errors }) {
   return (
     <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
-      <form action="">
-        {createOrganizationData.map((data, index) => {
-          const { name, options, label } = data;
-
-          if (!options) {
-            return (
-              <Input
-                {...data}
-                name={name}
-                key={index}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            );
-          }
-          return (
-            <CustomSelect
-              {...data}
-              name={name}
-              label={label}
-              key={index}
-              options={options}
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-          );
-        })}
-      </form>
+      {OrganisationSchema.map((data, i) => (
+        <DynamicInput
+          key={i}
+          {...data}
+          name={data.key}
+          control={control}
+          errors={errors}
+        />
+      ))}
     </Stack>
   );
 }
