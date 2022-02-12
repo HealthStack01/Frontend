@@ -58,7 +58,7 @@ const BandDetails: React.FC<Props> = ({
       <FullDetailsWrapper>
         <GridWrapper>
           {BandSchema.map((schema) => (
-            <div>
+            <div key={schema.key}>
               <label>{schema.name}</label>
               <p>{schema.selector(row)}</p>
             </div>

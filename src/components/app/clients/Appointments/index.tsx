@@ -1,4 +1,5 @@
 import { useObjectState } from '../../../../context/context';
+import { Views } from '../../Constants';
 import AppointmentCreate from './AppointmentCreate';
 import AppointmentDetails from './AppointmentDetail';
 import Appointments from './AppointmentList';
@@ -7,87 +8,39 @@ import AppointmentModify from './AppointmentModify';
 const AppClinic = () => {
   const { resource, setResource } = useObjectState();
 
+  const changeView = (show: string, selectedBand?: any) => () =>
+    setResource((prevState) => ({
+      ...prevState,
+      bandResource: {
+        ...prevState.bandResource,
+        show,
+        selectedBand: selectedBand || prevState.bandResource.selectedBand,
+      },
+    }));
+
   return (
     <>
-      {resource.servicesResource.show === 'lists' && (
+      {resource.bandResource.show === Views.LIST && (
         <Appointments
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                show: 'details',
-                selectedService: row,
-              },
-            }));
-          }}
+          handleCreate={changeView(Views.CREATE)}
+          onRowClicked={(row) => changeView(Views.DETAIL, row)}
         />
       )}
-      {resource.servicesResource.show === 'create' && (
-        <AppointmentCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
+      {resource.bandResource.show === Views.CREATE && (
+        <AppointmentCreate backClick={changeView(Views.LIST)} />
       )}
-      {resource.servicesResource.show === 'details' && (
+      {resource.bandResource.show === Views.DETAIL && (
         <AppointmentDetails
-          row={resource.servicesResource.selectedService}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'edit',
-              },
-            }))
-          }
+          row={resource.bandResource.selectedBand}
+          backClick={changeView(Views.LIST)}
+          editBtnClicked={changeView(Views.EDIT)}
         />
       )}
-      {resource.servicesResource.show === 'edit' && (
+      {resource.bandResource.show === Views.EDIT && (
         <AppointmentModify
-          row={resource.servicesResource.selectedService}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              servicesResource: {
-                ...prevState.servicesResource,
-                show: 'details',
-              },
-            }))
-          }
+          row={resource.bandResource.selectedBand}
+          backClick={changeView(Views.LIST)}
+          cancelEditClicked={changeView(Views.DETAIL)}
         />
       )}
     </>

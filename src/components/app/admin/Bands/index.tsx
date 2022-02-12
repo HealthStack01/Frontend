@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
+import { Views } from '../../Constants';
 import { getFormStrings } from '../../Utils';
 import BandCreate from './BandCreate';
 import BandDetails from './BandDetail';
@@ -14,19 +15,22 @@ function AppBands() {
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [bands, setBands] = useState([]);
-  let band = resource.bandResource.selectedBand;
+  const {
+    bandResource: { show, selectedBand },
+  } = resource;
 
-  const backClick = () => {
-    setResource((prevState) => ({
-      ...prevState,
+  const goto = (show: string) => (selectedBand?: any) =>
+    setResource({
+      ...resource,
       bandResource: {
-        ...prevState.bandResource,
-        show: 'lists',
+        ...resource.bandResource,
+        show,
+        selectedBand,
       },
-    }));
-  };
+    });
 
   const getBands = async () => {
+    if (!BandServ) return;
     if (user.currentEmployee) {
       BandServ.find({
         query: {
@@ -62,11 +66,10 @@ function AppBands() {
     }
   };
   const handleDelete = () => {
-    BandServ.remove(band)
+    BandServ.remove(selectedBand['_id'])
       .then((_) => {
         toast('Band deleted successfully');
-        getBands();
-        backClick();
+        goto(Views.LIST)();
       })
       .catch((err) => {
         toast(`'Error deleting Band, probable network issues or ' + ${err}'`);
@@ -109,22 +112,19 @@ function AppBands() {
     }
     (data._id ? BandServ.update(data._id, data) : BandServ.create(data))
       .then(() => {
+        goto(Views.LIST)();
         toast(`Band ${values.message}`);
-        backClick();
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
       });
-
-    // console.log(data);
   };
 
   useEffect(() => {
-    BandServ = client.service('bands');
-    BandServ.on('created', (_) => getBands());
-    BandServ.on('updated', (_) => getBands());
-    BandServ.on('patched', (_) => getBands());
-    BandServ.on('removed', (_) => getBands());
+    BandServ.on('created', getBands);
+    BandServ.on('updated', getBands);
+    BandServ.on('patched', getBands);
+    BandServ.on('removed', getBands);
     getBands();
     return () => {
       BandServ = null;
@@ -133,89 +133,30 @@ function AppBands() {
 
   return (
     <>
-      {resource.bandResource.show === 'lists' && (
+      {show === Views.LIST && (
         <BandList
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                show: 'details',
-                selectedBand: row,
-              },
-            }));
-          }}
-          items={bands}
+          handleCreate={goto(Views.CREATE)}
+          onRowClicked={goto(Views.DETAIL)}
           handleSearch={handleSearch}
+          items={bands}
         />
       )}
-      {resource.bandResource.show === 'create' && (
-        <BandCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'lists',
-              },
-            }))
-          }
-          onSubmit={onSubmit}
-        />
+      {show === Views.CREATE && (
+        <BandCreate backClick={goto(Views.LIST)} onSubmit={onSubmit} />
       )}
-      {resource.bandResource.show === 'details' && (
+      {show === Views.DETAIL && (
         <BandDetails
-          row={resource.bandResource.selectedBand}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'edit',
-              },
-            }))
-          }
+          row={selectedBand}
+          backClick={goto(Views.LIST)}
+          editBtnClicked={() => goto(Views.EDIT)(selectedBand)}
           handleDelete={handleDelete}
         />
       )}
-      {resource.bandResource.show === 'edit' && (
+      {resource.bandResource.show === Views.EDIT && (
         <BandModify
-          row={resource.bandResource.selectedBand}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'details',
-              },
-            }))
-          }
+          row={selectedBand}
+          backClick={goto(Views.LIST)}
+          cancelEditClicked={goto(Views.DETAIL)}
           onSubmit={onSubmit}
         />
       )}

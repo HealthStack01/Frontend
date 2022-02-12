@@ -7,6 +7,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { toast } from 'react-toastify';
 
 import client from '../feathers';
 
@@ -126,19 +127,19 @@ export const UserProvider: React.FC = ({ children }) => {
   const memoedValue = useMemo(() => ({ user, setUser }), [user]);
 
   const authenticateUser = () => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      setUser(JSON.parse(user));
-    } else {
-      return client
-        .reAuthenticate()
-        .then((resp) => {
-          setUser({ ...resp.user, currentEmployee: resp.employeeData[0] });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+    return client
+      .reAuthenticate()
+      .then((resp) => {
+        console.log('user re-authenticated succesfully');
+        setUser({ ...resp.user, currentEmployee: resp.user.employeeData[0] });
+      })
+      .catch((error) => {
+        console.error(
+          `Cannot reauthenticate user with server at this time ${error}`
+        );
+        const user = localStorage.getItem('user');
+        setUser(JSON.parse(user));
+      });
   };
 
   useEffect(() => {

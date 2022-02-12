@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import AdminDashboard from '../components/app/admin/AdminDashboard';
@@ -35,9 +34,6 @@ import Signup from '../pages/auth/Signup';
 import PrivateOutlet from './PrivateOutlet';
 
 function AppRoutes() {
-  useEffect(() => {
-    console.log('loaded');
-  });
   return (
     <>
       <Routes>
@@ -46,16 +42,6 @@ function AppRoutes() {
         <Route path="/signupindividual" element={<IndividualSignup />} />
         <Route path="/app" element={<PrivateOutlet />}>
           <Route index element={<Overview />} />
-
-          {/* Clients */}
-          {/* <Route path="/app/clients" element={<Clients />} />
-          <Route path="/app/clients/:id" element={<ClientDetails />} />
-          <Route path="/app/clients/appointments" element={<Appointments />} /> */}
-
-          {/* <Route
-            path='/app/clients/appointments/:id'
-            element={<AppointmentDetails />}
-          /> */}
 
           {/* Clients */}
           <Route path="/app/clients" element={<ClientDashboard />} />

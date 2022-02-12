@@ -1,5 +1,5 @@
-import { Menu, MenuItem } from '@mui/material';
 import { Portal } from '@mui/base';
+import { Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 
@@ -71,18 +71,18 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
     return (
       <PageWrapper>
         <TableMenu>
-          <div className='inner-table'>
-            <Input placeholder='Search here' label='Search here' />
+          <div className="inner-table">
+            <Input placeholder="Search here" label="Search here" />
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span>Filer by</span>
-              <i className='bi bi-chevron-down'></i>
+              <i className="bi bi-chevron-down"></i>
             </div>
           </div>
 
-          <Button label='Add new' onClick={() => setOpen(true)} />
+          <Button label="Add new" onClick={() => setOpen(true)} />
         </TableMenu>
         <DataTable
-          title='Lab Orders'
+          title="Lab Orders"
           columns={columnLab}
           data={labData}
           selectableRows
@@ -97,9 +97,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
               <h2>Add Lab Order</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
                 <Input
-                  label='Add Test'
-                  name='addTest'
-                  onChange={e =>
+                  label="Add Test"
+                  name="addTest"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -107,9 +107,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   }
                 />
                 <CustomSelect
-                  label='Select Type'
-                  name='selectType'
-                  onChange={e =>
+                  label="Select Type"
+                  name="selectType"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -126,7 +126,7 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                     height: '32px',
                     cursor: 'pointer',
                   }}
-                  type='submit'
+                  type="submit"
                   onClick={() => setOpen(false)}
                 >
                   +
@@ -142,18 +142,18 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
     return (
       <PageWrapper>
         <TableMenu>
-          <div className='inner-table'>
-            <Input placeholder='Search here' label='Search here' />
+          <div className="inner-table">
+            <Input placeholder="Search here" label="Search here" />
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span>Filer by</span>
-              <i className='bi bi-chevron-down'></i>
+              <i className="bi bi-chevron-down"></i>
             </div>
           </div>
 
-          <Button label='Add new' onClick={() => setOpen(true)} />
+          <Button label="Add new" onClick={() => setOpen(true)} />
         </TableMenu>
         <DataTable
-          title='Prescription'
+          title="Prescription"
           columns={columnLab}
           data={labData}
           selectableRows
@@ -168,9 +168,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
               <h2>Create Prescription</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
                 <Input
-                  label='Search Order'
-                  name='search'
-                  onChange={e =>
+                  label="Search Order"
+                  name="search"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -178,9 +178,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   }
                 />
                 <Input
-                  label='Note'
-                  name='note'
-                  onChange={e =>
+                  label="Note"
+                  name="note"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -188,9 +188,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   }
                 />
                 <CustomSelect
-                  label='Select Type'
-                  name='selectType'
-                  onChange={e =>
+                  label="Select Type"
+                  name="selectType"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -207,7 +207,7 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                     height: '32px',
                     cursor: 'pointer',
                   }}
-                  type='submit'
+                  type="submit"
                   onClick={() => setOpen(false)}
                 >
                   +
@@ -222,12 +222,54 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
   const NewDocument = () => {
     return <div>Prescription</div>;
   };
+
+  // const getDocumentations = async (page = 0) => {
+  //   /* const limit=20
+  //          alert(page) */
+  //   if (user.currentEmployee) {
+  //     const findClinic = await ClinicServ.find({
+  //       query: {
+  //         //locationType:"Clinic",
+  //         //facility:user.currentEmployee.facilityDetail._id,
+  //         client: state.ClientModule.selectedClient._id,
+  //         $limit: 50,
+  //         /*  $skip:page*limit, */
+  //         $sort: {
+  //           createdAt: -1,
+  //         },
+  //       },
+  //     });
+  //     const total = findClinic.total;
+  //     const ulimit = total * page;
+  //     /*  if (total>(ulimit)){ //only load if we have not reached the total
+  //              alert("skip:",ulimit )
+  //              console.log("skip:",ulimit ) */
+  //     await setFacilities(findClinic.data);
+  //     // console.log(findClinic.data)
+  //     /*  } */
+  //   } else {
+  //     if (user.stacker) {
+  //       const findClinic = await ClinicServ.find({
+  //         query: {
+  //           client: state.ClientModule.selectedClient._id,
+  //           $limit: 20,
+  //           $sort: {
+  //             createdAt: -1,
+  //           },
+  //         },
+  //       });
+
+  //       await setFacilities(findClinic.data);
+  //     }
+  //   }
+  // };
+
   return (
     <PageWrapper>
       <GrayWrapper>
         <FullDetailsWrapper>
           <FlexBox>
-            <ImageBox src='https://via.placeholder.com/150' />
+            <ImageBox src="https://via.placeholder.com/150" />
 
             <div>
               <h1>Adam Mike Olu</h1>
@@ -245,7 +287,7 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
           </FlexBox>
         </FullDetailsWrapper>
         <GrayWrapper
-          className='grid'
+          className="grid"
           style={{
             paddingBottom: '6rem',
           }}
@@ -271,39 +313,39 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
           </FullDetailsWrapper>
 
           <FullDetailsWrapper>
-            <GridWrapper className='four-columns'>
+            <GridWrapper className="four-columns">
               <Button
                 label={'History'}
-                color='#fefffb'
-                background='#04ed6d'
+                color="#fefffb"
+                background="#04ed6d"
                 showicon={true}
                 onClick={() => setState('all')}
               />
               <Button
-                label='Lab Orders'
-                background='#fdfdfd'
-                color='#333'
+                label="Lab Orders"
+                background="#fdfdfd"
+                color="#333"
                 onClick={() => setState('lab')}
               />
               <Button
                 label={'Prescription'}
                 background={'#ECF3FF'}
-                color='#0364FF'
+                color="#0364FF"
                 showicon={true}
                 onClick={() => setState('prescription')}
               />
               <div>
                 <Button
                   label={'New Document'}
-                  background='#FFE9E9'
-                  color='#ED0423'
+                  background="#FFE9E9"
+                  color="#ED0423"
                   showicon={true}
                   onClick={handleClick}
                 />
                 <Menu
-                  id='basic-menu'
+                  id="basic-menu"
                   anchorEl={anchorEl}
-                  aria-haspopup='true'
+                  aria-haspopup="true"
                   aria-expanded={openBtn ? 'true' : undefined}
                   open={openBtn}
                   onClose={handleCloseMenu}
