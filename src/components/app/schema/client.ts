@@ -1,16 +1,115 @@
 import { InputType } from './util';
 
+const AppointmentSchema = [
+  {
+    name: 'ID',
+    key: '_id',
+    selector: (row) => row._id && row._id.substring(0, 7),
+    description: '',
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'Client',
+    key: 'client',
+    description: 'Search for  Client',
+    selector: (row) => `${row.firstname} ${row.lastname}`,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT_AUTO_SUGGEST,
+  },
+  {
+    name: 'Location',
+    description: '',
+    key: 'locationId',
+    selector: (row) => row.location_name,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT_AUTO_SUGGEST,
+  },
+  {
+    name: 'Employee',
+    description: '',
+    key: 'practionerId',
+    selector: (row) => row.practitioner_name,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT_AUTO_SUGGEST,
+  },
+  [
+    {
+      name: 'Date and Time',
+      key: 'start_time',
+      description: 'Appoitment Time',
+      selector: (row) => row.start_time,
+      sortable: true,
+      required: true,
+      inputType: InputType.DATETIME,
+    },
+    {
+      name: 'Classification',
+      key: 'appointmentClass',
+      description: 'Appointment Class',
+      selector: (row) => row.start_time,
+      sortable: true,
+      required: true,
+      inputType: InputType.SELECT_RADIO,
+      options: [
+        {
+          value: 'Onsite',
+          label: 'On-site',
+        },
+        {
+          value: 'Telemedicine',
+          label: 'Telemedicine',
+        },
+        {
+          value: 'homevisit',
+          label: 'Home Visit',
+        },
+      ],
+    },
+    {
+      name: 'Appointment Type',
+      description: '',
+      key: 'appointment_type',
+      selector: (row) => row.appointment_type,
+      sortable: true,
+      required: true,
+      inputType: InputType.SELECT_LIST,
+      options: ['Type A', 'Type B', 'Type C', 'Type D', 'Type E', 'Type F'],
+    },
+    {
+      name: 'Appointment Status',
+      description: '',
+      key: 'appointment_status',
+      selector: (row) => row.appointment_status,
+      sortable: true,
+      required: true,
+      inputType: InputType.SELECT_LIST,
+    },
+  ],
+  {
+    name: 'Appointment Reason',
+    description: '',
+    key: 'appointment_reason',
+    selector: (row) => row.appointment_reason,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT_AREA,
+  },
+];
+
 const ClientMiniSchema = [
   {
     name: 'ID',
     key: '_id',
-    // description: 'Enter client name',
     selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     required: true,
     inputType: InputType.HIDDEN,
   },
-
   {
     name: 'First Name',
     key: 'firstname',
@@ -224,7 +323,7 @@ const ClientFullSchema = {
       selector: (row) => row.maritalstatus,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Married', 'Single'],
     },
 
@@ -235,7 +334,7 @@ const ClientFullSchema = {
       selector: (row) => row.religion,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Christianity', 'Islam', 'Rather not say'],
     },
 
@@ -246,7 +345,7 @@ const ClientFullSchema = {
       selector: (row) => row.medicalRecords,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Record 1', 'Record 2', 'Record 3'],
     },
 
@@ -257,7 +356,7 @@ const ClientFullSchema = {
       selector: (row) => row.profession,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Profession 1', 'Profession  2', 'Profession 3'],
     },
 
@@ -289,7 +388,7 @@ const ClientFullSchema = {
       selector: (row) => row.country,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Nigeria', 'France', 'England', 'Cameron'],
     },
 
@@ -300,7 +399,7 @@ const ClientFullSchema = {
       selector: (row) => row.state,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Lagos', 'Oyo', 'Ogun', 'Paris'],
     },
 
@@ -311,7 +410,7 @@ const ClientFullSchema = {
       selector: (row) => row.localgovernment,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: [
         'Ibadan S/W',
         'Lagos Central',
@@ -327,7 +426,7 @@ const ClientFullSchema = {
       selector: (row) => row.town,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Ikeja', 'Epe', 'Ofa', 'Ibadan'],
     },
 
@@ -400,7 +499,7 @@ const ClientFullSchema = {
       selector: (row) => row.nonhospitalindetifiers,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['CD120', 'CD122', 'CD120', 'CD130'],
     },
 
@@ -411,7 +510,7 @@ const ClientFullSchema = {
       selector: (row) => row.paymentinformation,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Paid', 'Out of cash'],
     },
 
@@ -422,7 +521,7 @@ const ClientFullSchema = {
       selector: (row) => row.assignttocareteam,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Yes', 'No'],
     },
   ],
@@ -465,7 +564,7 @@ const ClientFullSchema = {
       selector: (row) => row.relationship,
       sortable: true,
       required: true,
-      inputType: InputType.SELECT,
+      inputType: InputType.SELECT_LIST,
       options: ['Parent(s)', 'Sibling(s)', 'Spouse', 'Friend(s)'],
     },
   ],
@@ -627,4 +726,4 @@ const ClientFullSchema = {
   ],
 };
 
-export { ClientFullSchema, ClientMiniSchema };
+export { AppointmentSchema, ClientFullSchema, ClientMiniSchema };

@@ -1,29 +1,27 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import { DebounceInput } from 'react-debounce-input';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
+import { AppointmentSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
-import { columnsAppointment, dataAppointments } from '../data';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (row: any, event: any) => void;
-}
-
-const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Appointments </h2>
 
       <TableMenu>
         <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+          <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Bands"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
         </div>
 
         <Button label="Add new" onClick={handleCreate} />
@@ -32,8 +30,8 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
           title="Appointments"
-          columns={columnsAppointment}
-          data={dataAppointments}
+          columns={AppointmentSchema.flat()}
+          data={items}
           selectableRows
           pointerOnHover
           highlightOnHover

@@ -1,10 +1,13 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
 import CustomSelect from '../../../inputs/basic/Select';
 import Textarea from '../../../inputs/basic/Textarea';
+import DynamicInput from '../../DynamicInput';
+import { AppointmentSchema, Schema } from '../../schema';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -13,10 +16,6 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
-
-interface Props {
-  backClick: () => void;
-}
 
 const appointmetOptions = [
   {
@@ -42,7 +41,8 @@ const typeOptions = [
   'Type F',
 ];
 
-const AppointmentCreate: React.FC<Props> = () => {
+const AppointmentCreate = ({ onSubmit, backClick }) => {
+  const { handleSubmit, control } = useForm();
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -52,30 +52,61 @@ const AppointmentCreate: React.FC<Props> = () => {
             <span>Create a new appointment by filling out the form below.</span>
           </div>
         </HeadWrapper>
-        <DetailsWrapper title='Appointment Form' defaultExpanded={true}>
-          <Input placeholder='Search for Client' />
-          <Input placeholder='Search for Location, Typing or Active state' />
-          <Input placeholder='Search for Employee' />
-          <RadioButton
-            title='Appointment Schedule'
-            options={appointmetOptions}
-          />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DetailsWrapper title="Appointment Form" defaultExpanded={true}>
+            {AppointmentSchema.map((obj: Schema | Schema[], index, options) => {
+              if (obj['length']) {
+                const schemas = obj as Schema[];
+                return schemas.map((schema) => (
+                  <GridWrapper className="subgrid two-columns">
+                     <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.name}
+                      inputType={schema.inputType}
+                      options={options}
+                    />
+                  </GridWrapper>
+                ));
+              } else {
+                const schema = obj as Schema;
+                return (
+                  <DynamicInput
+                    key={index}
+                    name={schema.key}
+                    control={control}
+                    label={schema.name}
+                    inputType={schema.inputType}
+                    options={options}
+                  />
+                );
+              }
+            })}
+            {/* <Input placeholder="Search for Client" />
+            <Input placeholder="Search for Location, Typing or Active state" />
+            <Input placeholder="Search for Employee" />
+            <RadioButton
+              title="Appointment Schedule"
+              options={appointmetOptions}
+            />
 
-          <GridWrapper className='subgrid two-columns'>
-            <Input label='Date of Appointment' type='date' />
-            <Input label='Time of Appointment' type='time' />
-            <CustomSelect label='Appointment Type' options={typeOptions} />
-            <CustomSelect label='Appointment Status' options={typeOptions} />
-          </GridWrapper>
-          <Textarea label='Reason for Appointment' />
-        </DetailsWrapper>
+            <GridWrapper className="subgrid two-columns">
+              <Input label="Date of Appointment" type="date" />
+              <Input label="Time of Appointment" type="time" />
+              <CustomSelect label="Appointment Type" options={typeOptions} />
+              <CustomSelect label="Appointment Status" options={typeOptions} />
+            </GridWrapper>
+            <Textarea label="Reason for Appointment" /> */}
+          </DetailsWrapper>
+        </form>
         <BottomWrapper>
           <Button
-            label='Close without Saving'
-            background='#ECF3FF'
-            color='#0364FF'
+            label="Close without Saving"
+            background="#ECF3FF"
+            color="#0364FF"
           />
-          <Button label='Create Appointment' />
+          <Button label="Create Appointment" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>

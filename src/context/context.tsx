@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { toast } from 'react-toastify';
 
+import { Views } from '../components/app/Constants';
 import client from '../feathers';
 
 interface UserContextProps {
@@ -21,6 +22,8 @@ const userDefaultValues: UserContextProps = {
 };
 
 interface ObjectContextProps {
+  appointmentResource: { show: string; selectedAppointment: {} };
+
   facilityResource: { show: string; selectedFacility: {} };
   // epidiologyModule: { show: string; selectedEpid: {} };
 
@@ -50,6 +53,10 @@ interface ObjectContextProps {
 }
 
 const objectDefaultValues: ObjectContextProps = {
+  appointmentResource: {
+    show: Views.LIST,
+    selectedAppointment: {},
+  },
   facilityResource: {
     show: 'lists',
     selectedFacility: {},

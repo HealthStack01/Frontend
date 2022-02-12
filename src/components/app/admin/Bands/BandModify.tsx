@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
+import { Schema } from '../../schema';
 import { BandSchema } from '../../schema/ModelSchema';
 import {
   BottomWrapper,
@@ -13,7 +14,6 @@ import {
   PageWrapper,
 } from '../../styles';
 
-const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
 interface Props {
   cancelEditClicked?: () => void;
   row?: any;
@@ -59,14 +59,14 @@ const BandModify: React.FC<Props> = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Band">
             <GridWrapper>
-              {BandSchema.map((client, index) => (
+              {BandSchema.map((client: Schema, index) => (
                 <DynamicInput
                   key={index}
                   name={client.key}
                   control={control}
                   label={client.name}
                   inputType={client.inputType}
-                  options={bandTypes}
+                  options={client.options}
                 />
               ))}
             </GridWrapper>

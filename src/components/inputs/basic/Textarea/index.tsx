@@ -4,6 +4,7 @@ import { TextareaField } from './styles';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
+  errorText?: string;
 }
 
 const Textarea: React.FC<TextareaProps> = ({ label, ...props }) => (

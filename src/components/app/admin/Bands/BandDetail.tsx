@@ -10,19 +10,7 @@ import {
   PageWrapper,
 } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  handleDelete: (_event) => void;
-  row?: any;
-}
-
-const BandDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-  handleDelete,
-}) => (
+const BandDetails = ({ editBtnClicked, row, backClick, handleDelete }) => (
   <PageWrapper>
     <GrayWrapper>
       <HeadWrapper>

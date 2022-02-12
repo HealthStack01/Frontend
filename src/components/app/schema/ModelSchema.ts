@@ -28,7 +28,7 @@ const BandSchema = [
     selector: (row) => row.bandType,
     sortable: true,
     required: true,
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
   },
   {
     name: 'Description of Band',
@@ -249,7 +249,7 @@ const LocationSchema = [
     selector: (row) => row.locationType,
     sortable: true,
     required: true,
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
   },
 ];
 
@@ -290,7 +290,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     options: ['Nigeria'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
   },
   {
     name: 'State',
@@ -300,7 +300,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     options: ['Lagos'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
   },
   {
     name: 'LGA',
@@ -310,7 +310,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     options: ['Lagos'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
   },
 
   {
@@ -321,7 +321,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     options: ['Lagos'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
   },
 
   {
@@ -376,7 +376,7 @@ const OrganisationSchema: Schema[] = [
     selector: (row) => row.facilityType,
     sortable: true,
     required: true,
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
     options: ['Hospital', 'Laboratory'],
   },
   {
@@ -386,7 +386,7 @@ const OrganisationSchema: Schema[] = [
     selector: (row) => row.facilityCategory,
     sortable: true,
     required: true,
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
     options: ['Health', 'Finance'],
   },
 ];
@@ -486,7 +486,7 @@ const OnboardingEmployeeSchema = [
     key: 'facilityCountry',
     description: 'Facility Country',
     options: ['Nigeria'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
     required: true,
   },
   {
@@ -494,7 +494,7 @@ const OnboardingEmployeeSchema = [
     key: 'facilityState',
     description: 'Organization State',
     options: ['Lagos'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
     required: true,
   },
   {
@@ -502,7 +502,7 @@ const OnboardingEmployeeSchema = [
     key: 'department',
     description: 'Enter department',
     options: ['Front Desk', 'Accounting', 'Clinic', 'Pharmacy'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
     required: true,
   },
   {
@@ -510,7 +510,7 @@ const OnboardingEmployeeSchema = [
     key: 'deptunit',
     description: 'Enter department',
     options: ['Unit 1', 'Unnit 1', 'Unit 1', 'unit 2'],
-    inputType: InputType.SELECT,
+    inputType: InputType.SELECT_LIST,
     required: true,
   },
 ];

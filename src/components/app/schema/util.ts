@@ -12,19 +12,24 @@ const getResolver = (schema: Schema[]) => {
 };
 
 enum InputType {
+  DATE,
+  DATETIME,
   HIDDEN,
   TEXT,
-  SELECT,
+  TEXT_AREA,
   CHECKBOX,
   EMAIL,
   PHONE,
   NUMBER,
+  SELECT_RADIO,
+  SELECT_AUTO_SUGGEST,
+  SELECT_LIST,
 }
 
 export type Schema = {
   name: string;
   key: string;
-  description: string;
+  description?: string;
   selector?: (_row) => string;
   sortable?: boolean;
   inputType: InputType;

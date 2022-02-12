@@ -9,7 +9,7 @@ import {
   getResolver,
   OnboardingEmployeeSchema,
   OrganisationSchema,
-} from '../../components/app/ModelSchema';
+} from '../../components/app/schema';
 import Button from '../../components/buttons/Button';
 import client from '../../feathers';
 import AuthWrapper from '../../helper/AuthWrapper';

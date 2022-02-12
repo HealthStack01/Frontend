@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import DynamicInput from '../../DynamicInput';
+import { AppointmentSchema, Schema } from '../../schema';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -10,18 +13,9 @@ import {
   PageWrapper,
 } from '../../styles';
 
-interface Props {
-  cancelEditClicked?: () => void;
-  row?: any;
-  backClick: () => void;
-}
-
-const AppointmentModify: React.FC<Props> = ({
-  cancelEditClicked,
-  row,
-  backClick,
-}) => {
+const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
   const [values, setValue] = useState({});
+  const { handleSubmit, control } = useForm();
 
   return (
     <PageWrapper>
@@ -48,46 +42,77 @@ const AppointmentModify: React.FC<Props> = ({
             />
           </div>
         </HeadWrapper>
-        <GridWrapper>
-          <Input label="ID" value={row.id} disabled />
-          <Input
-            label="Date and Time"
-            type="date"
-            value={row.dtime}
-            onChange={(e) =>
-              setValue({ ...values, [e.target.name]: e.target.value })
-            }
-          />
-          <Input
-            label="First Name"
-            value={row.fname}
-            onChange={(e) =>
-              setValue({ ...values, [e.target.name]: e.target.value })
-            }
-          />
-          <Input
-            label="Last Name"
-            value={row.lname}
-            onChange={(e) =>
-              setValue({ ...values, [e.target.name]: e.target.value })
-            }
-          />
-          <Input
-            label="Classification"
-            value={row.classification}
-            onChange={(e) =>
-              setValue({ ...values, [e.target.name]: e.target.value })
-            }
-          />
-          <Input
-            label="Location"
-            value={row.location}
-            onChange={(e) =>
-              setValue({ ...values, [e.target.name]: e.target.value })
-            }
-          />
-        </GridWrapper>
-
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <GridWrapper>
+            {AppointmentSchema.map((obj: Schema | Schema[], index, options) => {
+              if (obj['length']) {
+                const schemas = obj as Schema[];
+                return schemas.map((schema) => (
+                  <GridWrapper className="subgrid two-columns">
+                    return (
+                    <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.name}
+                      inputType={schema.inputType}
+                      options={options}
+                    />
+                    );
+                  </GridWrapper>
+                ));
+              }
+              const schema = obj as Schema;
+              return (
+                <DynamicInput
+                  key={index}
+                  name={schema.key}
+                  control={control}
+                  label={schema.name}
+                  inputType={schema.inputType}
+                  options={options}
+                />
+              );
+            })}
+            <Input label="ID" value={row.id} disabled />
+            <Input
+              label="Date and Time"
+              type="date"
+              value={row.dtime}
+              onChange={(e) =>
+                setValue({ ...values, [e.target.name]: e.target.value })
+              }
+            />
+            <Input
+              label="First Name"
+              value={row.fname}
+              onChange={(e) =>
+                setValue({ ...values, [e.target.name]: e.target.value })
+              }
+            />
+            <Input
+              label="Last Name"
+              value={row.lname}
+              onChange={(e) =>
+                setValue({ ...values, [e.target.name]: e.target.value })
+              }
+            />
+            <Input
+              label="Classification"
+              value={row.classification}
+              onChange={(e) =>
+                setValue({ ...values, [e.target.name]: e.target.value })
+              }
+            />
+            <Input
+              label="Location"
+              value={row.location}
+              onChange={(e) =>
+                setValue({ ...values, [e.target.name]: e.target.value })
+              }
+            />
+          </GridWrapper>
+        </form>
         <BottomWrapper>
           <Button
             label="Delete Appointment"

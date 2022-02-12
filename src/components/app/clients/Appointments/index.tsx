@@ -1,4 +1,5 @@
 import { useObjectState } from '../../../../context/context';
+import useModelManager from '../../../hooks';
 import { Views } from '../../Constants';
 import AppointmentCreate from './AppointmentCreate';
 import AppointmentDetails from './AppointmentDetail';
@@ -7,40 +8,55 @@ import AppointmentModify from './AppointmentModify';
 
 const AppClinic = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    appointmentResource: { show, selectedAppointment },
+  } = resource;
 
-  const changeView = (show: string, selectedBand?: any) => () =>
-    setResource((prevState) => ({
-      ...prevState,
-      bandResource: {
-        ...prevState.bandResource,
+  const navigate = (show: string) => (selectedAppointment?: any) =>
+    setResource({
+      ...resource,
+      appointmentResource: {
+        ...resource.appointmentResource,
         show,
-        selectedBand: selectedBand || prevState.bandResource.selectedBand,
+        selectedAppointment:
+          selectedAppointment ||
+          resource.appointmentResource.selectedAppointment,
       },
-    }));
+    });
+
+  const [appointments, getAppointments, handleDelete, handleSubmit] =
+    useModelManager('appointments', navigate);
 
   return (
     <>
-      {resource.bandResource.show === Views.LIST && (
+      {resource.appointmentResource.show === Views.LIST && (
         <Appointments
-          handleCreate={changeView(Views.CREATE)}
-          onRowClicked={(row) => changeView(Views.DETAIL, row)}
+          handleCreate={navigate(Views.CREATE)}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          handleSearch={getAppointments}
+          items={appointments}
         />
       )}
-      {resource.bandResource.show === Views.CREATE && (
-        <AppointmentCreate backClick={changeView(Views.LIST)} />
+      {resource.appointmentResource.show === Views.CREATE && (
+        <AppointmentCreate
+          backClick={navigate(Views.LIST)}
+          onSubmit={handleSubmit}
+        />
       )}
-      {resource.bandResource.show === Views.DETAIL && (
+      {resource.appointmentResource.show === Views.DETAIL && (
         <AppointmentDetails
-          row={resource.bandResource.selectedBand}
-          backClick={changeView(Views.LIST)}
-          editBtnClicked={changeView(Views.EDIT)}
+          row={selectedAppointment}
+          backClick={navigate(Views.LIST)}
+          editBtnClicked={() => navigate(Views.EDIT)(selectedAppointment)}
+          handleDelete={() => handleDelete(selectedAppointment)}
         />
       )}
-      {resource.bandResource.show === Views.EDIT && (
+      {resource.appointmentResource.show === Views.EDIT && (
         <AppointmentModify
-          row={resource.bandResource.selectedBand}
-          backClick={changeView(Views.LIST)}
-          cancelEditClicked={changeView(Views.DETAIL)}
+          row={selectedAppointment}
+          backClick={navigate(Views.LIST)}
+          cancelEditClicked={navigate(Views.DETAIL)}
+          onSubmit={handleSubmit}
         />
       )}
     </>

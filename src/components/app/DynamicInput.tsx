@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 import CheckboxInput from '../inputs/basic/Checkbox';
 import Input from '../inputs/basic/Input';
 import CustomSelect from '../inputs/basic/Select';
+import Textarea from '../inputs/basic/Textarea';
 import { InputType } from './schema/util';
 
 const DynamicInput = (props) => {
@@ -19,7 +20,7 @@ const DynamicInput = (props) => {
         render={({ field }) => (
           <Input
             {...field}
-            label={description}
+            label={description || name}
             errorText={errors[name]?.message}
           />
         )}
@@ -44,7 +45,23 @@ const DynamicInput = (props) => {
     );
   }
 
-  if (inputType === InputType.SELECT) {
+  if (inputType === InputType.TEXT_AREA) {
+    return (
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <Textarea
+            {...field}
+            label={description}
+            errorText={errors[name]?.message}
+          />
+        )}
+      />
+    );
+  }
+
+  if (inputType === InputType.SELECT_LIST) {
     return (
       <Controller
         control={control}

@@ -1,41 +1,19 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import { DebounceInput } from 'react-debounce-input';
-import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
 import { BandSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
-interface Props {
-  handleCreate?: () => void;
-  handleSearch: (_event) => void;
-  onRowClicked?: (
-    _row: { id: any; name: string; bandType: string; description: string },
-    _event: any
-  ) => void;
-  items: any[];
-}
-
-const Bands: React.FC<Props> = ({
-  handleCreate,
-  handleSearch,
-  onRowClicked,
-  items,
-}) => {
+const Bands = ({ handleCreate, handleSearch, onRowClicked, items }) => {
   return (
     <PageWrapper>
       <h2>Bands</h2>
 
       <TableMenu>
         <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
           <DebounceInput
             className="input is-small "
             type="text"

@@ -1,30 +1,24 @@
 import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
+import { AppointmentSchema } from '../../schema';
 import {
   BottomWrapper,
   FullDetailsWrapper,
-  GrayWrapper,
   GridWrapper,
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
 import Attend from './Attend';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const AppointmentDetails: React.FC<Props> = ({
+const AppointmentDetails = ({
   editBtnClicked,
   row,
   backClick,
+  handleDelete,
 }) => {
-  const [values, setValues] = useState({});
   const [state, setState] = useState('all');
-
+  handleDelete;
   return (
     <PageWrapper>
       <HeadWrapper>
@@ -34,9 +28,9 @@ const AppointmentDetails: React.FC<Props> = ({
         </div>
         <div>
           <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
             onClick={backClick}
           />
           <Button
@@ -50,46 +44,12 @@ const AppointmentDetails: React.FC<Props> = ({
         {state === 'all' && (
           <>
             <GridWrapper>
-              <div>
-                <label>ID</label>
-                <p>{row.id}</p>
-              </div>
-              <div>
-                <label>Date and Time</label>
-                <p>{row.dtime}</p>
-              </div>
-              <div>
-                <label>First Name</label>
-                <p>{row.fname}</p>
-              </div>
-              <div>
-                <label>Last Name</label>
-                <p>{row.lname}</p>
-              </div>
-              <div>
-                <label>Classification</label>
-                <p>{row.classification}</p>
-              </div>
-              <div>
-                <label>Location</label>
-                <p>{row.location}</p>
-              </div>
-              <div>
-                <label>Type</label>
-                <p>{row.type}</p>
-              </div>
-              <div>
-                <label>Status</label>
-                <p>{row.status}</p>
-              </div>
-              <div>
-                <label>Reason</label>
-                <p>{row.reason}</p>
-              </div>
-              <div>
-                <label>Practitioner</label>
-                <p>{row.practitioner}</p>
-              </div>
+              {AppointmentSchema.flat().map((schema) => (
+                <div key={schema.key}>
+                  <label>{schema.name}</label>
+                  <p>{schema.selector(row)}</p>
+                </div>
+              ))}
             </GridWrapper>
             <BottomWrapper>
               <Button
@@ -99,7 +59,7 @@ const AppointmentDetails: React.FC<Props> = ({
                 onClick={editBtnClicked}
               />
               <Button
-                label='Attend to Client'
+                label="Attend to Client"
                 onClick={() => setState('attend')}
               />
             </BottomWrapper>
