@@ -8,7 +8,13 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['eslint:recommended', 'plugin:import/errors', 'plugin:import/warnings', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -17,7 +23,13 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['prettier', 'react', 'react-hooks', '@typescript-eslint', 'simple-import-sort'],
+  plugins: [
+    'prettier',
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'simple-import-sort',
+  ],
   rules: {
     'import/no-unresolved': [2, { commonjs: true, amd: true }],
     'import/named': 'off',

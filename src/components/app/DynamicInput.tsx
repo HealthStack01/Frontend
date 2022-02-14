@@ -1,5 +1,6 @@
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { TextField } from '@mui/material';
+import { useRef } from 'react';
 import { Controller } from 'react-hook-form';
 
 import CheckboxInput from '../inputs/basic/Checkbox';
@@ -12,6 +13,7 @@ import { InputType } from './schema/util';
 
 const DynamicInput = (props) => {
   const { inputType, label, name, options, control, errors = {} } = props;
+  const ref = useRef();
   if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -21,7 +23,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <Input {...field} label={label} errorText={errors[name]?.message} />}
+        render={({ field }) => <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} />}
       />
     );
   }
@@ -31,7 +33,9 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <Input {...field} label={label} errorText={errors[name]?.message} type="number" />}
+        render={({ field }) => (
+          <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} type="number" />
+        )}
       />
     );
   }
@@ -41,7 +45,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <Textarea {...field} label={label} errorText={errors[name]?.message} />}
+        render={({ field }) => <Textarea ref={ref} {...field} label={label} errorText={errors[name]?.message} />}
       />
     );
   }
@@ -51,7 +55,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <RadioButton {...field} title={label} options={options} />}
+        render={({ field }) => <RadioButton ref={ref} {...field} title={label} options={options} />}
       />
     );
   }
@@ -62,7 +66,7 @@ const DynamicInput = (props) => {
         control={control}
         name={name}
         render={({ field }) => (
-          <CustomSelect {...field} label={label} options={options} errorText={errors[name]?.message} />
+          <CustomSelect ref={ref} {...field} label={label} options={options} errorText={errors[name]?.message} />
         )}
       />
     );
@@ -75,7 +79,7 @@ const DynamicInput = (props) => {
         control={control}
         name={option.value || option}
         render={({ field }) => (
-          <CheckboxInput {...field} label={option.label || option} errorText={errors[name]?.message} />
+          <CheckboxInput ref={ref} {...field} label={option.label || option} errorText={errors[name]?.message} />
         )}
       />
     ));
@@ -91,7 +95,7 @@ const DynamicInput = (props) => {
             {...field}
             label={label}
             inputFormat="MM/dd/yyyy hh:mm:ss aa"
-            renderInput={(params) => <TextField {...params} error={errors[name]?.message} />}
+            renderInput={(params) => <TextField ref={ref} {...params} error={errors[name]?.message} />}
           />
         )}
       />
@@ -103,7 +107,7 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => <AutoSuggestInput label={label} options={options} {...field} />}
+        render={({ field }) => <AutoSuggestInput ref={ref} label={label} options={options} {...field} />}
       />
     );
   }
@@ -112,7 +116,7 @@ const DynamicInput = (props) => {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => <Input {...field} label={label} errorText={errors[name]?.message} />}
+      render={({ field }) => <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} />}
     />
   );
 };
