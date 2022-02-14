@@ -1,4 +1,3 @@
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { TextField } from '@mui/material';
 import { Controller } from 'react-hook-form';
@@ -22,9 +21,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
-          <Input {...field} label={label} errorText={errors[name]?.message} />
-        )}
+        render={({ field }) => <Input {...field} label={label} errorText={errors[name]?.message} />}
       />
     );
   }
@@ -34,14 +31,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
-          <Input
-            {...field}
-            label={label}
-            errorText={errors[name]?.message}
-            type="number"
-          />
-        )}
+        render={({ field }) => <Input {...field} label={label} errorText={errors[name]?.message} type="number" />}
       />
     );
   }
@@ -51,13 +41,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
-          <Textarea
-            {...field}
-            label={label}
-            errorText={errors[name]?.message}
-          />
-        )}
+        render={({ field }) => <Textarea {...field} label={label} errorText={errors[name]?.message} />}
       />
     );
   }
@@ -67,9 +51,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
-          <RadioButton {...field} title={label} options={options} />
-        )}
+        render={({ field }) => <RadioButton {...field} title={label} options={options} />}
       />
     );
   }
@@ -80,12 +62,7 @@ const DynamicInput = (props) => {
         control={control}
         name={name}
         render={({ field }) => (
-          <CustomSelect
-            {...field}
-            label={label}
-            options={options}
-            errorText={errors[name]?.message}
-          />
+          <CustomSelect {...field} label={label} options={options} errorText={errors[name]?.message} />
         )}
       />
     );
@@ -98,11 +75,7 @@ const DynamicInput = (props) => {
         control={control}
         name={option.value || option}
         render={({ field }) => (
-          <CheckboxInput
-            {...field}
-            label={option.label || option}
-            errorText={errors[name]?.message}
-          />
+          <CheckboxInput {...field} label={option.label || option} errorText={errors[name]?.message} />
         )}
       />
     ));
@@ -118,9 +91,7 @@ const DynamicInput = (props) => {
             {...field}
             label={label}
             inputFormat="MM/dd/yyyy hh:mm:ss aa"
-            renderInput={(params) => (
-              <TextField {...params} error={errors[name]?.message} />
-            )}
+            renderInput={(params) => <TextField {...params} error={errors[name]?.message} />}
           />
         )}
       />
@@ -128,14 +99,11 @@ const DynamicInput = (props) => {
   }
 
   if (inputType === InputType.SELECT_AUTO_SUGGEST) {
-    console.log({ name });
     return (
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
-          <AutoSuggestInput label={label} options={options} {...field} />
-        )}
+        render={({ field }) => <AutoSuggestInput label={label} options={options} {...field} />}
       />
     );
   }
@@ -144,9 +112,7 @@ const DynamicInput = (props) => {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
-        <Input {...field} label={label} errorText={errors[name]?.message} />
-      )}
+      render={({ field }) => <Input {...field} label={label} errorText={errors[name]?.message} />}
     />
   );
 };

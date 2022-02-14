@@ -5,14 +5,7 @@ import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 // import DynamicInput from '../../DynamicInput';
 import { BandSchema } from '../../schema/ModelSchema';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
 interface Props {
@@ -29,16 +22,9 @@ const BandCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
         <HeadWrapper>
           <div>
             <h2>Create Band</h2>
-            <span>
-              Create a New band by filling out the form below to get started.
-            </span>
+            <span>Create a New band by filling out the form below to get started.</span>
           </div>
-          <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
-            onClick={backClick}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Band">

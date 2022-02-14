@@ -12,7 +12,7 @@ const AppBillLabSent = () => {
       {resource.billPrescriptionSentResource.show === 'lists' && (
         <BillLabSent
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -21,7 +21,7 @@ const AppBillLabSent = () => {
             }))
           }
           onRowClicked={(row, _event) => {
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 show: 'details',
@@ -34,11 +34,9 @@ const AppBillLabSent = () => {
 
       {resource.billPrescriptionSentResource.show === 'details' && (
         <BillLabSentDetails
-          row={
-            resource.billPrescriptionSentResource.selectedBillPrescriptionSent
-          }
+          row={resource.billPrescriptionSentResource.selectedBillPrescriptionSent}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,
@@ -47,7 +45,7 @@ const AppBillLabSent = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               billPrescriptionSentResource: {
                 ...prevState.billPrescriptionSentResource,

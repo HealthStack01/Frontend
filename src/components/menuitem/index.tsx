@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Link, ListItem, Lists } from './style';
+import { ListItem, Lists, MenuList } from './style';
 
 interface MenuItemProps {
   name: string;
@@ -11,18 +11,12 @@ interface MenuItemProps {
   iconClassName?: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  name,
-  subMenus,
-  onClick,
-  to,
-  iconClassName,
-}) => {
+const MenuItem: React.FC<MenuItemProps> = ({ name, subMenus, onClick, iconClassName }) => {
   const [expand, setExpand] = useState<boolean>(false);
 
   return (
     <ListItem onClick={onClick}>
-      <Link onClick={() => setExpand(!expand)} to={to} className="menu-item">
+      <MenuList onClick={() => setExpand(!expand)} className="menu-item">
         <div className="menu-label">
           <div className="menu-label-right">
             <div className="menu-icon">
@@ -31,10 +25,10 @@ const MenuItem: React.FC<MenuItemProps> = ({
             <span style={{ fontSize: '0.75rem' }}>{name}</span>
           </div>
 
-          {subMenus.length > 0 ? <i className="bi bi-chevron-down" /> : ''}
+          {subMenus.length ? <i className="bi bi-chevron-down" /> : ''}
         </div>
 
-        {subMenus && subMenus.length > 0 ? (
+        {subMenus && subMenus.length ? (
           <Lists className={`sub-menu ${expand ? 'active' : ''}`}>
             {subMenus.map((menu, index) => (
               <ListItem key={index}>
@@ -52,7 +46,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
             ))}
           </Lists>
         ) : null}
-      </Link>
+      </MenuList>
     </ListItem>
   );
 };

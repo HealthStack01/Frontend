@@ -12,14 +12,7 @@ interface Props {
   table?: boolean;
 }
 
-const CollapsableGrid: React.FC<Props> = ({
-  title,
-  description,
-  rowData,
-  columnHead,
-  onRowClicked,
-  table = true,
-}) => {
+const CollapsableGrid: React.FC<Props> = ({ title, description, rowData, columnHead, onRowClicked, table = true }) => {
   return (
     <>
       <AccordionBox title={title} defaultExpanded={true}>

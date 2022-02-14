@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import Attend from './Attend';
 
 interface Props {
@@ -17,12 +10,7 @@ interface Props {
   row?: any;
 }
 
-const AppointmentDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
-  const [values, setValues] = useState({});
+const AppointmentDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   const [state, setState] = useState('all');
 
   return (
@@ -33,17 +21,8 @@ const AppointmentDetails: React.FC<Props> = ({
           <span>Below are your Appointment’s details</span>
         </div>
         <div>
-          <Button
-            label='Back to List'
-            background='#fdfdfd'
-            color='#333'
-            onClick={backClick}
-          />
-          <Button
-            label={'Start or Join Telemedicine'}
-            background={'#04ed7c'}
-            color={'#fff'}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button label={'Start or Join Telemedicine'} background={'#04ed7c'} color={'#fff'} />
         </div>
       </HeadWrapper>
       <FullDetailsWrapper>
@@ -98,10 +77,7 @@ const AppointmentDetails: React.FC<Props> = ({
                 color={'#fff'}
                 onClick={editBtnClicked}
               />
-              <Button
-                label='Attend to Client'
-                onClick={() => setState('attend')}
-              />
+              <Button label="Attend to Client" onClick={() => setState('attend')} />
             </BottomWrapper>
           </>
         )}

@@ -5,14 +5,7 @@ import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { Schema } from '../../schema';
 import { BandSchema } from '../../schema/ModelSchema';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -21,12 +14,7 @@ interface Props {
   onSubmit: (_data) => void;
 }
 
-const BandModify: React.FC<Props> = ({
-  cancelEditClicked,
-  onSubmit,
-  row: band,
-  backClick,
-}) => {
+const BandModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row: band, backClick }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: band,
   });
@@ -40,12 +28,7 @@ const BandModify: React.FC<Props> = ({
             <span>Below are your band’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label="Cancel Editing"
               background="#f2f2f2"

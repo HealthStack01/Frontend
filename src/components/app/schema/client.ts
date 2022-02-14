@@ -21,15 +21,7 @@ const AppointmentSchema = [
     inputType: InputType.SELECT_AUTO_SUGGEST,
     options: {
       model: Models.EMPLOYEE,
-      or: [
-        'firstname',
-        'lastname',
-        'middlename',
-        'phone',
-        'clientTags',
-        'mrn',
-        'specificDetails',
-      ],
+      or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
       labelSelector: (obj) => `${obj.firstname} ${obj.lastname}`,
       valueSelector: (obj) => obj._id,
     },
@@ -105,14 +97,7 @@ const AppointmentSchema = [
       sortable: true,
       required: true,
       inputType: InputType.SELECT_LIST,
-      options: [
-        'New',
-        'Type B',
-        'Followup',
-        'Readmission with 24hrs',
-        'Annual Checkup',
-        'Walk-in',
-      ],
+      options: ['New', 'Type B', 'Followup', 'Readmission with 24hrs', 'Annual Checkup', 'Walk-in'],
     },
     {
       name: 'Appointment Status',
@@ -121,14 +106,7 @@ const AppointmentSchema = [
       selector: (row) => row.appointment_status,
       sortable: true,
       required: true,
-      options: [
-        'Scheduled',
-        'Confirmed',
-        'Checked In',
-        'Vitals Taken',
-        'With Nurse',
-        'With Doctor',
-      ],
+      options: ['Scheduled', 'Confirmed', 'Checked In', 'Vitals Taken', 'With Nurse', 'With Doctor'],
       inputType: InputType.SELECT_LIST,
     },
   ],
@@ -453,12 +431,7 @@ const ClientFullSchema = {
       sortable: true,
       required: true,
       inputType: InputType.SELECT_LIST,
-      options: [
-        'Ibadan S/W',
-        'Lagos Central',
-        'Abuja Central',
-        'Kaduna Central',
-      ],
+      options: ['Ibadan S/W', 'Lagos Central', 'Abuja Central', 'Kaduna Central'],
     },
 
     {

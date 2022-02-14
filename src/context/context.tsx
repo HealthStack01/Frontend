@@ -1,13 +1,4 @@
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { toast } from 'react-toastify';
+import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react';
 
 import { Views } from '../components/app/Constants';
 import client from '../feathers';
@@ -145,13 +136,10 @@ export const UserProvider: React.FC = ({ children }) => {
     return client
       .reAuthenticate()
       .then((resp) => {
-        console.log('user re-authenticated succesfully');
         setUser({ ...resp.user, currentEmployee: resp.user.employeeData[0] });
       })
       .catch((error) => {
-        console.error(
-          `Cannot reauthenticate user with server at this time ${error}`
-        );
+        console.error(`Cannot reauthenticate user with server at this time ${error}`);
         const user = localStorage.getItem('user');
         setUser(JSON.parse(user));
       });
@@ -161,9 +149,7 @@ export const UserProvider: React.FC = ({ children }) => {
     authenticateUser();
   }, []);
 
-  return (
-    <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={memoedValue}>{children}</UserContext.Provider>;
 };
 
 export const ObjectContext = createContext({
@@ -181,11 +167,7 @@ export function ObjectProvider({
   const [resource, setResource] = useState(value);
   // const memoedValue = useMemo(() => ({ state }), [state]);
 
-  return (
-    <ObjectContext.Provider value={{ resource, setResource }}>
-      {children}
-    </ObjectContext.Provider>
-  );
+  return <ObjectContext.Provider value={{ resource, setResource }}>{children}</ObjectContext.Provider>;
 }
 
 export const useObjectState = () => {

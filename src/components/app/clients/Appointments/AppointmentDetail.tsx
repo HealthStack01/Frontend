@@ -5,13 +5,7 @@ import Button from '../../../buttons/Button';
 import useRepository from '../../../hooks';
 import { Models } from '../../Constants';
 import { AppointmentSchema } from '../../schema';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import Attend from './Attend';
 
 const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
@@ -31,7 +25,7 @@ const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
         });
         setState('attend');
       })
-      .catch(console.log);
+      .catch(console.error);
   };
 
   return (
@@ -42,17 +36,8 @@ const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
           <span>Below are your Appointment’s details</span>
         </div>
         <div>
-          <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
-            onClick={backClick}
-          />
-          <Button
-            label={'Start or Join Telemedicine'}
-            background={'#04ed7c'}
-            color={'#fff'}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button label={'Start or Join Telemedicine'} background={'#04ed7c'} color={'#fff'} />
         </div>
       </HeadWrapper>
       <FullDetailsWrapper>

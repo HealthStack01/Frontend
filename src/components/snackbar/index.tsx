@@ -13,12 +13,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-const CustomSnackBar: React.FC<SnackbarProps> = ({
-  severity = 'success',
-  onClose,
-  open,
-  label = 'Success',
-}) => (
+const CustomSnackBar: React.FC<SnackbarProps> = ({ severity = 'success', onClose, open, label = 'Success' }) => (
   <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
     <Alert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
       {label}

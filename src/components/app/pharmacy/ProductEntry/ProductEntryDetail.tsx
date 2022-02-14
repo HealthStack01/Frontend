@@ -3,12 +3,7 @@ import DataTable from 'react-data-table-component';
 
 import { FlexBox, Htag } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
-import {
-  FullDetailsWrapper,
-  GrayWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import { columnHead } from '../Payment/PaymentList';
 
 interface Props {
@@ -27,12 +22,7 @@ const ProductEntryDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your Product Entry’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>

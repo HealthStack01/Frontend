@@ -9,14 +9,7 @@ import { FlexBox, ImageBox } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -40,17 +33,12 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your bill’s details</span>
           </div>
           <div>
-            <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
           <FlexBox>
-            <ImageBox src='https://via.placeholder.com/150' />
+            <ImageBox src="https://via.placeholder.com/150" />
 
             <div>
               <h1>Adam Mike Olu</h1>
@@ -59,9 +47,7 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
 
             <div>
-              <p>
-                Description: 32 years Male Married Christian IT professional
-              </p>
+              <p>Description: 32 years Male Married Christian IT professional</p>
               <p>Geneotype: AA</p>
               <p>Blood Group: O</p>
             </div>
@@ -100,16 +86,16 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
               Documentation
             </label>
           </HeadWrapper>
-          <GridWrapper className='two-columns' style={{ alignItems: 'end' }}>
+          <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
             <div>
               <label>Name</label>
               <p>{row.name}</p>
             </div>
 
             <CustomSelect
-              label='HMO'
-              name='hmo'
-              onChange={e =>
+              label="HMO"
+              name="hmo"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -120,10 +106,10 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'end' }}>
             <Input
-              label='Date'
-              name='date'
-              type='date'
-              onChange={e =>
+              label="Date"
+              name="date"
+              type="date"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -131,10 +117,10 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label='Phone Number'
-              name='phone'
-              type='tel'
-              onChange={e =>
+              label="Phone Number"
+              name="phone"
+              type="tel"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -142,9 +128,9 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label='Quantity'
-              name='quantity'
-              onChange={e =>
+              label="Quantity"
+              name="quantity"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -158,9 +144,9 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
             <p>Paracetamol</p>
           </div>
           <Input
-            label='Price'
-            name='price'
-            onChange={e =>
+            label="Price"
+            name="price"
+            onChange={(e) =>
               setValues({
                 ...values,
                 [e.target.name]: e.target.value,
@@ -173,11 +159,11 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
           <h2>Billing Status: {row.mode}</h2>
           <br />
 
-          <GridWrapper style={{ alignItems: 'center' }} className='two-columns'>
+          <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
             <Input
-              label='Seacrh Product'
-              name='search'
-              onChange={e =>
+              label="Seacrh Product"
+              name="search"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -185,9 +171,9 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label='Quantity'
-              name='quantity'
-              onChange={e =>
+              label="Quantity"
+              name="quantity"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -195,9 +181,9 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
               }
             />
             <Input
-              label='Amount'
-              name='amount'
-              onChange={e =>
+              label="Amount"
+              name="amount"
+              onChange={(e) =>
                 setValues({
                   ...values,
                   [e.target.name]: e.target.value,
@@ -212,13 +198,13 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
                 width: '32px',
                 height: '32px',
               }}
-              type='submit'
+              type="submit"
             >
               +
             </button>{' '}
           </GridWrapper>
           <BottomWrapper>
-            <Button label='Adjust' type='submit' />
+            <Button label="Adjust" type="submit" />
           </BottomWrapper>
         </FullDetailsWrapper>
 
@@ -226,44 +212,21 @@ const BillLabSentDetails: React.FC<Props> = ({ row, backClick }) => {
           <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={tab}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <TabList
-                  onChange={handleChange}
-                  aria-label='Client Information Tabs'
-                >
-                  <Tab
-                    label='Last Visit'
-                    value='1'
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label='Drug Tolerance'
-                    value='2'
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label='Medications'
-                    value='3'
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label='History'
-                    value='4'
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label='Problem List'
-                    value='5'
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab label='Task' value='6' sx={{ fontWeight: 'bolder' }} />
+                <TabList onChange={handleChange} aria-label="Client Information Tabs">
+                  <Tab label="Last Visit" value="1" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Drug Tolerance" value="2" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Medications" value="3" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="History" value="4" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Problem List" value="5" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Task" value="6" sx={{ fontWeight: 'bolder' }} />
                 </TabList>
               </Box>
-              <TabPanel value='1'>Item One</TabPanel>
-              <TabPanel value='2'>Item Two</TabPanel>
-              <TabPanel value='3'>Item Three</TabPanel>
-              <TabPanel value='4'>Item One</TabPanel>
-              <TabPanel value='5'>Item Two</TabPanel>
-              <TabPanel value='6'>Item Three</TabPanel>
+              <TabPanel value="1">Item One</TabPanel>
+              <TabPanel value="2">Item Two</TabPanel>
+              <TabPanel value="3">Item Three</TabPanel>
+              <TabPanel value="4">Item One</TabPanel>
+              <TabPanel value="5">Item Two</TabPanel>
+              <TabPanel value="6">Item Three</TabPanel>
             </TabContext>
           </Box>
         </FullDetailsWrapper>

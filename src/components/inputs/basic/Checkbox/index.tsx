@@ -8,17 +8,9 @@ interface CheckboxProps {
   onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckboxInput: React.FC<CheckboxProps> = ({
-  label,
-  name,
-  onChange,
-  errorText,
-}) => (
+const CheckboxInput: React.FC<CheckboxProps> = ({ label, name, onChange, errorText }) => (
   <FormGroup>
-    <FormControlLabel
-      control={<Checkbox name={name} onChange={onChange} />}
-      label={label}
-    />
+    <FormControlLabel control={<Checkbox name={name} onChange={onChange} />} label={label} />
     <label>{errorText}</label>
   </FormGroup>
 );

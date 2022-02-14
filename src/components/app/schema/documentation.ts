@@ -42,7 +42,7 @@ const BillOrderSchema = [
   },
 ];
 
-const LaboratorySchema = () => [
+const LaboratorySchema = [
   {
     name: 'Test',
     selector: (row) => row.test,
@@ -92,11 +92,11 @@ const PrescriptionSchema = [
 
 const GenericTableSchema = [
   {
-    name: '',
+    name: 'Record',
     selector: (row) => row.key,
   },
   {
-    name: '',
+    name: 'Value',
     selector: (row) => row.value,
   },
 ];
@@ -105,7 +105,7 @@ const generateSchema = (keys) =>
   keys.map((key) => ({
     name: key,
     key,
-    selector: (row) => row[key],
+    selector: (row) => JSON.stringify(row[key].length),
   }));
 
 export {

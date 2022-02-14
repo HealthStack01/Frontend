@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import React from 'react';
@@ -19,8 +18,8 @@ const style = {
 const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
   <>
     <Modal
-      aria-labelledby='transition-modal-title'
-      aria-describedby='transition-modal-description'
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
       open={open}
       onClose={onClose}
       closeAfterTransition

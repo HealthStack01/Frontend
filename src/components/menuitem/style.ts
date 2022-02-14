@@ -25,6 +25,35 @@ export const ListItem = styled.li`
   padding: 0.8rem;
 `;
 
+export const MenuList = styled.div`
+  &.menu-item {
+    color: ${({ theme }) => theme.btnText};
+    text-decoration: none;
+    font-size: 15px;
+    display: block;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.8rem;
+  }
+  &.menu-item.active {
+    background: ${({ theme }) => theme.primary};
+    border-radius: 5px;
+    color: #fff;
+  }
+
+  &.menu-item .menu-label {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &.menu-item .menu-icon {
+    display: inline-block;
+    width: 40px;
+    font-size: 20px;
+    text-align: center;
+  }
+`;
+
 export const Link = styled(LinkRef)`
   &.menu-item {
     color: ${({ theme }) => theme.btnText};

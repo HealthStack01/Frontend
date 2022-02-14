@@ -45,10 +45,7 @@ function AppRoutes() {
 
           {/* Clients */}
           <Route path="/app/clients" element={<ClientDashboard />} />
-          <Route
-            path="/app/clients/appointments"
-            element={<AppAppointment />}
-          />
+          <Route path="/app/clients/appointments" element={<AppAppointment />} />
           <Route path="/app/clients/clients" element={<AppClient />} />
 
           {/* Admin */}
@@ -59,14 +56,8 @@ function AppRoutes() {
 
           {/* Laboratory */}
           <Route path="/app/laboratory" element={<LaboratoryDashboard />} />
-          <Route
-            path="/app/laboratory/billlabsent"
-            element={<AppBillLabSent />}
-          />
-          <Route
-            path="/app/laboratory/billclient"
-            element={<AppBillClientLab />}
-          />
+          <Route path="/app/laboratory/billlabsent" element={<AppBillLabSent />} />
+          <Route path="/app/laboratory/billclient" element={<AppBillClientLab />} />
           <Route path="/app/laboratory/payment" element={<AppPaymentsLab />} />
           <Route path="/app/laboratory/result" element={<AppLaboratory />} />
 
@@ -82,20 +73,11 @@ function AppRoutes() {
 
           <Route path="/app/pharmacy" element={<PharmacyDashboard />} />
           <Route path="/app/pharmacy/billclient" element={<AppBillClient />} />
-          <Route
-            path="/app/pharmacy/billsent"
-            element={<AppBillPrescriptionSent />}
-          />
-          <Route
-            path="/app/pharmacy/payment"
-            element={<AppPaymentsPharmacy />}
-          />
+          <Route path="/app/pharmacy/billsent" element={<AppBillPrescriptionSent />} />
+          <Route path="/app/pharmacy/payment" element={<AppPaymentsPharmacy />} />
           <Route path="/app/pharmacy/dispensory" element={<AppDispensary />} />
           <Route path="/app/pharmacy/inventory" element={<AppInventory />} />
-          <Route
-            path="/app/pharmacy/productentry"
-            element={<AppProductEntry />}
-          />
+          <Route path="/app/pharmacy/productentry" element={<AppProductEntry />} />
           <Route path="/app/pharmacy/pos" element={<AppPOS />} />
 
           {/* Clinic */}

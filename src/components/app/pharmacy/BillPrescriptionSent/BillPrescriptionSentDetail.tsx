@@ -9,14 +9,7 @@ import { FlexBox, ImageBox } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -40,12 +33,7 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your bill’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -59,9 +47,7 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
 
             <div>
-              <p>
-                Description: 32 years Male Married Christian IT professional
-              </p>
+              <p>Description: 32 years Male Married Christian IT professional</p>
               <p>Geneotype: AA</p>
               <p>Blood Group: O</p>
             </div>
@@ -226,35 +212,12 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
           <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={tab}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <TabList
-                  onChange={handleChange}
-                  aria-label="Client Information Tabs"
-                >
-                  <Tab
-                    label="Last Visit"
-                    value="1"
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label="Drug Tolerance"
-                    value="2"
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label="Medications"
-                    value="3"
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label="History"
-                    value="4"
-                    sx={{ fontWeight: 'bolder' }}
-                  />
-                  <Tab
-                    label="Problem List"
-                    value="5"
-                    sx={{ fontWeight: 'bolder' }}
-                  />
+                <TabList onChange={handleChange} aria-label="Client Information Tabs">
+                  <Tab label="Last Visit" value="1" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Drug Tolerance" value="2" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Medications" value="3" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="History" value="4" sx={{ fontWeight: 'bolder' }} />
+                  <Tab label="Problem List" value="5" sx={{ fontWeight: 'bolder' }} />
                   <Tab label="Task" value="6" sx={{ fontWeight: 'bolder' }} />
                 </TabList>
               </Box>

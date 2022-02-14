@@ -4,20 +4,9 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { EmployeeSchema } from '../../schema/ModelSchema';
-import {
-  BottomWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const EmployeeModify= ({
-  cancelEditClicked,
-  onSubmit,
-  row: employee,
-  backClick,
-}) => {
+const EmployeeModify = ({ cancelEditClicked, onSubmit, row: employee, backClick }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: employee,
   });
@@ -31,12 +20,7 @@ const EmployeeModify= ({
             <span>Below are your employee’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label="Cancel Editing"
               background="#f2f2f2"
@@ -62,11 +46,7 @@ const EmployeeModify= ({
           </GridWrapper>
 
           <BottomWrapper>
-            <Button
-              label="Delete Employee"
-              background="#FFE9E9"
-              color="#ED0423"
-            />
+            <Button label="Delete Employee" background="#FFE9E9" color="#ED0423" />
             <Button label="Save Employee" />
           </BottomWrapper>
         </form>

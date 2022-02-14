@@ -1,13 +1,7 @@
 import React from 'react';
 
 import Button from '../../../buttons/Button';
-import {
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -15,11 +9,7 @@ interface Props {
   row?: any;
 }
 
-const HMOAuthorizationDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-}) => {
+const HMOAuthorizationDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -29,12 +19,7 @@ const HMOAuthorizationDetails: React.FC<Props> = ({
             <span>Below are your HMOAuthorization’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Delete'}
               background="#FFE9E9"

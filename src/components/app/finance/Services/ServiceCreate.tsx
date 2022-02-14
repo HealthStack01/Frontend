@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
@@ -24,16 +17,9 @@ const ServiceCreate: React.FC<Props> = ({ backClick }) => {
         <HeadWrapper>
           <div>
             <h2>Create Service</h2>
-            <span>
-              Create a new Service by filling out the form below to get started.
-            </span>
+            <span>Create a new Service by filling out the form below to get started.</span>
           </div>
-          <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
-            onClick={backClick}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form action="" onSubmit={() => {}}>
           <FullDetailsWrapper title="Create Employee">

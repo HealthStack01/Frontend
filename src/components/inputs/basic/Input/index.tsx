@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
     <TextField
       error={!!errorText}
       helperText={errorText}
-      id='component-simple'
+      id="component-simple"
       onChange={onChange}
       type={type}
       label={label}

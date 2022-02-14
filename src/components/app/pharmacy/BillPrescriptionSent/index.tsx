@@ -34,9 +34,7 @@ const AppBillPrescriptionSent = () => {
 
       {resource.billPrescriptionSentResource.show === 'details' && (
         <BillPrescriptionSentDetails
-          row={
-            resource.billPrescriptionSentResource.selectedBillPrescriptionSent
-          }
+          row={resource.billPrescriptionSentResource.selectedBillPrescriptionSent}
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,

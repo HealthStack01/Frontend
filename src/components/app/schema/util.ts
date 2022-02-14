@@ -2,8 +2,7 @@ import * as yup from 'yup';
 
 const getResolver = (schema: Schema[]) => {
   const validators = {};
-  const requiredValidator = (required, name) =>
-    required && yup.string().required(`Field: ${name} is required`);
+  const requiredValidator = (required, name) => required && yup.string().required(`Field: ${name} is required`);
   schema.forEach(({ name, key, validator, required }) => {
     const func = validator || requiredValidator(required, name);
     if (func) validators[key] = func;

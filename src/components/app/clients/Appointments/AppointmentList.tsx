@@ -17,7 +17,7 @@ const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
           <DebounceInput
             className="input is-small "
             type="text"
-            placeholder="Search Bands"
+            placeholder="Search Appointments"
             minLength={1}
             debounceTimeout={400}
             onChange={(e) => handleSearch(e.target.value)}

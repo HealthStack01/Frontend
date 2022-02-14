@@ -8,42 +8,14 @@ import Input from '../../../inputs/basic/Input';
 import { EmployeeSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
-interface Props {
-  handleCreate?: () => void;
-  handleSearch: (_event) => void;
-  onRowClicked?: (
-    _row: {
-      id: any;
-      name: string;
-      firstname: string;
-      lastname: string;
-      profession: string;
-      phonenumber: number;
-      email: any;
-      department: string;
-      departmentunit: string;
-    },
-    _event: any
-  ) => void;
-  items: any[];
-}
-const Employees = ({
-  handleCreate,
-  handleSearch,
-  onRowClicked,
-  items,
-}) => {
+const Employees = ({ handleCreate, handleSearch, onRowClicked, items }) => {
   return (
     <PageWrapper>
       <h2>Employees</h2>
 
       <TableMenu>
         <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
+          <Input placeholder="Search here" label="Search here" onChange={handleSearch} />
           <DebounceInput
             className="input is-small "
             type="text"

@@ -11,30 +11,18 @@ import { PageWrapper } from '../../styles';
 interface Props {
   handleCreate?: () => void;
   handleSearch: (_event) => void;
-  onRowClicked?: (
-    _row: { id: any; name: string; locationType: string },
-    _: any
-  ) => void;
+  onRowClicked?: (_row: { id: any; name: string; locationType: string }, _: any) => void;
   items: any[];
 }
 
-const Locations: React.FC<Props> = ({
-  handleCreate,
-  handleSearch,
-  onRowClicked,
-  items,
-}) => {
+const Locations: React.FC<Props> = ({ handleCreate, handleSearch, onRowClicked, items }) => {
   return (
     <PageWrapper>
       <h2>Locations</h2>
 
       <TableMenu>
         <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
+          <Input placeholder="Search here" label="Search here" onChange={handleSearch} />
           <DebounceInput
             className="input is-small "
             type="text"

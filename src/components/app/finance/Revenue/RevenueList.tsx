@@ -31,11 +31,7 @@ const Revenue: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
 
       <TableMenu>
         <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
+          <Input placeholder="Search here" label="Search here" onChange={handleSearch} />
           <DebounceInput
             className="input is-small "
             type="text"

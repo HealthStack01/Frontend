@@ -14,23 +14,14 @@ interface Props {
   handleSearch: (_) => void;
 }
 
-const Clients: React.FC<Props> = ({
-  handleCreate,
-  onRowClicked,
-  handleSearch,
-  items,
-}) => {
+const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2> Client </h2>
 
       <TableMenu>
         <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
+          <Input placeholder="Search here" label="Search here" onChange={handleSearch} />
 
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>

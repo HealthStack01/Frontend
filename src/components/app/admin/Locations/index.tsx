@@ -34,8 +34,7 @@ function AppLocations() {
           $regex: text,
           $options: 'i',
         },
-        facility:
-          user.currentEmployee && user.currentEmployee.facilityDetail._id,
+        facility: user.currentEmployee && user.currentEmployee.facilityDetail._id,
         $limit: 200,
         $sort: {
           createdAt: user.currentEmployee && -1,

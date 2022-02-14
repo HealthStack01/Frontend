@@ -11,7 +11,7 @@ const AppPaymentsLab = () => {
       {resource.paymentsResource.show === 'lists' && (
         <Payments
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -19,8 +19,8 @@ const AppPaymentsLab = () => {
               },
             }))
           }
-          onRowClicked={row => {
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 show: 'details',
@@ -35,7 +35,7 @@ const AppPaymentsLab = () => {
         <PaymentDetails
           row={resource.paymentsResource.selectedPayment}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,
@@ -44,7 +44,7 @@ const AppPaymentsLab = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               paymentsResource: {
                 ...prevState.paymentsResource,

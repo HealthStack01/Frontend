@@ -3,13 +3,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { AppointmentSchema, Schema } from '../../schema';
-import {
-  BottomWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
   const { handleSubmit, control } = useForm({ defaultValues: row });
@@ -23,12 +17,7 @@ const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
             <span>Below are your Appointment's details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Cancel Editing'}
               background={'#f2f2f2'}
@@ -75,11 +64,7 @@ const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
           </GridWrapper>
         </form>
         <BottomWrapper>
-          <Button
-            label="Delete Appointment"
-            background="#FFE9E9"
-            color="#ED0423"
-          />
+          <Button label="Delete Appointment" background="#FFE9E9" color="#ED0423" />
           <Button label="Save Appointment" />
         </BottomWrapper>
       </GrayWrapper>

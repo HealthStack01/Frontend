@@ -4,20 +4,13 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { AppointmentSchema, Schema } from '../../schema';
-import {
-  BottomWrapper,
-  DetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const AppointmentCreate = ({ onSubmit, backClick }) => {
   const { handleSubmit, control } = useForm({
-   defaultValues: {
-    client: ''
-   }
+    defaultValues: {
+      client: '',
+    },
   });
   return (
     <PageWrapper>
@@ -35,7 +28,7 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
                 const schemas = obj as Schema[];
 
                 return (
-                  <GridWrapper className="subgrid two-columns">
+                  <GridWrapper className="subgrid two-columns" key={index}>
                     {schemas.map((schema) => (
                       <DynamicInput
                         key={index}
@@ -64,12 +57,7 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
             })}
           </DetailsWrapper>
           <BottomWrapper>
-            <Button
-              label="Close without Saving"
-              background="#ECF3FF"
-              color="#0364FF"
-              onClick={backClick}
-            />
+            <Button label="Close without Saving" background="#ECF3FF" color="#0364FF" onClick={backClick} />
             <Button label="Create Appointment" />
           </BottomWrapper>
         </form>

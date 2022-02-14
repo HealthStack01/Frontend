@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import {
-  BottomWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -16,11 +10,7 @@ interface Props {
   backClick: () => void;
 }
 
-const ServiceModify: React.FC<Props> = ({
-  cancelEditClicked,
-  row,
-  backClick,
-}) => {
+const ServiceModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
     name: row.name,
@@ -37,12 +27,7 @@ const ServiceModify: React.FC<Props> = ({
             <span>Below are your service's details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Cancel Editing'}
               background={'#f2f2f2'}

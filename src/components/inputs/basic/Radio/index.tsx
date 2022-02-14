@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import React from 'react';
 
 interface RadioProps {
@@ -13,21 +7,10 @@ interface RadioProps {
   onChange?: (e: any) => void;
 }
 
-const RadioButton: React.FC<RadioProps> = ({
-  title,
-  options,
-  onChange,
-  ...props
-}) => (
+const RadioButton: React.FC<RadioProps> = ({ title, options, onChange, ...props }) => (
   <FormControl component="fieldset" sx={{ width: '100%', mt: 1, mb: 1 }}>
     <FormLabel component="legend">{title}</FormLabel>
-    <RadioGroup
-      row
-      aria-label="gender"
-      name="row-radio-buttons-group"
-      onChange={onChange}
-      {...props}
-    >
+    <RadioGroup row aria-label="gender" name="row-radio-buttons-group" onChange={onChange} {...props}>
       {options.map((option, i) => (
         <FormControlLabel
           key={i}

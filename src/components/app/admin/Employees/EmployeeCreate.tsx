@@ -4,14 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { EmployeeSchema } from '../../schema/ModelSchema';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
@@ -27,17 +20,9 @@ const EmployeeCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
         <HeadWrapper>
           <div>
             <h2>Create Employee</h2>
-            <span>
-              Create a New employee by filling out the form below to get
-              started.
-            </span>
+            <span>Create a New employee by filling out the form below to get started.</span>
           </div>
-          <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
-            onClick={backClick}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Employee">

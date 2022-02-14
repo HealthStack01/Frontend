@@ -4,14 +4,7 @@ import DataTable from 'react-data-table-component';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import { columnHead } from './DispensaryList';
 
 interface Props {
@@ -42,12 +35,7 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your dispensary’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           </div>
         </HeadWrapper>
 

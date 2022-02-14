@@ -25,7 +25,6 @@ function Login() {
   }, []);
 
   const onSubmit = ({ email, password }) => {
-    console.log({email, password})
     client
       .authenticate({
         strategy: 'local',
@@ -33,14 +32,12 @@ function Login() {
         password,
       })
       .then((res) => {
-       console.log('thennn')
         const user = { ...res.user, currentEmployee: res.user.employeeData[0] };
         setUser(user);
         localStorage.setItem('user', JSON.stringify(res.user));
         navigate('/app');
       })
       .catch((err) => {
-       console.log('error')
         toast.error(`Error loggin in User, probable network issues ${err}`);
       });
   };
@@ -51,15 +48,9 @@ function Login() {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => (
-            <Input {...field} label="Email" placeholder="Enter your email" />
-          )}
+          render={({ field }) => <Input {...field} label="Email" placeholder="Enter your email" />}
         />
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => <PasswordInput {...field} />}
-        />
+        <Controller name="password" control={control} render={({ field }) => <PasswordInput {...field} />} />
         <CheckboxInput label="Keep me Logged in" />
         <Button type="submit" label="Login" fullwidth />
       </form>

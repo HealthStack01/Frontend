@@ -2,20 +2,9 @@ import React from 'react';
 
 import Button from '../../../buttons/Button';
 import { EmployeeSchema } from '../../schema/ModelSchema';
-import {
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const EmployeeDetails = ({
-  editBtnClicked,
-  row,
-  backClick,
-  handleDelete,
-}) => (
+const EmployeeDetails = ({ editBtnClicked, row, backClick, handleDelete }) => (
   <PageWrapper>
     <GrayWrapper>
       <HeadWrapper>
@@ -24,12 +13,7 @@ const EmployeeDetails = ({
           <span>Below are your employee’s details</span>
         </div>
         <div>
-          <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
-            onClick={backClick}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           <Button
             label="Delete"
             background="#FFE9E9"

@@ -9,10 +9,7 @@ import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
-  onRowClicked?: (
-    row: { id: any; name: string; bandType: string; description: string },
-    event: any,
-  ) => void;
+  onRowClicked?: (row: { id: any; name: string; bandType: string; description: string }, event: any) => void;
 }
 
 const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {

@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-
 import { toast } from 'react-toastify';
-import client from '../../../../feathers';
-import { useObjectState, UserContext } from '../../../../context/context';
-import { getFormStrings } from '../../Utils';
 
+import { useObjectState, UserContext } from '../../../../context/context';
+import client from '../../../../feathers';
+import { getFormStrings } from '../../Utils';
 import ClientCreate from './ClientCreate';
 import ClientDetails from './ClientDetail';
 import Clients from './ClientList';
@@ -18,10 +17,6 @@ const AppClient = () => {
   const [newClients, setNewClients] = useState([]);
 
   const Client = resource.billClientResource.selectedBillClient;
-  // console.log(Client['_id']);
-  // console.log(Client);
-
-  // console.log(resource);
 
   const backClick = () => {
     setResource((prevState) => ({
@@ -100,7 +95,7 @@ const AppClient = () => {
     const dleteId = Client['_id'];
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(() => {
           toast('Client deleted succesfully');
           backClick();
         })
@@ -117,11 +112,8 @@ const AppClient = () => {
       data.facility = user.employeeData[0]._id;
     }
 
-    (data._id
-      ? ClientServ.update(Client['_id'], data)
-      : ClientServ.create(data)
-    )
-      .then((res) => {
+    (data._id ? ClientServ.update(Client['_id'], data) : ClientServ.create(data))
+      .then(() => {
         toast(`Client ${values.message}`);
 
         backClick();

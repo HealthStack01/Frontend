@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Portal } from '@mui/base';
 import { Menu, MenuItem } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
@@ -11,7 +12,7 @@ import useRepository from '../../../hooks';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
 import ModalBox from '../../../modal';
-import { DateFormats, Models } from '../../Constants';
+import { Models } from '../../Constants';
 import { toDurationString, toShortDate } from '../../DateUtils';
 import {
   DetailsWrapper,
@@ -20,10 +21,9 @@ import {
   GridWrapper,
   PageWrapper,
 } from '../../styles';
-import { columnsAppointment } from '../data';
 import DocumentViewer from './components/DocumentViewer';
 import PatientProfile from './components/PatientProfile';
-import { columnLab, labData, recentData } from './data';
+import { columnLab, labData } from './data';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -48,11 +48,9 @@ const documents = [
   'Progress Note',
 ];
 
-const Attend: React.FC<Props> = ({ row, backClick }) => {
-  const [value, setValue] = useState({});
+const Attend: React.FC<Props> = () => {
   const [state, setState] = useState('all');
   const [values, setValues] = useState({});
-  const [tab, setTab] = useState('0');
   const { find: findClinicalDocument } = useRepository(
     Models.CLINICAL_DOCUMENT
   );
@@ -69,8 +67,8 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
         documentname:
           typeof documentName === 'string'
             ? {
-              $regex: documentName,
-              $options: 'i',
+              ['$regex']: documentName,
+              ['$options']: 'i',
             }
             : undefined,
         client: selectedClient['_id'],
@@ -100,12 +98,6 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setTab(newValue);
-  };
-
-  const handleCreate = () => {};
 
   const handleClose = () => {
     setOpen(false);
@@ -263,9 +255,6 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
       </PageWrapper>
     );
   };
-  const NewDocument = () => {
-    return <div>Prescription</div>;
-  };
 
   useEffect(() => {
     loadDocuments();
@@ -294,8 +283,10 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
               <h2>Disabilities:</h2>
             </div>
             <>
-              {tabs.map((tab, index) => (
-                <DetailsWrapper title={tab}>{tab}</DetailsWrapper>
+              {tabs.map((tab, i) => (
+                <DetailsWrapper key={i} title={tab}>
+                  {tab}
+                </DetailsWrapper>
               ))}
             </>
           </FullDetailsWrapper>

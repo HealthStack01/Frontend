@@ -3,39 +3,36 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
-
 import RevenueDetails from './RevenueDetail';
 import Revenue from './RevenueList';
 
 const AppRevenue = () => {
-  let InventoryServ=client.service('subwallettransactions')
+  let InventoryServ = client.service('subwallettransactions');
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
-  const [revenue, setRevenue] = useState([])
-  
-  
+  const [revenue, setRevenue] = useState([]);
 
-  const getAccountDetails = ()=>{
-    if (user.employeeData){
+  const getAccountDetails = () => {
+    if (user.employeeData) {
       InventoryServ.find({
-        query:{
-          facility:user.employeeData[0].facility,
+        query: {
+          facility: user.employeeData[0].facility,
           $limit: 200,
-          category:"debit",
+          category: 'debit',
           $sort: {
             createdAt: -1,
           },
-        }
+        },
       })
-      .then((res) => {
-        setRevenue(res.data);
-        toast('Revenues fetched succesfully');
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
+        .then((res) => {
+          setRevenue(res.data);
+          toast('Revenues fetched succesfully');
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
     }
-  }
+  };
 
   const handleSearch = (text) => {
     InventoryServ.find({
@@ -44,7 +41,7 @@ const AppRevenue = () => {
           $regex: text,
           $options: 'i',
         },
-        facility: user?.employeeData[0]?.facility|| '',
+        facility: user?.employeeData[0]?.facility || '',
         $limit: 100,
         $sort: {
           createdAt: -1,
@@ -74,9 +71,6 @@ const AppRevenue = () => {
     };
   }, [user]);
 
-
-
-  
   return (
     <>
       {resource.revenuesResource.show === 'lists' && (

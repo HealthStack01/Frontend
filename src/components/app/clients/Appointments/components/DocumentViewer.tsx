@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import DataTable from 'react-data-table-component';
 
 import {
@@ -9,13 +10,13 @@ import {
   PrescriptionSchema,
 } from '../../../schema';
 
-const isGenericDocument = (documentname: string) =>
-  documentname !== 'Prescription' &&
-  documentname !== 'Billed Orders' &&
-  documentname !== 'Lab Orders' &&
-  documentname !== 'Adult Asthma Questionnaire' &&
-  documentname !== 'Medication List' &&
-  documentname !== 'Pediatric Pulmonology Form';
+// const isGenericDocument = (documentname: string) =>
+//   documentname !== 'Prescription' &&
+//   documentname !== 'Billed Orders' &&
+//   documentname !== 'Lab Orders' &&
+//   documentname !== 'Adult Asthma Questionnaire' &&
+//   documentname !== 'Medication List' &&
+//   documentname !== 'Pediatric Pulmonology Form';
 
 const DocumentViewer = ({ document }) => {
   const parents = ['Medication list'];
@@ -23,11 +24,15 @@ const DocumentViewer = ({ document }) => {
     Allergies: { columns: AllergySchema, data: (list) => list },
     Generic: {
       columns: GenericTableSchema,
-      data: (obj) =>
-        Object.entries(obj).map(([key, value]) => ({
-          key,
-          value,
-        })),
+      data: (obj) => {
+        return (
+          Object.entries(obj) &&
+          Object.entries(obj).map(([key, value]) => ({
+            key,
+            value,
+          }))
+        );
+      },
     },
     'Medication List.Allergies': {
       schema: MedicationSchema,
@@ -71,10 +76,10 @@ const DocumentViewer = ({ document }) => {
       const schema =
         schemaDictionary[documentname + '.' + key] ||
         schemaDictionary['Generic'];
-      console.log({ documentname, key, schema });
+      console.error({ schema,documentname, documentdetail: documentdetail[key], key });
       return (
         <DataTable
-          key={key}
+          key={documentname + key}
           title={documentname + ' ' + key}
           columns={schema.columns}
           data={schema.data(documentdetail[key])}
@@ -88,12 +93,12 @@ const DocumentViewer = ({ document }) => {
   }
 
   const schema = schemaDictionary[documentname] || schemaDictionary['Generic'];
-  console.log({ schema, documentname, documentdetail });
+  console.error({ schema,documentname, documentdetail });
   return (
     <>
       <DataTable
         key={documentname}
-        title=""
+        title={documentname}
         columns={schema.columns}
         data={schema.data(documentdetail)}
         selectableRows

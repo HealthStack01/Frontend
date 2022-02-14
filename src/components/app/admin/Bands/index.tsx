@@ -39,9 +39,7 @@ function AppBands() {
           items={bands}
         />
       )}
-      {show === Views.CREATE && (
-        <BandCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />
-      )}
+      {show === Views.CREATE && <BandCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />}
       {show === Views.DETAIL && (
         <BandDetails
           row={selectedBand}

@@ -9,8 +9,6 @@ import BillModify from './BillModify';
 const AppBillClient = () => {
   const { resource, setResource } = useObjectState();
 
-  console.log(resource.billClientResource.show);
-
   return (
     <>
       {resource.billClientResource.show === 'lists' && (

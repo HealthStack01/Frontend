@@ -1,5 +1,5 @@
-import { Menu, MenuItem } from '@mui/material';
 import { Portal } from '@mui/base';
+import { Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 
@@ -8,14 +8,7 @@ import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
 import ModalBox from '../../../modal';
-import {
-  DetailsWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  PageWrapper,
-} from '../../styles';
-import { columnsAppointment } from '../data';
+import { DetailsWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, PageWrapper } from '../../styles';
 import { columnLab, labData, recentData } from './data';
 
 interface Props {
@@ -24,28 +17,12 @@ interface Props {
   row?: any;
 }
 
-const tabs = [
-  'Last Visit',
-  'Drug Tolerance',
-  'Medications',
-  'History',
-  'Problem List',
-  'Task',
-];
-const documents = [
-  'Clinical Note',
-  'Lab Result',
-  'Doctor Note',
-  'Nursing Note',
-  'Vital Signs',
-  'Progress Note',
-];
+const tabs = ['Last Visit', 'Drug Tolerance', 'Medications', 'History', 'Problem List', 'Task'];
+const documents = ['Clinical Note', 'Lab Result', 'Doctor Note', 'Nursing Note', 'Vital Signs', 'Progress Note'];
 
-const Attend: React.FC<Props> = ({ row, backClick }) => {
-  const [value, setValue] = useState({});
+const Attend: React.FC<Props> = () => {
   const [state, setState] = useState('all');
   const [values, setValues] = useState({});
-  const [tab, setTab] = useState('0');
 
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -57,11 +34,11 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
     setAnchorEl(null);
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setTab(newValue);
-  };
+  // const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  //   setTab(newValue);
+  // };
 
-  const handleCreate = () => {};
+  // const handleCreate = () => {};
 
   const handleClose = () => {
     setOpen(false);
@@ -71,18 +48,18 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
     return (
       <PageWrapper>
         <TableMenu>
-          <div className='inner-table'>
-            <Input placeholder='Search here' label='Search here' />
+          <div className="inner-table">
+            <Input placeholder="Search here" label="Search here" />
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span>Filer by</span>
-              <i className='bi bi-chevron-down'></i>
+              <i className="bi bi-chevron-down"></i>
             </div>
           </div>
 
-          <Button label='Add new' onClick={() => setOpen(true)} />
+          <Button label="Add new" onClick={() => setOpen(true)} />
         </TableMenu>
         <DataTable
-          title='Lab Orders'
+          title="Lab Orders"
           columns={columnLab}
           data={labData}
           selectableRows
@@ -97,9 +74,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
               <h2>Add Lab Order</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
                 <Input
-                  label='Add Test'
-                  name='addTest'
-                  onChange={e =>
+                  label="Add Test"
+                  name="addTest"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -107,9 +84,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   }
                 />
                 <CustomSelect
-                  label='Select Type'
-                  name='selectType'
-                  onChange={e =>
+                  label="Select Type"
+                  name="selectType"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -126,7 +103,7 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                     height: '32px',
                     cursor: 'pointer',
                   }}
-                  type='submit'
+                  type="submit"
                   onClick={() => setOpen(false)}
                 >
                   +
@@ -142,18 +119,18 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
     return (
       <PageWrapper>
         <TableMenu>
-          <div className='inner-table'>
-            <Input placeholder='Search here' label='Search here' />
+          <div className="inner-table">
+            <Input placeholder="Search here" label="Search here" />
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span>Filer by</span>
-              <i className='bi bi-chevron-down'></i>
+              <i className="bi bi-chevron-down"></i>
             </div>
           </div>
 
-          <Button label='Add new' onClick={() => setOpen(true)} />
+          <Button label="Add new" onClick={() => setOpen(true)} />
         </TableMenu>
         <DataTable
-          title='Prescription'
+          title="Prescription"
           columns={columnLab}
           data={labData}
           selectableRows
@@ -168,9 +145,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
               <h2>Create Prescription</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
                 <Input
-                  label='Search Order'
-                  name='search'
-                  onChange={e =>
+                  label="Search Order"
+                  name="search"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -178,9 +155,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   }
                 />
                 <Input
-                  label='Note'
-                  name='note'
-                  onChange={e =>
+                  label="Note"
+                  name="note"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -188,9 +165,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   }
                 />
                 <CustomSelect
-                  label='Select Type'
-                  name='selectType'
-                  onChange={e =>
+                  label="Select Type"
+                  name="selectType"
+                  onChange={(e) =>
                     setValues({
                       ...values,
                       [e.target.name]: e.target.value,
@@ -207,7 +184,7 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                     height: '32px',
                     cursor: 'pointer',
                   }}
-                  type='submit'
+                  type="submit"
                   onClick={() => setOpen(false)}
                 >
                   +
@@ -219,15 +196,13 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
       </PageWrapper>
     );
   };
-  const NewDocument = () => {
-    return <div>Prescription</div>;
-  };
+
   return (
     <PageWrapper>
       <GrayWrapper>
         <FullDetailsWrapper>
           <FlexBox>
-            <ImageBox src='https://via.placeholder.com/150' />
+            <ImageBox src="https://via.placeholder.com/150" />
 
             <div>
               <h1>Adam Mike Olu</h1>
@@ -236,16 +211,14 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
             </div>
 
             <div>
-              <p>
-                Description: 32 years Male Married Christian IT professional
-              </p>
+              <p>Description: 32 years Male Married Christian IT professional</p>
               <p>Geneotype: AA</p>
               <p>Blood Group: O</p>
             </div>
           </FlexBox>
         </FullDetailsWrapper>
         <GrayWrapper
-          className='grid'
+          className="grid"
           style={{
             paddingBottom: '6rem',
           }}
@@ -264,46 +237,43 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
               <h2>Disabilities:</h2>
             </div>
             <>
-              {tabs.map((tab, index) => (
-                <DetailsWrapper title={tab}>{tab}</DetailsWrapper>
+              {tabs.map((tab, i) => (
+                <DetailsWrapper key={i} title={tab}>
+                  {tab}
+                </DetailsWrapper>
               ))}
             </>
           </FullDetailsWrapper>
 
           <FullDetailsWrapper>
-            <GridWrapper className='four-columns'>
+            <GridWrapper className="four-columns">
               <Button
                 label={'History'}
-                color='#fefffb'
-                background='#04ed6d'
+                color="#fefffb"
+                background="#04ed6d"
                 showicon={true}
                 onClick={() => setState('all')}
               />
-              <Button
-                label='Lab Orders'
-                background='#fdfdfd'
-                color='#333'
-                onClick={() => setState('lab')}
-              />
+              <Button label="Lab Orders" background="#fdfdfd" color="#333" onClick={() => setState('lab')} />
               <Button
                 label={'Prescription'}
                 background={'#ECF3FF'}
-                color='#0364FF'
+                color="#0364FF"
                 showicon={true}
                 onClick={() => setState('prescription')}
               />
               <div>
                 <Button
                   label={'New Document'}
-                  background='#FFE9E9'
-                  color='#ED0423'
+                  background="#FFE9E9"
+                  color="#ED0423"
                   showicon={true}
                   onClick={handleClick}
                 />
                 <Menu
-                  id='basic-menu'
+                  id="basic-menu"
                   anchorEl={anchorEl}
-                  aria-haspopup='true'
+                  aria-haspopup="true"
                   aria-expanded={openBtn ? 'true' : undefined}
                   open={openBtn}
                   onClose={handleCloseMenu}

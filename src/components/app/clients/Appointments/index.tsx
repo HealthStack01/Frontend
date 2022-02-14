@@ -18,9 +18,7 @@ const AppClinic = () => {
       appointmentResource: {
         ...resource.appointmentResource,
         show,
-        selectedAppointment:
-          selectedAppointment ||
-          resource.appointmentResource.selectedAppointment,
+        selectedAppointment: selectedAppointment || resource.appointmentResource.selectedAppointment,
       },
     });
 
@@ -40,12 +38,7 @@ const AppClinic = () => {
           items={appointments}
         />
       )}
-      {show === Views.CREATE && (
-        <AppointmentCreate
-          backClick={navigate(Views.LIST)}
-          onSubmit={handleSubmit}
-        />
-      )}
+      {show === Views.CREATE && <AppointmentCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />}
       {show === Views.DETAIL && (
         <AppointmentDetails
           row={selectedAppointment}

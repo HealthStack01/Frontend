@@ -12,7 +12,7 @@ const AppAppointment = () => {
       {resource.servicesResource.show === 'lists' && (
         <Appointments
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -20,8 +20,8 @@ const AppAppointment = () => {
               },
             }))
           }
-          onRowClicked={row => {
-            setResource(prevState => ({
+          onRowClicked={(row) => {
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 show: 'details',
@@ -34,7 +34,7 @@ const AppAppointment = () => {
       {resource.servicesResource.show === 'create' && (
         <AppointmentCreate
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -48,7 +48,7 @@ const AppAppointment = () => {
         <AppointmentDetails
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -57,7 +57,7 @@ const AppAppointment = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -71,7 +71,7 @@ const AppAppointment = () => {
         <AppointmentModify
           row={resource.servicesResource.selectedService}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,
@@ -80,7 +80,7 @@ const AppAppointment = () => {
             }))
           }
           cancelEditClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               servicesResource: {
                 ...prevState.servicesResource,

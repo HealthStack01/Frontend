@@ -2,13 +2,7 @@ import React from 'react';
 
 import Button from '../../../buttons/Button';
 import { LocationSchema } from '../../schema/ModelSchema';
-import {
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -17,12 +11,7 @@ interface Props {
   row?: any;
 }
 
-const LocationDetails: React.FC<Props> = ({
-  editBtnClicked,
-  row,
-  backClick,
-  handleDelete,
-}) => (
+const LocationDetails: React.FC<Props> = ({ editBtnClicked, row, backClick, handleDelete }) => (
   <PageWrapper>
     <GrayWrapper>
       <HeadWrapper>
@@ -31,12 +20,7 @@ const LocationDetails: React.FC<Props> = ({
           <span>Below are your Location details</span>
         </div>
         <div>
-          <Button
-            label="Back to List"
-            background="#fdfdfd"
-            color="#333"
-            onClick={backClick}
-          />
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           <Button
             label="Delete"
             background="#FFE9E9"

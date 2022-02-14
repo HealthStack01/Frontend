@@ -10,11 +10,7 @@ const searchProvidedOptions = (options, value) => {
 
   return inputLength === 0
     ? []
-    : options.filter(
-        (option) =>
-        (option.label || option).toLowerCase().slice(0, inputLength) ===
-          inputValue
-      );
+    : options.filter((option) => (option.label || option).toLowerCase().slice(0, inputLength) === inputValue);
 };
 
 const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
@@ -26,11 +22,7 @@ const AutoSuggestInput = ({ label, options, onChange }) => {
 
   // Use your imagination to render suggestions.
   const renderSuggestion = (suggestion) => (
-    <div>
-      {options.labelSelector
-        ? options.labelSelector(suggestion)
-        : suggestion.label || suggestion}
-    </div>
+    <div>{options.labelSelector ? options.labelSelector(suggestion) : suggestion.label || suggestion}</div>
   );
 
   const onSuggestionsFetchRequested = ({ value: searchText }) => {
@@ -78,11 +70,7 @@ const AutoSuggestInput = ({ label, options, onChange }) => {
         onSuggestionsClearRequested={onSuggestionsClearRequested}
         getSuggestionValue={options.labelSelector || getSuggestionValue}
         onSuggestionSelected={(_, { suggestion }) =>
-          onChange(
-            options.valueSelector
-              ? options.valueSelector(suggestion)
-              : suggestion._id
-          )
+          onChange(options.valueSelector ? options.valueSelector(suggestion) : suggestion._id)
         }
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}

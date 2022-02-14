@@ -4,14 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { ClientMiniSchema } from '../../schema';
-import {
-  BottomWrapper,
-  DetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import ClientFullForm from './ClientFullForm';
 
 interface RowProps {
@@ -24,10 +17,7 @@ interface ClientDetailsProps {
   onSubmit: (_) => void;
 }
 
-const ClientQuickForm: React.FC<ClientDetailsProps> = ({
-  backClick,
-  onSubmit,
-}) => {
+const ClientQuickForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) => {
   const [isFullRegistration, setFullRegistration] = useState(false);
 
   const { control, handleSubmit } = useForm();
@@ -40,10 +30,7 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({
             <HeadWrapper>
               <div>
                 <h2>Quick Register Client</h2>
-                <span>
-                  Create a New client by filling out the form below to get
-                  started.
-                </span>
+                <span>Create a New client by filling out the form below to get started.</span>
               </div>
               <Button
                 label="Full Registration"
@@ -59,23 +46,13 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({
               <DetailsWrapper title="Create Client" defaultExpanded={true}>
                 <GridWrapper>
                   {ClientMiniSchema.map(({ inputType, key, name }) => (
-                    <DynamicInput
-                      key={key}
-                      name={key}
-                      control={control}
-                      inputType={inputType}
-                      label={name}
-                    />
+                    <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
                   ))}
                 </GridWrapper>
               </DetailsWrapper>
 
               <BottomWrapper>
-                <Button
-                  label="Clear Form"
-                  background="#FFE9E9"
-                  color="#ED0423"
-                />
+                <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
                 <Button label="Save Form" type="submit" />
               </BottomWrapper>
             </form>

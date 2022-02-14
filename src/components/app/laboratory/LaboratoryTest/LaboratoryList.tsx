@@ -17,18 +17,18 @@ const Laboratory: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Laboratory</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title='Laboratory'
+          title="Laboratory"
           columns={columnHead}
           data={rowData}
           selectableRows

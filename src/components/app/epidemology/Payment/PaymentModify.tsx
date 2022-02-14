@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import {
-  BottomWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -16,11 +10,7 @@ interface Props {
   backClick: () => void;
 }
 
-const PaymentModify: React.FC<Props> = ({
-  cancelEditClicked,
-  row,
-  backClick,
-}) => {
+const PaymentModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
     fname: row.fname,
@@ -41,12 +31,7 @@ const PaymentModify: React.FC<Props> = ({
             <span>Below are your employee’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Cancel Editing'}
               background={'#f2f2f2'}
@@ -75,9 +60,7 @@ const PaymentModify: React.FC<Props> = ({
             label="Profession"
             value={values.profession}
             placeholder={values.profession}
-            onChange={(e) =>
-              setValue({ ...values, profession: e.target.value })
-            }
+            onChange={(e) => setValue({ ...values, profession: e.target.value })}
           />
           <Input
             label="Phone"
@@ -95,26 +78,18 @@ const PaymentModify: React.FC<Props> = ({
             label="Department"
             value={values.department}
             placeholder={values.department}
-            onChange={(e) =>
-              setValue({ ...values, department: e.target.value })
-            }
+            onChange={(e) => setValue({ ...values, department: e.target.value })}
           />
           <Input
             label="Departmental Unit"
             value={values.departmentalUnit}
             placeholder={values.departmentalUnit}
-            onChange={(e) =>
-              setValue({ ...values, departmentalUnit: e.target.value })
-            }
+            onChange={(e) => setValue({ ...values, departmentalUnit: e.target.value })}
           />
         </GridWrapper>
 
         <BottomWrapper>
-          <Button
-            label="Delete Employee"
-            background="#FFE9E9"
-            color="#ED0423"
-          />
+          <Button label="Delete Employee" background="#FFE9E9" color="#ED0423" />
           <Button label="Save Employee" />
         </BottomWrapper>
       </GrayWrapper>

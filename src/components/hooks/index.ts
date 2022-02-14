@@ -14,10 +14,7 @@ interface Repository<T> {
   remove: (_id: T) => Promise<T>;
 }
 
-const useRepository = <T>(
-  modelName: string,
-  onNavigate?: (view: string) => () => void
-): Repository<T> => {
+const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
   let Service = client.service(modelName);
   const { user } = useContext(UserContext);
   const [list, setList] = useState([]);
@@ -29,9 +26,7 @@ const useRepository = <T>(
         onNavigate && onNavigate(Views.LIST)();
       })
       .catch((err) => {
-        toast(
-          `'Error deleting ${modelName}, probable network issues or ' + ${err}'`
-        );
+        toast(`'Error deleting ${modelName}, probable network issues or ' + ${err}'`);
       });
   };
 
@@ -39,13 +34,7 @@ const useRepository = <T>(
     return Service.find({
       query: {
         facility: user.stacker ? -1 : user.currentEmployee.facilityDetail._id,
-        name:
-          typeof query === 'string'
-            ? {
-              $regex: query,
-              $options: 'i',
-            }
-            : undefined,
+        name: typeof query === 'string' && query ? { $regex: query, $options: 'i' } : undefined,
         $limit: 200,
         $sort: {
           createdAt: -1,

@@ -12,7 +12,7 @@ const AppLaboratory = () => {
       {resource.employeeResource.show === 'lists' && (
         <Laboratory
           handleCreate={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -21,7 +21,7 @@ const AppLaboratory = () => {
             }))
           }
           onRowClicked={(row, _event) => {
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 show: 'details',
@@ -36,7 +36,7 @@ const AppLaboratory = () => {
         <LaboratoryDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,
@@ -45,7 +45,7 @@ const AppLaboratory = () => {
             }))
           }
           editBtnClicked={() =>
-            setResource(prevState => ({
+            setResource((prevState) => ({
               ...prevState,
               employeeResource: {
                 ...prevState.employeeResource,

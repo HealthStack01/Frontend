@@ -9,11 +9,7 @@ interface AccordionProps {
   defaultExpanded?: boolean;
 }
 
-const AccordionBox: React.FC<AccordionProps> = ({
-  title,
-  defaultExpanded = false,
-  children,
-}) => {
+const AccordionBox: React.FC<AccordionProps> = ({ title, defaultExpanded = false, children }) => {
   return (
     <Accordion
       disableGutters
@@ -25,11 +21,7 @@ const AccordionBox: React.FC<AccordionProps> = ({
         border: 'none',
       }}
     >
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-      >
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
         <h5>{title}</h5>
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>

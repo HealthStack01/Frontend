@@ -5,11 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import {
-  getResolver,
-  OnboardingEmployeeSchema,
-  OrganisationSchema,
-} from '../../components/app/schema';
+import { getResolver, OnboardingEmployeeSchema, OrganisationSchema } from '../../components/app/schema';
 import Button from '../../components/buttons/Button';
 import client from '../../feathers';
 import AuthWrapper from '../../helper/AuthWrapper';
@@ -17,11 +13,7 @@ import AddAdmin from './forms/AddAdmin';
 import CreateOrganization from './forms/CreateOrganization';
 import SelectModule from './forms/SelectModule';
 
-const steps = [
-  'Organization Information',
-  'Choose Modules',
-  'Add Admin Employees',
-];
+const steps = ['Organization Information', 'Choose Modules', 'Add Admin Employees'];
 
 const STEP_ORGANISATION = 0;
 const STEP_MODULES = 1;
@@ -48,12 +40,10 @@ function Signup() {
   const handleNext = (data) => {
     processStep(data)
       .then((_) => {
-        const newActiveStep =
-          activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
+        const newActiveStep = activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
         setActiveStep(newActiveStep);
       })
       .catch((error) => {
-        console.log({ error });
         toast.error(error.message ? error.message : error);
       });
   };
@@ -83,9 +73,7 @@ function Signup() {
     if (activeStep === STEP_ORGANISATION) {
       return Promise.resolve(true);
     } else if (activeStep === STEP_MODULES) {
-      const selectedModules = Object.keys(data).filter(
-        (key) => key.includes('module') && data[key]
-      );
+      const selectedModules = Object.keys(data).filter((key) => key.includes('module') && data[key]);
       if (selectedModules.length > 1) {
         return createFacility(data)
           .then((res) => {
@@ -93,9 +81,7 @@ function Signup() {
             return true;
           })
           .catch((error) => {
-            return Promise.reject(
-              `Error occurred creating facility ${error.message}`
-            );
+            return Promise.reject(`Error occurred creating facility ${error.message}`);
           });
       } else {
         return Promise.reject('Please select 2 modules or more!');
@@ -107,9 +93,7 @@ function Signup() {
           navigate('/');
         })
         .catch((error) => {
-          return Promise.reject(
-            `Error occurred creating admin employee ${error.message}`
-          );
+          return Promise.reject(`Error occurred creating admin employee ${error.message}`);
         });
     }
   };
@@ -127,7 +111,7 @@ function Signup() {
   const createAdminEmployee = async (data) => {
     return employeeResolver
       .validate(data)
-      .then(_ => {
+      .then((_) => {
         const employee = {
           ...data,
           relatedfacilities: [
@@ -159,13 +143,9 @@ function Signup() {
       </Stepper>
 
       <form onSubmit={handleSubmit(handleNext)}>
-        {activeStep === STEP_ORGANISATION && (
-          <CreateOrganization control={control} errors={errors} />
-        )}
+        {activeStep === STEP_ORGANISATION && <CreateOrganization control={control} errors={errors} />}
         {activeStep === STEP_MODULES && <SelectModule control={control} />}
-        {activeStep === STEP_EMPLOYEE && (
-          <AddAdmin control={control} adminEmployee={createdAdminEmployee} />
-        )}
+        {activeStep === STEP_EMPLOYEE && <AddAdmin control={control} adminEmployee={createdAdminEmployee} />}
         <Box
           sx={{
             display: 'flex',
@@ -187,11 +167,7 @@ function Signup() {
             <></>
           )}
           <Box sx={{ flex: '1 1 auto' }} />
-          {activeStep === STEP_EMPLOYEE ? (
-            <Button>Complete</Button>
-          ) : (
-            <Button>Next</Button>
-          )}
+          {activeStep === STEP_EMPLOYEE ? <Button>Complete</Button> : <Button>Next</Button>}
         </Box>
       </form>
       <p style={{ padding: '2rem 0' }}>

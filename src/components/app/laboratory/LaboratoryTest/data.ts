@@ -12,37 +12,37 @@ export interface LabDataRow {
 export const columnHead: TableColumn<LabDataRow>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Date',
-    selector: row => row.date,
+    selector: (row) => row.date,
     sortable: true,
   },
   {
     name: 'Client',
-    selector: row => row.client,
+    selector: (row) => row.client,
     sortable: true,
   },
   {
     name: 'Test',
-    selector: row => row.test,
+    selector: (row) => row.test,
     sortable: true,
   },
   {
     name: 'Amount',
-    selector: row => row.amount,
+    selector: (row) => row.amount,
     sortable: true,
   },
   {
     name: 'Payment Status',
-    selector: row => row.paymentStatus,
+    selector: (row) => row.paymentStatus,
     sortable: true,
   },
   {
     name: 'Result Status',
-    selector: row => row.resultStatus,
+    selector: (row) => row.resultStatus,
     sortable: true,
   },
 ];

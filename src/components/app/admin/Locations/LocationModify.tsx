@@ -4,13 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { LocationSchema } from '../../schema';
-import {
-  BottomWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -21,12 +15,7 @@ interface Props {
 
 const locationType = ['Front Desk', 'Clinic', 'Store', 'Laboratory', 'Finance'];
 
-const LocationModify: React.FC<Props> = ({
-  cancelEditClicked,
-  onSubmit,
-  row: location,
-  backClick,
-}) => {
+const LocationModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row: location, backClick }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: location,
   });
@@ -40,12 +29,7 @@ const LocationModify: React.FC<Props> = ({
             <span>Below are your location’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label="Cancel Editing"
               background="#f2f2f2"
@@ -71,11 +55,7 @@ const LocationModify: React.FC<Props> = ({
           </GridWrapper>
 
           <BottomWrapper>
-            <Button
-              label="Delete Location"
-              background="#FFE9E9"
-              color="#ED0423"
-            />
+            <Button label="Delete Location" background="#FFE9E9" color="#ED0423" />
             <Button label="Save Location" />
           </BottomWrapper>
         </form>

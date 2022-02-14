@@ -9,13 +9,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: string;
 }
 
-const BaseButton: React.FC<ButtonProps> = ({
-  label,
-  showicon,
-  icon,
-  children,
-  ...props
-}) => (
+const BaseButton: React.FC<ButtonProps> = ({ label, showicon, icon, children, ...props }) => (
   <button {...props}>
     {showicon ? <i className={icon} /> : null}
     {label}

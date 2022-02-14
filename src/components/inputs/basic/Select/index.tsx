@@ -13,14 +13,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   onChange?: (_: any) => void;
 }
 
-const CustomSelect: React.FC<SelectProps> = ({
-  label,
-  options,
-  name,
-  value,
-  onChange,
-  errorText,
-}) => (
+const CustomSelect: React.FC<SelectProps> = ({ label, options, name, value, onChange, errorText }) => (
   <div>
     <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
       <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
@@ -37,11 +30,7 @@ const CustomSelect: React.FC<SelectProps> = ({
           <em>None</em>
         </MenuItem>
         {options.map((option, index) => (
-          <MenuItem
-            value={option.value ? option.value : option}
-            key={index}
-            sx={{ width: '100%' }}
-          >
+          <MenuItem value={option.value ? option.value : option} key={index} sx={{ width: '100%' }}>
             {option.label ? option.label : option}
           </MenuItem>
         ))}

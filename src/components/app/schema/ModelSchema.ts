@@ -343,10 +343,7 @@ const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     inputType: InputType.PHONE,
-    validator: yup
-      .string()
-      .min(10, 'Enter a  Phone number')
-      .max(13, 'Enter a Phone number'),
+    validator: yup.string().min(10, 'Enter a  Phone number').max(13, 'Enter a Phone number'),
   },
 
   {

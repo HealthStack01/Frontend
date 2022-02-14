@@ -3,13 +3,7 @@ import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
-import {
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import { columnHead } from './data';
 
 interface Props {
@@ -28,12 +22,7 @@ const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your Collection’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <label
               style={{
                 padding: '14px 20px',
@@ -60,14 +49,7 @@ const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
               />
             </AccordionBox>
             <AccordionBox defaultExpanded={true} title="Debit">
-              <DataTable
-                data={row.debit}
-                columns={columnHead}
-                title="Debit"
-                pointerOnHover
-                highlightOnHover
-                striped
-              />
+              <DataTable data={row.debit} columns={columnHead} title="Debit" pointerOnHover highlightOnHover striped />
             </AccordionBox>
           </GridWrapper>
         </FullDetailsWrapper>

@@ -1,10 +1,10 @@
-import React from "react";
-import DataTable from "react-data-table-component";
+import React from 'react';
+import DataTable from 'react-data-table-component';
 
-import { TableMenu } from "../../../../styles/global";
-import Input from "../../../inputs/basic/Input";
-import { PageWrapper } from "../../styles";
-import { columnHead, rowData } from "./data";
+import { TableMenu } from '../../../../styles/global';
+import Input from '../../../inputs/basic/Input';
+import { PageWrapper } from '../../styles';
+import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
@@ -16,7 +16,7 @@ interface Props {
       amount: string;
       mode: string;
     },
-    event: any,
+    event: any
   ) => void;
 }
 
@@ -26,18 +26,18 @@ const Collections: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Collections</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
-          <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
         </div>
       </TableMenu>
 
-      <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title='Collections'
+          title="Collections"
           columns={columnHead}
           data={rowData}
           selectableRows
@@ -45,7 +45,7 @@ const Collections: React.FC<Props> = ({ onRowClicked }) => {
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
-          style={{ overflow: "hidden" }}
+          style={{ overflow: 'hidden' }}
         />
       </div>
     </PageWrapper>

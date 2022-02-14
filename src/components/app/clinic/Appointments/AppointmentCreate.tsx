@@ -5,14 +5,7 @@ import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
 import CustomSelect from '../../../inputs/basic/Select';
 import Textarea from '../../../inputs/basic/Textarea';
-import {
-  BottomWrapper,
-  DetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
@@ -33,14 +26,7 @@ const appointmetOptions = [
   },
 ];
 
-const typeOptions = [
-  'Type A',
-  'Type B',
-  'Type C',
-  'Type D',
-  'Type E',
-  'Type F',
-];
+const typeOptions = ['Type A', 'Type B', 'Type C', 'Type D', 'Type E', 'Type F'];
 
 const AppointmentCreate: React.FC<Props> = () => {
   return (
@@ -52,30 +38,23 @@ const AppointmentCreate: React.FC<Props> = () => {
             <span>Create a new appointment by filling out the form below.</span>
           </div>
         </HeadWrapper>
-        <DetailsWrapper title='Appointment Form' defaultExpanded={true}>
-          <Input placeholder='Search for Client' />
-          <Input placeholder='Search for Location, Typing or Active state' />
-          <Input placeholder='Search for Employee' />
-          <RadioButton
-            title='Appointment Schedule'
-            options={appointmetOptions}
-          />
+        <DetailsWrapper title="Appointment Form" defaultExpanded={true}>
+          <Input placeholder="Search for Client" />
+          <Input placeholder="Search for Location, Typing or Active state" />
+          <Input placeholder="Search for Employee" />
+          <RadioButton title="Appointment Schedule" options={appointmetOptions} />
 
-          <GridWrapper className='subgrid two-columns'>
-            <Input label='Date of Appointment' type='date' />
-            <Input label='Time of Appointment' type='time' />
-            <CustomSelect label='Appointment Type' options={typeOptions} />
-            <CustomSelect label='Appointment Status' options={typeOptions} />
+          <GridWrapper className="subgrid two-columns">
+            <Input label="Date of Appointment" type="date" />
+            <Input label="Time of Appointment" type="time" />
+            <CustomSelect label="Appointment Type" options={typeOptions} />
+            <CustomSelect label="Appointment Status" options={typeOptions} />
           </GridWrapper>
-          <Textarea label='Reason for Appointment' />
+          <Textarea label="Reason for Appointment" />
         </DetailsWrapper>
         <BottomWrapper>
-          <Button
-            label='Close without Saving'
-            background='#ECF3FF'
-            color='#0364FF'
-          />
-          <Button label='Create Appointment' />
+          <Button label="Close without Saving" background="#ECF3FF" color="#0364FF" />
+          <Button label="Create Appointment" />
         </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
