@@ -4,7 +4,9 @@ import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { ClientMiniSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 
@@ -26,33 +28,42 @@ const Clients: React.FC<Props> = ({
       <h2> Client </h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
-
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
             <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
 
-        <Button label="Add new" onClick={handleCreate} />
+        <Button onClick={handleCreate}>
+          <i className="bi bi-plus-circle"></i> Add new
+        </Button>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <DataTable
+        <CustomTable
           title="Clients"
           columns={ClientMiniSchema}
           data={items}
-          selectableRows
           pointerOnHover
           highlightOnHover
           onRowClicked={onRowClicked}
           striped
-          style={{ overflow: 'hidden' }}
         />
       </div>
       <ToastContainer />

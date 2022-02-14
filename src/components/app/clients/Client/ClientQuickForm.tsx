@@ -36,50 +36,37 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({
     <>
       {!isFullRegistration ? (
         <PageWrapper>
-          <GrayWrapper>
-            <HeadWrapper>
-              <div>
-                <h2>Create Client</h2>
-                <span>
-                  Create a New client by filling out the form below to get
-                  started.
-                </span>
-              </div>
-              <Button
-                label="Full Registration"
-                background="#ECF3FF"
-                color="#0364FF"
-                showicon
-                icon="bi bi-pen-fill"
-                onClick={() => setFullRegistration(true)}
-              />
-            </HeadWrapper>
+          <HeadWrapper>
+            <Button
+              label="Full Registration"
+              background="#ECF3FF"
+              color="#0364FF"
+              showicon
+              icon="bi bi-pen-fill"
+              onClick={() => setFullRegistration(true)}
+            />
+          </HeadWrapper>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <DetailsWrapper title="Create Client" defaultExpanded={true}>
-                <GridWrapper>
-                  {ClientMiniSchema.map(({ inputType, key, name }) => (
-                    <DynamicInput
-                      key={key}
-                      name={key}
-                      control={control}
-                      inputType={inputType}
-                      label={name}
-                    />
-                  ))}
-                </GridWrapper>
-              </DetailsWrapper>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <DetailsWrapper title="Create Client" defaultExpanded={true}>
+              <GridWrapper>
+                {ClientMiniSchema.map(({ inputType, key, name }) => (
+                  <DynamicInput
+                    key={key}
+                    name={key}
+                    control={control}
+                    inputType={inputType}
+                    label={name}
+                  />
+                ))}
+              </GridWrapper>
+            </DetailsWrapper>
 
-              <BottomWrapper>
-                <Button
-                  label="Clear Form"
-                  background="#FFE9E9"
-                  color="#ED0423"
-                />
-                <Button label="Save Form" type="submit" />
-              </BottomWrapper>
-            </form>
-          </GrayWrapper>
+            <BottomWrapper>
+              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+              <Button label="Save Form" type="submit" />
+            </BottomWrapper>
+          </form>
         </PageWrapper>
       ) : (
         <ClientFullForm backClick={backClick} onSubmit={onSubmit} />

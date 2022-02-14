@@ -3,7 +3,9 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -110,27 +112,27 @@ const dataTree = [
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Date',
-    selector: row => row.date,
+    selector: (row) => row.date,
     sortable: true,
   },
   {
     name: 'Description',
-    selector: row => row.description,
+    selector: (row) => row.description,
     sortable: true,
   },
   {
     name: 'Status',
-    selector: row => row.status,
+    selector: (row) => row.status,
     sortable: true,
   },
   {
     name: 'Amount',
-    selector: row => row.amount,
+    selector: (row) => row.amount,
     sortable: true,
   },
 ];
@@ -141,23 +143,45 @@ const BillLabSent: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Bill Lab Sent</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          {/* <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Employees"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
+          /> */}
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
+            <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {dataTree.map((data, index) => (
           <AccordionBox title={data.title} key={index}>
-            <DataTable
+            <CustomTable
               title={data.description}
               columns={columnHead}
               data={data.data}
-              selectableRows
               pointerOnHover
               highlightOnHover
               striped

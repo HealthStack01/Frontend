@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import { BandSchema } from '../../schema/ModelSchema';
@@ -30,7 +31,7 @@ const BandDetails: React.FC<Props> = ({
           <h2>Band Details</h2>
           <span>Below are your band’s details</span>
         </div>
-        <div>
+        <ButtonGroup>
           <Button
             label="Back to List"
             background="#fdfdfd"
@@ -53,7 +54,7 @@ const BandDetails: React.FC<Props> = ({
             icon="bi bi-pen-fill"
             onClick={editBtnClicked}
           />
-        </div>
+        </ButtonGroup>
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>

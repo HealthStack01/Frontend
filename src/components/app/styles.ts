@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   overflow-y: hidden;
-  padding: 3.2rem;
+  padding: 1.2rem;
 
   & span {
     display: inline-block;
@@ -45,9 +45,9 @@ export const DetailsWrapper = styled(AccordionBox)`
 export const FullDetailsWrapper = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.neutralwhite};
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 4px;
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   & h2 {
     font-size: 0.9rem;
@@ -57,6 +57,10 @@ export const FullDetailsWrapper = styled.div`
   & span {
     font-weight: bold;
     cursor: pointer;
+  }
+
+  &.small {
+    padding: 8px !important;
   }
 `;
 

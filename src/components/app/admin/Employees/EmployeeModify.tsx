@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
@@ -37,7 +38,7 @@ const EmployeeModify: React.FC<Props> = ({
             <h2>Employee Details</h2>
             <span>Below are your employee’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
               label="Back to List"
               background="#fdfdfd"
@@ -52,7 +53,7 @@ const EmployeeModify: React.FC<Props> = ({
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
 
         <form onSubmit={handleSubmit(onSubmit)}>

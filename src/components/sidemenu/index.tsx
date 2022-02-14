@@ -138,11 +138,11 @@ function SideMenu() {
   useEffect(() => {
     const menuItems = document.querySelectorAll('.menu-item');
 
-    menuItems.forEach(el => {
+    menuItems.forEach((el) => {
       el.addEventListener('click', () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach(el => el.classList.remove('active'));
+        menuItems.forEach((el) => el.classList.remove('active'));
         el.classList.toggle('active');
 
         if (next !== null) {
@@ -155,12 +155,12 @@ function SideMenu() {
   useEffect(() => {}, []);
 
   return (
-    <Sidemenu className='side-menu'>
+    <Sidemenu className="side-menu">
       <TopSection>
         <h1>Your Company</h1>
-        <i className='bi bi-list' />
+        <i className="bi bi-list" />
       </TopSection>
-      <MainMenu className='main-menu'>
+      <MainMenu className="main-menu">
         <Lists>
           {menuItems.map((menuItem, index) => (
             <MenuItem

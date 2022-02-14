@@ -5,6 +5,7 @@ import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -17,7 +18,7 @@ interface Props {
       description: string;
       amount: string;
     },
-    event: any,
+    event: any
   ) => void;
 }
 
@@ -105,15 +106,40 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <h2>Bill Client </h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          {/* <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Employees"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
+          /> */}
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
             <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
 
-        <Button label="Add new" onClick={handleCreate} />
+        <Button onClick={handleCreate}>
+          <i className="bi bi-plus-circle"></i> Add new
+        </Button>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>

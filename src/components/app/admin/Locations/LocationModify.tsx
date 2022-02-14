@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
@@ -39,7 +40,7 @@ const LocationModify: React.FC<Props> = ({
             <h2>Location Details</h2>
             <span>Below are your location’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
               label="Back to List"
               background="#fdfdfd"
@@ -54,7 +55,7 @@ const LocationModify: React.FC<Props> = ({
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <GridWrapper>

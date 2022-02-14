@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
@@ -34,7 +35,7 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
             <h2>Band Details</h2>
             <span>Below are your band’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
               label="Back to List"
               background="#fdfdfd"
@@ -49,7 +50,7 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <GridWrapper>
           <Input label="ID" value={values.id} disabled />

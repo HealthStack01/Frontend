@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import { LocationSchema } from '../../schema/ModelSchema';
@@ -30,7 +31,7 @@ const LocationDetails: React.FC<Props> = ({
           <h2>Location Details</h2>
           <span>Below are your Location details</span>
         </div>
-        <div>
+        <ButtonGroup>
           <Button
             label="Back to List"
             background="#fdfdfd"
@@ -53,7 +54,7 @@ const LocationDetails: React.FC<Props> = ({
             icon="bi bi-pen-fill"
             onClick={editBtnClicked}
           />
-        </div>
+        </ButtonGroup>
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>

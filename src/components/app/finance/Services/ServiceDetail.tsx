@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import {
@@ -28,7 +29,7 @@ const ServiceDetails: React.FC<Props> = ({
             <h2>Service Details</h2>
             <span>Below are your Service’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
               label="Back to List"
               background="#fdfdfd"
@@ -51,7 +52,7 @@ const ServiceDetails: React.FC<Props> = ({
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>

@@ -225,7 +225,7 @@ const ClientFullSchema = {
       sortable: true,
       required: true,
       inputType: InputType.SELECT,
-      options: status,
+      // options: status,
     },
 
     {

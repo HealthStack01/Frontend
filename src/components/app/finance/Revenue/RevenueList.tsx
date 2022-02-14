@@ -4,7 +4,9 @@ import { DebounceInput } from 'react-debounce-input';
 import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { RevenueSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
@@ -29,40 +31,47 @@ const Revenue: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Revenue</h2>
-
       <TableMenu>
-        <div className="inner-table">
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={handleSearch}
-          />
-          <DebounceInput
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          {/* <DebounceInput
             className="input is-small "
             type="text"
             placeholder="Search Revenues"
             minLength={1}
             debounceTimeout={400}
             onChange={(e) => handleSearch(e.target.value)}
-          />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filter by</span>
-            <i className="bi bi-chevron-down" />
+          /> */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
+            <span>Filer by</span>
+            <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <DataTable
+        <CustomTable
           title="Revenues"
           columns={RevenueSchema}
           data={items}
-          selectableRows
           pointerOnHover
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
-          style={{ overflow: 'hidden' }}
         />
       </div>
       <ToastContainer />

@@ -2,6 +2,7 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../accordion';
+import CustomTable from '../customtable';
 
 interface Props {
   title: string;
@@ -25,11 +26,10 @@ const CollapsableGrid: React.FC<Props> = ({
       <AccordionBox title={title} defaultExpanded={true}>
         <AccordionBox title={description}>
           {table && (
-            <DataTable
+            <CustomTable
               title={description}
               columns={columnHead}
               data={rowData}
-              selectableRows
               pointerOnHover
               highlightOnHover
               striped

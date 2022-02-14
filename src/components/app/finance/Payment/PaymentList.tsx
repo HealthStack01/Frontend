@@ -3,7 +3,9 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -16,7 +18,7 @@ interface Props {
       description: string;
       amount: string;
     },
-    event: any,
+    event: any
   ) => void;
 }
 
@@ -207,12 +209,26 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Payments</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
             <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
       </TableMenu>
 
@@ -222,11 +238,10 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
             {data.children.map((child, index) => {
               return (
                 <AccordionBox key={index} title={child.title}>
-                  <DataTable
+                  <CustomTable
                     title={child.description}
                     columns={columnHead}
                     data={child.data}
-                    selectableRows
                     pointerOnHover
                     highlightOnHover
                     striped
