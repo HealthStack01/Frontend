@@ -6,59 +6,70 @@ import client from '../../feathers';
 import { Views } from '../app/Constants';
 import { getFormStrings } from '../app/Utils';
 
-const useModelManager = (modelName: string, goto): [any, any, any, any] => {
+interface Repository<T> {
+  list: T[];
+  find: (_text) => Promise<T[]>;
+  get: (_id) => Promise<T>;
+  submit: (data: T) => Promise<T>;
+  remove: (_id: T) => Promise<T>;
+}
+
+const useRepository = <T>(
+  modelName: string,
+  onNavigate?: (view: string) => () => void
+): Repository<T> => {
   let Service = client.service(modelName);
   const { user } = useContext(UserContext);
   const [list, setList] = useState([]);
 
-  const handleDelete = (obj) => {
-    Service.remove(obj._id)
+  const remove = (obj): Promise<T> => {
+    return Service.remove(obj._id)
       .then((_) => {
-        toast('Band deleted successfully');
-        goto(Views.LIST)();
+        toast(`${modelName} deleted successfully`);
+        onNavigate && onNavigate(Views.LIST)();
       })
       .catch((err) => {
-        toast(`'Error deleting Band, probable network issues or ' + ${err}'`);
+        toast(
+          `'Error deleting ${modelName}, probable network issues or ' + ${err}'`
+        );
       });
   };
 
-  const getList = async (filter?: any) => {
-    console.log('gettinng  again', typeof filter);
-    Service.find({
+  const find = async (query?: any): Promise<T[]> => {
+    return Service.find({
       query: {
         facility: user.stacker ? -1 : user.currentEmployee.facilityDetail._id,
-        name: filter && {
-          $regex: filter,
-          $options: 'i',
-        },
+        name:
+          typeof query === 'string'
+            ? {
+              $regex: query,
+              $options: 'i',
+            }
+            : undefined,
         $limit: 200,
         $sort: {
           createdAt: -1,
         },
       },
+      ...query,
     })
       .then((res) => {
         setList(res.data);
+        return res;
       })
       .catch((error) => {
         console.error({ error });
       });
   };
 
-  const handleSubmit = (data) => {
+  const submit = (data) => {
     const values = getFormStrings(data._id);
-
-    if (data.bandType === '') {
-      toast('Kindly choose band type');
-      return;
-    }
-
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
-    (data._id ? Service.update(data._id, data) : Service.create(data))
+    return (data._id ? Service.update(data._id, data) : Service.create(data))
       .then(() => {
-        goto(Views.LIST)();
+        onNavigate && onNavigate(Views.LIST)();
         toast(`Band ${values.message}`);
       })
       .catch((err) => {
@@ -66,18 +77,22 @@ const useModelManager = (modelName: string, goto): [any, any, any, any] => {
       });
   };
 
+  const get = (id) => {
+    return Service.get(id);
+  };
+
   useEffect(() => {
-    Service.on('created', () => getList());
-    Service.on('updated', () => getList());
-    Service.on('patched', () => getList());
-    Service.on('removed', () => getList());
-    getList();
+    Service.on('created', find);
+    Service.on('updated', find);
+    Service.on('patched', find);
+    Service.on('removed', find);
+    find();
     return () => {
       Service = null;
     };
   }, []);
 
-  return [list, getList, handleDelete, handleSubmit];
+  return { list, find, remove, submit, get };
 };
 
-export default useModelManager;
+export default useRepository;

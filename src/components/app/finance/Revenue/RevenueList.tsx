@@ -1,7 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import { DebounceInput } from 'react-debounce-input';
-import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
 import Input from '../../../inputs/basic/Input';
@@ -65,7 +64,6 @@ const Revenue: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
           style={{ overflow: 'hidden' }}
         />
       </div>
-      <ToastContainer />
     </PageWrapper>
   );
 };

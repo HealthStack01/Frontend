@@ -1,13 +1,18 @@
 import { Portal } from '@mui/base';
 import { Menu, MenuItem } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { toast } from 'react-toastify';
 
-import { FlexBox, ImageBox, TableMenu } from '../../../../styles/global';
+import { ObjectContext } from '../../../../context/context';
+import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+import useRepository from '../../../hooks';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
 import ModalBox from '../../../modal';
+import { DateFormats, Models } from '../../Constants';
+import { toDurationString, toShortDate } from '../../DateUtils';
 import {
   DetailsWrapper,
   FullDetailsWrapper,
@@ -16,6 +21,8 @@ import {
   PageWrapper,
 } from '../../styles';
 import { columnsAppointment } from '../data';
+import DocumentViewer from './components/DocumentViewer';
+import PatientProfile from './components/PatientProfile';
 import { columnLab, labData, recentData } from './data';
 
 interface Props {
@@ -46,6 +53,43 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
   const [state, setState] = useState('all');
   const [values, setValues] = useState({});
   const [tab, setTab] = useState('0');
+  const { find: findClinicalDocument } = useRepository(
+    Models.CLINICAL_DOCUMENT
+  );
+  const {
+    resource: {
+      clientResource: { selectedClient },
+    },
+  } = useContext(ObjectContext);
+  const [clinicalDocuments, setClinicalDocuments] = useState([]);
+
+  const loadDocuments = (documentName?: string) => {
+    findClinicalDocument({
+      query: {
+        documentname:
+          typeof documentName === 'string'
+            ? {
+              $regex: documentName,
+              $options: 'i',
+            }
+            : undefined,
+        client: selectedClient['_id'],
+        $limit: 50,
+        $sort: {
+          name: 1,
+        },
+      },
+    })
+      .then((res: any) => {
+        setClinicalDocuments(res.data);
+        toast(' Clinical documents fetched successfully');
+      })
+      .catch((err) => {
+        toast(
+          'Error Cliical fetching documents, probable network issues ' + err
+        );
+      });
+  };
 
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -223,69 +267,13 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
     return <div>Prescription</div>;
   };
 
-  // const getDocumentations = async (page = 0) => {
-  //   /* const limit=20
-  //          alert(page) */
-  //   if (user.currentEmployee) {
-  //     const findClinic = await ClinicServ.find({
-  //       query: {
-  //         //locationType:"Clinic",
-  //         //facility:user.currentEmployee.facilityDetail._id,
-  //         client: state.ClientModule.selectedClient._id,
-  //         $limit: 50,
-  //         /*  $skip:page*limit, */
-  //         $sort: {
-  //           createdAt: -1,
-  //         },
-  //       },
-  //     });
-  //     const total = findClinic.total;
-  //     const ulimit = total * page;
-  //     /*  if (total>(ulimit)){ //only load if we have not reached the total
-  //              alert("skip:",ulimit )
-  //              console.log("skip:",ulimit ) */
-  //     await setFacilities(findClinic.data);
-  //     // console.log(findClinic.data)
-  //     /*  } */
-  //   } else {
-  //     if (user.stacker) {
-  //       const findClinic = await ClinicServ.find({
-  //         query: {
-  //           client: state.ClientModule.selectedClient._id,
-  //           $limit: 20,
-  //           $sort: {
-  //             createdAt: -1,
-  //           },
-  //         },
-  //       });
-
-  //       await setFacilities(findClinic.data);
-  //     }
-  //   }
-  // };
-
+  useEffect(() => {
+    loadDocuments();
+  }, []);
   return (
     <PageWrapper>
       <GrayWrapper>
-        <FullDetailsWrapper>
-          <FlexBox>
-            <ImageBox src="https://via.placeholder.com/150" />
-
-            <div>
-              <h1>Adam Mike Olu</h1>
-              <p>Cash</p>
-              <p>HMO: Avon HMO</p>
-            </div>
-
-            <div>
-              <p>
-                Description: 32 years Male Married Christian IT professional
-              </p>
-              <p>Geneotype: AA</p>
-              <p>Blood Group: O</p>
-            </div>
-          </FlexBox>
-        </FullDetailsWrapper>
+        <PatientProfile />
         <GrayWrapper
           className="grid"
           style={{
@@ -364,19 +352,33 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
             </GridWrapper>
             {state === 'all' && (
               <div>
-                {recentData.map((recent, index) => (
-                  <DetailsWrapper title={recent.description} key={index}>
-                    <DataTable
-                      title={recent.description}
-                      columns={columnLab}
-                      data={recent.data}
-                      selectableRows
-                      pointerOnHover
-                      highlightOnHover
-                      striped
-                    />
-                  </DetailsWrapper>
-                ))}
+                {clinicalDocuments.map((documentation, index) => {
+                  const {
+                    createdAt,
+                    documentname,
+                    createdByname,
+                    location,
+                    facilityname,
+                    status,
+                  } = documentation;
+                  const time = toDurationString(createdAt);
+                  const day = toShortDate(createdAt);
+                  const description = `${time} on ${day}: ${documentname} by ${createdByname}  ${location}, ${facilityname}  ${status}`;
+                  return (
+                    <DetailsWrapper title={description} key={index}>
+                      <DocumentViewer document={documentation} />
+                      {/* <DataTable
+                        title={description}
+                        columns={columnLab}
+                        data={recentData[0].data}
+                        selectableRows
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                      /> */}
+                    </DetailsWrapper>
+                  );
+                })}
               </div>
             )}
 

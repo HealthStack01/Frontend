@@ -1,5 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
 
+import DateAdapter from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import React, { useEffect, useState } from 'react';
@@ -24,15 +26,17 @@ function App() {
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <ObjectProvider>
-        <UserProvider>
-          <GlobalStyle />
-          <AnimatePresence initial exitBeforeEnter>
-            <AppRoutes />
-          </AnimatePresence>
-        </UserProvider>
-      </ObjectProvider>
-      <ToastContainer />
+      <LocalizationProvider dateAdapter={DateAdapter}>
+        <ObjectProvider>
+          <UserProvider>
+            <GlobalStyle />
+            <AnimatePresence initial exitBeforeEnter>
+              <AppRoutes />
+            </AnimatePresence>
+          </UserProvider>
+        </ObjectProvider>
+        <ToastContainer limit={1} />
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

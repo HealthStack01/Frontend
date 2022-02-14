@@ -1,7 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import { DebounceInput } from 'react-debounce-input';
-import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
@@ -75,7 +74,6 @@ const Employees = ({
           style={{ overflow: 'hidden' }}
         />
       </div>
-      <ToastContainer />
     </PageWrapper>
   );
 };

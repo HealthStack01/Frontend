@@ -1,6 +1,6 @@
 import { useObjectState } from '../../../../context/context';
-import useModelManager from '../../../hooks';
-import { Views } from '../../Constants';
+import useRepository from '../../../hooks';
+import { Models, Views } from '../../Constants';
 import AppointmentCreate from './AppointmentCreate';
 import AppointmentDetails from './AppointmentDetail';
 import Appointments from './AppointmentList';
@@ -24,12 +24,15 @@ const AppClinic = () => {
       },
     });
 
-  const [appointments, getAppointments, handleDelete, handleSubmit] =
-    useModelManager('appointments', navigate);
+  const {
+    list: appointments,
+    find: getAppointments,
+    submit: handleSubmit,
+  } = useRepository(Models.APPOINTMENT, navigate);
 
   return (
     <>
-      {resource.appointmentResource.show === Views.LIST && (
+      {show === Views.LIST && (
         <Appointments
           handleCreate={navigate(Views.CREATE)}
           onRowClicked={(row) => navigate(Views.DETAIL)(row)}
@@ -37,21 +40,20 @@ const AppClinic = () => {
           items={appointments}
         />
       )}
-      {resource.appointmentResource.show === Views.CREATE && (
+      {show === Views.CREATE && (
         <AppointmentCreate
           backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
         />
       )}
-      {resource.appointmentResource.show === Views.DETAIL && (
+      {show === Views.DETAIL && (
         <AppointmentDetails
           row={selectedAppointment}
           backClick={navigate(Views.LIST)}
           editBtnClicked={() => navigate(Views.EDIT)(selectedAppointment)}
-          handleDelete={() => handleDelete(selectedAppointment)}
         />
       )}
-      {resource.appointmentResource.show === Views.EDIT && (
+      {show === Views.EDIT && (
         <AppointmentModify
           row={selectedAppointment}
           backClick={navigate(Views.LIST)}

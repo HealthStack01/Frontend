@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
+import { useObjectState } from '../../../../context/context';
 import Button from '../../../buttons/Button';
+import useRepository from '../../../hooks';
+import { Models } from '../../Constants';
 import { AppointmentSchema } from '../../schema';
 import {
   BottomWrapper,
@@ -11,14 +14,26 @@ import {
 } from '../../styles';
 import Attend from './Attend';
 
-const AppointmentDetails = ({
-  editBtnClicked,
-  row,
-  backClick,
-  handleDelete,
-}) => {
+const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
   const [state, setState] = useState('all');
-  handleDelete;
+  const { resource, setResource } = useObjectState();
+  const { get: getClient } = useRepository(Models.CLIENT);
+
+  const handleAttend = async () => {
+    getClient(row.clientId)
+      .then((selectedClient) => {
+        setResource({
+          ...resource,
+          clientResource: {
+            selectedClient,
+            show: 'attend',
+          },
+        });
+        setState('attend');
+      })
+      .catch(console.log);
+  };
+
   return (
     <PageWrapper>
       <HeadWrapper>
@@ -58,10 +73,7 @@ const AppointmentDetails = ({
                 color={'#fff'}
                 onClick={editBtnClicked}
               />
-              <Button
-                label="Attend to Client"
-                onClick={() => setState('attend')}
-              />
+              <Button label="Attend to Client" onClick={handleAttend} />
             </BottomWrapper>
           </>
         )}

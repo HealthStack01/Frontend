@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
 import DynamicInput from '../../DynamicInput';
 import { AppointmentSchema, Schema } from '../../schema';
 import {
@@ -14,8 +12,7 @@ import {
 } from '../../styles';
 
 const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
-  const [values, setValue] = useState({});
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm({ defaultValues: row });
 
   return (
     <PageWrapper>
@@ -44,73 +41,37 @@ const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <GridWrapper>
-            {AppointmentSchema.map((obj: Schema | Schema[], index, options) => {
+            {AppointmentSchema.map((obj, index) => {
               if (obj['length']) {
                 const schemas = obj as Schema[];
-                return schemas.map((schema) => (
+                return (
                   <GridWrapper className="subgrid two-columns">
-                    return (
-                    <DynamicInput
-                      key={index}
-                      name={schema.key}
-                      control={control}
-                      label={schema.name}
-                      inputType={schema.inputType}
-                      options={options}
-                    />
-                    );
+                    {schemas.map((schema) => (
+                      <DynamicInput
+                        key={index}
+                        name={schema.key}
+                        control={control}
+                        label={schema.description}
+                        inputType={schema.inputType}
+                        options={schema.options}
+                      />
+                    ))}
                   </GridWrapper>
-                ));
+                );
+              } else {
+                const schema = obj as Schema;
+                return (
+                  <DynamicInput
+                    key={index}
+                    name={schema.key}
+                    control={control}
+                    label={schema.description}
+                    inputType={schema.inputType}
+                    options={schema.options}
+                  />
+                );
               }
-              const schema = obj as Schema;
-              return (
-                <DynamicInput
-                  key={index}
-                  name={schema.key}
-                  control={control}
-                  label={schema.name}
-                  inputType={schema.inputType}
-                  options={options}
-                />
-              );
             })}
-            <Input label="ID" value={row.id} disabled />
-            <Input
-              label="Date and Time"
-              type="date"
-              value={row.dtime}
-              onChange={(e) =>
-                setValue({ ...values, [e.target.name]: e.target.value })
-              }
-            />
-            <Input
-              label="First Name"
-              value={row.fname}
-              onChange={(e) =>
-                setValue({ ...values, [e.target.name]: e.target.value })
-              }
-            />
-            <Input
-              label="Last Name"
-              value={row.lname}
-              onChange={(e) =>
-                setValue({ ...values, [e.target.name]: e.target.value })
-              }
-            />
-            <Input
-              label="Classification"
-              value={row.classification}
-              onChange={(e) =>
-                setValue({ ...values, [e.target.name]: e.target.value })
-              }
-            />
-            <Input
-              label="Location"
-              value={row.location}
-              onChange={(e) =>
-                setValue({ ...values, [e.target.name]: e.target.value })
-              }
-            />
           </GridWrapper>
         </form>
         <BottomWrapper>

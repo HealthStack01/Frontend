@@ -1,6 +1,6 @@
 import { useObjectState } from '../../../../context/context';
-import useModelManager from '../../../hooks';
-import { Views } from '../../Constants';
+import useRepository from '../../../hooks';
+import { Models, Views } from '../../Constants';
 import BandCreate from './BandCreate';
 import BandDetails from './BandDetail';
 import BandList from './BandList';
@@ -22,10 +22,12 @@ function AppBands() {
       },
     });
 
-  const [bands, getBands, handleDelete, handleSubmit] = useModelManager(
-    'bands',
-    navigate
-  );
+  const {
+    list: bands,
+    find: getBands,
+    remove: handleDelete,
+    submit: handleSubmit,
+  } = useRepository<any>(Models.BAND, navigate);
 
   return (
     <>

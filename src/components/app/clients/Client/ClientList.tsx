@@ -1,6 +1,5 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
-import { ToastContainer } from 'react-toastify';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
@@ -55,7 +54,6 @@ const Clients: React.FC<Props> = ({
           style={{ overflow: 'hidden' }}
         />
       </div>
-      <ToastContainer />
     </PageWrapper>
   );
 };

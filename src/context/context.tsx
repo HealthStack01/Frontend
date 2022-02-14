@@ -23,6 +23,7 @@ const userDefaultValues: UserContextProps = {
 
 interface ObjectContextProps {
   appointmentResource: { show: string; selectedAppointment: {} };
+  clientResource: { show: string; selectedClient: {} };
 
   facilityResource: { show: string; selectedFacility: {} };
   // epidiologyModule: { show: string; selectedEpid: {} };
@@ -53,10 +54,17 @@ interface ObjectContextProps {
 }
 
 const objectDefaultValues: ObjectContextProps = {
+  // lient
   appointmentResource: {
     show: Views.LIST,
     selectedAppointment: {},
   },
+  clientResource: {
+    show: Views.LIST,
+    selectedClient: {},
+  },
+
+  //Admin
   facilityResource: {
     show: 'lists',
     selectedFacility: {},
