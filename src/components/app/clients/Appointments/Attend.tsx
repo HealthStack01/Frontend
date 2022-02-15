@@ -103,6 +103,10 @@ const Attend: React.FC<Props> = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    loadDocuments();
+  }, []);
+
   const LabOrder = () => {
     return (
       <PageWrapper>
@@ -256,9 +260,6 @@ const Attend: React.FC<Props> = () => {
     );
   };
 
-  useEffect(() => {
-    loadDocuments();
-  }, []);
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -358,15 +359,6 @@ const Attend: React.FC<Props> = () => {
                   return (
                     <DetailsWrapper title={description} key={index}>
                       <DocumentViewer document={documentation} />
-                      {/* <DataTable
-                        title={description}
-                        columns={columnLab}
-                        data={recentData[0].data}
-                        selectableRows
-                        pointerOnHover
-                        highlightOnHover
-                        striped
-                      /> */}
                     </DetailsWrapper>
                   );
                 })}

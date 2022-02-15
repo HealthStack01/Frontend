@@ -1,9 +1,12 @@
 import React from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import { TableColumn } from 'react-data-table-component';
+import { DebounceInput } from 'react-debounce-input';
 
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -141,23 +144,45 @@ const BillLabSent: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Bill Lab Sent</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Employees"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={() => {}}
+          />
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
             <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {dataTree.map((data, index) => (
           <AccordionBox title={data.title} key={index}>
-            <DataTable
+            <CustomTable
               title={data.description}
               columns={columnHead}
               data={data.data}
-              selectableRows
               pointerOnHover
               highlightOnHover
               striped

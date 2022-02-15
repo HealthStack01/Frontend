@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { BandSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
@@ -12,7 +13,7 @@ const BandDetails = ({ editBtnClicked, row, backClick, handleDelete }) => (
           <h2>Band Details</h2>
           <span>Below are your band’s details</span>
         </div>
-        <div>
+        <ButtonGroup>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           <Button
             label="Delete"
@@ -30,7 +31,7 @@ const BandDetails = ({ editBtnClicked, row, backClick, handleDelete }) => (
             icon="bi bi-pen-fill"
             onClick={editBtnClicked}
           />
-        </div>
+        </ButtonGroup>
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>

@@ -1,5 +1,5 @@
-import { Portal } from '@mui/base';
 import { Menu, MenuItem } from '@mui/material';
+import Portal from '@mui/material/Portal';
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 
@@ -70,7 +70,7 @@ const Attend: React.FC<Props> = () => {
         />
         <Portal>
           <ModalBox open={open} onClose={handleClose}>
-            <FullDetailsWrapper>
+            <FullDetailsWrapper className="small">
               <h2>Add Lab Order</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
                 <Input
@@ -141,7 +141,7 @@ const Attend: React.FC<Props> = () => {
         />
         <Portal>
           <ModalBox open={open} onClose={handleClose}>
-            <FullDetailsWrapper>
+            <FullDetailsWrapper className="small">
               <h2>Create Prescription</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
                 <Input
@@ -199,119 +199,119 @@ const Attend: React.FC<Props> = () => {
 
   return (
     <PageWrapper>
-      <GrayWrapper>
-        <FullDetailsWrapper>
-          <FlexBox>
-            <ImageBox src="https://via.placeholder.com/150" />
+      <FullDetailsWrapper className="small">
+        <FlexBox>
+          <ImageBox src="https://via.placeholder.com/150" />
 
-            <div>
-              <h1>Adam Mike Olu</h1>
-              <p>Cash</p>
-              <p>HMO: Avon HMO</p>
-            </div>
+          <div>
+            <h1>Adam Mike Olu</h1>
+            <p>Cash</p>
+            <p>HMO: Avon HMO</p>
+          </div>
 
-            <div>
-              <p>Description: 32 years Male Married Christian IT professional</p>
-              <p>Geneotype: AA</p>
-              <p>Blood Group: O</p>
-            </div>
-          </FlexBox>
+          <div>
+            <p>Description: 32 years Male Married Christian IT professional</p>
+            <p>Geneotype: AA</p>
+            <p>Blood Group: O</p>
+          </div>
+        </FlexBox>
+      </FullDetailsWrapper>
+      <GrayWrapper
+        className="grid"
+        style={{
+          padding: '0',
+          paddingBottom: '6rem',
+          background: '#fff',
+        }}
+      >
+        <FullDetailsWrapper className="small">
+          <div>
+            <h2>Specific Information:</h2>
+          </div>
+          <div>
+            <h2>Allergies:</h2>
+          </div>
+          <div>
+            <h2>Moridities:</h2>
+          </div>
+          <div>
+            <h2>Disabilities:</h2>
+          </div>
+          <>
+            {tabs.map((tab, i) => (
+              <DetailsWrapper key={i} title={tab}>
+                {tab}
+              </DetailsWrapper>
+            ))}
+          </>
         </FullDetailsWrapper>
-        <GrayWrapper
-          className="grid"
-          style={{
-            paddingBottom: '6rem',
-          }}
-        >
-          <FullDetailsWrapper>
+
+        <FullDetailsWrapper className="small">
+          <GridWrapper className="four-columns">
+            <Button
+              label={'History'}
+              color="#fefffb"
+              background="#04ed6d"
+              showicon={true}
+              onClick={() => setState('all')}
+            />
+            <Button label="Lab Orders" background="#fdfdfd" color="#333" onClick={() => setState('lab')} />
+            <Button
+              label={'Prescription'}
+              background={'#ECF3FF'}
+              color="#0364FF"
+              showicon={true}
+              onClick={() => setState('prescription')}
+            />
             <div>
-              <h2>Specific Information:</h2>
+              <Button
+                label={'New Document'}
+                background="#FFE9E9"
+                color="#ED0423"
+                showicon={true}
+                onClick={handleClick}
+              />
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                aria-haspopup="true"
+                aria-expanded={openBtn ? 'true' : undefined}
+                open={openBtn}
+                onClose={handleCloseMenu}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                sx={{ boxShadow: '10px 10px 0 rgba(0,0,0,0.08)' }}
+              >
+                {documents.map((doc, i) => (
+                  <MenuItem onClick={() => setOpen(true)} key={i}>
+                    {doc}
+                  </MenuItem>
+                ))}
+              </Menu>
             </div>
+          </GridWrapper>
+          {state === 'all' && (
             <div>
-              <h2>Allergies:</h2>
-            </div>
-            <div>
-              <h2>Moridities:</h2>
-            </div>
-            <div>
-              <h2>Disabilities:</h2>
-            </div>
-            <>
-              {tabs.map((tab, i) => (
-                <DetailsWrapper key={i} title={tab}>
-                  {tab}
+              {recentData.map((recent, index) => (
+                <DetailsWrapper title={recent.description} key={index}>
+                  <DataTable
+                    title={recent.description}
+                    columns={columnLab}
+                    data={recent.data}
+                    selectableRows
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  />
                 </DetailsWrapper>
               ))}
-            </>
-          </FullDetailsWrapper>
+            </div>
+          )}
 
-          <FullDetailsWrapper>
-            <GridWrapper className="four-columns">
-              <Button
-                label={'History'}
-                color="#fefffb"
-                background="#04ed6d"
-                showicon={true}
-                onClick={() => setState('all')}
-              />
-              <Button label="Lab Orders" background="#fdfdfd" color="#333" onClick={() => setState('lab')} />
-              <Button
-                label={'Prescription'}
-                background={'#ECF3FF'}
-                color="#0364FF"
-                showicon={true}
-                onClick={() => setState('prescription')}
-              />
-              <div>
-                <Button
-                  label={'New Document'}
-                  background="#FFE9E9"
-                  color="#ED0423"
-                  showicon={true}
-                  onClick={handleClick}
-                />
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  aria-haspopup="true"
-                  aria-expanded={openBtn ? 'true' : undefined}
-                  open={openBtn}
-                  onClose={handleCloseMenu}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                  sx={{ boxShadow: '10px 10px 0 rgba(0,0,0,0.08)' }}
-                >
-                  {documents.map((doc, i) => (
-                    <MenuItem onClick={() => setOpen(true)} key={i}>
-                      {doc}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </div>
-            </GridWrapper>
-            {state === 'all' && (
-              <div>
-                {recentData.map((recent, index) => (
-                  <DetailsWrapper title={recent.description} key={index}>
-                    <DataTable
-                      title={recent.description}
-                      columns={columnLab}
-                      data={recent.data}
-                      selectableRows
-                      pointerOnHover
-                      highlightOnHover
-                      striped
-                    />
-                  </DetailsWrapper>
-                ))}
-              </div>
-            )}
-
-            {state === 'lab' && <LabOrder />}
-            {state === 'prescription' && <Prescription />}
-          </FullDetailsWrapper>
-        </GrayWrapper>
+          {state === 'lab' && <LabOrder />}
+          {state === 'prescription' && <Prescription />}
+        </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>
   );

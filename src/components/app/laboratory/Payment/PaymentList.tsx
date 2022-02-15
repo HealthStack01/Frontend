@@ -1,9 +1,11 @@
 import React from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -207,12 +209,35 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Payments</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          {/* <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Employees"
+            minLength={1}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
+          /> */}
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
             <span>Filer by</span>
             <i className="bi bi-chevron-down"></i>
           </div>
+          <SwitchButton />
         </div>
       </TableMenu>
 
@@ -222,11 +247,10 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
             {data.children.map((child) => {
               return (
                 <AccordionBox title={child.title}>
-                  <DataTable
+                  <CustomTable
                     title={child.description}
                     columns={columnHead}
                     data={child.data}
-                    selectableRows
                     pointerOnHover
                     highlightOnHover
                     striped

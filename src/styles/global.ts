@@ -8,22 +8,21 @@ import { PageText as NavText } from '../helper/PageText';
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
 
-*::-webkit-scrollbar-track{
+/* *::-webkit-scrollbar-track{
 	-webkit-box-shadow: inset 0 0 6px 12px rgba(0,0,0,0.08);
 	border-radius: 8px;
 	background-color: #FeFeFe;
-}
+} */
 
 *::-webkit-scrollbar{
-	width: 8px;
-	background-color: #FeFeFe;
+	display:none
 }
 
-*::-webkit-scrollbar-thumb{
+/* *::-webkit-scrollbar-thumb{
 	border-radius: 2px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #fcfcfc;
-}
+} */
 
 *{
     margin: 0;
@@ -105,8 +104,13 @@ export const LeftText = styled(Text)`
 
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
+<<<<<<< HEAD
   flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
   align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
+=======
+  flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
+  align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
+>>>>>>> 070c9c7b5981f46bee5c2d094075a13df76061cf
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -126,12 +130,20 @@ export const Stat = styled(StatWrapper)`
   align-items: ${(props) => (props.alignItems ? props.alignItems : 'center')};
   background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+<<<<<<< HEAD
   border-radius: ${(props) => (props.borderRadius ? props.borderRadius : '15px')};
+=======
+  border-radius: ${(props) => (props.borderRadius ? props.borderRadius : '15px')};
+>>>>>>> 070c9c7b5981f46bee5c2d094075a13df76061cf
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
+<<<<<<< HEAD
   margin-bottom: ${(props) => (props.margingBottom ? props.margingBottom : '30px')};
+=======
+  margin-bottom: ${(props) => (props.margingBottom ? props.margingBottom : '30px')};
+>>>>>>> 070c9c7b5981f46bee5c2d094075a13df76061cf
 
   &::before {
     content: '';
@@ -208,4 +220,8 @@ export const FlexBox = styled.div`
 
 export const Htag = styled.h5`
   margin-right: 8rem;
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
 `;

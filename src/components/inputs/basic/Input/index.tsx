@@ -1,7 +1,7 @@
 import { FormControl, TextField } from '@mui/material';
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps {
   label?: string;
   inputId?: string;
   errors?: boolean;
@@ -13,6 +13,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   value?: any;
   placeholder?: string;
+  size?: 'small' | 'medium';
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -24,6 +26,8 @@ const Input: React.FC<InputProps> = ({
   onKeyDown,
   value,
   placeholder,
+  size = 'medium',
+  disabled = false,
 }) => (
   <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
     <TextField
@@ -37,6 +41,8 @@ const Input: React.FC<InputProps> = ({
       value={value}
       onKeyDown={onKeyDown}
       placeholder={placeholder}
+      size={size}
+      disabled={disabled}
     />
   </FormControl>
 );

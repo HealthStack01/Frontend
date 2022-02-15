@@ -201,7 +201,7 @@ const BillPrescriptionSentDetails: React.FC<Props> = ({ row, backClick }) => {
               type="submit"
             >
               +
-            </button>{' '}
+            </button>
           </GridWrapper>
           <BottomWrapper>
             <Button label="Adjust" type="submit" />

@@ -23,7 +23,7 @@ function Breadcrumbs() {
               fontWeight: 'medium',
             }}
           >
-            {name} / path
+            {name} <i className="bi bi-chevron-right"></i> path
             {/* Pass breadcrumb context  */}
           </Typography>
         ) : null;

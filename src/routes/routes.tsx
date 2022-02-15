@@ -19,6 +19,11 @@ import AppBillLabSent from '../components/app/laboratory/BillLabSent';
 import LaboratoryDashboard from '../components/app/laboratory/LaboratoryDashboard';
 import AppLaboratory from '../components/app/laboratory/LaboratoryTest';
 import AppPaymentsLab from '../components/app/laboratory/Payment';
+import AppClaimPayments from '../components/app/managedCare/ClaimPayment';
+import AppClaims from '../components/app/managedCare/Claims';
+import ManagedCareDashboard from '../components/app/managedCare/ManagedCareDashboard';
+import AppPreAuthorization from '../components/app/managedCare/PreAuthorization';
+import AppReferrals from '../components/app/managedCare/Referrals';
 import Overview from '../components/app/Overview';
 import AppBillClient from '../components/app/pharmacy/BillClient';
 import AppBillPrescriptionSent from '../components/app/pharmacy/BillPrescriptionSent';
@@ -83,6 +88,13 @@ function AppRoutes() {
           {/* Clinic */}
           <Route path="/app/clinic" element={<ClinicDashboard />} />
           <Route path="/app/clinic/appointments" element={<AppAppointment />} />
+
+          {/* Manged Care */}
+          <Route path="/app/managedCare" element={<ManagedCareDashboard />} />
+          <Route path="/app/managedCare/claimpayment" element={<AppClaimPayments />} />
+          <Route path="/app/managedCare/claims" element={<AppClaims />} />
+          <Route path="/app/managedCare/referrals" element={<AppReferrals />} />
+          <Route path="/app/managedCare/preauthorization" element={<AppPreAuthorization />} />
         </Route>
       </Routes>
     </>

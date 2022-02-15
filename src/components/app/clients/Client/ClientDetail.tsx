@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { ClientFullSchema } from '../../schema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
@@ -20,7 +21,7 @@ const ClientDetails: React.FC<Props> = ({ editBtnClicked, row, backClick, handle
             <h2>Client Details</h2>
             <span>Below are your Client’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Delete'}
@@ -38,7 +39,7 @@ const ClientDetails: React.FC<Props> = ({ editBtnClicked, row, backClick, handle
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
 
         <FullDetailsWrapper>

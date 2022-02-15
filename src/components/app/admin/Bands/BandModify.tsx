@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { Schema } from '../../schema';
@@ -27,7 +28,7 @@ const BandModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row: band, b
             <h2>Band Details</h2>
             <span>Below are your band’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label="Cancel Editing"
@@ -37,7 +38,7 @@ const BandModify: React.FC<Props> = ({ cancelEditClicked, onSubmit, row: band, b
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Band">

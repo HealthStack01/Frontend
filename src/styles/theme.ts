@@ -9,7 +9,7 @@ export const lightTheme = {
   grayOne: '#8F8F8F',
   grayTwo: '#BBBBBB',
   grayThree: '#EBEBEB',
-  grayFour: '#FAFAFA',
+  grayFour: '#F5F5F5',
   blueOne: '#0E214C',
   blueTwo: '#0364FF',
   blueThree: '#D7E3FC',
