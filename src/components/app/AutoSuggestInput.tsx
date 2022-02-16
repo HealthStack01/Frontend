@@ -95,19 +95,29 @@ const AutoSuggestInput = ({ label, options, control, onChange }) => {
     if (options.length) {
       setSuggestions(searchProvidedOptions(options, searchText));
     } else {
+      const query = {};
+      if (options.or) {
+        query['$or'] = options.or.map((field) => ({
+          [field]: {
+            $regex: searchText,
+            $options: 'i',
+          },
+        }));
+      }
+      if (options.field) {
+        query[options.field] = {
+          $regex: searchText,
+          $options: 'i',
+        };
+      }
       Service.find({
         query: {
-          $or: options.or.map((field) => ({
-            [field]: {
-              $regex: searchText,
-              $options: 'i',
-            },
-          })),
+          ...query,
           //facility: user.currentEmployee.facilityDetail._id,
-        },
-        $limit: 10,
-        $sort: {
-          createdAt: -1,
+          $limit: 10,
+          $sort: {
+            createdAt: -1,
+          },
         },
       })
         .then((res) => {
@@ -138,7 +148,7 @@ const AutoSuggestInput = ({ label, options, control, onChange }) => {
               key={key}
               control={control}
               name={key}
-              render={({ field }) => <input {...field} name={key} value={extraFieldsValues[key]} type="text" />}
+              render={({ field }) => <input {...field} name={key} value={extraFieldsValues[key]} type="hidden" />}
             />
           ))
         ) : (
@@ -151,14 +161,17 @@ const AutoSuggestInput = ({ label, options, control, onChange }) => {
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           getSuggestionValue={options.labelSelector || getSuggestionValue}
           onSuggestionSelected={(_, { suggestion }) => {
-            const extras = {};
-            Object.keys(options.extraFields).forEach((key) => {
-              console.error({ key, value: suggestion[key] });
-              extras[key] =
-                typeof options.extraFields[key] === 'function' ? options.extraFields[key](suggestion) : suggestion[key];
-            });
-            console.error({ extras });
-            setExtraFieldsValues(extras);
+            if (options.extraFields) {
+              const extras = {};
+              Object.keys(options.extraFields).forEach((key) => {
+                console.error({ key, value: suggestion[key] });
+                extras[key] =
+                  typeof options.extraFields[key] === 'function'
+                    ? options.extraFields[key](suggestion)
+                    : suggestion[key];
+              });
+              setExtraFieldsValues(extras);
+            }
             onChange(options.valueSelector ? options.valueSelector(suggestion) : suggestion._id);
           }}
           renderSuggestion={renderSuggestion}

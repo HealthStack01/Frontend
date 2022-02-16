@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import MenuItem from '../menuitem';
 import { Lists } from '../menuitem/style';
@@ -120,12 +121,16 @@ export const menuItems = [
     name: 'Logout',
     exact: true,
     to: '/',
+    action: () => {
+      localStorage.setItem('user', '');
+    },
     iconClassName: 'bi bi-box-arrow-right',
   },
 ];
 
 function SideMenu() {
   const [inactive, setInactive] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (inactive) {
@@ -170,6 +175,12 @@ function SideMenu() {
               subMenus={menuItem.subMenus || []}
               iconClassName={menuItem.iconClassName}
               onClick={() => {
+                if (menuItem.action) {
+                  menuItem.action();
+                }
+                if (menuItem.to && !menuItem.subMenus) {
+                  navigate(menuItem.to);
+                }
                 if (inactive) {
                   setInactive(false);
                 }

@@ -12,6 +12,7 @@ const Models = {
   CLINICAL_DOCUMENT: 'clinicaldocument',
   EMPLOYEE: 'employee',
   LOCATION: 'location',
+  LABORATORY_HELPER: 'labhelper',
 };
 
 const DateFormats = {

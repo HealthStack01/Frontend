@@ -10,14 +10,6 @@ import {
   PrescriptionSchema,
 } from '../../../schema';
 
-// const isGenericDocument = (documentname: string) =>
-//   documentname !== 'Prescription' &&
-//   documentname !== 'Billed Orders' &&
-//   documentname !== 'Lab Orders' &&
-//   documentname !== 'Adult Asthma Questionnaire' &&
-//   documentname !== 'Medication List' &&
-//   documentname !== 'Pediatric Pulmonology Form';
-
 const DocumentViewer = ({ document }) => {
   const parents = ['Medication list'];
   const schemaDictionary = {
@@ -93,7 +85,6 @@ const DocumentViewer = ({ document }) => {
   }
 
   const schema = schemaDictionary[documentname] || schemaDictionary['Generic'];
-  console.error({ schema,documentname, documentdetail });
   return (
     <>
       <DataTable

@@ -22,6 +22,7 @@ import {
   PageWrapper,
 } from '../../styles';
 import DocumentViewer from './components/DocumentViewer';
+import LaboratoryOrder from './components/LaboratoryOrder';
 import PatientProfile from './components/PatientProfile';
 import { columnLab, labData } from './data';
 
@@ -107,77 +108,6 @@ const Attend: React.FC<Props> = () => {
     loadDocuments();
   }, []);
 
-  const LabOrder = () => {
-    return (
-      <PageWrapper>
-        <TableMenu>
-          <div className="inner-table">
-            <Input placeholder="Search here" label="Search here" />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span>Filer by</span>
-              <i className="bi bi-chevron-down"></i>
-            </div>
-          </div>
-
-          <Button label="Add new" onClick={() => setOpen(true)} />
-        </TableMenu>
-        <DataTable
-          title="Lab Orders"
-          columns={columnLab}
-          data={labData}
-          selectableRows
-          pointerOnHover
-          highlightOnHover
-          striped
-          style={{ overflow: 'hidden' }}
-        />
-        <Portal>
-          <ModalBox open={open} onClose={handleClose}>
-            <FullDetailsWrapper>
-              <h2>Add Lab Order</h2>
-              <GridWrapper style={{ alignItems: 'center' }}>
-                <Input
-                  label="Add Test"
-                  name="addTest"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
-                <CustomSelect
-                  label="Select Type"
-                  name="selectType"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  options={['In-house', 'External']}
-                />
-                <button
-                  style={{
-                    borderRadius: '32px',
-                    background: '#f3f3f3',
-                    border: 'none',
-                    width: '32px',
-                    height: '32px',
-                    cursor: 'pointer',
-                  }}
-                  type="submit"
-                  onClick={() => setOpen(false)}
-                >
-                  +
-                </button>
-              </GridWrapper>
-            </FullDetailsWrapper>
-          </ModalBox>
-        </Portal>
-      </PageWrapper>
-    );
-  };
   const Prescription = () => {
     return (
       <PageWrapper>
@@ -365,7 +295,7 @@ const Attend: React.FC<Props> = () => {
               </div>
             )}
 
-            {state === 'lab' && <LabOrder />}
+            {state === 'lab' && <LaboratoryOrder />}
             {state === 'prescription' && <Prescription />}
           </FullDetailsWrapper>
         </GrayWrapper>
