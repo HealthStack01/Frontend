@@ -1,11 +1,10 @@
 import React from 'react';
-import { DebounceInput } from 'react-debounce-input';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
-import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
+import DebouncedInput from '../../DebouncedInput';
 import { EmployeeSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
@@ -23,16 +22,7 @@ const Employees = ({ handleCreate, handleSearch, onRowClicked, items }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Employees"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
-
+          <DebouncedInput label="Search Bands" onChangeValue={handleSearch} />
           <div
             style={{
               display: 'flex',

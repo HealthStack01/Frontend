@@ -1,11 +1,10 @@
 import React from 'react';
-import { DebounceInput } from 'react-debounce-input';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
-import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
+import DebouncedInput from '../../DebouncedInput';
 import { AppointmentSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 
@@ -23,15 +22,7 @@ const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Appointments"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
+          <DebouncedInput label="Search Appointments" onChangeValue={handleSearch} />
           <div
             style={{
               display: 'flex',

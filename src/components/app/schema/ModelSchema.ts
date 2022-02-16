@@ -29,6 +29,7 @@ const BandSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
+    options: ['Provider', 'Company', 'Patient', 'Plan'],
   },
   {
     name: 'Description of Band',

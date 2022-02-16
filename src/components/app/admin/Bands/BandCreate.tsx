@@ -3,11 +3,9 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
-// import DynamicInput from '../../DynamicInput';
 import { BandSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const bandTypes = ['Provider', 'Company', 'Patient', 'Plan'];
 interface Props {
   backClick: () => void;
   onSubmit: (_data, _event) => void;
@@ -36,7 +34,7 @@ const BandCreate: React.FC<Props> = ({ backClick, onSubmit }) => {
                   control={control}
                   label={client.name}
                   inputType={client.inputType}
-                  options={bandTypes}
+                  options={client.options}
                 />
               ))}
             </GridWrapper>

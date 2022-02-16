@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { UserContext } from '../../context/context';
 import client from '../../feathers';
 import { Views } from '../app/Constants';
-// import { getFormStrings } from '../app/Utils';
+import { getFormStrings } from '../app/Utils';
 
 interface Repository<T> {
   list: T[];
@@ -52,20 +52,18 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   };
 
   const submit = (data) => {
-    console.error({ data });
-    // const values = getFormStrings(data._id);
-    // if (user.currentEmployee) {
-    //   data.facility = user.currentEmployee.facilityDetail._id;
-    // }
-    // return (data._id ? Service.update(data._id, data) : Service.create(data))
-    //   .then(() => {
-    //     onNavigate && onNavigate(Views.LIST)();
-    //     toast(`Band ${values.message}`);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(`Error occurred : ${err}`);
-    //   });
-    return Promise.reject();
+    const values = getFormStrings(data._id);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id;
+    }
+    return (data._id ? Service.update(data._id, data) : Service.create(data))
+      .then(() => {
+        onNavigate && onNavigate(Views.LIST)();
+        toast(`Band ${values.message}`);
+      })
+      .catch((err) => {
+        toast.error(`Error occurred : ${err}`);
+      });
   };
 
   const get = (id) => {
