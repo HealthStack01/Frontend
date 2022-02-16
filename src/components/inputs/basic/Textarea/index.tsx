@@ -1,4 +1,4 @@
-import React, { TextareaHTMLAttributes } from 'react';
+import React, { TextareaHTMLAttributes, useRef } from 'react';
 
 import { TextareaField } from './styles';
 
@@ -10,7 +10,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 const Textarea: React.FC<TextareaProps> = ({ label, ...props }) => (
   <div>
     <label>{label}</label>
-    <TextareaField {...props} />
+    <TextareaField ref={useRef()} {...props} />
   </div>
 );
 

@@ -14,9 +14,10 @@ const toShortDate = (date: string | Date) => {
   return format(toDate(date), DateFormats.SHORT_DATE);
 };
 
-const toDurationString = (date: string | Date) => {
+const toDurationString = (date: string | Date, addSuffix?: boolean) => {
+  if (date === undefined) return '';
   return formatDistanceToNowStrict(toDate(date), {
-    addSuffix: true,
+    addSuffix: !!addSuffix,
   });
 };
 

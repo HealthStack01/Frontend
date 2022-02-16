@@ -16,6 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.66",
     "@mui/material": "^5.4.0",
     "@mui/styled-engine-sc": "^5.1.0",
+    "@mui/styles": "^5.4.2",
     "@testing-library/dom": "^8.11.2",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

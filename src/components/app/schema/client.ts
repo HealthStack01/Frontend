@@ -1,4 +1,5 @@
 import { Models } from '../Constants';
+import { toDurationString } from '../DateUtils';
 import { InputType } from './util';
 
 const AppointmentSchema = [
@@ -22,8 +23,19 @@ const AppointmentSchema = [
     options: {
       model: Models.EMPLOYEE,
       or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
-      labelSelector: (obj) => `${obj.firstname} ${obj.lastname}`,
+      labelSelector: (obj) =>
+        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
+          obj.email
+        }`,
       valueSelector: (obj) => obj._id,
+      extraFields: {
+        firstname: 'firstname',
+        lastname: 'lastname',
+        dob: 'dob',
+        gender: 'gender',
+        phone: 'phone',
+        email: 'email',
+      },
     },
   },
   {
@@ -40,6 +52,10 @@ const AppointmentSchema = [
       labelSelector: (obj) => obj.name,
       valueSelector: (obj) => obj._id,
     },
+    extraFields: {
+      location_name: (obj) => obj.name,
+      location_type: (obj) => obj.locationType,
+    },
   },
   {
     name: 'Employee',
@@ -54,6 +70,11 @@ const AppointmentSchema = [
       or: ['firstname', 'lastname', 'profession', 'department'],
       labelSelector: (obj) => `${obj.firstname} ${obj.lastname}`,
       valueSelector: (obj) => obj._id,
+      extraFields: {
+        practitioner_name: (obj) => obj.firstname + ' ' + obj.lastname,
+        practitioner_profession: (obj) => obj.profession,
+        practitioner_department: (obj) => obj.department,
+      },
     },
   },
   [

@@ -107,7 +107,9 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => <AutoSuggestInput ref={ref} label={label} options={options} {...field} />}
+        render={({ field }) => (
+          <AutoSuggestInput ref={ref} control={control} label={label} options={options} {...field} />
+        )}
       />
     );
   }
