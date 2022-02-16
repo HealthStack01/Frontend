@@ -13,6 +13,8 @@ const Models = {
   EMPLOYEE: 'employee',
   LOCATION: 'location',
   LABORATORY_HELPER: 'labhelper',
+  MEDICATION_HELPER: 'medicationhelper',
+  ORDER: 'order',
 };
 
 const DateFormats = {

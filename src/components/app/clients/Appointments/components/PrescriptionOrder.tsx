@@ -9,18 +9,21 @@ import CustomTable from '../../../../customtable';
 import Input from '../../../../inputs/basic/Input';
 import ModalBox from '../../../../modal';
 import DynamicInput from '../../../DynamicInput';
-import { LaboratoryOrderSchema } from '../../../schema';
+import { PrescriptionOrderSchema } from '../../../schema';
 import { FullDetailsWrapper, PageWrapper } from '../../../styles';
 import { columnLab, labData } from '../data';
 
-const LaboratoryOrder = () => {
-  const { control, handleSubmit } = useForm();
+const PrescriptionOrder = () => {
+  const { control, handleSubmit, reset } = useForm();
   const [showModal, setShowModal] = useState(false);
   const [tests, setTests] = useState([]);
 
   const onAddTest = (test) => {
     setTests([...tests, test]);
     console.error({ test });
+    const obj = {};
+    PrescriptionOrderSchema.forEach((obj) => (obj[obj.key] = ''));
+    reset(obj);
   };
 
   return (
@@ -50,8 +53,8 @@ const LaboratoryOrder = () => {
         <ModalBox open={showModal} onClose={() => setShowModal(false)}>
           <FullDetailsWrapper>
             <form onSubmit={handleSubmit(onAddTest)}>
-              <h2>Add Lab Order</h2>
-              {LaboratoryOrderSchema.map((schema) => {
+              <h2>Add Prescription Order</h2>
+              {PrescriptionOrderSchema.map((schema) => {
                 return (
                   <DynamicInput
                     key={schema.key}
@@ -78,11 +81,11 @@ const LaboratoryOrder = () => {
               </button>
             </form>
           </FullDetailsWrapper>
-          <CustomTable columns={LaboratoryOrderSchema} data={tests} />
+          <CustomTable columns={PrescriptionOrderSchema} data={tests} />
         </ModalBox>
       </Portal>
     </PageWrapper>
   );
 };
 
-export default LaboratoryOrder;
+export default PrescriptionOrder;

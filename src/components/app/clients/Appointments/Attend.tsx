@@ -1,17 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Portal } from '@mui/base';
 import { Menu, MenuItem } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
 import { toast } from 'react-toastify';
 
 import { ObjectContext } from '../../../../context/context';
-import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import useRepository from '../../../hooks';
-import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
-import ModalBox from '../../../modal';
 import { Models } from '../../Constants';
 import { toDurationString, toShortDate } from '../../DateUtils';
 import {
@@ -24,7 +18,7 @@ import {
 import DocumentViewer from './components/DocumentViewer';
 import LaboratoryOrder from './components/LaboratoryOrder';
 import PatientProfile from './components/PatientProfile';
-import { columnLab, labData } from './data';
+import PrescriptionOrder from './components/PrescriptionOrder';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -51,7 +45,6 @@ const documents = [
 
 const Attend: React.FC<Props> = () => {
   const [state, setState] = useState('all');
-  const [values, setValues] = useState({});
   const { find: findClinicalDocument } = useRepository(
     Models.CLINICAL_DOCUMENT
   );
@@ -90,7 +83,7 @@ const Attend: React.FC<Props> = () => {
       });
   };
 
-  const [open, setOpen] = useState(false);
+  const [, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openBtn = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,95 +93,11 @@ const Attend: React.FC<Props> = () => {
     setAnchorEl(null);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     loadDocuments();
   }, []);
 
-  const Prescription = () => {
-    return (
-      <PageWrapper>
-        <TableMenu>
-          <div className="inner-table">
-            <Input placeholder="Search here" label="Search here" />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span>Filer by</span>
-              <i className="bi bi-chevron-down"></i>
-            </div>
-          </div>
-
-          <Button label="Add new" onClick={() => setOpen(true)} />
-        </TableMenu>
-        <DataTable
-          title="Prescription"
-          columns={columnLab}
-          data={labData}
-          selectableRows
-          pointerOnHover
-          highlightOnHover
-          striped
-          style={{ overflow: 'hidden' }}
-        />
-        <Portal>
-          <ModalBox open={open} onClose={handleClose}>
-            <FullDetailsWrapper>
-              <h2>Create Prescription</h2>
-              <GridWrapper style={{ alignItems: 'center' }}>
-                <Input
-                  label="Search Order"
-                  name="search"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
-                <Input
-                  label="Note"
-                  name="note"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
-                <CustomSelect
-                  label="Select Type"
-                  name="selectType"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  options={['In-house', 'External']}
-                />
-                <button
-                  style={{
-                    borderRadius: '32px',
-                    background: '#f3f3f3',
-                    border: 'none',
-                    width: '32px',
-                    height: '32px',
-                    cursor: 'pointer',
-                  }}
-                  type="submit"
-                  onClick={() => setOpen(false)}
-                >
-                  +
-                </button>
-              </GridWrapper>
-            </FullDetailsWrapper>
-          </ModalBox>
-        </Portal>
-      </PageWrapper>
-    );
-  };
 
   return (
     <PageWrapper>
@@ -296,7 +205,7 @@ const Attend: React.FC<Props> = () => {
             )}
 
             {state === 'lab' && <LaboratoryOrder />}
-            {state === 'prescription' && <Prescription />}
+            {state === 'prescription' && <PrescriptionOrder />}
           </FullDetailsWrapper>
         </GrayWrapper>
       </GrayWrapper>
