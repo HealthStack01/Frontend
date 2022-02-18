@@ -33,14 +33,6 @@ interface Props {
   row?: any;
 }
 
-const tabs = [
-  'Last Visit',
-  'Drug Tolerance',
-  'Medications',
-  'History',
-  'Problem List',
-  'Task',
-];
 const documents = [
   'Clinical Note',
   'Lab Result',
@@ -80,7 +72,7 @@ function a11yProps(index: number) {
 }
 
 const Attend: React.FC<Props> = ({ row, backClick }) => {
-  const [value, setValue] = React.useState(0);
+  const [doc, setDoc] = React.useState('');
   const [tab, setTab] = React.useState('0');
   const [values, setValues] = useState({});
   const [valueTab, setValueTab] = useState(0);
@@ -251,52 +243,124 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
   };
 
   const TestData = [
-    { type: 'text' },
-    { type: 'text' },
-    { type: 'select' },
-    { type: 'radio' },
-    { type: 'checkbox' },
+    {
+      documentName: 'Clinical Note',
+      form: [
+        { title: 'Search Order', type: 'text' },
+        { type: 'text', title: 'Note' },
+        { type: 'select', options: ['In-house', 'External'] },
+        { type: 'radio' },
+        { type: 'checkbox' },
+      ],
+    },
+    {
+      documentName: 'Lab Result',
+      form: [
+        { title: 'Search Order', type: 'text' },
+        { type: 'text', title: 'Note' },
+        { type: 'select', options: ['In-house', 'External'] },
+        { type: 'radio' },
+        { type: 'checkbox' },
+      ],
+    },
+    {
+      documentName: 'Doctor Note',
+      form: [
+        { title: 'Search Order', type: 'text' },
+        { type: 'text', title: 'Note' },
+        { type: 'select', options: ['In-house', 'External'] },
+        { type: 'radio' },
+        { type: 'checkbox' },
+      ],
+    },
+    {
+      documentName: 'Nursing Note',
+      form: [
+        { title: 'Search Order', type: 'text' },
+        { type: 'text', title: 'Note' },
+        { type: 'select', options: ['In-house', 'External'] },
+        { type: 'radio' },
+        { type: 'checkbox' },
+      ],
+    },
+    {
+      documentName: 'Vital Signs',
+      form: [
+        { title: 'Search Order', type: 'text' },
+        { type: 'text', title: 'Note' },
+        { type: 'select', options: ['In-house', 'External'] },
+        { type: 'radio' },
+        { type: 'checkbox' },
+      ],
+    },
+    {
+      documentName: 'Progress Note',
+      form: [
+        { title: 'Search Order', type: 'text' },
+        { type: 'text', title: 'Note' },
+        { type: 'select', options: ['In-house', 'External'] },
+        { type: 'radio' },
+        { type: 'checkbox' },
+      ],
+    },
   ];
 
   const Document = () => {
+    let docName = doc;
+    const data = TestData.filter(function (TestData) {
+      return TestData.documentName === docName;
+    });
+
+    console.log(docName, data);
+
     return (
       <>
         <Portal>
           <ModalBox open={open} onClose={handleClose}>
+            <h2>{doc}</h2>
+
             <FullDetailsWrapper className="small">
-              <h2>Create Prescription</h2>
               <GridWrapper style={{ alignItems: 'center' }}>
-                <Input
-                  label="Search Order"
-                  name="search"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
+                {TestData.map((data, index) => {
+                  if (data.documentName == docName) {
+                    return (
+                      <>
+                        {data.form.map((formData) => {
+                          if (formData.type === 'text') {
+                            return (
+                              <Input
+                                label={formData.title}
+                                name={formData.title}
+                                onChange={(e) =>
+                                  setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                  })
+                                }
+                              />
+                            );
+                          }
+                          if (formData.type === 'select') {
+                            return (
+                              <CustomSelect
+                                label={formData.title}
+                                name={formData.title}
+                                onChange={(e) =>
+                                  setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                  })
+                                }
+                                options={formData.options}
+                              />
+                            );
+                          }
+                        })}
+                      </>
+                    );
                   }
-                />
-                <Input
-                  label="Note"
-                  name="note"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
-                <CustomSelect
-                  label="Select Type"
-                  name="selectType"
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  options={['In-house', 'External']}
-                />
+                })}
+
                 <button
                   style={{
                     borderRadius: '32px',
@@ -305,6 +369,7 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                     width: '32px',
                     height: '32px',
                     cursor: 'pointer',
+                    margin: '1rem 0',
                   }}
                   type="submit"
                   onClick={() => setOpen(false)}
@@ -312,6 +377,13 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
                   +
                 </button>
               </GridWrapper>
+              <CustomTable
+                columns={columnLab}
+                data={labData}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
             </FullDetailsWrapper>
           </ModalBox>
         </Portal>
@@ -321,6 +393,13 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
 
   return (
     <PageWrapper>
+      {open && <Document />}
+      <Button
+        label="Back to List"
+        background="#fdfdfd"
+        color="#333"
+        onClick={backClick}
+      />
       <FullDetailsWrapper className="small">
         <FlexBox>
           <ImageBox src="https://via.placeholder.com/150" />
@@ -396,7 +475,9 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
             <CustomTab label="Prescriptions" {...a11yProps(2)} />
           </Tabs>
         </div>
-        <div>
+        <ButtonGroup>
+          <Button label="Bill Client" />
+
           <Button
             label={'New Document'}
             background="#Fafafa"
@@ -417,12 +498,18 @@ const Attend: React.FC<Props> = ({ row, backClick }) => {
             sx={{ boxShadow: '10px 10px 0 rgba(0,0,0,0.08)' }}
           >
             {documents.map((doc, i) => (
-              <MenuItem onClick={() => setOpen(true)} key={i}>
+              <MenuItem
+                onClick={() => {
+                  setOpen(true);
+                  setDoc(doc);
+                }}
+                key={i}
+              >
                 {doc}
               </MenuItem>
             ))}
           </Menu>
-        </div>
+        </ButtonGroup>
       </div>
       <GrayWrapper style={{ marginTop: '10px' }}>
         <TabPanel value={valueTab} index={0}>
