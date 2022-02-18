@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+import CalenderGrid from '../../../calender';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
@@ -15,6 +16,8 @@ interface Props {
 }
 
 const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+  const [listView, setListView] = useState(true);
+  console.log(listView);
   return (
     <PageWrapper>
       <h2>Appointments </h2>
@@ -29,9 +32,18 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
           }}
         >
           <Input placeholder="Search here" label="Search here" size="small" />
+          {/* <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
+            <span>Filer by</span>
+            <i className='bi bi-chevron-down'></i>
+          </div> */}
           <FilterMenu />
-
-          <SwitchButton />
+          <SwitchButton onClick={() => setListView(!listView)} />
         </div>
 
         <Button onClick={handleCreate}>
@@ -40,14 +52,18 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <CustomTable
-          columns={columnsAppointment}
-          data={dataAppointments}
-          pointerOnHover
-          highlightOnHover
-          striped
-          onRowClicked={onRowClicked}
-        />
+        {listView ? (
+          <CustomTable
+            columns={columnsAppointment}
+            data={dataAppointments}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={onRowClicked}
+          />
+        ) : (
+          <CalenderGrid />
+        )}
       </div>
     </PageWrapper>
   );
