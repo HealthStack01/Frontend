@@ -27,8 +27,10 @@ const AppointmentDetails: React.FC<Props> = ({
   const [state, setState] = useState('all');
 
   return (
-    <PageWrapper>
-      <GrayWrapper>
+    <>
+      {state === 'attend' && <Attend row={row} backClick={backClick} />}
+
+      <PageWrapper>
         <HeadWrapper>
           <div>
             <h2>Appointment Details</h2>
@@ -36,9 +38,9 @@ const AppointmentDetails: React.FC<Props> = ({
           </div>
           <ButtonGroup>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <Button
@@ -101,16 +103,15 @@ const AppointmentDetails: React.FC<Props> = ({
                   onClick={editBtnClicked}
                 />
                 <Button
-                  label='Attend to Client'
+                  label="Attend to Client"
                   onClick={() => setState('attend')}
                 />
               </BottomWrapper>
             </>
           )}
-          {state === 'attend' && <Attend row={row} backClick={backClick} />}
         </FullDetailsWrapper>
-      </GrayWrapper>
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 };
 

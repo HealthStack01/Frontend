@@ -5,6 +5,7 @@ import AdminDashboard from '../components/app/admin/AdminDashboard';
 import AppBands from '../components/app/admin/Bands';
 import AppEmployees from '../components/app/admin/Employees';
 import AppLocation from '../components/app/admin/Locations';
+import AppClinic from '../components/app/clients/Appointments';
 import AppClient from '../components/app/clients/Client';
 import ClientDashboard from '../components/app/clients/ClientDashboard';
 import AppAppointment from '../components/app/clinic/Appointments/';
@@ -64,10 +65,7 @@ function AppRoutes() {
 
           {/* Clients */}
           <Route path="/app/clients" element={<ClientDashboard />} />
-          <Route
-            path="/app/clients/appointments"
-            element={<AppAppointment />}
-          />
+          <Route path="/app/clients/appointments" element={<AppClinic />} />
           <Route path="/app/clients/clients" element={<AppClient />} />
 
           {/* Admin */}
@@ -118,19 +116,19 @@ function AppRoutes() {
           <Route path="/app/pharmacy/pos" element={<AppPOS />} />
 
           {/* Clinic */}
-          <Route path='/app/clinic' element={<ClinicDashboard />} />
-          <Route path='/app/clinic/appointments' element={<AppAppointment />} />
+          <Route path="/app/clinic" element={<ClinicDashboard />} />
+          <Route path="/app/clinic/appointments" element={<AppAppointment />} />
 
           {/* Manged Care */}
-          <Route path='/app/managedCare' element={<ManagedCareDashboard />} />
+          <Route path="/app/managedCare" element={<ManagedCareDashboard />} />
           <Route
-            path='/app/managedCare/claimpayment'
+            path="/app/managedCare/claimpayment"
             element={<AppClaimPayments />}
           />
-          <Route path='/app/managedCare/claims' element={<AppClaims />} />
-          <Route path='/app/managedCare/referrals' element={<AppReferrals />} />
+          <Route path="/app/managedCare/claims" element={<AppClaims />} />
+          <Route path="/app/managedCare/referrals" element={<AppReferrals />} />
           <Route
-            path='/app/managedCare/preauthorization'
+            path="/app/managedCare/preauthorization"
             element={<AppPreAuthorization />}
           />
         </Route>

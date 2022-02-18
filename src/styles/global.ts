@@ -1,7 +1,8 @@
-import { Stack } from '@mui/material';
+import { Stack, Tab } from '@mui/material';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import StatWrapper from '../helper/CardWrapper';
+import AttendCard from '../helper/CardWrapper';
 import { ItemWrapper as NavItemWrapper } from '../helper/ItemWrapper';
 import { PageText as NavText } from '../helper/PageText';
 
@@ -40,9 +41,13 @@ body{
   width:100vw
   height: 100vh;
   overflow-y:hidden;
-  font-size:0.76rem;
+  font-size:1rem;
 
 
+}
+
+label { 
+  font-size:0.8rem;
 }
 
 p {
@@ -157,6 +162,18 @@ export const Stat = styled(StatWrapper)`
   }
 `;
 
+export const AttendWrapper = styled(AttendCard)`
+  background: ${(props) => (props.background ? props.background : 'white')};
+  height: ${(props) => (props.height ? props.height : '120px')};
+  /* width: ${(props) => (props.width ? props.width : '120px')} */
+  margin-left: 0.6rem;
+  font-size: 12px;
+  padding: ${(props) => (props.padding ? props.padding : '1rem')};
+  border-radius: ${(props) =>
+    props.borderRadius ? props.borderRadius : '4px'};
+
+  flex: 1;
+`;
 export const Divider = styled.div`
   width: 100%;
   height: 1px;
@@ -195,6 +212,11 @@ export const CustomStack = styled(Stack)`
   @media (max-width: 768px) {
     width: 300px;
   }
+`;
+
+export const CustomTab = styled(Tab)`
+  font-size: 12px !important;
+  font-weight: bold !important;
 `;
 
 export const ImageBox = styled.img`

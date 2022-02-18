@@ -6,6 +6,7 @@ import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 import { columnsAppointment, dataAppointments } from '../data';
 
@@ -29,7 +30,7 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
           }}
         >
           <Input placeholder='Search here' label='Search here' size='small' />
-          <div
+          {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -38,7 +39,8 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
           >
             <span>Filer by</span>
             <i className='bi bi-chevron-down'></i>
-          </div>
+          </div> */}
+          <FilterMenu/>
           <SwitchButton />
         </div>
 

@@ -3,6 +3,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import { PageWrapper } from '../../styles';
 
@@ -153,11 +154,10 @@ const BillPrescriptionSent: React.FC<Props> = ({ onRowClicked }) => {
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {dataTree.map((data, index) => (
           <AccordionBox title={data.title} key={index}>
-            <DataTable
+            <CustomTable
               title={data.description}
               columns={columnHead}
               data={data.data}
-              selectableRows
               pointerOnHover
               highlightOnHover
               striped

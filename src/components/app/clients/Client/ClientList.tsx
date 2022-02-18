@@ -7,6 +7,7 @@ import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { ClientMiniSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 
@@ -37,16 +38,8 @@ const Clients: React.FC<Props> = ({
           }}
         >
           <Input placeholder="Search here" label="Search here" size="small" />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+          <FilterMenu />
+
           <SwitchButton />
         </div>
 

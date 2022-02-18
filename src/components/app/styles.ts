@@ -32,7 +32,7 @@ export const DetailsWrapper = styled(AccordionBox)`
   margin-top: 2rem;
 
   & h2 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: bolder;
     padding: 1.2rem 0 2.4rem;
   }
@@ -50,7 +50,7 @@ export const FullDetailsWrapper = styled.div`
   margin-top: 1rem;
 
   & h2 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: bolder;
     padding: 1.2rem 0 2.4rem;
   }
@@ -60,7 +60,8 @@ export const FullDetailsWrapper = styled.div`
   }
 
   &.small {
-    padding: 8px !important;
+    padding: 32px 8px !important;
+    border: 0.1px solid #eee;
   }
 `;
 
@@ -68,7 +69,7 @@ export const GrayWrapper = styled.div`
   background: ${({ theme }) => theme.grayFour};
   border-radius: 4px;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem;
   /* padding-bottom: 30rem; */
   overflow-y: auto;
 

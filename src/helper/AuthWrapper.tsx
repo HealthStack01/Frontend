@@ -16,7 +16,7 @@ const AuthWrapper: React.FC<AuthProps> = ({ paragraph, children }) => {
       left: 0,
     });
     document.title = 'Health Stack - EMR';
-    setTimeout(() => setLoaderTimer(false), 2500);
+    setTimeout(() => setLoaderTimer(false), 1500);
   }, []);
   return (
     <>
