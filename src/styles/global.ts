@@ -37,6 +37,25 @@ export const GlobalStyle = createGlobalStyle`
     margin:0 auto;
 }
 
+h1,h2,h3,h4,h5,h6{
+  padding: 0;margin: 0
+}
+
+h1{ 
+  font-size:32px !important;
+}
+
+h2{ font-size:24px !important;}
+
+
+h4{ font-size:18px !important; font-weight:bold !important}
+
+h5{ font-size:16px !important; font-weight:500 !important}
+
+button{
+  font-size:14px !important;
+  font-weight:600 !important;
+}
 body{
   width:100vw
   height: 100vh;
@@ -52,6 +71,65 @@ label {
 
 p {
   margin:0.6rem 0;
+}
+
+
+/* text editor*/
+.rs-picker-default .rs-picker-toggle.rs-btn {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    width: 282px;
+    position: relative;
+    margin-right: 16px;;
+}
+
+/* picked date align */
+.rs-picker-default .rs-picker-toggle {
+    position: relative;
+    padding-right: 67px;
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    color: #575757;
+    border: 1px solid #e5e5ea;
+    padding-left: 44px;
+    z-index:2000;
+
+}
+/* calander align */
+.rs-picker-toggle-caret {
+    display: inline-block;
+    margin-: 240px;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-weight: 500;
+    color: #8e8e93;
+}
+
+/* ok button style */
+.rs-picker-toolbar-right-btn-ok { 
+    text-align: center; 
+    cursor: pointer;
+    outline: 0 ; 
+    border: none; 
+    padding: 8px 12px; 
+    font-size: 14px; 
+    border-radius: 30px;
+    color: #fff;
+    background-color: #3498ff;
+    width: 100px;
+}
+
+
+.rs-picker-menu .rs-calendar .rs-calendar-table-cell-content {
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 21px;
+    display: inline-block;
+    position: relative;
+    z-index:1000;
+ 
 }
 `;
 

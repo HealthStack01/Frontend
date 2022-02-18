@@ -49,7 +49,7 @@ const FilterMenu = () => {
   }, [open]);
 
   return (
-    <div style={{ position: 'relative', zIndex: '100' }}>
+    <div style={{ position: 'relative', zIndex: '10' }}>
       <label
         ref={anchorRef}
         id="composition-button"

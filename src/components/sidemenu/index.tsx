@@ -157,7 +157,7 @@ function SideMenu() {
   return (
     <Sidemenu className="side-menu">
       <TopSection>
-        <h1>Your Company</h1>
+        <h4>Your Company</h4>
         <i className="bi bi-list" />
       </TopSection>
       <MainMenu className="main-menu">
