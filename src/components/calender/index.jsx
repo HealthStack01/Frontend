@@ -22,21 +22,21 @@ import { makeStyles } from '@mui/styles';
 
 export const appointments = [
   {
-    title: 'Website Re-Design Plan',
+    title: 'Dr Philips - Surgery',
     startDate: '2021-11-05T11:45',
     endDate: '2021-11-05T12:45',
     id: 0,
     location: 'Room 1',
   },
   {
-    title: 'Website Re-Design Plan 2',
+    title: 'Dr Jon - Dentist',
     startDate: '2021-11-05T13:45',
     endDate: '2021-11-05T14:45',
     id: 0,
     location: 'Room 4',
   },
   {
-    title: 'Website Re-Design Plan',
+    title: 'General Checkup',
     startDate: '2021-11-03T09:45',
     endDate: '2021-11-03T12:45',
     id: 0,
@@ -111,7 +111,7 @@ const CalendarGrid = () => {
         <ViewSwitcher />
         <Appointments appointmentComponent={Appointment} />
         <AppointmentTooltip showCloseButton showOpenButton />
-        <AppointmentForm />
+        {/* <AppointmentForm /> */}
       </Scheduler>
     </Paper>
   );

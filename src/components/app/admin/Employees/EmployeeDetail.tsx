@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import { EmployeeSchema } from '../../schema/ModelSchema';
@@ -30,7 +31,7 @@ const EmployeeDetails: React.FC<Props> = ({
           <h2>Employee Details</h2>
           <span>Below are your employee’s details</span>
         </div>
-        <div>
+        <ButtonGroup>
           <Button
             label="Back to List"
             background="#fdfdfd"
@@ -53,7 +54,7 @@ const EmployeeDetails: React.FC<Props> = ({
             icon="bi bi-pen-fill"
             onClick={editBtnClicked}
           />
-        </div>
+        </ButtonGroup>
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>

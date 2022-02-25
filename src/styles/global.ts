@@ -1,4 +1,4 @@
-import { Stack, Tab } from '@mui/material';
+import { Stack, Tab, Tabs } from '@mui/material';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import StatWrapper from '../helper/CardWrapper';
@@ -71,6 +71,7 @@ label {
 
 p {
   margin:0.6rem 0;
+  font-size:0.9rem
 }
 
 
@@ -131,6 +132,23 @@ p {
     z-index:1000;
  
 }
+
+.label-btn{
+    padding:0.5rem 1rem;
+    border-radius:2px;
+    margin-bottom:0.4rem;
+    cursor: pointer;
+    width:100%;
+    font-size:14px;
+    font-weight:medium;
+    transition: all 0.5s ease-in-out;
+    border: 0.1px solid #eee;
+
+  }
+
+.label-btn:hover{
+    background:#f2f2f2;
+  }
 `;
 
 export const Container = styled.div`
@@ -161,6 +179,9 @@ export const Container = styled.div`
       margin-bottom:1rem
     }
   }
+
+  
+  
 `;
 
 export const Text = styled(NavText)`
@@ -243,6 +264,7 @@ export const Stat = styled(StatWrapper)`
 export const AttendWrapper = styled(AttendCard)`
   background: ${(props) => (props.background ? props.background : 'white')};
   height: ${(props) => (props.height ? props.height : '120px')};
+  widtht: ${(props) => (props.width ? props.width : 'auto')};
   /* width: ${(props) => (props.width ? props.width : '120px')} */
   margin-left: 0.6rem;
   font-size: 12px;
@@ -250,7 +272,7 @@ export const AttendWrapper = styled(AttendCard)`
   border-radius: ${(props) =>
     props.borderRadius ? props.borderRadius : '4px'};
 
-  flex: 1;
+  /* flex: 1; */
 `;
 export const Divider = styled.div`
   width: 100%;
@@ -292,24 +314,48 @@ export const CustomStack = styled(Stack)`
   }
 `;
 
+export const CustomTabs = styled(Tabs)`
+  &::-webkit-scrollbar {
+  }
+`;
+
 export const CustomTab = styled(Tab)`
   font-size: 12px !important;
-  font-weight: bold !important;
+  font-weight: 600 !important;
+  padding: 0.4rem !important;
 `;
 
 export const ImageBox = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border-radius: 60px;
 `;
 
 export const FlexBox = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  width: 100%;
 
   &.between {
     justify-content: space-between;
+  }
+
+  &.row {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  & .text {
+    /* text-align: center; */
+    width: 100%;
+    padding: 1rem 2rem;
+  }
+
+  &.left {
+    align-items: flex-start;
+    padding: 1rem 2rem;
   }
 `;
 

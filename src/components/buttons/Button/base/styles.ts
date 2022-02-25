@@ -10,6 +10,8 @@ export const CustomButton = styled(BaseButton)`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap !important;
+  align-items: center;
   padding: 1rem;
   margin: 0 0.2rem;
   border: 0;

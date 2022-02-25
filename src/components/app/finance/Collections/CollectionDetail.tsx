@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import { ButtonGroup } from '../../../../styles/global';
 
 import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
@@ -27,7 +28,7 @@ const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
             <h2>Collection Details</h2>
             <span>Below are your Collection’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
               label="Back to List"
               background="#fdfdfd"
@@ -45,7 +46,7 @@ const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
             >
               Current Balance {row.amount}
             </label>
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper className="two-columns">

@@ -2,7 +2,9 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
+import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 import { columnHead, rowData } from './data';
 
@@ -26,26 +28,21 @@ const Claims: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Claims</h2>
 
       <TableMenu>
-        <div className='inner-table'>
-          <Input placeholder='Search here' label='Search here' />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className='bi bi-chevron-down'></i>
-          </div>
+        <div className="inner-table">
+          <Input placeholder="Search here" label="Search here" size="small" />
+          <FilterMenu />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <DataTable
-          title='Claims'
+        <CustomTable
+          title="Claims"
           columns={columnHead}
           data={rowData}
-          selectableRows
           pointerOnHover
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
-          style={{ overflow: 'hidden' }}
         />
       </div>
     </PageWrapper>

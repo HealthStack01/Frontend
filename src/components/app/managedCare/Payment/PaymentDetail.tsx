@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
@@ -45,14 +46,14 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <h2>Payment Details</h2>
             <span>Below are your payment’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <HeadWrapper>
@@ -73,13 +74,13 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               </label>
             </div>
           </HeadWrapper>
-          <form action=''>
+          <form action="">
             <GridWrapper>
               <CustomSelect
                 options={paymentOptions}
-                name='paymentOptions'
-                label='Payment Options'
-                onChange={e =>
+                name="paymentOptions"
+                label="Payment Options"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -87,9 +88,9 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label='Amount'
-                name='name'
-                onChange={e =>
+                label="Amount"
+                name="name"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -97,9 +98,9 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
                 }
               />
               <Input
-                label='Payment Details'
-                name='description'
-                onChange={e =>
+                label="Payment Details"
+                name="description"
+                onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
@@ -108,7 +109,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               />
             </GridWrapper>
             <BottomWrapper>
-              <Button label='Accept Payment' type='submit' />
+              <Button label="Accept Payment" type="submit" />
             </BottomWrapper>
           </form>
         </FullDetailsWrapper>
@@ -151,15 +152,15 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
             <div>
               <RadioButton
-                title='Type'
+                title="Type"
                 options={typeOptions}
-                onChange={e => setUpdate(e.target.value)}
+                onChange={(e) => setUpdate(e.target.value)}
               />
               {update === 'Part' && (
                 <div>
                   <Input
-                    name='paymentType'
-                    onChange={e =>
+                    name="paymentType"
+                    onChange={(e) =>
                       setValues({
                         ...values,
                         [e.target.name]: e.target.value,
@@ -182,7 +183,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
           </GridWrapper>
           <BottomWrapper>
-            <Button label='Pay' type='submit' />
+            <Button label="Pay" type="submit" />
           </BottomWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

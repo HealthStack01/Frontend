@@ -117,6 +117,19 @@ export const menuItems = [
     ],
   },
   {
+    name: 'Communication',
+    exact: true,
+    to: '/app/communication',
+    iconClassName: 'bi bi-rss',
+    subMenus: [
+      { name: 'Dashboard', to: '/app/communication' },
+      { name: 'Channel', to: '/app/communication/channel' },
+      { name: 'Questionnaires', to: '/app/communication/questionnaires' },
+      { name: 'Submissions', to: '/app/communication/submissions' },
+      { name: 'Input Fields', to: '/app/communication/inputfields' },
+    ],
+  },
+  {
     name: 'Logout',
     exact: true,
     to: '/',

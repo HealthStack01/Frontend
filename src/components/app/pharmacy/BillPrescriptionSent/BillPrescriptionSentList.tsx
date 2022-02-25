@@ -5,6 +5,7 @@ import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -142,13 +143,20 @@ const BillPrescriptionSent: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Bill Prescription Sent</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+          
+          <FilterMenu />
         </div>
+
+        
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>

@@ -7,9 +7,14 @@ export const PageWrapper = styled.div`
   height: calc(100vh - 60px);
   overflow-y: hidden;
   padding: 1.2rem;
+  /* zoom: 85%; */
 
   & span {
     display: inline-block;
+  }
+
+  &.attend-wrapper {
+    display: flex;
   }
 `;
 
@@ -48,6 +53,7 @@ export const FullDetailsWrapper = styled.div`
   padding: 1rem;
   border-radius: 4px;
   margin-top: 1rem;
+  transition: all 0.4s ease-in-out;
 
   & h2 {
     font-size: 1.2rem;
@@ -60,8 +66,30 @@ export const FullDetailsWrapper = styled.div`
   }
 
   &.small {
+    width: 100%;
     padding: 32px 8px !important;
     border: 0.1px solid #eee;
+  }
+
+  &.attend {
+    height: 100%;
+    border: 0.12px solid #f1f1f1;
+    margin-right: 1rem;
+  }
+
+  &.attend-small {
+    flex: 0.2;
+    width: 20%;
+    min-width: 240px;
+  }
+
+  &.attend-medium {
+    flex: 1;
+    /* width: 40%; */
+  }
+
+  &.attend-large {
+    flex: 1.5;
   }
 `;
 

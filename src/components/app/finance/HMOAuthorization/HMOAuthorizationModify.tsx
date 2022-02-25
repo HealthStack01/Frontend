@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ButtonGroup } from '../../../../styles/global';
 
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
@@ -38,7 +39,7 @@ const HMOAuthorizationModify: React.FC<Props> = ({
             <h2>Location Details</h2>
             <span>Below are your location’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
               label="Back to List"
               background="#fdfdfd"
@@ -53,7 +54,7 @@ const HMOAuthorizationModify: React.FC<Props> = ({
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <GridWrapper>
           <Input label="ID" value={values.id} disabled />

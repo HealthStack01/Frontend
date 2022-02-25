@@ -39,8 +39,6 @@ const Clients: React.FC<Props> = ({
         >
           <Input placeholder="Search here" label="Search here" size="small" />
           <FilterMenu />
-
-          <SwitchButton />
         </div>
 
         <Button onClick={handleCreate}>

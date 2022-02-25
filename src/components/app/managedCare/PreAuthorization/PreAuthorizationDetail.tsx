@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import { ButtonGroup } from '../../../../styles/global';
 
 import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
@@ -28,11 +29,11 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
             <h2>PreAuthorzation Details</h2>
             <span>Below are your PreAuthorzation’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button
-              label='Back to List'
-              background='#fdfdfd'
-              color='#333'
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
               onClick={backClick}
             />
             <label
@@ -46,25 +47,25 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
             >
               Current Balance {row.amount}
             </label>
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <GridWrapper className='two-columns'>
-            <AccordionBox defaultExpanded={true} title='Credit'>
+          <GridWrapper className="two-columns">
+            <AccordionBox defaultExpanded={true} title="Credit">
               <CustomTable
                 data={row.credit}
                 columns={columnHead}
-                title='Credit'
+                title="Credit"
                 pointerOnHover
                 highlightOnHover
                 striped
               />
             </AccordionBox>
-            <AccordionBox defaultExpanded={true} title='Debit'>
+            <AccordionBox defaultExpanded={true} title="Debit">
               <CustomTable
                 data={row.debit}
                 columns={columnHead}
-                title='Debit'
+                title="Debit"
                 pointerOnHover
                 highlightOnHover
                 striped
