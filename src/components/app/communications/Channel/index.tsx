@@ -6,7 +6,7 @@ import BillDetails from './BillDetail';
 import Bills from './BillList';
 import BillModify from './BillModify';
 
-const AppBills = () => {
+const AppChannel = () => {
   const { resource, setResource } = useObjectState();
 
   return (
@@ -96,4 +96,4 @@ const AppBills = () => {
   );
 };
 
-export default AppBills;
+export default AppChannel;

@@ -137,7 +137,7 @@ export const menuItems = [
   },
 ];
 
-function SideMenu() {
+function SideMenu({ isOpen }) {
   const [inactive, setInactive] = useState(false);
 
   useEffect(() => {
@@ -168,10 +168,9 @@ function SideMenu() {
   useEffect(() => {}, []);
 
   return (
-    <Sidemenu className="side-menu">
+    <Sidemenu className={`side-menu ${!isOpen ? '' : 'hide'}`}>
       <TopSection>
         <h4>Your Company</h4>
-        <i className="bi bi-list" />
       </TopSection>
       <MainMenu className="main-menu">
         <Lists>

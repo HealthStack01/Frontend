@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 export const Sidemenu = styled.div`
+&.hide{
+    left: -300px;
+    width: 0;
+    padding: 0
+  }
 &.side-menu
   position: fixed;
   top:0;
@@ -13,6 +18,8 @@ export const Sidemenu = styled.div`
   box-sizing: border-box;
   padding: 2rem 1.5rem ;
   transition: width 0.2s ease-in;
+
+  
 
   &.side-menu.inactive {
     width: 80px;

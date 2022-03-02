@@ -6,7 +6,7 @@ export const PageWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   overflow-y: hidden;
-  padding: 1.2rem;
+  padding: 0.6rem 1rem;
   /* zoom: 85%; */
 
   & span {
@@ -15,6 +15,10 @@ export const PageWrapper = styled.div`
 
   &.attend-wrapper {
     display: flex;
+  }
+
+  &.p-1 {
+    padding: 0.2rem;
   }
 `;
 
@@ -50,10 +54,11 @@ export const DetailsWrapper = styled(AccordionBox)`
 export const FullDetailsWrapper = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.neutralwhite};
-  padding: 1rem;
+  padding: 0.55rem;
   border-radius: 4px;
   margin-top: 1rem;
   transition: all 0.4s ease-in-out;
+  overflow-y: scroll;
 
   & h2 {
     font-size: 1.2rem;
@@ -85,6 +90,7 @@ export const FullDetailsWrapper = styled.div`
 
   &.attend-medium {
     flex: 1;
+    max-width: 50%;
     /* width: 40%; */
   }
 
@@ -97,9 +103,9 @@ export const GrayWrapper = styled.div`
   background: ${({ theme }) => theme.grayFour};
   border-radius: 4px;
   height: 100%;
-  padding: 1rem;
+  padding: 1grem;
   /* padding-bottom: 30rem; */
-  overflow-y: auto;
+  overflow-y: scroll;
 
   &.grid {
     display: grid;

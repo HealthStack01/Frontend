@@ -2,12 +2,12 @@ import React from 'react';
 
 import { PageWrapper } from '../styles';
 
-const FinanceDashboard = () => {
+const CommunicationsDashboard = () => {
   return (
     <PageWrapper>
-      <h2>Finance Dashboard</h2>
+      <h2>Communications Dashboard</h2>
     </PageWrapper>
   );
 };
 
-export default FinanceDashboard;
+export default CommunicationsDashboard;

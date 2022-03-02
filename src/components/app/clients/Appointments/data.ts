@@ -8,17 +8,17 @@ export interface DataProps {
 export const columnHead: TableColumn<DataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Name',
-    selector: row => row.name,
+    selector: (row) => row.name,
     sortable: true,
   },
   {
     name: 'Location Type',
-    selector: row => row.locationType,
+    selector: (row) => row.locationType,
     sortable: true,
   },
 ];
@@ -83,32 +83,32 @@ export interface LabDataProps {
 export const columnLab: TableColumn<LabDataProps>[] = [
   {
     name: 'S/N',
-    selector: row => row.id,
+    selector: (row) => row.id,
     sortable: true,
   },
   {
     name: 'Date',
-    selector: row => row.date,
+    selector: (row) => row.date,
     sortable: true,
   },
   {
     name: 'Test',
-    selector: row => row.test,
+    selector: (row) => row.test,
     sortable: true,
   },
   {
     name: 'Fulfilled',
-    selector: row => row.fulfilled,
+    selector: (row) => row.fulfilled,
     sortable: true,
   },
   {
     name: 'Status',
-    selector: row => row.status,
+    selector: (row) => row.status,
     sortable: true,
   },
   {
     name: 'Requesting',
-    selector: row => row.requesting,
+    selector: (row) => row.requesting,
     sortable: true,
   },
 ];
@@ -166,6 +166,76 @@ export const recentData = [
   },
   {
     id: '4',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '5',
+    date: '3 months ago',
+    description:
+      'Appointment Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '6',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '7',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '8',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '9',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '10',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '11',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '12',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '13',
+    date: '3 months ago',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    data: labData,
+  },
+  {
+    id: '14',
     date: '3 months ago',
     description:
       'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',

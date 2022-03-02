@@ -56,6 +56,7 @@ const TabBox = ({
   documents,
   onNewPrescription,
   onNewLabOrder,
+  onOpenTelemedicine,
 }) => {
   const { resource, setResource } = useObjectState();
   console.log(resource);
@@ -84,9 +85,15 @@ const TabBox = ({
         </div>
         <ButtonGroup>
           <Button label="End Encounter" background="#FFE9E9" color="#ED0423" />
+          <Button
+            label={'Start or Join Telemedicine'}
+            background={'#04ed7c'}
+            color={'#fff'}
+            onClick={onOpenTelemedicine}
+          />
 
           <Button
-            label={'Documentation'}
+            label={'New Documentation'}
             background="#Fafafa"
             color="#222"
             showicon={true}
@@ -127,7 +134,7 @@ const TabBox = ({
           </Menu>
         </ButtonGroup>
       </div>
-      <GrayWrapper style={{ marginTop: '10px' }}>
+      <GrayWrapper style={{}}>
         <TabPanel value={valueTab} index={0}>
           <TableMenu>
             <div
