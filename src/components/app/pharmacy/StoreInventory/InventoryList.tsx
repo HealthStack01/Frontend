@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import Input from '../../../inputs/basic/Input';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 import { columnHead, rowData } from './data';
 
@@ -17,12 +18,17 @@ const Inventory: React.FC<Props> = ({ onRowClicked }) => {
       <h2>Inventory</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+
+          <FilterMenu />
         </div>
       </TableMenu>
 

@@ -1,24 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+import CalenderGrid from '../../../calender';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import SwitchButton from '../../../switch';
 import FilterMenu from '../../../utilities/FilterMenu';
-import { ClientMiniSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
+import { columnsAppointment, dataAppointments } from '../data';
 
 interface Props {
   handleCreate?: () => void;
   onRowClicked?: (row: any, event: any) => void;
-  items: any[];
-  handleSearch: (_) => void;
 }
 
-const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
+const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+  const [listView, setListView] = useState(true);
   return (
     <PageWrapper>
-      <h2> Client </h2>
+      <h2>Appointments </h2>
 
       <TableMenu>
         <div
@@ -31,6 +32,7 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
         >
           <Input placeholder="Search here" label="Search here" size="small" />
           <FilterMenu />
+          <SwitchButton onClick={() => setListView(!listView)} />
         </div>
 
         <Button onClick={handleCreate}>
@@ -39,18 +41,21 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <CustomTable
-          title="Clients"
-          columns={ClientMiniSchema}
-          data={items}
-          pointerOnHover
-          highlightOnHover
-          onRowClicked={onRowClicked}
-          striped
-        />
+        {listView ? (
+          <CustomTable
+            columns={columnsAppointment}
+            data={dataAppointments}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={onRowClicked}
+          />
+        ) : (
+          <CalenderGrid />
+        )}
       </div>
     </PageWrapper>
   );
 };
 
-export default Clients;
+export default Appointments;

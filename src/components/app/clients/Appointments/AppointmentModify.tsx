@@ -1,5 +1,7 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
 import { AppointmentSchema, Schema } from '../../schema';
@@ -16,7 +18,7 @@ const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
             <h2>Appointment Details</h2>
             <span>Below are your Appointment's details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Cancel Editing'}
@@ -26,7 +28,7 @@ const AppointmentModify = ({ cancelEditClicked, row, backClick, onSubmit }) => {
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <GridWrapper>

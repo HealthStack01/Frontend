@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { EmployeeSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
@@ -12,7 +13,7 @@ const EmployeeDetails = ({ editBtnClicked, row, backClick, handleDelete }) => (
           <h2>Employee Details</h2>
           <span>Below are your employee’s details</span>
         </div>
-        <div>
+        <ButtonGroup>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           <Button
             label="Delete"
@@ -30,7 +31,7 @@ const EmployeeDetails = ({ editBtnClicked, row, backClick, handleDelete }) => (
             icon="bi bi-pen-fill"
             onClick={editBtnClicked}
           />
-        </div>
+        </ButtonGroup>
       </HeadWrapper>
       <FullDetailsWrapper>
         <GridWrapper>

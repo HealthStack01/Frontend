@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Breadcrumbs from '../breadcrumb';
+import DateRange from '../inputs/DateRange';
 import { Avatar, Profile, TopMenuWrapper } from './styles';
 // import { avatar } from '../../assets/images/img_avatar.png';
 
@@ -9,6 +10,8 @@ function TopMenu() {
     <TopMenuWrapper>
       <Breadcrumbs />
       <Profile>
+        <DateRange />
+
         <span>
           @workspace.com
           {/* Pass employee location context */}

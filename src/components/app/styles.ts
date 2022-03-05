@@ -10,9 +10,14 @@ export const PageWrapper = styled.div`
   height: calc(100vh - 60px);
   overflow-y: hidden;
   padding: 1.2rem;
+  /* zoom: 85%; */
 
   & span {
     display: inline-block;
+  }
+
+  &.attend-wrapper {
+    display: flex;
   }
 `;
 
@@ -35,7 +40,7 @@ export const DetailsWrapper = styled(AccordionBox)`
   margin-top: 2rem;
 
   & h2 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: bolder;
     padding: 1.2rem 0 2.4rem;
   }
@@ -51,9 +56,10 @@ export const FullDetailsWrapper = styled.div`
   padding: 2rem;
   border-radius: 4px;
   margin-top: 1rem;
+  transition: all 0.4s ease-in-out;
 
   & h2 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: bolder;
     padding: 1.2rem 0 2.4rem;
   }
@@ -63,7 +69,30 @@ export const FullDetailsWrapper = styled.div`
   }
 
   &.small {
-    padding: 8px !important;
+    width: 100%;
+    padding: 32px 8px !important;
+    border: 0.1px solid #eee;
+  }
+
+  &.attend {
+    height: 100%;
+    border: 0.12px solid #f1f1f1;
+    margin-right: 1rem;
+  }
+
+  &.attend-small {
+    flex: 0.2;
+    width: 20%;
+    min-width: 240px;
+  }
+
+  &.attend-medium {
+    flex: 1;
+    /* width: 40%; */
+  }
+
+  &.attend-large {
+    flex: 1.5;
   }
 `;
 
@@ -71,7 +100,8 @@ export const GrayWrapper = styled.div`
   background: ${({ theme }) => 'theme.grayFour'};
   border-radius: 4px;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem;
+  /* padding-bottom: 30rem; */
   overflow-y: auto;
 
   &.grid {

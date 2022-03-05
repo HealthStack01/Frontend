@@ -19,7 +19,6 @@ const CollapsableGrid: React.FC<Props> = ({ title, description, rowData, columnH
         <AccordionBox title={description}>
           {table && (
             <CustomTable
-              title={description}
               columns={columnHead}
               data={rowData}
               pointerOnHover

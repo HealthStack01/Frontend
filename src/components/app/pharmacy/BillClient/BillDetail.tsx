@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
@@ -18,7 +19,7 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
             <h2>Bill Details</h2>
             <span>Below are your Bill’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Delete'}
@@ -36,7 +37,7 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>

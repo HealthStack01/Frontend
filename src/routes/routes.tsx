@@ -4,6 +4,7 @@ import AdminDashboard from '../components/app/admin/AdminDashboard';
 import AppBands from '../components/app/admin/Bands';
 import AppEmployees from '../components/app/admin/Employees';
 import AppLocation from '../components/app/admin/Locations';
+import AppClinic from '../components/app/clients/Appointments';
 import AppAppointment from '../components/app/clients/Appointments/';
 import AppClient from '../components/app/clients/Client';
 import ClientDashboard from '../components/app/clients/ClientDashboard';
@@ -51,6 +52,7 @@ function AppRoutes() {
           {/* Clients */}
           <Route path="/app/clients" element={<ClientDashboard />} />
           <Route path="/app/clients/appointments" element={<AppAppointment />} />
+          <Route path="/app/clients/appointments" element={<AppClinic />} />
           <Route path="/app/clients/clients" element={<AppClient />} />
 
           {/* Admin */}

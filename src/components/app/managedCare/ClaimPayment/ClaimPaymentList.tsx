@@ -4,6 +4,7 @@ import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 import { columnHead, dataTree } from './data';
 
@@ -20,16 +21,7 @@ const ClaimPayments: React.FC<Props> = ({ onRowClicked }) => {
       <TableMenu>
         <div className="inner-table">
           <Input placeholder="Search here" label="Search here" size="small" />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+          <FilterMenu />
         </div>
       </TableMenu>
 

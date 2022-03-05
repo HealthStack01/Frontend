@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
@@ -21,7 +22,7 @@ const ClaimsDetails: React.FC<Props> = ({ row, backClick }) => {
             <h2>Claims Details</h2>
             <span>Below are your Claims’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <label
               style={{
@@ -34,7 +35,7 @@ const ClaimsDetails: React.FC<Props> = ({ row, backClick }) => {
             >
               Current Balance {row.amount}
             </label>
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper className="two-columns">

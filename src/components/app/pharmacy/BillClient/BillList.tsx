@@ -5,6 +5,7 @@ import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -103,17 +104,23 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   return (
     <PageWrapper>
       <h2>Bill Client </h2>
-
       <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+        <div
+          className="inner-table"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+          }}
+        >
+          <Input placeholder="Search here" label="Search here" size="small" />
+
+          <FilterMenu />
         </div>
 
-        <Button label="Add new" onClick={handleCreate} />
+        <Button onClick={handleCreate}>
+          <i className="bi bi-plus-circle"></i> Add new
+        </Button>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>

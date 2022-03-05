@@ -42,6 +42,7 @@ interface ObjectContextProps {
   storyInventoryResource: { show: string; selectedStoreInventory: {} };
   productEntryResource: { show: string; selectedProductEntry: {} };
   posResource: { show: string; selectedPOS: {} };
+  selectedDocumentation: string;
 }
 
 const objectDefaultValues: ObjectContextProps = {
@@ -124,6 +125,7 @@ const objectDefaultValues: ObjectContextProps = {
     show: 'lists',
     selectedPOS: {},
   },
+  selectedDocumentation: '',
 };
 
 export const UserContext = createContext<UserContextProps>(userDefaultValues);

@@ -5,7 +5,7 @@ import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
-import SwitchButton from '../../../switch';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -124,17 +124,7 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             onChange={(e) => handleSearch(e.target.value)}
           /> */}
 
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
+          <FilterMenu />
         </div>
 
         <Button onClick={handleCreate}>

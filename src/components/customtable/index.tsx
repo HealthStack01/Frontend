@@ -9,6 +9,7 @@ interface Props {
   highlightOnHover?: boolean;
   striped?: boolean;
   onRowClicked?: (row: any, event: any) => void;
+  dense?: boolean;
 }
 
 const customStyles = {
@@ -67,6 +68,7 @@ const CustomTable: React.FC<Props> = ({
   pointerOnHover = true,
   highlightOnHover = true,
   striped = true,
+  dense = false,
 }) => {
   return (
     <DataTable
@@ -80,8 +82,10 @@ const CustomTable: React.FC<Props> = ({
       onRowClicked={onRowClicked}
       fixedHeader={true}
       fixedHeaderScrollHeight="100%"
+      responsive
+      dense={dense}
       style={{
-        overflow: 'hidden',
+        width: '100%',
       }}
     />
   );

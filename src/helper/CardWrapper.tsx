@@ -10,6 +10,9 @@ interface CardWrapperProps {
   maxWidth?: string;
   margingBottom?: string;
   padding?: string;
+  height?: string;
+  width?: string;
+  border?: string;
 }
 
 const CardWrapper: React.FC<CardWrapperProps> = ({ children, className }) => (

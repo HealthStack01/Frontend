@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
@@ -37,9 +38,9 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <h2>Payment Details</h2>
             <span>Below are your payment’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <HeadWrapper>

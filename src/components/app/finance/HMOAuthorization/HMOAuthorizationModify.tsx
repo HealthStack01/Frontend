@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -28,7 +29,7 @@ const HMOAuthorizationModify: React.FC<Props> = ({ cancelEditClicked, row, backC
             <h2>Location Details</h2>
             <span>Below are your location’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Cancel Editing'}
@@ -38,7 +39,7 @@ const HMOAuthorizationModify: React.FC<Props> = ({ cancelEditClicked, row, backC
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <GridWrapper>
           <Input label="ID" value={values.id} disabled />
