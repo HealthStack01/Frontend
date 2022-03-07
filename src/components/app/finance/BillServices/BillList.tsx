@@ -3,13 +3,18 @@ import { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+import AccordionBox from '../../../accordion';
+import DataTable from 'react-data-table-component';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
+import { BillServiceSchema } from '../../schema/ModelSchema';
 
 interface Props {
   handleCreate?: () => void;
+  handleSearch: (_event) => void;
+  dataTree: any[];
   onRowClicked?: (
     row: {
       id: any;
@@ -30,77 +35,9 @@ export interface DataProps {
   amount: string;
 }
 
-export const rowData = [
-  {
-    id: 1,
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
-    amount: '5000',
-  },
-  {
-    id: 2,
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
-    amount: '5000',
-  },
-  {
-    id: 3,
-    date: '2022-01-20 19:45',
-    description: 'lorem',
-    status: 'unpaid',
-    amount: '5000',
-  },
-];
 
-const dataTree = [
-  {
-    title: 'Ada Chris',
-    description: 'Prescription of one unpaid bill(s)',
-    data: rowData,
-  },
-  {
-    title: 'John Doela Pat',
-    description: 'Prescription of one unpaid bill(s)',
-    data: rowData,
-  },
-  {
-    title: 'Simpa E Dania',
-    description: 'Prescription of one unpaid bill(s)',
-    data: rowData,
-  },
-];
 
-export const columnHead: TableColumn<DataProps>[] = [
-  {
-    name: 'S/N',
-    selector: (row) => row.id,
-    sortable: true,
-  },
-  {
-    name: 'Date',
-    selector: (row) => row.date,
-    sortable: true,
-  },
-  {
-    name: 'Description',
-    selector: (row) => row.description,
-    sortable: true,
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-  },
-  {
-    name: 'Amount',
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-];
-
-const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch,dataTree }) => {
   return (
     <PageWrapper>
       <h2>Bill Services</h2>
@@ -114,7 +51,7 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <Input placeholder="Search here" label="Search here" size="small" onChange={(e) => handleSearch(e.target.value)} />
           <div
             style={{
               display: 'flex',
@@ -133,15 +70,30 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
         </Button>
       </TableMenu>
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        {dataTree.map((data, index) => (
-          <CollapsableGrid
-            key={index}
-            columnHead={columnHead}
-            description={data.description}
-            title={data.title}
-            rowData={data.data}
-            onRowClicked={onRowClicked}
-          />
+         {dataTree.map((data, index) => (
+          <AccordionBox title={data.clientname} key={index}>
+            {data.bills.map((child, index) => {
+              console.log(child.order.length);
+
+              return (
+                <AccordionBox
+                  key={index}
+                  title={`${child.catName} with ${child.order.length} Unpaid bills`}
+                >
+                  <DataTable
+                    title={`${child.catName} with ${child.order.length} Unpaid bills`}
+                    columns={BillServiceSchema}
+                    data={child.order}
+                    selectableRows
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={onRowClicked}
+                  />
+                </AccordionBox>
+              );
+            })}
+          </AccordionBox>
         ))}
       </div>
     </PageWrapper>

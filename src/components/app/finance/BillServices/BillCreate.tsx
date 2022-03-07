@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-
+import { BillServiceCreateSchema, Schema } from '../../schema';
+import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
+import DynamicInput from '../../DynamicInput';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
 }
 
-const BillCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
+const BillCreate: React.FC<Props> = ({ backClick, onSubmit}) => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      client: '',
+    },
+  });
 
   return (
     <PageWrapper>
@@ -22,63 +29,43 @@ const BillCreate: React.FC<Props> = ({ backClick }) => {
           </div>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
             <GridWrapper>
-              <Input
-                label="Search for Client"
-                name="clientSearch"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <CustomSelect
-                label="Choose a Billing Mode"
-                name="billingMode"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-                options={['Mode 1', 'Mode 2']}
-              />
+            
+            {BillServiceCreateSchema.map((obj, index) => {
+              if (obj['length']) {
+                const schemas = obj as Schema[];
 
-              <Input
-                name="datetime"
-                type="datetime-local"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Phone Number"
-                name="phoneNumber"
-                type="tel"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-
-              <Input
-                label="Choose a Service Item"
-                name="chooseServiceItem"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+                return (
+                  <GridWrapper className="subgrid two-columns" key={index}>
+                    {schemas.map((schema) => (
+                      <DynamicInput
+                        key={index}
+                        name={schema.key}
+                        control={control}
+                        label={schema.description}
+                        inputType={schema.inputType}
+                        options={schema.options || []}
+                      />
+                    ))}
+                  </GridWrapper>
+                );
+              } else {
+                const schema = obj as Schema;
+                return (
+                  <DynamicInput
+                    key={index}
+                    name={schema.key}
+                    control={control}
+                    label={schema.description}
+                    inputType={schema.inputType}
+                    options={schema.options || []}
+                  />
+                );
+              }
+            })}
+          
             </GridWrapper>
           </DetailsWrapper>
 
