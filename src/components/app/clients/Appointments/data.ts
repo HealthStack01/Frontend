@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;

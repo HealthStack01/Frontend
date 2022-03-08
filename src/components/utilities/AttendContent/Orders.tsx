@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+
 import { TableMenu } from '../../../styles/global';
 import { FullDetailsWrapper, PageWrapper } from '../../app/styles';
-// import { columnLab, labData } from '../../app/clients/Appointments/data';
 import Button from '../../buttons/Button';
 import CustomTable from '../../customtable';
 import Input from '../../inputs/basic/Input';
@@ -21,13 +21,7 @@ const Orders = ({ onClick: _onClick, columns, data }) => {
 
           <Button label="Add new" onClick={() => setOpen(true)} />
         </TableMenu>
-        <CustomTable
-          columns={columns}
-          data={data}
-          pointerOnHover
-          highlightOnHover
-          striped
-        />
+        <CustomTable columns={columns} data={data} pointerOnHover highlightOnHover striped />
       </FullDetailsWrapper>
       {open && (
         <FullDetailsWrapper className="attend attend-medium">
