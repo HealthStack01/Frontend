@@ -10,9 +10,10 @@ import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, P
 interface Props {
   backClick: () => void;
   onSubmit: (_data, _event) => void;
+  invoice:any
 }
 
-const BillCreate: React.FC<Props> = ({ backClick, onSubmit}) => {
+const BillCreate: React.FC<Props> = ({ backClick, onSubmit, invoice}) => {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       client: '',
@@ -46,7 +47,7 @@ const BillCreate: React.FC<Props> = ({ backClick, onSubmit}) => {
                         control={control}
                         label={schema.description}
                         inputType={schema.inputType}
-                        options={schema.options || []}
+                        options={schema.options || {invoice}}
                       />
                     ))}
                   </GridWrapper>
@@ -60,7 +61,7 @@ const BillCreate: React.FC<Props> = ({ backClick, onSubmit}) => {
                     control={control}
                     label={schema.description}
                     inputType={schema.inputType}
-                    options={schema.options || []}
+                    options={schema.options || {invoice}}
                   />
                 );
               }

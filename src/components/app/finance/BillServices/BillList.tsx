@@ -73,7 +73,7 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch,dataT
          {dataTree.map((data, index) => (
           <AccordionBox title={data.clientname} key={index}>
             {data.bills.map((child, index) => {
-              console.log(child.order.length);
+             
 
               return (
                 <AccordionBox

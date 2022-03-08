@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import DynamicInput from '../../DynamicInput';
+import { BillServiceSchema } from '../../schema/ModelSchema';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -19,16 +26,14 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
             <h2>Bill Details</h2>
             <span>Below are your Bill’s details</span>
           </div>
-          <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <div>
             <Button
-              label={'Delete'}
-              background="#FFE9E9"
-              color="#ED0423"
-              showicon={true}
-              icon="bi bi-pen-fill"
-              onClick={editBtnClicked}
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
             />
+           
             <Button
               label={'Edit Details'}
               background={'#ECF3FF'}
@@ -37,32 +42,16 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-          </ButtonGroup>
+          </div>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-
-            <div>
-              <label>Date</label>
-              <p>{row.date}</p>
-            </div>
-
-            <div>
-              <label>Bill Service Description</label>
-              <p>{row.description}</p>
-            </div>
-            <div>
-              <label>Bill Status</label>
-              <p>{row.status}</p>
-            </div>
-            <div>
-              <label>Bill Amount</label>
-              <p>{row.amount}</p>
-            </div>
+            {BillServiceSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

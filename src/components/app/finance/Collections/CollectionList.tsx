@@ -6,9 +6,12 @@ import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
 import { PageWrapper } from '../../styles';
 import { columnHead, rowData } from './data';
+import {CollectionSchema} from '../../schema/ModelSchema'
 
 interface Props {
   handleCreate?: () => void;
+  handleSearch: (_event) => void;
+  items: any[];
   onRowClicked?: (
     row: {
       id: any;
@@ -21,7 +24,7 @@ interface Props {
   ) => void;
 }
 
-const Collections: React.FC<Props> = ({ onRowClicked }) => {
+const Collections: React.FC<Props> = ({ onRowClicked , handleSearch,items}) => {
   return (
     <PageWrapper>
       <h2>Collections</h2>
@@ -34,7 +37,7 @@ const Collections: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <Input placeholder="Search here" label="Search here" size="small"  onChange={(e) => handleSearch(e.target.value)} />
           <div
             style={{
               display: 'flex',
@@ -52,8 +55,8 @@ const Collections: React.FC<Props> = ({ onRowClicked }) => {
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <CustomTable
           title="Collections"
-          columns={columnHead}
-          data={rowData}
+          columns={CollectionSchema}
+          data={items}
           pointerOnHover
           highlightOnHover
           striped

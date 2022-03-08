@@ -17,6 +17,9 @@ const AppBills = () => {
   const { resource, setResource } = useObjectState();
   const [patient, setPatient] = useState('');
   const [source, setSource] = useState('');
+  const [documentNo,setDocumentNo] = useState("")
+  // var random = require('random-string-generator');
+  // const invoiceNo= random(6,'uppernumeric')
 
 
   const getSearchFacility1 =  (person) => {
@@ -104,17 +107,19 @@ const AppBills = () => {
       data.facility = user.employeeData[0].facility;
     }
     (data._id ? BillCreateServ.update(data._id, data) :BillCreateServ.create(data))
-      .then(() => {
+      .then((res) => {
+        console.log(res)
         toast(`Location ${values.message}`);
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
+        console.log(err)
       });
   };
 
    useEffect(() => {
     getSearchFacility1(resource.billServicesResource.selectedBillService);
-    
+
     console.log(resource.billServicesResource.selectedBillService);
     
     return () => {};
@@ -176,6 +181,7 @@ const AppBills = () => {
             }))
           }
           onSubmit={onSubmit}
+          invoice={documentNo}
         />
       )}
       {resource.billServicesResource.show === 'details' && (
