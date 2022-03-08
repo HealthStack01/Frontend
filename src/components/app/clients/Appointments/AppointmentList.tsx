@@ -5,6 +5,7 @@ import Button from '../../../buttons/Button';
 import CalenderGrid from '../../../calender';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
+import DateRange from '../../../inputs/DateRange';
 import SwitchButton from '../../../switch';
 import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
@@ -43,6 +44,8 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             <i className='bi bi-chevron-down'></i>
           </div> */}
           <FilterMenu />
+          <DateRange />
+
           <SwitchButton onClick={() => setListView(!listView)} />
         </div>
 

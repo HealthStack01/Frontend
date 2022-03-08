@@ -22,8 +22,6 @@ function TopMenu({ isOpen, handleClick }) {
         <Breadcrumbs />
       </div>
       <Profile>
-        <DateRange />
-
         <span>
           @workspace.com
           {/* Pass employee location context */}

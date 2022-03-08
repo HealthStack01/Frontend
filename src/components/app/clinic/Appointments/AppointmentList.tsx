@@ -44,6 +44,8 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             <i className='bi bi-chevron-down'></i>
           </div> */}
           <FilterMenu />
+          <DateRange />
+
           <SwitchButton onClick={() => setListView(!listView)} />
         </div>
 

@@ -103,7 +103,7 @@ export const GrayWrapper = styled.div`
   background: ${({ theme }) => theme.grayFour};
   border-radius: 4px;
   height: 100%;
-  padding: 1grem;
+  padding: 1rem;
   /* padding-bottom: 30rem; */
   overflow-y: scroll;
 
