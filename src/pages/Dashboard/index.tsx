@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { LayoutContent, LayoutWrapper } from '../../components/layout/styles';
@@ -13,11 +13,13 @@ const Dashboard: React.FC = ({ children }) => {
     });
     document.title = 'Health Stack - Dashboard';
   }, []);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <LayoutWrapper>
-      <SideMenu />
+      <SideMenu isOpen={isOpen} />
       <LayoutContent>
-        <TopMenu />
+        <TopMenu isOpen={isOpen} handleClick={() => setIsOpen(!isOpen)} />
         <div className="layout__content-main">
           {children}
           <Outlet />

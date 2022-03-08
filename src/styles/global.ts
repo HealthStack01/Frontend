@@ -51,6 +51,8 @@ h2{ font-size:24px !important;}
 h4{ font-size:18px !important; font-weight:bold !important}
 
 h5{ font-size:16px !important; font-weight:500 !important}
+h6{ font-size:12px !important; font-weight:700 !important}
+
 
 button{
   font-size:14px !important;
@@ -266,6 +268,12 @@ export const Stat = styled(StatWrapper)`
   }
 `;
 
+export const UserWrapper = styled.div`
+  display: flex;
+  justifycontent: flex-start;
+  overflow: auto;
+`;
+
 export const AttendWrapper = styled(AttendCard)`
   background: ${(props) => (props.background ? props.background : 'white')};
   height: ${(props) => (props.height ? props.height : '120px')};
@@ -288,7 +296,7 @@ export const Divider = styled.div`
 export const TableMenu = styled.div`
   width: 100%;
   height: 60px;
-  margin: 2rem 0 1rem;
+  margin: 0rem 0 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -354,12 +362,16 @@ export const FlexBox = styled.div`
   & .text {
     /* text-align: center; */
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 0.4rem 1rem;
   }
 
   &.left {
     align-items: flex-start;
-    padding: 1rem 2rem;
+    padding: 1rem;
+  }
+
+  &.align-left {
+    align-items: flex-start;
   }
 `;
 

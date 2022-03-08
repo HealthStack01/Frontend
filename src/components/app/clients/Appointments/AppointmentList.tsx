@@ -4,6 +4,7 @@ import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CalenderGrid from '../../../calender';
 import CustomTable from '../../../customtable';
+import DateRange from '../../../inputs/DateRange';
 import SwitchButton from '../../../switch';
 import FilterMenu from '../../../utilities/FilterMenu';
 import DebouncedInput from '../../DebouncedInput';
@@ -37,6 +38,8 @@ const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
             <i className="bi bi-chevron-down"></i>
           </div>
           <FilterMenu />
+          <DateRange />
+
           <SwitchButton onClick={() => setListView(!listView)} />
         </div>
 

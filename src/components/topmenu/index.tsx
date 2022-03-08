@@ -5,13 +5,23 @@ import DateRange from '../inputs/DateRange';
 import { Avatar, Profile, TopMenuWrapper } from './styles';
 // import { avatar } from '../../assets/images/img_avatar.png';
 
-function TopMenu() {
+function TopMenu({ isOpen, handleClick }) {
   return (
     <TopMenuWrapper>
-      <Breadcrumbs />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span
+          onClick={handleClick}
+          style={{
+            fontSize: '1.2rem',
+            marginRight: '1rem',
+            fontWeight: 'bold',
+          }}
+        >
+          {!isOpen ? <i className="bi bi-x"></i> : <i className="bi bi-list" />}
+        </span>
+        <Breadcrumbs />
+      </div>
       <Profile>
-        <DateRange />
-
         <span>
           @workspace.com
           {/* Pass employee location context */}

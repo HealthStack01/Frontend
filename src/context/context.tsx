@@ -43,6 +43,7 @@ interface ObjectContextProps {
   productEntryResource: { show: string; selectedProductEntry: {} };
   posResource: { show: string; selectedPOS: {} };
   selectedDocumentation: string;
+  channelResource: { show: string; selectedChannel: {} };
 }
 
 const objectDefaultValues: ObjectContextProps = {
@@ -125,7 +126,15 @@ const objectDefaultValues: ObjectContextProps = {
     show: 'lists',
     selectedPOS: {},
   },
+
+  // Selected Documentation
   selectedDocumentation: '',
+
+  // Communications
+  channelResource: {
+    show: 'lists',
+    selectedChannel: {},
+  },
 };
 
 export const UserContext = createContext<UserContextProps>(userDefaultValues);

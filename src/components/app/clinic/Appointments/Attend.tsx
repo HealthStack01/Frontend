@@ -13,6 +13,7 @@ const Attend = ({ row: _row, backClick: _bc }) => {
   const [valueTab, setValueTab] = useState(0);
 
   const [open, setOpen] = useState(false);
+  const [openTel, setOpenTel] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openBtn = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,7 +31,7 @@ const Attend = ({ row: _row, backClick: _bc }) => {
     <PageWrapper className="attend-wrapper">
       <UserBox />
       <FullDetailsWrapper className="attend attend-large">
-        <InfoBox />
+        {openTel && <iframe width="100%" />}
         <TabBox
           valueTab={valueTab}
           onChange={onChange}
@@ -49,6 +50,7 @@ const Attend = ({ row: _row, backClick: _bc }) => {
             setOpen(true);
           }}
           documents={documents}
+          onOpenTelemedicine={() => setOpenTel(!openTel)}
         />
       </FullDetailsWrapper>
       {open && (

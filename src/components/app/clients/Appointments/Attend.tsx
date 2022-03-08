@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { ObjectContext } from '../../../../context/context';
 import useRepository from '../../../hooks';
 import Document from '../../../utilities/AttendContent/FormBox';
-import InfoBox from '../../../utilities/AttendContent/InfoBox';
 import TabBox from '../../../utilities/AttendContent/TabBox';
 import UserBox from '../../../utilities/AttendContent/UserBox';
 import { Models } from '../../Constants';
@@ -21,7 +20,8 @@ const documents = ['Clinical Note', 'Lab Result', 'Doctor Note', 'Nursing Note',
 const Attend = ({ row: _, backClick: __ }) => {
   const [valueTab, setValueTab] = useState(0);
 
-  const [, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openTel, setOpenTel] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openBtn = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -188,7 +188,7 @@ const Attend = ({ row: _, backClick: __ }) => {
     <PageWrapper className="attend-wrapper">
       <UserBox />
       <FullDetailsWrapper className="attend attend-large">
-        <InfoBox />
+        {openTel && <iframe width="100%" />}
         <TabBox
           valueTab={valueTab}
           onChange={onChange}
@@ -207,6 +207,7 @@ const Attend = ({ row: _, backClick: __ }) => {
             setOpen(true);
           }}
           documents={documents}
+          onOpenTelemedicine={() => setOpenTel(!openTel)}
         />
       </FullDetailsWrapper>
       {open && (

@@ -3,6 +3,7 @@ import React from 'react';
 import { FlexBox, ImageBox } from '../../../styles/global';
 import { FullDetailsWrapper } from '../../app/styles';
 import Button from '../../buttons/Button';
+import InfoBox from './InfoBox';
 import MiscBox from './MiscBox';
 
 const UserBox = () => {
@@ -23,6 +24,7 @@ const UserBox = () => {
             <Button label="Bill Client" />
           </div>
         </FlexBox>
+        <InfoBox />
 
         <MiscBox />
       </FullDetailsWrapper>

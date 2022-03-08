@@ -6,15 +6,16 @@ export const CustomButton = styled(BaseButton)`
   width: ${(props) => (props.fullwidth ? '100%' : 'auto')};
   color: ${(props) => (props.color ? props.color : '#FFF')};
   background: ${(props) => (props.background ? props.background : '#0364FF')};
-  height: 40px;
+  max-height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap !important;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem 0.6rem;
   margin: 0 0.2rem;
   border: 0;
+  font-size: 80%;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
@@ -25,5 +26,8 @@ export const CustomButton = styled(BaseButton)`
 
   & i {
     padding-right: 10px;
+  }
+  & span {
+    
   }
 `;

@@ -146,25 +146,29 @@ export const recentData = [
   {
     id: '1',
     date: '3 months ago',
-    description: 'Appointment Orders by test test at Cashier 1 Finance,Test Facility completed',
+    description:
+      'Appointment Orders by test test at Cashier 1 Finance,Test Facility completed',
     data: labData,
   },
   {
     id: '2',
     date: '3 months ago',
-    description: 'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
     data: labData,
   },
   {
     id: '3',
     date: '3 months ago',
-    description: 'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
     data: labData,
   },
   {
     id: '4',
     date: '3 months ago',
-    description: 'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
+    description:
+      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
     data: labData,
   },
   {
@@ -190,48 +194,6 @@ export const recentData = [
   },
   {
     id: '8',
-    date: '3 months ago',
-    description:
-      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
-    data: labData,
-  },
-  {
-    id: '9',
-    date: '3 months ago',
-    description:
-      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
-    data: labData,
-  },
-  {
-    id: '10',
-    date: '3 months ago',
-    description:
-      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
-    data: labData,
-  },
-  {
-    id: '11',
-    date: '3 months ago',
-    description:
-      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
-    data: labData,
-  },
-  {
-    id: '12',
-    date: '3 months ago',
-    description:
-      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
-    data: labData,
-  },
-  {
-    id: '13',
-    date: '3 months ago',
-    description:
-      'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
-    data: labData,
-  },
-  {
-    id: '14',
     date: '3 months ago',
     description:
       'Billed Orders by test test at Cashier 1 Finance,Test Facility completed',
