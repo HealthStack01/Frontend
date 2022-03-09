@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BillServiceCreateSchema, Schema } from '../../schema';
 import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import DynamicInput from '../../DynamicInput';
-import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
   onSubmit: (_data, _event) => void;
-  invoice:any
+  invoice:any;
 }
 
 const BillCreate: React.FC<Props> = ({ backClick, onSubmit, invoice}) => {
