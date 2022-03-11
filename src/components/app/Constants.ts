@@ -19,6 +19,9 @@ const Models = {
 
 const DateFormats = {
   SHORT_DATE: 'dd-MM-yy',
+  // eslint-disable-next-line quotes
+  API_DATE: "yyyy-MM-dd'T'HH:mm:ss",
+  CONTROL_DATE_TIME: 'MM/dd/yyyy hh:mm:ss aa',
 };
 
 export { DateFormats, Models, Views };

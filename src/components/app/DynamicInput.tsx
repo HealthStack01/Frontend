@@ -9,6 +9,8 @@ import RadioButton from '../inputs/basic/Radio';
 import CustomSelect from '../inputs/basic/Select';
 import Textarea from '../inputs/basic/Textarea';
 import AutoSuggestInput from './AutoSuggestInput';
+import { DateFormats } from './Constants';
+import { toAPIDate } from './DateUtils';
 import { InputType } from './schema/util';
 
 const DynamicInput = (props) => {
@@ -45,7 +47,9 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <Textarea ref={ref} {...field} label={label} errorText={errors[name]?.message} />}
+        render={({ field: { ref: _re, ...field } }) => (
+          <Textarea {...field} label={label} errorText={errors[name]?.message} />
+        )}
       />
     );
   }
@@ -55,7 +59,7 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <RadioButton ref={ref} {...field} title={label} options={options} />}
+        render={({ field: { ref: _re, ...field } }) => <RadioButton {...field} title={label} options={options} />}
       />
     );
   }
@@ -65,8 +69,8 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
-          <CustomSelect ref={ref} {...field} label={label} options={options} errorText={errors[name]?.message} />
+        render={({ field: { ref: _re, ...field } }) => (
+          <CustomSelect {...field} label={label} options={options} errorText={errors[name]?.message} />
         )}
       />
     );
@@ -94,7 +98,8 @@ const DynamicInput = (props) => {
           <DateTimePicker
             {...field}
             label={label}
-            inputFormat="MM/dd/yyyy hh:mm:ss aa"
+            onChange={(value) => field.onChange({ target: { value: toAPIDate(value) } })}
+            inputFormat={DateFormats.CONTROL_DATE_TIME}
             renderInput={(params) => <TextField ref={ref} {...params} error={errors[name]?.message} />}
           />
         )}
@@ -107,9 +112,7 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
-          <AutoSuggestInput ref={ref} control={control} label={label} options={options} {...field} />
-        )}
+        render={({ field: { ref: _re, ...field } }) => <AutoSuggestInput label={label} options={options} {...field} />}
       />
     );
   }

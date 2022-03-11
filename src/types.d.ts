@@ -1,2 +1,2 @@
-type Dictionary = { [key: string]: any };
-type DictionaryOf<T> = { [key: string]: T };
+export type Dictionary = { [key: string]: any };
+export type DictionaryOf<T> = { [key: string]: T };

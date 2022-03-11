@@ -1,8 +1,7 @@
 import { makeStyles } from '@mui/styles';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { defaultTheme } from 'react-autosuggest/dist/theme';
-import { Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import client from '../../feathers';
@@ -79,12 +78,10 @@ const searchProvidedOptions = (options, value) => {
 
 const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
 
-const AutoSuggestInput = ({ label, options, control, onChange }) => {
+const AutoSuggestInput = ({ label, options, onChange }) => {
   let Service = options.model && client.service(options.model);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [extraFieldsValues, setExtraFieldsValues] = useState({});
-  const suggestRef = useRef();
 
   // Use your imagination to render suggestions.
   const renderSuggestion = (suggestion) => (
@@ -142,38 +139,14 @@ const AutoSuggestInput = ({ label, options, control, onChange }) => {
   return (
     <div className={classes.container}>
       <div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-rooti">
-        {options.extraFields ? (
-          Object.keys(options.extraFields).map((key) => (
-            <Controller
-              key={key}
-              control={control}
-              name={key}
-              render={({ field }) => <input {...field} name={key} value={extraFieldsValues[key]} type="hidden" />}
-            />
-          ))
-        ) : (
-          <span></span>
-        )}
         <Autosuggest
           suggestions={suggestions}
-          ref={suggestRef}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           getSuggestionValue={options.labelSelector || getSuggestionValue}
-          onSuggestionSelected={(_, { suggestion }) => {
-            if (options.extraFields) {
-              const extras = {};
-              Object.keys(options.extraFields).forEach((key) => {
-                console.error({ key, value: suggestion[key] });
-                extras[key] =
-                  typeof options.extraFields[key] === 'function'
-                    ? options.extraFields[key](suggestion)
-                    : suggestion[key];
-              });
-              setExtraFieldsValues(extras);
-            }
-            onChange(options.valueSelector ? options.valueSelector(suggestion) : suggestion._id);
-          }}
+          onSuggestionSelected={(_, { suggestion }) =>
+            onChange(options.valueSelector ? options.valueSelector(suggestion) : suggestion._id)
+          }
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
           theme={{

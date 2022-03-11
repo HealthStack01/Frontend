@@ -14,6 +14,10 @@ const toShortDate = (date: string | Date) => {
   return format(toDate(date), DateFormats.SHORT_DATE);
 };
 
+const toAPIDate = (date: string | Date) => {
+  return format(toDate(date), DateFormats.API_DATE);
+};
+
 const toDurationString = (date: string | Date, addSuffix?: boolean) => {
   if (date === undefined) return '';
   return formatDistanceToNowStrict(toDate(date), {
@@ -21,4 +25,4 @@ const toDurationString = (date: string | Date, addSuffix?: boolean) => {
   });
 };
 
-export { toDurationString, toShortDate };
+export { toAPIDate, toDurationString, toShortDate };

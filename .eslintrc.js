@@ -23,13 +23,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: [
-    'prettier',
-    'react',
-    'react-hooks',
-    '@typescript-eslint',
-    'simple-import-sort',
-  ],
+  plugins: ['prettier', 'react', 'react-hooks', '@typescript-eslint', 'simple-import-sort'],
   rules: {
     'import/no-unresolved': [2, { commonjs: true, amd: true }],
     'import/named': 'off',
@@ -39,7 +33,7 @@ module.exports = {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     indent: ['error', 2, { SwitchCase: 1 }],
     'linebreak-style': 'off',
-    'no-console': ['error', { allow: ['error'] }],
+    'no-console': ['error', { allow: ['error', 'debug'] }],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'simple-import-sort/imports': 'error',
