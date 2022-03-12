@@ -1,218 +1,148 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable indent */
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-/* eslint-disable prettier/prettier */
-import { ObjectContext } from '../../../../context/context';
 import useRepository from '../../../hooks';
 import Document from '../../../utilities/AttendContent/FormBox';
-import TabBox from '../../../utilities/AttendContent/TabBox';
-import UserBox from '../../../utilities/AttendContent/UserBox';
 import { Models } from '../../Constants';
+import { GenericTableSchema, LaboratoryOrderSchema, PrescriptionSchema } from '../../schema';
 import { FullDetailsWrapper, PageWrapper } from '../../styles';
-// import DocumentViewer from './components/DocumentViewer';
-// import LaboratoryOrder from './components/LaboratoryOrder';
-// import PatientProfile from './components/PatientProfile';
-// import PrescriptionOrder from './components/PrescriptionOrder';
-import { recentData } from './data';
+import { loadError, loadSuccess } from '../../Utils';
+import PatientProfile from './components/PatientProfile';
+import TabBox from './components/TabBox';
+import { queryDocumentations, queryPrescriptions } from './query';
 
-const documents = ['Clinical Note', 'Lab Result', 'Doctor Note', 'Nursing Note', 'Vital Signs', 'Progress Note'];
+const documentSchemas = {
+  'Clinical Note': GenericTableSchema,
+  'Lab Result': GenericTableSchema,
+  'Doctor Note': GenericTableSchema,
+  'Nursing Note': GenericTableSchema,
+  'Vital Signs': GenericTableSchema,
+  'Progress Note': GenericTableSchema,
+  Prescription: PrescriptionSchema,
+  'Lab Order': LaboratoryOrderSchema,
+};
 
-const Attend = ({ row: _, backClick: __ }) => {
-  const [valueTab, setValueTab] = useState(0);
-
-  const [open, setOpen] = useState(false);
+const Attend = ({ appointment, backClick: __ }) => {
+  const [currentDocumentName, setCurrentDocumentName] = useState(null);
   const [openTel, setOpenTel] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openBtn = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const [client, setClient] = useState<any>({});
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [tests, setTests] = useState([]);
+  const [location, setLocation] = useState();
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
-  const { find: findClinicalDocument } = useRepository(Models.CLINICAL_DOCUMENT);
-  const {
-    resource: {
-      clientResource: { selectedClient },
-    },
-  } = useContext(ObjectContext);
-  const [, setClinicalDocuments] = useState([]);
+  const { find: findClinicalDocument, submit: saveClinicalDocument, user } = useRepository(Models.CLINICAL_DOCUMENT);
+  const { get: getClient } = useRepository(Models.CLIENT);
+  const { find } = useRepository(Models.ORDER);
+  const { find: findLocation } = useRepository(Models.LOCATION);
+
+  const [clinicalDocuments, setClinicalDocuments] = useState([]);
+
+  const loadClient = () => {
+    getClient(appointment.clientId).then((client) => {
+      setClient(client);
+    });
+  };
 
   const loadDocuments = (documentName?: string) => {
-    findClinicalDocument({
-      query: {
-        documentname:
-          typeof documentName === 'string'
-            ? {
-              ['$regex']: documentName,
-              ['$options']: 'i',
-            }
-            : undefined,
-        client: selectedClient['_id'],
-        $limit: 50,
-        $sort: {
-          name: 1,
-        },
-      },
-    })
+    findClinicalDocument(queryDocumentations(documentName, appointment.clientId))
       .then((res: any) => {
         setClinicalDocuments(res.data);
-        toast(' Clinical documents fetched successfully');
+        toast(loadSuccess('Clinical documents'));
       })
-      .catch((err) => {
-        toast('Error Cliical fetching documents, probable network issues ' + err);
-      });
+      .catch((err) => toast.error(loadError('Clinical documents', err)));
+  };
+
+  const loadOrders = (orderType, setList) => {
+    find(queryPrescriptions(appointment.clientId))
+      .then((response: any) => {
+        setList(response.data);
+      })
+      .catch((err) => toast.error(loadError(orderType, err)));
+  };
+
+  //FIXME: This should come from the global context, This is an hack, not production ready
+  const loadLocation = () => {
+    findLocation(undefined)
+      .then((res: any) => setLocation(res.data[0]))
+      .catch(() => toast.error('Location not loaded'));
   };
 
   useEffect(() => {
+    loadClient();
     loadDocuments();
+    loadOrders('Prescriptions', setPrescriptions);
+    loadOrders('Laboratory tests', setTests);
+    loadLocation();
   }, []);
 
-  // return (
-  //   <PageWrapper>
-  //     <GrayWrapper>
-  //       <PatientProfile />
-  //       <GrayWrapper
-  //         className="grid"
-  //         style={{
-  //           paddingBottom: '6rem',
-  //         }}
-  //       >
-  //         <FullDetailsWrapper>
-  //           <div>
-  //             <h2>Specific Information:</h2>
-  //           </div>
-  //           <div>
-  //             <h2>Allergies:</h2>
-  //           </div>
-  //           <div>
-  //             <h2>Moridities:</h2>
-  //           </div>
-  //           <div>
-  //             <h2>Disabilities:</h2>
-  //           </div>
-  //           <>
-  //             {tabs.map((tab, i) => (
-  //               <DetailsWrapper key={i} title={tab}>
-  //                 {tab}
-  //               </DetailsWrapper>
-  //             ))}
-  //           </>
-  //         </FullDetailsWrapper>
+  const changeFormSchema = (documentName: string) => {
+    setCurrentDocumentName(documentName);
+    handleCloseMenu();
+  };
 
-  //         <FullDetailsWrapper>
-  //           <GridWrapper className="four-columns">
-  //             <Button
-  //               label={'History'}
-  //               color="#fefffb"
-  //               background="#04ed6d"
-  //               showicon={true}
-  //               onClick={() => setState('all')}
-  //             />
-  //             <Button
-  //               label="Lab Orders"
-  //               background="#fdfdfd"
-  //               color="#333"
-  //               onClick={() => setState('lab')}
-  //             />
-  //             <Button
-  //               label={'Prescription'}
-  //               background={'#ECF3FF'}
-  //               color="#0364FF"
-  //               showicon={true}
-  //               onClick={() => setState('prescription')}
-  //             />
-  //             <div>
-  //               <Button
-  //                 label={'New Document'}
-  //                 background="#FFE9E9"
-  //                 color="#ED0423"
-  //                 showicon={true}
-  //                 onClick={handleClick}
-  //               />
-  //               <Menu
-  //                 id="basic-menu"
-  //                 anchorEl={anchorEl}
-  //                 aria-haspopup="true"
-  //                 aria-expanded={openBtn ? 'true' : undefined}
-  //                 open={openBtn}
-  //                 onClose={handleCloseMenu}
-  //                 MenuListProps={{
-  //                   'aria-labelledby': 'basic-button',
-  //                 }}
-  //                 sx={{ boxShadow: '10px 10px 0 rgba(0,0,0,0.08)' }}
-  //               >
-  //                 {documents.map((doc, i) => (
-  //                   <MenuItem onClick={() => setOpen(true)} key={i}>
-  //                     {doc}
-  //                   </MenuItem>
-  //                 ))}
-  //               </Menu>
-  //             </div>
-  //           </GridWrapper>
-  //           {state === 'all' && (
-  //             <div>
-  //               {clinicalDocuments.map((documentation, index) => {
-  //                 const {
-  //                   createdAt,
-  //                   documentname,
-  //                   createdByname,
-  //                   location,
-  //                   facilityname,
-  //                   status,
-  //                 } = documentation;
-  //                 const time = toDurationString(createdAt);
-  //                 const day = toShortDate(createdAt);
-  //                 const description = `${time} on ${day}: ${documentname} by ${createdByname}  ${location}, ${facilityname}  ${status}`;
-  //                 return (
-  //                   <DetailsWrapper title={description} key={index}>
-  //                     <DocumentViewer document={documentation} />
-  //                   </DetailsWrapper>
-  //                 );
-  //               })}
-  //             </div>
-  //           )}
+  const handleSubmit = (data) => {
+    console.debug({ data });
+    const { _id: clientId, firstname, middlename, lastname } = client;
+    const { _id: locationId, name: locationName, locationType } = location as any;
+    const { _id: userId, firstname: userFirstname, lastname: userLastname, currentEmployee } = user;
 
-  //           {state === 'lab' && <LaboratoryOrder />}
-  //           {state === 'prescription' && <PrescriptionOrder />}
-  //         </FullDetailsWrapper>
-  //       </GrayWrapper>
-  //     </GrayWrapper>
-
-  const onChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValueTab(newValue);
+    const document = {
+      facility: currentEmployee.facility,
+      facilityname: currentEmployee.facilityDetail.facilityName,
+      documentname: currentDocumentName,
+      documentdetail: data,
+      location: `${locationName} ${locationType}`,
+      locationId,
+      client: clientId,
+      clientname: `${firstname} ${middlename} ${lastname}`,
+      clientobj: client,
+      createdBy: userId,
+      createdByname: `${userFirstname} ${userLastname}`,
+      status: 'completed',
+    };
+    console.debug({ document });
+    saveClinicalDocument(document);
   };
 
   return (
     <PageWrapper className="attend-wrapper">
-      <UserBox />
+      <PatientProfile patient={client} />
       <FullDetailsWrapper className="attend attend-large">
         {openTel && <iframe width="100%" />}
         <TabBox
-          valueTab={valueTab}
-          onChange={onChange}
           handleClick={handleClick}
           anchorEl={anchorEl}
           openBtn={openBtn}
           handleCloseMenu={handleCloseMenu}
-          recentData={recentData}
           handleMenuClick={() => {
-            setOpen(true);
+            setCurrentDocumentName(null);
           }}
-          onNewPrescription={() => {
-            setOpen(true);
-          }}
-          onNewLabOrder={() => {
-            setOpen(true);
-          }}
-          documents={documents}
+          onNewDocument={(docName) => changeFormSchema(docName)}
+          documentTypes={Object.keys(documentSchemas)}
+          documentations={clinicalDocuments}
+          tests={tests}
+          prescriptions={prescriptions}
           onOpenTelemedicine={() => setOpenTel(!openTel)}
         />
       </FullDetailsWrapper>
-      {open && (
+      {currentDocumentName && (
         <FullDetailsWrapper className="attend attend-medium">
-          <Document onClick={() => setOpen(false)} />
+          <Document
+            schema={documentSchemas[currentDocumentName]}
+            onCancel={() => changeFormSchema(null)}
+            onSubmit={handleSubmit}
+          />
         </FullDetailsWrapper>
       )}
     </PageWrapper>

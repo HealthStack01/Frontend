@@ -24,7 +24,6 @@ const Input: React.FC<InputProps> = ({
   name,
   onChange,
   onKeyDown,
-  value,
   placeholder,
   size = 'medium',
   disabled = false,
@@ -38,7 +37,6 @@ const Input: React.FC<InputProps> = ({
       type={type}
       label={label}
       name={name}
-      value={value}
       onKeyDown={onKeyDown}
       placeholder={placeholder}
       size={size}

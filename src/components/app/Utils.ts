@@ -12,4 +12,10 @@ const getFormStrings = (id) => {
   }
 };
 
-export { getFormStrings };
+const loadSuccess = (artifactName) => `${artifactName} fetched successfully`;
+
+const loadError = (artifactName, errorObj) => {
+  return `Error Cliical fetching ${artifactName}, probable network issues ${errorObj}`;
+};
+
+export { getFormStrings, loadError, loadSuccess };

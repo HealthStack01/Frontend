@@ -11,8 +11,9 @@ import DebouncedInput from '../../DebouncedInput';
 import { AppointmentSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 
-const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
+const Appointments = ({ handleCreate, onRowClicked, onSearch, items }) => {
   const [listView, setListView] = useState(true);
+
   return (
     <PageWrapper>
       <h2>Appointments </h2>
@@ -26,17 +27,7 @@ const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
             height: '40px',
           }}
         >
-          <DebouncedInput label="Search Appointments" onChangeValue={handleSearch} />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+          <DebouncedInput label="Search Appointments" onChangeValue={onSearch} />
           <FilterMenu />
           <DateRange />
 

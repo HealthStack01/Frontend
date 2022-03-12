@@ -1,17 +1,11 @@
 import { formatDistanceToNowStrict, parseISO } from 'date-fns';
-import { useContext } from 'react';
 
-import { ObjectContext } from '../../../../../context/context';
 import { FlexBox, ImageBox } from '../../../../../styles/global';
 import { FullDetailsWrapper } from '../../../styles';
+import InfoBox from './InfoBox';
+import MiscBox from './MiscBox';
 
-const PatientProfile = () => {
-  const {
-    resource: {
-      clientResource: { selectedClient },
-    },
-  } = useContext(ObjectContext);
-
+const PatientProfile = ({ patient }) => {
   const {
     firstname,
     middlename,
@@ -27,9 +21,9 @@ const PatientProfile = () => {
     genotype,
     clientTags,
     paymentinfo,
-  } = selectedClient as any;
+  } = patient;
   return (
-    <FullDetailsWrapper>
+    <FullDetailsWrapper className="attend attend-small">
       <FlexBox>
         <ImageBox src="https://via.placeholder.com/150" />
 
@@ -37,15 +31,16 @@ const PatientProfile = () => {
           <h1>
             {firstname} {middlename} {lastname}
           </h1>
-          {paymentinfo.map((obj, i) => (
-            <div key={i}>
-              {' '}
-              <p>
-                {obj.paymentmode} {obj.paymentmode === 'Cash' ? '' : ':'}{' '}
-              </p>
-              <p>HMO: {obj.organizationName}</p>
-            </div>
-          ))}
+          {paymentinfo &&
+            paymentinfo.map((obj, i) => (
+              <div key={i}>
+                {' '}
+                <p>
+                  {obj.paymentmode} {obj.paymentmode === 'Cash' ? '' : ':'}{' '}
+                </p>
+                <p>HMO: {obj.organizationName}</p>
+              </div>
+            ))}
         </div>
 
         <div>
@@ -60,6 +55,8 @@ const PatientProfile = () => {
           <p>Client Tags: {clientTags}</p>
         </div>
       </FlexBox>
+      <InfoBox />
+      <MiscBox />
     </FullDetailsWrapper>
   );
 };

@@ -79,17 +79,6 @@ const PresentingComplaintSchema = [
   },
 ];
 
-const PrescriptionSchema = [
-  {
-    name: 'Medication',
-    selector: (row) => row.instruction,
-  },
-  {
-    name: 'Destination',
-    selector: (row) => row.destination,
-  },
-];
-
 const GenericTableSchema = [
   {
     name: 'Record',
@@ -115,6 +104,5 @@ export {
   GenericTableSchema,
   LaboratorySchema,
   MedicationSchema,
-  PrescriptionSchema,
   PresentingComplaintSchema,
 };

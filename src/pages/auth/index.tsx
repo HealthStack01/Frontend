@@ -48,9 +48,15 @@ function Login() {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => <Input {...field} label="Email" placeholder="Enter your email" />}
+          render={({ field: { ref: _, ...field } }) => (
+            <Input {...field} label="Email" placeholder="Enter your email" />
+          )}
         />
-        <Controller name="password" control={control} render={({ field }) => <PasswordInput {...field} />} />
+        <Controller
+          name="password"
+          control={control}
+          render={({ field: { ref: _, ...field } }) => <PasswordInput {...field} />}
+        />
         <CheckboxInput label="Keep me Logged in" />
         <Button type="submit" label="Login" fullwidth />
       </form>

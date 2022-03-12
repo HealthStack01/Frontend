@@ -8,24 +8,23 @@ import Input from '../../inputs/basic/Input';
 import FilterMenu from '../FilterMenu';
 import Document from './FormBox';
 
-const Orders = ({ onClick: _onClick, columns, data }) => {
+const Orders = ({ onClick: _onClick, schema, data }) => {
   const [open, setOpen] = useState(false);
   return (
     <PageWrapper className="attend-wrapper p-1">
       <FullDetailsWrapper className="attend attend-large">
-        <TableMenu style={{}}>
+        <TableMenu>
           <div className="inner-table">
             <Input placeholder="Search here" label="Search here" size="small" />
             <FilterMenu />
           </div>
-
           <Button label="Add new" onClick={() => setOpen(true)} />
         </TableMenu>
-        <CustomTable columns={columns} data={data} pointerOnHover highlightOnHover striped />
+        <CustomTable columns={schema} data={data} pointerOnHover highlightOnHover striped selectable />
       </FullDetailsWrapper>
       {open && (
         <FullDetailsWrapper className="attend attend-medium">
-          <Document onClick={() => setOpen(false)} />
+          <Document schema={schema} onCancel={() => setOpen(false)} onSubmit={() => {}} />
         </FullDetailsWrapper>
       )}
     </PageWrapper>

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { useObjectState } from '../../../../context/context';
 import useRepository from '../../../hooks';
 import { Models, Views } from '../../Constants';
@@ -5,6 +7,7 @@ import AppointmentCreate from './AppointmentCreate';
 import AppointmentDetails from './AppointmentDetail';
 import Appointments from './AppointmentList';
 import AppointmentModify from './AppointmentModify';
+import { queryAppointments } from './query';
 
 const AppClinic = () => {
   const { resource, setResource } = useObjectState();
@@ -12,7 +15,7 @@ const AppClinic = () => {
     appointmentResource: { show, selectedAppointment },
   } = resource;
 
-  const navigate = (show: string) => (selectedAppointment?: any) =>
+  const handleNavigation = (show: string) => (selectedAppointment?: any) =>
     setResource({
       ...resource,
       appointmentResource: {
@@ -24,33 +27,42 @@ const AppClinic = () => {
 
   const {
     list: appointments,
-    find: getAppointments,
     submit: handleSubmit,
-  } = useRepository(Models.APPOINTMENT, navigate);
+    remove: handleDelete,
+    setFindQuery,
+    user,
+  } = useRepository(Models.APPOINTMENT, handleNavigation);
+
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    setFindQuery(queryAppointments(undefined, user.currentEmployee.facility, searchText || undefined));
+  }, [searchText]);
 
   return (
     <>
       {show === Views.LIST && (
         <Appointments
-          handleCreate={navigate(Views.CREATE)}
-          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
-          handleSearch={getAppointments}
+          handleCreate={handleNavigation(Views.CREATE)}
+          onRowClicked={(row) => handleNavigation(Views.DETAIL)(row)}
+          onSearch={setSearchText}
           items={appointments}
         />
       )}
-      {show === Views.CREATE && <AppointmentCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />}
+      {show === Views.CREATE && <AppointmentCreate backClick={handleNavigation(Views.LIST)} onSubmit={handleSubmit} />}
       {show === Views.DETAIL && (
         <AppointmentDetails
           row={selectedAppointment}
-          backClick={navigate(Views.LIST)}
-          editBtnClicked={() => navigate(Views.EDIT)(selectedAppointment)}
+          backClick={handleNavigation(Views.LIST)}
+          editBtnClicked={() => handleNavigation(Views.EDIT)(selectedAppointment)}
+          deleteBtnClicked={handleDelete}
         />
       )}
       {show === Views.EDIT && (
         <AppointmentModify
           row={selectedAppointment}
-          backClick={navigate(Views.LIST)}
-          cancelEditClicked={navigate(Views.DETAIL)}
+          backClick={handleNavigation(Views.LIST)}
+          cancelEditClicked={handleNavigation(Views.DETAIL)}
           onSubmit={handleSubmit}
         />
       )}

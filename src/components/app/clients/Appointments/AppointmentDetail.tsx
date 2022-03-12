@@ -1,38 +1,18 @@
 import React, { useState } from 'react';
 
-// import { useObjectState } from '../../../../context/context';
 import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
-// import useRepository from '../../../hooks';
-// import { Models } from '../../Constants';
 import { AppointmentSchema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import Attend from './Attend';
 
-const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
+const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }) => {
   const [state, setState] = useState('all');
-  // const { resource, setResource } = useObjectState();
-  // const { get: getClient } = useRepository(Models.CLIENT);
-
-  // const _handleAttend = async () => {
-  //   getClient(row.clientId)
-  //     .then((selectedClient) => {
-  //       setResource({
-  //         ...resource,
-  //         clientResource: {
-  //           selectedClient,
-  //           show: 'attend',
-  //         },
-  //       });
-  //       setState('attend');
-  //     })
-  //     .catch(console.error);
-  // };
 
   return (
     <>
       {state === 'attend' ? (
-        <Attend row={row} backClick={backClick} />
+        <Attend appointment={row} backClick={backClick} />
       ) : (
         <PageWrapper>
           <HeadWrapper>
@@ -57,6 +37,12 @@ const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
                   ))}
                 </GridWrapper>
                 <BottomWrapper>
+                  <Button
+                    label={'Delete Appointment'}
+                    background={'#ff0000'}
+                    color={'#fff'}
+                    onClick={() => deleteBtnClicked(row._id)}
+                  />
                   <Button
                     label={'Edit Appointment Details'}
                     background={'#04ed7c'}

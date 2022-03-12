@@ -14,9 +14,11 @@ import { toAPIDate } from './DateUtils';
 import { InputType } from './schema/util';
 
 const DynamicInput = (props) => {
-  const { inputType, label, name, options, control, errors = {} } = props;
+  const { inputType, label, name, defaultValue, options, control, errors = {} } = props;
   const ref = useRef();
-  if (inputType === InputType.HIDDEN) {
+  if (inputType === InputType.HIDDEN && defaultValue) {
+    return <input type="hidden" value={defaultValue} />;
+  } else if (inputType === InputType.HIDDEN) {
     return <></>;
   }
 
@@ -25,7 +27,9 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} />}
+        render={({ field: { ref: _re, ...field } }) => (
+          <Input {...field} label={label} errorText={errors[name]?.message} />
+        )}
       />
     );
   }
@@ -35,8 +39,8 @@ const DynamicInput = (props) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
-          <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} type="number" />
+        render={({ field: { ref: _re, ...field } }) => (
+          <Input {...field} label={label} errorText={errors[name]?.message} type="number" />
         )}
       />
     );
