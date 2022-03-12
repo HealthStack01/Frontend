@@ -103,7 +103,7 @@ export const FullDetailsWrapper = styled.div`
 `;
 
 export const GrayWrapper = styled.div`
-  background: ${({ theme }) => 'theme.grayFour'};
+  background: #f5f5f5;
   border-radius: 4px;
   height: 100%;
   padding: 1rem;

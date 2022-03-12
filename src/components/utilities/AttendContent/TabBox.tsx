@@ -83,13 +83,7 @@ const TabBox = ({
             onClick={onOpenTelemedicine}
           />
 
-          <Button
-            label={'New Documentation'}
-            background="#Fafafa"
-            color="#222"
-            showicon={true}
-            onClick={handleClick}
-          />
+          <Button label={'New Documentation'} background="#Fafafa" color="#222" showicon={true} onClick={handleClick} />
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}

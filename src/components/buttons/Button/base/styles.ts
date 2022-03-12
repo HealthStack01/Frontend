@@ -27,7 +27,4 @@ export const CustomButton = styled(BaseButton)`
   & i {
     padding-right: 10px;
   }
-  & span {
-    
-  }
 `;
