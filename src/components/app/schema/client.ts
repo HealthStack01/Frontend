@@ -27,15 +27,15 @@ const AppointmentSchema = [
         `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
           obj.email
         }`,
-      valueSelector: (obj) => obj._id,
-      extraFields: {
-        firstname: 'firstname',
-        lastname: 'lastname',
-        dob: 'dob',
-        gender: 'gender',
-        phone: 'phone',
-        email: 'email',
-      },
+      valueSelector: ({ _id, firstname, lastname, dob, gender, phone, email }) => ({
+        clientId: _id,
+        firstname,
+        lastname,
+        dob,
+        gender,
+        phone,
+        email,
+      }),
     },
   },
   {
@@ -50,11 +50,11 @@ const AppointmentSchema = [
       model: Models.LOCATION,
       or: ['name', 'locationType'],
       labelSelector: (obj) => obj.name,
-      valueSelector: (obj) => obj._id,
-    },
-    extraFields: {
-      location_name: (obj) => obj.name,
-      location_type: (obj) => obj.locationType,
+      valueSelector: ({ _id, name, locationType }) => ({
+        locationId: _id,
+        location_name: name,
+        location_type: locationType,
+      }),
     },
   },
   {
@@ -69,12 +69,12 @@ const AppointmentSchema = [
       model: Models.EMPLOYEE,
       or: ['firstname', 'lastname', 'profession', 'department'],
       labelSelector: (obj) => `${obj.firstname} ${obj.lastname}`,
-      valueSelector: (obj) => obj._id,
-      extraFields: {
-        practitioner_name: (obj) => obj.firstname + ' ' + obj.lastname,
-        practitioner_profession: (obj) => obj.profession,
-        practitioner_department: (obj) => obj.department,
-      },
+      valueSelector: ({ _id, firstname, lastname, profession, department }) => ({
+        practionerId: _id,
+        practitioner_name: `${firstname} ${lastname}`,
+        practitioner_profession: profession,
+        practitioner_department: department,
+      }),
     },
   },
   [

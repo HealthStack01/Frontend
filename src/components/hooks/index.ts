@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { UserContext } from '../../context/context';
 import client from '../../feathers';
+import { DictionaryOf } from '../../types.d';
 import { Views } from '../app/Constants';
 import { getFormStrings } from '../app/Utils';
 
@@ -51,15 +52,30 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
       });
   };
 
-  const submit = (data) => {
+  const spreadSubData = (data): DictionaryOf<string> => {
+    let result = {};
+    Object.entries(data).map(([key, value]) => {
+      if (typeof value === 'object') {
+        result = { ...result, ...value };
+      } else {
+        result[key] = value;
+      }
+    });
+    return result;
+  };
+
+  const submit = (dataIn) => {
+    const data = spreadSubData(dataIn);
     const values = getFormStrings(data._id);
+    console.debug('submitted data', JSON.stringify({ data }));
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
+
     return (data._id ? Service.update(data._id, data) : Service.create(data))
       .then(() => {
         onNavigate && onNavigate(Views.LIST)();
-        toast(`Band ${values.message}`);
+        toast(`${modelName.toUpperCase()} ${values.message}`);
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);

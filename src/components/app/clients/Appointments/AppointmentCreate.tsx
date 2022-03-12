@@ -29,9 +29,9 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
 
                 return (
                   <GridWrapper className="subgrid two-columns" key={index}>
-                    {schemas.map((schema) => (
+                    {schemas.map((schema, childIndex) => (
                       <DynamicInput
-                        key={index}
+                        key={childIndex}
                         name={schema.key}
                         control={control}
                         label={schema.description}
