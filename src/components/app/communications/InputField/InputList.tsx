@@ -1,47 +1,43 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
-import { TableMenu } from '../../../../styles/global';
-import Button from '../../../buttons/Button';
+import CheckboxInput from '../../../inputs/basic/Checkbox';
 import Input from '../../../inputs/basic/Input';
-import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
+import RadioButton from '../../../inputs/basic/Radio';
+import CustomSelect from '../../../inputs/basic/Select';
+import Textarea from '../../../inputs/basic/Textarea';
+import BasicDatePicker from '../../../inputs/Date';
+import DateRange from '../../../inputs/DateRange';
+import { GrayWrapper, GridWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (row: { id: any; name: string; locationType: string }, event: any) => void;
-}
+interface Props {}
 
-const InputFields: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const InputFields: React.FC<Props> = () => {
   return (
     <PageWrapper>
-      <h2>InputField</h2>
+      <GrayWrapper>
+        <h2>InputField</h2>
 
-      <TableMenu>
-        <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-        </div>
-
-        <Button label="Add new" onClick={handleCreate} />
-      </TableMenu>
-
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <DataTable
-          title="InputField"
-          columns={columnHead}
-          data={rowData}
-          selectableRows
-          pointerOnHover
-          highlightOnHover
-          striped
-          onRowClicked={onRowClicked}
-          style={{ overflow: 'hidden' }}
-        />
-      </div>
+        <GridWrapper className="top">
+          <Input label="Free Text" />
+          <Textarea label="Text area" />
+          <Input label="Email" type="email" />
+          <BasicDatePicker label="Date" />
+          <Input type="datetime-local" />
+          <Input label="Password" type="password" />
+          <Input label="Number" type="number" />
+          <Input type="file" />
+          <CustomSelect options={[]} />
+          <CheckboxInput label="Checkbox" />
+          <RadioButton
+            title="Radio"
+            options={[
+              { value: 'A', label: 'Value A' },
+              { value: 'B', label: 'Value B' },
+            ]}
+          />
+          <DateRange />
+        </GridWrapper>
+      </GrayWrapper>
     </PageWrapper>
   );
 };

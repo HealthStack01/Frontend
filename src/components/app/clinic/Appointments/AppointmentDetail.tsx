@@ -1,18 +1,33 @@
 import React, { useState } from 'react';
 
+// import { useObjectState } from '../../../../context/context';
 import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
+// import useRepository from '../../../hooks';
+// import { Models } from '../../Constants';
+import { AppointmentSchema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import Attend from './Attend';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const AppointmentDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
   const [state, setState] = useState('all');
+  // const { resource, setResource } = useObjectState();
+  // const { get: getClient } = useRepository(Models.CLIENT);
+
+  // const _handleAttend = async () => {
+  //   getClient(row.clientId)
+  //     .then((selectedClient) => {
+  //       setResource({
+  //         ...resource,
+  //         clientResource: {
+  //           selectedClient,
+  //           show: 'attend',
+  //         },
+  //       });
+  //       setState('attend');
+  //     })
+  //     .catch(console.error);
+  // };
 
   return (
     <>
@@ -34,46 +49,12 @@ const AppointmentDetails: React.FC<Props> = ({ editBtnClicked, row, backClick })
             {state === 'all' && (
               <>
                 <GridWrapper>
-                  <div>
-                    <label>ID</label>
-                    <p>{row.id}</p>
-                  </div>
-                  <div>
-                    <label>Date and Time</label>
-                    <p>{row.dtime}</p>
-                  </div>
-                  <div>
-                    <label>First Name</label>
-                    <p>{row.fname}</p>
-                  </div>
-                  <div>
-                    <label>Last Name</label>
-                    <p>{row.lname}</p>
-                  </div>
-                  <div>
-                    <label>Classification</label>
-                    <p>{row.classification}</p>
-                  </div>
-                  <div>
-                    <label>Location</label>
-                    <p>{row.location}</p>
-                  </div>
-                  <div>
-                    <label>Type</label>
-                    <p>{row.type}</p>
-                  </div>
-                  <div>
-                    <label>Status</label>
-                    <p>{row.status}</p>
-                  </div>
-                  <div>
-                    <label>Reason</label>
-                    <p>{row.reason}</p>
-                  </div>
-                  <div>
-                    <label>Practitioner</label>
-                    <p>{row.practitioner}</p>
-                  </div>
+                  {AppointmentSchema.flat().map((schema) => (
+                    <div key={schema.key}>
+                      <label>{schema.name}</label>
+                      <p>{schema.selector(row)}</p>
+                    </div>
+                  ))}
                 </GridWrapper>
                 <BottomWrapper>
                   <Button

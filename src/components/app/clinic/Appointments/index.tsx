@@ -6,7 +6,7 @@ import AppointmentDetails from './AppointmentDetail';
 import Appointments from './AppointmentList';
 import AppointmentModify from './AppointmentModify';
 
-const AppClientAppointment = () => {
+const AppClinic = () => {
   const { resource, setResource } = useObjectState();
   const {
     appointmentResource: { show, selectedAppointment },
@@ -58,4 +58,4 @@ const AppClientAppointment = () => {
   );
 };
 
-export default AppClientAppointment;
+export default AppClinic;

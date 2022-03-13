@@ -20,6 +20,7 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
             <h2>Create Appointment</h2>
             <span>Create a new appointment by filling out the form below.</span>
           </div>
+          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DetailsWrapper title="Appointment Form" defaultExpanded={true}>

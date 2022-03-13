@@ -4,8 +4,8 @@ import AdminDashboard from '../components/app/admin/AdminDashboard';
 import AppBands from '../components/app/admin/Bands';
 import AppEmployees from '../components/app/admin/Employees';
 import AppLocation from '../components/app/admin/Locations';
+import AppClientAppointment from '../components/app/clients/Appointments';
 import AppClinic from '../components/app/clients/Appointments';
-import AppAppointment from '../components/app/clients/Appointments/';
 import AppClient from '../components/app/clients/Client';
 import ClientDashboard from '../components/app/clients/ClientDashboard';
 import ClinicDashboard from '../components/app/clinic/ClinicDashboard';
@@ -57,8 +57,7 @@ function AppRoutes() {
 
           {/* Clients */}
           <Route path="/app/clients" element={<ClientDashboard />} />
-          <Route path="/app/clients/appointments" element={<AppAppointment />} />
-          <Route path="/app/clients/appointments" element={<AppClinic />} />
+          <Route path="/app/clients/appointments" element={<AppClientAppointment />} />
           <Route path="/app/clients/clients" element={<AppClient />} />
 
           {/* Admin */}
@@ -95,7 +94,7 @@ function AppRoutes() {
 
           {/* Clinic */}
           <Route path="/app/clinic" element={<ClinicDashboard />} />
-          <Route path="/app/clinic/appointments" element={<AppAppointment />} />
+          <Route path="/app/clinic/appointments" element={<AppClinic />} />
 
           {/* Manged Care */}
           <Route path="/app/managedCare" element={<ManagedCareDashboard />} />

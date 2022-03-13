@@ -25,6 +25,7 @@ const CustomSelect: React.FC<SelectProps> = ({ label, options, name, value, onCh
         name={name}
         defaultValue={value}
         onChange={onChange}
+        sx={{ background: 'white' }}
       >
         <MenuItem value="" sx={{ width: '100%' }}>
           <em>None</em>

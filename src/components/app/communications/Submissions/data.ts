@@ -2,7 +2,10 @@ import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
   name: string;
-  locationType: string;
+  recipient: string;
+  autosent: string;
+  activeInteraction: string;
+  completed: string;
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -17,8 +20,18 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Location Type',
-    selector: (row) => row.locationType,
+    name: 'Recipient',
+    selector: (row) => row.recipient,
+    sortable: true,
+  },
+  {
+    name: 'Active Interaction',
+    selector: (row) => row.activeInteraction,
+    sortable: true,
+  },
+  {
+    name: 'Completed',
+    selector: (row) => row.completed,
     sortable: true,
   },
 ];
@@ -26,47 +39,26 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: '1',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'BioData Questionnaire',
+    recipient: '+2349567899i',
+    autosent: 'Yes',
+    activeInteraction: 'N/A',
+    completed: 'Yes',
   },
   {
     id: '2',
-    name: 'Location 2',
-    locationType: 'Company',
+    name: 'BioData Questionnaire',
+    recipient: '+2349567899i',
+    autosent: 'Yes',
+    activeInteraction: 'N/A',
+    completed: 'Yes',
   },
   {
     id: '3',
-    name: 'Location 3',
-    locationType: 'Company',
-  },
-  {
-    id: '4',
-    name: 'Location 4',
-    locationType: 'Company',
-  },
-  {
-    id: '5',
-    name: 'Location 5',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '7',
-    name: 'Location 7',
-    locationType: 'Company',
-  },
-  {
-    id: '8',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'BioData Questionnaire',
+    recipient: '+2349567899i',
+    autosent: 'Yes',
+    activeInteraction: 'N/A',
+    completed: 'Yes',
   },
 ];

@@ -2,34 +2,9 @@ import { useObjectState } from '../../../../context/context';
 import InputFields from './InputList';
 
 const AppInput = () => {
-  const { resource, setResource } = useObjectState();
+  const { resource } = useObjectState();
 
-  return (
-    <>
-      {resource.employeeResource.show === 'lists' && (
-        <InputFields
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
-        />
-      )}
-    </>
-  );
+  return <>{resource.employeeResource.show === 'lists' && <InputFields />}</>;
 };
 
 export default AppInput;

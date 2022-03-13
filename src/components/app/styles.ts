@@ -129,6 +129,10 @@ export const GridWrapper = styled.div`
     margin-top: 1rem;
   }
 
+  &.top {
+    align-items: start;
+  }
+
   &.two-columns {
     grid-template-columns: repeat(2, 1fr);
   }

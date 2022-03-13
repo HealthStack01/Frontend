@@ -4,19 +4,14 @@ import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CalenderGrid from '../../../calender';
 import CustomTable from '../../../customtable';
-import Input from '../../../inputs/basic/Input';
 import DateRange from '../../../inputs/DateRange';
 import SwitchButton from '../../../switch';
 import FilterMenu from '../../../utilities/FilterMenu';
+import DebouncedInput from '../../DebouncedInput';
+import { AppointmentSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
-import { columnsAppointment, dataAppointments } from '../data';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (row: any, event: any) => void;
-}
-
-const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
   const [listView, setListView] = useState(true);
   return (
     <PageWrapper>
@@ -31,7 +26,17 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <DebouncedInput label="Search Appointments" onChangeValue={handleSearch} />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'nowrap',
+            }}
+          >
+            <span>Filer by</span>
+            <i className="bi bi-chevron-down"></i>
+          </div>
           <FilterMenu />
           <DateRange />
 
@@ -46,8 +51,8 @@ const Appointments: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {listView ? (
           <CustomTable
-            columns={columnsAppointment}
-            data={dataAppointments}
+            columns={AppointmentSchema.flat()}
+            data={items}
             pointerOnHover
             highlightOnHover
             striped

@@ -19,7 +19,7 @@ const Channels: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
 
       <TableMenu>
         <div className="inner-table">
-          <Input placeholder="Search here" label="Search here" />
+          <Input placeholder="Search here" label="Search here" size="small" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span>Filer by</span>
             <i className="bi bi-chevron-down"></i>
