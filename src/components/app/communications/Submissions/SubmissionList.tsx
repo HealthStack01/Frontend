@@ -12,10 +12,10 @@ interface Props {
   onRowClicked?: (row: { id: any; name: string; locationType: string }, event: any) => void;
 }
 
-const HMOAuthorization: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const Submissions: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   return (
     <PageWrapper>
-      <h2>HMO Authorization</h2>
+      <h2>Submissions</h2>
 
       <TableMenu>
         <div className="inner-table">
@@ -46,4 +46,4 @@ const HMOAuthorization: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   );
 };
 
-export default HMOAuthorization;
+export default Submissions;

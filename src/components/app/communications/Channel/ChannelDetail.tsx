@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
@@ -9,16 +10,16 @@ interface Props {
   row?: any;
 }
 
-const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const ChannelDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Bill Details</h2>
-            <span>Below are your Bill’s details</span>
+            <h2>Channel Details</h2>
+            <span>Below are your Channel’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Delete'}
@@ -36,7 +37,7 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
@@ -46,16 +47,24 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
             </div>
 
             <div>
-              <label>Bill Type</label>
-              <p>{row.bandType}</p>
+              <label>Channel Type</label>
+              <p>{row.channelType}</p>
             </div>
             <div>
-              <label>Bill Name</label>
+              <label>Channel Name</label>
               <p>{row.name}</p>
             </div>
             <div>
-              <label>Bill Description</label>
-              <p>{row.description}</p>
+              <label>Provider</label>
+              <p>{row.provider}</p>
+            </div>
+            <div>
+              <label>Base URL</label>
+              <p>{row.baseURL}</p>
+            </div>
+            <div>
+              <label>Provider Config</label>
+              <p>{row.providerConfig}</p>
             </div>
           </GridWrapper>
         </FullDetailsWrapper>
@@ -64,4 +73,4 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   );
 };
 
-export default BillDetails;
+export default ChannelDetails;

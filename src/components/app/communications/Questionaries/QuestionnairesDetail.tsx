@@ -9,14 +9,14 @@ interface Props {
   row?: any;
 }
 
-const RevenueDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const QuestionnairesDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Employee Details</h2>
-            <span>Below are your employee’s details</span>
+            <h2>Questionnaires Details</h2>
+            <span>Below are your Questionnaires’s details</span>
           </div>
           <div>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
@@ -59,4 +59,4 @@ const RevenueDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => 
   );
 };
 
-export default RevenueDetails;
+export default QuestionnairesDetails;

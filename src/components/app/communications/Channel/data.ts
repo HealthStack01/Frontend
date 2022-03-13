@@ -2,8 +2,9 @@ import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
   name: string;
-  bandType: string;
-  description: string;
+  channelType: string;
+  provider: string;
+  baseURL: string;
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -18,13 +19,18 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Band Type',
-    selector: (row) => row.bandType,
+    name: ' Type',
+    selector: (row) => row.channelType,
     sortable: true,
   },
   {
-    name: 'Description',
-    selector: (row) => row.description,
+    name: 'Provider',
+    selector: (row) => row.provider,
+    sortable: true,
+  },
+  {
+    name: 'Base URL',
+    selector: (row) => row.baseURL,
     sortable: true,
   },
 ];
@@ -32,45 +38,19 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: 1,
-    name: 'Band 1',
-    bandType: 'Company',
-    description: 'Band...',
+    name: 'Channel 1',
+    channelType: 'WhatsApp',
+    provider: 'Message Bird',
+    baseURL: 'http://messagebird.com',
+    providerConfig: '',
   },
   {
     id: 2,
-    name: 'Band 3',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-  {
-    id: 3,
-    name: 'Band 3',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-  {
-    id: 4,
-    name: 'Band 4',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-  {
-    id: 5,
-    name: 'Band 5',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-  {
-    id: 6,
-    name: 'Band 6',
-    bandType: 'Company',
-    description: 'Band...',
-  },
-  {
-    id: 7,
-    name: 'Band 7',
-    bandType: 'Company',
-    description: 'Band...',
+    name: 'Channel 3',
+    channelType: 'SMS',
+    provider: 'Message Bird',
+    baseURL: 'http://messagebird.com',
+    providerConfig: '',
   },
 ];
 

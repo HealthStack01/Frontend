@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './HMOAuthorizationCreate';
-import EmployeeDetails from './HMOAuthorizationDetail';
-import Employees from './HMOAuthorizationList';
-import EmployeeModify from './HMOAuthorizationModify';
+import SubmissionCreate from './SubmissionCreate';
+import SubmissionDetails from './SubmissionDetail';
+import Submissions from './SubmissionList';
+import SubmissionModify from './SubmissionModify';
 
-const AppHMOAuthorization = () => {
+const AppSubmission = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Employees
+        <Submissions
           handleCreate={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -34,7 +34,7 @@ const AppHMOAuthorization = () => {
         />
       )}
       {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+        <SubmissionCreate
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -47,7 +47,7 @@ const AppHMOAuthorization = () => {
         />
       )}
       {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
+        <SubmissionDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource((prevState) => ({
@@ -70,7 +70,7 @@ const AppHMOAuthorization = () => {
         />
       )}
       {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
+        <SubmissionModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource((prevState) => ({
@@ -96,4 +96,4 @@ const AppHMOAuthorization = () => {
   );
 };
 
-export default AppHMOAuthorization;
+export default AppSubmission;

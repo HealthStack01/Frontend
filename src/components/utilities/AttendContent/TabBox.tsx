@@ -7,7 +7,6 @@ import { columnLab, labData } from '../../app/clients/Appointments/data';
 import { DetailsWrapper, GrayWrapper } from '../../app/styles';
 import Button from '../../buttons/Button';
 import CustomTable from '../../customtable';
-import DnDBox from '../../dnd';
 import Input from '../../inputs/basic/Input';
 import Orders from './Orders';
 
@@ -197,9 +196,7 @@ const TabBox = ({
             data={labData}
           />
         </TabPanel>
-        <TabPanel value={valueTab} index={3}>
-          <DnDBox />
-        </TabPanel>
+        <TabPanel value={valueTab} index={3}></TabPanel>
       </GrayWrapper>
     </>
   );

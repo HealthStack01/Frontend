@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import CustomSelect from '../../../inputs/basic/Select';
@@ -12,14 +13,17 @@ interface Props {
   backClick: () => void;
 }
 
-const bandTypeOptions: string[] = ['Band 1', 'Band 2', 'Band 3', 'Band 4'];
+const channelOptions = ['Type 1', 'Type 2', 'Type 3'];
+const providerOptions = ['Type 1', 'Type 2', 'Type 3'];
 
-const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
+const ChannelModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
     name: row.name,
-    bandType: row.bandType,
-    description: row.description,
+    channelType: row.channelType,
+    provider: row.provider,
+    baseUrl: row.baseURL,
+    providerConfig: row.providerConfig,
   });
 
   return (
@@ -27,10 +31,10 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Band Details</h2>
-            <span>Below are your band’s details</span>
+            <h2>Channel Details</h2>
+            <span>Below are your channel's details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Cancel Editing'}
@@ -40,7 +44,7 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={cancelEditClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <GridWrapper>
           <Input label="ID" value={values.id} disabled />
@@ -51,21 +55,38 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
             onChange={(e) => setValue({ ...values, name: e.target.value })}
           />
           <CustomSelect
-            name={values.bandType}
-            label="Band Type"
-            options={bandTypeOptions}
-            value={values.bandType}
+            name={values.channelType}
+            label="Channel Type"
+            options={channelOptions}
+            value={values.channelType}
             onChange={(e) =>
               setValue({
                 ...values,
-                bandType: e.target.value,
+                channelType: e.target.value,
               })
             }
           />
+          <CustomSelect
+            name={values.provider}
+            label="Provider"
+            options={providerOptions}
+            value={values.provider}
+            onChange={(e) =>
+              setValue({
+                ...values,
+                provider: e.target.value,
+              })
+            }
+          />
+          <Input
+            label="Base URL"
+            value={values.baseUrl}
+            onChange={(e) => setValue({ ...values, baseUrl: e.target.value })}
+          />
           <Textarea
-            label="Description"
-            value={values.description}
-            onChange={(e) => setValue({ ...values, description: e.target.value })}
+            label="Provider Configuration"
+            value={values.providerConfig}
+            onChange={(e) => setValue({ ...values, providerConfig: e.target.value })}
           />
         </GridWrapper>
 
@@ -78,4 +99,4 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   );
 };
 
-export default BillModify;
+export default ChannelModify;

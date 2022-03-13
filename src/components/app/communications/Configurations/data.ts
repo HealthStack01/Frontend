@@ -2,7 +2,11 @@ import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
   name: string;
-  locationType: string;
+  channel: string;
+  questionnaire: string;
+  triggerToken: string;
+  autoproceedTimeout: string;
+  senderPhoneNumber: string;
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -17,8 +21,28 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Location Type',
-    selector: (row) => row.locationType,
+    name: 'Channel',
+    selector: (row) => row.channel,
+    sortable: true,
+  },
+  {
+    name: 'Questionnaire',
+    selector: (row) => row.questionnaire,
+    sortable: true,
+  },
+  {
+    name: 'Trigger Token',
+    selector: (row) => row.triggerToken,
+    sortable: true,
+  },
+  {
+    name: 'Autoproceed Timeout',
+    selector: (row) => row.autoproceedTimeout,
+    sortable: true,
+  },
+  {
+    name: 'Sender Phone Number',
+    selector: (row) => row.senderPhoneNumber,
     sortable: true,
   },
 ];
@@ -26,47 +50,22 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: '1',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'MessageBird WhatsApp Channel',
+    channel: 'MessageBird WhatsApp Channel',
+    questionnaire: 'Biodata Queationnaire',
+    triggerToken: 'Hello',
+    autoproceedTimeout: '0',
+    senderPhoneNumber: '+2349993838',
+    otherConfig: '',
   },
   {
     id: '2',
-    name: 'Location 2',
-    locationType: 'Company',
-  },
-  {
-    id: '3',
-    name: 'Location 3',
-    locationType: 'Company',
-  },
-  {
-    id: '4',
-    name: 'Location 4',
-    locationType: 'Company',
-  },
-  {
-    id: '5',
-    name: 'Location 5',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '7',
-    name: 'Location 7',
-    locationType: 'Company',
-  },
-  {
-    id: '8',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'MessageBird WhatsApp Channel',
+    channel: 'MessageBird WhatsApp Channel',
+    questionnaire: 'Biodata Queationnaire',
+    triggerToken: 'Hello',
+    autoproceedTimeout: '0',
+    senderPhoneNumber: '+2349993838',
+    otherConfig: '',
   },
 ];

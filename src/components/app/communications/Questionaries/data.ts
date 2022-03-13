@@ -2,7 +2,7 @@ import { TableColumn } from 'react-data-table-component';
 export interface DataProps {
   id: any;
   name: string;
-  locationType: string;
+  shortName: string;
 }
 
 export const columnHead: TableColumn<DataProps>[] = [
@@ -17,8 +17,8 @@ export const columnHead: TableColumn<DataProps>[] = [
     sortable: true,
   },
   {
-    name: 'Location Type',
-    selector: (row) => row.locationType,
+    name: 'Short Name',
+    selector: (row) => row.shortName,
     sortable: true,
   },
 ];
@@ -26,47 +26,14 @@ export const columnHead: TableColumn<DataProps>[] = [
 export const rowData = [
   {
     id: '1',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'Biodata Qustionnaire',
+    shortName: 'Biodata ',
+    questions: [],
   },
   {
     id: '2',
-    name: 'Location 2',
-    locationType: 'Company',
-  },
-  {
-    id: '3',
-    name: 'Location 3',
-    locationType: 'Company',
-  },
-  {
-    id: '4',
-    name: 'Location 4',
-    locationType: 'Company',
-  },
-  {
-    id: '5',
-    name: 'Location 5',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '6',
-    name: 'Location 6',
-    locationType: 'Company',
-  },
-  {
-    id: '7',
-    name: 'Location 7',
-    locationType: 'Company',
-  },
-  {
-    id: '8',
-    name: 'Location 1',
-    locationType: 'Company',
+    name: 'Meals Qustionnaire',
+    shortName: 'Meals ',
+    questions: [],
   },
 ];

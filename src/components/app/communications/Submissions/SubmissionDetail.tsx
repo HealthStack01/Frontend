@@ -9,14 +9,14 @@ interface Props {
   row?: any;
 }
 
-const HMOAuthorizationDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const SubmissionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>HMO Authorization Details</h2>
-            <span>Below are your HMOAuthorization’s details</span>
+            <h2>Submission Details</h2>
+            <span>Below are your Submission’s details</span>
           </div>
           <div>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
@@ -59,4 +59,4 @@ const HMOAuthorizationDetails: React.FC<Props> = ({ editBtnClicked, row, backCli
   );
 };
 
-export default HMOAuthorizationDetails;
+export default SubmissionDetails;

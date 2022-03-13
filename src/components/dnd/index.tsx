@@ -1,38 +1,23 @@
 import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
-const listItems = [
-  {
-    id: '1',
-    name: 'Study Spanish',
-  },
-  {
-    id: '2',
-    name: 'Workout',
-  },
-  {
-    id: '3',
-    name: 'Film Youtube',
-  },
-  {
-    id: '4',
-    name: 'Grocery Shop',
-  },
-];
-
+import { DetailsWrapper } from '../app/styles';
+import Input from '../inputs/basic/Input';
+import CustomSelect from '../inputs/basic/Select';
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-  padding: 10,
-  margin: '0 50px 15px 50px',
+  margin: '0 0  10px 0px',
   background: isDragging ? '#0364FF' : 'white',
   color: isDragging ? 'white' : 'black',
   //   border: `0.1px solid gray`,
-  fontSize: '16px',
-  borderRadius: '5px',
+  fontSize: '1rem',
+  borderRadius: '0.4rem',
 
   ...draggableStyle,
 });
 
-const DnDBox = () => {
+const inputOptions = ['text', 'textarea', 'email', 'date', 'datetime'];
+
+const DnDBox = ({ listItems }) => {
   const [values, setValues] = useState(listItems);
 
   const onDragEnd = (result: DropResult) => {
@@ -61,7 +46,10 @@ const DnDBox = () => {
                         {...provided.dragHandleProps}
                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                       >
-                        {name}
+                        <DetailsWrapper title={name}>
+                          <Input label={name} placeholder={`Enter ${name}`} name={name} />
+                          <CustomSelect label="Choose a Input Type" name="inputType" options={inputOptions} />
+                        </DetailsWrapper>
                       </div>
                     )}
                   </Draggable>

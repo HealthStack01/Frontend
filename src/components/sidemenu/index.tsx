@@ -125,6 +125,7 @@ export const menuItems = [
     subMenus: [
       { name: 'Dashboard', to: '/app/communication' },
       { name: 'Channel', to: '/app/communication/channel' },
+      { name: 'Configuration', to: '/app/communication/configuration' },
       { name: 'Questionnaires', to: '/app/communication/questionnaires' },
       { name: 'Submissions', to: '/app/communication/submissions' },
       { name: 'Input Fields', to: '/app/communication/inputfields' },
