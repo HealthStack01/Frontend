@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import useRepository from '../../../hooks';
+import useRepository from '../../../hooks/employeeIndex';
 import { Models, Views } from '../../Constants';
 import EmployeeCreate from './EmployeeCreate';
 import EmployeeDetails from './EmployeeDetail';
@@ -50,7 +50,7 @@ function AppEmployees() {
           handleDelete={() => handleDelete(selectedEmployee)}
         />
       )}
-      {resource.bandResource.show === Views.EDIT && (
+      {show === Views.EDIT && (
         <EmployeeModify
           row={selectedEmployee}
           backClick={navigate(Views.LIST)}

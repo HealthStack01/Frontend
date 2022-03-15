@@ -1,6 +1,6 @@
 import React from 'react';
 import { DebounceInput } from 'react-debounce-input';
-
+import DebouncedInput from '../../DebouncedInput';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
@@ -29,16 +29,7 @@ const Locations: React.FC<Props> = ({ handleCreate, handleSearch, onRowClicked, 
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Locations"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
-
+          <DebouncedInput label="Search here" onChangeValue={handleSearch} />
           <div
             style={{
               display: 'flex',
