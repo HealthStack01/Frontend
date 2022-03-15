@@ -11,7 +11,7 @@ import client from '../../../../feathers';
 const AppServices = () => {
   const { resource, setResource } = useObjectState();
   let ServicesServ = client.service('billing');
-  let ClientServ = client.service('billing');
+ 
   const { user } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
   const [val, setVal] = useState('');
@@ -42,8 +42,9 @@ const AppServices = () => {
         },
       }).then((res) => {
         const findServices = res;
-        console.log(findServices);
         toast('Services fetched successfully')
+        console.log(findServices.groupedOrder);
+        
         setFacilities(findServices.groupedOrder);
       });
     } else {
@@ -71,13 +72,13 @@ const AppServices = () => {
     
 
     if (val.length >= 3) {
-      ClientServ.find({
+      ServicesServ.find({
         query: {
           category: {
             $regex: val,
             $options: 'i',
           },
-         
+
           $limit: 1000,
           $sort: {
             category: 1,
@@ -85,12 +86,7 @@ const AppServices = () => {
         },
       })
         .then((res) => {
-          console.log(res.groupedOrder);
-          
           setFacility(res.groupedOrder);
-          
-          
-         
         })
         .catch((err) => {
           toast({
@@ -100,16 +96,11 @@ const AppServices = () => {
             pauseOnHover: true,
           });
         });
-    } else {
-      console.log('less than 3 ');
-      console.log(val);
-     
-    }
+    } 
   };
 
    const handleSearch = (val) => {
      const field = 'name';
-     console.log(val);
      ServicesServ.find({
        query: {
          [field]: {
@@ -124,11 +115,10 @@ const AppServices = () => {
        },
      })
        .then((res) => {
-         console.log(res.groupedOrder);
          setFacilities(res.groupedOrder);
        })
        .catch((err) => {
-         console.log(err);
+         console.error(err);
          toast('Error during search ' + err);
        });
    };
@@ -167,9 +157,7 @@ const AppServices = () => {
 
       ServicesServ.create(obj)
         .then((res) => {
-          console.log(res);
-          console.log(data);
-         
+          
           
           toast({
             message: 'Service created succesfully',

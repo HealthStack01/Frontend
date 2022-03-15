@@ -108,19 +108,18 @@ const AppBills = () => {
     }
     (data._id ? BillCreateServ.update(data._id, data) :BillCreateServ.create(data))
       .then((res) => {
-        console.log(res)
         toast(`Location ${values.message}`);
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
-        console.log(err)
+        console.error(err)
       });
   };
 
    useEffect(() => {
     getSearchFacility1(resource.billServicesResource.selectedBillService);
 
-    console.log(resource.billServicesResource.selectedBillService);
+   
     
     return () => {};
   }, [resource.billServicesResource.selectedBillService]);

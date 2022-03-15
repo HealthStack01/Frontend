@@ -16,7 +16,7 @@ const AppPayments = () => {
   const [totalamount, setTotalamount] = useState(0);
   const [medication, setMedication] = useState(null);
   
-  console.log(medication && medication.selectedPayment);
+  
 
   const [payments, setPayments] = useState([]);
   const [facility, setFacility] = useState([]);
@@ -28,15 +28,12 @@ const AppPayments = () => {
   const [obj, setObj] = useState('');
   let sour: any[] = facility;
   const source = sour.map((data) => {
-    console.log(data);
     return data.clientname;
   });
-  console.log(source);
 
   const handleAccept = (data) => {
     getFacilities();
     const values = getFormStrings(data._id);
-    console.log(data);
 
     if (medication) {
       if (data.paymentmode === '' || data.amount === 0) {
@@ -65,13 +62,11 @@ const AppPayments = () => {
       if (confirm) {
         SubwalletTxServ.create(obj)
           .then((resp) => {
-            console.log(resp);
-
             toast('Deposit accepted succesfully');
           })
           .catch((err) => {
             toast('Error accepting deposit ' + err);
-            console.log(err);
+            console.error(err);
           });
       }
     }
@@ -104,7 +99,6 @@ const AppPayments = () => {
       },
     })
       .then((res) => {
-        console.log(res.groupedOrder);
         let findProductEntry = res.groupedOrder;
         setFacility(findProductEntry);
         toast(' ProductEntry  fetched successfully');
@@ -125,7 +119,6 @@ const AppPayments = () => {
         },
       },
     }).then((res) => {
-      console.log(res);
       let findProductEntry = res;
       if (findProductEntry.data.length > 0) {
         setBalance(findProductEntry.data[0].amount);
@@ -157,7 +150,6 @@ const AppPayments = () => {
       },
     })
       .then((res) => {
-        console.log(res.groupedOrder);
         let findProductEntry = res.groupedOrder;
         setFacility(findProductEntry);
         toast(' ProductEntry  fetched successfully');

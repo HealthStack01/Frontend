@@ -773,9 +773,9 @@ const ServicesSchema = [
   },
   {
     name: 'price',
-    key: 'contracts[0].price',
+    key: 'price',
     description: 'price',
-    selector: (row) => row.contracts[0].price,
+    selector: (row) => row.contracts.map((obj)=>{return obj.price}),
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
