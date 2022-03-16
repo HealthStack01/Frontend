@@ -103,7 +103,7 @@ export const FullDetailsWrapper = styled.div`
 `;
 
 export const GrayWrapper = styled.div`
-  background: ${({ theme }) => 'theme.grayFour'};
+  background: #f5f5f5;
   border-radius: 4px;
   height: 100%;
   padding: 1rem;
@@ -146,13 +146,15 @@ export const GridWrapper = styled.div`
   }
   & p {
     background: ${({ theme }) => 'theme.grayFour'};
-    padding: 0.9rem;
+    padding: 0 0.4rem;
+    line-height: 50px;
     height: 50px;
     border-radius: 4px;
     border: 1px solid #d2d2d2;
     font-weight: bold;
     font-size: 16px;
     color: #03045e;
+    overflow: hidden;
   }
 `;
 

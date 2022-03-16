@@ -1,18 +1,17 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './CollectionCreate';
-import EmployeeDetails from './CollectionDetail';
-import Employees from './CollectionList';
-import EmployeeModify from './CollectionModify';
+import Questionnaires from './QuestionnaireList';
+import QuestionnairesCreate from './QuestionnairesCreate';
+import QuestionnairesDetails from './QuestionnairesDetail';
 
-const AppCollections = () => {
+const AppQuestionnaires = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Employees
+        <Questionnaires
           handleCreate={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -34,7 +33,7 @@ const AppCollections = () => {
         />
       )}
       {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+        <QuestionnairesCreate
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -47,7 +46,7 @@ const AppCollections = () => {
         />
       )}
       {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
+        <QuestionnairesDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource((prevState) => ({
@@ -69,31 +68,8 @@ const AppCollections = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
-              },
-            }))
-          }
-        />
-      )}
     </>
   );
 };
 
-export default AppCollections;
+export default AppQuestionnaires;

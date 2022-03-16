@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
@@ -9,16 +10,16 @@ interface Props {
   row?: any;
 }
 
-const CollectionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const ConfigurationDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Employee Details</h2>
-            <span>Below are your employee’s details</span>
+            <h2>Configuration Details</h2>
+            <span>Below are your Configuration’s details</span>
           </div>
-          <div>
+          <ButtonGroup>
             <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
             <Button
               label={'Delete'}
@@ -36,7 +37,7 @@ const CollectionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) 
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-          </div>
+          </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
@@ -46,11 +47,31 @@ const CollectionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) 
             </div>
             <div>
               <label>Name</label>
-              <p>{row.locationname}</p>
+              <p>{row.name}</p>
             </div>
             <div>
-              <label>Band Type</label>
-              <p>{row.locationType}</p>
+              <label>Channel</label>
+              <p>{row.channel}</p>
+            </div>
+            <div>
+              <label>Questionnaire</label>
+              <p>{row.questionnaire}</p>
+            </div>
+            <div>
+              <label>Trigger Token</label>
+              <p>{row.triggerToken}</p>
+            </div>
+            <div>
+              <label>Autoproceed Timeout</label>
+              <p>{row.autoproceedTimeout}</p>
+            </div>
+            <div>
+              <label>Sender Phone Number</label>
+              <p>{row.senderPhoneNumber}</p>
+            </div>
+            <div>
+              <label>Other Config</label>
+              <p>{row.otherConfig}</p>
             </div>
           </GridWrapper>
         </FullDetailsWrapper>
@@ -59,4 +80,4 @@ const CollectionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) 
   );
 };
 
-export default CollectionDetails;
+export default ConfigurationDetails;

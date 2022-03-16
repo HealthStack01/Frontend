@@ -1,16 +1,13 @@
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './RevenueCreate';
-import EmployeeDetails from './RevenueDetail';
-import Employees from './RevenueList';
-import EmployeeModify from './RevenueModify';
+import InputFields from './InputList';
 
-const AppServices = () => {
+const AppInput = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Employees
+        <InputFields
           handleCreate={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -31,67 +28,8 @@ const AppServices = () => {
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
-              },
-            }))
-          }
-        />
-      )}
     </>
   );
 };
 
-export default AppServices;
+export default AppInput;

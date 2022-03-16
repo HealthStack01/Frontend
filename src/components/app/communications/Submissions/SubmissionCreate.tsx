@@ -11,7 +11,7 @@ interface Props {
 
 const locationType = ['Type 1', 'Type 2', 'Type 3'];
 
-const LocationCreate: React.FC<Props> = ({ backClick }) => {
+const SubmissionCreate: React.FC<Props> = ({ backClick }) => {
   const [values, setValues] = useState({});
 
   return (
@@ -61,4 +61,4 @@ const LocationCreate: React.FC<Props> = ({ backClick }) => {
   );
 };
 
-export default LocationCreate;
+export default SubmissionCreate;

@@ -12,10 +12,10 @@ interface Props {
   onRowClicked?: (row: { id: any; name: string; locationType: string }, event: any) => void;
 }
 
-const Revenue: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const InputFields: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   return (
     <PageWrapper>
-      <h2>Revenue</h2>
+      <h2>InputField</h2>
 
       <TableMenu>
         <div className="inner-table">
@@ -31,7 +31,7 @@ const Revenue: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <DataTable
-          title="Revenue"
+          title="InputField"
           columns={columnHead}
           data={rowData}
           selectableRows
@@ -46,4 +46,4 @@ const Revenue: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
   );
 };
 
-export default Revenue;
+export default InputFields;

@@ -13,7 +13,7 @@ interface Props {
 
 const locationTypeOptions: string[] = ['Locations 1', 'Location 2'];
 
-const RevenueModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
+const SubmissionModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
   const [values, setValue] = useState({
     id: row.id,
     locationname: row.locationname,
@@ -71,4 +71,4 @@ const RevenueModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) =
   );
 };
 
-export default RevenueModify;
+export default SubmissionModify;

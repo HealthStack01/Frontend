@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import EmployeeCreate from './RevenueCreate';
-import EmployeeDetails from './RevenueDetail';
-import Employees from './RevenueList';
-import EmployeeModify from './RevenueModify';
+import ConfigurationCreate from './ConfigurationCreate';
+import ConfigurationDetails from './ConfigurationDetail';
+import Configurations from './ConfigurationList';
+import ConfigurationModify from './ConfigurationModify';
 
-const AppRevenue = () => {
+const AppConfiguration = () => {
   const { resource, setResource } = useObjectState();
 
   return (
     <>
       {resource.employeeResource.show === 'lists' && (
-        <Employees
+        <Configurations
           handleCreate={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -34,7 +34,7 @@ const AppRevenue = () => {
         />
       )}
       {resource.employeeResource.show === 'create' && (
-        <EmployeeCreate
+        <ConfigurationCreate
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -47,7 +47,7 @@ const AppRevenue = () => {
         />
       )}
       {resource.employeeResource.show === 'details' && (
-        <EmployeeDetails
+        <ConfigurationDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource((prevState) => ({
@@ -70,7 +70,7 @@ const AppRevenue = () => {
         />
       )}
       {resource.employeeResource.show === 'edit' && (
-        <EmployeeModify
+        <ConfigurationModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
             setResource((prevState) => ({
@@ -96,4 +96,4 @@ const AppRevenue = () => {
   );
 };
 
-export default AppRevenue;
+export default AppConfiguration;

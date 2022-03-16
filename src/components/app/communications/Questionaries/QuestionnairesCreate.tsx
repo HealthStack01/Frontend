@@ -1,17 +1,38 @@
 import React, { useState } from 'react';
 
 import Button from '../../../buttons/Button';
+import DnDBox from '../../../dnd';
 import Input from '../../../inputs/basic/Input';
-import CustomSelect from '../../../inputs/basic/Select';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
 }
 
-const locationType = ['Type 1', 'Type 2', 'Type 3'];
+const listItems = [
+  {
+    id: '1',
+    name: 'Name',
+  },
+  {
+    id: '2',
+    name: 'Gender',
+  },
+  {
+    id: '3',
+    name: 'Date of Birth',
+  },
+  {
+    id: '4',
+    name: 'Appointment Time',
+  },
+  {
+    id: '5',
+    name: 'State of Origin',
+  },
+];
 
-const RevenueCreate: React.FC<Props> = ({ backClick }) => {
+const QuestionnairesCreate: React.FC<Props> = ({ backClick }) => {
   const [values, setValues] = useState({});
 
   return (
@@ -19,17 +40,17 @@ const RevenueCreate: React.FC<Props> = ({ backClick }) => {
       <GrayWrapper>
         <HeadWrapper>
           <div>
-            <h2>Create Revenue</h2>
-            <span>Create a new Revenue by filling out the form below to get started.</span>
+            <h2>Create Questionnaire</h2>
+            <span>Create a new Questionnaire by filling out the form below to get started.</span>
           </div>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form action="" onSubmit={() => {}}>
-          <FullDetailsWrapper title="Create Employee">
-            <GridWrapper>
+          <FullDetailsWrapper>
+            <GridWrapper className="two-columns">
               <Input
-                label="Name of Revenue"
-                name="Revenuename"
+                label="Questionnaire Name"
+                name="questionnaireName"
                 onChange={(e) =>
                   setValues({
                     ...values,
@@ -37,19 +58,22 @@ const RevenueCreate: React.FC<Props> = ({ backClick }) => {
                   })
                 }
               />
-              <CustomSelect
-                label="Choose a Revenue Type"
-                name="locationType"
+              <Input
+                label="Short Name"
+                name="shortName"
                 onChange={(e) =>
                   setValues({
                     ...values,
                     [e.target.name]: e.target.value,
                   })
                 }
-                options={locationType}
               />
             </GridWrapper>
+            <BottomWrapper>
+              <Button label="Start " type="submit" />
+            </BottomWrapper>
           </FullDetailsWrapper>
+          <DnDBox listItems={listItems}></DnDBox>
 
           <BottomWrapper>
             <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
@@ -61,4 +85,4 @@ const RevenueCreate: React.FC<Props> = ({ backClick }) => {
   );
 };
 
-export default RevenueCreate;
+export default QuestionnairesCreate;

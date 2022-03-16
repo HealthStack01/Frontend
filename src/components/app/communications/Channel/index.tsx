@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
-import BillCreate from './BillCreate';
-import BillDetails from './BillDetail';
-import Bills from './BillList';
-import BillModify from './BillModify';
+import ChannelCreate from './ChannelCreate';
+import ChannelDetails from './ChannelDetail';
+import Channels from './ChannelList';
+import ChannelModify from './ChannelModify';
 
 const AppChannel = () => {
   const { resource, setResource } = useObjectState();
@@ -12,11 +12,11 @@ const AppChannel = () => {
   return (
     <>
       {resource.bandResource.show === 'lists' && (
-        <Bills
+        <Channels
           handleCreate={() =>
             setResource((prevState) => ({
               ...prevState,
-              illResource: {
+              bandResource: {
                 ...prevState.bandResource,
                 show: 'create',
               },
@@ -34,7 +34,7 @@ const AppChannel = () => {
         />
       )}
       {resource.bandResource.show === 'create' && (
-        <BillCreate
+        <ChannelCreate
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,
@@ -47,7 +47,7 @@ const AppChannel = () => {
         />
       )}
       {resource.bandResource.show === 'details' && (
-        <BillDetails
+        <ChannelDetails
           row={resource.bandResource.selectedBand}
           backClick={() =>
             setResource((prevState) => ({
@@ -70,7 +70,7 @@ const AppChannel = () => {
         />
       )}
       {resource.bandResource.show === 'edit' && (
-        <BillModify
+        <ChannelModify
           row={resource.bandResource.selectedBand}
           backClick={() =>
             setResource((prevState) => ({

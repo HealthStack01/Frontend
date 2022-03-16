@@ -9,6 +9,12 @@ import AppAppointment from '../components/app/clients/Appointments/';
 import AppClient from '../components/app/clients/Client';
 import ClientDashboard from '../components/app/clients/ClientDashboard';
 import ClinicDashboard from '../components/app/clinic/ClinicDashboard';
+import AppChannel from '../components/app/communications/Channel';
+import CommunicationsDashboard from '../components/app/communications/CommunicationDashboard';
+import AppConfiguration from '../components/app/communications/Configurations';
+import AppInput from '../components/app/communications/InputField';
+import AppQuestionnaires from '../components/app/communications/Questionaries';
+import AppSubmission from '../components/app/communications/Submissions';
 import AppBills from '../components/app/finance/BillServices';
 import AppCollections from '../components/app/finance/Collections';
 import FinanceDashboard from '../components/app/finance/FinanceDashboard';
@@ -97,6 +103,14 @@ function AppRoutes() {
           <Route path="/app/managedCare/claims" element={<AppClaims />} />
           <Route path="/app/managedCare/referrals" element={<AppReferrals />} />
           <Route path="/app/managedCare/preauthorization" element={<AppPreAuthorization />} />
+
+          {/* Communication */}
+          <Route path="/app/communication" element={<CommunicationsDashboard />} />
+          <Route path="/app/communication/channel" element={<AppChannel />} />
+          <Route path="/app/communication/configuration" element={<AppConfiguration />} />
+          <Route path="/app/communication/questionnaires" element={<AppQuestionnaires />} />
+          <Route path="/app/communication/submissions" element={<AppSubmission />} />
+          <Route path="/app/communication/inputfields" element={<AppInput />} />
         </Route>
       </Routes>
     </>
