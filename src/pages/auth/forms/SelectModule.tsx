@@ -1,7 +1,7 @@
 import { Box, FormGroup, Stack } from '@mui/material';
 import React from 'react';
 
-import DynamicInput from '../../app/DynamicInput';
+import DynamicInput from '../../../components/inputs/DynamicInput';
 import { ModulesSchema } from '../../app/schema';
 
 function SelectModule({ control }) {

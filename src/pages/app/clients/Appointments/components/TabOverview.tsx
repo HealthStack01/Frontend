@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import Button from '../../../../../components/buttons/Button';
 import Input from '../../../../../components/inputs/basic/Input';
 import { ButtonGroup, TableMenu } from '../../../../../ui/styled/global';
@@ -6,6 +8,24 @@ import { DetailsWrapper } from '../../../styles';
 import DocumentViewer from './DocumentViewer';
 
 const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
+  const [filtered, setFiltered] = useState([]);
+
+  const filterDocumentations = (text?: string) => {
+    if (!text) setFiltered(documentations);
+    else {
+      const list = documentations.filter((documentation) => {
+        const { createdAt, documentname, createdByname, location, facilityname, status } = documentation;
+        const time = toDurationString(createdAt);
+        const day = toShortDate(createdAt);
+        const description = `${time} ${day}: ${documentname} ${createdByname}  ${location}, ${facilityname}  ${status}`;
+        return description.toLowerCase().includes(text.toLowerCase());
+      });
+      setFiltered(list);
+    }
+  };
+  useEffect(() => {
+    filterDocumentations();
+  }, []);
   return (
     <>
       <TableMenu>
@@ -17,7 +37,12 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <Input
+            placeholder="Search here"
+            label="Search here"
+            size="small"
+            onChange={(e) => filterDocumentations(e.target.value)}
+          />
         </div>
         <ButtonGroup>
           <Button background="#Fafafa" color="#222" showicon={true} onClick={onNewPrescription}>
@@ -29,7 +54,7 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
         </ButtonGroup>
       </TableMenu>
       <div>
-        {documentations.map((documentation, index) => {
+        {filtered.map((documentation, index) => {
           const { createdAt, documentname, createdByname, location, facilityname, status } = documentation;
           const time = toDurationString(createdAt);
           const day = toShortDate(createdAt);

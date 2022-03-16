@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
-import DynamicInput from '../../DynamicInput';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { ServicesSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 

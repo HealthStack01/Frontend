@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 import React from 'react';
 
-import DynamicInput from '../../app/DynamicInput';
+import DynamicInput from '../../../components/inputs/DynamicInput';
 import { OnboardingEmployeeSchema } from '../../app/schema';
 
 function NewEmployee({ control }) {

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
-import DynamicInput from '../../DynamicInput';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 

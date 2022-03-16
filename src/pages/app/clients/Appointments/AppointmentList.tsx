@@ -4,10 +4,10 @@ import Button from '../../../../components/buttons/Button';
 import CalenderGrid from '../../../../components/calender';
 import CustomTable from '../../../../components/customtable';
 import DateRange from '../../../../components/inputs/DateRange';
+import DebouncedInput from '../../../../components/inputs/DebouncedInput';
 import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import DebouncedInput from '../../DebouncedInput';
 import { AppointmentSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 

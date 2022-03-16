@@ -2,9 +2,9 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
+import DebouncedInput from '../../../../components/inputs/DebouncedInput';
 import SwitchButton from '../../../../components/switch';
 import { TableMenu } from '../../../../ui/styled/global';
-import DebouncedInput from '../../DebouncedInput';
 import { EmployeeSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 

@@ -1,6 +1,6 @@
 import { DebounceInput } from 'react-debounce-input';
 
-import Input from '../../components/inputs/basic/Input';
+import Input from './basic/Input';
 
 const InputEl = (props) => <Input {...props} size="small" />;
 

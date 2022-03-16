@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import DynamicInput from '../../DynamicInput';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { BandSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 

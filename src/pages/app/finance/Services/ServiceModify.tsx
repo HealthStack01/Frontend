@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import DynamicInput from '../../DynamicInput';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { ServicesSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 

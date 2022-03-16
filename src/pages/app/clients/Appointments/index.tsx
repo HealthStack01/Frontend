@@ -30,13 +30,12 @@ const AppClientAppointment = () => {
     submit: handleSubmit,
     remove: handleDelete,
     setFindQuery,
-    user,
   } = useRepository(Models.APPOINTMENT, handleNavigation);
 
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    setFindQuery(queryAppointments(undefined, user.currentEmployee.facility, searchText || undefined));
+    setFindQuery(queryAppointments(undefined, undefined, searchText || undefined));
   }, [searchText]);
 
   return (

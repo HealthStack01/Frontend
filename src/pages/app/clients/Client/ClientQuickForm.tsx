@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import DynamicInput from '../../DynamicInput';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { ClientMiniSchema } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import ClientFullForm from './ClientFullForm';

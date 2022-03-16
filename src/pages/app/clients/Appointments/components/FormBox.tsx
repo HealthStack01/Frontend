@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../../components/buttons/Button';
 import CustomTable from '../../../../../components/customtable';
+import DynamicInput from '../../../../../components/inputs/DynamicInput';
 import { useObjectState } from '../../../../../context/context';
 import { FlexBox } from '../../../../../ui/styled/global';
-import DynamicInput from '../../../DynamicInput';
 import { BottomWrapper, FullDetailsWrapper } from '../../../styles';
 
 const Document = ({ schema: documentSchema, onCancel, onSubmit }) => {

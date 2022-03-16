@@ -8,10 +8,10 @@ import Input from '../../components/inputs/basic/Input';
 import RadioButton from '../../components/inputs/basic/Radio';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
+import { DateFormats } from '../../pages/app/Constants';
+import { toAPIDate } from '../../pages/app/DateUtils';
+import { InputType } from '../../pages/app/schema';
 import AutoSuggestInput from './AutoSuggestInput';
-import { DateFormats } from './Constants';
-import { toAPIDate } from './DateUtils';
-import { InputType } from './schema/util';
 
 const DynamicInput = (props) => {
   const { inputType, label, name, defaultValue, options, control, errors = {} } = props;

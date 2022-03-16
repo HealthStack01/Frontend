@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../components/buttons/Button';
-import DynamicInput from '../../app/DynamicInput';
+import DynamicInput from '../../../components/inputs/DynamicInput';
 import { InputType } from '../../app/schema';
 
 function ExistingAdminEmployee() {
