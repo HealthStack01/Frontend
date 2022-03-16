@@ -22,7 +22,7 @@ const Employees = ({ handleCreate, handleSearch, onRowClicked, items }) => {
             height: '40px',
           }}
         >
-          <DebouncedInput label="Search Bands" onChangeValue={handleSearch} />
+          <DebouncedInput label="Search Employees" onChangeValue={handleSearch} />
           <div
             style={{
               display: 'flex',

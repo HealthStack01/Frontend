@@ -51,6 +51,29 @@ function AppLocations() {
       });
   };
 
+  const handleSearch = (val) => {
+    const field = 'name';
+    LocationServ.find({
+      query: {
+        [field]: {
+          $regex: val,
+          $options: 'i',
+        },
+        facility: user.currentEmployee && user.currentEmployee.facilityDetail._id,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((res) => {
+        setLocations(res.data);
+      })
+      .catch((err) => {
+        toast('Error updating Location, probable network issues or ' + err);
+      });
+  };
+
   const handleDelete = () => {
     LocationServ.remove(location)
       .then((_) => {
@@ -114,7 +137,7 @@ function AppLocations() {
             }));
           }}
           items={locations}
-          handleSearch={getLocations}
+          handleSearch={handleSearch}
         />
       )}
       {resource.locationResource.show === 'create' && (
