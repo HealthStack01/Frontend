@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useObjectState } from '../../../context/context';
-import DynamicInput from '../../../pages/app/DynamicInput';
-import { BottomWrapper, FullDetailsWrapper } from '../../../pages/app/styles';
-import { FlexBox } from '../../../ui/styled/global';
-import Button from '../../buttons/Button';
-import CustomTable from '../../customtable';
+import Button from '../../../../../components/buttons/Button';
+import CustomTable from '../../../../../components/customtable';
+import { useObjectState } from '../../../../../context/context';
+import { FlexBox } from '../../../../../ui/styled/global';
+import DynamicInput from '../../../DynamicInput';
+import { BottomWrapper, FullDetailsWrapper } from '../../../styles';
 
 const Document = ({ schema: documentSchema, onCancel, onSubmit }) => {
   const { resource } = useObjectState();

@@ -8,7 +8,7 @@ function NewEmployee({ control }) {
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
       {OnboardingEmployeeSchema.map((schema, i) => (
-        <DynamicInput {...schema} key={i} name={schema.key} control={control} />
+        <DynamicInput {...schema} key={i} label={schema.description} name={schema.key} control={control} />
       ))}
     </Stack>
   );

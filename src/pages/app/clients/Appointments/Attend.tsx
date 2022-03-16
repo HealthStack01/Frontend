@@ -3,11 +3,11 @@ import React, { MouseEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import useRepository from '../../../../components/hooks';
-import Document from '../../../../components/utilities/AttendContent/FormBox';
 import { Models } from '../../Constants';
 import { GenericTableSchema, LaboratoryOrderSchema, PrescriptionSchema } from '../../schema';
 import { FullDetailsWrapper, PageWrapper } from '../../styles';
 import { loadError, loadSuccess } from '../../Utils';
+import Document from './components/FormBox';
 import PatientProfile from './components/PatientProfile';
 import TabBox from './components/TabBox';
 import { queryDocumentations, queryPrescriptions } from './query';

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 
 import Button from '../../../../../components/buttons/Button';
 import DnDBox from '../../../../../components/dnd';
-import Orders from '../../../../../components/utilities/AttendContent/Orders';
 import { ButtonGroup, CustomTab, CustomTabs } from '../../../../../ui/styled/global';
 import { LaboratoryOrderSchema, PrescriptionOrderSchema } from '../../../schema';
 import { GrayWrapper } from '../../../styles';
+import Orders from './Orders';
 import TabOverview from './TabOverview';
 
 interface TabPanelProps {

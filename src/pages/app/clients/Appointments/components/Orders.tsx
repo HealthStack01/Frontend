@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { FullDetailsWrapper, PageWrapper } from '../../../pages/app/styles';
-import { TableMenu } from '../../../ui/styled/global';
-import Button from '../../buttons/Button';
-import CustomTable from '../../customtable';
-import Input from '../../inputs/basic/Input';
-import FilterMenu from '../FilterMenu';
+import Button from '../../../../../components/buttons/Button';
+import CustomTable from '../../../../../components/customtable';
+import Input from '../../../../../components/inputs/basic/Input';
+import FilterMenu from '../../../../../components/utilities/FilterMenu';
+import { TableMenu } from '../../../../../ui/styled/global';
+import { FullDetailsWrapper, PageWrapper } from '../../../styles';
 import Document from './FormBox';
 
 const Orders = ({ onClick: _onClick, schema, data }) => {
