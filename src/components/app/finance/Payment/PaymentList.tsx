@@ -1,15 +1,12 @@
 import React from 'react';
-import { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
-import { PageWrapper } from '../../styles';
-import Button from '../../../buttons/Button';
 import { PaymentSchema } from '../../schema/ModelSchema';
-import { ToastContainer } from 'react-toastify';
+import { PageWrapper } from '../../styles';
 
 interface Props {
   handleCreate?: () => void;
@@ -27,11 +24,7 @@ interface Props {
   dataTree: any[];
 }
 
-
-const Payments: React.FC<Props> = ({ handleCreate,
-  onRowClicked,
-  handleSearch,
-  dataTree, }) => {
+const Payments: React.FC<Props> = ({ onRowClicked, handleSearch, dataTree }) => {
   return (
     <PageWrapper>
       <h2>Payments</h2>
@@ -45,7 +38,12 @@ const Payments: React.FC<Props> = ({ handleCreate,
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small"  onChange={(e) => handleSearch(e.target.value)} />
+          <Input
+            placeholder="Search here"
+            label="Search here"
+            size="small"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <div
             style={{
               display: 'flex',
@@ -61,19 +59,15 @@ const Payments: React.FC<Props> = ({ handleCreate,
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-      {dataTree.map((data, index) => (
+        {dataTree.map((data, index) => (
           <AccordionBox title={data.clientname} key={index}>
             {data.bills.map((child, index) => {
-             
               return (
-                <AccordionBox
-                key={index}
-                title={`${child.catName} with ${child.order.length} Unpaid bills`}
-              >
-                <CustomTable
-                  title={`${child.catName} with ${child.order.length} Unpaid bills`}
-                  columns={PaymentSchema}
-                  data={child.order}
+                <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
+                  <CustomTable
+                    title={`${child.catName} with ${child.order.length} Unpaid bills`}
+                    columns={PaymentSchema}
+                    data={child.order}
                     pointerOnHover
                     highlightOnHover
                     striped

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
-import { PaymentDetailsSchema } from '../../schema/ModelSchema';
-import { getFormStrings } from '../../Utils';
 import PaymentDetails from './PaymentDetail';
 import Payments from './PaymentList';
 const AppPayments = () => {
@@ -11,29 +10,14 @@ const AppPayments = () => {
   let SubwalletServ = client.service('subwallet');
   const SubwalletTxServ = client.service('subwallettransactions');
   const { resource, setResource } = useObjectState();
-  const [productItem, setProductItem] = useState([]);
   const { user } = useContext(UserContext);
-  const [totalamount, setTotalamount] = useState(0);
   const [medication, setMedication] = useState(null);
-  
-  
 
-  const [payments, setPayments] = useState([]);
   const [facility, setFacility] = useState([]);
   const [balance, setBalance] = useState(0);
 
-  const [paymentmode, setPaymentMode] = useState({ PaymentDetailsSchema });
-
-
-  const [obj, setObj] = useState('');
-  let sour: any[] = facility;
-  const source = sour.map((data) => {
-    return data.clientname;
-  });
-
   const handleAccept = (data) => {
     getFacilities();
-    const values = getFormStrings(data._id);
 
     if (medication) {
       if (data.paymentmode === '' || data.amount === 0) {
@@ -48,20 +32,16 @@ const AppPayments = () => {
         paymentmode: data.paymentmode,
         description: data.description,
         toName: user.employeeData[0].facilityDetail.facilityName,
-        fromName:
-          medication.participantInfo.client.firstname +
-          ' ' +
-          medication.participantInfo.client.lastname,
+        fromName: medication.participantInfo.client.firstname + ' ' + medication.participantInfo.client.lastname,
         createdby: user._id,
 
         facility: user.employeeData[0].facilityDetail._id,
         type: 'Deposit',
       };
 
-     
       if (confirm) {
         SubwalletTxServ.create(obj)
-          .then((resp) => {
+          .then((_resp) => {
             toast('Deposit accepted succesfully');
           })
           .catch((err) => {
@@ -87,8 +67,7 @@ const AppPayments = () => {
             'participantInfo.paymentmode.type': 'Family Cover',
           },
         ],
-        'participantInfo.billingFacility':
-          user.currentEmployee.facilityDetail._id,
+        'participantInfo.billingFacility': user.currentEmployee.facilityDetail._id,
         billing_status: {
           $ne: 'Fully Paid',
         },
@@ -111,8 +90,6 @@ const AppPayments = () => {
   const getFacilities = () => {
     SubwalletServ.find({
       query: {
-        
-
         $limit: 100,
         $sort: {
           createdAt: -1,
@@ -158,7 +135,7 @@ const AppPayments = () => {
         toast('Error fetching ProductEntry, probable network issues ' + err);
       });
   };
-  
+
   useEffect(() => {
     getFacilities();
     if (resource.paymentsResource) {
@@ -234,4 +211,3 @@ const AppPayments = () => {
 };
 
 export default AppPayments;
-

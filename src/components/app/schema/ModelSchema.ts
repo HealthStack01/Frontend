@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+
 import { Models } from '../Constants';
 import { toDurationString } from '../DateUtils';
 import { InputType, Schema } from './util';
@@ -634,7 +635,7 @@ const BillServiceCreateSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
-    options: []
+    options: [],
   },
   {
     name: 'Name of Location',
@@ -664,7 +665,7 @@ const PaymentDetailsSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
-    options:['Cash', 'Wallet', 'Bank Transfer', 'Card', 'Cheque']
+    options: ['Cash', 'Wallet', 'Bank Transfer', 'Card', 'Cheque'],
   },
   {
     name: 'Amount',
@@ -775,27 +776,28 @@ const ServicesSchema = [
     name: 'price',
     key: 'price',
     description: 'price',
-    selector: (row) => row.contracts.map((obj)=>{return obj.price}),
+    selector: (row) =>
+      row.contracts.map((obj) => {
+        return obj.price;
+      }),
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
   },
 ];
 
-
 export {
   BandSchema,
+  BillServiceCreateSchema,
+  BillServiceSchema,
   CollectionSchema,
   EmployeeSchema,
   LocationSchema,
   ModulesSchema,
   OnboardingEmployeeSchema,
   OrganisationSchema,
-  RevenueSchema,
-  BillServiceSchema,
-  BillServiceCreateSchema,
   PaymentDetailsSchema,
   PaymentSchema,
-  ServicesSchema
-
+  RevenueSchema,
+  ServicesSchema,
 };

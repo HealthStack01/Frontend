@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../feathers';
 import { getFormStrings } from '../../Utils';
-import { toast } from 'react-toastify';
-import { useObjectState, UserContext } from '../../../../context/context';
 import BillCreate from './BillCreate';
 import BillDetails from './BillDetail';
 import Bills from './BillList';
@@ -10,21 +11,16 @@ import BillModify from './BillModify';
 
 const AppBills = () => {
   let BillCreateServ = client.service('createbilldirect');
-  let ClientServ = client.service('client');
   let BillServ = client.service('bills');
   const { user } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
   const { resource, setResource } = useObjectState();
-  const [patient, setPatient] = useState('');
-  const [source, setSource] = useState('');
-  const [documentNo,setDocumentNo] = useState("")
-  // var random = require('random-string-generator');
-  // const invoiceNo= random(6,'uppernumeric')
+  const [, setPatient] = useState('');
+  const [, setSource] = useState('');
+  const [documentNo] = useState('');
 
-
-  const getSearchFacility1 =  (person) => {
+  const getSearchFacility1 = (person) => {
     if (!person) {
-     
       setPatient('');
       setSource('');
       return;
@@ -33,7 +29,6 @@ const AppBills = () => {
     setSource(person.firstname + ' ' + person.lastname);
   };
   const getFacilities = () => {
-   
     BillServ.find({
       query: {
         $or: [
@@ -44,7 +39,7 @@ const AppBills = () => {
             'participantInfo.paymentmode.type': 'Family Cover',
           },
         ],
- 
+
         'participantInfo.billingFacility': user.employeeData[0].facility,
         billing_status: 'Unpaid',
         $limit: 100,
@@ -52,95 +47,87 @@ const AppBills = () => {
           createdAt: -1,
         },
       },
-    })
-    .then((res)=>{
-      let findProductEntry = res
-      
-       setFacilities(findProductEntry.groupedOrder);
-    })
-   
-   ;
-   
-  };   
- 
-   const handleSearch = (val) => {
-     const field = 'name';
-     BillServ.find({
-       query: {
-         [field]: {
-           $regex: val,
-           $options: 'i',
-         },
- 
-         $or: [
-           {
-             'participantInfo.paymentmode.type': 'Cash',
-           },
-           {
-             'participantInfo.paymentmode.type': 'Family Cover',
-           },
-         ],
- 
-         'participantInfo.billingFacility':
-           user.currentEmployee.facilityDetail._id,
-         billing_status: 'Unpaid',
-         $limit: 30,
-         $sort: {
-           createdAt: -1,
-         },
-       },
-     })
-       .then((res) => {
-         setFacilities(res.groupedOrder);
-         toast(' ProductEntry  fetched successfully');
-       })
-       .catch((err) => {
-         toast(
-           'Error fetching ProductEntry, probable network issues ' + err
-         );
-       });
-   };
+    }).then((res) => {
+      let findProductEntry = res;
 
-   const onSubmit = (data) => {
+      setFacilities(findProductEntry.groupedOrder);
+    });
+  };
+
+  const handleSearch = (val) => {
+    const field = 'name';
+    BillServ.find({
+      query: {
+        [field]: {
+          $regex: val,
+          $options: 'i',
+        },
+
+        $or: [
+          {
+            'participantInfo.paymentmode.type': 'Cash',
+          },
+          {
+            'participantInfo.paymentmode.type': 'Family Cover',
+          },
+        ],
+
+        'participantInfo.billingFacility': user.currentEmployee.facilityDetail._id,
+        billing_status: 'Unpaid',
+        $limit: 30,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((res) => {
+        setFacilities(res.groupedOrder);
+        toast(' ProductEntry  fetched successfully');
+      })
+      .catch((err) => {
+        toast('Error fetching ProductEntry, probable network issues ' + err);
+      });
+  };
+
+  const onSubmit = (data) => {
     const values = getFormStrings(data._id);
     if (user.employeeData) {
       data.facility = user.employeeData[0].facility;
     }
-    (data._id ? BillCreateServ.update(data._id, data) :BillCreateServ.create(data))
-      .then((res) => {
+    (data._id ? BillCreateServ.update(data._id, data) : BillCreateServ.create(data))
+      .then(() => {
         toast(`Location ${values.message}`);
       })
       .catch((err) => {
         toast.error(`Error occurred : ${err}`);
-        console.error(err)
+        console.error(err);
       });
   };
 
-   useEffect(() => {
+  useEffect(() => {
     getSearchFacility1(resource.billServicesResource.selectedBillService);
 
-   
-    
     return () => {};
   }, [resource.billServicesResource.selectedBillService]);
-  
+
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
     if (!BillServ) {
       BillServ = client.service('bills');
-      BillServ.on('created', (obj) => getFacilities());
-      BillServ.on('updated', (obj) => getFacilities());
-      BillServ.on('patched', (obj) => getFacilities());
-      BillServ.on('removed', (obj) => getFacilities());
+      BillServ.on('created', () => getFacilities());
+      BillServ.on('updated', () => getFacilities());
+      BillServ.on('patched', () => getFacilities());
+      BillServ.on('removed', () => getFacilities());
     }
-    if(isMounted){user && getFacilities()};
+    if (isMounted) {
+      user && getFacilities();
+    }
     return () => {
       BillServ = null;
-      isMounted = false
+      isMounted = false;
     };
   }, [user]);
 
- 
   return (
     <>
       {resource.billServicesResource.show === 'lists' && (
@@ -167,7 +154,7 @@ const AppBills = () => {
           handleSearch={handleSearch}
         />
       )}
-     
+
       {resource.billServicesResource.show === 'create' && (
         <BillCreate
           backClick={() =>

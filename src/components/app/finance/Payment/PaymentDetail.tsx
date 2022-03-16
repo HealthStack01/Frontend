@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
 import Button from '../../../buttons/Button';
-import DynamicInput from '../../DynamicInput';
 import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
-import CustomSelect from '../../../inputs/basic/Select';
-
-import { PaymentSchema, PaymentDetailsSchema } from '../../schema/ModelSchema';
-import {
-  BottomWrapper,
-  FullDetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
-  HeadWrapper,
-  PageWrapper,
-} from '../../styles';
+import DynamicInput from '../../DynamicInput';
+import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -24,12 +16,7 @@ interface Props {
   amountBalance: number;
 }
 
-const PaymentDetails: React.FC<Props> = ({
-  row,
-  backClick,
-  handleAccept,
-  amountBalance,
-}) => {
+const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountBalance }) => {
   const [values, setValues] = useState({});
   const { handleSubmit, control } = useForm();
   const [update, setUpdate] = useState();
@@ -54,12 +41,7 @@ const PaymentDetails: React.FC<Props> = ({
             <span>Below are your payment’s details</span>
           </div>
           <div>
-            <Button
-              label="Back to List"
-              background="#fdfdfd"
-              color="#333"
-              onClick={backClick}
-            />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -127,11 +109,7 @@ const PaymentDetails: React.FC<Props> = ({
               </div>
             ))}
             <div>
-              <RadioButton
-                title="Type"
-                options={typeOptions}
-                onChange={(e) => setUpdate(e.target.value)}
-              />
+              <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
               {update === 'Part' && (
                 <div>
                   <Input
@@ -159,4 +137,3 @@ const PaymentDetails: React.FC<Props> = ({
 };
 
 export default PaymentDetails;
-

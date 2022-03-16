@@ -1,27 +1,21 @@
 import React from 'react';
-import { TableColumn } from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CollapsableGrid from '../../../datagrids/CollapsableGrid';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
-import { PageWrapper } from '../../styles';
-import { ToastContainer } from "react-toastify";
 import { ServicesSchema } from '../../schema/ModelSchema';
+import { PageWrapper } from '../../styles';
 
 interface Props {
   handleCreate?: () => void;
-  onRowClicked?: (
-    row: { id: any; name: string; panel: string; amount: string },
-    event: any
-  ) => void;
+  onRowClicked?: (row: { id: any; name: string; panel: string; amount: string }, event: any) => void;
   handleSearch: (_event) => void;
   dataTree: any[];
 }
 
-
-const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked,handleSearch,dataTree }) => {
+const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, dataTree }) => {
   return (
     <PageWrapper>
       <h2>Services </h2>
@@ -35,7 +29,12 @@ const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked,handleSearch,da
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small"  onChange={(e) => handleSearch(e.target.value)} />
+          <Input
+            placeholder="Search here"
+            label="Search here"
+            size="small"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <div
             style={{
               display: 'flex',
@@ -55,8 +54,7 @@ const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked,handleSearch,da
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-      {dataTree.map((data, index) => {
-        
+        {dataTree.map((data, index) => {
           return (
             <CollapsableGrid
               key={index}

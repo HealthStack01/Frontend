@@ -1,11 +1,10 @@
 import React from 'react';
 
-import DebouncedInput from '../../DebouncedInput';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
-
 import SwitchButton from '../../../switch';
+import DebouncedInput from '../../DebouncedInput';
 import { LocationSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
 

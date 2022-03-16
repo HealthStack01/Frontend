@@ -4,9 +4,8 @@ import { TableMenu } from '../../../../styles/global';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
+import { CollectionSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
-import {CollectionSchema} from '../../schema/ModelSchema'
 
 interface Props {
   handleCreate?: () => void;
@@ -24,7 +23,7 @@ interface Props {
   ) => void;
 }
 
-const Collections: React.FC<Props> = ({ onRowClicked , handleSearch,items}) => {
+const Collections: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2>Collections</h2>
@@ -37,7 +36,12 @@ const Collections: React.FC<Props> = ({ onRowClicked , handleSearch,items}) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small"  onChange={(e) => handleSearch(e.target.value)} />
+          <Input
+            placeholder="Search here"
+            label="Search here"
+            size="small"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <div
             style={{
               display: 'flex',

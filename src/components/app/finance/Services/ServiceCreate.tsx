@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import { useForm } from 'react-hook-form';
+
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
-import { ServicesSchema } from '../../schema/ModelSchema';
 import DynamicInput from '../../DynamicInput';
+import { ServicesSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -13,10 +13,8 @@ interface Props {
   handleSearch: (_event) => void;
 }
 
-const ServiceCreate: React.FC<Props> = ({  backClick,
-  onSubmit,
-  handleSearch, }) => {
-    const { handleSubmit, control } = useForm();
+const ServiceCreate: React.FC<Props> = ({ backClick, onSubmit, handleSearch }) => {
+  const { handleSubmit, control } = useForm();
 
   return (
     <PageWrapper>
@@ -29,7 +27,7 @@ const ServiceCreate: React.FC<Props> = ({  backClick,
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <FullDetailsWrapper title="Create Employee">
+          <FullDetailsWrapper title="Create Employee">
             <GridWrapper className="two-columns">
               <Input
                 label="Search for Service Category"
@@ -59,4 +57,3 @@ const ServiceCreate: React.FC<Props> = ({  backClick,
 };
 
 export default ServiceCreate;
-

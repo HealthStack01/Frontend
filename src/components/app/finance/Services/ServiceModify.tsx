@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../buttons/Button';
-import Input from '../../../inputs/basic/Input';
-import { useForm } from 'react-hook-form';
-import { ServicesSchema } from '../../schema/ModelSchema';
 import DynamicInput from '../../DynamicInput';
+import { ServicesSchema } from '../../schema/ModelSchema';
 import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -14,13 +13,10 @@ interface Props {
   onSubmit: (_data) => void;
 }
 
-const ServiceModify: React.FC<Props> = ({  cancelEditClicked,
-  row: services,
-  backClick,
-  onSubmit }) => {
-    const { handleSubmit, control } = useForm({
-      defaultValues: services,
-    });
+const ServiceModify: React.FC<Props> = ({ cancelEditClicked, row: services, backClick, onSubmit }) => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: services,
+  });
 
   return (
     <PageWrapper>
@@ -43,22 +39,21 @@ const ServiceModify: React.FC<Props> = ({  cancelEditClicked,
           </div>
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
-        <GridWrapper>
-          {ServicesSchema.map((client, index) => (
-            <DynamicInput
-              key={index}
-              name={client.key}
-              control={control}
-              label={client.name}
-              inputType={client.inputType}
-            />
-          ))}
-        </GridWrapper>
+          <GridWrapper>
+            {ServicesSchema.map((client, index) => (
+              <DynamicInput
+                key={index}
+                name={client.key}
+                control={control}
+                label={client.name}
+                inputType={client.inputType}
+              />
+            ))}
+          </GridWrapper>
 
-        <BottomWrapper>
-        
-          <Button label="Save Service" />
-        </BottomWrapper>
+          <BottomWrapper>
+            <Button label="Save Service" />
+          </BottomWrapper>
         </form>
       </GrayWrapper>
     </PageWrapper>
@@ -66,4 +61,3 @@ const ServiceModify: React.FC<Props> = ({  cancelEditClicked,
 };
 
 export default ServiceModify;
-

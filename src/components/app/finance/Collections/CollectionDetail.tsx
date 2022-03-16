@@ -4,9 +4,8 @@ import DataTable from 'react-data-table-component';
 import { ButtonGroup } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
+import { CollectionSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from './data';
-import {CollectionSchema} from '../../schema/ModelSchema'
 
 interface Props {
   editBtnClicked?: () => void;
@@ -17,9 +16,7 @@ interface Props {
   debit: any[];
 }
 
-const CollectionDetails: React.FC<Props> = ({ row, backClick, balance,
-  credit,
-  debit }) => {
+const CollectionDetails: React.FC<Props> = ({ backClick, balance, credit, debit }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -56,7 +53,14 @@ const CollectionDetails: React.FC<Props> = ({ row, backClick, balance,
               />
             </AccordionBox>
             <AccordionBox defaultExpanded={true} title="Credit">
-              <DataTable data={credit} columns={CollectionSchema} title="Credit" pointerOnHover highlightOnHover striped />
+              <DataTable
+                data={credit}
+                columns={CollectionSchema}
+                title="Credit"
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
             </AccordionBox>
           </GridWrapper>
         </FullDetailsWrapper>

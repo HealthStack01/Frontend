@@ -1,15 +1,13 @@
 import React from 'react';
-import { TableColumn } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 
 import { TableMenu } from '../../../../styles/global';
-import Button from '../../../buttons/Button';
 import AccordionBox from '../../../accordion';
-import DataTable from 'react-data-table-component';
-import CollapsableGrid from '../../../datagrids/CollapsableGrid';
+import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import SwitchButton from '../../../switch';
-import { PageWrapper } from '../../styles';
 import { BillServiceSchema } from '../../schema/ModelSchema';
+import { PageWrapper } from '../../styles';
 
 interface Props {
   handleCreate?: () => void;
@@ -35,9 +33,7 @@ export interface DataProps {
   amount: string;
 }
 
-
-
-const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch,dataTree }) => {
+const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, dataTree }) => {
   return (
     <PageWrapper>
       <h2>Bill Services</h2>
@@ -51,7 +47,12 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch,dataT
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" onChange={(e) => handleSearch(e.target.value)} />
+          <Input
+            placeholder="Search here"
+            label="Search here"
+            size="small"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <div
             style={{
               display: 'flex',
@@ -70,16 +71,11 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch,dataT
         </Button>
       </TableMenu>
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-         {dataTree.map((data, index) => (
+        {dataTree.map((data, index) => (
           <AccordionBox title={data.clientname} key={index}>
             {data.bills.map((child, index) => {
-             
-
               return (
-                <AccordionBox
-                  key={index}
-                  title={`${child.catName} with ${child.order.length} Unpaid bills`}
-                >
+                <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
                   <DataTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
                     columns={BillServiceSchema}

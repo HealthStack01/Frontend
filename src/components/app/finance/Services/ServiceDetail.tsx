@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { ButtonGroup } from '../../../../styles/global';
-import { ServicesSchema } from '../../schema/ModelSchema';
 import Button from '../../../buttons/Button';
+import { ServicesSchema } from '../../schema/ModelSchema';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
@@ -12,10 +12,7 @@ interface Props {
   row?: any;
 }
 
-const ServiceDetails: React.FC<Props> = ({  editBtnClicked,
-  row,
-  backClick,
-  handleDelete }) => {
+const ServiceDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -46,7 +43,7 @@ const ServiceDetails: React.FC<Props> = ({  editBtnClicked,
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-          {ServicesSchema.map((schema) => (
+            {ServicesSchema.map((schema) => (
               <div>
                 <label>{schema.name}</label>
                 <p>{schema.selector(row)}</p>
