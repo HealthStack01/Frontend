@@ -1,33 +1,49 @@
 import React, { useState } from 'react';
-
+import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
+import DynamicInput from '../../DynamicInput';
 import Input from '../../../inputs/basic/Input';
 import RadioButton from '../../../inputs/basic/Radio';
 import CustomSelect from '../../../inputs/basic/Select';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+
+import { PaymentSchema, PaymentDetailsSchema } from '../../schema/ModelSchema';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  handleAccept: (_data, _event) => void;
   row?: any;
+  amountBalance: number;
 }
 
-const paymentOptions = ['Cash', 'Transfer'];
-
-const typeOptions = [
-  {
-    value: 'Full',
-    label: 'full',
-  },
-  {
-    value: 'Part',
-    label: 'Part',
-  },
-];
-
-const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
+const PaymentDetails: React.FC<Props> = ({
+  row,
+  backClick,
+  handleAccept,
+  amountBalance,
+}) => {
   const [values, setValues] = useState({});
+  const { handleSubmit, control } = useForm();
   const [update, setUpdate] = useState();
+
+  const typeOptions = [
+    {
+      value: 'Full',
+      label: 'full',
+    },
+    {
+      value: 'Part',
+      label: 'Part',
+    },
+  ];
 
   return (
     <PageWrapper>
@@ -38,61 +54,45 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your payment’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
           <HeadWrapper>
             <div>
-              <h2>Make deposit for {row.name}</h2>
+              <h2>Make deposit for {row.orderInfo.orderObj.clientname}</h2>
             </div>
             <div>
               <label
                 style={{
                   padding: '14px 20px',
-                  background: '#ebffe8',
-                  color: '#0d4a07',
+                  background: '#ffb3bd',
+                  color: '#ED0423',
                   border: 'none',
                   borderRadius: '4px',
                 }}
               >
-                Balance {row.amount}
+                Balance N {amountBalance}
               </label>
             </div>
           </HeadWrapper>
-          <form action="">
+          <form onSubmit={handleSubmit(handleAccept)}>
             <GridWrapper>
-              <CustomSelect
-                options={paymentOptions}
-                name="paymentOptions"
-                label="Payment Options"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Amount"
-                name="name"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Payment Details"
-                name="description"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              {PaymentDetailsSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={client.options}
+                />
+              ))}
             </GridWrapper>
             <BottomWrapper>
               <Button label="Accept Payment" type="submit" />
@@ -103,7 +103,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
         <FullDetailsWrapper>
           <HeadWrapper>
             <div>
-              <h2>Pay bills for {row.name}</h2>
+              <h2>Pay bills for {row.orderInfo.orderObj.clientname}</h2>
             </div>
             <div>
               <label
@@ -119,25 +119,19 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               </label>
             </div>
           </HeadWrapper>
-          <GridWrapper style={{ alignItems: 'start' }}>
+          <GridWrapper>
+            {PaymentSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
             <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Name</label>
-              <p>{row.name}</p>
-            </div>
-            <div>
-              <label>Date</label>
-              <p>{row.date}</p>
-            </div>
-            <div>
-              <label>Status</label>
-              <p>{row.status}</p>
-            </div>
-            <div>
-              <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
+              <RadioButton
+                title="Type"
+                options={typeOptions}
+                onChange={(e) => setUpdate(e.target.value)}
+              />
               {update === 'Part' && (
                 <div>
                   <Input
@@ -154,15 +148,6 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
 
               <Button>Update</Button>
             </div>
-
-            <div>
-              <label>Description</label>
-              <p>{row.decription}</p>
-            </div>
-            <div>
-              <label>Amount</label>
-              <p>{row.amount}</p>
-            </div>
           </GridWrapper>
           <BottomWrapper>
             <Button label="Pay" type="submit" />
@@ -174,3 +159,4 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
 };
 
 export default PaymentDetails;
+

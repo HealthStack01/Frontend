@@ -6,14 +6,20 @@ import AccordionBox from '../../../accordion';
 import Button from '../../../buttons/Button';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import { columnHead } from './data';
+import {CollectionSchema} from '../../schema/ModelSchema'
 
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
   row?: any;
+  balance: number;
+  credit: any[];
+  debit: any[];
 }
 
-const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
+const CollectionDetails: React.FC<Props> = ({ row, backClick, balance,
+  credit,
+  debit }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -33,24 +39,24 @@ const CollectionDetails: React.FC<Props> = ({ row, backClick }) => {
                 borderRadius: '4px',
               }}
             >
-              Current Balance {row.amount}
+              Current Balance {balance}
             </label>
           </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper className="two-columns">
-            <AccordionBox defaultExpanded={true} title="Credit">
+            <AccordionBox defaultExpanded={true} title="Debit">
               <DataTable
-                data={row.credit}
-                columns={columnHead}
-                title="Credit"
+                data={debit}
+                columns={CollectionSchema}
+                title="Debit"
                 pointerOnHover
                 highlightOnHover
                 striped
               />
             </AccordionBox>
-            <AccordionBox defaultExpanded={true} title="Debit">
-              <DataTable data={row.debit} columns={columnHead} title="Debit" pointerOnHover highlightOnHover striped />
+            <AccordionBox defaultExpanded={true} title="Credit">
+              <DataTable data={credit} columns={CollectionSchema} title="Credit" pointerOnHover highlightOnHover striped />
             </AccordionBox>
           </GridWrapper>
         </FullDetailsWrapper>

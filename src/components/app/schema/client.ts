@@ -118,7 +118,7 @@ const AppointmentSchema = [
       sortable: true,
       required: true,
       inputType: InputType.SELECT_LIST,
-      options: ['New', 'Type B', 'Followup', 'Readmission with 24hrs', 'Annual Checkup', 'Walk-in'],
+      options: ['New', 'Type B', 'Followup', '', 'Annual Checkup'],
     },
     {
       name: 'Appointment Status',

@@ -1,16 +1,21 @@
 import React from 'react';
 
 import { ButtonGroup } from '../../../../styles/global';
+import { ServicesSchema } from '../../schema/ModelSchema';
 import Button from '../../../buttons/Button';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
+  handleDelete: (_event) => void;
   row?: any;
 }
 
-const ServiceDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const ServiceDetails: React.FC<Props> = ({  editBtnClicked,
+  row,
+  backClick,
+  handleDelete }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -41,22 +46,12 @@ const ServiceDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => 
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Name</label>
-              <p>{row.name}</p>
-            </div>
-            <div>
-              <label>Panel</label>
-              <p>{row.panel}</p>
-            </div>
-            <div>
-              <label>Cash Price</label>
-              <p>{row.amount}</p>
-            </div>
+          {ServicesSchema.map((schema) => (
+              <div>
+                <label>{schema.name}</label>
+                <p>{schema.selector(row)}</p>
+              </div>
+            ))}
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

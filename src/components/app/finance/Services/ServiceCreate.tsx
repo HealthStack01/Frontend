@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 
+import { useForm } from 'react-hook-form';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
+import { ServicesSchema } from '../../schema/ModelSchema';
+import DynamicInput from '../../DynamicInput';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   backClick: () => void;
+  onSubmit: (_data, _event) => void;
+  handleSearch: (_event) => void;
 }
 
-const ServiceCreate: React.FC<Props> = ({ backClick }) => {
-  const [values, setValues] = useState({});
+const ServiceCreate: React.FC<Props> = ({  backClick,
+  onSubmit,
+  handleSearch, }) => {
+    const { handleSubmit, control } = useForm();
 
   return (
     <PageWrapper>
@@ -21,43 +28,24 @@ const ServiceCreate: React.FC<Props> = ({ backClick }) => {
           </div>
           <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
         </HeadWrapper>
-        <form action="" onSubmit={() => {}}>
-          <FullDetailsWrapper title="Create Employee">
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <FullDetailsWrapper title="Create Employee">
             <GridWrapper className="two-columns">
               <Input
                 label="Search for Service Category"
                 name="Servicesearch"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
+                onChange={(e) => handleSearch(e.target.value)}
               />
-              <Input
-                label="Name of Service"
-                name="Servicename"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
+              {ServicesSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                />
+              ))}
             </GridWrapper>
-
-            <h2>Add Pricing Info</h2>
-
-            <Input
-              label="Price"
-              name="price"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
           </FullDetailsWrapper>
 
           <BottomWrapper>
@@ -71,3 +59,4 @@ const ServiceCreate: React.FC<Props> = ({ backClick }) => {
 };
 
 export default ServiceCreate;
+

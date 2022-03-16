@@ -38,15 +38,8 @@ const Revenue: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Revenues"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
+          <Input placeholder="Search here" label="Search here" size="small"  onChange={(e) => handleSearch(e.target.value)} />
+          
           <div
             style={{
               display: 'flex',
