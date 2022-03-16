@@ -22,7 +22,7 @@ const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }
             </div>
             <ButtonGroup>
               <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
-              <Button label={'Start or Join Telemedicine'} background={'#04ed7c'} color={'#fff'} />
+              <Button label={'Start or Join Teleconsultation'} background={'#04ed7c'} color={'#fff'} />
             </ButtonGroup>
           </HeadWrapper>
           <FullDetailsWrapper>

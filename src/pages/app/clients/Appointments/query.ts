@@ -1,3 +1,42 @@
+const queryClients = (facilityId?: string, locationId?: string, val?: string) => {
+  return {
+    query: {
+      $or: val && [
+        {
+          firstname: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          lastname: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          middlename: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          phone: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+      ],
+      facility: facilityId,
+      locationId,
+      $limit: 20,
+      $sort: {
+        createdAt: -1,
+      },
+    },
+  };
+};
+
 const queryAppointments = (facilityId?: string, locationId?: string, val?: string) => {
   return {
     query: {
@@ -142,4 +181,4 @@ const queryDocumentations = (documentName?: string, clientId?: string) => {
   };
 };
 
-export { queryAppointments, queryDocumentations, queryPrescriptions, queryTests };
+export { queryAppointments, queryClients, queryDocumentations, queryPrescriptions, queryTests };

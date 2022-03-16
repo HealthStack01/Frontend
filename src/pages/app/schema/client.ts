@@ -24,9 +24,10 @@ const AppointmentSchema = [
       model: Models.EMPLOYEE,
       or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
       labelSelector: (obj) =>
-        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
-          obj.email
-        }`,
+        `${obj.firstname || ''} ${obj.lastname || ''} ${(obj.dob && toDurationString(obj.dob)) || ''} ${
+          obj.gender || ''
+        }
+        ${obj.profession || ''} ${obj.phone || ''} ${obj.email || ''}`,
       valueSelector: ({ _id, firstname, lastname, dob, gender, phone, email }) => ({
         clientId: _id,
         firstname,

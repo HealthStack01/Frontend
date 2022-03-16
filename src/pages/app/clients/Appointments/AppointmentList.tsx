@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import Button from '../../../../components/buttons/Button';
 import CalenderGrid from '../../../../components/calender';
 import CustomTable from '../../../../components/customtable';
-import DateRange from '../../../../components/inputs/DateRange';
-import DebouncedInput from '../../../../components/inputs/DebouncedInput';
 import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
@@ -19,17 +17,8 @@ const Appointments = ({ handleCreate, onRowClicked, onSearch, items }) => {
       <h2>Appointments </h2>
 
       <TableMenu>
-        <div
-          className="inner-table"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: '40px',
-          }}
-        >
-          <DebouncedInput label="Search Appointments" onChangeValue={onSearch} />
-          <FilterMenu />
-          <DateRange />
+        <div className="inner-table">
+          <FilterMenu schema={AppointmentSchema.flat()} onSearch={onSearch} />
 
           <SwitchButton onClick={() => setListView(!listView)} />
         </div>

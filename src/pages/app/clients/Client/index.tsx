@@ -1,142 +1,42 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
 
-import { useObjectState, UserContext } from '../../../../context/context';
-import client from '../../../../context/feathers';
-import { getFormStrings } from '../../Utils';
+import useRepository from '../../../../components/hooks';
+import { useObjectState } from '../../../../context/context';
+import { Models } from '../../Constants';
+import { queryClients } from '../Appointments/query';
 import ClientCreate from './ClientCreate';
 import ClientDetails from './ClientDetail';
 import Clients from './ClientList';
 import ClientModify from './ClientModify';
 
 const AppClient = () => {
-  let ClientServ = client.service('client');
-
   const { resource, setResource } = useObjectState();
-  const { user } = useContext(UserContext);
-  const [newClients, setNewClients] = useState([]);
+  const {
+    clientResource: { selectedClient },
+  } = resource;
 
-  const Client = resource.billClientResource.selectedBillClient;
-
-  const backClick = () => {
-    setResource((prevState) => ({
-      ...prevState,
-      billClientResource: {
-        ...prevState.billClientResource,
-        show: 'lists',
+  const navigate = (show: string) => (selectedClient?: any) =>
+    setResource({
+      ...resource,
+      clientResource: {
+        ...resource.clientResource,
+        show,
+        selectedClient: selectedClient || resource.clientResource.selectedClient,
       },
-    }));
-  };
+    });
 
-  const getClients = async () => {
-    if (user.employeeData[0]) {
-      ClientServ.find({
-        query: {
-          facility: user.employeeData[0]._id,
-          $limit: 200,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      })
-        .then((res) => {
-          setNewClients(res.data);
-        })
+  const {
+    list: clients,
+    remove: handleDelete,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository<any>(Models.CLIENT, navigate);
 
-        .catch((err) => {
-          console.error(err);
-        });
-    } else if (user.stacker) {
-      ClientServ.find({
-        query: {
-          $limit: 200,
-          $sort: {
-            facility: -1,
-          },
-        },
-      })
-        .then((res) => {
-          setNewClients(res.data);
-
-          toast('Clients fetched successfully');
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-
-  const handleSearch = (text) => {
-    ClientServ.find({
-      query: {
-        name: {
-          $regex: text,
-          $options: 'i',
-        },
-        facility: user?.employeeData[0]?._id || '',
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      },
-    })
-      .then((res) => {
-        setNewClients(res.data);
-        toast('Client fetched succesfully');
-      })
-      .catch((err) => {
-        toast('Error updating Client, probable network issues or ' + err);
-      });
-  };
-
-  const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
-
-    const dleteId = Client['_id'];
-    if (conf) {
-      ClientServ.remove(dleteId)
-        .then(() => {
-          toast('Client deleted succesfully');
-          backClick();
-        })
-        .catch((err) => {
-          toast('Error deleting Client, probable network issues or ' + err);
-        });
-    }
-  };
-
-  const onSubmit = (data) => {
-    const values = getFormStrings(Client['_id']);
-
-    if (user.employeeData) {
-      data.facility = user.employeeData[0]._id;
-    }
-
-    (data._id ? ClientServ.update(Client['_id'], data) : ClientServ.create(data))
-      .then(() => {
-        toast(`Client ${values.message}`);
-
-        backClick();
-      })
-      .catch((err) => {
-        toast.error(`Error occurred : ${err}`);
-      });
-  };
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    if (!ClientServ) {
-      ClientServ.on('created', (_) => getClients());
-      ClientServ.on('updated', (_) => getClients());
-      ClientServ.on('patched', (_) => getClients());
-      ClientServ.on('removed', (_) => getClients());
-    }
-
-    user && getClients();
-
-    return () => {
-      ClientServ = null;
-    };
-  }, [user]);
+    setFindQuery(queryClients(undefined, undefined, searchText ? searchText : undefined));
+  }, [searchText]);
 
   return (
     <>
@@ -160,8 +60,8 @@ const AppClient = () => {
               },
             }));
           }}
-          items={newClients}
-          handleSearch={handleSearch}
+          items={clients}
+          handleSearch={setSearchText}
         />
       )}
 
@@ -176,7 +76,7 @@ const AppClient = () => {
               },
             }))
           }
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
         />
       )}
 
@@ -201,7 +101,7 @@ const AppClient = () => {
               },
             }))
           }
-          handleDelete={() => handleDelete()}
+          handleDelete={() => handleDelete(selectedClient)}
         />
       )}
       {resource.billClientResource.show === 'edit' && (
@@ -219,14 +119,14 @@ const AppClient = () => {
           cancelEditClicked={() =>
             setResource((prevState) => ({
               ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
+              clientResource: {
+                ...prevState.clientResource,
                 show: 'details',
               },
             }))
           }
-          onSubmit={onSubmit}
-          handleDelete={() => handleDelete()}
+          onSubmit={handleSubmit}
+          handleDelete={() => handleDelete(selectedClient)}
         />
       )}
     </>

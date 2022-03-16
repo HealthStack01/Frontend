@@ -79,7 +79,7 @@ const TabBox = ({
         <ButtonGroup>
           <Button label="End Encounter" background="#FFE9E9" color="#ED0423" />
           <Button
-            label={'Start or Join Telemedicine'}
+            label={'Start or Join Teleconsultation'}
             background={'#04ed7c'}
             color={'#fff'}
             onClick={onOpenTelemedicine}

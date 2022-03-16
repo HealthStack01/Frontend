@@ -2,8 +2,8 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import DebouncedInput from '../../../../components/inputs/DebouncedInput';
 import SwitchButton from '../../../../components/switch';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { LocationSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
@@ -28,7 +28,7 @@ const Locations: React.FC<Props> = ({ handleCreate, handleSearch, onRowClicked, 
             height: '40px',
           }}
         >
-          <DebouncedInput label="Search here" onChangeValue={handleSearch} />
+          <FilterMenu onSearch={handleSearch} />
           <div
             style={{
               display: 'flex',

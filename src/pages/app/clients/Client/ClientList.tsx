@@ -2,7 +2,6 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { ClientMiniSchema } from '../../schema';
@@ -15,7 +14,7 @@ interface Props {
   handleSearch: (_) => void;
 }
 
-const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
+const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, items }) => {
   return (
     <PageWrapper>
       <h2> Client </h2>
@@ -29,8 +28,7 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          <FilterMenu />
+          <FilterMenu onSearch={handleSearch} />
         </div>
 
         <Button onClick={handleCreate}>

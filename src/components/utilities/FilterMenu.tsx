@@ -4,7 +4,10 @@ import MenuList from '@mui/material/MenuList';
 import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
-const FilterMenu = () => {
+import DateRange from '../inputs/DateRange';
+import DebouncedInput from '../inputs/DebouncedInput';
+
+const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -40,7 +43,15 @@ const FilterMenu = () => {
   }, [open]);
 
   return (
-    <div style={{ position: 'relative', zIndex: '10' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        position: 'relative',
+        justifyContent: 'space-around',
+        zIndex: '10',
+      }}
+    >
       <label
         ref={anchorRef}
         id="composition-button"
@@ -59,13 +70,9 @@ const FilterMenu = () => {
           margin: '0 10px',
         }}
       >
-        <span>Filer by</span>
+        <span>Search All</span>
         <i className="bi bi-chevron-down"></i>
       </label>
-      {/* <Button ref={anchorRef} onClick={handleToggle}>
-        <span>Filer by</span>
-        <i className="bi bi-chevron-down"></i>
-      </Button> */}
       <Popper
         open={open}
         anchorEl={anchorRef.current}
@@ -92,22 +99,24 @@ const FilterMenu = () => {
                 >
                   <div>
                     <input type="checkbox" />
-                    <label>None</label>
+                    <label>Default</label>
                   </div>
-                  <div>
-                    <input type="checkbox" />
-                    <label>Date</label>
-                  </div>
-                  <div>
-                    <input type="checkbox" />
-                    <label>Description</label>
-                  </div>
+                  {schema
+                    .filter((obj) => obj.filterable)
+                    .map((obj, i) => (
+                      <div key={i}>
+                        <input type="checkbox" onChange={onSearch} />
+                        <label>{obj.description}</label>
+                      </div>
+                    ))}
                 </MenuList>
               </ClickAwayListener>
             </div>
           </Grow>
         )}
       </Popper>
+      <DebouncedInput label="Search here" onChangeValue={onSearch} />
+      {dateField && <DateRange />}
     </div>
   );
 };
