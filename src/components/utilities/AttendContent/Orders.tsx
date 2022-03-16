@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { TableMenu } from '../../../styles/global';
-import { FullDetailsWrapper, PageWrapper } from '../../app/styles';
+import { FullDetailsWrapper, PageWrapper } from '../../../pages/app/styles';
+import { TableMenu } from '../../../ui/styled/global';
 import Button from '../../buttons/Button';
 import CustomTable from '../../customtable';
 import Input from '../../inputs/basic/Input';

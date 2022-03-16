@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FlexBox } from '../../../styles/global';
+import { FlexBox } from '../../../ui/styled/global';
 
 const MiscBox = () => {
   return (

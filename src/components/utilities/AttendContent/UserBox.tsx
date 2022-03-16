@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { FlexBox, ImageBox } from '../../../styles/global';
-import { FullDetailsWrapper } from '../../app/styles';
+import { FullDetailsWrapper } from '../../../pages/app/styles';
+import { FlexBox, ImageBox } from '../../../ui/styled/global';
 import Button from '../../buttons/Button';
 import InfoBox from './InfoBox';
 import MiscBox from './MiscBox';

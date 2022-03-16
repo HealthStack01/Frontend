@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { getResolver, OnboardingEmployeeSchema, OrganisationSchema } from '../../components/app/schema';
+import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
-import client from '../../feathers';
-import AuthWrapper from '../../helper/AuthWrapper';
+import client from '../../context/feathers';
+import { getResolver, OnboardingEmployeeSchema, OrganisationSchema } from '../app/schema';
 import AddAdmin from './forms/AddAdmin';
 import CreateOrganization from './forms/CreateOrganization';
 import SelectModule from './forms/SelectModule';

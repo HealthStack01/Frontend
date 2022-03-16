@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import AppRoutes from '../../routes/routes';
+import AppRoutes from '../../pages/routes';
 import { LayoutWrapper } from './styles';
 
 function Layout() {

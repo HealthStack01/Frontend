@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { UserContext } from '../../context/context';
-import client from '../../feathers';
+import client from '../../context/feathers';
+import { Views } from '../../pages/app/Constants';
+import { getFormStrings } from '../../pages/app/Utils';
 import { DictionaryOf } from '../../types.d';
-import { Views } from '../app/Constants';
-import { getFormStrings } from '../app/Utils';
 
 interface Repository<T> {
   list: T[];

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
-import { DetailsWrapper } from '../app/styles';
+import { DetailsWrapper } from '../../pages/app/styles';
 import Input from '../inputs/basic/Input';
 import CustomSelect from '../inputs/basic/Select';
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({

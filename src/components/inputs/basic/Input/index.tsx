@@ -41,6 +41,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       size={size}
       disabled={disabled}
+      sx={{ background: 'white' }}
     />
   </FormControl>
 );

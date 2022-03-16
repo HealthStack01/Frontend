@@ -9,9 +9,9 @@ import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 
 import { ObjectProvider, UserProvider } from './context/context';
-import AppRoutes from './routes/routes';
-import { GlobalStyle } from './styles/global';
-import { darkTheme, lightTheme } from './styles/theme';
+import AppRoutes from './pages/routes';
+import { GlobalStyle } from './ui/styled/global';
+import { darkTheme, lightTheme } from './ui/styled/theme';
 
 function App() {
   useEffect(() => {

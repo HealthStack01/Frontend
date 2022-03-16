@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useObjectState } from '../../../context/context';
-import { FlexBox } from '../../../styles/global';
-import DynamicInput from '../../app/DynamicInput';
-import { BottomWrapper, FullDetailsWrapper } from '../../app/styles';
+import DynamicInput from '../../../pages/app/DynamicInput';
+import { BottomWrapper, FullDetailsWrapper } from '../../../pages/app/styles';
+import { FlexBox } from '../../../ui/styled/global';
 import Button from '../../buttons/Button';
 import CustomTable from '../../customtable';
 

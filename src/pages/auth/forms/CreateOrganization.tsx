@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
 import React from 'react';
 
-import DynamicInput from '../../../components/app/DynamicInput';
-import { OrganisationSchema } from '../../../components/app/schema';
+import DynamicInput from '../../app/DynamicInput';
+import { OrganisationSchema } from '../../app/schema';
 
 function CreateOrganization({ control, errors }) {
   return (

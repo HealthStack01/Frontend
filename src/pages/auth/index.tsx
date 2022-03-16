@@ -3,13 +3,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import CheckboxInput from '../../components/inputs/basic/Checkbox';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
 import { UserContext } from '../../context/context';
-import client from '../../feathers';
-import AuthWrapper from '../../helper/AuthWrapper';
+import client from '../../context/feathers';
 
 function Login() {
   const navigate = useNavigate();

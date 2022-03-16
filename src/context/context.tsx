@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react';
 
-import { Views } from '../components/app/Constants';
-import client from '../feathers';
+import { Views } from '../pages/app/Constants';
+import client from './feathers';
 
 interface UserContextProps {
   user?: any;

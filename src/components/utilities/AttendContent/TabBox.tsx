@@ -2,9 +2,10 @@ import { Menu, MenuItem } from '@mui/material';
 import React from 'react';
 
 import { useObjectState } from '../../../context/context';
-import { ButtonGroup, CustomTab, CustomTabs, TableMenu } from '../../../styles/global';
-import { columnLab, labData } from '../../app/clients/Appointments/data';
-import { DetailsWrapper, GrayWrapper } from '../../app/styles';
+import { columnLab, labData } from '../../../pages/app/clients/Appointments/data';
+import { LaboratoryOrderSchema, PrescriptionOrderSchema } from '../../../pages/app/schema';
+import { DetailsWrapper, GrayWrapper } from '../../../pages/app/styles';
+import { ButtonGroup, CustomTab, CustomTabs, TableMenu } from '../../../ui/styled/global';
 import Button from '../../buttons/Button';
 import CustomTable from '../../customtable';
 import Input from '../../inputs/basic/Input';
@@ -179,7 +180,7 @@ const TabBox = ({
               }));
               onNewLabOrder();
             }}
-            columns={columnLab}
+            schema={LaboratoryOrderSchema}
             data={labData}
           />
         </TabPanel>
@@ -192,7 +193,7 @@ const TabBox = ({
               }));
               onNewPrescription();
             }}
-            columns={columnLab}
+            schema={PrescriptionOrderSchema}
             data={labData}
           />
         </TabPanel>
