@@ -28,8 +28,8 @@ export const Profile = styled.div`
 
   @media (max-width: 400px) {
     & .location-selector{
-      location-selector
+      width:240px;
     }
-x  
+  
 
 `;

@@ -125,6 +125,10 @@ export const GridWrapper = styled.div`
   margin-top: 3.2rem;
   overflow-y: auto;
 
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
   &.subgrid {
     margin-top: 1rem;
   }

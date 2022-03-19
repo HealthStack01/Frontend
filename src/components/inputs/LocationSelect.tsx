@@ -82,7 +82,7 @@ const StyledListbox = styled('ul')(
   box-sizing: border-box;
   padding: 5px;
   margin: 10px 0;
-  min-width: 100%;
+  min-width: ;
   max-height: 400px;
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
@@ -170,7 +170,9 @@ export default function LocationSelect() {
               srcSet={`https://flagcdn.com/w40/${c.code.toLowerCase()}.png 2x`}
               alt={`Flag of ${c.label}`}
             />
-            {c.label} ({c.code}) +{c.phone}
+            {c.label}
+
+            {/* ({c.code}) +{c.phone} */}
           </StyledOption>
         ))}
       </CustomSelect>
