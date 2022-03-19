@@ -21,6 +21,7 @@ function Breadcrumbs() {
               textDecoration: 'none',
               textTransform: 'capitalize',
               fontWeight: 'medium',
+              whiteSpace: 'nowrap',
             }}
           >
             {name} <i className="bi bi-chevron-right"></i> path

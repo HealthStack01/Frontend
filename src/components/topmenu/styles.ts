@@ -27,7 +27,9 @@ export const Profile = styled.div`
   }
 
   @media (max-width: 400px) {
-    display:none;
-  
+    & .location-selector{
+      location-selector
+    }
+x  
 
 `;

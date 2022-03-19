@@ -376,18 +376,18 @@ export const ButtonGroup = styled.div`
 `;
 
 export const LocationWrapper = styled.div`
-  width: 320px;
+  width: 240px;
+  margin-right: 10px;
   position: relative;
   z-index: 1000;
 
   @media (max-width: 400px) {
     width: 400px !important;
-s  }
+  }
 
   & button {
     @media (max-width: 400px) {
-      width: 400px !important;
-      background-color: red;
+      width: 200px !important;
     }
   }
 `;

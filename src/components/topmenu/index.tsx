@@ -22,7 +22,9 @@ function TopMenu({ isOpen, handleClick }) {
         <Breadcrumbs />
       </div>
       <Profile>
-        <LocationSelect />
+        <div className="location-selector">
+          <LocationSelect />
+        </div>
 
         <div className="profile-item">
           <span>
