@@ -3,7 +3,7 @@ import React from 'react';
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import CustomTable from '../../../customtable';
-import SwitchButton from '../../../switch';
+import FilterMenu from '../../../utilities/FilterMenu';
 import DebouncedInput from '../../DebouncedInput';
 import { BandSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
@@ -23,17 +23,8 @@ const Bands = ({ handleCreate, handleSearch, onRowClicked, items }) => {
           }}
         >
           <DebouncedInput label="Search Bands" onChangeValue={handleSearch} />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
+
+          <FilterMenu />
         </div>
 
         <Button onClick={handleCreate}>
