@@ -35,7 +35,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Names */}
             <DetailsWrapper title="Names">
-              <h2>Names</h2>
               <GridWrapper>
                 {ClientFullSchema.names.map(({ inputType, key, name }) => (
                   <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
@@ -45,7 +44,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
 
             {/*   BioData */}
             <DetailsWrapper title="Bio-data">
-              <h2>Bio-data</h2>
               <GridWrapper>
                 {ClientFullSchema.biodata.map(({ inputType, key, name, options }) => (
                   <DynamicInput
@@ -62,7 +60,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
 
             {/* Address   */}
             <DetailsWrapper title="Address">
-              <h2>Address</h2>
               <GridWrapper>
                 {ClientFullSchema.address.map(({ inputType, key, name, options }) => (
                   <DynamicInput
@@ -79,7 +76,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
 
             {/* Other Details  */}
             <DetailsWrapper title="Other Details">
-              <h2>Other Details</h2>
               <GridWrapper>
                 {ClientFullSchema.otherDetails.map(({ inputType, key, name, options }) => (
                   <DynamicInput
@@ -96,7 +92,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
 
             {/* Next of Kin  */}
             <DetailsWrapper title="Next of Kin">
-              <h2>Next of Kin</h2>
               <GridWrapper>
                 {ClientFullSchema.nextOfKin.map(({ inputType, key, name, options }) => (
                   <DynamicInput
@@ -123,7 +118,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
 
             {/* Payment Information   */}
             <DetailsWrapper title="Payment Information">
-              <h2>Payment Information</h2>
               <GridWrapper>
                 {ClientFullSchema.paymentInformation.map(({ inputType, key, name }) => (
                   <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
@@ -133,7 +127,6 @@ const ClientFullForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) =
 
             {/* Medical Data   */}
             <DetailsWrapper title="Medical Data">
-              <h2>Medical Data</h2>
               <GridWrapper>
                 {ClientFullSchema.medicalData.map(({ inputType, key, name }) => (
                   <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />

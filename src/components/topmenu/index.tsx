@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Breadcrumbs from '../breadcrumb';
+import LocationSelect from '../inputs/LocationSelect';
 import { Avatar, Profile, TopMenuWrapper } from './styles';
 // import { avatar } from '../../assets/images/img_avatar.png';
 
@@ -21,6 +22,8 @@ function TopMenu({ isOpen, handleClick }) {
         <Breadcrumbs />
       </div>
       <Profile>
+        <LocationSelect />
+
         <span>
           @workspace.com
           {/* Pass employee location context */}

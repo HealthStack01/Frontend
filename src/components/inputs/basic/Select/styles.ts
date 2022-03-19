@@ -5,5 +5,5 @@ export const SelectField = styled.select`
   height: 50px;
   border-radius: 4px;
   border: 1.5px solid ${({ theme }) => theme.grayTwo};
-  width: 100%;
+  width: 100% !important;
 `;

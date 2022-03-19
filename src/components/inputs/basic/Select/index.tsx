@@ -1,4 +1,4 @@
-import { FormHelperText } from '@mui/material';
+import { Box, FormHelperText } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,13 +14,12 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const CustomSelect: React.FC<SelectProps> = ({ label, options, name, value, onChange, errorText }) => (
-  <div>
-    <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
+  <Box>
+    <FormControl fullWidth>
       <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
       <Select
         labelId="demo-simple-select-autowidth-label"
         id="demo-simple-select-autowidth"
-        autoWidth
         label={label}
         name={name}
         defaultValue={value}
@@ -38,7 +37,7 @@ const CustomSelect: React.FC<SelectProps> = ({ label, options, name, value, onCh
       </Select>
       {errorText && <FormHelperText error>{errorText}</FormHelperText>}
     </FormControl>
-  </div>
+  </Box>
 );
 
 export default CustomSelect;

@@ -11,7 +11,7 @@ import ModalBox from '../../../../modal';
 import DynamicInput from '../../../DynamicInput';
 import { LaboratoryOrderSchema } from '../../../schema';
 import { FullDetailsWrapper, PageWrapper } from '../../../styles';
-import { columnLab, labData } from '../../Appointments copy/data';
+import { columnLab, labData } from '../../Appointments/data';
 
 const LaboratoryOrder = () => {
   const { control, handleSubmit } = useForm();

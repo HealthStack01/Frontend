@@ -40,7 +40,7 @@ const FilterMenu = () => {
   }, [open]);
 
   return (
-    <div style={{ position: 'relative', zIndex: '10' }}>
+    <div style={{ position: 'relative', zIndex: '100' }}>
       <label
         ref={anchorRef}
         id="composition-button"
@@ -53,13 +53,15 @@ const FilterMenu = () => {
           alignItems: 'center',
           justifyContent: 'space-around',
           flexWrap: 'nowrap',
-          padding: '6px',
-          width: '100px',
-          borderRadius: '2px',
+          padding: '6px 10px',
+          width: '120px',
+          borderRadius: '4px',
           margin: '0 10px',
+          background: '#fafafa',
+          border: '1px solid #CDD2D7',
         }}
       >
-        <span>Filer by</span>
+        <span style={{ fontWeight: '500' }}>Filter by</span>
         <i className="bi bi-chevron-down"></i>
       </label>
       {/* <Button ref={anchorRef} onClick={handleToggle}>
@@ -81,24 +83,23 @@ const FilterMenu = () => {
               transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
             }}
           >
-            <div style={{ background: '#fff', padding: '0.4rem ', width: '200px' }}>
+            <div style={{ background: '#fff', minWidth: '200px', border: '1px solid #CDD2D7', borderRadius: '4px' }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
                   id="composition-menu"
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
-                  sx={{ padding: '0.4rem' }}
                 >
-                  <div>
+                  <div style={{ padding: '5px 10px', margin: ' 0 0 10px 0' }}>
                     <input type="checkbox" />
                     <label>None</label>
                   </div>
-                  <div>
+                  <div style={{ padding: '5px 10px', margin: '10px 0' }}>
                     <input type="checkbox" />
                     <label>Date</label>
                   </div>
-                  <div>
+                  <div style={{ padding: '5px 10px', margin: '10px 0' }}>
                     <input type="checkbox" />
                     <label>Description</label>
                   </div>

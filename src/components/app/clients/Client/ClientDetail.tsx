@@ -3,7 +3,7 @@ import React from 'react';
 import { ButtonGroup } from '../../../../styles/global';
 import Button from '../../../buttons/Button';
 import { ClientFullSchema } from '../../schema';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -139,6 +139,12 @@ const ClientDetails: React.FC<Props> = ({ editBtnClicked, row, backClick, handle
             </GridWrapper>
           </div>
         </FullDetailsWrapper>
+        <BottomWrapper>
+          <Button label="Edit Details" color="#ecfffb" background="#03ff74" />
+          <Button label="Payment Info" background="#ECF3FF" color="#0364FF" />
+          <Button label="Schedule Appointment" color="#242710" background="#f2ff03" />
+          <Button label="Attend to Client" />
+        </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );

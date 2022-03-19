@@ -41,7 +41,7 @@ const Employees = ({ handleCreate, handleSearch, onRowClicked, items }) => {
         </Button>
       </TableMenu>
 
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+      <div style={{ width: '100%', height: 'auto', overflow: 'auto' }}>
         <CustomTable
           title="Employees"
           columns={EmployeeSchema}
