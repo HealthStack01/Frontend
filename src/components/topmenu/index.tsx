@@ -8,7 +8,7 @@ import { Avatar, Profile, TopMenuWrapper } from './styles';
 function TopMenu({ isOpen, handleClick }) {
   return (
     <TopMenuWrapper>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
         <span
           onClick={handleClick}
           style={{
@@ -24,12 +24,14 @@ function TopMenu({ isOpen, handleClick }) {
       <Profile>
         <LocationSelect />
 
-        <span>
-          @workspace.com
-          {/* Pass employee location context */}
-        </span>
-        <i className="bi bi-bell-fill" />
-        <Avatar src="/img_avatar.png" alt="" />
+        <div className="profile-item">
+          <span>
+            @workspace.com
+            {/* Pass employee location context */}
+          </span>
+          <i className="bi bi-bell-fill" />
+          <Avatar src="/img_avatar.png" alt="" />
+        </div>
       </Profile>
     </TopMenuWrapper>
   );

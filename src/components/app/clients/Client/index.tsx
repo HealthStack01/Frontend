@@ -15,6 +15,7 @@ const AppClient = () => {
   const { resource, setResource } = useObjectState();
   const { user } = useContext(UserContext);
   const [newClients, setNewClients] = useState([]);
+  const [pending, setPending] = useState(true);
 
   const Client = resource.billClientResource.selectedBillClient;
 
@@ -41,6 +42,7 @@ const AppClient = () => {
       })
         .then((res) => {
           setNewClients(res.data);
+          setPending(false);
         })
 
         .catch((err) => {
@@ -162,6 +164,7 @@ const AppClient = () => {
           }}
           items={newClients}
           handleSearch={handleSearch}
+          progressPending={pending}
         />
       )}
 

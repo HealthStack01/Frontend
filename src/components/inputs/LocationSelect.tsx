@@ -4,6 +4,8 @@ import SelectUnstyled, { selectUnstyledClasses, SelectUnstyledProps } from '@mui
 import { styled } from '@mui/system';
 import * as React from 'react';
 
+import { LocationWrapper } from '../../styles/global';
+
 const blue = {
   100: '#DAECFF',
   200: '#99CCF3',
@@ -31,7 +33,7 @@ const StyledButton = styled('button')(
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
-  min-width: 320px;
+  width: 100%;
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
   border-radius: 4px;
@@ -40,6 +42,12 @@ const StyledButton = styled('button')(
   text-align: left;
   line-height: 1.5;
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  position:relative;
+  zIndex:1000;
+
+  @media (max-width: 768px) {
+   width:40px !important;
+  }
 
   &:hover {
     background: ${theme.palette.mode === 'dark' ? '' : grey[100]};
@@ -74,7 +82,7 @@ const StyledListbox = styled('ul')(
   box-sizing: border-box;
   padding: 5px;
   margin: 10px 0;
-  min-width: 320px;
+  min-width: 100%;
   max-height: 400px;
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
@@ -82,6 +90,7 @@ const StyledListbox = styled('ul')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   overflow: auto;
   outline: 0px;
+  position:relative;
   zIndex:1000;
   `
 );
@@ -92,6 +101,9 @@ const StyledOption = styled(OptionUnstyled)(
   padding: 8px;
   border-radius: 2px;
   cursor: default;
+  position:relative;
+  zIndex:1000;
+
 
   &:last-of-type {
     border-bottom: none;
@@ -147,20 +159,22 @@ const CustomSelect = React.forwardRef(function CustomSelect(
 
 export default function LocationSelect() {
   return (
-    <CustomSelect>
-      {countries.map((c) => (
-        <StyledOption key={c.location} value={c.location}>
-          <img
-            loading="lazy"
-            width="20"
-            src={`https://flagcdn.com/w20/${c.code.toLowerCase()}.png`}
-            srcSet={`https://flagcdn.com/w40/${c.code.toLowerCase()}.png 2x`}
-            alt={`Flag of ${c.label}`}
-          />
-          {c.label} ({c.code}) +{c.phone}
-        </StyledOption>
-      ))}
-    </CustomSelect>
+    <LocationWrapper>
+      <CustomSelect>
+        {countries.map((c) => (
+          <StyledOption key={c.location} value={c.location}>
+            <img
+              loading="lazy"
+              width="20"
+              src={`https://flagcdn.com/w20/${c.code.toLowerCase()}.png`}
+              srcSet={`https://flagcdn.com/w40/${c.code.toLowerCase()}.png 2x`}
+              alt={`Flag of ${c.label}`}
+            />
+            {c.label} ({c.code}) +{c.phone}
+          </StyledOption>
+        ))}
+      </CustomSelect>
+    </LocationWrapper>
   );
 }
 

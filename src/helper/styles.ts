@@ -32,6 +32,9 @@ export const AuthContainer = styled.div`
   & .aside-child {
     width: 400px;
     margin-top: 3rem;
+    @media (max-width: 400px) {
+      width: 350px;
+    }
   }
 
   & .bottom-center {

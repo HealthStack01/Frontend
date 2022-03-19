@@ -27,16 +27,7 @@ const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
           }}
         >
           <DebouncedInput label="Search Appointments" onChangeValue={handleSearch} />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+
           <FilterMenu />
           <DateRange />
 

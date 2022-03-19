@@ -25,4 +25,9 @@ export const Profile = styled.div`
   & i {
     margin-right: 20px;
   }
+
+  @media (max-width: 400px) {
+    display:none;
+  
+
 `;

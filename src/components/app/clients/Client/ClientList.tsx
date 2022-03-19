@@ -13,9 +13,10 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
   items: any[];
   handleSearch: (_) => void;
+  progressPending: any;
 }
 
-const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
+const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items, progressPending }) => {
   return (
     <PageWrapper>
       <h2> Client </h2>
@@ -47,6 +48,7 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items }) => {
           highlightOnHover
           onRowClicked={onRowClicked}
           striped
+          progressPending={progressPending}
         />
       </div>
     </PageWrapper>

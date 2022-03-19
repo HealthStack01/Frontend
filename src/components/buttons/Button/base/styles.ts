@@ -27,4 +27,10 @@ export const CustomButton = styled(BaseButton)`
   & i {
     padding-right: 10px;
   }
+
+  @media (max-width: 768px) {
+    & i {
+      display: none;
+    }
+  }
 `;
