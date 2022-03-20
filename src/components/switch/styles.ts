@@ -1,12 +1,4 @@
-/* eslint-disable prettier/prettier */
-import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import { createElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import styled from 'styled-components';
-
-const reactSvgComponentToMarkupString = (Component, props) =>
-  `data:image/svg+xml,${encodeURIComponent(renderToStaticMarkup(createElement(Component, props)))}`;
 
 export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   width: 0;
@@ -18,10 +10,6 @@ export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
     transform: translateX(-100%);
     display: grid;
     place-items: center;
-    content: ${({ color }) =>
-      `url(${reactSvgComponentToMarkupString(AutoAwesomeMosaicIcon, {
-        color,
-      })})`};
     content: 'G';
   }
 
@@ -43,10 +31,6 @@ export const CheckboxLabel = styled.label`
   border: 1.4px solid #0364ff;
   ${({ color }) => color && `color: ${color};`}
   &::after {
-    content: ${({ color }) =>
-      `url(${reactSvgComponentToMarkupString(FormatListBulletedIcon, {
-        color,
-      })})`};
     content: 'L';
 
     font-weight: bold;

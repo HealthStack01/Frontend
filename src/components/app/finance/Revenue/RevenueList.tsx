@@ -4,7 +4,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { TableMenu } from '../../../../styles/global';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
-import SwitchButton from '../../../switch';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { RevenueSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
 
@@ -47,17 +47,7 @@ const Revenue: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
             debounceTimeout={400}
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
+          <FilterMenu />
         </div>
       </TableMenu>
 

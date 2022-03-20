@@ -382,6 +382,20 @@ export const Htag = styled.h5`
 
 export const ButtonGroup = styled.div`
   display: flex;
+  & button {
+    margin-right: 4px;
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    margin-top: 1rem;
+    width: 100%;
+
+    & button {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
 `;
 
 export const LocationWrapper = styled.div`
@@ -393,7 +407,6 @@ export const LocationWrapper = styled.div`
   @media (max-width: 400px) {
     width: 400px !important;
   }
-
   & button {
     @media (max-width: 400px) {
       width: 200px !important;

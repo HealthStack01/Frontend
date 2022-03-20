@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => {
     },
     react_autosuggest__input: {
       minWidth: 'auto',
-      width: '96%',
+      width: '90%',
       height: '1.4375em',
       marginBottom: '0.6rem',
       boxSizing: 'content-box',

@@ -5,7 +5,7 @@ import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
-import SwitchButton from '../../../switch';
+import FilterMenu from '../../../utilities/FilterMenu';
 import { PageWrapper } from '../../styles';
 
 interface Props {
@@ -218,17 +218,7 @@ const Payments: React.FC<Props> = ({ onRowClicked }) => {
           }}
         >
           <Input placeholder="Search here" label="Search here" size="small" />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
+          <FilterMenu />
         </div>
       </TableMenu>
 
