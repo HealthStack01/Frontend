@@ -19,9 +19,10 @@ export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
     display: grid;
     place-items: center;
     content: ${({ color }) =>
-    `url(${reactSvgComponentToMarkupString(AutoAwesomeMosaicIcon, {
-      color,
-    })})`};
+      `url(${reactSvgComponentToMarkupString(AutoAwesomeMosaicIcon, {
+        color,
+      })})`};
+    content: 'G';
   }
 
   &:checked + label {
@@ -43,9 +44,11 @@ export const CheckboxLabel = styled.label`
   ${({ color }) => color && `color: ${color};`}
   &::after {
     content: ${({ color }) =>
-    `url(${reactSvgComponentToMarkupString(FormatListBulletedIcon, {
-      color,
-    })})`};
+      `url(${reactSvgComponentToMarkupString(FormatListBulletedIcon, {
+        color,
+      })})`};
+    content: 'L';
+
     font-weight: bold;
     display: grid;
     place-items: center;

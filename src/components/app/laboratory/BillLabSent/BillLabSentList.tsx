@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableColumn } from 'react-data-table-component';
-import { DebounceInput } from 'react-debounce-input';
 
+// import { DebounceInput } from 'react-debounce-input';
 import { TableMenu } from '../../../../styles/global';
 import AccordionBox from '../../../accordion';
 import CustomTable from '../../../customtable';
@@ -153,14 +153,14 @@ const BillLabSent: React.FC<Props> = ({ onRowClicked }) => {
           }}
         >
           <Input placeholder="Search here" label="Search here" size="small" />
-          <DebounceInput
+          {/* <DebounceInput
             className="input is-small "
             type="text"
             placeholder="Search Employees"
             minLength={1}
             debounceTimeout={400}
             onChange={() => {}}
-          />
+          /> */}
 
           <FilterMenu />
         </div>

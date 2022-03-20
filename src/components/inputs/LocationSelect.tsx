@@ -161,7 +161,7 @@ export default function LocationSelect() {
   return (
     <LocationWrapper>
       <CustomSelect>
-        {countries.map((c) => (
+        {locations.map((c) => (
           <StyledOption key={c.location} value={c.location}>
             <img
               loading="lazy"
@@ -180,7 +180,7 @@ export default function LocationSelect() {
   );
 }
 
-const countries = [
+const locations = [
   { code: 'NG', label: 'Lagos/Gbagada', phone: '234', location: 'Gbagada' },
   { code: 'NG', label: 'Lagos/Ikoyi', phone: '234', location: 'Ikoyi' },
   { code: 'NG', label: 'Ibadan', phone: '234', location: 'Ibadan' },

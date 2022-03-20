@@ -17,9 +17,11 @@ function TopMenu({ isOpen, handleClick }) {
             fontWeight: 'bold',
           }}
         >
-          {!isOpen ? <i className="bi bi-x"></i> : <i className="bi bi-list" />}
+          {!isOpen ? <i className="bi bi-list"></i> : <i className="bi bi-list" />}
         </span>
-        <Breadcrumbs />
+        <span className="breadcrumb">
+          <Breadcrumbs />
+        </span>
       </div>
       <Profile>
         <div className="location-selector">

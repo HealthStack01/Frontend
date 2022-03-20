@@ -153,7 +153,7 @@ export const GridWrapper = styled.div`
     margin-bottom: 0.5rem;
   }
   & p {
-    background: ${({ theme }) => 'theme.grayFour'};
+    background: #fff;
     padding: 0 0.4rem;
     line-height: 50px;
     height: 50px;

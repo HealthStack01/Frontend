@@ -307,6 +307,15 @@ export const TableMenu = styled.div`
       width: 100px;
     }
   }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    height: auto;
+    & button {
+      width: 100%;
+      margin: 10px 0 6px;
+    }
+  }
 `;
 
 export const CustomStack = styled(Stack)`

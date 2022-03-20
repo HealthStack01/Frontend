@@ -14,7 +14,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const CustomSelect: React.FC<SelectProps> = ({ label, options, name, value, onChange, errorText }) => (
-  <Box>
+  <Box sx={{ margin: '10px 0' }}>
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
       <Select

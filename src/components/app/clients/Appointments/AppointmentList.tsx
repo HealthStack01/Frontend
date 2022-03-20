@@ -17,7 +17,7 @@ const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
     <PageWrapper>
       <h2>Appointments </h2>
 
-      <TableMenu>
+      <TableMenu className="appointment-flex">
         <div
           className="inner-table"
           style={{

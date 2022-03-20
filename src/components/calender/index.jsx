@@ -73,8 +73,8 @@ const Appointment = ({ children, style, ...restProps }) => (
     {...restProps}
     style={{
       ...style,
-      backgroundColor: '#3298dc',
-      borderRadius: '8px',
+      backgroundColor: '#0364FF',
+      borderRadius: '4px',
     }}
   >
     {children}

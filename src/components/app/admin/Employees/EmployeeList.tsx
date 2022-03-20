@@ -1,4 +1,4 @@
-import React from 'react';g
+import React from 'react';
 
 import { TableMenu } from '../../../../styles/global';
 import Button from '../../../buttons/Button';

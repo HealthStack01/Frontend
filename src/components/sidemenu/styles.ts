@@ -9,6 +9,7 @@ export const Sidemenu = styled.div`
     @media (max-width: 768px) {
     left: 0;
     width: 300px;
+    padding: 2rem 1.5rem ;
 
   }
   
