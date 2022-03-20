@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { preLoaderAnimation } from '../../animations';
-import { Container } from '../../styles/global';
+import { preLoaderAnimation } from '../../ui/animations';
+import { Container } from '../../ui/styled/global';
 
 function Preloader() {
   useEffect(() => {

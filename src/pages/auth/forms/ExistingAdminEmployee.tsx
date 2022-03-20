@@ -2,9 +2,9 @@ import { Stack } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import DynamicInput from '../../../components/app/DynamicInput';
-import { InputType } from '../../../components/app/schema';
 import Button from '../../../components/buttons/Button';
+import DynamicInput from '../../../components/inputs/DynamicInput';
+import { InputType } from '../../app/schema';
 
 function ExistingAdminEmployee() {
   const { control } = useForm();

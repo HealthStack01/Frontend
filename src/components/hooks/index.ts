@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { UserContext } from '../../context/context';
-import client from '../../feathers';
+import client from '../../context/feathers';
+import { Views } from '../../pages/app/Constants';
+import { getFormStrings } from '../../pages/app/Utils';
 import { DictionaryOf } from '../../types.d';
-import { Views } from '../app/Constants';
-import { getFormStrings } from '../app/Utils';
 
 interface Repository<T> {
   list: T[];
@@ -13,15 +13,27 @@ interface Repository<T> {
   get: (_id) => Promise<T>;
   submit: (data: T) => Promise<T>;
   remove: (_id: T) => Promise<T>;
+  user: {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    currentEmployee: {
+      facility: string;
+      facilityDetail: { _id: string; facilityName: string };
+    };
+  };
+  setFindQuery: (query) => void;
+  facilityId: string | null;
 }
 
 const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
   let Service = client.service(modelName);
   const { user } = useContext(UserContext);
+  const [findQuery, setFindQuery] = useState({});
   const [list, setList] = useState([]);
 
   const remove = (obj): Promise<T> => {
-    return Service.remove(obj._id)
+    return Service.remove(typeof obj === 'string' ? obj : obj._id)
       .then((_) => {
         toast(`${modelName} deleted successfully`);
         onNavigate && onNavigate(Views.LIST)();
@@ -32,7 +44,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   };
 
   const find = async (query?: any): Promise<T[]> => {
-    return Service.find({
+    const params = {
       query: {
         facility: user.stacker ? -1 : user.currentEmployee.facilityDetail._id,
         name: typeof query === 'string' && query ? { $regex: query, $options: 'i' } : undefined,
@@ -41,11 +53,15 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
           createdAt: -1,
         },
       },
+      ...findQuery,
       ...query,
-    })
-      .then((res) => {
-        setList(res.data);
-        return res;
+    };
+    console.debug('calling find with query  of model ', modelName, 'with parameters', params);
+    return Service.find(params)
+      .then((response) => {
+        console.debug('received response of model ', modelName, ' with body ', { response });
+        setList(response.data);
+        return response;
       })
       .catch((error) => {
         console.error({ error });
@@ -55,7 +71,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const spreadSubData = (data): DictionaryOf<string> => {
     let result = {};
     Object.entries(data).map(([key, value]) => {
-      if (typeof value === 'object') {
+      if (typeof value === 'object' && !data.documentname) {
         result = { ...result, ...value };
       } else {
         result[key] = value;
@@ -97,7 +113,20 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     };
   }, []);
 
-  return { list, find, remove, submit, get };
+  useEffect(() => {
+    find();
+  }, [findQuery]);
+
+  return {
+    list,
+    find,
+    setFindQuery,
+    remove,
+    submit,
+    get,
+    user,
+    facilityId: user?.currentEmployee?.facilityDetail?._id,
+  };
 };
 
 export default useRepository;

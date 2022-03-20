@@ -4,7 +4,10 @@ import MenuList from '@mui/material/MenuList';
 import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
-const FilterMenu = () => {
+import DateRange from '../inputs/DateRange';
+import DebouncedInput from '../inputs/DebouncedInput';
+
+const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -64,10 +67,6 @@ const FilterMenu = () => {
         <span style={{ fontWeight: '500' }}>Filter by</span>
         <i className="bi bi-chevron-down"></i>
       </label>
-      {/* <Button ref={anchorRef} onClick={handleToggle}>
-        <span>Filer by</span>
-        <i className="bi bi-chevron-down"></i>
-      </Button> */}
       <Popper
         open={open}
         anchorEl={anchorRef.current}
@@ -103,12 +102,22 @@ const FilterMenu = () => {
                     <input type="checkbox" />
                     <label>Description</label>
                   </div>
+                  {schema
+                    .filter((obj) => obj.filterable)
+                    .map((obj, i) => (
+                      <div key={i}>
+                        <input type="checkbox" onChange={onSearch} />
+                        <label>{obj.description}</label>
+                      </div>
+                    ))}
                 </MenuList>
               </ClickAwayListener>
             </div>
           </Grow>
         )}
       </Popper>
+      {/* <DebouncedInput label="Search here" onChangeValue={onSearch} />
+      {dateField && <DateRange />} */}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 
+import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
 import { Link } from '../../components/menuitem/style';
-import AuthWrapper from '../../helper/AuthWrapper';
 
 function IndividualSignup() {
   return (

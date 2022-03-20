@@ -32,6 +32,7 @@ interface Props {
   pointerOnHover?: boolean;
   highlightOnHover?: boolean;
   striped?: boolean;
+  selectable?: boolean;
   onRowClicked?: (row: any, event: any) => void;
   dense?: boolean;
   progressPending?: any;
@@ -101,18 +102,20 @@ const CustomTable: React.FC<Props> = ({
   striped = true,
   dense = false,
   progressPending,
+  selectable = false,
 }) => {
   return (
     <DataTable
       title={title}
-      columns={columns}
-      data={data}
+      columns={columns.filter((obj) => obj.selector)}
+      data={data.map((obj, i) => ({ ...obj, sn: i + 1 }))} //TODO: only add sn if it's in the schema, to improve performance here
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}
       striped={striped}
       customStyles={customStyles}
       onRowClicked={onRowClicked}
       fixedHeader={true}
+      selectableRows={selectable}
       fixedHeaderScrollHeight="100%"
       responsive
       dense={dense}

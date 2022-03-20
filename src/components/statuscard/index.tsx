@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Stat } from '../../styles/global';
+import { Stat } from '../../ui/styled/global';
 
 interface StatusProps {
   icon: string;
