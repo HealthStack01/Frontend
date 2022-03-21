@@ -4,7 +4,10 @@ import MenuList from '@mui/material/MenuList';
 import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
-const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
+import DateRange from '../inputs/DateRange';
+import DebouncedInput from '../inputs/DebouncedInput';
+
+const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -40,7 +43,15 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
   }, [open]);
 
   return (
-    <div style={{ position: 'relative', zIndex: '100' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        position: 'relative',
+        justifyContent: 'space-around',
+        zIndex: '10',
+      }}
+    >
       <label
         ref={anchorRef}
         id="composition-button"
@@ -113,8 +124,8 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
           </Grow>
         )}
       </Popper>
-      {/* <DebouncedInput label="Search here" onChangeValue={onSearch} />
-      {dateField && <DateRange />} */}
+      <DebouncedInput label="Search here" onChangeValue={onSearch ? onSearch : () => {}} />
+      {dateField && <DateRange />}
     </div>
   );
 };

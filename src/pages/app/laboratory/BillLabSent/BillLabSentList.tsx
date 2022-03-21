@@ -151,16 +151,6 @@ const BillLabSent: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          {/* <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Employees"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={() => {}}
-          /> */}
-
           <FilterMenu />
         </div>
       </TableMenu>
