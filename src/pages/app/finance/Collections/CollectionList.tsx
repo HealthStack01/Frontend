@@ -36,7 +36,12 @@ const Collections: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => 
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <Input
+            placeholder="Search here"
+            label="Search here"
+            size="small"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
 
           <FilterMenu />
         </div>

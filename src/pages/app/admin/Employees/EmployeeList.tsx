@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import SwitchButton from '../../../../components/switch';
+import DebouncedInput from '../../../../components/inputs/DebouncedInput';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { EmployeeSchema } from '../../schema/ModelSchema';

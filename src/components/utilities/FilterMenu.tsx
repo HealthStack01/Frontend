@@ -4,10 +4,7 @@ import MenuList from '@mui/material/MenuList';
 import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
-import DateRange from '../inputs/DateRange';
-import DebouncedInput from '../inputs/DebouncedInput';
-
-const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) => {
+const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 

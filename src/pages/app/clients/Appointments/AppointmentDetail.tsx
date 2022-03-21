@@ -6,7 +6,7 @@ import { AppointmentSchema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import Attend from './Attend';
 
-const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }) => {
+const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
   const [state, setState] = useState('all');
 
   return (

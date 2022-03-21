@@ -2,7 +2,7 @@ import React from 'react';
 
 import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
-import SwitchButton from '../../../../components/switch';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { RevenueSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';

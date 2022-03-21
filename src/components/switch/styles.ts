@@ -21,7 +21,8 @@ export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
 
 export const CheckboxLabel = styled.label`
   display: block;
-  width: 140px;
+  max-width: 140px;
+  width: 120px;
   height: 40px;
   background-color: transparent;
   border-radius: 4px;

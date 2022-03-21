@@ -4,7 +4,7 @@ import SelectUnstyled, { selectUnstyledClasses, SelectUnstyledProps } from '@mui
 import { styled } from '@mui/system';
 import * as React from 'react';
 
-import { LocationWrapper } from '../../styles/global';
+import { LocationWrapper } from '../../ui/styled/global';
 
 const blue = {
   100: '#DAECFF',

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
+import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { ClientMiniSchema } from '../../schema';
@@ -12,7 +13,7 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
   items: any[];
   handleSearch: (_) => void;
-  progressPending: any;
+  progressPending?: any;
 }
 
 const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items, progressPending }) => {
@@ -29,6 +30,8 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, items, progressP
             height: '40px',
           }}
         >
+          <Input placeholder="Search here" label="Search here" size="small" />
+
           <FilterMenu />
         </div>
 
