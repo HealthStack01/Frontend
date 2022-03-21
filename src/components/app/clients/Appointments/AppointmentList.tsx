@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-import { TableMenu } from '../../../../styles/global';
+import { AppointmentSchema } from '../../../../pages/app/schema';
+import { TableMenu } from '../../../../ui/styled/global';
+import { PageWrapper } from '../../../../ui/styled/styles';
 import Button from '../../../buttons/Button';
 import CalenderGrid from '../../../calender';
 import CustomTable from '../../../customtable';
 import DateRange from '../../../inputs/DateRange';
+import DebouncedInput from '../../../inputs/DebouncedInput';
 import SwitchButton from '../../../switch';
 import FilterMenu from '../../../utilities/FilterMenu';
-import DebouncedInput from '../../DebouncedInput';
-import { AppointmentSchema } from '../../schema';
-import { PageWrapper } from '../../styles';
 
 const Appointments = ({ handleCreate, onRowClicked, handleSearch, items }) => {
   const [listView, setListView] = useState(true);

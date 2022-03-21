@@ -3,15 +3,16 @@ import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
 
-import { TableMenu } from '../../../../../styles/global';
+import { columnLab, labData } from '../../../../../pages/app/clients/Appointments/data';
+import { LaboratoryOrderSchema } from '../../../../../pages/app/schema';
+import { FullDetailsWrapper } from '../../../../../pages/app/styles';
+import { TableMenu } from '../../../../../ui/styled/global';
+import { PageWrapper } from '../../../../../ui/styled/styles';
 import Button from '../../../../buttons/Button';
 import CustomTable from '../../../../customtable';
 import Input from '../../../../inputs/basic/Input';
+import DynamicInput from '../../../../inputs/DynamicInput';
 import ModalBox from '../../../../modal';
-import DynamicInput from '../../../DynamicInput';
-import { LaboratoryOrderSchema } from '../../../schema';
-import { FullDetailsWrapper, PageWrapper } from '../../../styles';
-import { columnLab, labData } from '../../Appointments/data';
 
 const LaboratoryOrder = () => {
   const { control, handleSubmit } = useForm();

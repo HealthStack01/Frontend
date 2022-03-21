@@ -1,12 +1,12 @@
 import React from 'react';
 import { TableColumn } from 'react-data-table-component';
 
-import { TableMenu } from '../../../../styles/global';
+import { TableMenu } from '../../../../ui/styled/global';
+import { PageWrapper } from '../../../../ui/styled/styles';
 import AccordionBox from '../../../accordion';
 import CustomTable from '../../../customtable';
 import Input from '../../../inputs/basic/Input';
 import FilterMenu from '../../../utilities/FilterMenu';
-import { PageWrapper } from '../../styles';
 
 interface Props {
   handleCreate?: () => void;

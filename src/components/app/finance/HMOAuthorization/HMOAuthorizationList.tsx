@@ -1,12 +1,12 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 
-import { TableMenu } from '../../../../styles/global';
+import { columnHead, rowData } from '../../../../pages/app/managedCare/PreAuthorization/data';
+import { TableMenu } from '../../../../ui/styled/global';
+import { PageWrapper } from '../../../../ui/styled/styles';
 import Button from '../../../buttons/Button';
 import Input from '../../../inputs/basic/Input';
 import FilterMenu from '../../../utilities/FilterMenu';
-import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
 
 interface Props {
   handleCreate?: () => void;
@@ -36,7 +36,6 @@ const HMOAuthorization: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
           pointerOnHover
           highlightOnHover
           striped
-          onRowClicked={onRowClicked}
           style={{ overflow: 'hidden' }}
         />
       </div>

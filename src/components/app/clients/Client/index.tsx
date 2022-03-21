@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
-import client from '../../../../feathers';
-import { getFormStrings } from '../../Utils';
-import ClientCreate from './ClientCreate';
-import ClientDetails from './ClientDetail';
-import Clients from './ClientList';
-import ClientModify from './ClientModify';
+import client from '../../../../context/feathers';
+import ClientCreate from '../../../../pages/app/clients/Client/ClientCreate';
+import ClientDetails from '../../../../pages/app/clients/Client/ClientDetail';
+import Clients from '../../../../pages/app/clients/Client/ClientList';
+import ClientModify from '../../../../pages/app/clients/Client/ClientModify';
+import { getFormStrings } from '../../../../pages/app/Utils';
 
 const AppClient = () => {
   let ClientServ = client.service('client');
