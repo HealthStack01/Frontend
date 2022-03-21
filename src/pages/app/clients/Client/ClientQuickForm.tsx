@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { ClientMiniSchema } from '../../schema';
-import { BottomWrapper, DetailsWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import ClientFullForm from './ClientFullForm';
 
 interface RowProps {
@@ -26,35 +26,37 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) 
     <>
       {!isFullRegistration ? (
         <PageWrapper>
-          <HeadWrapper>
-            <div>
-              <h2>Quick Register Client</h2>
-              <span>Create a New client by filling out the form below to get started.</span>
-            </div>
-            <Button
-              label="Full Registration"
-              background="#ECF3FF"
-              color="#0364FF"
-              showicon
-              icon="bi bi-pen-fill"
-              onClick={() => setFullRegistration(true)}
-            />
-          </HeadWrapper>
+          <GrayWrapper>
+            <HeadWrapper>
+              <div>
+                <h2>Quick Register Client</h2>
+                <span>Create a New client by filling out the form below to get started.</span>
+              </div>
+              <Button
+                label="Full Registration"
+                background="#ECF3FF"
+                color="#0364FF"
+                showicon
+                icon="bi bi-pen-fill"
+                onClick={() => setFullRegistration(true)}
+              />
+            </HeadWrapper>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <DetailsWrapper title="Create Client" defaultExpanded={true}>
-              <GridWrapper>
-                {ClientMiniSchema.map(({ inputType, key, name }) => (
-                  <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
-                ))}
-              </GridWrapper>
-            </DetailsWrapper>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <DetailsWrapper title="Create Client" defaultExpanded={true}>
+                <GridWrapper>
+                  {ClientMiniSchema.map(({ inputType, key, name }) => (
+                    <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
+                  ))}
+                </GridWrapper>
+              </DetailsWrapper>
 
-            <BottomWrapper>
-              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-              <Button label="Save Form" type="submit" />
-            </BottomWrapper>
-          </form>
+              <BottomWrapper>
+                <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
+                <Button label="Save Form" type="submit" />
+              </BottomWrapper>
+            </form>
+          </GrayWrapper>
         </PageWrapper>
       ) : (
         <ClientFullForm backClick={backClick} onSubmit={onSubmit} />

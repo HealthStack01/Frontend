@@ -10,9 +10,11 @@ const useStyles = makeStyles(() => {
   return {
     container: {
       margin: 'auto',
+      width: '100%',
       //backgroundColor: theme.background.default,
     },
     innerTableContainer: {
+      width: '100%',
       height: 'calc(100vh - 190px)',
       //  borderRadius: theme.shape.borderRadius,
       // backgroundColor: theme.background.paper,
@@ -22,8 +24,10 @@ const useStyles = makeStyles(() => {
       width: '100%',
     },
     react_autosuggest__input: {
-      width: '100%',
+      minWidth: 'auto',
+      width: '90%',
       height: '1.4375em',
+      marginBottom: '0.6rem',
       boxSizing: 'content-box',
       padding: '10px 20px',
       fontFamily: 'Helvetica, sans-serif',

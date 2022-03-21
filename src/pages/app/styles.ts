@@ -34,6 +34,15 @@ export const HeadWrapper = styled.div`
     margin-top: 1rem;
     font-size: 0.8rem;
   }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+
+    & button {
+      width: 100%;
+      margin: 4px 0;
+    }
+  }
 `;
 
 export const DetailsWrapper = styled(AccordionBox)`
@@ -51,6 +60,10 @@ export const DetailsWrapper = styled(AccordionBox)`
   & span {
     font-weight: bold;
     cursor: pointer;
+  }
+
+  @media (max-width: 400px) {
+    padding: 0.75rem;
   }
 `;
 
@@ -114,6 +127,10 @@ export const GrayWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 2fr;
   }
+
+  @media (max-width: 400px) {
+    padding: 0.4rem;
+  }
 `;
 
 export const GridWrapper = styled.div`
@@ -124,6 +141,10 @@ export const GridWrapper = styled.div`
   grid-gap: 2rem;
   margin-top: 3.2rem;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 
   &.subgrid {
     margin-top: 1rem;
@@ -149,7 +170,7 @@ export const GridWrapper = styled.div`
     margin-bottom: 0.5rem;
   }
   & p {
-    background: ${({ theme }) => 'theme.grayFour'};
+    background: #fff;
     padding: 0 0.4rem;
     line-height: 50px;
     height: 50px;
@@ -169,7 +190,22 @@ export const BottomWrapper = styled.div`
   align-items: center;
   height: 44px;
   margin-top: 2rem;
+
+  &.long {
+    @media (max-width: 400px) {
+      padding-top: 4rem;
+    }
+  }
   & button {
     margin-left: 1rem;
+  }
+  @media (max-width: 400px) {
+    flex-direction: column;
+    margin-top: 4rem;
+
+    & button {
+      width: 100%;
+      margin-top: 1rem;
+    }
   }
 `;

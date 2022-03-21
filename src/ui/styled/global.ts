@@ -83,6 +83,11 @@ p {
     width: 282px;
     position: relative;
     margin-right: 16px;;
+
+    @media(max-width: 768px){
+      width:100%;
+      display:none;
+    }
 }
 
 /* picked date align */
@@ -209,13 +214,8 @@ export const LeftText = styled(Text)`
 
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
-<<<<<<< HEAD
   flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
   align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
-=======
-  flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
-  align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
->>>>>>> 070c9c7b5981f46bee5c2d094075a13df76061cf
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -235,20 +235,12 @@ export const Stat = styled(StatWrapper)`
   align-items: ${(props) => (props.alignItems ? props.alignItems : 'center')};
   background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-<<<<<<< HEAD
   border-radius: ${(props) => (props.borderRadius ? props.borderRadius : '15px')};
-=======
-  border-radius: ${(props) => (props.borderRadius ? props.borderRadius : '15px')};
->>>>>>> 070c9c7b5981f46bee5c2d094075a13df76061cf
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
-<<<<<<< HEAD
   margin-bottom: ${(props) => (props.margingBottom ? props.margingBottom : '30px')};
-=======
-  margin-bottom: ${(props) => (props.margingBottom ? props.margingBottom : '30px')};
->>>>>>> 070c9c7b5981f46bee5c2d094075a13df76061cf
 
   &::before {
     content: '';
@@ -312,6 +304,15 @@ export const TableMenu = styled.div`
       font-size: 1rem;
       font-weight: bold;
       width: 300px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    height: auto;
+    & button {
+      width: 100%;
+      margin: 10px 0 6px;
     }
   }
 `;
@@ -380,4 +381,34 @@ export const Htag = styled.h5`
 
 export const ButtonGroup = styled.div`
   display: flex;
+  & button {
+    margin-right: 4px;
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    margin-top: 1rem;
+    width: 100%;
+
+    & button {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
+`;
+
+export const LocationWrapper = styled.div`
+  width: 240px;
+  margin-right: 10px;
+  position: relative;
+  z-index: 1000;
+
+  @media (max-width: 400px) {
+    width: 400px !important;
+  }
+  & button {
+    @media (max-width: 400px) {
+      width: 200px !important;
+    }
+  }
 `;

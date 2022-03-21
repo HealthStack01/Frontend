@@ -3,7 +3,7 @@ import React from 'react';
 import Button from '../../../../components/buttons/Button';
 import { ButtonGroup } from '../../../../ui/styled/global';
 import { ClientFullSchema } from '../../schema';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -127,7 +127,7 @@ const ClientDetails: React.FC<Props> = ({ editBtnClicked, row, backClick, handle
             </GridWrapper>
           </div>
 
-          <div style={{ marginTop: '30px' }}>
+          <div style={{ margin: '30px 0' }}>
             <h2>Medical Data</h2>
             <GridWrapper style={{ marginTop: '10px' }}>
               {ClientFullSchema.medicalData.map((client) => (
@@ -139,6 +139,12 @@ const ClientDetails: React.FC<Props> = ({ editBtnClicked, row, backClick, handle
             </GridWrapper>
           </div>
         </FullDetailsWrapper>
+        <BottomWrapper className="long">
+          <Button label="Edit Details" color="#ecfffb" background="#03ff74" />
+          <Button label="Payment Info" background="#ECF3FF" color="#0364FF" />
+          <Button label="Schedule Appointment" color="#242710" background="#f2ff03" />
+          <Button label="Attend to Client" />
+        </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );

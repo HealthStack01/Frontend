@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Breadcrumbs from '../breadcrumb';
+import LocationSelect from '../inputs/LocationSelect';
 import { Avatar, Profile, TopMenuWrapper } from './styles';
-// import { avatar } from '../../assets/images/img_avatar.png';
 
 function TopMenu({ isOpen, handleClick }) {
   return (
     <TopMenuWrapper>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
         <span
           onClick={handleClick}
           style={{
@@ -16,17 +16,21 @@ function TopMenu({ isOpen, handleClick }) {
             fontWeight: 'bold',
           }}
         >
-          {!isOpen ? <i className="bi bi-x"></i> : <i className="bi bi-list" />}
+          {!isOpen ? <i className="bi bi-list"></i> : <i className="bi bi-list" />}
         </span>
-        <Breadcrumbs />
+        <span className="breadcrumb">
+          <Breadcrumbs />
+        </span>
       </div>
       <Profile>
-        <span>
-          @workspace.com
-          {/* Pass employee location context */}
-        </span>
-        <i className="bi bi-bell-fill" />
-        <Avatar src="/img_avatar.png" alt="" />
+        <div className="location-selector">
+          <LocationSelect />
+        </div>
+
+        <div className="profile-item">
+          <i className="bi bi-bell-fill" />
+          <Avatar src="/img_avatar.png" alt="" />
+        </div>
       </Profile>
     </TopMenuWrapper>
   );

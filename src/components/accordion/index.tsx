@@ -16,9 +16,10 @@ const AccordionBox: React.FC<AccordionProps> = ({ title, defaultExpanded = false
       defaultExpanded={defaultExpanded}
       elevation={0}
       sx={{
-        boxShadow: '2px 2px 10px rgba(0,0,0,0.04)',
+        // boxShadow: '2px 2px 10px rgba(0,0,0,0.04)',
         margin: '10px 0',
-        border: 'none',
+        border: '0.6px solid #ebebeb',
+        background: '#fafafa',
       }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
