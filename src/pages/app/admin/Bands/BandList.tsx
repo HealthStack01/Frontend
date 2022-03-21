@@ -2,7 +2,6 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import DebouncedInput from '../../../../components/inputs/DebouncedInput';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { BandSchema } from '../../schema/ModelSchema';
@@ -22,9 +21,7 @@ const Bands = ({ handleCreate, handleSearch, onRowClicked, items }) => {
             height: '40px',
           }}
         >
-          <DebouncedInput label="Search Bands" onChangeValue={handleSearch} />
-
-          <FilterMenu />
+          <FilterMenu onSearch={handleSearch} />
         </div>
 
         <Button onClick={handleCreate}>

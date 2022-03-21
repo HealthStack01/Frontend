@@ -53,6 +53,7 @@ const AppClientAppointment = () => {
           row={selectedAppointment}
           backClick={handleNavigation(Views.LIST)}
           editBtnClicked={() => handleNavigation(Views.EDIT)(selectedAppointment)}
+          deleteBtnClicked={() => {}}
         />
       )}
       {show === Views.EDIT && (
