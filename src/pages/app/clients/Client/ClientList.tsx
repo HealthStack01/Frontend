@@ -37,7 +37,7 @@ const Clients: React.FC<Props> = ({ handleCreate, handleSearch, onRowClicked, it
         </Button>
       </TableMenu>
 
-      <div style={{ width: '100%', height: 'auto', overflow: 'auto' }}>
+      <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
         <CustomTable
           title="Clients"
           columns={ClientMiniSchema}
