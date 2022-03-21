@@ -3,7 +3,7 @@ import React from 'react';
 import AccordionBox from '../../../../components/accordion';
 import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
-import SwitchButton from '../../../../components/switch';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PaymentSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
@@ -44,17 +44,8 @@ const Payments: React.FC<Props> = ({ onRowClicked, handleSearch, dataTree }) => 
             size="small"
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
+
+          <FilterMenu />
         </div>
       </TableMenu>
 
