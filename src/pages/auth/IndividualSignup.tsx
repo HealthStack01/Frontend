@@ -6,28 +6,57 @@ import PasswordInput from '../../components/inputs/basic/Password';
 import { Link } from '../../components/menuitem/style';
 import AuthWrapper from '../../helper/AuthWrapper';
 
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+
+const schema = yup.object({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup.string().email().required(),
+  phoneNumber: yup.string().required(),
+  password: yup.string().required(),
+}).required();
+
+
 function IndividualSignup() {
+  const { register, handleSubmit, formState:{ errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
+
+  const onSubmit = (data) => console.log(data);
+
   return (
     <AuthWrapper paragraph="Login here as an organization">
-      <form action="">
-        <Input label="First Name" placeholder="Enter your first name" />
-        <Input label="Last Name" placeholder="Enter your last name" />
-        <Input label="Email address" placeholder="Enter your email" />
-        <Input label="Phone number" placeholder="Enter your phone number" />
-        <PasswordInput onChange={() => {}} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Input {...register("firstName")} label="First Name" placeholder="Enter your first name" />
+        <p>{errors.firstName?.message}</p>
+        
+        <Input {...register("lastName")} label="Last Name" placeholder="Enter your last name" />
+        <p>{errors.lastName?.message}</p>
+        
+        <Input {...register("email")} label="Email address" placeholder="Enter your email" />
+        <p>{errors.email?.message}</p>
+        
+        <Input {...register("phoneNumber")} label="Phone number" placeholder="Enter your phone number" />
+        <p>{errors.phoneNumber?.message}</p>
+        
+        <PasswordInput {...register("password")} onChange={() => {}} />
+        <p>{errors.password?.message}</p>
 
         <Button type="submit" label="Signup" fullwidth />
       </form>
 
       <div className="bottom-center">
         <p>or continue with</p>
-        <a href="">
+        <a href="#">
           <i className="bi bi-google" />
         </a>
-        <a href="">
+        <a href="#">
           <i className="bi bi-facebook" />
         </a>
-        <a href="">
+        <a href="#">
           <i className="bi bi-linkedin" />
         </a>
 
