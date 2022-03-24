@@ -6,7 +6,8 @@ import PasswordInput from '../../components/inputs/basic/Password';
 import { Link } from '../../components/menuitem/style';
 import AuthWrapper from '../../helper/AuthWrapper';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from "react-hook-form";
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
@@ -21,29 +22,81 @@ const schema = yup.object({
 
 
 function IndividualSignup() {
-  const { register, handleSubmit, formState:{ errors } } = useForm({
-    resolver: yupResolver(schema)
+  const { control, handleSubmit, formState:{ errors } } = useForm({
+    resolver: yupResolver(schema),
+
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+    }
   });
+
 
   const onSubmit = (data) => console.log(data);
 
   return (
     <AuthWrapper paragraph="Login here as an organization">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input {...register("firstName")} label="First Name" placeholder="Enter your first name" />
-        <p>{errors.firstName?.message}</p>
-        
-        <Input {...register("lastName")} label="Last Name" placeholder="Enter your last name" />
-        <p>{errors.lastName?.message}</p>
-        
-        <Input {...register("email")} label="Email address" placeholder="Enter your email" />
-        <p>{errors.email?.message}</p>
-        
-        <Input {...register("phoneNumber")} label="Phone number" placeholder="Enter your phone number" />
-        <p>{errors.phoneNumber?.message}</p>
-        
-        <PasswordInput {...register("password")} onChange={() => {}} />
-        <p>{errors.password?.message}</p>
+      <Controller
+            name="firstName"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} 
+                label="First Name" 
+                placeholder="Enter your firstname" 
+              />
+            )}
+          />
+          <p style={{color: "red", fontSize: "16px" }}>{errors.firstName?.message}</p>
+          <Controller
+            name="lastName"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} 
+                label="Last Name" 
+                placeholder="Enter your lastname" 
+              />
+            )}
+          />
+          <p style={{color: "red", fontSize: "16px" }}>{errors.lastName?.message}</p>
+          
+          <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <Input {...field} 
+                  label="Email" 
+                  placeholder="Enter your email" 
+                />
+              )}
+            />
+          <p style={{color: "red", fontSize: "16px" }}>{errors.email?.message}</p>
+
+          <Controller
+            name="phoneNumber"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} 
+                label="Phone Number" 
+                placeholder="Enter your email" 
+              />
+            )}
+          />
+          <p style={{color: "red", fontSize: "16px" }}>{errors.phoneNumber?.message}</p>
+
+          <Controller
+            name="password"
+            control={control}
+            render={(field) => (
+              <PasswordInput {...field} label="Password"   onChange={() => {}} />
+
+            )}
+          />
+          <p style={{color: "red", fontSize: "16px" }}>{errors.password?.message}</p>
+
 
         <Button type="submit" label="Signup" fullwidth />
       </form>
