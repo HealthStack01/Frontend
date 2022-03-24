@@ -90,10 +90,7 @@ function IndividualSignup() {
           <Controller
             name="password"
             control={control}
-            render={(field) => (
-              <PasswordInput {...field} label="Password"   onChange={() => {}} />
-
-            )}
+            render={({ field }) => <PasswordInput {...field} />}
           />
           <p style={{color: "red", fontSize: "16px" }}>{errors.password?.message}</p>
 
