@@ -24,14 +24,6 @@ const schema = yup.object({
 function IndividualSignup() {
   const { control, handleSubmit, formState:{ errors } } = useForm({
     resolver: yupResolver(schema),
-
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      password: '',
-    }
   });
 
 
