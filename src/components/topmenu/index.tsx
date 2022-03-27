@@ -2,7 +2,8 @@ import React from 'react';
 
 import Breadcrumbs from '../breadcrumb';
 import LocationSelect from '../inputs/LocationSelect';
-import { Avatar, Profile, TopMenuWrapper } from './styles';
+import ProfileMenu from '../profilemenu';
+import { Profile, TopMenuWrapper } from './styles';
 // import { avatar } from '../../assets/images/img_avatar.png';
 
 function TopMenu({ isOpen, handleClick }) {
@@ -34,7 +35,8 @@ function TopMenu({ isOpen, handleClick }) {
             {/* Pass employee location context */}
           </span>
           <i className="bi bi-bell-fill" />
-          <Avatar src="/img_avatar.png" alt="" />
+          {/* <Avatar src="/img_avatar.png" alt="" /> */}
+          <ProfileMenu />
         </div>
       </Profile>
     </TopMenuWrapper>

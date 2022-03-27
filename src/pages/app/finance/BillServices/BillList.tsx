@@ -4,7 +4,7 @@ import DataTable from 'react-data-table-component';
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
-import SwitchButton from '../../../../components/switch';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { BillServiceSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
@@ -53,17 +53,7 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, data
             size="small"
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
+          <FilterMenu />
         </div>
 
         <Button onClick={handleCreate}>

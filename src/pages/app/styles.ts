@@ -23,6 +23,19 @@ export const PageWrapper = styled.div`
   &.p-1 {
     padding: 0.2rem;
   }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+
+    & .attend-small {
+      flex: 1;
+      width: 100% !important;
+    }
+    &.attend-large {
+      flex: 1;
+      width: 100%;
+    }
+  }
 `;
 
 export const HeadWrapper = styled.div`
