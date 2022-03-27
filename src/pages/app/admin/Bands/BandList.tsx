@@ -2,7 +2,6 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { BandSchema } from '../../schema/ModelSchema';
@@ -23,17 +22,6 @@ const Bands = ({ handleCreate, handleSearch, onRowClicked, items }) => {
           }}
         >
           <FilterMenu onSearch={handleSearch} />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
-          <SwitchButton />
         </div>
 
         <Button onClick={handleCreate}>

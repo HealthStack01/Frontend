@@ -6,4 +6,8 @@ export const InputField = styled.input`
   border-radius: 4px;
   border: 1.5px solid ${({ theme }) => theme.grayTwo};
   width: 100%;
+
+  @media (max-width: 876px) {
+    width: 80%;
+  }
 `;

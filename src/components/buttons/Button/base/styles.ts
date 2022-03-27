@@ -19,6 +19,7 @@ export const CustomButton = styled(BaseButton)`
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
+  white-space: nowrap;
 
   &:focus {
     outline: 1px solid #eee;
@@ -26,5 +27,11 @@ export const CustomButton = styled(BaseButton)`
 
   & i {
     padding-right: 10px;
+  }
+
+  @media (max-width: 768px) {
+    & i {
+      display: none;
+    }
   }
 `;

@@ -1,10 +1,8 @@
 import React from 'react';
 import { TableColumn } from 'react-data-table-component';
-import { DebounceInput } from 'react-debounce-input';
 
 import AccordionBox from '../../../../components/accordion';
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -152,16 +150,6 @@ const BillLabSent: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Employees"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={() => {}}
-          />
-
           <FilterMenu />
         </div>
       </TableMenu>

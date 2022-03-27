@@ -8345,6 +8345,15 @@
   "resolved" "https://registry.npmjs.org/react-merge-refs/-/react-merge-refs-1.1.0.tgz"
   "version" "1.1.0"
 
+"react-preloaders@^3.0.3":
+  "integrity" "sha512-kDqXpJBK+HLRHpYvVHWLMdQo2Y7sqdNBS19YKzLZD6spkAJbEPd256GrZqwNn6b+/MX+1dLHPMBczbFEX7lWRA=="
+  "resolved" "https://registry.npmjs.org/react-preloaders/-/react-preloaders-3.0.3.tgz"
+  "version" "3.0.3"
+  dependencies:
+    "prop-types" "^15.7.2"
+    "react" "^16.8.6"
+    "styled-components" "^5.0.0-beta.0"
+
 "react-redux@^7.2.0":
   "integrity" "sha512-10RPdsz0UUrRL1NZE0ejTkucnclYSgXp5q+tB5SWx2qeG2ZJQJyymgAhwKy73yiL/13btfB6fPr+rgbMAaZIAQ=="
   "resolved" "https://registry.npmjs.org/react-redux/-/react-redux-7.2.6.tgz"
@@ -8480,6 +8489,15 @@
   dependencies:
     "loose-envify" "^1.1.0"
     "object-assign" "^4.1.1"
+
+"react@^16.8.6":
+  "integrity" "sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g=="
+  "resolved" "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
+  "version" "16.14.0"
+  dependencies:
+    "loose-envify" "^1.1.0"
+    "object-assign" "^4.1.1"
+    "prop-types" "^15.6.2"
 
 "readable-stream@^2.0.1":
   "integrity" "sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw=="
@@ -9432,7 +9450,7 @@
     "hey-listen" "^1.0.8"
     "tslib" "^2.1.0"
 
-"styled-components@^5.3.1", "styled-components@^5.3.3", "styled-components@>= 2", "styled-components@>= 4":
+"styled-components@^5.0.0-beta.0", "styled-components@^5.3.1", "styled-components@^5.3.3", "styled-components@>= 2", "styled-components@>= 4":
   "integrity" "sha512-++4iHwBM7ZN+x6DtPPWkCI4vdtwumQ+inA/DdAsqYd4SVgUKJie5vXyzotA00ttcFdQkCng7zc6grwlfIfw+lw=="
   "resolved" "https://registry.npmjs.org/styled-components/-/styled-components-5.3.3.tgz"
   "version" "5.3.3"

@@ -30,6 +30,7 @@ const PasswordInput: React.FC<PasswordInputProps> = (props: PasswordInputProps) 
           id="outlined-adornment-password"
           placeholder="Enter your password"
           type={showPassword ? 'text' : 'password'}
+          sx={{ background: 'white' }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton

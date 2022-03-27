@@ -28,7 +28,6 @@ const AppClientAppointment = () => {
   const {
     list: appointments,
     submit: handleSubmit,
-    remove: handleDelete,
     setFindQuery,
   } = useRepository(Models.APPOINTMENT, handleNavigation);
 
@@ -54,7 +53,7 @@ const AppClientAppointment = () => {
           row={selectedAppointment}
           backClick={handleNavigation(Views.LIST)}
           editBtnClicked={() => handleNavigation(Views.EDIT)(selectedAppointment)}
-          deleteBtnClicked={handleDelete}
+          deleteBtnClicked={() => {}}
         />
       )}
       {show === Views.EDIT && (

@@ -8,6 +8,12 @@ export const TopMenuWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.4rem;
+
+  & .breadcrumb {
+    @media (max-width: 400px) {
+      display: none;
+    }
+  }
 `;
 
 export const Avatar = styled.img`
@@ -25,4 +31,20 @@ export const Profile = styled.div`
   & i {
     margin-right: 20px;
   }
+
+  & .profile-item{
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 400px) {
+    & .location-selector{
+      width:240px;
+    }
+
+    & span {
+      display:none;
+    }
+  
+
 `;

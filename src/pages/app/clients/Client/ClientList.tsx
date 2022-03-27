@@ -12,9 +12,10 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
   items: any[];
   handleSearch: (_) => void;
+  progressPending?: any;
 }
 
-const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, items }) => {
+const Clients: React.FC<Props> = ({ handleCreate, handleSearch, onRowClicked, items, progressPending }) => {
   return (
     <PageWrapper>
       <h2> Client </h2>
@@ -36,7 +37,7 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, it
         </Button>
       </TableMenu>
 
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+      <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
         <CustomTable
           title="Clients"
           columns={ClientMiniSchema}
@@ -45,6 +46,7 @@ const Clients: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, it
           highlightOnHover
           onRowClicked={onRowClicked}
           striped
+          progressPending={progressPending}
         />
       </div>
     </PageWrapper>

@@ -28,7 +28,7 @@ const Appointments = ({ handleCreate, onRowClicked, onSearch, items }) => {
         </Button>
       </TableMenu>
 
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+      <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
         {listView ? (
           <CustomTable
             columns={AppointmentSchema.flat()}

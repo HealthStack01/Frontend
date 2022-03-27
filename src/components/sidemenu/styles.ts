@@ -4,7 +4,15 @@ export const Sidemenu = styled.div`
 &.hide{
     left: -300px;
     width: 0;
-    padding: 0
+    padding: 0;
+
+    @media (max-width: 768px) {
+    left: 0;
+    width: 300px;
+    padding: 2rem 1.5rem ;
+
+  }
+  
   }
 &.side-menu
   position: fixed;
@@ -18,6 +26,12 @@ export const Sidemenu = styled.div`
   box-sizing: border-box;
   padding: 2rem 1.5rem ;
   transition: width 0.2s ease-in;
+
+  @media (max-width: 768px) {
+    left: -300px;
+    width:0;
+    padding:0;
+  }
 
   
 
