@@ -6,7 +6,7 @@ import PasswordInput from '../../components/inputs/basic/Password';
 import { Link } from '../../components/menuitem/style';
 import AuthWrapper from '../../helper/AuthWrapper';
 
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -42,7 +42,12 @@ function IndividualSignup() {
               />
             )}
           />
-          <p style={{color: "red", fontSize: "16px" }}>{errors.firstName?.message}</p>
+
+          {
+            errors.firstName && (
+              <p style={{color: 'blue', fontSize: '16px' }}>{errors.firstName?.message}</p>
+            )
+          }
           <Controller
             name="lastName"
             control={control}
@@ -53,7 +58,11 @@ function IndividualSignup() {
               />
             )}
           />
-          <p style={{color: "red", fontSize: "16px" }}>{errors.lastName?.message}</p>
+          {
+            errors.lastName && (
+              <p style={{color: 'blue', fontSize: '16px' }}>{errors.lastName?.message}</p>
+            )
+          }
           
           <Controller
               name="email"
@@ -65,7 +74,12 @@ function IndividualSignup() {
                 />
               )}
             />
-          <p style={{color: "red", fontSize: "16px" }}>{errors.email?.message}</p>
+
+          {
+            errors.email && (
+              <p style={{color: 'blue', fontSize: '16px' }}>{errors.email?.message}</p>
+            )
+          }
 
           <Controller
             name="phoneNumber"
@@ -77,14 +91,24 @@ function IndividualSignup() {
               />
             )}
           />
-          <p style={{color: "red", fontSize: "16px" }}>{errors.phoneNumber?.message}</p>
+
+          {
+            errors.phoneNumber && (
+              <p style={{color: 'blue', fontSize: '16px' }}>{errors.phoneNumber?.message}</p>
+            )
+          }
 
           <Controller
             name="password"
             control={control}
             render={({ field }) => <PasswordInput {...field} />}
           />
-          <p style={{color: "red", fontSize: "16px" }}>{errors.password?.message}</p>
+
+          {
+            errors.password && (
+              <p style={{color: 'blue', fontSize: '16px' }}>{errors.password?.message}</p>
+            )
+          }
 
 
         <Button type="submit" label="Signup" fullwidth />
