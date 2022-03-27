@@ -30,10 +30,6 @@ function TopMenu({ isOpen, handleClick }) {
         </div>
 
         <div className="profile-item">
-          <span>
-            @workspace.com
-            {/* Pass employee location context */}
-          </span>
           <i className="bi bi-bell-fill" />
           {/* <Avatar src="/img_avatar.png" alt="" /> */}
           <ProfileMenu />

@@ -6,7 +6,7 @@ import { AppointmentSchema } from '../../schema';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 import Attend from './Attend';
 
-const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
+const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }) => {
   const [state, setState] = useState('all');
 
   return (
@@ -45,6 +45,12 @@ const AppointmentDetails = ({ editBtnClicked, row, backClick }) => {
                       onClick={editBtnClicked}
                     />
                     <Button label="Attend to Client" onClick={() => setState('attend')} />
+                    <Button
+                      label={'Delete Appointment'}
+                      background={'#ff0000'}
+                      color={'#fff'}
+                      onClick={() => deleteBtnClicked(row._id)}
+                    />
                   </BottomWrapper>
                 </>
               )}

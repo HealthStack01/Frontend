@@ -139,7 +139,6 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
               onRowClicked={onRowClicked}
             />
           ))}
-
         </div>
       </PageWrapper>
     </>

@@ -2,7 +2,6 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { LocationSchema } from '../../schema';
@@ -28,22 +27,7 @@ const Locations: React.FC<Props> = ({ handleCreate, handleSearch, onRowClicked, 
             height: '40px',
           }}
         >
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            onChange={(e) => handleSearch(e.target.value)}
-            size="small"
-          />
-          {/* <DebouncedInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Locations"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          /> */}
-
-          <FilterMenu />
+          <FilterMenu onSearch={handleSearch} />
         </div>
 
         <Button onClick={handleCreate}>
