@@ -37,7 +37,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ name, subMenus, onClick, iconClassN
                   style={{
                     color: 'white',
                     textDecoration: 'none',
-                    fontSize: '0.75rem',
+                    fontSize: '0.9rem',
                   }}
                 >
                   {menu.name}

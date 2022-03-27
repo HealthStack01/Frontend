@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
 import { columnHead, rowData } from './data';
@@ -20,10 +21,7 @@ const HMOAuthorization: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
       <TableMenu>
         <div className="inner-table">
           <Input placeholder="Search here" label="Search here" />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+          <FilterMenu />
         </div>
 
         <Button label="Add new" onClick={handleCreate} />
