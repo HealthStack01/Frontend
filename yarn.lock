@@ -1675,6 +1675,8 @@
     "react-is" "^16.8.0 || ^17.0.0"
 
 "@mui/base@5.0.0-alpha.66":
+  "integrity" "sha512-LARfVx0HmGV5YwU2pdIqEApQwz/CtEnYtKkV856hlY0cgi5NQL2htzZ/9ujKz0j3LFUaMYiYuJ2AOwrNtGFGrw=="
+  "resolved" "https://registry.npmjs.org/@mui/base/-/base-5.0.0-alpha.66.tgz"
   "version" "5.0.0-alpha.66"
   dependencies:
     "@babel/runtime" "^7.16.7"
