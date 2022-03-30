@@ -4,7 +4,9 @@ import { Models } from '../../pages/app/Constants';
 import Breadcrumbs from '../breadcrumb';
 import useRepository from '../hooks/repository';
 import LocationSelect from '../inputs/LocationSelect';
-import { Avatar, Profile, TopMenuWrapper } from './styles';
+import ProfileMenu from '../profilemenu';
+import { Profile, TopMenuWrapper } from './styles';
+// import { avatar } from '../../assets/images/img_avatar.png';
 
 const defaultList = [
   { code: 'NG', label: 'Lagos/Gbagada', location: 'Gbagada' },
@@ -56,7 +58,8 @@ const TopMenu = ({ isOpen, handleClick }) => {
 
         <div className="profile-item">
           <i className="bi bi-bell-fill" />
-          <Avatar src="/img_avatar.png" alt="" />
+          {/* <Avatar src="/img_avatar.png" alt="" /> */}
+          <ProfileMenu />
         </div>
       </Profile>
     </TopMenuWrapper>

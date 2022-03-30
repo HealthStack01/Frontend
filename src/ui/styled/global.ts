@@ -350,6 +350,15 @@ export const FlexBox = styled.div`
   align-items: center;
   width: 100%;
 
+  & img {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+  }
+
+  @media (max-width: 400px) {
+  }
+
   &.between {
     justify-content: space-between;
   }
@@ -410,5 +419,18 @@ export const LocationWrapper = styled.div`
     @media (max-width: 400px) {
       width: 200px !important;
     }
+  }
+`;
+
+export const LocationCardWrapper = styled.div`
+  margin: 10px 0;
+  border: 0.6px solid #ebebeb;
+  background: #fafafa;
+  padding: 16px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: #eee;
   }
 `;

@@ -4,6 +4,7 @@ import { TableColumn } from 'react-data-table-component';
 import AccordionBox from '../../../../components/accordion';
 import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
+import LocationModal from '../../../../components/locationModal';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -138,41 +139,46 @@ export const columnHead: TableColumn<DataProps>[] = [
 ];
 
 const BillPrescriptionSent: React.FC<Props> = ({ onRowClicked }) => {
+  const locations = ['Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6', 'Location 7'];
+
   return (
-    <PageWrapper>
-      <h2>Bill Prescription Sent</h2>
+    <>
+      <LocationModal data={locations} />
+      <PageWrapper>
+        <h2>Bill Prescription Sent</h2>
 
-      <TableMenu>
-        <div
-          className="inner-table"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: '40px',
-          }}
-        >
-          <Input placeholder="Search here" label="Search here" size="small" />
+        <TableMenu>
+          <div
+            className="inner-table"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: '40px',
+            }}
+          >
+            <Input placeholder="Search here" label="Search here" size="small" />
 
-          <FilterMenu />
+            <FilterMenu />
+          </div>
+        </TableMenu>
+
+        <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+          {dataTree.map((data, index) => (
+            <AccordionBox title={data.title} key={index}>
+              <CustomTable
+                title={data.description}
+                columns={columnHead}
+                data={data.data}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={onRowClicked}
+              />
+            </AccordionBox>
+          ))}
         </div>
-      </TableMenu>
-
-      <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        {dataTree.map((data, index) => (
-          <AccordionBox title={data.title} key={index}>
-            <CustomTable
-              title={data.description}
-              columns={columnHead}
-              data={data.data}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={onRowClicked}
-            />
-          </AccordionBox>
-        ))}
-      </div>
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 };
 

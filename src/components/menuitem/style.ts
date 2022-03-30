@@ -29,7 +29,8 @@ export const MenuList = styled.div`
   &.menu-item {
     color: ${({ theme }) => theme.btnText};
     text-decoration: none;
-    font-size: 15px;
+    font-size: 15px !important;
+    color: red;
     display: block;
     font-weight: 600;
     cursor: pointer;
@@ -44,6 +45,11 @@ export const MenuList = styled.div`
   &.menu-item .menu-label {
     display: flex;
     justify-content: space-between;
+
+    & span {
+      font-size: 18px !important;
+      /* font-size: 18px; */
+    }
   }
 
   &.menu-item .menu-icon {

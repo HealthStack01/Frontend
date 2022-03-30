@@ -4,6 +4,7 @@ import Button from '../../../../components/buttons/Button';
 import CollapsableGrid from '../../../../components/datagrids/CollapsableGrid';
 import Input from '../../../../components/inputs/basic/Input';
 import SwitchButton from '../../../../components/switch';
+import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { ServicesSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
@@ -35,16 +36,7 @@ const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, 
             size="small"
             onChange={(e) => handleSearch(e.target.value)}
           />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'nowrap',
-            }}
-          >
-            <span>Filer by</span>
-            <i className="bi bi-chevron-down"></i>
-          </div>
+          <FilterMenu />
           <SwitchButton />
         </div>
 

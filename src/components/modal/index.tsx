@@ -8,11 +8,15 @@ interface ModalProps {
   onClose: () => void;
 }
 const style = {
-  width: '40%',
+  width: '68%',
+  maxWidth: '90%',
+  height: '80%',
+  maxHeight: '100%',
   bgcolor: '#fff',
   boxShadow: 24,
   p: 4,
   borderRadius: '6px',
+  minWidth: '350px !important',
 };
 
 const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
@@ -27,10 +31,12 @@ const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
       BackdropProps={{
         timeout: 500,
       }}
-      sx={{ width: '100%', display: 'grid', placeItems: 'center' }}
+      sx={{ width: '100%', display: 'grid', placeItems: 'center ' }}
     >
       <Fade in={open}>
-        <Box sx={style}>{children}</Box>
+        <Box sx={style}>
+          <div style={{ height: '100%', overflowY: 'auto' }}>{children}</div>
+        </Box>
       </Fade>
     </Modal>
   </>
