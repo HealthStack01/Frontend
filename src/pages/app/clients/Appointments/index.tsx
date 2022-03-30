@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import AppointmentCreate from './AppointmentCreate';

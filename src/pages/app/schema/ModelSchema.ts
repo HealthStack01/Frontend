@@ -415,7 +415,7 @@ const ModulesSchema = [
       { label: 'Finance', value: 'moduleFinance' },
       { label: 'Immunization', value: 'moduleImmunization' },
     ],
-    inputType: InputType.CHECKBOX,
+    inputType: InputType.SELECT_CHECKBOX,
   },
   {
     name: 'Module 2',
@@ -440,7 +440,7 @@ const ModulesSchema = [
       { label: 'Theatre', value: 'moduleTheatre' },
       { label: 'User Profile', value: 'moduleUser Profile' },
     ],
-    inputType: InputType.CHECKBOX,
+    inputType: InputType.SELECT_CHECKBOX,
   },
 ];
 

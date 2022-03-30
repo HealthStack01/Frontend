@@ -15,6 +15,10 @@ const Models = {
   LABORATORY_HELPER: 'labhelper',
   MEDICATION_HELPER: 'medicationhelper',
   ORDER: 'order',
+  CHANNEL: 'messaging',
+  CONVERSATION_CONFIG: 'conversation-config',
+  QUESTIONNAIRE: 'questionnaire',
+  QUESTION: 'question',
 };
 
 const DateFormats = {

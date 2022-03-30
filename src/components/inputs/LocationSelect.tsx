@@ -157,10 +157,10 @@ const CustomSelect = React.forwardRef(function CustomSelect(
   return <SelectUnstyled {...props} ref={ref} components={components} />;
 });
 
-export default function LocationSelect() {
+export default function LocationSelect({ locations = [], onChange }) {
   return (
     <LocationWrapper>
-      <CustomSelect>
+      <CustomSelect onChange={onChange}>
         {locations.map((c) => (
           <StyledOption key={c.location} value={c.location}>
             <img
@@ -179,9 +179,3 @@ export default function LocationSelect() {
     </LocationWrapper>
   );
 }
-
-const locations = [
-  { code: 'NG', label: 'Lagos/Gbagada', phone: '234', location: 'Gbagada' },
-  { code: 'NG', label: 'Lagos/Ikoyi', phone: '234', location: 'Ikoyi' },
-  { code: 'NG', label: 'Ibadan', phone: '234', location: 'Ibadan' },
-];

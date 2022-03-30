@@ -104,6 +104,7 @@ const CustomTable: React.FC<Props> = ({
   progressPending,
   selectable = false,
 }) => {
+  console.debug({ data });
   return (
     <DataTable
       title={title}

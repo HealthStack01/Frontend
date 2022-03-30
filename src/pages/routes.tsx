@@ -5,7 +5,6 @@ import AppBands from '../pages/app/admin/Bands';
 import AppEmployees from '../pages/app/admin/Employees';
 import AppLocation from '../pages/app/admin/Locations';
 import AppClientAppointment from '../pages/app/clients/Appointments';
-import AppClinic from '../pages/app/clients/Appointments';
 import AppClient from '../pages/app/clients/Client';
 import ClientDashboard from '../pages/app/clients/ClientDashboard';
 import ClinicDashboard from '../pages/app/clinic/ClinicDashboard';
@@ -94,7 +93,7 @@ function AppRoutes() {
 
           {/* Clinic */}
           <Route path="/app/clinic" element={<ClinicDashboard />} />
-          <Route path="/app/clinic/appointments" element={<AppClinic />} />
+          <Route path="/app/clinic/appointments" element={<AppClientAppointment />} />
 
           {/* Manged Care */}
           <Route path="/app/managedCare" element={<ManagedCareDashboard />} />

@@ -16,13 +16,15 @@ enum InputType {
   HIDDEN,
   TEXT,
   TEXT_AREA,
-  CHECKBOX,
+  SELECT_CHECKBOX,
   EMAIL,
   PHONE,
   NUMBER,
   SELECT_RADIO,
   SELECT_AUTO_SUGGEST,
   SELECT_LIST,
+  JSON,
+  FILE_UPLOAD,
 }
 
 export type Schema = {

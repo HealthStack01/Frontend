@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models } from '../../Constants';
 import { queryClients } from '../Appointments/query';

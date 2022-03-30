@@ -2,7 +2,7 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { Models } from '../../Constants';
 import { GenericTableSchema, LaboratoryOrderSchema, PrescriptionSchema } from '../../schema';
 import { FullDetailsWrapper, PageWrapper } from '../../styles';

@@ -126,7 +126,7 @@ const TabBox = ({
           <Orders onClick={() => onNewDocument('Prescription')} schema={PrescriptionOrderSchema} data={prescriptions} />
         </TabPanel>
         <TabPanel value={currentTab} index={3}>
-          <DnDBox listItems={[]} />
+          <DnDBox questions={[]} onChange={() => {}} />
         </TabPanel>
       </GrayWrapper>
     </>
