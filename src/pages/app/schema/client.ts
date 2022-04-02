@@ -1,3 +1,5 @@
+// import * as yup from 'yup';
+
 import { Models } from '../Constants';
 import { toDurationString } from '../DateUtils';
 import { InputType } from './util';
@@ -45,6 +47,7 @@ const AppointmentSchema = [
         email,
       }),
     },
+    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
   {
     name: 'Location',
@@ -64,6 +67,7 @@ const AppointmentSchema = [
         location_type: locationType,
       }),
     },
+    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
   {
     name: 'Employee',
@@ -84,6 +88,7 @@ const AppointmentSchema = [
         practitioner_department: department,
       }),
     },
+    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
   [
     {
@@ -94,6 +99,7 @@ const AppointmentSchema = [
       sortable: true,
       required: true,
       inputType: InputType.DATETIME,
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
     {
       name: 'Classification',
@@ -117,6 +123,7 @@ const AppointmentSchema = [
           label: 'Home Visit',
         },
       ],
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
     {
       name: 'Appointment Type',
@@ -127,6 +134,7 @@ const AppointmentSchema = [
       required: true,
       inputType: InputType.SELECT_LIST,
       options: ['New', 'Type B', 'Followup', '', 'Annual Checkup'],
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
     {
       name: 'Appointment Status',
@@ -137,6 +145,7 @@ const AppointmentSchema = [
       required: true,
       options: ['Scheduled', 'Confirmed', 'Checked In', 'Vitals Taken', 'With Nurse', 'With Doctor'],
       inputType: InputType.SELECT_LIST,
+      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
     },
   ],
   {
@@ -147,6 +156,7 @@ const AppointmentSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT_AREA,
+    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
   },
 ];
 

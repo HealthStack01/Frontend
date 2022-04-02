@@ -18,7 +18,11 @@ interface Props {
 
 const FormView: React.FC<Props> = ({ title, schema, backClick, selectedData, onSubmit }) => {
   const resolver = yupResolver(getResolver(schema));
-  const { handleSubmit, control } = useForm({ defaultValues: selectedData._reactName ? {} : selectedData, resolver }); //FIXME: wrong data passed here is still a mystery
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({ defaultValues: selectedData._reactName ? {} : selectedData, resolver }); //FIXME: wrong data passed here is still a mystery
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -43,6 +47,7 @@ const FormView: React.FC<Props> = ({ title, schema, backClick, selectedData, onS
                   inputType={client.inputType}
                   options={client.options}
                   data={selectedData}
+                  errors={errors}
                 />
               ))}
             </GridWrapper>
