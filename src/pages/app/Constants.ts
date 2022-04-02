@@ -19,6 +19,7 @@ const Models = {
   CONVERSATION_CONFIG: 'conversation-config',
   QUESTIONNAIRE: 'questionnaire',
   QUESTION: 'question',
+  SUBMISSION: 'conversation',
 };
 
 const DateFormats = {

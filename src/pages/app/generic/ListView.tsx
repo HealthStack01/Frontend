@@ -30,7 +30,7 @@ const ListView: React.FC<Props> = ({ title, schema, handleCreate, handleSearch, 
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         <CustomTable
-          title="Channels"
+          title={title}
           columns={schema}
           data={items}
           pointerOnHover

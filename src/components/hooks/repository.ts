@@ -73,7 +73,8 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const spreadSubData = (data): DictionaryOf<string> => {
     let result = {};
     Object.entries(data).map(([key, value]) => {
-      if (typeof value === 'object' && !data.documentname && !data.questions) {
+      // Exceptions
+      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions) {
         result = { ...result, ...value };
       } else {
         result[key] = value;

@@ -149,4 +149,79 @@ const QuestionnaireSchema = [
   },
 ];
 
-export { ChannelSchema, ConversationConfigSchema, QuestionnaireSchema };
+const SubmissionSchema = [
+  {
+    name: 'Questionnaire',
+    key: 'questionnaire',
+    description: 'Questionnaire',
+    selector: (row) => (row.questionnaire ? row.questionnaire.name : row.questionGroup.name),
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Interactions',
+    key: 'interactions',
+    description: 'Interactions',
+    selector: (row) => row.interactions.length,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Session',
+    key: 'sessionId',
+    description: 'Session',
+    selector: (row) => row.sessionId,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Sender',
+    key: 'senderId',
+    description: 'Sender',
+    selector: (row) => row.senderId,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Receiver',
+    key: 'receiverId',
+    description: 'Receiver',
+    selector: (row) => row.receiverId,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Completed',
+    key: 'completed',
+    description: 'Completed',
+    selector: (row) => (row.completed ? 'YES' : 'NO'),
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'AutoConfigured',
+    key: 'config',
+    description: 'AutoConfigured',
+    selector: (row) => (row.config ? 'YES' : 'NO'),
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Interaction',
+    key: 'currentInteraction',
+    description: 'Interaction',
+    selector: (row) => (row.currentInteraction ? row.currentInteraction.name : ''),
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+];
+
+export { ChannelSchema, ConversationConfigSchema, QuestionnaireSchema, SubmissionSchema };
