@@ -19,7 +19,6 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 const CustomSelect: React.FC<SelectProps> = ({ label, options, name, defaultValue, onChange, errorText }) => {
   const [optionsList, setOptionsList] = useState([]);
-  console.debug({ defaultValue, options });
 
   useEffect(() => {
     if (options.length) {

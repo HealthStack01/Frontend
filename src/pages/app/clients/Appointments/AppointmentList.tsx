@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Button from '../../../../components/buttons/Button';
 import CalenderGrid from '../../../../components/calender';
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
 import LocationModal from '../../../../components/locationModal';
 import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
@@ -20,13 +19,9 @@ const Appointments = ({ handleCreate, onRowClicked, onSearch, items }) => {
       <LocationModal data={locations} />
       <PageWrapper>
         <h2>Appointments </h2>
-
         <TableMenu>
           <div className="inner-table">
-            <Input placeholder="Search here" label="Search here" size="small" />
-
             <FilterMenu schema={AppointmentSchema.flat()} onSearch={onSearch} />
-
             <SwitchButton onClick={() => setListView(!listView)} />
           </div>
 

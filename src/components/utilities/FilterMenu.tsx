@@ -52,78 +52,86 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) =>
         zIndex: '10',
       }}
     >
-      <label
-        ref={anchorRef}
-        id="composition-button"
-        aria-controls={open ? 'composition-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          flexWrap: 'nowrap',
-          padding: '6px 10px',
-          width: '120px',
-          borderRadius: '4px',
-          margin: '0 10px',
-          background: '#fafafa',
-          border: '1px solid #CDD2D7',
-        }}
-      >
-        <span style={{ fontWeight: '500' }}>Filter by</span>
-        <i className="bi bi-chevron-down"></i>
-      </label>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement="bottom-start"
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
+      {schema.filter((obj) => obj.filterable).length ? (
+        <>
+          <label
+            ref={anchorRef}
+            id="composition-button"
+            aria-controls={open ? 'composition-menu' : undefined}
+            aria-expanded={open ? 'true' : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
             style={{
-              transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              flexWrap: 'nowrap',
+              padding: '6px 10px',
+              width: '120px',
+              borderRadius: '4px',
+              margin: '0 10px',
+              background: '#fafafa',
+              border: '1px solid #CDD2D7',
             }}
           >
-            <div style={{ background: '#fff', minWidth: '200px', border: '1px solid #CDD2D7', borderRadius: '4px' }}>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
+            <span style={{ fontWeight: '500' }}>Filter by</span>
+            <i className="bi bi-chevron-down"></i>
+          </label>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            placement="bottom-start"
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
+                }}
+              >
+                <div
+                  style={{ background: '#fff', minWidth: '200px', border: '1px solid #CDD2D7', borderRadius: '4px' }}
                 >
-                  <div style={{ padding: '5px 10px', margin: ' 0 0 10px 0' }}>
-                    <input type="checkbox" />
-                    <label>None</label>
-                  </div>
-                  <div style={{ padding: '5px 10px', margin: '10px 0' }}>
-                    <input type="checkbox" />
-                    <label>Date</label>
-                  </div>
-                  <div style={{ padding: '5px 10px', margin: '10px 0' }}>
-                    <input type="checkbox" />
-                    <label>Description</label>
-                  </div>
-                  {schema
-                    .filter((obj) => obj.filterable)
-                    .map((obj, i) => (
-                      <div key={i}>
-                        <input type="checkbox" onChange={onSearch} />
-                        <label>{obj.description}</label>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="composition-menu"
+                      aria-labelledby="composition-button"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      <div style={{ padding: '5px 10px', margin: ' 0 0 10px 0' }}>
+                        <input type="checkbox" />
+                        <label>None</label>
                       </div>
-                    ))}
-                </MenuList>
-              </ClickAwayListener>
-            </div>
-          </Grow>
-        )}
-      </Popper>
+                      <div style={{ padding: '5px 10px', margin: '10px 0' }}>
+                        <input type="checkbox" />
+                        <label>Date</label>
+                      </div>
+                      <div style={{ padding: '5px 10px', margin: '10px 0' }}>
+                        <input type="checkbox" />
+                        <label>Description</label>
+                      </div>
+                      {schema
+                        .filter((obj) => obj.filterable)
+                        .map((obj, i) => (
+                          <div key={i}>
+                            <input type="checkbox" onChange={onSearch} />
+                            <label>{obj.description}</label>
+                          </div>
+                        ))}
+                    </MenuList>
+                  </ClickAwayListener>
+                </div>
+              </Grow>
+            )}
+          </Popper>
+        </>
+      ) : (
+        <></>
+      )}
       <DebouncedInput label="Search here" onChangeValue={onSearch ? onSearch : () => {}} />
       {dateField && <DateRange />}
     </div>

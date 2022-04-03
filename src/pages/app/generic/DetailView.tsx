@@ -48,7 +48,7 @@ const DetailView: React.FC<Props> = ({ title, onEdit, onDelete, schema, value, b
             {schema.map((schema) => (
               <div key={schema.key}>
                 <label>{schema.name}</label>
-                <p>{schema.selector(value)}</p>
+                <p>{schema.selector ? schema.selector(value) : value[schema.key]}</p>
               </div>
             ))}
           </GridWrapper>

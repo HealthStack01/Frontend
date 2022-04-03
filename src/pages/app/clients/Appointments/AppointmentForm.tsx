@@ -6,12 +6,11 @@ import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { AppointmentSchema, Schema } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-const AppointmentCreate = ({ onSubmit, backClick }) => {
+const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
   const { handleSubmit, control } = useForm({
-    defaultValues: {
-      client: '',
-    },
+    defaultValues: selectedData,
   });
+
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -30,28 +29,30 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
 
                 return (
                   <GridWrapper className="subgrid two-columns" key={index}>
-                    {schemas.map((schema, childIndex) => (
+                    {schemas.map((field, childIndex) => (
                       <DynamicInput
                         key={childIndex}
-                        name={schema.key}
+                        name={field.key}
                         control={control}
-                        label={schema.description}
-                        inputType={schema.inputType}
-                        options={schema.options || []}
+                        label={field.name}
+                        inputType={field.inputType}
+                        options={field.options || []}
+                        data={selectedData}
                       />
                     ))}
                   </GridWrapper>
                 );
               } else {
-                const schema = obj as Schema;
+                const field = obj as Schema;
                 return (
                   <DynamicInput
                     key={index}
-                    name={schema.key}
+                    name={field.key}
                     control={control}
-                    label={schema.description}
-                    inputType={schema.inputType}
-                    options={schema.options || []}
+                    label={field.name}
+                    inputType={field.inputType}
+                    options={field.options || []}
+                    data={selectedData}
                   />
                 );
               }
@@ -59,7 +60,7 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
           </DetailsWrapper>
           <BottomWrapper>
             <Button label="Close without Saving" background="#ECF3FF" color="#0364FF" onClick={backClick} />
-            <Button label="Create Appointment" />
+            <Button label="Save Appointment" />
           </BottomWrapper>
         </form>
       </GrayWrapper>
@@ -67,4 +68,4 @@ const AppointmentCreate = ({ onSubmit, backClick }) => {
   );
 };
 
-export default AppointmentCreate;
+export default AppointmentForm;

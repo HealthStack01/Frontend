@@ -2,47 +2,7 @@ import { Models } from '../Constants';
 import { toAPIDate, toShortDate } from '../DateUtils';
 import { InputType } from './util';
 
-const LaboratoryOrderSchema = [
-  {
-    name: 'Test',
-    key: 'test',
-    description: 'Search for Laboratory Tests',
-    selector: (row) => `${row.test}`,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_AUTO_SUGGEST,
-    options: {
-      model: Models.LABORATORY_HELPER,
-      field: 'test',
-      labelSelector: (obj) => `${obj.test}`,
-      valueSelector: (obj) => obj.test,
-    },
-    extraFields: {
-      instruction: 'instruction',
-    },
-  },
-  {
-    name: 'Laboratory',
-    description: 'Search Laboratory',
-    key: 'destination',
-    selector: (row) => row.destination,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_AUTO_SUGGEST,
-    options: {
-      model: Models.LOCATION,
-      or: ['name', 'locationType'],
-      labelSelector: (obj) => obj.name,
-      valueSelector: (obj) => obj.name,
-    },
-    extraFields: {
-      location_name: (obj) => obj.name,
-      location_type: (obj) => obj.locationType,
-    },
-  },
-];
-
-const PrescriptionSchema = [
+const PrescriptionOrderSchema = [
   {
     name: 'Medication',
     key: 'medication',
@@ -55,10 +15,7 @@ const PrescriptionSchema = [
       model: Models.MEDICATION_HELPER,
       field: 'medication',
       labelSelector: (obj) => `${obj.medication}`,
-      valueSelector: (obj) => obj.medication,
-      extraFields: {
-        instruction: 'instruction',
-      },
+      valueSelector: ({ medication }) => ({ medication }),
     },
   },
   {
@@ -90,7 +47,7 @@ const PrescriptionSchema = [
   },
 ];
 
-const PrescriptionOrderSchema = [
+const PrescriptionSchema = [
   {
     name: 'SN',
     description: 'S/N',
@@ -111,14 +68,6 @@ const PrescriptionOrderSchema = [
     inputType: InputType.HIDDEN,
   },
   {
-    name: 'Fullfiled',
-    description: 'Fullfilled',
-    selector: (row) => (row.fulfilled === 'True' ? 'Yes' : 'No'),
-    sortable: true,
-    required: true,
-    inputType: InputType.HIDDEN,
-  },
-  {
     name: 'Medication',
     key: 'medication',
     description: 'Search for Medicine',
@@ -135,6 +84,14 @@ const PrescriptionOrderSchema = [
         instruction: 'instruction',
       },
     },
+  },
+  {
+    name: 'Fullfiled',
+    description: 'Fullfilled',
+    selector: (row) => (row.fulfilled === 'True' ? 'Yes' : 'No'),
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
   },
   {
     name: 'Instruction',
@@ -177,4 +134,4 @@ const PrescriptionOrderSchema = [
   },
 ];
 
-export { LaboratoryOrderSchema, PrescriptionOrderSchema, PrescriptionSchema };
+export { PrescriptionOrderSchema, PrescriptionSchema };

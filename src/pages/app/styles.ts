@@ -2,6 +2,7 @@
 // import styled from 'styled-components';
 
 import styled from '@emotion/styled';
+import { makeStyles } from '@mui/styles';
 
 import AccordionBox from '../../components/accordion';
 
@@ -222,3 +223,84 @@ export const BottomWrapper = styled.div`
     }
   }
 `;
+
+export const autoSuggestStyles = (defaultTheme) => {
+  const classes: any = makeStyles(() => {
+    return {
+      container: {
+        margin: 'auto',
+        width: '100%',
+        //backgroundColor: theme.background.default,
+      },
+      innerTableContainer: {
+        width: '100%',
+        height: 'calc(100vh - 190px)',
+        //  borderRadius: theme.shape.borderRadius,
+        // backgroundColor: theme.background.paper,
+      },
+      react_autosuggest__container: {
+        position: 'relative',
+        width: '100%',
+      },
+      react_autosuggest__input: {
+        minWidth: 'auto',
+        width: '90%',
+        height: '1.4375em',
+        marginBottom: '0.6rem',
+        boxSizing: 'content-box',
+        padding: '10px 20px',
+        fontFamily: 'Helvetica, sans-serif',
+        fontWeight: '300',
+        fontSize: '16px',
+        border: '1px solid #aaa',
+        borderRadius: '4px',
+      },
+      react_autosuggest__input__focused: {
+        outline: 'none',
+      },
+      react_autosuggest__input__open: {
+        borderBottomLeftRadius: '0',
+        borderBottomRightRadius: '0',
+      },
+      react_autosuggest__suggestions_container__open: {
+        display: 'block',
+        position: 'absolute',
+        top: '51px',
+        width: '100%',
+        border: '1px solid #aaa',
+        backgroundColor: '#fff',
+        fontFamily: 'Helvetica, sans-serif',
+        fontWeight: '300',
+        fontSize: '16px',
+        borderBottomLeftRadius: '4px',
+        borderBottomRightRadius: '4px',
+        zIndex: '2',
+      },
+      react_autosuggest__suggestions_list: {
+        margin: '0',
+        padding: '0',
+        listStyleType: 'none',
+      },
+      react_autosuggest__suggestion: {
+        cursor: 'pointer',
+        padding: '10px 20px',
+      },
+      react_autosuggest__suggestion__highlighted: {
+        backgroundColor: '#ddd',
+      },
+    };
+  })();
+
+  return {
+    ...defaultTheme,
+    container: classes.react_autosuggest__container,
+    input: classes.react_autosuggest__input,
+    inputOpen: classes.react_autosuggest__input__open,
+    inputFocused: classes.react_autosuggest__input__focused,
+    // suggestionsContainer: classes.react_autosuggest__suggestions_container,
+    suggestionsContainerOpen: classes.react_autosuggest__suggestions_container__open,
+    suggestionsList: classes.react_autosuggest__suggestions_list,
+    suggestion: classes.react_autosuggest__suggestion,
+    suggestionHighlighted: classes.react_autosuggest__suggestion__highlighted,
+  };
+};

@@ -1,3 +1,4 @@
+import DatePicker from '@mui/lab/DatePicker';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { FormGroup, TextField } from '@mui/material';
 import { useRef } from 'react';
@@ -114,6 +115,28 @@ const DynamicInput = (props) => {
             label={label}
             onChange={(value) => field.onChange({ target: { value: toAPIDate(value) } })}
             inputFormat={DateFormats.CONTROL_DATE_TIME}
+            value={data[name]}
+            renderInput={(params) => (
+              <TextField ref={ref} {...params} error={errors[name]?.message} defaultValue={data[name]} />
+            )}
+          />
+        )}
+      />
+    );
+  }
+
+  if (inputType === InputType.DATE) {
+    return (
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            {...field}
+            label={label}
+            onChange={(value) => field.onChange({ target: { value: toAPIDate(value) } })}
+            inputFormat={DateFormats.CONTROL_DATE}
+            value={data[name]}
             renderInput={(params) => (
               <TextField ref={ref} {...params} error={errors[name]?.message} defaultValue={data[name]} />
             )}
@@ -128,7 +151,9 @@ const DynamicInput = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field: { ref: _re, ...field } }) => <AutoSuggestInput label={label} options={options} {...field} />}
+        render={({ field: { ref: _re, ...field } }) => (
+          <AutoSuggestInput label={label} options={options} defaultValue={data[name]} {...field} />
+        )}
       />
     );
   }

@@ -46,17 +46,19 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   };
 
   const find = async (query?: any): Promise<T[]> => {
+    console.debug({ query });
+    const isString = typeof query === 'string';
+    const extras = isString ? {} : { ...findQuery, ...query };
     const params = {
       query: {
         //facility: user.stacker ? -1 : facility._id,
-        name: typeof query === 'string' && query ? { $regex: query, $options: 'i' } : undefined,
+        name: isString && query ? { $regex: query, $options: 'i' } : undefined,
         $limit: 200,
         $sort: {
           createdAt: -1,
         },
       },
-      ...findQuery,
-      ...query,
+      ...extras,
     };
     console.debug('calling find with query  of model ', modelName, 'with parameters', params);
     return Service.find(params)

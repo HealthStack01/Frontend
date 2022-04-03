@@ -11,6 +11,7 @@ const toDate = (date: string | Date): Date => {
 };
 
 const toShortDate = (date: string | Date) => {
+  if (!date) return 'N/A';
   return format(toDate(date), DateFormats.SHORT_DATE);
 };
 

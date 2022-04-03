@@ -8,7 +8,7 @@ import { useObjectState } from '../../../../../context/context';
 import { FlexBox } from '../../../../../ui/styled/global';
 import { BottomWrapper, FullDetailsWrapper } from '../../../styles';
 
-const Document = ({ schema: documentSchema, onCancel, onSubmit }) => {
+const FormBox = ({ schema: documentSchema, onCancel, onSubmit }) => {
   const { resource } = useObjectState();
   const [items, setItems] = useState([]);
   let docName = resource.selectedDocumentation;
@@ -27,7 +27,6 @@ const Document = ({ schema: documentSchema, onCancel, onSubmit }) => {
         result[key] = value;
       }
     });
-    console.debug(items, data);
     setItems([result, ...items]);
     const formData = {};
     documentSchema.forEach((obj) => {
@@ -92,7 +91,16 @@ const Document = ({ schema: documentSchema, onCancel, onSubmit }) => {
           </FullDetailsWrapper>
         </form>
         <BottomWrapper>
-          <Button label="Close without Saving" background="#ECF3FF" color="#0364FF" />
+          <Button
+            label="Close without Saving"
+            background="#ECF3FF"
+            color="#0364FF"
+            onClick={() => {
+              console.debug('submitted');
+              onCancel();
+              onSubmit(items);
+            }}
+          />
           <Button label="Create " onClick={() => onSubmit(items)} />
         </BottomWrapper>
       </div>
@@ -100,4 +108,4 @@ const Document = ({ schema: documentSchema, onCancel, onSubmit }) => {
   );
 };
 
-export default Document;
+export default FormBox;
