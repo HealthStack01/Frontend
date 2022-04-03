@@ -1,14 +1,52 @@
 import React from 'react';
+import { TableColumn } from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
   backClick: () => void;
   row?: any;
 }
+
+export interface DataProps {
+  id: any;
+  date: string;
+  description: string;
+  status: string;
+  amount: string;
+}
+
+export const columnHead: TableColumn<DataProps>[] = [
+  {
+    name: 'S/N',
+    selector: (row) => row.id,
+    sortable: true,
+  },
+  {
+    name: 'Date',
+    selector: (row) => row.date,
+    sortable: true,
+  },
+  {
+    name: 'Description',
+    selector: (row) => row.description,
+    sortable: true,
+  },
+  {
+    name: 'Status',
+    selector: (row) => row.status,
+    sortable: true,
+  },
+  {
+    name: 'Amount',
+    selector: (row) => row.amount,
+    sortable: true,
+  },
+];
 
 const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
   return (
@@ -29,41 +67,26 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-            <Button
+            {/* <Button
               label={'Edit Details'}
               background={'#ECF3FF'}
               color="#0364FF"
               showicon={true}
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
-            />
+            /> */}
           </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-
-            <div>
-              <label>Date</label>
-              <p>{row.date}</p>
-            </div>
-
-            <div>
-              <label>Bill Service Description</label>
-              <p>{row.description}</p>
-            </div>
-            <div>
-              <label>Bill Status</label>
-              <p>{row.status}</p>
-            </div>
-            <div>
-              <label>Bill Amount</label>
-              <p>{row.amount}</p>
-            </div>
-          </GridWrapper>
+          <CustomTable
+            title="Bills"
+            columns={columnHead}
+            data={row.data}
+            pointerOnHover
+            highlightOnHover
+            striped
+            // progressPending={progressPending}
+          />
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>
