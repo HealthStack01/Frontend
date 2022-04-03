@@ -1,75 +1,72 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import Questionnaires from './QuestionnaireList';
-import QuestionnairesCreate from './QuestionnairesCreate';
-import QuestionnairesDetails from './QuestionnairesDetail';
+import { Models, Views } from '../../Constants';
+import DetailView from '../../generic/DetailView';
+import ListView from '../../generic/ListView';
+import { QuestionnaireSchema } from '../../schema/communication';
+import QuestionnaireForm from './QuestionnaireForm';
 
-const AppQuestionnaires = () => {
+const AppQuestionnaire = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    questionnaireResource: { selectedQuestionnaire },
+  } = resource;
+
+  const navigate = (show: string) => (selectedQuestionnaire?: any) =>
+    setResource({
+      ...resource,
+      questionnaireResource: {
+        ...resource.questionnaireResource,
+        show,
+        selectedQuestionnaire: selectedQuestionnaire || resource.questionnaireResource.selectedQuestionnaire,
+      },
+    });
+
+  const {
+    list: questionnaires,
+    find: handleSearch,
+    remove: handleDelete,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository<any>(Models.QUESTIONNAIRE, navigate);
+
+  useEffect(() => {
+    setFindQuery({ query: { facility: undefined } });
+  }, []);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Questionnaires
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
+      {resource.questionnaireResource.show === 'lists' && (
+        <ListView
+          title="Questionnaire"
+          schema={QuestionnaireSchema}
+          handleCreate={navigate(Views.CREATE)}
+          handleSearch={handleSearch}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          items={questionnaires}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <QuestionnairesCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
+      {(resource.questionnaireResource.show === 'create' || resource.questionnaireResource.show === 'edit') && (
+        <QuestionnaireForm
+          questionnaire={selectedQuestionnaire}
+          backClick={navigate(Views.LIST)}
+          onSubmit={handleSubmit}
         />
       )}
-      {resource.employeeResource.show === 'details' && (
-        <QuestionnairesDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
+      {resource.questionnaireResource.show === 'details' && (
+        <DetailView
+          title="Questionnaire"
+          schema={QuestionnaireSchema}
+          value={selectedQuestionnaire}
+          backClick={navigate(Views.LIST)}
+          onEdit={() => navigate(Views.EDIT)(selectedQuestionnaire)}
+          onDelete={() => handleDelete(selectedQuestionnaire)}
         />
       )}
     </>
   );
 };
 
-export default AppQuestionnaires;
+export default AppQuestionnaire;

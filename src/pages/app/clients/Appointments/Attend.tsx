@@ -2,28 +2,22 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import useRepository from '../../../../components/hooks';
-import { Models } from '../../Constants';
-import { GenericTableSchema, LaboratoryOrderSchema, PrescriptionSchema } from '../../schema';
+import useRepository from '../../../../components/hooks/repository';
+import { ClinicalDocuments, Models } from '../../Constants';
+import { GenericTableSchema, LaboratoryOrderSchema, PrescriptionOrderSchema } from '../../schema';
 import { FullDetailsWrapper, PageWrapper } from '../../styles';
 import { loadError, loadSuccess } from '../../Utils';
-import Document from './components/FormBox';
+import QuickForm from './components/FormBox';
 import PatientProfile from './components/PatientProfile';
 import TabBox from './components/TabBox';
-import { queryDocumentations, queryPrescriptions } from './query';
+import { queryDocumentations, queryOrders } from './query';
 
 const documentSchemas = {
-  'Clinical Note': GenericTableSchema,
-  'Lab Result': GenericTableSchema,
-  'Doctor Note': GenericTableSchema,
-  'Nursing Note': GenericTableSchema,
-  'Vital Signs': GenericTableSchema,
-  'Progress Note': GenericTableSchema,
-  Prescription: PrescriptionSchema,
+  Prescription: PrescriptionOrderSchema,
   'Lab Order': LaboratoryOrderSchema,
 };
 
-const Attend = ({ appointment, backClick: __ }) => {
+const Attend = ({ appointment, backClick }) => {
   const [currentDocumentName, setCurrentDocumentName] = useState(null);
   const [openTel, setOpenTel] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -41,7 +35,7 @@ const Attend = ({ appointment, backClick: __ }) => {
     setAnchorEl(null);
   };
 
-  const { find: findClinicalDocument, submit: saveClinicalDocument, user } = useRepository(Models.CLINICAL_DOCUMENT);
+  const { find: findClinicalDocument, submit, user } = useRepository(Models.CLINICAL_DOCUMENT);
   const { get: getClient } = useRepository(Models.CLIENT);
   const { find } = useRepository(Models.ORDER);
   const { find: findLocation } = useRepository(Models.LOCATION);
@@ -57,16 +51,17 @@ const Attend = ({ appointment, backClick: __ }) => {
   const loadDocuments = (documentName?: string) => {
     findClinicalDocument(queryDocumentations(documentName, appointment.clientId))
       .then((res: any) => {
-        setClinicalDocuments(res.data);
+        setClinicalDocuments(res.data.filter((obj) => obj.documentname !== 'Lab Order'));
         toast(loadSuccess('Clinical documents'));
       })
       .catch((err) => toast.error(loadError('Clinical documents', err)));
   };
 
   const loadOrders = (orderType, setList) => {
-    find(queryPrescriptions(appointment.clientId))
+    find(queryOrders(orderType, appointment.clientId))
       .then((response: any) => {
-        setList(response.data);
+        console.debug({ data: response.data });
+        setList(response.data.filter((obj) => obj.documentname !== 'Lab Order'));
       })
       .catch((err) => toast.error(loadError(orderType, err)));
   };
@@ -81,18 +76,18 @@ const Attend = ({ appointment, backClick: __ }) => {
   useEffect(() => {
     loadClient();
     loadDocuments();
-    loadOrders('Prescriptions', setPrescriptions);
-    loadOrders('Laboratory tests', setTests);
+    loadOrders('Prescription', setPrescriptions);
+    loadOrders('Lab Order', setTests);
     loadLocation();
   }, []);
 
   const changeFormSchema = (documentName: string) => {
-    setCurrentDocumentName(documentName);
     handleCloseMenu();
+    setCurrentDocumentName(documentName);
+    console.debug({ documentName, documentSchemas, documentSchema: documentSchemas[documentName] });
   };
 
   const handleSubmit = (data) => {
-    console.debug({ data });
     const { _id: clientId, firstname, middlename, lastname } = client;
     const { _id: locationId, name: locationName, locationType } = location as any;
     const { _id: userId, firstname: userFirstname, lastname: userLastname, currentEmployee } = user;
@@ -100,7 +95,7 @@ const Attend = ({ appointment, backClick: __ }) => {
     const document = {
       facility: currentEmployee.facility,
       facilityname: currentEmployee.facilityDetail.facilityName,
-      documentname: currentDocumentName,
+      documentname: currentDocumentName === 'Lab Order' ? 'Lab Orders' : currentDocumentName,
       documentdetail: data,
       location: `${locationName} ${locationType}`,
       locationId,
@@ -111,8 +106,7 @@ const Attend = ({ appointment, backClick: __ }) => {
       createdByname: `${userFirstname} ${userLastname}`,
       status: 'completed',
     };
-    console.debug({ document });
-    saveClinicalDocument(document);
+    submit(document);
   };
 
   return (
@@ -125,21 +119,20 @@ const Attend = ({ appointment, backClick: __ }) => {
           anchorEl={anchorEl}
           openBtn={openBtn}
           handleCloseMenu={handleCloseMenu}
-          handleMenuClick={() => {
-            setCurrentDocumentName(null);
-          }}
+          handleMenuClick={() => {}}
           onNewDocument={(docName) => changeFormSchema(docName)}
-          documentTypes={Object.keys(documentSchemas)}
+          documentTypes={Object.values(ClinicalDocuments)}
           documentations={clinicalDocuments}
           tests={tests}
           prescriptions={prescriptions}
           onOpenTelemedicine={() => setOpenTel(!openTel)}
+          onEndEncounter={backClick}
         />
       </FullDetailsWrapper>
       {currentDocumentName && (
         <FullDetailsWrapper className="attend attend-medium">
-          <Document
-            schema={documentSchemas[currentDocumentName]}
+          <QuickForm
+            schema={documentSchemas[currentDocumentName] || GenericTableSchema}
             onCancel={() => changeFormSchema(null)}
             onSubmit={handleSubmit}
           />

@@ -1,209 +1,74 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useEffect } from 'react';
 
-import { useObjectState, UserContext } from '../../../../context/context';
-import client from '../../../../context/feathers';
-import { getFormStrings } from '../../Utils';
-import LocationCreate from './LocationCreate';
-import LocationDetails from './LocationDetail';
-import Locations from './LocationList';
-import LocationModify from './LocationModify';
+import useRepository from '../../../../components/hooks/repository';
+import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
+import DetailView from '../../generic/DetailView';
+import FormView from '../../generic/FormView';
+import ListView from '../../generic/ListView';
+import { LocationSchema } from '../../schema';
 
-function AppLocations() {
-  let LocationServ = client.service('location');
+const AppLocation = () => {
   const { resource, setResource } = useObjectState();
-  const { user } = useContext(UserContext);
-  const [locations, setLocations] = useState([]);
-  let location = resource.locationResource.selectedLocation;
+  const {
+    locationResource: { selectedLocation },
+  } = resource;
 
-  const backClick = () => {
-    setResource((prevState) => ({
-      ...prevState,
+  const navigate = (show: string) => (selectedLocation?: any) =>
+    setResource({
+      ...resource,
       locationResource: {
-        ...prevState.locationResource,
-        show: 'lists',
+        ...resource.locationResource,
+        show,
+        selectedLocation: selectedLocation || resource.locationResource.selectedLocation,
       },
-    }));
-    getLocations();
-  };
+    });
 
-  const getLocations = async (text?: string) => {
-    LocationServ.find({
-      query: {
-        name: text && {
-          $regex: text,
-          $options: 'i',
-        },
-        facility: user.currentEmployee && user.currentEmployee.facilityDetail._id,
-        $limit: 200,
-        $sort: {
-          createdAt: user.currentEmployee && -1,
-          facility: user.stacker && -1,
-        },
-      },
-    })
-      .then((res) => {
-        setLocations(res.data);
-        toast('Location fetched succesfully');
-      })
-      .catch((error) => {
-        toast(error);
-      });
-  };
-
-  const handleSearch = (val) => {
-    const field = 'name';
-    LocationServ.find({
-      query: {
-        [field]: {
-          $regex: val,
-          $options: 'i',
-        },
-        facility: user.currentEmployee && user.currentEmployee.facilityDetail._id,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      },
-    })
-      .then((res) => {
-        setLocations(res.data);
-      })
-      .catch((err) => {
-        toast('Error updating Location, probable network issues or ' + err);
-      });
-  };
-
-  const handleDelete = () => {
-    LocationServ.remove(location)
-      .then((_) => {
-        toast('Location deleted successfully');
-        backClick();
-      })
-      .catch((err) => {
-        toast(`Error deleting location, probable network issues or ${err}`);
-      });
-  };
-
-  const onSubmit = (data) => {
-    const values = getFormStrings(data._id);
-    if (user.employeeData) {
-      data.facility = user.employeeData[0].facility;
-    }
-    (data._id ? LocationServ.update(data._id, data) : LocationServ.create(data))
-      .then(() => {
-        toast(`Location ${values.message}`);
-        backClick();
-      })
-      .catch((err) => {
-        toast.error(`Error occurred : ${err}`);
-      });
-  };
+  const {
+    list: locations,
+    find: handleSearch,
+    remove: handleDelete,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository<any>(Models.LOCATION, navigate);
 
   useEffect(() => {
-    if (!LocationServ) {
-      LocationServ = client.service('location');
-      LocationServ.on('created', (_) => getLocations());
-      LocationServ.on('updated', (_) => getLocations());
-      LocationServ.on('patched', (_) => getLocations());
-      LocationServ.on('removed', (_) => getLocations());
-    }
-    user && getLocations();
-    return () => {
-      LocationServ = null;
-    };
-  }, [user]);
+    setFindQuery({ query: { facility: undefined } });
+  }, []);
 
   return (
     <>
       {resource.locationResource.show === 'lists' && (
-        <Locations
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                ...prevState.locationResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                show: 'details',
-                selectedLocation: row,
-              },
-            }));
-          }}
-          items={locations}
+        <ListView
+          title="Location"
+          schema={LocationSchema}
+          handleCreate={navigate(Views.CREATE)}
           handleSearch={handleSearch}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          items={locations}
         />
       )}
-      {resource.locationResource.show === 'create' && (
-        <LocationCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                ...prevState.locationResource,
-                show: 'lists',
-              },
-            }))
-          }
-          onSubmit={onSubmit}
+      {(resource.locationResource.show === 'create' || resource.locationResource.show === 'edit') && (
+        <FormView
+          title="Location"
+          schema={LocationSchema}
+          backClick={navigate(Views.LIST)}
+          onSubmit={handleSubmit}
+          selectedData={selectedLocation}
         />
       )}
       {resource.locationResource.show === 'details' && (
-        <LocationDetails
-          row={resource.locationResource.selectedLocation}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                ...prevState.locationResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                ...prevState.locationResource,
-                show: 'edit',
-              },
-            }))
-          }
-          handleDelete={handleDelete}
-        />
-      )}
-      {resource.locationResource.show === 'edit' && (
-        <LocationModify
-          row={resource.locationResource.selectedLocation}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                ...prevState.locationResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              locationResource: {
-                ...prevState.locationResource,
-                show: 'details',
-              },
-            }))
-          }
-          onSubmit={onSubmit}
+        <DetailView
+          title="Location"
+          schema={LocationSchema}
+          value={selectedLocation}
+          backClick={navigate(Views.LIST)}
+          onEdit={() => navigate(Views.EDIT)(selectedLocation)}
+          onDelete={() => handleDelete(selectedLocation)}
         />
       )}
     </>
   );
-}
+};
 
-export default AppLocations;
+export default AppLocation;

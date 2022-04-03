@@ -6,6 +6,9 @@ import client from './feathers';
 interface UserContextProps {
   user?: any;
   setUser?: (_user: any) => void;
+  facility?: any;
+  locationType?: any;
+  setLocationType?: (_location: any) => void;
 }
 
 const userDefaultValues: UserContextProps = {
@@ -43,7 +46,12 @@ interface ObjectContextProps {
   productEntryResource: { show: string; selectedProductEntry: {} };
   posResource: { show: string; selectedPOS: {} };
   selectedDocumentation: string;
-  channelResource: { show: string; selectedChannel: {} };
+
+  //
+  configurationResource: { show: string; selectedConfiguration: any };
+  channelResource: { show: string; selectedChannel: any };
+  questionnaireResource: { show: string; selectedQuestionnaire: any };
+  submissionResource: { show: string; selectedSubmission: any };
 }
 
 const objectDefaultValues: ObjectContextProps = {
@@ -135,26 +143,46 @@ const objectDefaultValues: ObjectContextProps = {
     show: 'lists',
     selectedChannel: {},
   },
+  configurationResource: {
+    show: 'lists',
+    selectedConfiguration: {},
+  },
+  questionnaireResource: {
+    show: 'lists',
+    selectedQuestionnaire: {},
+  },
+  submissionResource: {
+    show: 'lists',
+    selectedSubmission: {},
+  },
 };
 
 export const UserContext = createContext<UserContextProps>(userDefaultValues);
 
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
-  const memoedValue = useMemo(() => ({ user, setUser }), [user]);
+  const [facility, setFacility] = useState(null);
+  const [locationType, setLocationType] = useState('Front Desk');
+  const memoedValue = useMemo(() => ({ user, setUser, facility, locationType, setLocationType }), [user, locationType]);
 
   const authenticateUser = () => {
     return client
       .reAuthenticate()
       .then((resp) => {
-        setUser({ ...resp.user, currentEmployee: resp.user.employeeData[0] });
+        setUser({ ...resp.user });
+        setFacility(resp.user.currentEmployee.facilityDetail);
       })
       .catch((error) => {
         console.error(`Cannot reauthenticate user with server at this time ${error}`);
-        const user = localStorage.getItem('user');
-        setUser(JSON.parse(user));
+        const savedUser = JSON.parse(localStorage.getItem('user'));
+        setFacility(savedUser.currentEmployee.facilityDetail);
+        setUser(savedUser);
       });
   };
+
+  useEffect(() => {
+    console.debug({ locationType });
+  }, [locationType]);
 
   useEffect(() => {
     authenticateUser();

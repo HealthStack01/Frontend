@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import useRepository from '../../../../components/hooks/employeeIndex';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
-import EmployeeCreate from './EmployeeCreate';
-import EmployeeDetails from './EmployeeDetail';
-import EmployeeList from './EmployeeList';
-import EmployeeModify from './EmployeeModify';
+import DetailView from '../../generic/DetailView';
+import FormView from '../../generic/FormView';
+import ListView from '../../generic/ListView';
+import { EmployeeSchema } from '../../schema';
 
-function AppEmployees() {
+const AppEmployee = () => {
   const { resource, setResource } = useObjectState();
   const {
-    employeeResource: { show, selectedEmployee },
+    employeeResource: { selectedEmployee },
   } = resource;
 
   const navigate = (show: string) => (selectedEmployee?: any) =>
@@ -26,40 +26,49 @@ function AppEmployees() {
 
   const {
     list: employees,
-    find: getEmployees,
+    find: handleSearch,
     remove: handleDelete,
     submit: handleSubmit,
+    setFindQuery,
   } = useRepository<any>(Models.EMPLOYEE, navigate);
+
+  useEffect(() => {
+    setFindQuery({ query: { facility: undefined } });
+  }, []);
 
   return (
     <>
-      {show === Views.LIST && (
-        <EmployeeList
+      {resource.employeeResource.show === 'lists' && (
+        <ListView
+          title="Employee"
+          schema={EmployeeSchema}
           handleCreate={navigate(Views.CREATE)}
+          handleSearch={handleSearch}
           onRowClicked={(row) => navigate(Views.DETAIL)(row)}
-          handleSearch={getEmployees}
           items={employees}
         />
       )}
-      {show === Views.CREATE && <EmployeeCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />}
-      {show === Views.DETAIL && (
-        <EmployeeDetails
-          row={selectedEmployee}
+      {(resource.employeeResource.show === 'create' || resource.employeeResource.show === 'edit') && (
+        <FormView
+          title="Employee"
+          schema={EmployeeSchema}
           backClick={navigate(Views.LIST)}
-          editBtnClicked={() => navigate(Views.EDIT)(selectedEmployee)}
-          handleDelete={() => handleDelete(selectedEmployee)}
+          onSubmit={handleSubmit}
+          selectedData={selectedEmployee}
         />
       )}
-      {show === Views.EDIT && (
-        <EmployeeModify
-          row={selectedEmployee}
+      {resource.employeeResource.show === 'details' && (
+        <DetailView
+          title="Employee"
+          schema={EmployeeSchema}
+          value={selectedEmployee}
           backClick={navigate(Views.LIST)}
-          cancelEditClicked={navigate(Views.DETAIL)}
-          onSubmit={handleSubmit}
+          onEdit={() => navigate(Views.EDIT)(selectedEmployee)}
+          onDelete={() => handleDelete(selectedEmployee)}
         />
       )}
     </>
   );
-}
+};
 
-export default AppEmployees;
+export default AppEmployee;

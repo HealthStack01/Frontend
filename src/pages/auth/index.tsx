@@ -34,9 +34,9 @@ function Login() {
         password,
       })
       .then((res) => {
-        const user = { ...res.user, currentEmployee: res.user.employeeData[0] };
+        const user = { ...res.user, currentEmployee: { ...res.user.employeeData[0] } };
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem('user', JSON.stringify(user));
         navigate('/app');
       })
       .catch((err) => {
@@ -54,9 +54,15 @@ function Login() {
             <Controller
               name="email"
               control={control}
-              render={({ field }) => <Input {...field} label="Email" placeholder="Enter your email" />}
+              render={({ field: { ref: _re, ...field } }) => (
+                <Input {...field} label="Email" placeholder="Enter your email" />
+              )}
             />
-            <Controller name="password" control={control} render={({ field }) => <PasswordInput {...field} />} />
+            <Controller
+              name="password"
+              control={control}
+              render={({ field: { ref: _re, ...field } }) => <PasswordInput {...field} />}
+            />
             <CheckboxInput label="Keep me Logged in" />
             <Button type="submit" label="Login" fullwidth />
           </form>

@@ -5,9 +5,10 @@ interface RadioProps {
   title?: string;
   options: { value: string; label: string; disabled?: boolean }[] | string[];
   onChange?: (e: any) => void;
+  defaultValue?: string;
 }
 
-const RadioButton: React.FC<RadioProps> = ({ title, options, onChange }) => (
+const RadioButton: React.FC<RadioProps> = ({ title, options, onChange, defaultValue = '' }) => (
   <FormControl component="fieldset" sx={{ width: '100%', mt: 1, mb: 1 }}>
     <FormLabel component="legend">{title}</FormLabel>
     <RadioGroup row aria-label="gender" name="row-radio-buttons-group" onChange={onChange}>
@@ -18,6 +19,7 @@ const RadioButton: React.FC<RadioProps> = ({ title, options, onChange }) => (
           control={<Radio />}
           label={option.label || option}
           disabled={option.disabled}
+          checked={defaultValue === option.value}
         />
       ))}
     </RadioGroup>

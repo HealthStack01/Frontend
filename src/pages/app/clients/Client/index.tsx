@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import { Models } from '../../Constants';
-import { queryClients } from '../Appointments/query';
-import ClientCreate from './ClientCreate';
-import ClientDetails from './ClientDetail';
-import Clients from './ClientList';
-import ClientModify from './ClientModify';
+import { Models, Views } from '../../Constants';
+import DetailView from '../../generic/DetailView';
+import FormView from '../../generic/FormView';
+import ListView from '../../generic/ListView';
+import { ClientMiniSchema } from '../../schema';
 
 const AppClient = () => {
   const { resource, setResource } = useObjectState();
@@ -27,106 +26,46 @@ const AppClient = () => {
 
   const {
     list: clients,
+    find: handleSearch,
     remove: handleDelete,
     submit: handleSubmit,
     setFindQuery,
   } = useRepository<any>(Models.CLIENT, navigate);
-
-  const [searchText, setSearchText] = useState('');
+  const [formSchema] = useState(ClientMiniSchema);
 
   useEffect(() => {
-    setFindQuery(queryClients(undefined, undefined, searchText ? searchText : undefined));
-  }, [searchText]);
+    setFindQuery({ query: { facility: undefined } });
+  }, []);
 
   return (
     <>
-      {resource.billClientResource.show === 'lists' && (
-        <Clients
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                show: 'details',
-                selectedBillClient: row,
-              },
-            }));
-          }}
+      {resource.clientResource.show === 'lists' && (
+        <ListView
+          title="Client"
+          schema={ClientMiniSchema}
+          handleCreate={navigate(Views.CREATE)}
+          handleSearch={handleSearch}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
           items={clients}
-          handleSearch={setSearchText}
         />
       )}
-
-      {resource.billClientResource.show === 'create' && (
-        <ClientCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'lists',
-              },
-            }))
-          }
+      {(resource.clientResource.show === 'create' || resource.clientResource.show === 'edit') && (
+        <FormView
+          title="Client"
+          schema={formSchema}
+          backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
+          selectedData={selectedClient}
         />
       )}
-
-      {resource.billClientResource.show === 'details' && (
-        <ClientDetails
-          row={resource.billClientResource.selectedBillClient}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'edit',
-              },
-            }))
-          }
-          handleDelete={() => handleDelete(selectedClient)}
-        />
-      )}
-      {resource.billClientResource.show === 'edit' && (
-        <ClientModify
-          row={resource.billClientResource.selectedBillClient}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              clientResource: {
-                ...prevState.clientResource,
-                show: 'details',
-              },
-            }))
-          }
-          onSubmit={handleSubmit}
-          handleDelete={() => handleDelete(selectedClient)}
+      {resource.clientResource.show === 'details' && (
+        <DetailView
+          title="Client"
+          schema={formSchema}
+          value={selectedClient}
+          backClick={navigate(Views.LIST)}
+          onEdit={() => navigate(Views.EDIT)(selectedClient)}
+          onDelete={() => handleDelete(selectedClient)}
         />
       )}
     </>

@@ -1,95 +1,74 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import ConfigurationCreate from './ConfigurationCreate';
-import ConfigurationDetails from './ConfigurationDetail';
-import Configurations from './ConfigurationList';
-import ConfigurationModify from './ConfigurationModify';
+import { Models, Views } from '../../Constants';
+import DetailView from '../../generic/DetailView';
+import FormView from '../../generic/FormView';
+import ListView from '../../generic/ListView';
+import { ConversationConfigSchema } from '../../schema/communication';
 
 const AppConfiguration = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    configurationResource: { selectedConfiguration },
+  } = resource;
+
+  const navigate = (show: string) => (selectedConfiguration?: any) =>
+    setResource({
+      ...resource,
+      configurationResource: {
+        ...resource.configurationResource,
+        show,
+        selectedConfiguration: selectedConfiguration || resource.configurationResource.selectedConfiguration,
+      },
+    });
+
+  const {
+    list: configurations,
+    find: handleSearch,
+    remove: handleDelete,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository<any>(Models.CONVERSATION_CONFIG, navigate);
+
+  useEffect(() => {
+    setFindQuery({ query: { facility: undefined } });
+  }, []);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Configurations
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
+      {resource.configurationResource.show === 'lists' && (
+        <ListView
+          title="Conversation Config"
+          schema={ConversationConfigSchema}
+          handleCreate={navigate(Views.CREATE)}
+          handleSearch={handleSearch}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          items={configurations}
+        />
+      )}
+      {(resource.configurationResource.show === 'create' || resource.configurationResource.show === 'edit') && (
+        <FormView
+          title="Conversation Config"
+          schema={ConversationConfigSchema}
+          backClick={navigate(Views.LIST)}
+          onSubmit={handleSubmit}
+          selectedData={{
+            ...selectedConfiguration,
+            questionnaire: selectedConfiguration.questionnaire._id,
+            channel: selectedConfiguration.channel._id,
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <ConfigurationCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'details' && (
-        <ConfigurationDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'edit' && (
-        <ConfigurationModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
-              },
-            }))
-          }
+      {resource.configurationResource.show === 'details' && (
+        <DetailView
+          title="Conversation Config"
+          schema={ConversationConfigSchema}
+          value={selectedConfiguration}
+          backClick={navigate(Views.LIST)}
+          onEdit={() => navigate(Views.EDIT)(selectedConfiguration)}
+          onDelete={() => handleDelete(selectedConfiguration)}
         />
       )}
     </>

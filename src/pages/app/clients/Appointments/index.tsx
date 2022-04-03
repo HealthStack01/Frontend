@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import useRepository from '../../../../components/hooks';
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
-import AppointmentCreate from './AppointmentCreate';
 import AppointmentDetails from './AppointmentDetail';
+import AppointmentForm from './AppointmentForm';
 import Appointments from './AppointmentList';
-import AppointmentModify from './AppointmentModify';
 import { queryAppointments } from './query';
 
 const AppClientAppointment = () => {
@@ -47,21 +46,19 @@ const AppClientAppointment = () => {
           items={appointments}
         />
       )}
-      {show === Views.CREATE && <AppointmentCreate backClick={handleNavigation(Views.LIST)} onSubmit={handleSubmit} />}
+      {(show === Views.CREATE || show === Views.EDIT) && (
+        <AppointmentForm
+          backClick={handleNavigation(Views.LIST)}
+          onSubmit={handleSubmit}
+          selectedData={selectedAppointment}
+        />
+      )}
       {show === Views.DETAIL && (
         <AppointmentDetails
           row={selectedAppointment}
           backClick={handleNavigation(Views.LIST)}
           editBtnClicked={() => handleNavigation(Views.EDIT)(selectedAppointment)}
           deleteBtnClicked={() => {}}
-        />
-      )}
-      {show === Views.EDIT && (
-        <AppointmentModify
-          row={selectedAppointment}
-          backClick={handleNavigation(Views.LIST)}
-          cancelEditClicked={handleNavigation(Views.DETAIL)}
-          onSubmit={handleSubmit}
         />
       )}
     </>

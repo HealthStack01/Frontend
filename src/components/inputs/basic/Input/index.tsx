@@ -11,6 +11,7 @@ interface InputProps {
   helperText?: string;
   name?: string;
   type?: string;
+  defaultValue?: string;
   value?: any;
   placeholder?: string;
   size?: 'small' | 'medium';
@@ -22,6 +23,7 @@ const Input: React.FC<InputProps> = ({
   errorText,
   type = 'text',
   name,
+  defaultValue = '',
   onChange,
   onKeyDown,
   placeholder,
@@ -37,6 +39,7 @@ const Input: React.FC<InputProps> = ({
       type={type}
       label={label}
       name={name}
+      defaultValue={defaultValue}
       onKeyDown={onKeyDown}
       placeholder={placeholder}
       size={size}

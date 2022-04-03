@@ -8,7 +8,7 @@ import { DetailsWrapper } from '../../../styles';
 import DocumentViewer from './DocumentViewer';
 
 const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
-  const [filtered, setFiltered] = useState([]);
+  const [filtered, setFiltered] = useState(documentations);
 
   const filterDocumentations = (text?: string) => {
     if (!text) setFiltered(documentations);
@@ -25,7 +25,7 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
   };
   useEffect(() => {
     filterDocumentations();
-  }, []);
+  }, [documentations]);
   return (
     <>
       <TableMenu>

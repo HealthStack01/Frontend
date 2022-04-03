@@ -45,8 +45,15 @@ const ClientQuickForm: React.FC<ClientDetailsProps> = ({ backClick, onSubmit }) 
             <form onSubmit={handleSubmit(onSubmit)}>
               <DetailsWrapper title="Create Client" defaultExpanded={true}>
                 <GridWrapper>
-                  {ClientMiniSchema.map(({ inputType, key, name }) => (
-                    <DynamicInput key={key} name={key} control={control} inputType={inputType} label={name} />
+                  {ClientMiniSchema.map(({ inputType, key, name, options }) => (
+                    <DynamicInput
+                      key={key}
+                      name={key}
+                      control={control}
+                      inputType={inputType}
+                      label={name}
+                      options={options}
+                    />
                   ))}
                 </GridWrapper>
               </DetailsWrapper>

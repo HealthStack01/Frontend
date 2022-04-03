@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { Models } from '../../pages/app/Constants';
 import Breadcrumbs from '../breadcrumb';
+import useRepository from '../hooks/repository';
 import LocationSelect from '../inputs/LocationSelect';
 import ProfileMenu from '../profilemenu';
 import { Profile, TopMenuWrapper } from './styles';
 // import { avatar } from '../../assets/images/img_avatar.png';
 
-function TopMenu({ isOpen, handleClick }) {
+const defaultList = [
+  { code: 'NG', label: 'Lagos/Gbagada', location: 'Gbagada' },
+  { code: 'NG', label: 'Lagos/Ikoyi', location: 'Ikoyi' },
+  { code: 'NG', label: 'Ibadan', location: 'Ibadan' },
+];
+
+const TopMenu = ({ isOpen, handleClick }) => {
+  const [locations, setLocations] = useState(defaultList);
+  const { list, setFindQuery, facility, locationType, setLocationType } = useRepository(Models.LOCATION);
+
+  useEffect(() => {
+    setLocations(list.map(({ _id, name }) => ({ code: 'NG', label: name, location: _id })));
+  }, [list]);
+
+  useEffect(() => {
+    setFindQuery({
+      query: {
+        facility: facility?._id,
+        locationType,
+        $sort: {
+          name: 1,
+        },
+      },
+    });
+  }, [facility, locationType]);
+
   return (
     <TopMenuWrapper>
       <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
@@ -26,7 +53,7 @@ function TopMenu({ isOpen, handleClick }) {
       </div>
       <Profile>
         <div className="location-selector">
-          <LocationSelect />
+          <LocationSelect locations={locations} onChange={setLocationType} />
         </div>
 
         <div className="profile-item">
@@ -37,6 +64,6 @@ function TopMenu({ isOpen, handleClick }) {
       </Profile>
     </TopMenuWrapper>
   );
-}
+};
 
 export default TopMenu;

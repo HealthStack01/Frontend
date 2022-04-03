@@ -1,15 +1,17 @@
-import useRepository from '../../../../components/hooks';
+import React, { useEffect } from 'react';
+
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
-import BandCreate from './BandCreate';
-import BandDetails from './BandDetail';
-import BandList from './BandList';
-import BandModify from './BandModify';
+import DetailView from '../../generic/DetailView';
+import FormView from '../../generic/FormView';
+import ListView from '../../generic/ListView';
+import { BandSchema } from '../../schema';
 
-function AppBands() {
+const AppBand = () => {
   const { resource, setResource } = useObjectState();
   const {
-    bandResource: { show, selectedBand },
+    bandResource: { selectedBand },
   } = resource;
 
   const navigate = (show: string) => (selectedBand?: any) =>
@@ -24,40 +26,49 @@ function AppBands() {
 
   const {
     list: bands,
-    find: getBands,
+    find: handleSearch,
     remove: handleDelete,
     submit: handleSubmit,
+    setFindQuery,
   } = useRepository<any>(Models.BAND, navigate);
+
+  useEffect(() => {
+    setFindQuery({ query: { facility: undefined } });
+  }, []);
 
   return (
     <>
-      {show === Views.LIST && (
-        <BandList
+      {resource.bandResource.show === 'lists' && (
+        <ListView
+          title="Band"
+          schema={BandSchema}
           handleCreate={navigate(Views.CREATE)}
+          handleSearch={handleSearch}
           onRowClicked={(row) => navigate(Views.DETAIL)(row)}
-          handleSearch={getBands}
           items={bands}
         />
       )}
-      {show === Views.CREATE && <BandCreate backClick={navigate(Views.LIST)} onSubmit={handleSubmit} />}
-      {show === Views.DETAIL && (
-        <BandDetails
-          row={selectedBand}
+      {(resource.bandResource.show === 'create' || resource.bandResource.show === 'edit') && (
+        <FormView
+          title="Band"
+          schema={BandSchema}
           backClick={navigate(Views.LIST)}
-          editBtnClicked={() => navigate(Views.EDIT)(selectedBand)}
-          handleDelete={() => handleDelete(selectedBand)}
+          onSubmit={handleSubmit}
+          selectedData={selectedBand}
         />
       )}
-      {resource.bandResource.show === Views.EDIT && (
-        <BandModify
-          row={selectedBand}
+      {resource.bandResource.show === 'details' && (
+        <DetailView
+          title="Band"
+          schema={BandSchema}
+          value={selectedBand}
           backClick={navigate(Views.LIST)}
-          cancelEditClicked={navigate(Views.DETAIL)}
-          onSubmit={handleSubmit}
+          onEdit={() => navigate(Views.EDIT)(selectedBand)}
+          onDelete={() => handleDelete(selectedBand)}
         />
       )}
     </>
   );
-}
+};
 
-export default AppBands;
+export default AppBand;

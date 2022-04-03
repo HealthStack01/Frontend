@@ -9,7 +9,6 @@ const BandSchema = [
     name: 'S/N',
     key: '_id',
     description: 'Enter name of band',
-    selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     required: true,
     inputType: InputType.HIDDEN,
@@ -231,7 +230,6 @@ const LocationSchema = [
     name: 'S/N',
     key: '_id',
     description: 'Enter name of location',
-    selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     required: true,
     inputType: InputType.HIDDEN,
@@ -253,6 +251,7 @@ const LocationSchema = [
     sortable: true,
     required: true,
     inputType: InputType.SELECT_LIST,
+    options: ['Front Desk', 'Clinic', 'Store', 'Laboratory', 'Finance'],
   },
 ];
 
@@ -261,7 +260,6 @@ const OrganisationSchema: Schema[] = [
     name: 'S/N',
     key: '_id',
     description: 'ID',
-    selector: (row) => row._id && row._id.substring(0, 7),
     sortable: true,
     inputType: InputType.HIDDEN,
   },
@@ -415,7 +413,7 @@ const ModulesSchema = [
       { label: 'Finance', value: 'moduleFinance' },
       { label: 'Immunization', value: 'moduleImmunization' },
     ],
-    inputType: InputType.CHECKBOX,
+    inputType: InputType.SELECT_CHECKBOX,
   },
   {
     name: 'Module 2',
@@ -440,7 +438,7 @@ const ModulesSchema = [
       { label: 'Theatre', value: 'moduleTheatre' },
       { label: 'User Profile', value: 'moduleUser Profile' },
     ],
-    inputType: InputType.CHECKBOX,
+    inputType: InputType.SELECT_CHECKBOX,
   },
 ];
 
