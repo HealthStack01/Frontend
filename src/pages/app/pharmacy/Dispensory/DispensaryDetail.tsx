@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import DataTable from 'react-data-table-component';
+import { TableColumn } from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from './DispensaryList';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -13,19 +13,47 @@ interface Props {
   row?: any;
 }
 
+export interface DataProps {
+  id: any;
+  date: string;
+  name: string;
+  description: string;
+  status: string;
+  amount: string;
+}
+
+const columnHead: TableColumn<DataProps>[] = [
+  {
+    name: 'S/N',
+    selector: (row) => row.id,
+    sortable: true,
+  },
+  {
+    name: 'Date',
+    selector: (row) => row.date,
+    sortable: true,
+  },
+  {
+    name: 'Description',
+    selector: (row) => row.description,
+    sortable: true,
+  },
+  {
+    name: 'Status',
+    selector: (row) => row.status,
+    sortable: true,
+  },
+  {
+    name: 'Amount',
+    selector: (row) => row.amount,
+    sortable: true,
+  },
+];
+
 const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
   const [values, setValues] = useState({});
+  const [dispense, setDispense] = useState(false);
 
-  const rowData = [
-    {
-      id: row.id,
-      name: row.name,
-      date: row.date,
-      description: row.description,
-      status: row.status,
-      amount: row.amount,
-    },
-  ];
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -40,6 +68,16 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
         </HeadWrapper>
 
         <FullDetailsWrapper>
+          <CustomTable
+            title="Product Items"
+            columns={columnHead}
+            data={row.data}
+            pointerOnHover
+            onRowClicked={(row) => setValues(row)}
+            highlightOnHover
+            striped
+          />
+
           <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
             <div>
               <label>Name</label>
@@ -70,17 +108,7 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
                 })
               }
             />
-            <Input
-              label="Phone Number"
-              name="phone"
-              type="tel"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+
             <Input
               label="Quantity"
               name="quantity"
@@ -131,21 +159,23 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
                 })
               }
             />
-            <Button label="+" type="submit" fullwidth={false} />
+            <button
+              style={{
+                borderRadius: '32px',
+                background: '#f3f3f3',
+                border: 'none',
+                width: '32px',
+                height: '32px',
+                cursor: 'pointer',
+                margin: '1rem 0',
+              }}
+            >
+              +
+            </button>
           </GridWrapper>
           <BottomWrapper>
             <Button label="Adjust" type="submit" />
           </BottomWrapper>
-
-          <DataTable
-            title="Product Items"
-            columns={columnHead}
-            data={rowData}
-            selectableRows
-            pointerOnHover
-            highlightOnHover
-            striped
-          />
         </FullDetailsWrapper>
         <BottomWrapper>
           <Button label="Clear " background="#FFE9E9" color="#ED0423" />

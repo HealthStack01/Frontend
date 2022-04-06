@@ -11,6 +11,11 @@ export const PageWrapper = styled.div`
   height: calc(100vh - 60px);
   overflow-y: hidden;
   padding: 0.6rem 1rem;
+  transition: width 2s, height 4s;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
   /* zoom: 85%; */
 
   & span {
@@ -44,6 +49,10 @@ export const HeadWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
   & div span {
     margin-top: 1rem;
     font-size: 0.8rem;
@@ -65,6 +74,10 @@ export const DetailsWrapper = styled(AccordionBox)`
   padding: 2rem;
   border-radius: 4px;
   margin-top: 2rem;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   & h2 {
     font-size: 1.2rem;
@@ -87,8 +100,12 @@ export const FullDetailsWrapper = styled.div`
   padding: 0.55rem;
   border-radius: 4px;
   margin-top: 1rem;
-  transition: all 0.4s ease-in-out;
+  transition: width 2s, height 4s;
   overflow-y: scroll;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   & h2 {
     font-size: 1.2rem;
@@ -136,6 +153,11 @@ export const GrayWrapper = styled.div`
   padding: 1rem;
   /* padding-bottom: 30rem; */
   overflow-y: scroll;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  transition: width 2s, height 4s;
 
   &.grid {
     display: grid;
@@ -155,6 +177,10 @@ export const GridWrapper = styled.div`
   grid-gap: 2rem;
   margin-top: 3.2rem;
   overflow-y: auto;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -174,6 +200,14 @@ export const GridWrapper = styled.div`
 
   &.four-columns {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  &.five-columns {
+    grid-template-columns: 2fr 1fr 0.5fr 0.8fr 0.1fr;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   & label {

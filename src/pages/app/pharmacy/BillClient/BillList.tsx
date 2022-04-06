@@ -161,16 +161,7 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked, progressPendi
         </TableMenu>
 
         <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
-          {/* {dataTree.map((data, index) => (
-            <CollapsableGrid
-              key={index}
-              columnHead={columnHead}
-              description={data.description}
-              title={data.title}
-              rowData={data.data}
-              onRowClicked={onRowClicked}
-            />
-          ))} */}
+        
 
           <CustomTable
             title="Bills"

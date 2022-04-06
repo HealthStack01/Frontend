@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import Button from '../../../../../components/buttons/Button';
 import DnDBox from '../../../../../components/dnd';
-import { ButtonGroup, CustomTab, CustomTabs } from '../../../../../ui/styled/global';
+import { ButtonGroup, ContentWrapper, CustomTab, CustomTabs } from '../../../../../ui/styled/global';
 import { LaboratorySchema, PrescriptionSchema } from '../../../schema';
 import { GrayWrapper } from '../../../styles';
 import Orders from './Orders';
@@ -60,15 +60,7 @@ const TabBox = ({
 
   return (
     <>
-      <div
-        style={{
-          background: '#fff',
-          border: ' 0.1px solid #eee',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <ContentWrapper>
         <div>
           <CustomTabs value={currentTab} onChange={handleChangeTab} aria-label="basic tabs example">
             <CustomTab label="Overview" {...a11yProps(0)} />
@@ -111,7 +103,7 @@ const TabBox = ({
             })}
           </Menu>
         </ButtonGroup>
-      </div>
+      </ContentWrapper>
       <GrayWrapper style={{}}>
         <TabPanel value={currentTab} index={0}>
           <TabOverview

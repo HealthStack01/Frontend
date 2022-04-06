@@ -11,15 +11,6 @@ const AppBillPrescriptionSent = () => {
     <>
       {resource.billPrescriptionSentResource.show === 'lists' && (
         <BillPrescriptionSent
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'create',
-              },
-            }))
-          }
           onRowClicked={(row, _event) => {
             setResource((prevState) => ({
               ...prevState,

@@ -16,7 +16,12 @@ interface InputProps {
   placeholder?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
+  inputRef?: any;
 }
+
+// Reset Input MUI
+
+// https://stackoverflow.com/questions/57419955/how-to-set-or-clear-value-of-material-ui-input-in-reactjs
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -29,6 +34,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   size = 'medium',
   disabled = false,
+  inputRef,
 }) => (
   <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
     <TextField
@@ -45,6 +51,7 @@ const Input: React.FC<InputProps> = ({
       size={size}
       disabled={disabled}
       sx={{ background: 'white' }}
+      inputRef={inputRef}
     />
   </FormControl>
 );

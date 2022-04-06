@@ -5,7 +5,7 @@ import Button from '../../../../../components/buttons/Button';
 import CustomTable from '../../../../../components/customtable';
 import DynamicInput from '../../../../../components/inputs/DynamicInput';
 import { useObjectState } from '../../../../../context/context';
-import { FlexBox } from '../../../../../ui/styled/global';
+import { FlexBox, PlacementWrapper } from '../../../../../ui/styled/global';
 import { BottomWrapper, FullDetailsWrapper } from '../../../styles';
 
 const FormBox = ({ schema: documentSchema, onCancel, onSubmit }) => {
@@ -37,7 +37,7 @@ const FormBox = ({ schema: documentSchema, onCancel, onSubmit }) => {
 
   return (
     <>
-      <div>
+      <PlacementWrapper>
         <FlexBox className="row">
           <h4>{docName}</h4>
 
@@ -103,7 +103,7 @@ const FormBox = ({ schema: documentSchema, onCancel, onSubmit }) => {
           />
           <Button label="Create " onClick={() => onSubmit(items)} />
         </BottomWrapper>
-      </div>
+      </PlacementWrapper>
     </>
   );
 };
