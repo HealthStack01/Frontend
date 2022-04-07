@@ -32,6 +32,10 @@ export const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
     font-family: 'Manrope', sans-serif;
 }
+html{
+  scroll-behavior: smooth;
+
+}
 #root{
     margin:0 auto;
 }
@@ -155,6 +159,38 @@ p {
 .label-btn:hover{
     background:#f2f2f2;
   }
+
+  @keyframes divanimation {
+    from {
+      width: 0%;
+      opacity:0;
+    }
+    to {
+      width: 100%;
+      opacity:1;
+    }
+  }
+`;
+
+export const PlacementWrapper = styled.div`
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  transition: width 2s, height 4s;
+`;
+
+export const ContentWrapper = styled.div`
+  background: #fff;
+  border: 0.1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  transition: width 2s, height 4s;
 `;
 
 export const Container = styled.div`
@@ -349,6 +385,10 @@ export const FlexBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   & img {
     width: 150px;

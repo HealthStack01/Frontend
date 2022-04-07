@@ -4,8 +4,8 @@ import DataTable from 'react-data-table-component';
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
-import { columnHead } from '../../admin/Employees/data';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { columnHead } from './data2';
 
 interface Props {
   editBtnClicked?: () => void;

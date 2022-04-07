@@ -54,7 +54,7 @@ const AppConfiguration = () => {
           schema={ConversationConfigSchema}
           backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
-          data={{
+          selectedData={{
             ...selectedConfiguration,
             questionnaire: selectedConfiguration.questionnaire._id,
             channel: selectedConfiguration.channel._id,

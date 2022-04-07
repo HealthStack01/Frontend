@@ -1,15 +1,12 @@
 import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
+import DynamicFieldView from '../../../../components/inputs/DynamicFieldView';
+import { SubmissionSchema } from '../../schema/communication';
 import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import SubmissionLine from './SubmissionLine';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const SubmissionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const SubmissionDetails = ({ onEdit, onDelete, row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -26,7 +23,7 @@ const SubmissionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) 
               color="#ED0423"
               showicon={true}
               icon="bi bi-pen-fill"
-              onClick={editBtnClicked}
+              onClick={onDelete}
             />
             <Button
               label={'Edit Details'}
@@ -34,24 +31,21 @@ const SubmissionDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) 
               color="#0364FF"
               showicon={true}
               icon="bi bi-pen-fill"
-              onClick={editBtnClicked}
+              onClick={onEdit}
             />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            <div>
-              <label>ID</label>
-              <p>{row.id}</p>
-            </div>
-            <div>
-              <label>Name</label>
-              <p>{row.locationname}</p>
-            </div>
-            <div>
-              <label>Band Type</label>
-              <p>{row.locationType}</p>
-            </div>
+            {SubmissionSchema.map((field) => (
+              <DynamicFieldView field={field} data={row} />
+            ))}
+          </GridWrapper>
+          {'Submitted Fields'}
+          <GridWrapper>
+            {row.interactions.map((interaction) => (
+              <SubmissionLine control={undefined} interaction={interaction} />
+            ))}
           </GridWrapper>
         </FullDetailsWrapper>
       </GrayWrapper>

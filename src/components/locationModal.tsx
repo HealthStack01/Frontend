@@ -1,7 +1,7 @@
 import { Portal } from '@mui/material';
 import React, { useState } from 'react';
 
-import LocationCard from '../pages/app/admin/Bands/LocationCard';
+import LocationCard from '../pages/app/LocationCard';
 import { GridWrapper } from '../pages/app/styles';
 import { FlexBox } from '../ui/styled/global';
 import ModalBox from './modal';

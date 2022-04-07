@@ -24,10 +24,17 @@ const AppointmentSchema = [
       model: Models.EMPLOYEE,
       or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
       labelSelector: (obj) =>
-        `${obj.firstname || ''} ${obj.lastname || ''} ${(obj.dob && toDurationString(obj.dob)) || ''} ${
-          obj.gender || ''
-        }
-        ${obj.profession || ''} ${obj.phone || ''} ${obj.email || ''}`,
+        [
+          obj.firstname,
+          obj.lastname,
+          obj.dob && toDurationString(obj.dob),
+          obj.gender,
+          obj.profession,
+          obj.phone,
+          obj.email,
+        ]
+          .filter((str) => str)
+          .join(' '),
       valueSelector: ({ _id, firstname, lastname, dob, gender, phone, email }) => ({
         clientId: _id,
         firstname,
@@ -189,7 +196,7 @@ const ClientMiniSchema = [
     selector: (row) => row.dob,
     sortable: true,
     required: true,
-    inputType: InputType.TEXT,
+    inputType: InputType.DATE,
   },
 
   {
@@ -199,7 +206,8 @@ const ClientMiniSchema = [
     selector: (row) => row.gender,
     sortable: true,
     required: true,
-    inputType: InputType.TEXT,
+    inputType: InputType.SELECT_LIST,
+    options: ['Male', 'Female'],
   },
 
   {
@@ -209,7 +217,8 @@ const ClientMiniSchema = [
     selector: (row) => row.maritalstatus,
     sortable: true,
     required: true,
-    inputType: InputType.TEXT,
+    inputType: InputType.SELECT_LIST,
+    options: ['Single', 'Married'],
   },
 
   {
@@ -219,7 +228,7 @@ const ClientMiniSchema = [
     selector: (row) => row.email,
     sortable: true,
     required: true,
-    inputType: InputType.TEXT,
+    inputType: InputType.EMAIL,
   },
 
   {
@@ -229,7 +238,7 @@ const ClientMiniSchema = [
     selector: (row) => row.phone,
     sortable: true,
     required: true,
-    inputType: InputType.TEXT,
+    inputType: InputType.PHONE,
   },
 
   {
@@ -275,7 +284,7 @@ const ClientMiniSchema = [
   {
     name: 'Next of Kin',
     key: 'nextofkin',
-    description: 'Cheif OBA Elegushi',
+    description: 'Next of Kin',
     selector: (row) => row.nextofkin,
     sortable: true,
     required: true,
@@ -285,7 +294,7 @@ const ClientMiniSchema = [
   {
     name: 'Next of kin Phone',
     key: 'nextofkinphone',
-    description: '0806478263',
+    description: 'Next of Kin',
     selector: (row) => row.nextofkinphone,
     sortable: true,
     required: true,

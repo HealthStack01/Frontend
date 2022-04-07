@@ -51,6 +51,7 @@ interface ObjectContextProps {
   configurationResource: { show: string; selectedConfiguration: any };
   channelResource: { show: string; selectedChannel: any };
   questionnaireResource: { show: string; selectedQuestionnaire: any };
+  submissionResource: { show: string; selectedSubmission: any };
 }
 
 const objectDefaultValues: ObjectContextProps = {
@@ -149,6 +150,10 @@ const objectDefaultValues: ObjectContextProps = {
   questionnaireResource: {
     show: 'lists',
     selectedQuestionnaire: {},
+  },
+  submissionResource: {
+    show: 'lists',
+    selectedSubmission: {},
   },
 };
 

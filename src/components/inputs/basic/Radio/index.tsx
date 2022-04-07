@@ -19,7 +19,7 @@ const RadioButton: React.FC<RadioProps> = ({ title, options, onChange, defaultVa
           control={<Radio />}
           label={option.label || option}
           disabled={option.disabled}
-          defaultChecked={defaultValue === option.value}
+          checked={defaultValue === option.value}
         />
       ))}
     </RadioGroup>

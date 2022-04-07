@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../components/buttons/Button';
 import DynamicInput from '../../../components/inputs/DynamicInput';
+import { Dictionary } from '../../../types.d';
 import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../styles';
 
 interface Props {
@@ -10,18 +11,19 @@ interface Props {
   backClick: () => void;
   onSubmit: (_data, _event) => void;
   schema: any;
-  data?: any;
+  selectedData?: Dictionary;
 }
 
-const FormView: React.FC<Props> = ({ title, schema, backClick, data, onSubmit }) => {
-  const { handleSubmit, control } = useForm({ defaultValues: data });
+const FormView: React.FC<Props> = ({ title, schema, backClick, selectedData, onSubmit }) => {
+  console.debug(selectedData);
+  const { handleSubmit, control } = useForm({ defaultValues: selectedData._reactName ? {} : selectedData }); //FIXME: wrong data passed here is still a mystery
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
             <h2>
-              {data ? 'Update' : 'Create'} {title}
+              {selectedData._id ? 'Update' : 'Create'} {title}
             </h2>
             <span>Create a New {title} by filling out the form below to get started.</span>
           </div>
@@ -38,7 +40,7 @@ const FormView: React.FC<Props> = ({ title, schema, backClick, data, onSubmit })
                   label={client.name}
                   inputType={client.inputType}
                   options={client.options}
-                  data={data}
+                  data={selectedData}
                 />
               ))}
             </GridWrapper>

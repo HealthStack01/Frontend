@@ -1,95 +1,57 @@
 import React from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import SubmissionCreate from './SubmissionCreate';
+import { Models, Views } from '../../Constants';
+import ListView from '../../generic/ListView';
+import { SubmissionSchema } from '../../schema/communication';
 import SubmissionDetails from './SubmissionDetail';
-import Submissions from './SubmissionList';
-import SubmissionModify from './SubmissionModify';
+import SubmissionForm from './SubmissionForm';
 
 const AppSubmission = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    submissionResource: { selectedSubmission },
+  } = resource;
+
+  const navigate = (show: string) => (selectedSubmission?: any) =>
+    setResource({
+      ...resource,
+      submissionResource: {
+        ...resource.submissionResource,
+        show,
+        selectedSubmission: selectedSubmission || resource.submissionResource.selectedSubmission,
+      },
+    });
+
+  const {
+    list: submissions,
+    find: handleSearch,
+    remove: handleDelete,
+    submit: handleSubmit,
+  } = useRepository<any>(Models.SUBMISSION, navigate);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Submissions
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
+      {resource.submissionResource.show === 'lists' && (
+        <ListView
+          title="Submission"
+          schema={SubmissionSchema}
+          handleCreate={navigate(Views.CREATE)}
+          handleSearch={handleSearch}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          items={submissions}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <SubmissionCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
+      {(resource.submissionResource.show === 'create' || resource.submissionResource.show === 'edit') && (
+        <SubmissionForm backClick={navigate(Views.LIST)} onSubmit={handleSubmit} data={selectedSubmission} />
       )}
-      {resource.employeeResource.show === 'details' && (
+      {resource.submissionResource.show === 'details' && (
         <SubmissionDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.employeeResource.show === 'edit' && (
-        <SubmissionModify
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'details',
-              },
-            }))
-          }
+          backClick={navigate(Views.LIST)}
+          onEdit={() => navigate(Views.EDIT)(selectedSubmission)}
+          onDelete={() => handleDelete(selectedSubmission)}
+          row={selectedSubmission}
         />
       )}
     </>

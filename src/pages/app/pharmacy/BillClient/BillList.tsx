@@ -2,7 +2,7 @@ import React from 'react';
 import { TableColumn } from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
-import CollapsableGrid from '../../../../components/datagrids/CollapsableGrid';
+import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import LocationModal from '../../../../components/locationModal';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
@@ -14,6 +14,8 @@ interface Props {
   onRowClicked?: (
     row: {
       id: any;
+      name: any;
+      data: any;
       date: any;
       status: string;
       description: string;
@@ -21,6 +23,7 @@ interface Props {
     },
     event: any
   ) => void;
+  progressPending?: any;
 }
 
 export interface DataProps {
@@ -29,6 +32,12 @@ export interface DataProps {
   description: string;
   status: string;
   amount: string;
+}
+
+export interface TableProps {
+  id: any;
+  name: string;
+  data: any;
 }
 
 export const rowData = [
@@ -55,20 +64,25 @@ export const rowData = [
   },
 ];
 
-const dataTree = [
+const data = [
   {
-    title: 'Ada Chris',
-    description: 'Prescription of one unpaid bill(s)',
+    id: '1',
+    name: 'John Doe',
     data: rowData,
   },
   {
-    title: 'John Doela Pat',
-    description: 'Prescription of one unpaid bill(s)',
+    id: '2',
+    name: 'Simpson Jackob',
     data: rowData,
   },
   {
-    title: 'Simpa E Dania',
-    description: 'Prescription of one unpaid bill(s)',
+    id: '3',
+    name: 'Dawin Nunez',
+    data: rowData,
+  },
+  {
+    id: '4',
+    name: 'Ade Ojo',
     data: rowData,
   },
 ];
@@ -101,7 +115,25 @@ export const columnHead: TableColumn<DataProps>[] = [
   },
 ];
 
-const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
+const tableHead: TableColumn<TableProps>[] = [
+  {
+    name: 'S/N',
+    selector: (row) => row.id,
+    sortable: true,
+  },
+  {
+    name: 'Name',
+    selector: (row) => row.name,
+    sortable: true,
+  },
+  {
+    name: 'Bills',
+    selector: (row) => row.data.length,
+    sortable: true,
+  },
+];
+
+const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked, progressPending }) => {
   const locations = ['Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6', 'Location 7'];
   return (
     <>
@@ -129,16 +161,18 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
         </TableMenu>
 
         <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
-          {dataTree.map((data, index) => (
-            <CollapsableGrid
-              key={index}
-              columnHead={columnHead}
-              description={data.description}
-              title={data.title}
-              rowData={data.data}
-              onRowClicked={onRowClicked}
-            />
-          ))}
+        
+
+          <CustomTable
+            title="Bills"
+            columns={tableHead}
+            data={data}
+            pointerOnHover
+            highlightOnHover
+            onRowClicked={onRowClicked}
+            striped
+            progressPending={progressPending}
+          />
         </div>
       </PageWrapper>
     </>

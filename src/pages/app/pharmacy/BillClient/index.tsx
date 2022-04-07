@@ -44,6 +44,8 @@ const AppBillClient = () => {
               },
             }))
           }
+          schema={[]}
+          data={[]}
         />
       )}
       {resource.billClientResource.show === 'details' && (

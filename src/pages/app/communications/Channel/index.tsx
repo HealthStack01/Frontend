@@ -54,7 +54,7 @@ const AppChannel = () => {
           schema={ChannelSchema}
           backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
-          data={{ ...selectedChannel, providerConfig: JSON.stringify(selectedChannel['providerConfig']) }}
+          selectedData={{ ...selectedChannel, providerConfig: JSON.stringify(selectedChannel['providerConfig']) }}
         />
       )}
       {resource.channelResource.show === 'details' && (
