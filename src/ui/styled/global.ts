@@ -340,6 +340,11 @@ export const TableMenu = styled.div`
   & .inner-table {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 400px) {
+      width: 100%;
+    }
 
     & input {
       margin-right: 1rem;
