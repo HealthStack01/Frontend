@@ -48,6 +48,7 @@ export const SearchField = styled.input`
   padding: 0.9rem;
   height: 42px;
   border-radius: 4px;
+  background: #fff;
   border: 1.5px solid ${({ theme }) => theme.grayTwo};
   width: 100%;
 

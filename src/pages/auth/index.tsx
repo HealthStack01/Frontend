@@ -54,9 +54,7 @@ function Login() {
             <Controller
               name="email"
               control={control}
-              render={({ field: { ref: _re, ...field } }) => (
-                <Input {...field} label="Email" placeholder="Enter your email" />
-              )}
+              render={({ field: { ref: _re, ...field } }) => <Input {...field} label="Email" placeholder="Email" />}
             />
             <Controller
               name="password"

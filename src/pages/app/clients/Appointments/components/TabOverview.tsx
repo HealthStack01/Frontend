@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Button from '../../../../../components/buttons/Button';
-import Input from '../../../../../components/inputs/basic/Input';
+import SearchInput from '../../../../../components/inputs/Search';
 import { ButtonGroup, TableMenu } from '../../../../../ui/styled/global';
 import { toDurationString, toShortDate } from '../../../DateUtils';
 import { DetailsWrapper } from '../../../styles';
@@ -37,12 +37,7 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
             height: '40px',
           }}
         >
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            size="small"
-            onChange={(e) => filterDocumentations(e.target.value)}
-          />
+          <SearchInput onChange={(e) => filterDocumentations(e.target.value)} />
         </div>
         <ButtonGroup>
           <Button background="#Fafafa" color="#222" showicon={true} onClick={onNewPrescription}>

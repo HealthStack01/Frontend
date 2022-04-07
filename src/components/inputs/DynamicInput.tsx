@@ -117,7 +117,13 @@ const DynamicInput = (props) => {
             inputFormat={DateFormats.CONTROL_DATE_TIME}
             value={data[name]}
             renderInput={(params) => (
-              <TextField ref={ref} {...params} error={errors[name]?.message} defaultValue={data[name]} />
+              <TextField
+                ref={ref}
+                {...params}
+                error={errors[name]?.message}
+                defaultValue={data[name]}
+                sx={{ width: '100%' }}
+              />
             )}
           />
         )}
@@ -138,7 +144,13 @@ const DynamicInput = (props) => {
             inputFormat={DateFormats.CONTROL_DATE}
             value={data[name]}
             renderInput={(params) => (
-              <TextField ref={ref} {...params} error={errors[name]?.message} defaultValue={data[name]} />
+              <TextField
+                ref={ref}
+                {...params}
+                error={errors[name]?.message}
+                defaultValue={data[name]}
+                sx={{ width: '100%' }}
+              />
             )}
           />
         )}

@@ -28,32 +28,32 @@ const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }
             </HeadWrapper>
             <FullDetailsWrapper>
               {state === 'all' && (
-                <>
-                  <GridWrapper>
-                    {AppointmentSchema.flat().map((schema) => (
-                      <div key={schema.key}>
-                        <label>{schema.name}</label>
-                        <p>{schema.selector(row)}</p>
-                      </div>
-                    ))}
-                  </GridWrapper>
-                  <BottomWrapper>
-                    <Button
-                      label={'Edit Appointment Details'}
-                      background={'#04ed7c'}
-                      color={'#fff'}
-                      onClick={editBtnClicked}
-                    />
-                    <Button label="Attend to Client" onClick={() => setState('attend')} />
-                    <Button
-                      label={'Delete Appointment'}
-                      background={'#ff0000'}
-                      color={'#fff'}
-                      onClick={() => deleteBtnClicked(row._id)}
-                    />
-                  </BottomWrapper>
-                </>
+                <GridWrapper>
+                  {AppointmentSchema.flat().map((schema) => (
+                    <div key={schema.key}>
+                      <label>{schema.name}</label>
+                      <p>{schema.selector(row)}</p>
+                    </div>
+                  ))}
+                </GridWrapper>
               )}
+            </FullDetailsWrapper>
+            <FullDetailsWrapper>
+              <BottomWrapper>
+                <Button
+                  label={'Edit Appointment Details'}
+                  background={'#04ed7c'}
+                  color={'#fff'}
+                  onClick={editBtnClicked}
+                />
+                <Button label="Attend to Client" onClick={() => setState('attend')} />
+                <Button
+                  label={'Delete Appointment'}
+                  background={'#ff0000'}
+                  color={'#fff'}
+                  onClick={() => deleteBtnClicked(row._id)}
+                />
+              </BottomWrapper>
             </FullDetailsWrapper>
           </GrayWrapper>
         </PageWrapper>
