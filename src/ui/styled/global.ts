@@ -170,6 +170,15 @@ p {
       opacity:1;
     }
   }
+
+  /*Input focus sticky top label*/
+.form__input:not(:placeholder-shown).form__input:not(:focus)+ .form__label{
+  top: -.5rem;
+  left: .8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  z-index: 10;
+}
 `;
 
 export const PlacementWrapper = styled.div`

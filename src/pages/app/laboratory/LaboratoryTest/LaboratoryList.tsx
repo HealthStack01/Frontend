@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
+import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -25,7 +25,7 @@ const Laboratory: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <SearchInput />
           {/* <DebounceInput
             className="input is-small "
             type="text"

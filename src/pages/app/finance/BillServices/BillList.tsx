@@ -1,8 +1,8 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
@@ -66,11 +66,10 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, data
             {data.bills.map((child, index) => {
               return (
                 <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
-                  <DataTable
+                  <CustomTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
                     columns={BillServiceSchema}
                     data={child.order}
-                    selectableRows
                     pointerOnHover
                     highlightOnHover
                     striped

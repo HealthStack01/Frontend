@@ -9,7 +9,7 @@ import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrappe
 
 interface Props {
   editBtnClicked?: () => void;
-  backClick: () => void;
+  backClick?: () => void;
   row?: any;
 }
 
@@ -73,114 +73,122 @@ const DispensaryDetails: React.FC<Props> = ({ row, backClick }) => {
             columns={columnHead}
             data={row.data}
             pointerOnHover
-            onRowClicked={(row) => setValues(row)}
+            onRowClicked={(row) => {
+              setValues(row);
+              setDispense(true);
+            }}
             highlightOnHover
             striped
           />
 
-          <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
-            <div>
-              <label>Name</label>
-              <p>{row.name}</p>
-            </div>
+          {dispense ? (
+            <>
+              <GridWrapper className="two-columns" style={{ alignItems: 'end' }}>
+                <div>
+                  <label>Name</label>
+                  <p>{row.name}</p>
+                </div>
 
-            <CustomSelect
-              label="Dispensary Mode"
-              name="hmo"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              options={['Mode 1', 'Mode 2', 'Mode 3']}
-            />
-          </GridWrapper>
-          <GridWrapper style={{ alignItems: 'end' }}>
-            <Input
-              label="Date"
-              name="date"
-              type="date"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+                <CustomSelect
+                  label="Dispensary Mode"
+                  name="hmo"
+                  onChange={(e) =>
+                    setValues({
+                      ...values,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                  options={['Mode 1', 'Mode 2', 'Mode 3']}
+                />
+              </GridWrapper>
+              <GridWrapper style={{ alignItems: 'end' }}>
+                <Input
+                  label="Date"
+                  name="date"
+                  type="date"
+                  onChange={(e) =>
+                    setValues({
+                      ...values,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
 
-            <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-          </GridWrapper>
+                <Input
+                  label="Quantity"
+                  name="quantity"
+                  onChange={(e) =>
+                    setValues({
+                      ...values,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              </GridWrapper>
 
-          <br />
+              <br />
 
-          <h2>Instructions:</h2>
-          <h2>Billing Status: {row.mode}</h2>
-          <br />
+              <h2>Instructions:</h2>
+              <h2>Billing Status: {row.mode}</h2>
+              <br />
 
-          <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
-            <Input
-              label="Search Product"
-              name="search"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+              <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
+                <Input
+                  label="Search Product"
+                  name="search"
+                  onChange={(e) =>
+                    setValues({
+                      ...values,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
 
-            <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Amount"
-              name="amount"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <button
-              style={{
-                borderRadius: '32px',
-                background: '#f3f3f3',
-                border: 'none',
-                width: '32px',
-                height: '32px',
-                cursor: 'pointer',
-                margin: '1rem 0',
-              }}
-            >
-              +
-            </button>
-          </GridWrapper>
-          <BottomWrapper>
-            <Button label="Adjust" type="submit" />
-          </BottomWrapper>
+                <Input
+                  label="Quantity"
+                  name="quantity"
+                  onChange={(e) =>
+                    setValues({
+                      ...values,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                <Input
+                  label="Amount"
+                  name="amount"
+                  onChange={(e) =>
+                    setValues({
+                      ...values,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                <button
+                  style={{
+                    borderRadius: '32px',
+                    background: '#f3f3f3',
+                    border: 'none',
+                    width: '32px',
+                    height: '32px',
+                    cursor: 'pointer',
+                    margin: '1rem 0',
+                  }}
+                >
+                  +
+                </button>
+              </GridWrapper>
+              <BottomWrapper>
+                <Button label="Adjust" type="submit" onClick={() => setDispense(false)} />
+              </BottomWrapper>
+            </>
+          ) : (
+            <BottomWrapper>
+              <Button label="Clear " background="#FFE9E9" color="#ED0423" />
+              <Button label="Sell" />
+            </BottomWrapper>
+          )}
         </FullDetailsWrapper>
-        <BottomWrapper>
-          <Button label="Clear " background="#FFE9E9" color="#ED0423" />
-          <Button label="Sell" />
-        </BottomWrapper>
       </GrayWrapper>
     </PageWrapper>
   );
