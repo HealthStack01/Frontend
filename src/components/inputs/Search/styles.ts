@@ -5,9 +5,15 @@ export const SearchBox = styled.div`
   width: 42px;
   transition: 0.4s;
 
+  /* @media (max-width: 768px) {
+    &:active {
+      width: 200px;
+    }
+  } */
+
   &:hover,
   &:active {
-    width: 350px;
+    width: 12rem;
   }
   &:hover input,
   &:active input {
