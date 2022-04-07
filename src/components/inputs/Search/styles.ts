@@ -11,6 +11,18 @@ export const SearchBox = styled.div`
     }
   } */
 
+  &.auto-search {
+    width: 100%;
+    margin: 10px 0;
+  }
+  &.auto-search input {
+    padding-left: 40px;
+  }
+  &.auto-search:active,
+  &.auto-search:hover,
+  &.auto-search:active input {
+    width: 100%;
+  }
   &:hover,
   &:active {
     width: 12rem;
@@ -33,6 +45,11 @@ export const SearchBox = styled.div`
   &:hover i {
     opacity: 0;
     z-index: -1;
+  }
+
+  &.auto-search:hover i {
+    opacity: 1;
+    z-index: 3;
   }
 `;
 

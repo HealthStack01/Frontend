@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 
 import client from '../../context/feathers';
 import { autoSuggestStyles } from '../../pages/app/styles';
-import Input from './basic/Input';
 import { autoSuggestQuery } from './query';
+import SearchInput from './Search';
 
 const searchProvidedOptions = (options, value) => {
   const inputValue = value.trim().toLowerCase();
@@ -83,7 +83,7 @@ const AutoSuggestInput = ({ defaultValue, label, options, onChange }) => {
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
           theme={classes}
-          renderInputComponent={(params) => <Input {...params} label="Search" placeholder="" />}
+          renderInputComponent={(params) => <SearchInput {...params} placeholder={label} className="auto-search" />}
         />
       </div>
     </div>
