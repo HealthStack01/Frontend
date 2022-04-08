@@ -2,7 +2,7 @@ import React from 'react';
 import { TableColumn } from 'react-data-table-component';
 
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
+import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -91,7 +91,7 @@ const Dispensary: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
+          <SearchInput />
 
           <FilterMenu />
         </div>

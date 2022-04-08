@@ -1,5 +1,6 @@
-import { FormControl, TextField } from '@mui/material';
 import React from 'react';
+
+import { InputBox, InputField, InputLabel } from './styles';
 
 interface InputProps {
   label?: string;
@@ -25,6 +26,7 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({
   label,
+  value,
   errorText,
   type = 'text',
   name,
@@ -32,28 +34,27 @@ const Input: React.FC<InputProps> = ({
   onChange,
   onKeyDown,
   placeholder,
-  size = 'medium',
+  // size = 'medium',
   disabled = false,
-  inputRef,
 }) => (
-  <FormControl sx={{ width: '100%', mt: 0.75, mb: 0.75 }}>
-    <TextField
-      error={!!errorText}
-      helperText={errorText}
-      id="component-simple"
-      onChange={onChange}
-      type={type}
-      label={label}
-      name={name}
-      defaultValue={defaultValue}
-      onKeyDown={onKeyDown}
-      placeholder={placeholder}
-      size={size}
-      disabled={disabled}
-      sx={{ background: 'white' }}
-      inputRef={inputRef}
-    />
-  </FormControl>
+  <div>
+    <InputBox>
+      <InputField
+        value={value}
+        className="form__input"
+        onChange={onChange}
+        type={type}
+        defaultValue={defaultValue}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+      />
+      <InputLabel className="form__label" htmlFor={name}>
+        {label}
+      </InputLabel>
+    </InputBox>
+    {errorText && <p>{errorText}</p>}
+  </div>
 );
 
 export default Input;

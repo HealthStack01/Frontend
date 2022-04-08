@@ -1,9 +1,9 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
+import CustomTable from '../../../../components/customtable';
+import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { BillServiceSchema } from '../../schema/ModelSchema';
@@ -47,12 +47,8 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, data
             height: '40px',
           }}
         >
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            size="small"
-            onChange={(e) => handleSearch(e.target.value)}
-          />
+          <SearchInput onChange={(e) => handleSearch(e.target.value)} />
+
           <FilterMenu />
         </div>
 
@@ -66,11 +62,10 @@ const Bills: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, data
             {data.bills.map((child, index) => {
               return (
                 <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
-                  <DataTable
+                  <CustomTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
                     columns={BillServiceSchema}
                     data={child.order}
-                    selectableRows
                     pointerOnHover
                     highlightOnHover
                     striped

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CustomTable from '../../../../components/customtable';
-import Input from '../../../../components/inputs/basic/Input';
+import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { CollectionSchema } from '../../schema/ModelSchema';
@@ -36,12 +36,7 @@ const Collections: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => 
             height: '40px',
           }}
         >
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            size="small"
-            onChange={(e) => handleSearch(e.target.value)}
-          />
+          <SearchInput onChange={(e) => handleSearch(e.target.value)} />
 
           <FilterMenu />
         </div>

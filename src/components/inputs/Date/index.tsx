@@ -1,8 +1,8 @@
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@mui/material/TextField';
 import React from 'react';
+
+import Input from '../basic/Input';
 
 interface Props {
   label: string;
@@ -13,7 +13,8 @@ interface Props {
 const BasicDatePicker: React.FC<Props> = ({ label, onChange, value }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker label={label} value={value} onChange={onChange} renderInput={(params) => <TextField {...params} />} />
+      <Input type="date" label={label} value={value} onChange={onChange} />
+      {/* <DatePicker label={label} value={value} onChange={onChange} renderInput={(params) => <Input {...params} />} /> */}
     </LocalizationProvider>
   );
 };

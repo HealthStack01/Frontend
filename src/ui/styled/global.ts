@@ -170,6 +170,15 @@ p {
       opacity:1;
     }
   }
+
+  /*Input focus sticky top label*/
+.form__input:not(:placeholder-shown).form__input:not(:focus)+ .form__label{
+  top: -.5rem;
+  left: .8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  z-index: 10;
+}
 `;
 
 export const PlacementWrapper = styled.div`
@@ -331,6 +340,11 @@ export const TableMenu = styled.div`
   & .inner-table {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 400px) {
+      width: 100%;
+    }
 
     & input {
       margin-right: 1rem;

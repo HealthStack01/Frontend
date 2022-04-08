@@ -3,7 +3,6 @@ import { TableColumn } from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
-// import Input from '../../../../components/inputs/basic/Input';
 import SearchInput from '../../../../components/inputs/Search';
 import LocationModal from '../../../../components/locationModal';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
@@ -151,8 +150,6 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked, progressPendi
               height: '40px',
             }}
           >
-            {/* <Input placeholder="Search here" label="Search here" size="small" /> */}
-
             <SearchInput />
 
             <FilterMenu />

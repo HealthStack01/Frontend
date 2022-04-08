@@ -250,6 +250,7 @@ export const BottomWrapper = styled.div`
   @media (max-width: 400px) {
     flex-direction: column;
     margin-top: 4rem;
+    height: auto;
 
     & button {
       width: 100%;
