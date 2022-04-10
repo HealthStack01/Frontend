@@ -57,15 +57,6 @@ const AppProductEntry = () => {
               },
             }))
           }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
         />
       )}
       =

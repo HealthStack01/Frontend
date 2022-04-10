@@ -4,10 +4,10 @@ import MenuList from '@mui/material/MenuList';
 import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
-// import DateRange from '../inputs/DateRange';
-// import DebouncedInput from '../inputs/DebouncedInput';
+import DateRange from '../inputs/DateRange';
+import SearchInput from '../inputs/Search';
 
-const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
+const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -125,8 +125,8 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {} }) => {
           </Grow>
         )}
       </Popper>
-      {/* <DebouncedInput label="Search here" onChangeValue={onSearch ? onSearch : () => {}} />
-      {dateField && <DateRange />} */}
+      <SearchInput label="Search here" onChange={onSearch ? onSearch : () => {}} />
+      {dateField && <DateRange />}
     </div>
   );
 };

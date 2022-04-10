@@ -17,7 +17,7 @@ import { InputType } from '../../pages/app/schema';
 import AutoSuggestInput from './AutoSuggestInput';
 
 const DynamicInput = (props) => {
-  const { inputType, label, name, data = {}, options, control, errors = {} } = props;
+  const { inputType, label, name, data = {}, options, control, errors = {}, readonly } = props;
   const ref = useRef();
   if (inputType === InputType.HIDDEN && data[name]) {
     return <input type="hidden" value={data[name]} />;
@@ -31,7 +31,13 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <Input {...field} label={label} errorText={errors[name]?.message} defaultValue={data[name]} />
+          <Input
+            {...field}
+            label={label}
+            disabled={readonly}
+            errorText={errors[name]?.message}
+            defaultValue={data[name]}
+          />
         )}
       />
     );
@@ -43,7 +49,14 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <Input {...field} label={label} errorText={errors[name]?.message} type="number" defaultValue={data[name]} />
+          <Input
+            {...field}
+            label={label}
+            disabled={readonly}
+            errorText={errors[name]?.message}
+            type="number"
+            defaultValue={data[name]}
+          />
         )}
       />
     );
@@ -55,7 +68,13 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <Textarea {...field} label={label} errorText={errors[name]?.message} defaultValue={data[name]} />
+          <Textarea
+            {...field}
+            label={label}
+            disabled={readonly}
+            errorText={errors[name]?.message}
+            defaultValue={data[name]}
+          />
         )}
       />
     );
@@ -67,7 +86,7 @@ const DynamicInput = (props) => {
         name={name}
         control={control}
         render={({ field: { ref: _re, ...field } }) => (
-          <RadioButton {...field} title={label} options={options} defaultValue={data[name]} />
+          <RadioButton {...field} title={label} disabled={readonly} options={options} defaultValue={data[name]} />
         )}
       />
     );
@@ -85,6 +104,7 @@ const DynamicInput = (props) => {
             options={options}
             errorText={errors[name]?.message}
             defaultValue={data[name]}
+            disabled={readonly}
           />
         )}
       />
@@ -98,7 +118,13 @@ const DynamicInput = (props) => {
         control={control}
         name={option.value || option}
         render={({ field }) => (
-          <CheckboxInput ref={ref} {...field} label={option.label || option} errorText={errors[name]?.message} />
+          <CheckboxInput
+            ref={ref}
+            {...field}
+            disabled={readonly}
+            label={option.label || option}
+            errorText={errors[name]?.message}
+          />
         )}
       />
     ));
@@ -120,9 +146,9 @@ const DynamicInput = (props) => {
               <TextField
                 ref={ref}
                 {...params}
+                disabled={readonly}
                 error={errors[name]?.message}
                 defaultValue={data[name]}
-                sx={{ width: '100%' }}
               />
             )}
           />
@@ -147,9 +173,9 @@ const DynamicInput = (props) => {
               <TextField
                 ref={ref}
                 {...params}
+                disabled={readonly}
                 error={errors[name]?.message}
                 defaultValue={data[name]}
-                sx={{ width: '100%' }}
               />
             )}
           />
@@ -164,7 +190,7 @@ const DynamicInput = (props) => {
         control={control}
         name={name}
         render={({ field: { ref: _re, ...field } }) => (
-          <AutoSuggestInput label={label} options={options} defaultValue={data[name]} {...field} />
+          <AutoSuggestInput label={label} options={options} defaultValue={data[name]} readonly={readonly} {...field} />
         )}
       />
     );
@@ -184,7 +210,14 @@ const DynamicInput = (props) => {
       name={name}
       control={control}
       render={({ field }) => (
-        <Input ref={ref} {...field} label={label} errorText={errors[name]?.message} defaultValue={data[name]} />
+        <Input
+          ref={ref}
+          {...field}
+          label={label}
+          disabled={readonly}
+          errorText={errors[name]?.message}
+          defaultValue={data[name]}
+        />
       )}
     />
   );

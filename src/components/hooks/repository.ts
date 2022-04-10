@@ -9,6 +9,7 @@ import { DictionaryOf } from '../../types.d';
 
 interface Repository<T> {
   list: T[];
+  groupedList: any[];
   find: (_text) => Promise<T[]>;
   get: (_id) => Promise<T>;
   submit: (data: T) => Promise<T>;
@@ -33,6 +34,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const { user, facility, locationType, setLocationType } = useContext(UserContext);
   const [findQuery, setFindQuery] = useState({});
   const [list, setList] = useState([]);
+  const [groupedList, setGroupedList] = useState([]);
 
   const remove = (obj): Promise<T> => {
     return Service.remove(typeof obj === 'string' ? obj : obj._id)
@@ -46,7 +48,6 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   };
 
   const find = async (query?: any): Promise<T[]> => {
-    console.debug({ query });
     const isString = typeof query === 'string';
     const extras = isString ? {} : { ...findQuery, ...query };
     const params = {
@@ -65,6 +66,8 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
       .then((response) => {
         console.debug('received response of model ', modelName, ' with body ', { response });
         setList(response.data);
+        //TODO: This is a hack for billclient list table, find a better way
+        setGroupedList(response.groupedOrder);
         return response;
       })
       .catch((error) => {
@@ -76,7 +79,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     let result = {};
     Object.entries(data).map(([key, value]) => {
       // Exceptions
-      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions) {
+      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions && !data.client) {
         result = { ...result, ...value };
       } else {
         result[key] = value;
@@ -129,6 +132,7 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
 
   return {
     list,
+    groupedList,
     find,
     setFindQuery,
     remove,

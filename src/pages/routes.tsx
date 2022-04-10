@@ -14,7 +14,6 @@ import AppConfiguration from '../pages/app/communications/Configurations';
 import AppInput from '../pages/app/communications/InputField';
 import AppQuestionnaires from '../pages/app/communications/Questionaries';
 import AppSubmission from '../pages/app/communications/Submissions';
-import AppBills from '../pages/app/finance/BillServices';
 import AppCollections from '../pages/app/finance/Collections';
 import FinanceDashboard from '../pages/app/finance/FinanceDashboard';
 import AppPayments from '../pages/app/finance/Payment';
@@ -74,7 +73,7 @@ function AppRoutes() {
 
           {/* Finance */}
           <Route path="/app/finance" element={<FinanceDashboard />} />
-          <Route path="/app/finance/billservices" element={<AppBills />} />
+          <Route path="/app/finance/billservices" element={<AppBillClient />} />
           <Route path="/app/finance/collections" element={<AppCollections />} />
           <Route path="/app/finance/payment" element={<AppPayments />} />
           <Route path="/app/finance/revenue" element={<AppRevenue />} />
