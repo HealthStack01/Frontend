@@ -27,7 +27,6 @@ const DnDBox = ({ questions, onChange }) => {
 
     srcQuestion.index = destination.index;
     destQuestion.index = source.index;
-    console.debug({ source, destination, srcQuestion, destQuestion });
 
     setItems((questions || []).sort((a, b) => a.index - b.index));
     submit([srcQuestion, destQuestion]);

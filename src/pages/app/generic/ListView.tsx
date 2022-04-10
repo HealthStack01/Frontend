@@ -12,20 +12,23 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
   schema: any[];
   items: any[];
-  handleSearch: (_text) => void;
+  handleSearch?: (_text) => void;
+  loading?: false;
 }
 
-const ListView: React.FC<Props> = ({ title, schema, handleCreate, handleSearch, onRowClicked, items }) => {
+const ListView: React.FC<Props> = ({ title, schema, handleCreate, handleSearch, onRowClicked, items, loading }) => {
   return (
     <PageWrapper>
       <h2>{title}</h2>
 
       <TableMenu>
-        <div className="inner-table">
-          <FilterMenu onSearch={handleSearch} />
-        </div>
+        {handleSearch && (
+          <div className="inner-table">
+            <FilterMenu onSearch={handleSearch} />
+          </div>
+        )}
 
-        <Button label="Add new" onClick={handleCreate} />
+        {handleCreate && <Button label="Add new" onClick={handleCreate} />}
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
@@ -37,6 +40,7 @@ const ListView: React.FC<Props> = ({ title, schema, handleCreate, handleSearch, 
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
+          progressPending={loading}
         />
       </div>
     </PageWrapper>

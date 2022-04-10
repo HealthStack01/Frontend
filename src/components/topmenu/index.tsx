@@ -1,8 +1,10 @@
+import keyBy from 'lodash/keyBy';
 import React, { useEffect, useState } from 'react';
 
 import { Models } from '../../pages/app/Constants';
 import Breadcrumbs from '../breadcrumb';
 import useRepository from '../hooks/repository';
+import LocationModal from '../inputs/LocationModal';
 import LocationSelect from '../inputs/LocationSelect';
 import ProfileMenu from '../profilemenu';
 import { Profile, TopMenuWrapper } from './styles';
@@ -15,24 +17,34 @@ const defaultList = [
 ];
 
 const TopMenu = ({ isOpen, handleClick }) => {
-  const [locations, setLocations] = useState(defaultList);
-  const { list, setFindQuery, facility, locationType, setLocationType } = useRepository(Models.LOCATION);
+  const [locationOptions, setLocationOptions] = useState(defaultList);
+  const [locationsById, setLocationsById] = useState({});
+  const { list, setFindQuery, facility, locationType, setLocation } = useRepository(Models.LOCATION);
+  const [selectedLocation, setSelectedLocation] = useState<any>();
 
   useEffect(() => {
-    setLocations(list.map(({ _id, name }) => ({ code: 'NG', label: name, location: _id })));
+    setLocationsById(keyBy(list, (obj: any) => obj._id));
+    setLocationOptions(list.map(({ _id, name }) => ({ code: 'NG', label: name, location: _id })));
   }, [list]);
 
   useEffect(() => {
     setFindQuery({
       query: {
         facility: facility?._id,
-        locationType,
+        locationType: 'Front Desk',
         $sort: {
           name: 1,
         },
       },
     });
   }, [facility, locationType]);
+
+  const handleSelectLocation = (locationId) => {
+    setLocationOptions([]);
+    setSelectedLocation(locationsById[locationId]);
+    setLocation(locationsById[locationId]);
+    setLocationOptions([...locationOptions]);
+  };
 
   return (
     <TopMenuWrapper>
@@ -53,7 +65,12 @@ const TopMenu = ({ isOpen, handleClick }) => {
       </div>
       <Profile>
         <div className="location-selector">
-          <LocationSelect locations={locations} onChange={setLocationType} />
+          <LocationSelect
+            defaultLocationId={selectedLocation?._id || ''}
+            locations={locationOptions}
+            onChange={handleSelectLocation}
+          />
+          {!selectedLocation && <LocationModal locations={locationOptions} onSelectLocation={handleSelectLocation} />}
         </div>
 
         <div className="profile-item">

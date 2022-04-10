@@ -10,7 +10,6 @@ import { PageWrapper } from '../../styles';
 const BillClient = ({ handleCreate, onRowClicked, onSearch, progressPending, items }) => {
   return (
     <>
-      {console.debug({ items })}
       <PageWrapper>
         <h2>Bill Client </h2>
         <TableMenu>

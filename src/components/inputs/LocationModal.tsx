@@ -1,12 +1,12 @@
 import { Portal } from '@mui/material';
 import React, { useState } from 'react';
 
-import LocationCard from '../pages/app/LocationCard';
-import { GridWrapper } from '../pages/app/styles';
-import { FlexBox } from '../ui/styled/global';
-import ModalBox from './modal';
+import { GridWrapper } from '../../pages/app/styles';
+import { FlexBox } from '../../ui/styled/global';
+import ModalBox from '../modal';
+import LocationCard from './LocationCard';
 
-const LocationModal = ({ data }) => {
+const LocationModal = ({ locations, onSelectLocation }) => {
   const [open, setOpen] = useState<boolean>(true);
   const closeModal = () => setOpen(false);
   return (
@@ -31,8 +31,15 @@ const LocationModal = ({ data }) => {
         </FlexBox>
 
         <GridWrapper>
-          {data.map((dt) => (
-            <LocationCard title={dt} onClick={closeModal} />
+          {locations.map((location, index) => (
+            <LocationCard
+              key={index}
+              location={location}
+              onClick={() => {
+                closeModal();
+                onSelectLocation(location.location);
+              }}
+            />
           ))}
         </GridWrapper>
       </ModalBox>

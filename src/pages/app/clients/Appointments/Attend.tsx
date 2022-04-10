@@ -60,7 +60,6 @@ const Attend = ({ appointment, backClick }) => {
   const loadOrders = (orderType, setList) => {
     find(queryOrders(orderType, appointment.clientId))
       .then((response: any) => {
-        console.debug({ data: response.data });
         setList(response.data.filter((obj) => obj.documentname !== 'Lab Order'));
       })
       .catch((err) => toast.error(loadError(orderType, err)));
@@ -84,7 +83,6 @@ const Attend = ({ appointment, backClick }) => {
   const changeFormSchema = (documentName: string) => {
     handleCloseMenu();
     setCurrentDocumentName(documentName);
-    console.debug({ documentName, documentSchemas, documentSchema: documentSchemas[documentName] });
   };
 
   const handleSubmit = (data) => {

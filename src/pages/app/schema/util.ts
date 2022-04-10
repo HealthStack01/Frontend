@@ -25,6 +25,7 @@ enum InputType {
   SELECT_LIST,
   JSON,
   FILE_UPLOAD,
+  READ_ONLY,
 }
 
 export type Schema = {

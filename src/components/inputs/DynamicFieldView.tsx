@@ -1,5 +1,4 @@
 const DynamicFieldView = ({ field, data }) => {
-  console.debug({ field, data });
   return (
     <div>
       <label>{field.description}</label>

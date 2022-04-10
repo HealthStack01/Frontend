@@ -7,8 +7,10 @@ interface UserContextProps {
   user?: any;
   setUser?: (_user: any) => void;
   facility?: any;
+  location?: any;
+  setLocation?: (_location: any) => void;
   locationType?: any;
-  setLocationType?: (_location: any) => void;
+  setLocationType?: (_locationType: any) => void;
 }
 
 const userDefaultValues: UserContextProps = {
@@ -41,8 +43,8 @@ interface ObjectContextProps {
     show: string;
     selectedBillPrescriptionSent: {};
   };
-  dispensaryResource: { show: string; selectedDispensary: {} };
-  storyInventoryResource: { show: string; selectedStoreInventory: {} };
+  dispensoryResource: { show: string; selectedDispensory: {} };
+  storeInventoryResource: { show: string; selectedStoreInventory: {} };
   productEntryResource: { show: string; selectedProductEntry: {} };
   posResource: { show: string; selectedPOS: {} };
   selectedDocumentation: string;
@@ -118,11 +120,11 @@ const objectDefaultValues: ObjectContextProps = {
     show: 'lists',
     selectedBillPrescriptionSent: {},
   },
-  dispensaryResource: {
+  dispensoryResource: {
     show: 'lists',
-    selectedDispensary: {},
+    selectedDispensory: {},
   },
-  storyInventoryResource: {
+  storeInventoryResource: {
     show: 'lists',
     selectedStoreInventory: {},
   },
@@ -162,8 +164,12 @@ export const UserContext = createContext<UserContextProps>(userDefaultValues);
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
   const [facility, setFacility] = useState(null);
+  const [location, setLocation] = useState({ name: 'Front Desk' });
   const [locationType, setLocationType] = useState('Front Desk');
-  const memoedValue = useMemo(() => ({ user, setUser, facility, locationType, setLocationType }), [user, locationType]);
+  const memoedValue = useMemo(
+    () => ({ user, setUser, facility, location, setLocation, locationType, setLocationType }),
+    [user, location, locationType]
+  );
 
   const authenticateUser = () => {
     return client
@@ -181,8 +187,8 @@ export const UserProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    console.debug({ locationType });
-  }, [locationType]);
+    console.debug({ location });
+  }, [location]);
 
   useEffect(() => {
     authenticateUser();

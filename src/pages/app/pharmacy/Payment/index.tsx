@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
+import ListView from '../../generic/ListView';
+import { PaymentsSummary } from '../../schema';
 import PaymentDetails from './PaymentDetail';
-import Payments from './PaymentList';
 import { paymentQuery } from './query';
 
 const AppPaymentsPharmacy = () => {
@@ -23,7 +24,7 @@ const AppPaymentsPharmacy = () => {
       },
     });
 
-  const { groupedList: payments, submit: handleSubmit, setFindQuery } = useRepository(Models.BILLS, handleNavigation);
+  const { groupedList: payments, setFindQuery } = useRepository(Models.BILLS, handleNavigation);
 
   const [searchText, setSearchText] = useState('');
 
@@ -33,16 +34,17 @@ const AppPaymentsPharmacy = () => {
   return (
     <>
       {show === Views.LIST && (
-        <Payments
-          onMakePayment={(rows) => handleNavigation(Views.DETAIL)(rows)}
-          onSearch={setSearchText}
+        <ListView
+          title="Payments"
+          schema={PaymentsSummary}
           items={payments}
+          handleSearch={setSearchText}
+          onRowClicked={(rows) => handleNavigation(Views.DETAIL)(rows)}
+          loading={false}
         />
       )}
 
-      {show === Views.DETAIL && (
-        <PaymentDetails row={selectedPayments} backClick={handleNavigation(Views.LIST)} onSubmit={handleSubmit} />
-      )}
+      {show === Views.DETAIL && <PaymentDetails row={selectedPayments} onBackClick={handleNavigation(Views.LIST)} />}
     </>
   );
 };

@@ -70,7 +70,6 @@ const AutoSuggestInput = ({ defaultValue, label, readonly, options, onChange }) 
     if (defaultValue) setDefaultValue();
   }, [defaultValue]);
 
-  console.debug({ readonly });
   return readonly ? (
     <Input value={value} defaultValue={value} disabled />
   ) : (

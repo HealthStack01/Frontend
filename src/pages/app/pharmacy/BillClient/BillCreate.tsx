@@ -28,7 +28,6 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
     quantity,
   }) => {
     setClient(clientId);
-    console.debug({ clientId });
     const { paymentOption } = getBillingInfo(clientId.paymentinfo);
     const { sellingPrice } = getSellingPrice(contracts, paymentOption);
     const amount = sellingPrice * quantity;
@@ -118,7 +117,6 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
 
       return serviceItem;
     });
-    console.debug({ document, serviceItems });
 
     submitBilling({
       document,
