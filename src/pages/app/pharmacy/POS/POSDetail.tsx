@@ -4,7 +4,7 @@ import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import { FlexBox, Htag } from '../../../../ui/styled/global';
 import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from '../Payment/PaymentList';
+// import { columnHead } from '../Payment/PaymentList';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -56,14 +56,7 @@ const POSDetails: React.FC<Props> = ({ row, backClick }) => {
           </FlexBox>
         </FullDetailsWrapper>
         <FullDetailsWrapper>
-          <CustomTable
-            title="Product Items"
-            columns={columnHead}
-            data={row.data}
-            pointerOnHover
-            highlightOnHover
-            striped
-          />
+          <CustomTable title="Product Items" columns={[]} data={row.data} pointerOnHover highlightOnHover striped />
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>

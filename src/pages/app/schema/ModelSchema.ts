@@ -1,7 +1,5 @@
 import * as yup from 'yup';
 
-import { Models } from '../Constants';
-import { toDurationString } from '../DateUtils';
 import { InputType, Schema } from './util';
 
 const BandSchema = [
@@ -512,139 +510,139 @@ const OnboardingEmployeeSchema = [
     required: true,
   },
 ];
-const BillServiceSchema = [
-  {
-    name: 'S/N',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-    sortable: true,
-    required: true,
-    inputType: InputType.HIDDEN,
-  },
-  {
-    name: 'Name',
-    key: 'name',
-    description: 'Enter name of band',
-    selector: (row) => row.orderInfo.orderObj.clientname,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-  },
-  {
-    name: 'Date',
-    key: 'date',
-    description: 'Enter date',
-    selector: (row) => row.createdAt && row.createdAt.substring(0, 10),
-    sortable: true,
-    required: true,
-    inputType: InputType.DATE,
-  },
-  {
-    name: 'Description of Band',
-    key: 'description',
-    description: 'Enter description of band',
-    selector: (row) => row.orderInfo.orderObj.order,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT,
-  },
-  {
-    name: 'Status',
-    key: 'billing_status',
-    description: 'Enter status',
-    selector: (row) => row.billing_status,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT,
-  },
-  {
-    name: 'Amount',
-    key: 'amount',
-    description: 'Enter amount',
-    selector: (row) => row.serviceInfo.amount,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT,
-  },
-];
-const BillServiceCreateSchema = [
-  {
-    name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
-    description: 'ID',
-    sortable: true,
-    required: true,
-    inputType: InputType.HIDDEN,
-  },
-  {
-    name: 'Client',
-    key: 'clientId',
-    description: 'Search for  Client',
-    selector: (row) => `${row.firstname} ${row.lastname}`,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_AUTO_SUGGEST,
-    options: {
-      model: Models.EMPLOYEE,
-      or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
-      labelSelector: (obj) =>
-        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
-          obj.email
-        }`,
-      valueSelector: (obj) => obj._id,
-      extraFields: {
-        firstname: 'firstname',
-        lastname: 'lastname',
-        dob: 'dob',
-        gender: 'gender',
-        phone: 'phone',
-        email: 'email',
-      },
-    },
-  },
-  {
-    name: 'Billing Mode',
-    description: 'Billing Mode',
-    key: 'billing_mode',
-    selector: (row) => row.appointment_type,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_LIST,
-    options: ['Cash', 'Family', 'Hmo'],
-  },
+// const BillServiceSchema = [
+//   {
+//     name: 'S/N',
+//     key: '_id',
+//     selector: (row) => row._id && row._id.substring(0, 7),
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.HIDDEN,
+//   },
+//   {
+//     name: 'Name',
+//     key: 'name',
+//     description: 'Enter name of band',
+//     selector: (row) => row.orderInfo.orderObj.clientname,
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.TEXT,
+//   },
+//   {
+//     name: 'Date',
+//     key: 'date',
+//     description: 'Enter date',
+//     selector: (row) => row.createdAt && row.createdAt.substring(0, 10),
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.DATE,
+//   },
+//   {
+//     name: 'Description of Band',
+//     key: 'description',
+//     description: 'Enter description of band',
+//     selector: (row) => row.orderInfo.orderObj.order,
+//     sortable: true,
+//     required: false,
+//     inputType: InputType.TEXT,
+//   },
+//   {
+//     name: 'Status',
+//     key: 'billing_status',
+//     description: 'Enter status',
+//     selector: (row) => row.billing_status,
+//     sortable: true,
+//     required: false,
+//     inputType: InputType.TEXT,
+//   },
+//   {
+//     name: 'Amount',
+//     key: 'amount',
+//     description: 'Enter amount',
+//     selector: (row) => row.serviceInfo.amount,
+//     sortable: true,
+//     required: false,
+//     inputType: InputType.TEXT,
+//   },
+// ];
+// const BillServiceCreateSchema = [
+//   {
+//     name: 'ID',
+//     key: '_id',
+//     selector: (row) => row._id && row._id.substring(0, 7),
+//     description: 'ID',
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.HIDDEN,
+//   },
+//   {
+//     name: 'Client',
+//     key: 'clientId',
+//     description: 'Search for  Client',
+//     selector: (row) => `${row.firstname} ${row.lastname}`,
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.SELECT_AUTO_SUGGEST,
+//     options: {
+//       model: Models.EMPLOYEE,
+//       or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
+//       labelSelector: (obj) =>
+//         `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
+//           obj.email
+//         }`,
+//       valueSelector: (obj) => obj._id,
+//       extraFields: {
+//         firstname: 'firstname',
+//         lastname: 'lastname',
+//         dob: 'dob',
+//         gender: 'gender',
+//         phone: 'phone',
+//         email: 'email',
+//       },
+//     },
+//   },
+//   {
+//     name: 'Billing Mode',
+//     description: 'Billing Mode',
+//     key: 'billing_mode',
+//     selector: (row) => row.appointment_type,
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.SELECT_LIST,
+//     options: ['Cash', 'Family', 'Hmo'],
+//   },
 
-  [
-    {
-      name: 'Date and Time',
-      key: 'start_time',
-      description: 'Time and Date',
-      selector: (row) => row.start_time,
-      sortable: true,
-      required: true,
-      inputType: InputType.DATETIME,
-    },
-  ],
-  {
-    name: 'Name of Location',
-    key: 'name',
-    description: 'Invoice',
-    selector: (row) => row.name,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-    options: [],
-  },
-  {
-    name: 'Name of Location',
-    key: 'services',
-    description: 'Services',
-    selector: (row) => row.service,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-  },
-];
+//   [
+//     {
+//       name: 'Date and Time',
+//       key: 'start_time',
+//       description: 'Time and Date',
+//       selector: (row) => row.start_time,
+//       sortable: true,
+//       required: true,
+//       inputType: InputType.DATETIME,
+//     },
+//   ],
+//   {
+//     name: 'Name of Location',
+//     key: 'name',
+//     description: 'Invoice',
+//     selector: (row) => row.name,
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.TEXT,
+//     options: [],
+//   },
+//   {
+//     name: 'Name of Location',
+//     key: 'services',
+//     description: 'Services',
+//     selector: (row) => row.service,
+//     sortable: true,
+//     required: true,
+//     inputType: InputType.TEXT,
+//   },
+// ];
 const PaymentDetailsSchema = [
   {
     name: 'S/N',
@@ -786,8 +784,8 @@ const ServicesSchema = [
 
 export {
   BandSchema,
-  BillServiceCreateSchema,
-  BillServiceSchema,
+  // BillServiceCreateSchema,
+  // BillServiceSchema,
   CollectionSchema,
   EmployeeSchema,
   LocationSchema,

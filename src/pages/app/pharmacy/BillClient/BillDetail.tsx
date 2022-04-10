@@ -1,54 +1,18 @@
 import React from 'react';
-import { TableColumn } from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import { ButtonGroup } from '../../../../ui/styled/global';
+import { BillServiceSchema } from '../../schema';
 import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-export interface DataProps {
-  id: any;
-  date: string;
-  description: string;
-  status: string;
-  amount: string;
-}
-
-export const columnHead: TableColumn<DataProps>[] = [
-  {
-    name: 'S/N',
-    selector: (row) => row.id,
-    sortable: true,
-  },
-  {
-    name: 'Date',
-    selector: (row) => row.date,
-    sortable: true,
-  },
-  {
-    name: 'Description',
-    selector: (row) => row.description,
-    sortable: true,
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-  },
-  {
-    name: 'Amount',
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-];
-
-const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const BillDetails = ({ editBtnClicked, row, backClick }) => {
+  row.bills.forEach((obj) => {
+    obj.order.forEach((orderObj) => {
+      orderObj.category = obj.catName;
+    });
+  });
+  const orders = row.bills.map((obj) => obj.order).flat();
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -67,25 +31,16 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
               icon="bi bi-pen-fill"
               onClick={editBtnClicked}
             />
-            {/* <Button
-              label={'Edit Details'}
-              background={'#ECF3FF'}
-              color="#0364FF"
-              showicon={true}
-              icon="bi bi-pen-fill"
-              onClick={editBtnClicked}
-            /> */}
           </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
           <CustomTable
-            title="Bills"
-            columns={columnHead}
-            data={row.data}
+            title={`Bills for ${row.clientname}`}
+            columns={BillServiceSchema}
+            data={orders}
             pointerOnHover
             highlightOnHover
             striped
-            // progressPending={progressPending}
           />
         </FullDetailsWrapper>
       </GrayWrapper>

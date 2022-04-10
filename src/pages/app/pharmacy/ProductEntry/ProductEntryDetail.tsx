@@ -1,18 +1,12 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import { FlexBox, Htag } from '../../../../ui/styled/global';
+import { PaymentLineSchema } from '../../schema';
 import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from '../Payment/PaymentList';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const ProductEntryDetails: React.FC<Props> = ({ row, backClick }) => {
+const ProductEntryDetails = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -56,11 +50,11 @@ const ProductEntryDetails: React.FC<Props> = ({ row, backClick }) => {
           </FlexBox>
         </FullDetailsWrapper>
         <FullDetailsWrapper>
-          <DataTable
+          <CustomTable
             title="Product Items"
-            columns={columnHead}
+            columns={PaymentLineSchema}
             data={row.data}
-            selectableRows
+            selectable
             pointerOnHover
             highlightOnHover
             striped
