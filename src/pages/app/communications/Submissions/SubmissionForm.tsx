@@ -12,7 +12,6 @@ import SubmissionLine from './SubmissionLine';
 const getDefaultValues = (interactions) => {
   const values = {};
   interactions.forEach((obj) => (values[obj.question] = obj.response));
-  console.debug({ values });
   return values;
 };
 
@@ -22,7 +21,6 @@ const SubmissionCreate = ({ backClick, onSubmit, data: selectedSubmission }) => 
   const [questionnaire, setQuestionnaire] = useState<Dictionary>();
 
   const onSubmitSubmission = (data) => {
-    console.debug({ data });
     const interactions = Object.keys(data).map((questionId) => {
       const question = questionnaire.questions.find((obj) => obj._id === questionId);
       return {

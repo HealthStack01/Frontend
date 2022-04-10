@@ -4,7 +4,6 @@ import { TableColumn } from 'react-data-table-component';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import SearchInput from '../../../../components/inputs/Search';
-import LocationModal from '../../../../components/locationModal';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -134,11 +133,8 @@ const tableHead: TableColumn<TableProps>[] = [
 ];
 
 const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked, progressPending }) => {
-  const locations = ['Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6', 'Location 7'];
   return (
     <>
-      <LocationModal data={locations} />
-
       <PageWrapper>
         <h2>Bill Client </h2>
         <TableMenu>

@@ -1,6 +1,5 @@
 import sumBy from 'lodash/sumBy';
 import React, { useEffect, useState } from 'react';
-import { TableColumn } from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -16,55 +15,6 @@ import AmountLabel from './AmountLabel';
 import PaymentLine from './PaymentLine';
 import { subwalletQuery } from './query';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-  onSubmit: any;
-}
-
-export interface DataProps {
-  id: any;
-  name: any;
-  date: any;
-  description: string;
-  status: string;
-  amount: string;
-}
-
-export const columnHead: TableColumn<DataProps>[] = [
-  {
-    name: 'S/N',
-    selector: (row) => row.id,
-    sortable: true,
-  },
-  {
-    name: 'Name',
-    selector: (row) => row.name,
-    sortable: true,
-  },
-  {
-    name: 'Date',
-    selector: (row) => row.date,
-    sortable: true,
-  },
-  {
-    name: 'Description',
-    selector: (row) => row.description,
-    sortable: true,
-  },
-  {
-    name: 'Status',
-    selector: (row) => row.status,
-    sortable: true,
-  },
-  {
-    name: 'Amount',
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-];
-
 const flattenAndAddCategory = (row) => {
   row.bills.forEach((obj) => {
     obj.order.forEach((orderObj) => {
@@ -77,7 +27,7 @@ const flattenAndAddCategory = (row) => {
 const getAmt = (obj) =>
   obj.isFullPayment ? obj.partPay : obj.billing_status === 'Unpaid' ? obj.serviceInfo.amount : obj.paymentInfo.balance;
 
-const PaymentDetails: React.FC<Props> = ({ row, backClick, onSubmit: _ }) => {
+const PaymentDetails = ({ row, onBackClick }) => {
   const { find: querySubwallet, user } = useRepository(Models.SUBWALLET);
   const { submit: submitPayment } = useRepository(Models.SUBWALLETTX);
   const { submit: payForService } = useRepository(Models.INVOICE);
@@ -130,7 +80,6 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, onSubmit: _ }) => {
 
   const submitServicePayment = () => {
     const payments = selectedPaymentItems.length ? selectedPaymentItems : paymentItems;
-    console.debug({ payments });
     const remBalance = walletBalance - totalAmountPaying;
 
     if (totalAmountPaying > walletBalance) {
@@ -190,11 +139,11 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, onSubmit: _ }) => {
       bills: payments,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
-    //setPaying(true);
-    console.debug({ paymentObj });
+    setPaying(true);
     payForService(paymentObj)
       .then(() => {
         setPaying(false);
+        onBackClick();
       })
       .then(() => {
         setWalletBalance(remBalance);
@@ -253,7 +202,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, onSubmit: _ }) => {
             <span>Below are your payment’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>

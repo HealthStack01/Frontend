@@ -11,13 +11,11 @@ import { InputType } from '../../schema';
 import { BottomWrapper, DetailsWrapper } from '../../styles';
 
 const QuestionInput = ({ onSubmit, question }) => {
-  console.debug({ question });
   const { submit } = useRepository(Models.QUESTION);
   const { handleSubmit, control, register, reset } = useForm({ defaultValues: question });
   const [editMode, setEditMode] = useState(false);
 
   const addQuestion = (data) => {
-    console.debug({ data });
     submit({ ...data, index: question.index })
       .then((submittedQ: any) => {
         reset(question);

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Button from '../../../../components/buttons/Button';
 import CalenderGrid from '../../../../components/calender';
 import CustomTable from '../../../../components/customtable';
-import LocationModal from '../../../../components/locationModal';
 import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
@@ -12,11 +11,9 @@ import { PageWrapper } from '../../styles';
 
 const Appointments = ({ handleCreate, onRowClicked, onSearch, items }) => {
   const [listView, setListView] = useState(true);
-  const locations = ['Location 1', 'Location 2', 'Location 3', 'Location 4', 'Location 5', 'Location 6', 'Location 7'];
 
   return (
     <>
-      <LocationModal data={locations} />
       <PageWrapper>
         <h2>Appointments </h2>
         <TableMenu>

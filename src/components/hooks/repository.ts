@@ -25,13 +25,15 @@ interface Repository<T> {
   };
   setFindQuery: (query) => void;
   facility: any;
+  location: any;
+  setLocation: (_location) => void;
   locationType: any;
-  setLocationType: (_locationType) => void;
+  setLocationType: (_location) => void;
 }
 
 const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
   let Service = client.service(modelName);
-  const { user, facility, locationType, setLocationType } = useContext(UserContext);
+  const { user, facility, location, setLocation, locationType, setLocationType } = useContext(UserContext);
   const [findQuery, setFindQuery] = useState({});
   const [list, setList] = useState([]);
   const [groupedList, setGroupedList] = useState([]);
@@ -123,10 +125,6 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   }, []);
 
   useEffect(() => {
-    console.debug({ user });
-  }, [user, facility]);
-
-  useEffect(() => {
     find();
   }, [findQuery]);
 
@@ -140,6 +138,8 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     get,
     user,
     facility,
+    location,
+    setLocation,
     locationType,
     setLocationType,
   };
