@@ -187,10 +187,6 @@ export const UserProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    console.debug({ location });
-  }, [location]);
-
-  useEffect(() => {
     authenticateUser();
   }, []);
 

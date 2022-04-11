@@ -15,7 +15,6 @@ interface Props {
 }
 
 const FormView: React.FC<Props> = ({ title, schema, backClick, selectedData, onSubmit }) => {
-  console.debug(selectedData);
   const { handleSubmit, control } = useForm({ defaultValues: selectedData._reactName ? {} : selectedData }); //FIXME: wrong data passed here is still a mystery
   return (
     <PageWrapper>

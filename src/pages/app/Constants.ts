@@ -10,6 +10,7 @@ const Models = {
   BAND: 'bands',
   CLIENT: 'client',
   CLINICAL_DOCUMENT: 'clinicaldocument',
+  DOCUMENT_TYPES: 'documentclass',
   EMPLOYEE: 'employee',
   LOCATION: 'location',
   LABORATORY_HELPER: 'labhelper',
