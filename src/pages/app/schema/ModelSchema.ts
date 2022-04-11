@@ -149,11 +149,10 @@ const CollectionSchema = [
 const EmployeeSchema = [
   {
     name: 'S/N',
-    key: '_id',
+    key: 'sn',
     description: 'Enter name of employee',
-    selector: (row) => row._id && row._id.substring(0, 7),
+    selector: (row) => row.sn,
     sortable: true,
-    required: true,
     inputType: InputType.HIDDEN,
   },
   {
@@ -161,20 +160,20 @@ const EmployeeSchema = [
     key: 'firstname',
     description: 'Enter firstname',
     selector: (row) => row.firstname,
-
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Firstname'),
   },
   {
     name: 'Last Name',
     key: 'lastname',
     description: 'Enter lastname',
     selector: (row) => row.lastname,
-
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Lastname'),
   },
   {
     name: 'Profession',
@@ -184,6 +183,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Profession'),
   },
   {
     name: 'Phone number',
@@ -193,6 +193,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Phone number'),
   },
   {
     name: 'Email',
@@ -202,6 +203,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your valid Email'),
   },
   {
     name: 'Department',
@@ -211,6 +213,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Department'),
   },
   {
     name: 'Department Unit',
@@ -220,6 +223,7 @@ const EmployeeSchema = [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
+    validator: yup.string().required('Enter your Departmental Unit'),
   },
 ];
 
