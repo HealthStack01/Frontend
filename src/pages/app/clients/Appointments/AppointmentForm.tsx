@@ -1,14 +1,21 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { AppointmentSchema, Schema } from '../../schema';
+import { AppointmentSchema, getResolver, Schema } from '../../schema';
 import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
 
 const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
-  const { handleSubmit, control } = useForm({
+  const resolver = yupResolver(getResolver(AppointmentSchema.flat() as any[]));
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: selectedData,
+    resolver,
   });
 
   return (
@@ -31,6 +38,7 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                   <GridWrapper className="subgrid two-columns" key={index}>
                     {schemas.map((field, childIndex) => (
                       <DynamicInput
+                        {...field}
                         key={childIndex}
                         name={field.key}
                         control={control}
@@ -38,6 +46,7 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                         inputType={field.inputType}
                         options={field.options || []}
                         data={selectedData}
+                        errors={errors}
                       />
                     ))}
                   </GridWrapper>
@@ -46,6 +55,7 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                 const field = obj as Schema;
                 return (
                   <DynamicInput
+                    {...field}
                     key={index}
                     name={field.key}
                     control={control}
@@ -53,6 +63,7 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                     inputType={field.inputType}
                     options={field.options || []}
                     data={selectedData}
+                    errors={errors}
                   />
                 );
               }
