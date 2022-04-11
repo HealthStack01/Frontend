@@ -149,11 +149,10 @@ const CollectionSchema = [
 const EmployeeSchema = [
   {
     name: 'S/N',
-    key: '_id',
+    key: 'sn',
     description: 'Enter name of employee',
-    selector: (row) => row._id && row._id.substring(0, 7),
+    selector: (row) => row.sn,
     sortable: true,
-    required: true,
     inputType: InputType.HIDDEN,
   },
   {
