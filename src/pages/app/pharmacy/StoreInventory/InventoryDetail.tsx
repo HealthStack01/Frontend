@@ -31,7 +31,7 @@ const reorderModifier = (data, newValue) => {
 
 const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
   const [state, setState] = useState('all');
-  const { facility, get } = useRepository(Models.BILLING);
+  const { location, get } = useRepository(Models.BILLING);
   const [service, setService] = useState<any>();
   const [defaultPrice, setDefaultPrice] = useState(0);
 
@@ -40,7 +40,7 @@ const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
       .then((result: any) => {
         setService(result);
         const price =
-          result.contracts.find((obj) => obj.source_org === facility._id && obj.dest_org === facility._id)?.price ||
+          result.contracts.find((obj) => obj.source_org === location._id && obj.dest_org === location._id)?.price ||
           0.0;
         setDefaultPrice(price);
       })

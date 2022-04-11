@@ -420,3 +420,62 @@ export const ProductAuditSchema = [
     inputType: InputType.NUMBER,
   },
 ];
+
+export const ProductEntrySchema = [
+  {
+    name: 'S/N',
+    key: 'sn',
+    description: '',
+    selector: (row) => row.sn,
+    sortable: true,
+    required: true,
+    inputType: InputType.HIDDEN,
+  },
+  {
+    name: 'date',
+    key: 'date',
+    description: 'Enter date',
+    selector: (row) => row.date,
+
+    sortable: true,
+    required: true,
+    inputType: InputType.DATETIME,
+  },
+  {
+    name: 'Type',
+    key: 'type',
+    description: 'Enter type',
+    selector: (row) => row.type,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT_LIST,
+    options: ['Purchase Invoice', 'Initialization', 'Audit'],
+  },
+  {
+    name: 'Source',
+    key: 'source',
+    description: 'Enter source',
+    selector: (row) => row.source,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Document No',
+    key: 'DocumentNO',
+    description: 'Enter Document Number',
+    selector: (row) => row.documentNo,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+  {
+    name: 'Total Amount',
+    key: 'totalamount',
+    description: 'Enter Total Amount',
+    selector: (row) => row.totalamount,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+  },
+];

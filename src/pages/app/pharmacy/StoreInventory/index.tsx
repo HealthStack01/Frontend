@@ -23,11 +23,14 @@ const AppInventory = () => {
       },
     });
 
-  const { list: inventory, setFindQuery } = useRepository(Models.INVENTORY, handleNavigation);
+  const { list: inventory, setLocationType, setFindQuery } = useRepository(Models.INVENTORY, handleNavigation);
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     setFindQuery(storeInventoryQuery(undefined, undefined, searchText || undefined));
   }, [searchText]);
+  useEffect(() => {
+    setLocationType('Pharmacy');
+  }, []);
   return (
     <>
       {show === Views.LIST && (
