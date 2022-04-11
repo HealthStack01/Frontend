@@ -5,7 +5,6 @@ import AppBands from '../pages/app/admin/Bands';
 import AppEmployees from '../pages/app/admin/Employees';
 import AppLocation from '../pages/app/admin/Locations';
 import AppClientAppointment from '../pages/app/clients/Appointments';
-import AppClinic from '../pages/app/clients/Appointments';
 import AppClient from '../pages/app/clients/Client';
 import ClientDashboard from '../pages/app/clients/ClientDashboard';
 import ClinicDashboard from '../pages/app/clinic/ClinicDashboard';
@@ -15,7 +14,6 @@ import AppConfiguration from '../pages/app/communications/Configurations';
 import AppInput from '../pages/app/communications/InputField';
 import AppQuestionnaires from '../pages/app/communications/Questionaries';
 import AppSubmission from '../pages/app/communications/Submissions';
-import AppBills from '../pages/app/finance/BillServices';
 import AppCollections from '../pages/app/finance/Collections';
 import FinanceDashboard from '../pages/app/finance/FinanceDashboard';
 import AppPayments from '../pages/app/finance/Payment';
@@ -34,7 +32,7 @@ import AppReferrals from '../pages/app/managedCare/Referrals';
 import Overview from '../pages/app/Overview';
 import AppBillClient from '../pages/app/pharmacy/BillClient';
 import AppBillPrescriptionSent from '../pages/app/pharmacy/BillPrescriptionSent';
-import AppDispensary from '../pages/app/pharmacy/Dispensory';
+import Appdispensory from '../pages/app/pharmacy/Dispensory';
 import AppPaymentsPharmacy from '../pages/app/pharmacy/Payment';
 import PharmacyDashboard from '../pages/app/pharmacy/PharmacyDashboard';
 import AppPOS from '../pages/app/pharmacy/POS';
@@ -75,7 +73,7 @@ function AppRoutes() {
 
           {/* Finance */}
           <Route path="/app/finance" element={<FinanceDashboard />} />
-          <Route path="/app/finance/billservices" element={<AppBills />} />
+          <Route path="/app/finance/billservices" element={<AppBillClient />} />
           <Route path="/app/finance/collections" element={<AppCollections />} />
           <Route path="/app/finance/payment" element={<AppPayments />} />
           <Route path="/app/finance/revenue" element={<AppRevenue />} />
@@ -87,14 +85,14 @@ function AppRoutes() {
           <Route path="/app/pharmacy/billclient" element={<AppBillClient />} />
           <Route path="/app/pharmacy/billsent" element={<AppBillPrescriptionSent />} />
           <Route path="/app/pharmacy/payment" element={<AppPaymentsPharmacy />} />
-          <Route path="/app/pharmacy/dispensory" element={<AppDispensary />} />
+          <Route path="/app/pharmacy/dispensory" element={<Appdispensory />} />
           <Route path="/app/pharmacy/inventory" element={<AppInventory />} />
           <Route path="/app/pharmacy/productentry" element={<AppProductEntry />} />
           <Route path="/app/pharmacy/pos" element={<AppPOS />} />
 
           {/* Clinic */}
           <Route path="/app/clinic" element={<ClinicDashboard />} />
-          <Route path="/app/clinic/appointments" element={<AppClinic />} />
+          <Route path="/app/clinic/appointments" element={<AppClientAppointment />} />
 
           {/* Manged Care */}
           <Route path="/app/managedCare" element={<ManagedCareDashboard />} />

@@ -43,7 +43,7 @@ export const menuItems = [
       { name: 'Bill client', to: '/app/pharmacy/billclient' },
       { name: 'Bill Prescription Sent', to: '/app/pharmacy/billsent' },
       { name: 'Payment', to: '/app/pharmacy/payment' },
-      { name: 'Dispensary', to: '/app/pharmacy/dispensory' },
+      { name: 'dispensory', to: '/app/pharmacy/dispensory' },
       { name: 'Store Inventory', to: '/app/pharmacy/inventory' },
       { name: 'Product Entry', to: '/app/pharmacy/productentry' },
       { name: 'POS', to: '/app/pharmacy/pos' },

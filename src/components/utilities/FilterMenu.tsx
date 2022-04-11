@@ -5,7 +5,7 @@ import Popper from '@mui/material/Popper';
 import * as React from 'react';
 
 import DateRange from '../inputs/DateRange';
-import DebouncedInput from '../inputs/DebouncedInput';
+import SearchInput from '../inputs/Search';
 
 const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) => {
   const [open, setOpen] = React.useState(false);
@@ -50,6 +50,7 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) =>
         position: 'relative',
         justifyContent: 'space-around',
         zIndex: '10',
+        height: '40px',
       }}
     >
       <label
@@ -64,7 +65,7 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) =>
           alignItems: 'center',
           justifyContent: 'space-around',
           flexWrap: 'nowrap',
-          padding: '6px 10px',
+          padding: '4px 10px',
           width: '120px',
           borderRadius: '4px',
           margin: '0 10px',
@@ -124,7 +125,7 @@ const FilterMenu = ({ schema = [], onSearch = (_) => {}, dateField = false }) =>
           </Grow>
         )}
       </Popper>
-      <DebouncedInput label="Search here" onChangeValue={onSearch ? onSearch : () => {}} />
+      <SearchInput label="Search here" onChange={onSearch ? onSearch : () => {}} />
       {dateField && <DateRange />}
     </div>
   );

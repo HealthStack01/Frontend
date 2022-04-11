@@ -1,10 +1,10 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import { FlexBox, Htag } from '../../../../ui/styled/global';
 import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
-import { columnHead } from '../Payment/PaymentList';
+// import { columnHead } from '../Payment/PaymentList';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -27,7 +27,7 @@ const POSDetails: React.FC<Props> = ({ row, backClick }) => {
         </HeadWrapper>
         <FullDetailsWrapper>
           <FlexBox className="between">
-            <div>
+            <FlexBox>
               <FlexBox className="between">
                 <Htag>Type</Htag>
                 <label>{row.type}</label>
@@ -41,9 +41,9 @@ const POSDetails: React.FC<Props> = ({ row, backClick }) => {
                 <Htag>Total Amount</Htag>
                 <label>{row.amount}</label>
               </FlexBox>
-            </div>
+            </FlexBox>
 
-            <div>
+            <FlexBox>
               <FlexBox className="between">
                 <Htag>Supplier</Htag>
                 <label>{row.source}</label>
@@ -52,19 +52,11 @@ const POSDetails: React.FC<Props> = ({ row, backClick }) => {
                 <Htag>Invoice No</Htag>
                 <label>{row.documentNo}</label>
               </FlexBox>
-            </div>
+            </FlexBox>
           </FlexBox>
         </FullDetailsWrapper>
         <FullDetailsWrapper>
-          <DataTable
-            title="Product Items"
-            columns={columnHead}
-            data={row.data}
-            selectableRows
-            pointerOnHover
-            highlightOnHover
-            striped
-          />
+          <CustomTable title="Product Items" columns={[]} data={row.data} pointerOnHover highlightOnHover striped />
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>

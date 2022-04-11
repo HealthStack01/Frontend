@@ -1,266 +1,51 @@
-import React, { useState } from 'react';
-import DataTable from 'react-data-table-component';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
-import Input from '../../../../components/inputs/basic/Input';
-import CustomSelect from '../../../../components/inputs/basic/Select';
-import { columnHead } from '../../admin/Employees/data';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import useRepository from '../../../../components/hooks/repository';
+import { Models } from '../../Constants';
+import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import FieldModifier from './FieldModifier';
+import ProductAudit from './ProductAudit';
+import ProductBatch from './ProductBatch';
 
 interface Props {
   editBtnClicked?: () => void;
-  backClick: () => void;
+  onBackClick: () => void;
   row?: any;
 }
 
-const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
-  const [values, setValues] = useState({});
+const priceModifier = (data, newValue, facilityId) => {
+  const contractSel = data.contracts.find(
+    (element) => element.source_org === facilityId && element.dest_org === facilityId
+  );
+  contractSel.price = newValue;
+};
+
+const reorderModifier = (data, newValue) => {
+  return {
+    ...data,
+    reorder_level: newValue,
+  };
+};
+
+const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
   const [state, setState] = useState('all');
+  const { location, get } = useRepository(Models.BILLING);
+  const [service, setService] = useState<any>();
+  const [defaultPrice, setDefaultPrice] = useState(0);
 
-  const SetPrice = () => {
-    const [values, setValues] = useState({});
-
-    return (
-      <PageWrapper>
-        <GrayWrapper>
-          <FullDetailsWrapper>
-            <GridWrapper>
-              <Input
-                label="New Selling Price"
-                name="newPrice"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Old Price"
-                name="oldPrice"
-                value={row.price}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </GridWrapper>
-            <BottomWrapper>
-              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" onClick={() => setState('all')} />
-              <Button label="Save Form" type="submit" onClick={() => setState('all')} />
-            </BottomWrapper>
-          </FullDetailsWrapper>
-        </GrayWrapper>
-      </PageWrapper>
-    );
-  };
-  const SetReOrder = () => {
-    const [values, setValues] = useState({});
-
-    return (
-      <PageWrapper>
-        <GrayWrapper>
-          <FullDetailsWrapper>
-            <GridWrapper>
-              <Input
-                label="New Reoder Level"
-                name="newReOrder"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Old Reoder Level"
-                name="oldReOrder"
-                value={row.reOrderLevel}
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </GridWrapper>
-            <BottomWrapper>
-              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" onClick={() => setState('all')} />
-              <Button label="Save Form" type="submit" onClick={() => setState('all')} />
-            </BottomWrapper>
-          </FullDetailsWrapper>
-        </GrayWrapper>
-      </PageWrapper>
-    );
-  };
-
-  const SetAudit = () => {
-    return (
-      <form action="" onSubmit={() => {}}>
-        <FullDetailsWrapper title="Purchase Invoice">
-          <GridWrapper className="two-columns">
-            <CustomSelect
-              label="Purchase Invoice"
-              name="purchaseMode"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              options={['Mode 1', 'Mode 2']}
-            />
-            <Input
-              label="Supplier"
-              name="supplier"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Date"
-              name="date"
-              type="date"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Invoice Number"
-              name="invoiceNo"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Total Amount"
-              name="amount"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-          </GridWrapper>
-
-          <h2>Add Product Items</h2>
-
-          <Input
-            label="Search Product"
-            name="search"
-            onChange={(e) =>
-              setValues({
-                ...values,
-                [e.target.name]: e.target.value,
-              })
-            }
-          />
-
-          <GridWrapper>
-            <Input
-              label="Quantity"
-              name="quantity"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <Input
-              label="Cost Price"
-              name="price"
-              onChange={(e) =>
-                setValues({
-                  ...values,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-            <button
-              style={{
-                borderRadius: '32px',
-                background: '#f3f3f3',
-                border: 'none',
-                width: '32px',
-                height: '32px',
-              }}
-              type="submit"
-            >
-              +
-            </button>
-          </GridWrapper>
-        </FullDetailsWrapper>
-
-        <BottomWrapper>
-          <Button label="Adjust" type="submit" onClick={() => setState('all')} />
-        </BottomWrapper>
-      </form>
-    );
-  };
-
-  const SetBatches = () => {
-    const [values, setValues] = useState({});
-
-    return (
-      <PageWrapper>
-        <GrayWrapper>
-          <FullDetailsWrapper>
-            <GridWrapper>
-              <Input
-                label="Batch Number"
-                name="batchNo"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <Input
-                label="Expiry Date"
-                name="expiry"
-                type="date"
-                onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </GridWrapper>
-
-            <DataTable
-              title="Batches"
-              columns={columnHead}
-              data={row.data}
-              selectableRows
-              pointerOnHover
-              highlightOnHover
-              striped
-            />
-          </FullDetailsWrapper>
-          <BottomWrapper>
-            <Button label="Clear Form" background="#FFE9E9" color="#ED0423" onClick={() => setState('all')} />
-            <Button label="Save Form" type="submit" onClick={() => setState('all')} />
-          </BottomWrapper>
-        </GrayWrapper>
-      </PageWrapper>
-    );
-  };
-
+  useEffect(() => {
+    get(row.billingId)
+      .then((result: any) => {
+        setService(result);
+        const price =
+          result.contracts.find((obj) => obj.source_org === location._id && obj.dest_org === location._id)?.price ||
+          0.0;
+        setDefaultPrice(price);
+      })
+      .catch((err) => toast.error('Error getting service details ' + err));
+  }, []);
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -270,7 +55,7 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your Inventory’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -302,10 +87,26 @@ const InventoryDetails: React.FC<Props> = ({ row, backClick }) => {
             </GridWrapper>
           )}
 
-          {state === 'price' && <SetPrice />}
-          {state === 'batch' && <SetBatches />}
-          {state === 'audit' && <SetAudit />}
-          {state === 'reorder' && <SetReOrder />}
+          {state === 'price' && (
+            <FieldModifier
+              row={row}
+              name="Price"
+              defaultValue={defaultPrice}
+              modifyData={priceModifier}
+              onBackClick={onBackClick}
+            />
+          )}
+          {state === 'batch' && <ProductBatch onBackClick={onBackClick} />}
+          {state === 'audit' && <ProductAudit onBackClick={onBackClick} locationId="" facilityId="" userId="" />}
+          {state === 'reorder' && (
+            <FieldModifier
+              name="Reorder Level"
+              row={service}
+              defaultValue={row.reorder_level}
+              modifyData={reorderModifier}
+              onBackClick={onBackClick}
+            />
+          )}
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>

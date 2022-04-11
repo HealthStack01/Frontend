@@ -1,76 +1,13 @@
-import { makeStyles } from '@mui/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { defaultTheme } from 'react-autosuggest/dist/theme';
 import { toast } from 'react-toastify';
 
 import client from '../../context/feathers';
+import { autoSuggestStyles } from '../../pages/app/styles';
+import Input from './basic/Input';
+import { autoSuggestQuery } from './query';
 
-const useStyles = makeStyles(() => {
-  return {
-    container: {
-      margin: 'auto',
-      width: '100%',
-      //backgroundColor: theme.background.default,
-    },
-    innerTableContainer: {
-      width: '100%',
-      height: 'calc(100vh - 190px)',
-      //  borderRadius: theme.shape.borderRadius,
-      // backgroundColor: theme.background.paper,
-    },
-    react_autosuggest__container: {
-      position: 'relative',
-      width: '100%',
-    },
-    react_autosuggest__input: {
-      minWidth: 'auto',
-      width: '90%',
-      height: '1.4375em',
-      marginBottom: '0.6rem',
-      boxSizing: 'content-box',
-      padding: '10px 20px',
-      fontFamily: 'Helvetica, sans-serif',
-      fontWeight: '300',
-      fontSize: '16px',
-      border: '1px solid #aaa',
-      borderRadius: '4px',
-    },
-    react_autosuggest__input__focused: {
-      outline: 'none',
-    },
-    react_autosuggest__input__open: {
-      borderBottomLeftRadius: '0',
-      borderBottomRightRadius: '0',
-    },
-    react_autosuggest__suggestions_container__open: {
-      display: 'block',
-      position: 'absolute',
-      top: '51px',
-      width: '100%',
-      border: '1px solid #aaa',
-      backgroundColor: '#fff',
-      fontFamily: 'Helvetica, sans-serif',
-      fontWeight: '300',
-      fontSize: '16px',
-      borderBottomLeftRadius: '4px',
-      borderBottomRightRadius: '4px',
-      zIndex: '2',
-    },
-    react_autosuggest__suggestions_list: {
-      margin: '0',
-      padding: '0',
-      listStyleType: 'none',
-    },
-    react_autosuggest__suggestion: {
-      cursor: 'pointer',
-      padding: '10px 20px',
-    },
-    react_autosuggest__suggestion__highlighted: {
-      backgroundColor: '#ddd',
-    },
-  };
-});
 const searchProvidedOptions = (options, value) => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
@@ -82,10 +19,11 @@ const searchProvidedOptions = (options, value) => {
 
 const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
 
-const AutoSuggestInput = ({ label, options, onChange }) => {
+const AutoSuggestInput = ({ defaultValue, label, readonly, options, onChange }) => {
   let Service = options.model && client.service(options.model);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const classes: any = autoSuggestStyles(defaultTheme);
 
   // Use your imagination to render suggestions.
   const renderSuggestion = (suggestion) => (
@@ -96,31 +34,7 @@ const AutoSuggestInput = ({ label, options, onChange }) => {
     if (options.length) {
       setSuggestions(searchProvidedOptions(options, searchText));
     } else {
-      const query = {};
-      if (options.or) {
-        query['$or'] = options.or.map((field) => ({
-          [field]: {
-            $regex: searchText,
-            $options: 'i',
-          },
-        }));
-      }
-      if (options.field) {
-        query[options.field] = {
-          $regex: searchText,
-          $options: 'i',
-        };
-      }
-      Service.find({
-        query: {
-          ...query,
-          //facility: user.currentEmployee.facilityDetail._id,
-          $limit: 10,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      })
+      Service.find(autoSuggestQuery(options, searchText))
         .then((res) => {
           setSuggestions(res.data);
         })
@@ -134,13 +48,31 @@ const AutoSuggestInput = ({ label, options, onChange }) => {
     placeholder: label,
     value,
     onChange: (_, value) => setValue(value.newValue),
+    readonly,
   };
 
   const onSuggestionsClearRequested = () => {
     setSuggestions([]);
   };
-  const classes = useStyles();
-  return (
+
+  const setDefaultValue = () => {
+    Service.get(defaultValue)
+      .then((data) => {
+        const label = (options.labelSelector && options.labelSelector(data)) || '';
+        const value = (options.valueSelector && options.valueSelector(data)) || '';
+        onChange(value);
+        setValue(label);
+      })
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    if (defaultValue) setDefaultValue();
+  }, [defaultValue]);
+
+  return readonly ? (
+    <Input value={value} defaultValue={value} disabled />
+  ) : (
     <div className={classes.container}>
       <div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-rooti">
         <Autosuggest
@@ -153,18 +85,7 @@ const AutoSuggestInput = ({ label, options, onChange }) => {
           }
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
-          theme={{
-            ...defaultTheme,
-            container: classes.react_autosuggest__container,
-            input: classes.react_autosuggest__input,
-            inputOpen: classes.react_autosuggest__input__open,
-            inputFocused: classes.react_autosuggest__input__focused,
-            // suggestionsContainer: classes.react_autosuggest__suggestions_container,
-            suggestionsContainerOpen: classes.react_autosuggest__suggestions_container__open,
-            suggestionsList: classes.react_autosuggest__suggestions_list,
-            suggestion: classes.react_autosuggest__suggestion,
-            suggestionHighlighted: classes.react_autosuggest__suggestion__highlighted,
-          }}
+          theme={classes}
         />
       </div>
     </div>

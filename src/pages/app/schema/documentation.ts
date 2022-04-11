@@ -1,3 +1,7 @@
+import { Models } from '../Constants';
+import { toShortDate } from '../DateUtils';
+import { InputType } from './util';
+
 const AllergySchema = [
   {
     name: 'Allergine',
@@ -44,12 +48,24 @@ const BillOrderSchema = [
 
 const LaboratorySchema = [
   {
-    name: 'Test',
-    selector: (row) => row.test,
+    name: 'Date',
+    selector: (row) => toShortDate(row.createdAt),
   },
   {
-    name: 'Notes',
-    selector: (row) => row.destiation,
+    name: 'Test',
+    selector: (row) => row.order,
+  },
+  {
+    name: 'Fullfilled',
+    selector: (row) => (row.fullfilled === 'True' ? 'Yes' : 'No'),
+  },
+  {
+    name: 'Order Status',
+    selector: (row) => row.order_status,
+  },
+  {
+    name: 'Requesting Physician',
+    selector: (row) => row.requestingdoctor_Name,
   },
 ];
 
@@ -79,6 +95,45 @@ const PresentingComplaintSchema = [
   },
 ];
 
+const LaboratoryOrderSchema = [
+  {
+    name: 'Test',
+    key: 'test',
+    description: 'Search for Laboratory Tests',
+    selector: (row) => row.test,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT_AUTO_SUGGEST,
+    options: {
+      model: Models.LABORATORY_HELPER,
+      field: 'test',
+      labelSelector: (obj) => `${obj.test}`,
+      valueSelector: ({ test, instruction }) => ({
+        test,
+        instruction,
+      }),
+    },
+  },
+  {
+    name: 'Laboratory',
+    description: 'Search Laboratory',
+    key: 'destination',
+    selector: (row) => row.location_name,
+    sortable: true,
+    required: true,
+    inputType: InputType.SELECT_AUTO_SUGGEST,
+    options: {
+      model: Models.LOCATION,
+      or: ['name', 'locationType'],
+      labelSelector: (obj) => obj.name,
+      valueSelector: ({ _id, name }) => ({
+        destination: name,
+        destinationId: _id,
+      }),
+    },
+  },
+];
+
 const GenericTableSchema = [
   {
     name: 'Record',
@@ -102,6 +157,7 @@ export {
   BillOrderSchema,
   generateSchema,
   GenericTableSchema,
+  LaboratoryOrderSchema,
   LaboratorySchema,
   MedicationSchema,
   PresentingComplaintSchema,

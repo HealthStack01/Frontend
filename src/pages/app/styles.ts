@@ -2,6 +2,7 @@
 // import styled from 'styled-components';
 
 import styled from '@emotion/styled';
+import { makeStyles } from '@mui/styles';
 
 import AccordionBox from '../../components/accordion';
 
@@ -10,6 +11,11 @@ export const PageWrapper = styled.div`
   height: calc(100vh - 60px);
   overflow-y: hidden;
   padding: 0.6rem 1rem;
+  transition: width 2s, height 4s;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
   /* zoom: 85%; */
 
   & span {
@@ -23,6 +29,19 @@ export const PageWrapper = styled.div`
   &.p-1 {
     padding: 0.2rem;
   }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+
+    & .attend-small {
+      flex: 1;
+      width: 100% !important;
+    }
+    &.attend-large {
+      flex: 1;
+      width: 100%;
+    }
+  }
 `;
 
 export const HeadWrapper = styled.div`
@@ -30,6 +49,10 @@ export const HeadWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 2rem;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
   & div span {
     margin-top: 1rem;
     font-size: 0.8rem;
@@ -51,6 +74,10 @@ export const DetailsWrapper = styled(AccordionBox)`
   padding: 2rem;
   border-radius: 4px;
   margin-top: 2rem;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   & h2 {
     font-size: 1.2rem;
@@ -73,8 +100,12 @@ export const FullDetailsWrapper = styled.div`
   padding: 0.55rem;
   border-radius: 4px;
   margin-top: 1rem;
-  transition: all 0.4s ease-in-out;
+  transition: width 2s, height 4s;
   overflow-y: scroll;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   & h2 {
     font-size: 1.2rem;
@@ -122,6 +153,11 @@ export const GrayWrapper = styled.div`
   padding: 1rem;
   /* padding-bottom: 30rem; */
   overflow-y: scroll;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  transition: width 2s, height 4s;
 
   &.grid {
     display: grid;
@@ -141,6 +177,10 @@ export const GridWrapper = styled.div`
   grid-gap: 2rem;
   margin-top: 3.2rem;
   overflow-y: auto;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -160,6 +200,14 @@ export const GridWrapper = styled.div`
 
   &.four-columns {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  &.five-columns {
+    grid-template-columns: 2fr 1fr 0.5fr 0.8fr 0.1fr;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   & label {
@@ -202,6 +250,7 @@ export const BottomWrapper = styled.div`
   @media (max-width: 400px) {
     flex-direction: column;
     margin-top: 4rem;
+    height: auto;
 
     & button {
       width: 100%;
@@ -209,3 +258,84 @@ export const BottomWrapper = styled.div`
     }
   }
 `;
+
+export const autoSuggestStyles = (defaultTheme) => {
+  const classes: any = makeStyles(() => {
+    return {
+      container: {
+        margin: 'auto',
+        width: '100%',
+        //backgroundColor: theme.background.default,
+      },
+      innerTableContainer: {
+        width: '100%',
+        height: 'calc(100vh - 190px)',
+        //  borderRadius: theme.shape.borderRadius,
+        // backgroundColor: theme.background.paper,
+      },
+      react_autosuggest__container: {
+        position: 'relative',
+        width: '100%',
+      },
+      react_autosuggest__input: {
+        minWidth: 'auto',
+        width: '90%',
+        height: '1.4375em',
+        marginBottom: '0.6rem',
+        boxSizing: 'content-box',
+        padding: '10px 20px',
+        fontFamily: 'Helvetica, sans-serif',
+        fontWeight: '300',
+        fontSize: '16px',
+        border: '1px solid #aaa',
+        borderRadius: '4px',
+      },
+      react_autosuggest__input__focused: {
+        outline: 'none',
+      },
+      react_autosuggest__input__open: {
+        borderBottomLeftRadius: '0',
+        borderBottomRightRadius: '0',
+      },
+      react_autosuggest__suggestions_container__open: {
+        display: 'block',
+        position: 'absolute',
+        top: '51px',
+        width: '100%',
+        border: '1px solid #aaa',
+        backgroundColor: '#fff',
+        fontFamily: 'Helvetica, sans-serif',
+        fontWeight: '300',
+        fontSize: '16px',
+        borderBottomLeftRadius: '4px',
+        borderBottomRightRadius: '4px',
+        zIndex: '2',
+      },
+      react_autosuggest__suggestions_list: {
+        margin: '0',
+        padding: '0',
+        listStyleType: 'none',
+      },
+      react_autosuggest__suggestion: {
+        cursor: 'pointer',
+        padding: '10px 20px',
+      },
+      react_autosuggest__suggestion__highlighted: {
+        backgroundColor: '#ddd',
+      },
+    };
+  })();
+
+  return {
+    ...defaultTheme,
+    container: classes.react_autosuggest__container,
+    input: classes.react_autosuggest__input,
+    inputOpen: classes.react_autosuggest__input__open,
+    inputFocused: classes.react_autosuggest__input__focused,
+    // suggestionsContainer: classes.react_autosuggest__suggestions_container,
+    suggestionsContainerOpen: classes.react_autosuggest__suggestions_container__open,
+    suggestionsList: classes.react_autosuggest__suggestions_list,
+    suggestion: classes.react_autosuggest__suggestion,
+    suggestionHighlighted: classes.react_autosuggest__suggestion__highlighted,
+  };
+};

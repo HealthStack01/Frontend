@@ -11,7 +11,13 @@ const toDate = (date: string | Date): Date => {
 };
 
 const toShortDate = (date: string | Date) => {
+  if (!date) return 'N/A';
   return format(toDate(date), DateFormats.SHORT_DATE);
+};
+
+const toMonthDate = (date: string | Date) => {
+  if (!date) return 'N/A';
+  return format(toDate(date), DateFormats.MONTH_DATE);
 };
 
 const toAPIDate = (date: string | Date) => {
@@ -25,4 +31,4 @@ const toDurationString = (date: string | Date, addSuffix?: boolean) => {
   });
 };
 
-export { toAPIDate, toDurationString, toShortDate };
+export { toAPIDate, toDurationString, toMonthDate, toShortDate };

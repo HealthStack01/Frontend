@@ -3,7 +3,7 @@ import { TableColumn } from 'react-data-table-component';
 
 import Button from '../../../../components/buttons/Button';
 import CollapsableGrid from '../../../../components/datagrids/CollapsableGrid';
-import Input from '../../../../components/inputs/basic/Input';
+import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -114,15 +114,7 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-          {/* <DebounceInput
-            className="input is-small "
-            type="text"
-            placeholder="Search Employees"
-            minLength={1}
-            debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
-          /> */}
+          <SearchInput />
 
           <FilterMenu />
         </div>

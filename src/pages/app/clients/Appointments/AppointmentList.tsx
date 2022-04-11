@@ -13,36 +13,36 @@ const Appointments = ({ handleCreate, onRowClicked, onSearch, items }) => {
   const [listView, setListView] = useState(true);
 
   return (
-    <PageWrapper>
-      <h2>Appointments </h2>
+    <>
+      <PageWrapper>
+        <h2>Appointments </h2>
+        <TableMenu>
+          <div className="inner-table">
+            <FilterMenu schema={AppointmentSchema.flat()} onSearch={onSearch} />
+            <SwitchButton onClick={() => setListView(!listView)} />
+          </div>
 
-      <TableMenu>
-        <div className="inner-table">
-          <FilterMenu schema={AppointmentSchema.flat()} onSearch={onSearch} />
+          <Button onClick={handleCreate}>
+            <i className="bi bi-plus-circle"></i> Add new
+          </Button>
+        </TableMenu>
 
-          <SwitchButton onClick={() => setListView(!listView)} />
+        <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
+          {listView ? (
+            <CustomTable
+              columns={AppointmentSchema.flat()}
+              data={items}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={onRowClicked}
+            />
+          ) : (
+            <CalenderGrid />
+          )}
         </div>
-
-        <Button onClick={handleCreate}>
-          <i className="bi bi-plus-circle"></i> Add new
-        </Button>
-      </TableMenu>
-
-      <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
-        {listView ? (
-          <CustomTable
-            columns={AppointmentSchema.flat()}
-            data={items}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={onRowClicked}
-          />
-        ) : (
-          <CalenderGrid />
-        )}
-      </div>
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 };
 

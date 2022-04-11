@@ -2,7 +2,7 @@ import { PopperUnstyled } from '@mui/base';
 import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
 import SelectUnstyled, { selectUnstyledClasses, SelectUnstyledProps } from '@mui/base/SelectUnstyled';
 import { styled } from '@mui/system';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LocationWrapper } from '../../ui/styled/global';
 
@@ -144,7 +144,7 @@ const StyledPopper = styled(PopperUnstyled)`
 `;
 
 const CustomSelect = React.forwardRef(function CustomSelect(
-  props: SelectUnstyledProps<number>,
+  props: SelectUnstyledProps<string>,
   ref: React.ForwardedRef<any>
 ) {
   const components: SelectUnstyledProps<number>['components'] = {
@@ -157,10 +157,21 @@ const CustomSelect = React.forwardRef(function CustomSelect(
   return <SelectUnstyled {...props} ref={ref} components={components} />;
 });
 
-export default function LocationSelect() {
+export default function LocationSelect({ defaultLocationId, locations = [], onChange }) {
+  const [value, setValue] = useState(defaultLocationId);
+
+  useEffect(() => {
+    setValue(defaultLocationId);
+  }, [defaultLocationId]);
   return (
     <LocationWrapper>
-      <CustomSelect>
+      <CustomSelect
+        onChange={(value) => {
+          setValue(value);
+          onChange(value);
+        }}
+        value={value}
+      >
         {locations.map((c) => (
           <StyledOption key={c.location} value={c.location}>
             <img
@@ -171,17 +182,9 @@ export default function LocationSelect() {
               alt={`Flag of ${c.label}`}
             />
             {c.label}
-
-            {/* ({c.code}) +{c.phone} */}
           </StyledOption>
         ))}
       </CustomSelect>
     </LocationWrapper>
   );
 }
-
-const locations = [
-  { code: 'NG', label: 'Lagos/Gbagada', phone: '234', location: 'Gbagada' },
-  { code: 'NG', label: 'Lagos/Ikoyi', phone: '234', location: 'Ikoyi' },
-  { code: 'NG', label: 'Ibadan', phone: '234', location: 'Ibadan' },
-];

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import Button from '../../../../../components/buttons/Button';
-import Input from '../../../../../components/inputs/basic/Input';
+import SearchInput from '../../../../../components/inputs/Search';
 import { ButtonGroup, TableMenu } from '../../../../../ui/styled/global';
 import { toDurationString, toShortDate } from '../../../DateUtils';
 import { DetailsWrapper } from '../../../styles';
 import DocumentViewer from './DocumentViewer';
 
 const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
-  const [filtered, setFiltered] = useState([]);
+  const [filtered, setFiltered] = useState(documentations);
 
   const filterDocumentations = (text?: string) => {
     if (!text) setFiltered(documentations);
@@ -25,7 +25,7 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
   };
   useEffect(() => {
     filterDocumentations();
-  }, []);
+  }, [documentations]);
   return (
     <>
       <TableMenu>
@@ -37,12 +37,7 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
             height: '40px',
           }}
         >
-          <Input
-            placeholder="Search here"
-            label="Search here"
-            size="small"
-            onChange={(e) => filterDocumentations(e.target.value)}
-          />
+          <SearchInput onChange={(e) => filterDocumentations(e.target.value)} />
         </div>
         <ButtonGroup>
           <Button background="#Fafafa" color="#222" showicon={true} onClick={onNewPrescription}>

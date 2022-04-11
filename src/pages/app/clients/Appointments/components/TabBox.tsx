@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 
 import Button from '../../../../../components/buttons/Button';
 import DnDBox from '../../../../../components/dnd';
-import { ButtonGroup, CustomTab, CustomTabs } from '../../../../../ui/styled/global';
-import { LaboratoryOrderSchema, PrescriptionOrderSchema } from '../../../schema';
+import { ButtonGroup, ContentWrapper, CustomTab, CustomTabs } from '../../../../../ui/styled/global';
+import { LaboratorySchema, PrescriptionSchema } from '../../../schema';
 import { GrayWrapper } from '../../../styles';
 import Orders from './Orders';
 import TabOverview from './TabOverview';
@@ -50,6 +50,7 @@ const TabBox = ({
   tests,
   onNewDocument,
   onOpenTelemedicine,
+  onEndEncounter,
 }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -59,15 +60,7 @@ const TabBox = ({
 
   return (
     <>
-      <div
-        style={{
-          background: '#fff',
-          border: ' 0.1px solid #eee',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <ContentWrapper>
         <div>
           <CustomTabs value={currentTab} onChange={handleChangeTab} aria-label="basic tabs example">
             <CustomTab label="Overview" {...a11yProps(0)} />
@@ -77,7 +70,7 @@ const TabBox = ({
           </CustomTabs>
         </div>
         <ButtonGroup>
-          <Button label="End Encounter" background="#FFE9E9" color="#ED0423" />
+          <Button label="End Encounter" background="#FFE9E9" color="#ED0423" onClick={onEndEncounter} />
           <Button
             label={'Start or Join Teleconsultation'}
             background={'#04ed7c'}
@@ -110,7 +103,7 @@ const TabBox = ({
             })}
           </Menu>
         </ButtonGroup>
-      </div>
+      </ContentWrapper>
       <GrayWrapper style={{}}>
         <TabPanel value={currentTab} index={0}>
           <TabOverview
@@ -120,13 +113,13 @@ const TabBox = ({
           />
         </TabPanel>
         <TabPanel value={currentTab} index={1}>
-          <Orders onClick={() => onNewDocument('Lab Order')} schema={LaboratoryOrderSchema} data={tests} />
+          <Orders onAddNew={() => onNewDocument('Lab Order')} schema={LaboratorySchema} data={tests} />
         </TabPanel>
         <TabPanel value={currentTab} index={2}>
-          <Orders onClick={() => onNewDocument('Prescription')} schema={PrescriptionOrderSchema} data={prescriptions} />
+          <Orders onAddNew={() => onNewDocument('Prescription')} schema={PrescriptionSchema} data={prescriptions} />
         </TabPanel>
         <TabPanel value={currentTab} index={3}>
-          <DnDBox listItems={[]} />
+          <DnDBox questions={[]} onChange={() => {}} />
         </TabPanel>
       </GrayWrapper>
     </>

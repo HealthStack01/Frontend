@@ -1,62 +1,70 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import DispensaryDetails from './DispensaryDetail';
-import Dispensary from './DispensaryList';
+import { Models, Views } from '../../Constants';
+import ListView from '../../generic/ListView';
+import { DispensorySummary } from '../../schema';
+import DispensoryDetail from './DispensoryDetail';
+import { dispensoryQuery } from './query';
 
-const AppDispensary = () => {
+const AppDispensorysPharmacy = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    dispensoryResource: { show, selectedDispensory },
+  } = resource;
 
+  const handleNavigation = (show: string) => (selectedDispensory?: any) =>
+    setResource({
+      ...resource,
+      dispensoryResource: {
+        ...resource.dispensoryResource,
+        show,
+        selectedDispensory: selectedDispensory || resource.dispensoryResource.selectedDispensory,
+      },
+    });
+
+  const {
+    groupedList: dispensorys,
+    submit: handleSubmit,
+    setFindQuery,
+    facility,
+    user,
+  } = useRepository(Models.BILLS, handleNavigation);
+
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    console.debug(facility);
+    if (facility) setFindQuery(dispensoryQuery(facility._id, searchText || undefined));
+  }, [searchText, facility]);
   return (
     <>
-      {resource.dispensaryResource.show === 'lists' && (
-        <Dispensary
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              dispensaryResource: {
-                ...prevState.dispensaryResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              dispensaryResource: {
-                show: 'details',
-                selectedDispensary: row,
-              },
-            }));
-          }}
+      {show === Views.LIST && (
+        <ListView
+          title="Dispensory"
+          schema={DispensorySummary}
+          items={dispensorys}
+          handleSearch={setSearchText}
+          onRowClicked={(rows) => handleNavigation(Views.DETAIL)(rows)}
+          loading={false}
         />
       )}
 
-      {resource.dispensaryResource.show === 'details' && (
-        <DispensaryDetails
-          row={resource.dispensaryResource.selectedDispensary}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              dispensaryResource: {
-                ...prevState.dispensaryResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              dispensaryResource: {
-                ...prevState.dispensaryResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
+      {show === Views.DETAIL &&
+        (user.currentEmployee ? (
+          <DispensoryDetail
+            row={selectedDispensory}
+            onBackClick={handleNavigation(Views.LIST)}
+            onSubmit={handleSubmit}
+            facilityId={facility._id}
+            userId={user._id}
+          />
+        ) : (
+          <div>Current user is not an employee</div>
+        ))}
     </>
   );
 };
 
-export default AppDispensary;
+export default AppDispensorysPharmacy;

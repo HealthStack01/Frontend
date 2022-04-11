@@ -36,6 +36,7 @@ interface Props {
   onRowClicked?: (row: any, event: any) => void;
   dense?: boolean;
   progressPending?: any;
+  onSelectedRowsChange?: any;
 }
 
 const customStyles = {
@@ -103,6 +104,7 @@ const CustomTable: React.FC<Props> = ({
   dense = false,
   progressPending,
   selectable = false,
+  onSelectedRowsChange,
 }) => {
   return (
     <DataTable
@@ -116,6 +118,7 @@ const CustomTable: React.FC<Props> = ({
       onRowClicked={onRowClicked}
       fixedHeader={true}
       selectableRows={selectable}
+      onSelectedRowsChange={onSelectedRowsChange}
       fixedHeaderScrollHeight="100%"
       responsive
       dense={dense}

@@ -1,21 +1,19 @@
 import React from 'react';
-import DataTable from 'react-data-table-component';
 
-import Input from '../../../../components/inputs/basic/Input';
+import Button from '../../../../components/buttons/Button';
+import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
+import { InventoryStoreSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
-import { columnHead, rowData } from './data';
 
-interface Props {
-  handleCreate?: () => void;
-  onRowClicked?: (row: any, event: any) => void;
-}
-
-const Inventory: React.FC<Props> = ({ onRowClicked }) => {
+const Inventory = ({ onRowClicked, items, onSearch, onBackClick }) => {
   return (
     <PageWrapper>
       <h2>Inventory</h2>
+      <div>
+        <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
+      </div>
 
       <TableMenu>
         <div
@@ -26,23 +24,19 @@ const Inventory: React.FC<Props> = ({ onRowClicked }) => {
             height: '40px',
           }}
         >
-          <Input placeholder="Search here" label="Search here" size="small" />
-
-          <FilterMenu />
+          <FilterMenu onSearch={onSearch} />
         </div>
       </TableMenu>
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-        <DataTable
+        <CustomTable
           title="Inventory"
-          columns={columnHead}
-          data={rowData}
-          selectableRows
+          columns={InventoryStoreSchema}
+          data={items}
           pointerOnHover
           highlightOnHover
           striped
           onRowClicked={onRowClicked}
-          style={{ overflow: 'hidden' }}
         />
       </div>
     </PageWrapper>

@@ -1,74 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import ProductEntryCreate from './ProductEntryCreate';
-import ProductEntryDetails from './ProductEntryDetail';
-import ProductEntryList from './ProductEntryList';
+import { Models, Views } from '../../Constants';
+import DetailView from '../../generic/DetailView';
+import FormView from '../../generic/FormView';
+import ListView from '../../generic/ListView';
+import { ProductEntrySchema } from '../../schema';
+import { productEntryQuery } from './query';
 
 const AppProductEntry = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    productEntryResource: { selectedProductEntry },
+  } = resource;
+
+  const navigate = (show: string) => (selectedProductEntry?: any) =>
+    setResource({
+      ...resource,
+      productEntryResource: {
+        ...resource.productEntryResource,
+        show,
+        selectedProductEntry: selectedProductEntry || resource.productEntryResource.selectedProductEntry,
+      },
+    });
+  const [searchText, setSearchText] = useState('');
+
+  const {
+    list: productEntries,
+    remove: handleDelete,
+    submit: handleSubmit,
+    facility,
+    location,
+    setFindQuery,
+  } = useRepository<any>(Models.PRODUCTENTRY, navigate);
+
+  useEffect(() => {
+    setFindQuery(productEntryQuery(facility?._id, location?._id, searchText || undefined));
+  }, []);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <ProductEntryList
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
+      {resource.productEntryResource.show === 'lists' && (
+        <ListView
+          title="Product Entry"
+          schema={ProductEntrySchema}
+          handleCreate={navigate(Views.CREATE)}
+          handleSearch={setSearchText}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          items={productEntries}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
-        <ProductEntryCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
+      {(resource.productEntryResource.show === 'create' || resource.productEntryResource.show === 'edit') && (
+        <FormView
+          title="Product Entry"
+          schema={ProductEntrySchema}
+          backClick={navigate(Views.LIST)}
+          onSubmit={handleSubmit}
+          selectedData={selectedProductEntry}
         />
       )}
-      {resource.employeeResource.show === 'details' && (
-        <ProductEntryDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
+      {resource.productEntryResource.show === 'details' && (
+        <DetailView
+          title="Product Entry"
+          schema={ProductEntrySchema}
+          value={selectedProductEntry}
+          backClick={navigate(Views.LIST)}
+          onEdit={() => navigate(Views.EDIT)(selectedProductEntry)}
+          onDelete={() => handleDelete(selectedProductEntry)}
         />
       )}
-      =
     </>
   );
 };

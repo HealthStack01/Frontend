@@ -1,59 +1,51 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
+import { Models, Views } from '../../Constants';
 import InventoryDetails from './InventoryDetail';
 import Inventory from './InventoryList';
+import { storeInventoryQuery } from './query';
 
 const AppInventory = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    storeInventoryResource: { show, selectedStoreInventory },
+  } = resource;
 
+  const handleNavigation = (show: string) => (selectedStoreInventory?: any) =>
+    setResource({
+      ...resource,
+      storeInventoryResource: {
+        ...resource.storeInventoryResource,
+        show,
+        selectedStoreInventory: selectedStoreInventory || resource.storeInventoryResource.selectedStoreInventory,
+      },
+    });
+
+  const { list: inventory, setLocationType, setFindQuery } = useRepository(Models.INVENTORY, handleNavigation);
+  const [searchText, setSearchText] = useState('');
+  useEffect(() => {
+    setFindQuery(storeInventoryQuery(undefined, undefined, searchText || undefined));
+  }, [searchText]);
+  useEffect(() => {
+    setLocationType('Pharmacy');
+  }, []);
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
+      {show === Views.LIST && (
         <Inventory
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
+          onRowClicked={(row) => {
+            handleNavigation(Views.DETAIL)(row);
           }}
+          onSearch={setSearchText}
+          items={inventory}
+          onBackClick={handleNavigation(Views.LIST)}
         />
       )}
 
-      {resource.employeeResource.show === 'details' && (
-        <InventoryDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
+      {show === Views.DETAIL && (
+        <InventoryDetails row={selectedStoreInventory} onBackClick={handleNavigation(Views.LIST)} />
       )}
     </>
   );

@@ -32,6 +32,10 @@ export const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
     font-family: 'Manrope', sans-serif;
 }
+html{
+  scroll-behavior: smooth;
+
+}
 #root{
     margin:0 auto;
 }
@@ -155,6 +159,47 @@ p {
 .label-btn:hover{
     background:#f2f2f2;
   }
+
+  @keyframes divanimation {
+    from {
+      width: 0%;
+      opacity:0;
+    }
+    to {
+      width: 100%;
+      opacity:1;
+    }
+  }
+
+  /*Input focus sticky top label*/
+.form__input:not(:placeholder-shown).form__input:not(:focus)+ .form__label{
+  top: -.5rem;
+  left: .8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  z-index: 10;
+}
+`;
+
+export const PlacementWrapper = styled.div`
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  transition: width 2s, height 4s;
+`;
+
+export const ContentWrapper = styled.div`
+  background: #fff;
+  border: 0.1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  transition: width 2s, height 4s;
 `;
 
 export const Container = styled.div`
@@ -295,6 +340,11 @@ export const TableMenu = styled.div`
   & .inner-table {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 400px) {
+      width: 100%;
+    }
 
     & input {
       margin-right: 1rem;
@@ -349,6 +399,19 @@ export const FlexBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  animation: divanimation 0.6s;
+  -webkit-animation: divanimation 0.6s;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+
+  & img {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+  }
+
+  @media (max-width: 400px) {
+  }
 
   &.between {
     justify-content: space-between;
@@ -410,5 +473,18 @@ export const LocationWrapper = styled.div`
     @media (max-width: 400px) {
       width: 200px !important;
     }
+  }
+`;
+
+export const LocationCardWrapper = styled.div`
+  margin: 10px 0;
+  border: 0.6px solid #ebebeb;
+  background: #fafafa;
+  padding: 16px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: #eee;
   }
 `;

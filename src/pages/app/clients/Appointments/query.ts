@@ -140,7 +140,7 @@ const queryTests = (clientId) => {
   };
 };
 
-const queryPrescriptions = (clientId, val?: string) => ({
+const queryOrders = (orderCategory: string, clientId: string, val?: string) => ({
   query: {
     $or: val && [
       {
@@ -156,7 +156,7 @@ const queryPrescriptions = (clientId, val?: string) => ({
         },
       },
     ],
-    order_category: 'Prescription',
+    order_category: orderCategory,
     clientId: clientId,
     $limit: 20,
     $sort: {
@@ -181,4 +181,4 @@ const queryDocumentations = (documentName?: string, clientId?: string) => {
   };
 };
 
-export { queryAppointments, queryClients, queryDocumentations, queryPrescriptions, queryTests };
+export { queryAppointments, queryClients, queryDocumentations, queryOrders, queryTests };

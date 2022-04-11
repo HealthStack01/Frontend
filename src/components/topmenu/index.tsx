@@ -1,10 +1,53 @@
-import React from 'react';
+import keyBy from 'lodash/keyBy';
+import React, { useEffect, useState } from 'react';
 
+import { Models } from '../../pages/app/Constants';
 import Breadcrumbs from '../breadcrumb';
+import useRepository from '../hooks/repository';
+import LocationModal from '../inputs/LocationModal';
 import LocationSelect from '../inputs/LocationSelect';
-import { Avatar, Profile, TopMenuWrapper } from './styles';
+import ProfileMenu from '../profilemenu';
+import { Profile, TopMenuWrapper } from './styles';
+// import { avatar } from '../../assets/images/img_avatar.png';
 
-function TopMenu({ isOpen, handleClick }) {
+const defaultList = [{ code: 'NG', label: '', location: '' }];
+
+const TopMenu = ({ isOpen, handleClick }) => {
+  const [locationOptions, setLocationOptions] = useState(defaultList);
+  const [locationsById, setLocationsById] = useState({});
+  const { list, setFindQuery, facility, locationType, setLocation } = useRepository(Models.LOCATION);
+  const [selectedLocation, setSelectedLocation] = useState<any>();
+
+  useEffect(() => {
+    setLocationsById(keyBy(list, (obj: any) => obj._id));
+    setLocationOptions([
+      ...list.map(({ _id, name }) => ({ code: 'NG', label: name, location: _id })),
+      { code: 'NG', label: 'Default', location: '' },
+    ]);
+  }, [list]);
+
+  useEffect(() => {
+    setSelectedLocation(null);
+    if (facility && locationType)
+      setFindQuery({
+        query: {
+          facility: facility?._id,
+          locationType,
+          $sort: {
+            name: 1,
+          },
+          $limit: 20,
+        },
+      });
+  }, [facility, locationType]);
+
+  const handleSelectLocation = (locationId) => {
+    setLocationOptions([]);
+    setSelectedLocation(locationsById[locationId]);
+    setLocation(locationsById[locationId]);
+    setLocationOptions([...locationOptions, { code: 'NG', label: 'No Location Selected', location: '' }]);
+  };
+
   return (
     <TopMenuWrapper>
       <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
@@ -24,16 +67,22 @@ function TopMenu({ isOpen, handleClick }) {
       </div>
       <Profile>
         <div className="location-selector">
-          <LocationSelect />
+          <LocationSelect
+            defaultLocationId={selectedLocation?._id || ''}
+            locations={locationOptions}
+            onChange={handleSelectLocation}
+          />
+          {!selectedLocation && <LocationModal locations={locationOptions} onSelectLocation={handleSelectLocation} />}
         </div>
 
         <div className="profile-item">
           <i className="bi bi-bell-fill" />
-          <Avatar src="/img_avatar.png" alt="" />
+          {/* <Avatar src="/img_avatar.png" alt="" /> */}
+          <ProfileMenu />
         </div>
       </Profile>
     </TopMenuWrapper>
   );
-}
+};
 
 export default TopMenu;
