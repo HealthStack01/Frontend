@@ -96,7 +96,6 @@ const FormBox = ({ schema: documentSchema, onCancel, onSubmit }) => {
             background="#ECF3FF"
             color="#0364FF"
             onClick={() => {
-              console.debug('submitted');
               onCancel();
               onSubmit(items);
             }}

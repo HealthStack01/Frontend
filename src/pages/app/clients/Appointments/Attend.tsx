@@ -60,7 +60,6 @@ const Attend = ({ appointment, backClick }) => {
       },
     }).then((res: any) => {
       setDocumentTypes(res.data);
-      console.debug(res.data);
     });
   };
 
