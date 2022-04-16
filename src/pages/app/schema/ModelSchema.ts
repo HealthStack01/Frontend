@@ -2,45 +2,6 @@ import * as yup from 'yup';
 
 import { InputType, Schema } from './util';
 
-const BandSchema = [
-  {
-    name: 'S/N',
-    key: 'sn',
-    description: 'Enter name of band',
-    sortable: true,
-    selector: (row) => row.sn,
-    inputType: InputType.HIDDEN,
-  },
-  {
-    name: 'Name of Band',
-    key: 'name',
-    description: 'Enter name of band',
-    selector: (row) => row.name,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-  },
-  {
-    name: 'Band Type',
-    key: 'bandType',
-    description: 'Enter name of band',
-    selector: (row) => row.bandType,
-    sortable: true,
-    required: true,
-    inputType: InputType.SELECT_LIST,
-    options: ['Provider', 'Company', 'Patient', 'Plan'],
-  },
-  {
-    name: 'Description of Band',
-    key: 'description',
-    description: 'Enter description of band',
-    selector: (row) => row.description,
-    sortable: true,
-    required: false,
-    inputType: InputType.TEXT,
-  },
-];
-
 const RevenueSchema = [
   {
     name: 'S/N',
