@@ -5,10 +5,10 @@ import { InputType, Schema } from './util';
 const BandSchema = [
   {
     name: 'S/N',
-    key: '_id',
+    key: 'sn',
     description: 'Enter name of band',
     sortable: true,
-    required: true,
+    selector: (row) => row.sn,
     inputType: InputType.HIDDEN,
   },
   {
