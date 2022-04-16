@@ -230,10 +230,10 @@ const EmployeeSchema = [
 const LocationSchema = [
   {
     name: 'S/N',
-    key: '_id',
+    key: 'sn',
     description: 'Enter name of location',
     sortable: true,
-    required: true,
+    selector: (row) => row.sn,
     inputType: InputType.HIDDEN,
   },
   {
