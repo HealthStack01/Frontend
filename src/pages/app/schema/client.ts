@@ -163,10 +163,10 @@ const AppointmentSchema = [
 const ClientMiniSchema = [
   {
     name: 'ID',
-    key: '_id',
-    selector: (row) => row._id && row._id.substring(0, 7),
+    key: 'id',
+    description: 'Enter an ID',
+    selector: (row) => row.id,
     sortable: true,
-    required: true,
     inputType: InputType.HIDDEN,
   },
   {
