@@ -1,7 +1,6 @@
 import sumBy from 'lodash/sumBy';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
@@ -13,9 +12,7 @@ import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, P
 import { getBillingInfo, getSellingPrice } from './utils';
 
 const BillClientCreate = ({ backClick, onSubmit: _ }) => {
-  const { user, submit: submitBilling } = useRepository(Models.BILLCREATE);
-  const { find: findLocation } = useRepository(Models.LOCATION);
-  const [location, setLocation] = useState<any>({});
+  const { user, submit: submitBilling, location } = useRepository(Models.BILLCREATE);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const { handleSubmit, control } = useForm();
 
@@ -123,17 +120,6 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
       serviceList: serviceItems,
     });
   };
-
-  //FIXME: This should come from the global context, This is an hack, not production ready
-  const loadLocation = () => {
-    findLocation(undefined)
-      .then((res: any) => setLocation(res.data[0]))
-      .catch(() => toast.error('Location not loaded'));
-  };
-
-  useEffect(() => {
-    loadLocation();
-  }, []);
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -162,7 +148,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
               })}
             </GridWrapper>
             <GridWrapper>
-              {BillServiceSchema.map((schema, index) => {
+              {BillServiceSchema.filter((obj) => obj.key).map((schema, index) => {
                 return (
                   <DynamicInput
                     key={index}
@@ -170,6 +156,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
                     control={control}
                     label={schema.description}
                     inputType={schema.inputType}
+                    options={schema.options}
                   />
                 );
               })}
