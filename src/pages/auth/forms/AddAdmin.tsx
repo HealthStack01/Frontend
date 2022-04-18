@@ -8,7 +8,9 @@ import NewEmployee from './NewEmployee';
 function AddAdmin({ control, adminEmployee }) {
   return (
     <Stack spacing={3} sx={{ width: '100%', mt: 4, mb: 4 }}>
-      <AccordionBox title={adminEmployee ? 'Admin Employee' : 'Add Admin Employye'}>
+      <AccordionBox
+        title={adminEmployee ? 'Admin Employee' : 'Add Admin Employye'}
+      >
         <AccordionBox title="New Admin Employee">
           <NewEmployee control={control} />
         </AccordionBox>

@@ -6,7 +6,14 @@ import Button from '../../../../components/buttons/Button';
 import useRepository from '../../../../components/hooks/repository';
 import { Dictionary } from '../../../../types.d';
 import { Models } from '../../Constants';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 import SubmissionLine from './SubmissionLine';
 
 const getDefaultValues = (interactions) => {
@@ -15,14 +22,22 @@ const getDefaultValues = (interactions) => {
   return values;
 };
 
-const SubmissionCreate = ({ backClick, onSubmit, data: selectedSubmission }) => {
-  const { control, handleSubmit } = useForm({ defaultValues: getDefaultValues(selectedSubmission.interactions) });
+const SubmissionCreate = ({
+  backClick,
+  onSubmit,
+  data: selectedSubmission,
+}) => {
+  const { control, handleSubmit } = useForm({
+    defaultValues: getDefaultValues(selectedSubmission.interactions),
+  });
   const { find: getQuestionnaires } = useRepository(Models.QUESTIONNAIRE);
   const [questionnaire, setQuestionnaire] = useState<Dictionary>();
 
   const onSubmitSubmission = (data) => {
     const interactions = Object.keys(data).map((questionId) => {
-      const question = questionnaire.questions.find((obj) => obj._id === questionId);
+      const question = questionnaire.questions.find(
+        (obj) => obj._id === questionId,
+      );
       return {
         question: question._id,
         questionCaption: question.caption,
@@ -53,7 +68,9 @@ const SubmissionCreate = ({ backClick, onSubmit, data: selectedSubmission }) => 
   if (!questionnaire) return <div>Loading questionnaire</div>;
 
   const getInteraction = (question, interactions) => {
-    return (interactions || []).find((interaction) => interaction.question === question._id);
+    return (interactions || []).find(
+      (interaction) => interaction.question === question._id,
+    );
   };
   return (
     <PageWrapper>
@@ -61,9 +78,17 @@ const SubmissionCreate = ({ backClick, onSubmit, data: selectedSubmission }) => 
         <HeadWrapper>
           <div>
             <h2>Fill a Questionnaire</h2>
-            <span>Submit a new questionnaire by filling out the form below to get started.</span>
+            <span>
+              Submit a new questionnaire by filling out the form below to get
+              started.
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form action="" onSubmit={handleSubmit(onSubmitSubmission)}>
           <FullDetailsWrapper title="Create Employee">
@@ -77,7 +102,13 @@ const SubmissionCreate = ({ backClick, onSubmit, data: selectedSubmission }) => 
               {questionnaire.questions.map((question) => (
                 <SubmissionLine
                   control={control}
-                  interaction={{ ...getInteraction(question, selectedSubmission.interactions), question }}
+                  interaction={{
+                    ...getInteraction(
+                      question,
+                      selectedSubmission.interactions,
+                    ),
+                    question,
+                  }}
                 />
               ))}
             </GridWrapper>

@@ -1,3 +1,4 @@
+import { FormHelperText } from '@mui/material';
 import React from 'react';
 
 import { InputBox, InputField, InputLabel } from './styles';
@@ -8,7 +9,7 @@ interface InputProps {
   errors?: boolean;
   errorText?: string;
   onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (_: React.KeyboardEvent<HTMLDivElement>) => void;
+  onKeyDown?: (_) => void;
   helperText?: string;
   name?: string;
   type?: string;
@@ -53,7 +54,7 @@ const Input: React.FC<InputProps> = ({
         {label}
       </InputLabel>
     </InputBox>
-    {errorText && <p>{errorText}</p>}
+    {errorText && <FormHelperText error>{errorText}</FormHelperText>}
   </div>
 );
 

@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { AppointmentSchema } from '../../schema';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 import Attend from './Attend';
 
-const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }) => {
+const AppointmentDetails = ({
+  schema,
+  editBtnClicked,
+  deleteBtnClicked,
+  row,
+  backClick,
+}) => {
   const [state, setState] = useState('all');
 
   return (
@@ -22,14 +34,23 @@ const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }
                 <span>Below are your Appointment’s details</span>
               </div>
               <ButtonGroup>
-                <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
-                <Button label={'Start or Join Telemedicine'} background={'#04ed7c'} color={'#fff'} />
+                <Button
+                  label="Back to List"
+                  background="#fdfdfd"
+                  color="#333"
+                  onClick={backClick}
+                />
+                <Button
+                  label={'Start or Join Telemedicine'}
+                  background={'#04ed7c'}
+                  color={'#fff'}
+                />
               </ButtonGroup>
             </HeadWrapper>
             <FullDetailsWrapper>
               {state === 'all' && (
                 <GridWrapper>
-                  {AppointmentSchema.flat().map((schema) => (
+                  {schema.flat().map((schema) => (
                     <div key={schema.key}>
                       <label>{schema.name}</label>
                       <p>{schema.selector(row)}</p>
@@ -46,7 +67,10 @@ const AppointmentDetails = ({ editBtnClicked, deleteBtnClicked, row, backClick }
                   color={'#fff'}
                   onClick={editBtnClicked}
                 />
-                <Button label="Attend to Client" onClick={() => setState('attend')} />
+                <Button
+                  label="Attend to Client"
+                  onClick={() => setState('attend')}
+                />
                 <Button
                   label={'Delete Appointment'}
                   background={'#ff0000'}

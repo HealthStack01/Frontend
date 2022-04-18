@@ -8,12 +8,20 @@ import { toast } from 'react-toastify';
 import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import client from '../../context/feathers';
-import { getResolver, OnboardingEmployeeSchema, OrganisationSchema } from '../app/schema';
+import {
+  OnboardingEmployeeSchema,
+  OrganisationSchema,
+} from '../app/schema/ModelSchema';
+import { getResolver } from '../app/schema/util';
 import AddAdmin from './forms/AddAdmin';
 import CreateOrganization from './forms/CreateOrganization';
 import SelectModule from './forms/SelectModule';
 
-const steps = ['Organization Information', 'Choose Modules', 'Add Admin Employees'];
+const steps = [
+  'Organization Information',
+  'Choose Modules',
+  'Add Admin Employees',
+];
 
 const STEP_ORGANISATION = 0;
 const STEP_MODULES = 1;
@@ -40,7 +48,8 @@ function Signup() {
   const handleNext = (data) => {
     processStep(data)
       .then((_) => {
-        const newActiveStep = activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
+        const newActiveStep =
+          activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
         setActiveStep(newActiveStep);
       })
       .catch((error) => {
@@ -73,15 +82,16 @@ function Signup() {
     if (activeStep === STEP_ORGANISATION) {
       return Promise.resolve(true);
     } else if (activeStep === STEP_MODULES) {
-      const selectedModules = Object.keys(data).filter((key) => key.includes('module') && data[key]);
-      if (selectedModules.length > 1) {
+      if ([...data.modules1, ...data.modules2].length > 1) {
         return createFacility(data)
           .then((res) => {
             setCreatedFacility(res);
             return true;
           })
           .catch((error) => {
-            return Promise.reject(`Error occurred creating facility ${error.message}`);
+            return Promise.reject(
+              `Error occurred creating facility ${error.message}`,
+            );
           });
       } else {
         return Promise.reject('Please select 2 modules or more!');
@@ -93,7 +103,9 @@ function Signup() {
           navigate('/');
         })
         .catch((error) => {
-          return Promise.reject(`Error occurred creating admin employee ${error.message}`);
+          return Promise.reject(
+            `Error occurred creating admin employee ${error.message}`,
+          );
         });
     }
   };
@@ -143,9 +155,13 @@ function Signup() {
       </Stepper>
 
       <form onSubmit={handleSubmit(handleNext)}>
-        {activeStep === STEP_ORGANISATION && <CreateOrganization control={control} errors={errors} />}
+        {activeStep === STEP_ORGANISATION && (
+          <CreateOrganization control={control} errors={errors} />
+        )}
         {activeStep === STEP_MODULES && <SelectModule control={control} />}
-        {activeStep === STEP_EMPLOYEE && <AddAdmin control={control} adminEmployee={createdAdminEmployee} />}
+        {activeStep === STEP_EMPLOYEE && (
+          <AddAdmin control={control} adminEmployee={createdAdminEmployee} />
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -167,7 +183,11 @@ function Signup() {
             <></>
           )}
           <Box sx={{ flex: '1 1 auto' }} />
-          {activeStep === STEP_EMPLOYEE ? <Button>Complete</Button> : <Button>Next</Button>}
+          {activeStep === STEP_EMPLOYEE ? (
+            <Button>Complete</Button>
+          ) : (
+            <Button>Next</Button>
+          )}
         </Box>
       </form>
       <p style={{ padding: '2rem 0' }}>

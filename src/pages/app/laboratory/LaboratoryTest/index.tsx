@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import LaboratoryDetails from './LaboratoryDetail';
 import Laboratory from './LaboratoryList';
 
@@ -32,7 +33,7 @@ const AppLaboratory = () => {
         />
       )}
 
-      {resource.employeeResource.show === 'details' && (
+      {resource.employeeResource.show === FormType.DETAIL && (
         <LaboratoryDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>

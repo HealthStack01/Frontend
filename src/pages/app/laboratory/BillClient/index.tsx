@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import BillCreate from './BillCreate';
 import BillDetails from './BillDetail';
 import BillClient from './BillList';
@@ -33,7 +34,7 @@ const AppBillClientLab = () => {
           }}
         />
       )}
-      {resource.billClientResource.show === 'create' && (
+      {resource.billClientResource.show === FormType.CREATE && (
         <BillCreate
           backClick={() =>
             setResource((prevState) => ({
@@ -46,7 +47,7 @@ const AppBillClientLab = () => {
           }
         />
       )}
-      {resource.billClientResource.show === 'details' && (
+      {resource.billClientResource.show === FormType.DETAIL && (
         <BillDetails
           row={resource.billClientResource.selectedBillClient}
           backClick={() =>
@@ -69,7 +70,7 @@ const AppBillClientLab = () => {
           }
         />
       )}
-      {resource.billClientResource.show === 'edit' && (
+      {resource.billClientResource.show === FormType.EDIT && (
         <BillModify
           row={resource.billClientResource.selectedBillClient}
           backClick={() =>

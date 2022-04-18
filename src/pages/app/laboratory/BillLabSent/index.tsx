@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import BillLabSentDetails from './BillLabSentDetail';
 import BillLabSent from './BillLabSentList';
 
@@ -32,9 +33,11 @@ const AppBillLabSent = () => {
         />
       )}
 
-      {resource.billPrescriptionSentResource.show === 'details' && (
+      {resource.billPrescriptionSentResource.show === FormType.DETAIL && (
         <BillLabSentDetails
-          row={resource.billPrescriptionSentResource.selectedBillPrescriptionSent}
+          row={
+            resource.billPrescriptionSentResource.selectedBillPrescriptionSent
+          }
           backClick={() =>
             setResource((prevState) => ({
               ...prevState,

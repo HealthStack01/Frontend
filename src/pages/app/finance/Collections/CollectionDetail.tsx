@@ -4,8 +4,14 @@ import DataTable from 'react-data-table-component';
 import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { CollectionSchema } from '../../schema/ModelSchema';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { CollectionSchema } from '../schema';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -16,7 +22,12 @@ interface Props {
   debit: any[];
 }
 
-const CollectionDetails: React.FC<Props> = ({ backClick, balance, credit, debit }) => {
+const CollectionDetails: React.FC<Props> = ({
+  backClick,
+  balance,
+  credit,
+  debit,
+}) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -26,7 +37,12 @@ const CollectionDetails: React.FC<Props> = ({ backClick, balance, credit, debit 
             <span>Below are your Collection’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <label
               style={{
                 padding: '14px 20px',

@@ -1,4 +1,8 @@
-const queryClients = (facilityId?: string, locationId?: string, val?: string) => {
+const queryClients = (
+  facilityId?: string,
+  locationId?: string,
+  val?: string,
+) => {
   return {
     query: {
       $or: val && [
@@ -37,7 +41,11 @@ const queryClients = (facilityId?: string, locationId?: string, val?: string) =>
   };
 };
 
-const queryAppointments = (facilityId?: string, locationId?: string, val?: string) => {
+const queryAppointments = (
+  facilityId?: string,
+  locationId?: string,
+  val?: string,
+) => {
   return {
     query: {
       $or: val && [
@@ -140,7 +148,11 @@ const queryTests = (clientId) => {
   };
 };
 
-const queryOrders = (orderCategory: string, clientId: string, val?: string) => ({
+const queryOrders = (
+  orderCategory: string,
+  clientId: string,
+  val?: string,
+) => ({
   query: {
     $or: val && [
       {
@@ -181,4 +193,10 @@ const queryDocumentations = (documentName?: string, clientId?: string) => {
   };
 };
 
-export { queryAppointments, queryClients, queryDocumentations, queryOrders, queryTests };
+export {
+  queryAppointments,
+  queryClients,
+  queryDocumentations,
+  queryOrders,
+  queryTests,
+};

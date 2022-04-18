@@ -4,17 +4,25 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { AppointmentSchema, getResolver, Schema } from '../../schema';
-import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import { getResolver } from '../../schema/util';
+import {
+  BottomWrapper,
+  DetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
-const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
-  const resolver = yupResolver(getResolver(AppointmentSchema.flat() as any[]));
+let resolver;
+const AppointmentForm = ({ schema, onSubmit, backClick, selectedData }) => {
+  resolver = yupResolver(getResolver(schema.flat() as any[]));
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: selectedData,
+    defaultValues: { ...selectedData },
     resolver,
   });
 
@@ -26,17 +34,20 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
             <h2>Create Appointment</h2>
             <span>Create a new appointment by filling out the form below.</span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DetailsWrapper title="Appointment Form" defaultExpanded={true}>
-            {AppointmentSchema.map((obj, index) => {
-              if (obj['length']) {
-                const schemas = obj as Schema[];
-
+            {schema.map((field: any, index) => {
+              if (field['length']) {
                 return (
                   <GridWrapper className="subgrid two-columns" key={index}>
-                    {schemas.map((field, childIndex) => (
+                    {field.map((field, childIndex) => (
                       <DynamicInput
                         {...field}
                         key={childIndex}
@@ -52,7 +63,6 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
                   </GridWrapper>
                 );
               } else {
-                const field = obj as Schema;
                 return (
                   <DynamicInput
                     {...field}
@@ -70,7 +80,12 @@ const AppointmentForm = ({ onSubmit, backClick, selectedData }) => {
             })}
           </DetailsWrapper>
           <BottomWrapper>
-            <Button label="Close without Saving" background="#ECF3FF" color="#0364FF" onClick={backClick} />
+            <Button
+              label="Close without Saving"
+              background="#ECF3FF"
+              color="#0364FF"
+              onClick={backClick}
+            />
             <Button label="Save Appointment" />
           </BottomWrapper>
         </form>

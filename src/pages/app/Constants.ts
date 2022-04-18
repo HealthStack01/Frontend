@@ -41,15 +41,4 @@ const DateFormats = {
   CONTROL_DATE: 'MM/dd/yyyy',
 };
 
-const ClinicalDocuments = {
-  CLINICAL_NOTE: 'Clinical Note',
-  LAB_NOTE: 'Lab Result',
-  DOCTOR_NOTE: 'Doctor Note',
-  NURSING_NOTE: 'Nursing Note',
-  VITAL_SIGNS: 'Vital Signs',
-  PROGRESS_NOTE: 'Progress Note',
-  PRESCRIPTION: 'Prescription',
-  LAB_ORDER: 'Lab Order',
-};
-
-export { ClinicalDocuments, DateFormats, Models, Views };
+export { DateFormats, Models, Views };

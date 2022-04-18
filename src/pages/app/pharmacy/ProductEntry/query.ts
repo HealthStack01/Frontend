@@ -1,4 +1,8 @@
-const productEntryQuery = (facilityId?: string, locationId?: string, val?: string) => {
+const productEntryQuery = (
+  facilityId?: string,
+  locationId?: string,
+  val?: string,
+) => {
   return {
     query: {
       $or: val && [

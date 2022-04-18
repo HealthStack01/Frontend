@@ -9,7 +9,13 @@ interface Props {
   value: any;
   onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const AutoCompleteBox: React.FC<Props> = ({ options, label, value, onChange, name }) => {
+const AutoCompleteBox: React.FC<Props> = ({
+  options,
+  label,
+  value,
+  onChange,
+  name,
+}) => {
   return (
     <Autocomplete
       freeSolo
@@ -18,7 +24,9 @@ const AutoCompleteBox: React.FC<Props> = ({ options, label, value, onChange, nam
       value={value}
       onChange={onChange}
       sx={{ width: '100%' }}
-      renderInput={(params) => <TextField {...params} label={label} name={name} />}
+      renderInput={(params) => (
+        <TextField {...params} label={label} name={name} />
+      )}
     />
   );
 };

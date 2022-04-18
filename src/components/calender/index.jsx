@@ -50,7 +50,9 @@ const TimeTableCell = (props) => {
     return <WeekView.TimeTableCell {...props} className={classes.todayCell} />;
   }
   if (date.getDay() === 0 || date.getDay() === 6) {
-    return <WeekView.TimeTableCell {...props} className={classes.weekendCell} />;
+    return (
+      <WeekView.TimeTableCell {...props} className={classes.weekendCell} />
+    );
   }
   return <WeekView.TimeTableCell {...props} />;
 };
@@ -84,7 +86,10 @@ const CalendarGrid = () => {
   return (
     <Paper>
       <Scheduler data={appointments}>
-        <ViewState defaultCurrentDate="2021-11-05" defaultCurrentViewName="Week" />
+        <ViewState
+          defaultCurrentDate="2021-11-05"
+          defaultCurrentViewName="Week"
+        />
         <DayView startDayHour={9} endDayHour={19} />
         <WeekView
           startDayHour={9}

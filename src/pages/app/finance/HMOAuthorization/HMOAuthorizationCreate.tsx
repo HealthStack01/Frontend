@@ -3,7 +3,14 @@ import React, { useState } from 'react';
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   backClick: () => void;
@@ -20,9 +27,17 @@ const LocationCreate: React.FC<Props> = ({ backClick }) => {
         <HeadWrapper>
           <div>
             <h2>Create Location</h2>
-            <span>Create a new location by filling out the form below to get started.</span>
+            <span>
+              Create a new location by filling out the form below to get
+              started.
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form action="" onSubmit={() => {}}>
           <FullDetailsWrapper title="Create Employee">

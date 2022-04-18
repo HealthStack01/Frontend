@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../context/feathers';
+import { FormType } from '../../schema/util';
 import PaymentDetails from './PaymentDetail';
 import Payments from './PaymentList';
 const AppPayments = () => {
@@ -32,7 +33,10 @@ const AppPayments = () => {
         paymentmode: data.paymentmode,
         description: data.description,
         toName: user.employeeData[0].facilityDetail.facilityName,
-        fromName: medication.participantInfo.client.firstname + ' ' + medication.participantInfo.client.lastname,
+        fromName:
+          medication.participantInfo.client.firstname +
+          ' ' +
+          medication.participantInfo.client.lastname,
         createdby: user._id,
 
         facility: user.employeeData[0].facilityDetail._id,
@@ -67,7 +71,8 @@ const AppPayments = () => {
             'participantInfo.paymentmode.type': 'Family Cover',
           },
         ],
-        'participantInfo.billingFacility': user.currentEmployee.facilityDetail._id,
+        'participantInfo.billingFacility':
+          user.currentEmployee.facilityDetail._id,
         billing_status: {
           $ne: 'Fully Paid',
         },
@@ -181,7 +186,7 @@ const AppPayments = () => {
         />
       )}
 
-      {resource.paymentsResource.show === 'details' && (
+      {resource.paymentsResource.show === FormType.DETAIL && (
         <PaymentDetails
           row={resource.paymentsResource.selectedPayment}
           backClick={() =>

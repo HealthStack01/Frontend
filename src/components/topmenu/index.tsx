@@ -15,19 +15,26 @@ const defaultList = [{ code: 'NG', label: '', location: '' }];
 const TopMenu = ({ isOpen, handleClick }) => {
   const [locationOptions, setLocationOptions] = useState(defaultList);
   const [locationsById, setLocationsById] = useState({});
-  const { list, setFindQuery, facility, locationType, setLocation } = useRepository(Models.LOCATION);
+  const { list, setFindQuery, facility, locationType, setLocation } =
+    useRepository(Models.LOCATION);
   const [selectedLocation, setSelectedLocation] = useState<any>();
+  const [open, setOpen] = useState<boolean>(true);
 
   useEffect(() => {
     setLocationsById(keyBy(list, (obj: any) => obj._id));
     setLocationOptions([
-      ...list.map(({ _id, name }) => ({ code: 'NG', label: name, location: _id })),
+      ...list.map(({ _id, name }) => ({
+        code: 'NG',
+        label: name,
+        location: _id,
+      })),
       { code: 'NG', label: 'Default', location: '' },
     ]);
   }, [list]);
 
   useEffect(() => {
     setSelectedLocation(null);
+    setOpen(true);
     if (facility && locationType)
       setFindQuery({
         query: {
@@ -45,12 +52,17 @@ const TopMenu = ({ isOpen, handleClick }) => {
     setLocationOptions([]);
     setSelectedLocation(locationsById[locationId]);
     setLocation(locationsById[locationId]);
-    setLocationOptions([...locationOptions, { code: 'NG', label: 'No Location Selected', location: '' }]);
+    setLocationOptions([
+      ...locationOptions,
+      { code: 'NG', label: 'No Location Selected', location: '' },
+    ]);
   };
 
   return (
     <TopMenuWrapper>
-      <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+      <div
+        style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}
+      >
         <span
           onClick={handleClick}
           style={{
@@ -59,7 +71,11 @@ const TopMenu = ({ isOpen, handleClick }) => {
             fontWeight: 'bold',
           }}
         >
-          {!isOpen ? <i className="bi bi-list"></i> : <i className="bi bi-list" />}
+          {!isOpen ? (
+            <i className="bi bi-list"></i>
+          ) : (
+            <i className="bi bi-list" />
+          )}
         </span>
         <span className="breadcrumb">
           <Breadcrumbs />
@@ -72,7 +88,14 @@ const TopMenu = ({ isOpen, handleClick }) => {
             locations={locationOptions}
             onChange={handleSelectLocation}
           />
-          {!selectedLocation && <LocationModal locations={locationOptions} onSelectLocation={handleSelectLocation} />}
+          {
+            <LocationModal
+              locations={locationOptions}
+              onSelectLocation={handleSelectLocation}
+              open={open}
+              setOpen={setOpen}
+            />
+          }
         </div>
 
         <div className="profile-item">

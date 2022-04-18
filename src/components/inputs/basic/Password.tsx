@@ -11,7 +11,12 @@ interface PasswordInputProps {
   errors?: boolean;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ label = 'Password', name, onChange, errors }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({
+  label = 'Password',
+  name,
+  onChange,
+  errors,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -32,7 +37,11 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label = 'Password', name,
           {label}
         </InputLabel>
         <span onClick={handleClickShowPassword}>
-          {showPassword ? <i className="bi bi-eye-slash-fill"></i> : <i className={' bi bi-eye-fill'}></i>}
+          {showPassword ? (
+            <i className="bi bi-eye-slash-fill"></i>
+          ) : (
+            <i className={' bi bi-eye-fill'}></i>
+          )}
         </span>
       </InputBox>
 

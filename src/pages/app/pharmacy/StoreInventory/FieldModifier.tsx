@@ -5,9 +5,21 @@ import Button from '../../../../components/buttons/Button';
 import useRepository from '../../../../components/hooks/repository';
 import Input from '../../../../components/inputs/basic/Input';
 import { Models } from '../../Constants';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  PageWrapper,
+} from '../../styles';
 
-const FieldModifier = ({ name, row, onBackClick, defaultValue, modifyData }) => {
+const FieldModifier = ({
+  name,
+  row,
+  onBackClick,
+  defaultValue,
+  modifyData,
+}) => {
   const [value, setValue] = useState(defaultValue);
   const { submit } = useRepository(Models.BILLING);
 
@@ -29,7 +41,11 @@ const FieldModifier = ({ name, row, onBackClick, defaultValue, modifyData }) => 
       <GrayWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            <Input label={'New ' + name} defaultValue={defaultValue} onChange={(e) => setValue(e.target.value)} />
+            <Input
+              label={'New ' + name}
+              defaultValue={defaultValue}
+              onChange={(e) => setValue(e.target.value)}
+            />
             <Input label={'Old ' + name} disabled defaultValue={defaultValue} />
           </GridWrapper>
           <BottomWrapper>

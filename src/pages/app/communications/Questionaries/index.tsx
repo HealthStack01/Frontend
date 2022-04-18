@@ -5,7 +5,8 @@ import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import ListView from '../../generic/ListView';
-import { QuestionnaireSchema } from '../../schema/communication';
+import { FormType } from '../../schema/util';
+import { QuestionnaireSchema } from '../schema';
 import QuestionnaireForm from './QuestionnaireForm';
 
 const AppQuestionnaire = () => {
@@ -20,7 +21,9 @@ const AppQuestionnaire = () => {
       questionnaireResource: {
         ...resource.questionnaireResource,
         show,
-        selectedQuestionnaire: selectedQuestionnaire || resource.questionnaireResource.selectedQuestionnaire,
+        selectedQuestionnaire:
+          selectedQuestionnaire ||
+          resource.questionnaireResource.selectedQuestionnaire,
       },
     });
 
@@ -48,14 +51,15 @@ const AppQuestionnaire = () => {
           items={questionnaires}
         />
       )}
-      {(resource.questionnaireResource.show === 'create' || resource.questionnaireResource.show === 'edit') && (
+      {(resource.questionnaireResource.show === FormType.CREATE ||
+        resource.questionnaireResource.show === FormType.EDIT) && (
         <QuestionnaireForm
           questionnaire={selectedQuestionnaire}
           backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
         />
       )}
-      {resource.questionnaireResource.show === 'details' && (
+      {resource.questionnaireResource.show === FormType.DETAIL && (
         <DetailView
           title="Questionnaire"
           schema={QuestionnaireSchema}

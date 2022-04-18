@@ -3,7 +3,12 @@ import React from 'react';
 import Button from '../../../components/buttons/Button';
 import { ButtonGroup } from '../../../ui/styled/global';
 import { PageWrapper } from '../../../ui/styled/styles';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper } from '../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+} from '../styles';
 
 interface Props {
   title: string;
@@ -14,7 +19,14 @@ interface Props {
   value?: any;
 }
 
-const DetailView: React.FC<Props> = ({ title, onEdit, onDelete, schema, value, backClick }) => {
+const DetailView: React.FC<Props> = ({
+  title,
+  onEdit,
+  onDelete,
+  schema,
+  value,
+  backClick,
+}) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -24,7 +36,12 @@ const DetailView: React.FC<Props> = ({ title, onEdit, onDelete, schema, value, b
             <span>Below are your {title}’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Delete'}
               background="#FFE9E9"
@@ -48,7 +65,9 @@ const DetailView: React.FC<Props> = ({ title, onEdit, onDelete, schema, value, b
             {schema.map((schema) => (
               <div key={schema.key}>
                 <label>{schema.name}</label>
-                <p>{schema.selector ? schema.selector(value) : value[schema.key]}</p>
+                <p>
+                  {schema.selector ? schema.selector(value) : value[schema.key]}
+                </p>
               </div>
             ))}
           </GridWrapper>

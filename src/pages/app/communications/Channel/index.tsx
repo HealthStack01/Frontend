@@ -6,7 +6,8 @@ import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
-import { ChannelSchema } from '../../schema/communication';
+import { FormType } from '../../schema/util';
+import { ChannelSchema } from '../schema';
 
 const AppChannel = () => {
   const { resource, setResource } = useObjectState();
@@ -20,7 +21,8 @@ const AppChannel = () => {
       channelResource: {
         ...resource.channelResource,
         show,
-        selectedChannel: selectedChannel || resource.channelResource.selectedChannel,
+        selectedChannel:
+          selectedChannel || resource.channelResource.selectedChannel,
       },
     });
 
@@ -48,16 +50,20 @@ const AppChannel = () => {
           items={channels}
         />
       )}
-      {(resource.channelResource.show === 'create' || resource.channelResource.show === 'edit') && (
+      {(resource.channelResource.show === FormType.CREATE ||
+        resource.channelResource.show === FormType.EDIT) && (
         <FormView
           title="Channel"
           schema={ChannelSchema}
           backClick={navigate(Views.LIST)}
           onSubmit={handleSubmit}
-          selectedData={{ ...selectedChannel, providerConfig: JSON.stringify(selectedChannel['providerConfig']) }}
+          selectedData={{
+            ...selectedChannel,
+            providerConfig: JSON.stringify(selectedChannel['providerConfig']),
+          }}
         />
       )}
-      {resource.channelResource.show === 'details' && (
+      {resource.channelResource.show === FormType.DETAIL && (
         <DetailView
           title="Channel"
           schema={ChannelSchema}

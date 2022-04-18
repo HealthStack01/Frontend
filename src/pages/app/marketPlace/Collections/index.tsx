@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import EmployeeCreate from './CollectionCreate';
 import EmployeeDetails from './CollectionDetail';
 import Employees from './CollectionList';
@@ -33,7 +34,7 @@ const AppCollections = () => {
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
+      {resource.employeeResource.show === FormType.CREATE && (
         <EmployeeCreate
           backClick={() =>
             setResource((prevState) => ({
@@ -46,7 +47,7 @@ const AppCollections = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'details' && (
+      {resource.employeeResource.show === FormType.DETAIL && (
         <EmployeeDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
@@ -69,7 +70,7 @@ const AppCollections = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
+      {resource.employeeResource.show === FormType.EDIT && (
         <EmployeeModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>

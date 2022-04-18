@@ -5,8 +5,8 @@ import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { PaymentSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
+import { PaymentSchema } from '../schema';
 
 interface Props {
   handleCreate?: () => void;
@@ -19,12 +19,16 @@ interface Props {
       description: string;
       amount: string;
     },
-    event: any
+    event: any,
   ) => void;
   dataTree: any[];
 }
 
-const Payments: React.FC<Props> = ({ onRowClicked, handleSearch, dataTree }) => {
+const Payments: React.FC<Props> = ({
+  onRowClicked,
+  handleSearch,
+  dataTree,
+}) => {
   return (
     <PageWrapper>
       <h2>Payments</h2>
@@ -54,7 +58,10 @@ const Payments: React.FC<Props> = ({ onRowClicked, handleSearch, dataTree }) => 
           <AccordionBox title={data.clientname} key={index}>
             {data.bills.map((child, index) => {
               return (
-                <AccordionBox key={index} title={`${child.catName} with ${child.order.length} Unpaid bills`}>
+                <AccordionBox
+                  key={index}
+                  title={`${child.catName} with ${child.order.length} Unpaid bills`}
+                >
                   <CustomTable
                     title={`${child.catName} with ${child.order.length} Unpaid bills`}
                     columns={PaymentSchema}

@@ -13,7 +13,13 @@ const Orders = ({ onAddNew, schema, data }) => {
           <div className="inner-table"></div>
           <Button label="Add new" onClick={onAddNew} />
         </TableMenu>
-        <CustomTable columns={schema} data={data} pointerOnHover highlightOnHover striped />
+        <CustomTable
+          columns={schema}
+          data={data}
+          pointerOnHover
+          highlightOnHover
+          striped
+        />
       </FullDetailsWrapper>
     </PageWrapper>
   );

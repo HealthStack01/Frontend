@@ -6,8 +6,8 @@ import CustomTable from '../../../../components/customtable';
 import useRepository from '../../../../components/hooks/repository';
 import { Models } from '../../Constants';
 import FormView from '../../generic/FormView';
-import { ProductBatchSchema } from '../../schema';
 import { BottomWrapper } from '../../styles';
+import { ProductBatchSchema } from '../schema';
 
 const ProductBatch = ({ onBackClick }) => {
   const { submit } = useRepository(Models.INVENTORY);
@@ -32,7 +32,12 @@ const ProductBatch = ({ onBackClick }) => {
 
   return (
     <>
-      <FormView schema={ProductBatchSchema} title="Product Batch" backClick={onBackClick} onSubmit={onAddBatch} />
+      <FormView
+        schema={ProductBatchSchema}
+        title="Product Batch"
+        backClick={onBackClick}
+        onSubmit={onAddBatch}
+      />
       <CustomTable columns={ProductBatchSchema} data={[]} />
       <BottomWrapper>
         <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />

@@ -4,7 +4,13 @@ import AccordionBox from '../../../../components/accordion';
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 import { columnHead } from './data';
 
 interface Props {
@@ -23,7 +29,12 @@ const PreAuthorzationDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your PreAuthorzation’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <label
               style={{
                 padding: '14px 20px',

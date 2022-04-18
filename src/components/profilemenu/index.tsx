@@ -15,14 +15,17 @@ const ProfileMenu = () => {
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
       return;
     }
 
     setOpen(false);
   };
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
+  function handleListKeyDown(event) {
     if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
@@ -66,7 +69,8 @@ const ProfileMenu = () => {
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
+              transformOrigin:
+                placement === 'bottom-start' ? 'left top' : 'left bottom',
             }}
           >
             <div
@@ -86,7 +90,11 @@ const ProfileMenu = () => {
                   onKeyDown={handleListKeyDown}
                   sx={{ textAlign: 'center' }}
                 >
-                  <Avatar src="/img_avatar.png" alt="" style={{ width: '80px', height: '80px' }} />
+                  <Avatar
+                    src="/img_avatar.png"
+                    alt=""
+                    style={{ width: '80px', height: '80px' }}
+                  />
                   <p>Test Name</p>
                   <div style={{ padding: '4px 8px' }}>
                     <p>Settings</p>

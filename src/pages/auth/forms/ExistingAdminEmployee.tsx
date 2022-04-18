@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../components/buttons/Button';
 import DynamicInput from '../../../components/inputs/DynamicInput';
-import { InputType } from '../../app/schema';
+import { InputType } from '../../app/schema/util';
 
 function ExistingAdminEmployee() {
   const { control } = useForm();
@@ -19,7 +19,7 @@ function ExistingAdminEmployee() {
           control={control}
         />
 
-        <Button type="submit" label="Send Invitation" fullwidth />
+        <Button type="submit" label="Send Invitation" fullwidth="true" />
       </form>
     </Stack>
   );

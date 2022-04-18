@@ -6,7 +6,8 @@ import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
-import { ClientMiniSchema } from '../../schema';
+import { FormType } from '../../schema/util';
+import { ClientMiniSchema } from '../schema';
 
 const AppClient = () => {
   const { resource, setResource } = useObjectState();
@@ -20,7 +21,8 @@ const AppClient = () => {
       clientResource: {
         ...resource.clientResource,
         show,
-        selectedClient: selectedClient || resource.clientResource.selectedClient,
+        selectedClient:
+          selectedClient || resource.clientResource.selectedClient,
       },
     });
 
@@ -49,7 +51,8 @@ const AppClient = () => {
           items={clients}
         />
       )}
-      {(resource.clientResource.show === 'create' || resource.clientResource.show === 'edit') && (
+      {(resource.clientResource.show === FormType.CREATE ||
+        resource.clientResource.show === FormType.EDIT) && (
         <FormView
           title="Client"
           schema={formSchema}
@@ -58,7 +61,7 @@ const AppClient = () => {
           selectedData={selectedClient}
         />
       )}
-      {resource.clientResource.show === 'details' && (
+      {resource.clientResource.show === FormType.DETAIL && (
         <DetailView
           title="Client"
           schema={formSchema}

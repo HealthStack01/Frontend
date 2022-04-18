@@ -14,7 +14,10 @@ interface Repository<T> {
   remove: (_id: T) => Promise<T>;
 }
 
-const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
+const useRepository = <T>(
+  modelName: string,
+  onNavigate?: (view: string) => () => void,
+): Repository<T> => {
   let Service = client.service(modelName);
   const { user } = useContext(UserContext);
   const [list, setList] = useState([]);
@@ -26,7 +29,9 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
         onNavigate && onNavigate(Views.LIST)();
       })
       .catch((err) => {
-        toast(`'Error deleting ${modelName}, probable network issues or ' + ${err}'`);
+        toast(
+          `'Error deleting ${modelName}, probable network issues or ' + ${err}'`,
+        );
       });
   };
 
@@ -34,7 +39,10 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
     const field = 'firstname';
     return Service.find({
       query: {
-        [field]: typeof query === 'string' && query ? { $regex: query, $options: 'i' } : undefined,
+        [field]:
+          typeof query === 'string' && query
+            ? { $regex: query, $options: 'i' }
+            : undefined,
         $limit: 200,
         $sort: {
           createdAt: -1,

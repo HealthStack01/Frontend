@@ -5,7 +5,7 @@ import React from 'react';
 
 interface ModalProps {
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 const style = {
   width: '68%',

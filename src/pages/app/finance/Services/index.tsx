@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../context/feathers';
+import { FormType } from '../../schema/util';
 import { getFormStrings } from '../../Utils';
 import ServiceCreate from './ServiceCreate';
 import ServiceDetails from './ServiceDetail';
@@ -205,7 +206,7 @@ const AppServices = () => {
           handleSearch={handleSearch}
         />
       )}
-      {resource.servicesResource.show === 'create' && (
+      {resource.servicesResource.show === FormType.CREATE && (
         <ServiceCreate
           backClick={() =>
             setResource((prevState) => ({
@@ -220,7 +221,7 @@ const AppServices = () => {
           onSubmit={onSubmit1}
         />
       )}
-      {resource.servicesResource.show === 'details' && (
+      {resource.servicesResource.show === FormType.DETAIL && (
         <ServiceDetails
           row={resource.servicesResource.selectedService}
           backClick={() =>
@@ -244,7 +245,7 @@ const AppServices = () => {
           handleDelete={handleDelete}
         />
       )}
-      {resource.servicesResource.show === 'edit' && (
+      {resource.servicesResource.show === FormType.EDIT && (
         <ServiceModify
           row={resource.servicesResource.selectedService}
           backClick={() =>

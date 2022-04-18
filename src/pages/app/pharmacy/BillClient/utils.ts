@@ -4,7 +4,9 @@ export const getSellingPrice = (contracts, billMode) => {
   let sellingPrice = 0;
   let errorMessage = '';
   if (billMode.type === 'HMO Cover') {
-    let contract = contracts.filter((el) => el.source_org === billMode.detail.organizationId);
+    let contract = contracts.filter(
+      (el) => el.source_org === billMode.detail.organizationId,
+    );
     if (contract.length) {
       sellingPrice = contract[0].price;
     } else {
@@ -14,7 +16,9 @@ export const getSellingPrice = (contracts, billMode) => {
     }
   }
   if (billMode.type === 'Company Cover') {
-    let contract = contracts.filter((el) => el.source_org === billMode.detail.organizationId);
+    let contract = contracts.filter(
+      (el) => el.source_org === billMode.detail.organizationId,
+    );
     if (contract.length) {
       sellingPrice = contract[0].price;
     } else {
@@ -58,22 +62,52 @@ export const getBillingInfo = (clientPaymentInfo) => {
   if (activePayment) {
     switch (activePayment.paymentmode) {
       case 'Cash':
-        paymentOption = createPaymentMode(activePayment, 'Cash', 'Cash', 'Cash');
+        paymentOption = createPaymentMode(
+          activePayment,
+          'Cash',
+          'Cash',
+          'Cash',
+        );
         paymentOptionName === 'Cash';
         break;
       case 'Family':
-        paymentOption = createPaymentMode(activePayment, 'Family Cover', 'familyCover', 'Family Cover');
+        paymentOption = createPaymentMode(
+          activePayment,
+          'Family Cover',
+          'familyCover',
+          'Family Cover',
+        );
         paymentOptionName = 'Family Cover';
 
         break;
       case 'Company':
-        paymentOptionName = 'Company: ' + activePayment.organizationName + '(' + activePayment.plan + ')';
+        paymentOptionName =
+          'Company: ' +
+          activePayment.organizationName +
+          '(' +
+          activePayment.plan +
+          ')';
 
-        paymentOption = createPaymentMode(activePayment, paymentOptionName, 'CompanyCover', 'Company Cover');
+        paymentOption = createPaymentMode(
+          activePayment,
+          paymentOptionName,
+          'CompanyCover',
+          'Company Cover',
+        );
         break;
       case 'HMO':
-        paymentOptionName = 'HMO: ' + activePayment.organizationName + '(' + activePayment.plan + ')';
-        paymentOption = createPaymentMode(activePayment, paymentOptionName, 'HMOCover', 'HMO Cover');
+        paymentOptionName =
+          'HMO: ' +
+          activePayment.organizationName +
+          '(' +
+          activePayment.plan +
+          ')';
+        paymentOption = createPaymentMode(
+          activePayment,
+          paymentOptionName,
+          'HMOCover',
+          'HMO Cover',
+        );
         break;
       default:
     }

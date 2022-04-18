@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
+import FormView from '../../generic/FormView';
+import { getAppointmentSchema } from '../schema';
 import AppointmentDetails from './AppointmentDetail';
-import AppointmentForm from './AppointmentForm';
 import Appointments from './AppointmentList';
 import { queryAppointments } from './query';
 
@@ -20,7 +21,9 @@ const AppClientAppointment = () => {
       appointmentResource: {
         ...resource.appointmentResource,
         show,
-        selectedAppointment: selectedAppointment || resource.appointmentResource.selectedAppointment,
+        selectedAppointment: selectedAppointment?._id
+          ? selectedAppointment
+          : resource.appointmentResource.selectedAppointment,
       },
     });
 
@@ -28,14 +31,18 @@ const AppClientAppointment = () => {
     list: appointments,
     submit: handleSubmit,
     setFindQuery,
+    facility,
   } = useRepository(Models.APPOINTMENT, handleNavigation);
 
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    setFindQuery(queryAppointments(undefined, undefined, searchText || undefined));
+    setFindQuery(
+      queryAppointments(undefined, undefined, searchText || undefined),
+    );
   }, [searchText]);
 
+  const schema = getAppointmentSchema(facility?._id);
   return (
     <>
       {show === Views.LIST && (
@@ -44,21 +51,27 @@ const AppClientAppointment = () => {
           onRowClicked={(row) => handleNavigation(Views.DETAIL)(row)}
           onSearch={setSearchText}
           items={appointments}
+          schema={schema}
         />
       )}
       {(show === Views.CREATE || show === Views.EDIT) && (
-        <AppointmentForm
+        <FormView
+          title="Appointment"
           backClick={handleNavigation(Views.LIST)}
           onSubmit={handleSubmit}
           selectedData={selectedAppointment}
+          schema={schema}
         />
       )}
       {show === Views.DETAIL && (
         <AppointmentDetails
           row={selectedAppointment}
           backClick={handleNavigation(Views.LIST)}
-          editBtnClicked={() => handleNavigation(Views.EDIT)(selectedAppointment)}
+          editBtnClicked={() =>
+            handleNavigation(Views.EDIT)(selectedAppointment)
+          }
           deleteBtnClicked={() => {}}
+          schema={schema}
         />
       )}
     </>

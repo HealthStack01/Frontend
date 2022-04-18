@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import BillCreate from './BillCreate';
 import BillDetails from './BillDetail';
 import Bills from './BillList';
@@ -33,7 +34,7 @@ const AppBills = () => {
           }}
         />
       )}
-      {resource.bandResource.show === 'create' && (
+      {resource.bandResource.show === FormType.CREATE && (
         <BillCreate
           backClick={() =>
             setResource((prevState) => ({
@@ -46,7 +47,7 @@ const AppBills = () => {
           }
         />
       )}
-      {resource.bandResource.show === 'details' && (
+      {resource.bandResource.show === FormType.DETAIL && (
         <BillDetails
           row={resource.bandResource.selectedBand}
           backClick={() =>
@@ -69,7 +70,7 @@ const AppBills = () => {
           }
         />
       )}
-      {resource.bandResource.show === 'edit' && (
+      {resource.bandResource.show === FormType.EDIT && (
         <BillModify
           row={resource.bandResource.selectedBand}
           backClick={() =>

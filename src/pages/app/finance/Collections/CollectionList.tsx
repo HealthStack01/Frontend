@@ -4,8 +4,8 @@ import CustomTable from '../../../../components/customtable';
 import SearchInput from '../../../../components/inputs/Search';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { CollectionSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
+import { CollectionSchema } from '../schema';
 
 interface Props {
   handleCreate?: () => void;
@@ -19,11 +19,15 @@ interface Props {
       amount: string;
       mode: string;
     },
-    event: any
+    event: any,
   ) => void;
 }
 
-const Collections: React.FC<Props> = ({ onRowClicked, handleSearch, items }) => {
+const Collections: React.FC<Props> = ({
+  onRowClicked,
+  handleSearch,
+  items,
+}) => {
   return (
     <PageWrapper>
       <h2>Collections</h2>

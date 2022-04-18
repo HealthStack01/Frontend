@@ -4,7 +4,7 @@ import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import ListView from '../../generic/ListView';
-import { DispensorySummary } from '../../schema';
+import { DispensorySummary } from '../schema';
 import DispensoryDetail from './DispensoryDetail';
 import { dispensoryQuery } from './query';
 
@@ -20,7 +20,8 @@ const AppDispensorysPharmacy = () => {
       dispensoryResource: {
         ...resource.dispensoryResource,
         show,
-        selectedDispensory: selectedDispensory || resource.dispensoryResource.selectedDispensory,
+        selectedDispensory:
+          selectedDispensory || resource.dispensoryResource.selectedDispensory,
       },
     });
 
@@ -36,7 +37,8 @@ const AppDispensorysPharmacy = () => {
 
   useEffect(() => {
     console.debug(facility);
-    if (facility) setFindQuery(dispensoryQuery(facility._id, searchText || undefined));
+    if (facility)
+      setFindQuery(dispensoryQuery(facility._id, searchText || undefined));
   }, [searchText, facility]);
   return (
     <>

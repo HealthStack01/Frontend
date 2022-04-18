@@ -16,7 +16,15 @@ interface Props {
   loading?: false;
 }
 
-const ListView: React.FC<Props> = ({ title, schema, handleCreate, handleSearch, onRowClicked, items, loading }) => {
+const ListView: React.FC<Props> = ({
+  title,
+  schema,
+  handleCreate,
+  handleSearch,
+  onRowClicked,
+  items,
+  loading,
+}) => {
   return (
     <PageWrapper>
       <h2>{title}</h2>

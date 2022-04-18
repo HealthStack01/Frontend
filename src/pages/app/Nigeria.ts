@@ -260,7 +260,16 @@ export const Nigeria = [
   {
     state: 'Bayelsa',
     alias: 'bayelsa',
-    lgas: ['Brass', 'Ekeremor', 'Kolokuma/Opokuma', 'Nembe', 'Ogbia', 'Sagbama', 'Southern Ijaw', 'Yenagoa'],
+    lgas: [
+      'Brass',
+      'Ekeremor',
+      'Kolokuma/Opokuma',
+      'Nembe',
+      'Ogbia',
+      'Sagbama',
+      'Southern Ijaw',
+      'Yenagoa',
+    ],
   },
   {
     state: 'Cross River',
@@ -408,7 +417,14 @@ export const Nigeria = [
   {
     state: 'Federal Capital Territory',
     alias: 'abuja',
-    lgas: ['Abaji', 'Bwari', 'Gwagwalada', 'Kuje', 'Kwali', 'Municipal Area Council'],
+    lgas: [
+      'Abaji',
+      'Bwari',
+      'Gwagwalada',
+      'Kuje',
+      'Kwali',
+      'Municipal Area Council',
+    ],
   },
   {
     state: 'Gombe',

@@ -1,7 +1,10 @@
-import 'rsuite/dist/rsuite.min.css';
+// import 'rsuite/dist/rsuite.min.css';
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 
 import React from 'react';
-import { DateRangePicker } from 'rsuite';
+import SemanticDatepicker from 'react-semantic-ui-datepickers';
+// import { DateRangePicker } from 'rsuite';
+
 interface Props {
   handleSelect?: () => void;
 }
@@ -9,7 +12,7 @@ interface Props {
 const DateRange: React.FC<Props> = ({ handleSelect }) => {
   return (
     <>
-      <DateRangePicker hoverRange="week" ranges={[]} onChange={handleSelect} />
+      <SemanticDatepicker type="range" onChange={handleSelect} />
     </>
   );
 };

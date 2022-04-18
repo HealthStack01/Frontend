@@ -1,4 +1,8 @@
-const storeInventoryQuery = (facilityId?: string, storeId?: string, val?: string) => {
+const storeInventoryQuery = (
+  facilityId?: string,
+  storeId?: string,
+  val?: string,
+) => {
   return {
     query: {
       $or: val && [

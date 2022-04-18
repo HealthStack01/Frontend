@@ -2,8 +2,14 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { ServicesSchema } from '../../schema/ModelSchema';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { ServicesSchema } from '../schema';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -12,7 +18,11 @@ interface Props {
   row?: any;
 }
 
-const ServiceDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
+const ServiceDetails: React.FC<Props> = ({
+  editBtnClicked,
+  row,
+  backClick,
+}) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -22,7 +32,12 @@ const ServiceDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => 
             <span>Below are your Service’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Delete'}
               background="#FFE9E9"

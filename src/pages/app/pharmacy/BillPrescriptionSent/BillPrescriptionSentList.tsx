@@ -4,7 +4,7 @@ import AccordionBox from '../../../../components/accordion';
 import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { BillPrescriptionSchema } from '../../schema';
+import { BillPrescriptionSchema } from '../../shared/bill';
 import { PageWrapper } from '../../styles';
 
 const BillPrescriptionSent = ({ onRowClicked, onSearch, items }) => {
@@ -27,7 +27,10 @@ const BillPrescriptionSent = ({ onRowClicked, onSearch, items }) => {
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {items.map((data, index) => (
-          <AccordionBox title={`${data.clientname} with ${data.orders.length} Pending Prescriptions`} key={index}>
+          <AccordionBox
+            title={`${data.clientname} with ${data.orders.length} Pending Prescriptions`}
+            key={index}
+          >
             <CustomTable
               key={index}
               columns={BillPrescriptionSchema}

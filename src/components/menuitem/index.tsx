@@ -11,7 +11,12 @@ interface MenuItemProps {
   iconClassName?: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ name, subMenus, onClick, iconClassName }) => {
+const MenuItem: React.FC<MenuItemProps> = ({
+  name,
+  subMenus,
+  onClick,
+  iconClassName,
+}) => {
   const [expand, setExpand] = useState<boolean>(false);
 
   return (

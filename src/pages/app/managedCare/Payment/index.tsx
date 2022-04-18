@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import PaymentDetails from './PaymentDetail';
 import Payments from './PaymentList';
 const AppPayments = () => {
@@ -31,7 +32,7 @@ const AppPayments = () => {
         />
       )}
 
-      {resource.paymentsResource.show === 'details' && (
+      {resource.paymentsResource.show === FormType.DETAIL && (
         <PaymentDetails
           row={resource.paymentsResource.selectedPayment}
           backClick={() =>

@@ -5,8 +5,15 @@ import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { PaymentDetailsSchema, PaymentSchema } from '../../schema/ModelSchema';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { PaymentDetailsSchema, PaymentSchema } from '../schema';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -16,7 +23,12 @@ interface Props {
   amountBalance: number;
 }
 
-const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountBalance }) => {
+const PaymentDetails: React.FC<Props> = ({
+  row,
+  backClick,
+  handleAccept,
+  amountBalance,
+}) => {
   const [values, setValues] = useState({});
   const { handleSubmit, control } = useForm();
   const [update, setUpdate] = useState();
@@ -41,7 +53,12 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountB
             <span>Below are your payment’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -109,7 +126,12 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick, handleAccept, amountB
               </div>
             ))}
             <div>
-              <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
+              <RadioButton
+                name="Type"
+                title="Type"
+                options={typeOptions}
+                onChange={(e) => setUpdate(e.target.value)}
+              />
               {update === 'Part' && (
                 <div>
                   <Input

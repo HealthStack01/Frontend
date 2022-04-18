@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import ClaimsDetails from './ClaimsDetail';
 import Claims from './ClaimsList';
 
@@ -32,7 +33,7 @@ const AppClaims = () => {
         />
       )}
 
-      {resource.collectionsResource.show === 'details' && (
+      {resource.collectionsResource.show === FormType.DETAIL && (
         <ClaimsDetails
           row={resource.collectionsResource.selectedCollection}
           backClick={() =>

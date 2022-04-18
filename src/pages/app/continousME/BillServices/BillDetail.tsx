@@ -1,7 +1,13 @@
 import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -19,7 +25,12 @@ const BillDetails: React.FC<Props> = ({ editBtnClicked, row, backClick }) => {
             <span>Below are your Bill’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Delete'}
               background="#FFE9E9"
