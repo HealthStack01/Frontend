@@ -21,7 +21,7 @@ const AppLocation = () => {
       locationResource: {
         ...resource.locationResource,
         show,
-        selectedLocation: selectedLocation._id
+        selectedLocation: selectedLocation?._id
           ? selectedLocation
           : resource.locationResource.selectedLocation,
       },

@@ -15,17 +15,19 @@ const AppBand = () => {
     bandResource: { selectedBand },
   } = resource;
 
-  const navigate = (show: string) => (selectedBand?: any) =>
+  const navigate = (show: string) => (selectedBand?: any) => {
+    console.debug({ show, selectedBand });
     setResource({
       ...resource,
       bandResource: {
         ...resource.bandResource,
         show,
-        selectedBand: selectedBand._id
+        selectedBand: selectedBand?._id
           ? selectedBand
           : resource.bandResource.selectedBand,
       },
     });
+  };
 
   const {
     list: bands,
@@ -41,7 +43,7 @@ const AppBand = () => {
 
   return (
     <>
-      {resource.bandResource.show === 'lists' && (
+      {resource.bandResource.show === FormType.LIST && (
         <ListView
           title="Band"
           schema={BandSchema}
