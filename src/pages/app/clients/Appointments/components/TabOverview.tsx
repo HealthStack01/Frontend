@@ -14,7 +14,14 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
     if (!text) setFiltered(documentations);
     else {
       const list = documentations.filter((documentation) => {
-        const { createdAt, documentname, createdByname, location, facilityname, status } = documentation;
+        const {
+          createdAt,
+          documentname,
+          createdByname,
+          location,
+          facilityname,
+          status,
+        } = documentation;
         const time = toDurationString(createdAt);
         const day = toShortDate(createdAt);
         const description = `${time} ${day}: ${documentname} ${createdByname}  ${location}, ${facilityname}  ${status}`;
@@ -40,17 +47,34 @@ const TabOverview = ({ documentations, onNewPrescription, onNewLabOrder }) => {
           <SearchInput onChange={(e) => filterDocumentations(e.target.value)} />
         </div>
         <ButtonGroup>
-          <Button background="#Fafafa" color="#222" showicon={true} onClick={onNewPrescription}>
+          <Button
+            background="#Fafafa"
+            color="#222"
+            showicon={true}
+            onClick={onNewPrescription}
+          >
             <i className="bi bi-plus-circle"></i> New Prescription
           </Button>
-          <Button background="#Fafafa" color="#222" showicon={true} onClick={onNewLabOrder}>
+          <Button
+            background="#Fafafa"
+            color="#222"
+            showicon={true}
+            onClick={onNewLabOrder}
+          >
             <i className="bi bi-plus-circle"></i> New Lab Order
           </Button>
         </ButtonGroup>
       </TableMenu>
       <div>
         {filtered.map((documentation, index) => {
-          const { createdAt, documentname, createdByname, location, facilityname, status } = documentation;
+          const {
+            createdAt,
+            documentname,
+            createdByname,
+            location,
+            facilityname,
+            status,
+          } = documentation;
           const time = toDurationString(createdAt);
           const day = toShortDate(createdAt);
           const description = `${time} on ${day}: ${documentname} by ${createdByname}  ${location}, ${facilityname}  ${status}`;

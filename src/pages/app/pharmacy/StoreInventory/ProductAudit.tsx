@@ -6,8 +6,8 @@ import CustomTable from '../../../../components/customtable';
 import useRepository from '../../../../components/hooks/repository';
 import { Models } from '../../Constants';
 import FormView from '../../generic/FormView';
-import { ProductAuditSchema } from '../../schema';
 import { BottomWrapper } from '../../styles';
+import { ProductAuditSchema } from '../schema';
 
 const ProductAudit = ({ onBackClick, facilityId, locationId, userId }) => {
   const { submit } = useRepository(Models.INVENTORY);
@@ -50,7 +50,12 @@ const ProductAudit = ({ onBackClick, facilityId, locationId, userId }) => {
 
   return (
     <>
-      <FormView schema={ProductAuditSchema} title="Product Batch" backClick={onBackClick} onSubmit={onAddAudit} />
+      <FormView
+        schema={ProductAuditSchema}
+        title="Product Batch"
+        backClick={onBackClick}
+        onSubmit={onAddAudit}
+      />
       <CustomTable columns={ProductAuditSchema} data={[]} />
       <BottomWrapper>
         <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />

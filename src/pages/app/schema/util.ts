@@ -2,12 +2,21 @@ import * as yup from 'yup';
 
 const getResolver = (schema: Schema[]) => {
   const validators = {};
-  const requiredValidator = (required, name) => required && yup.string().required(`Field: ${name} is required`);
+  const requiredValidator = (required, name) =>
+    required && yup.string().required(`Field: ${name} is required`);
   schema.forEach(({ name, key, validator, required }) => {
     const func = validator || requiredValidator(required, name);
     if (func) validators[key] = func;
   });
   return yup.object(validators);
+};
+
+const getDefaultValues = (schema: Schema[]) => {
+  const defaultValues = {};
+  schema.forEach((obj) => {
+    defaultValues[obj.key] = obj.defaultValue;
+  });
+  return defaultValues;
 };
 
 enum InputType {
@@ -28,6 +37,14 @@ enum InputType {
   READ_ONLY,
 }
 
+enum FormType {
+  EDIT = 'edit',
+  CREATE = 'create',
+  DETAIL = 'details',
+  LIST = 'lists',
+  BULK_CREATE = 'bulk_create',
+}
+
 export type Schema = {
   name: string;
   key: string;
@@ -38,6 +55,7 @@ export type Schema = {
   required?: boolean;
   validator?: any;
   options?: any[];
+  defaultValue?: string;
 };
 
-export { getResolver, InputType };
+export { FormType, getDefaultValues, getResolver, InputType };

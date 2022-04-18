@@ -3,7 +3,14 @@ import React from 'react';
 import Button from '../../../../components/buttons/Button';
 import RadioButton from '../../../../components/inputs/basic/Radio';
 import Textarea from '../../../../components/inputs/basic/Textarea';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -21,7 +28,12 @@ const LaboratoryDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your Laboratory’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -36,6 +48,7 @@ const LaboratoryDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
 
             <RadioButton
+              name="Appointment Schedule"
               title="Appointment Schedule"
               options={[
                 {

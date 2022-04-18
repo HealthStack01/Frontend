@@ -1,21 +1,33 @@
 import sumBy from 'lodash/sumBy';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import useRepository from '../../../../components/hooks/repository';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { Models } from '../../Constants';
-import { BillCreateDetailSchema, BillCustomerSchema, BillServiceSchema } from '../../schema';
-import { BottomWrapper, DetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BillCreateDetailSchema,
+  BillCustomerSchema,
+  BillServiceSchema,
+} from '../../shared/bill';
+import {
+  BottomWrapper,
+  DetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 import { getBillingInfo, getSellingPrice } from './utils';
 
 const BillClientCreate = ({ backClick, onSubmit: _ }) => {
-  const { user, submit: submitBilling } = useRepository(Models.BILLCREATE);
-  const { find: findLocation } = useRepository(Models.LOCATION);
-  const [location, setLocation] = useState<any>({});
+  const {
+    user,
+    submit: submitBilling,
+    location,
+  } = useRepository(Models.BILLCREATE);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const { handleSubmit, control } = useForm();
 
@@ -24,7 +36,15 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
 
   const addNewBill = ({
     clientId,
-    inventoryId: { category, name, _id: billingId, productId, contracts, baseunit, costprice },
+    inventoryId: {
+      category,
+      name,
+      _id: billingId,
+      productId,
+      contracts,
+      baseunit,
+      costprice,
+    },
     quantity,
   }) => {
     setClient(clientId);
@@ -59,7 +79,8 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
     document.location = location.locationName + ' ' + location.locationType;
     document.locationId = location._id;
     document.client = client._id;
-    document.clientname = client.firstname + ' ' + client.middlename + ' ' + client.lastname;
+    document.clientname =
+      client.firstname + ' ' + client.middlename + ' ' + client.lastname;
     document.clientobj = client;
     document.createdBy = user._id;
     document.createdByname = user.firstname + ' ' + user.lastname;
@@ -123,26 +144,22 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
       serviceList: serviceItems,
     });
   };
-
-  //FIXME: This should come from the global context, This is an hack, not production ready
-  const loadLocation = () => {
-    findLocation(undefined)
-      .then((res: any) => setLocation(res.data[0]))
-      .catch(() => toast.error('Location not loaded'));
-  };
-
-  useEffect(() => {
-    loadLocation();
-  }, []);
   return (
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
           <div>
             <h2>Create Bill</h2>
-            <span>Create a New Bill by filling out the form below to get started.</span>
+            <span>
+              Create a New Bill by filling out the form below to get started.
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form onSubmit={handleSubmit(addNewBill)}>
           <DetailsWrapper title="Create Bill Service" defaultExpanded={true}>
@@ -162,17 +179,20 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
               })}
             </GridWrapper>
             <GridWrapper>
-              {BillServiceSchema.map((schema, index) => {
-                return (
-                  <DynamicInput
-                    key={index}
-                    name={schema.key}
-                    control={control}
-                    label={schema.description}
-                    inputType={schema.inputType}
-                  />
-                );
-              })}
+              {BillServiceSchema.filter((obj) => obj.key).map(
+                (schema, index) => {
+                  return (
+                    <DynamicInput
+                      key={index}
+                      name={schema.key}
+                      control={control}
+                      label={schema.description}
+                      inputType={schema.inputType}
+                      options={schema.options}
+                    />
+                  );
+                },
+              )}
               <button
                 style={{
                   borderRadius: '32px',

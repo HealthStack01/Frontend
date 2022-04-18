@@ -20,7 +20,7 @@ interface Props {
       description: string;
       amount: string;
     },
-    event: any
+    event: any,
   ) => void;
   progressPending?: any;
 }
@@ -132,7 +132,11 @@ const tableHead: TableColumn<TableProps>[] = [
   },
 ];
 
-const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked, progressPending }) => {
+const BillClient: React.FC<Props> = ({
+  handleCreate,
+  onRowClicked,
+  progressPending,
+}) => {
   return (
     <>
       <PageWrapper>
@@ -156,7 +160,13 @@ const BillClient: React.FC<Props> = ({ handleCreate, onRowClicked, progressPendi
           </Button>
         </TableMenu>
 
-        <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
+        <div
+          style={{
+            width: '100%',
+            height: 'calc(100vh - 200px)',
+            overflow: 'auto',
+          }}
+        >
           <CustomTable
             title="Bills"
             columns={tableHead}

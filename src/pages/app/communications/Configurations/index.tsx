@@ -6,7 +6,8 @@ import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
-import { ConversationConfigSchema } from '../../schema/communication';
+import { FormType } from '../../schema/util';
+import { ConversationConfigSchema } from '../schema';
 
 const AppConfiguration = () => {
   const { resource, setResource } = useObjectState();
@@ -20,7 +21,9 @@ const AppConfiguration = () => {
       configurationResource: {
         ...resource.configurationResource,
         show,
-        selectedConfiguration: selectedConfiguration || resource.configurationResource.selectedConfiguration,
+        selectedConfiguration:
+          selectedConfiguration ||
+          resource.configurationResource.selectedConfiguration,
       },
     });
 
@@ -48,7 +51,8 @@ const AppConfiguration = () => {
           items={configurations}
         />
       )}
-      {(resource.configurationResource.show === 'create' || resource.configurationResource.show === 'edit') && (
+      {(resource.configurationResource.show === FormType.CREATE ||
+        resource.configurationResource.show === FormType.EDIT) && (
         <FormView
           title="Conversation Config"
           schema={ConversationConfigSchema}
@@ -61,7 +65,7 @@ const AppConfiguration = () => {
           }}
         />
       )}
-      {resource.configurationResource.show === 'details' && (
+      {resource.configurationResource.show === FormType.DETAIL && (
         <DetailView
           title="Conversation Config"
           schema={ConversationConfigSchema}

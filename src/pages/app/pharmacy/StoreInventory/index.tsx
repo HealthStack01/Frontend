@@ -19,14 +19,22 @@ const AppInventory = () => {
       storeInventoryResource: {
         ...resource.storeInventoryResource,
         show,
-        selectedStoreInventory: selectedStoreInventory || resource.storeInventoryResource.selectedStoreInventory,
+        selectedStoreInventory:
+          selectedStoreInventory ||
+          resource.storeInventoryResource.selectedStoreInventory,
       },
     });
 
-  const { list: inventory, setLocationType, setFindQuery } = useRepository(Models.INVENTORY, handleNavigation);
+  const {
+    list: inventory,
+    setLocationType,
+    setFindQuery,
+  } = useRepository(Models.INVENTORY, handleNavigation);
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
-    setFindQuery(storeInventoryQuery(undefined, undefined, searchText || undefined));
+    setFindQuery(
+      storeInventoryQuery(undefined, undefined, searchText || undefined),
+    );
   }, [searchText]);
   useEffect(() => {
     setLocationType('Pharmacy');
@@ -45,7 +53,10 @@ const AppInventory = () => {
       )}
 
       {show === Views.DETAIL && (
-        <InventoryDetails row={selectedStoreInventory} onBackClick={handleNavigation(Views.LIST)} />
+        <InventoryDetails
+          row={selectedStoreInventory}
+          onBackClick={handleNavigation(Views.LIST)}
+        />
       )}
     </>
   );

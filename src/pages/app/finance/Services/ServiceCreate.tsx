@@ -4,8 +4,15 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { ServicesSchema } from '../../schema/ModelSchema';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { ServicesSchema } from '../schema';
 
 interface Props {
   backClick: () => void;
@@ -13,7 +20,11 @@ interface Props {
   handleSearch: (_event) => void;
 }
 
-const ServiceCreate: React.FC<Props> = ({ backClick, onSubmit, handleSearch }) => {
+const ServiceCreate: React.FC<Props> = ({
+  backClick,
+  onSubmit,
+  handleSearch,
+}) => {
   const { handleSubmit, control } = useForm();
 
   return (
@@ -22,9 +33,16 @@ const ServiceCreate: React.FC<Props> = ({ backClick, onSubmit, handleSearch }) =
         <HeadWrapper>
           <div>
             <h2>Create Service</h2>
-            <span>Create a new Service by filling out the form below to get started.</span>
+            <span>
+              Create a new Service by filling out the form below to get started.
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title="Create Employee">

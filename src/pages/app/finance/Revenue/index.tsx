@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../context/feathers';
+import { FormType } from '../../schema/util';
 import RevenueDetails from './RevenueDetail';
 import Revenue from './RevenueList';
 
@@ -98,7 +99,7 @@ const AppRevenue = () => {
         />
       )}
 
-      {resource.revenuesResource.show === 'details' && (
+      {resource.revenuesResource.show === FormType.DETAIL && (
         <RevenueDetails
           row={resource.revenuesResource.selectedRevenue}
           backClick={() =>

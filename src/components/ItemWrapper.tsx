@@ -9,6 +9,7 @@ interface ItemWrapperProps {
   margin?: string;
 }
 
-export const ItemWrapper: React.FC<ItemWrapperProps> = ({ className, children }) => (
-  <div className={className}>{children}</div>
-);
+export const ItemWrapper: React.FC<ItemWrapperProps> = ({
+  className,
+  children,
+}) => <div className={className}>{children}</div>;

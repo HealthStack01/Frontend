@@ -34,7 +34,10 @@ function Login() {
         password,
       })
       .then((res) => {
-        const user = { ...res.user, currentEmployee: { ...res.user.employeeData[0] } };
+        const user = {
+          ...res.user,
+          currentEmployee: { ...res.user.employeeData[0] },
+        };
         setUser(user);
         localStorage.setItem('user', JSON.stringify(user));
         navigate('/app');
@@ -54,15 +57,19 @@ function Login() {
             <Controller
               name="email"
               control={control}
-              render={({ field: { ref: _re, ...field } }) => <Input {...field} label="Email" placeholder="Email" />}
+              render={({ field: { ref: _re, ...field } }) => (
+                <Input {...field} label="Email" placeholder="Email" />
+              )}
             />
             <Controller
               name="password"
               control={control}
-              render={({ field: { ref: _re, ...field } }) => <PasswordInput {...field} />}
+              render={({ field: { ref: _re, ...field } }) => (
+                <PasswordInput {...field} />
+              )}
             />
-            <CheckboxInput label="Keep me Logged in" />
-            <Button type="submit" label="Login" fullwidth />
+            <CheckboxInput label="" options={['Keep me Logged in']} />
+            <Button type="submit" label="Login" fullwidth="true" />
           </form>
 
           <div className="bottom-center">

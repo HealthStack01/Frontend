@@ -1,40 +1,49 @@
 /* eslint-disable indent */
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import useRepository from '../../../../components/hooks/repository';
-import { ClinicalDocuments, Models } from '../../Constants';
-import { GenericTableSchema, LaboratoryOrderSchema, PrescriptionOrderSchema } from '../../schema';
+import {
+  DocumentationSchemas,
+  GenericTableSchema,
+  LaboratoryOrderSchema,
+  PrescriptionOrderSchema,
+  RadiologyOrderSchema,
+} from '../../clinic/schema';
+import { Models } from '../../Constants';
+import FormRowsView from '../../generic/FormRowsView';
+import { FormType } from '../../schema/util';
 import { FullDetailsWrapper, PageWrapper } from '../../styles';
 import { loadError, loadSuccess } from '../../Utils';
-import QuickForm from './components/FormBox';
 import PatientProfile from './components/PatientProfile';
 import TabBox from './components/TabBox';
+import VideoConference from './components/VideoConference';
 import { queryDocumentations, queryOrders } from './query';
 
 const documentSchemas = {
   Prescription: PrescriptionOrderSchema,
-  'Lab Order': LaboratoryOrderSchema,
+  'Lab Orders': LaboratoryOrderSchema,
+  'Radiology Orders': RadiologyOrderSchema,
 };
+DocumentationSchemas.forEach(({ name, schema }) => {
+  documentSchemas[name] = schema;
+});
+
+const bulkCreateSchemas = ['Prescription', 'Lab Order', 'Radiology Order'];
 
 const Attend = ({ appointment, backClick }) => {
   const [currentDocumentName, setCurrentDocumentName] = useState(null);
   const [openTel, setOpenTel] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openBtn = Boolean(anchorEl);
   const [client, setClient] = useState<any>({});
   const [prescriptions, setPrescriptions] = useState([]);
-  const [tests, setTests] = useState([]);
+  const [laboratoryTests, setLaboratoryTests] = useState([]);
+  const [radiologyTests, setRadiologyTests] = useState([]);
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
-  const { find: findClinicalDocument, submit, user } = useRepository(Models.CLINICAL_DOCUMENT);
+  const {
+    find: findClinicalDocument,
+    submit,
+    user,
+  } = useRepository(Models.CLINICAL_DOCUMENT);
   const [, setDocumentTypes] = useState([]);
   const { get: getClient } = useRepository(Models.CLIENT);
   const { find, location } = useRepository(Models.ORDER);
@@ -44,6 +53,7 @@ const Attend = ({ appointment, backClick }) => {
 
   const loadClient = () => {
     getClient(appointment.clientId).then((client) => {
+      console.debug({ client, appointment });
       setClient(client);
     });
   };
@@ -64,9 +74,13 @@ const Attend = ({ appointment, backClick }) => {
   };
 
   const loadDocuments = (documentName?: string) => {
-    findClinicalDocument(queryDocumentations(documentName, appointment.clientId))
+    findClinicalDocument(
+      queryDocumentations(documentName, appointment.clientId),
+    )
       .then((res: any) => {
-        setClinicalDocuments(res.data.filter((obj) => obj.documentname !== 'Lab Order'));
+        setClinicalDocuments(
+          res.data.filter((obj) => obj.documentname !== 'Lab Orders'),
+        );
         toast(loadSuccess('Clinical documents'));
       })
       .catch((err) => toast.error(loadError('Clinical documents', err)));
@@ -75,7 +89,9 @@ const Attend = ({ appointment, backClick }) => {
   const loadOrders = (orderType, setList) => {
     find(queryOrders(orderType, appointment.clientId))
       .then((response: any) => {
-        setList(response.data.filter((obj) => obj.documentname !== 'Lab Order'));
+        setList(
+          response.data.filter((obj) => obj.documentname !== 'Lab Orders'),
+        );
       })
       .catch((err) => toast.error(loadError(orderType, err)));
   };
@@ -84,24 +100,29 @@ const Attend = ({ appointment, backClick }) => {
     loadClient();
     loadDocuments();
     loadOrders('Prescription', setPrescriptions);
-    loadOrders('Lab Order', setTests);
+    loadOrders('Lab Order', setLaboratoryTests);
+    loadOrders('Radiology Order', setRadiologyTests);
     loadDocumentTypes();
   }, []);
 
   const changeFormSchema = (documentName: string) => {
-    handleCloseMenu();
     setCurrentDocumentName(documentName);
   };
 
   const handleSubmit = (data) => {
-    const { _id: clientId, firstname, middlename, lastname } = client;
-    const { _id: locationId, name: locationName, locationType } = location as any;
-    const { _id: userId, firstname: userFirstname, lastname: userLastname, currentEmployee } = user;
+    const { _id: clientId, firstname, middlename = '', lastname } = client;
+    const { _id: locationId, name: locationName, locationType } = location;
+    const {
+      _id: userId,
+      firstname: userFirstname,
+      lastname: userLastname,
+      currentEmployee,
+    } = user;
 
     const document = {
       facility: currentEmployee.facility,
       facilityname: currentEmployee.facilityDetail.facilityName,
-      documentname: currentDocumentName === 'Lab Order' ? 'Lab Orders' : currentDocumentName,
+      documentname: currentDocumentName,
       documentdetail: data,
       location: `${locationName} ${locationType}`,
       locationId,
@@ -119,17 +140,19 @@ const Attend = ({ appointment, backClick }) => {
     <PageWrapper className="attend-wrapper">
       <PatientProfile patient={client} />
       <FullDetailsWrapper className="attend attend-large">
-        {openTel && <iframe width="100%" />}
+        {openTel && (
+          <VideoConference
+            clientName={client.firstname}
+            roomId={user._id}
+            onClose={() => setOpenTel(false)}
+          />
+        )}
         <TabBox
-          handleClick={handleClick}
-          anchorEl={anchorEl}
-          openBtn={openBtn}
-          handleCloseMenu={handleCloseMenu}
-          handleMenuClick={() => {}}
           onNewDocument={(docName) => changeFormSchema(docName)}
-          documentTypes={Object.values(ClinicalDocuments)}
+          documentTypes={Object.keys(documentSchemas)}
           documentations={clinicalDocuments}
-          tests={tests}
+          laboratoryTests={laboratoryTests}
+          radiologyTests={radiologyTests}
           prescriptions={prescriptions}
           onOpenTelemedicine={() => setOpenTel(!openTel)}
           onEndEncounter={backClick}
@@ -137,7 +160,13 @@ const Attend = ({ appointment, backClick }) => {
       </FullDetailsWrapper>
       {currentDocumentName && (
         <FullDetailsWrapper className="attend attend-medium">
-          <QuickForm
+          <FormRowsView
+            title={currentDocumentName}
+            formType={
+              bulkCreateSchemas.includes(currentDocumentName)
+                ? FormType.BULK_CREATE
+                : FormType.CREATE
+            }
             schema={documentSchemas[currentDocumentName] || GenericTableSchema}
             onCancel={() => changeFormSchema(null)}
             onSubmit={handleSubmit}

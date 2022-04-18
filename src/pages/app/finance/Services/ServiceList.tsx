@@ -6,17 +6,25 @@ import Input from '../../../../components/inputs/basic/Input';
 import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { ServicesSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
+import { ServicesSchema } from '../schema';
 
 interface Props {
   handleCreate?: () => void;
-  onRowClicked?: (row: { id: any; name: string; panel: string; amount: string }, event: any) => void;
+  onRowClicked?: (
+    row: { id: any; name: string; panel: string; amount: string },
+    event: any,
+  ) => void;
   handleSearch: (_event) => void;
   dataTree: any[];
 }
 
-const Servicess: React.FC<Props> = ({ handleCreate, onRowClicked, handleSearch, dataTree }) => {
+const Servicess: React.FC<Props> = ({
+  handleCreate,
+  onRowClicked,
+  handleSearch,
+  dataTree,
+}) => {
   return (
     <PageWrapper>
       <h2>Services </h2>

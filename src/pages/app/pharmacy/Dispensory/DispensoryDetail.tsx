@@ -10,9 +10,16 @@ import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { Models } from '../../Constants';
-import { DispensaryCreateSchema, DispensaryDetailSchema } from '../../schema';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 import { randomString } from '../../Utils';
+import { DispensaryCreateSchema, DispensaryDetailSchema } from '../schema';
 
 const flattenAndAddCategory = (row) => {
   row.bills.forEach((obj) => {
@@ -23,7 +30,13 @@ const flattenAndAddCategory = (row) => {
   return row.bills.map((obj) => obj.order).flat();
 };
 
-const DispensaryDetails = ({ row, onBackClick, onSubmit, userId, facilityId }) => {
+const DispensaryDetails = ({
+  row,
+  onBackClick,
+  onSubmit,
+  userId,
+  facilityId,
+}) => {
   const { submit: makePayment } = useRepository(Models.PRODUCTENTRY);
   const options = ['Sales', 'In-house', 'Dispense', 'Audit'];
   const invoiceNo = randomString(6);
@@ -66,7 +79,8 @@ const DispensaryDetails = ({ row, onBackClick, onSubmit, userId, facilityId }) =
       });
   };
 
-  if (locationId) return <div>You need to select a store before removing inventory</div>;
+  if (locationId)
+    return <div>You need to select a store before removing inventory</div>;
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -76,7 +90,12 @@ const DispensaryDetails = ({ row, onBackClick, onSubmit, userId, facilityId }) =
             <span>Below are your dispensary’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={onBackClick}
+            />
           </div>
         </HeadWrapper>
 
@@ -95,12 +114,24 @@ const DispensaryDetails = ({ row, onBackClick, onSubmit, userId, facilityId }) =
             />
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'end' }}>
-            <Input label="Date" name="date" defaultValue={new Date().toLocaleString()} disabled />
-            <Input label="Invoice" name="phone" defaultValue={invoiceNo} disabled />
+            <Input
+              label="Date"
+              name="date"
+              defaultValue={new Date().toLocaleString()}
+              disabled
+            />
+            <Input
+              label="Invoice"
+              name="phone"
+              defaultValue={invoiceNo}
+              disabled
+            />
             <Input
               label="Total"
               name="quantity"
-              defaultValue={sumBy(prescriptions, (obj: any) => obj.serviceInfo.amount) + ''}
+              defaultValue={
+                sumBy(prescriptions, (obj: any) => obj.serviceInfo.amount) + ''
+              }
               disabled
             />
           </GridWrapper>

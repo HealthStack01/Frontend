@@ -4,7 +4,14 @@ import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
 import CustomSelect from '../../../../components/inputs/basic/Select';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -36,7 +43,12 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your payment’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -116,7 +128,7 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               <label>Status</label>
               <p>{row.status}</p>
             </div>
-            <RadioButton title="Type" options={typeOptions} />
+            <RadioButton name="Type" title="Type" options={typeOptions} />
             <div>
               <label>Description</label>
               <p>{row.decription}</p>

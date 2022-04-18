@@ -1,8 +1,14 @@
 import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
-import { RevenueSchema } from '../../schema';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { RevenueSchema } from '../schema';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -20,7 +26,12 @@ const RevenueDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your Revenue’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>

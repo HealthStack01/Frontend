@@ -4,15 +4,20 @@ import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { InventoryStoreSchema } from '../../schema';
 import { PageWrapper } from '../../styles';
+import { InventoryStoreSchema } from '../schema';
 
 const Inventory = ({ onRowClicked, items, onSearch, onBackClick }) => {
   return (
     <PageWrapper>
       <h2>Inventory</h2>
       <div>
-        <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
+        <Button
+          label="Back to List"
+          background="#fdfdfd"
+          color="#333"
+          onClick={onBackClick}
+        />
       </div>
 
       <TableMenu>

@@ -20,7 +20,7 @@ interface Props {
       department: string;
       departmentalUnit: string;
     },
-    event: any
+    event: any,
   ) => void;
 }
 

@@ -4,7 +4,13 @@ import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import Textarea from '../../../../components/inputs/basic/Textarea';
-import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -31,7 +37,12 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
             <span>Below are your band’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Cancel Editing'}
               background={'#f2f2f2'}
@@ -65,7 +76,9 @@ const BillModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
           <Textarea
             label="Description"
             value={values.description}
-            onChange={(e) => setValue({ ...values, description: e.target.value })}
+            onChange={(e) =>
+              setValue({ ...values, description: e.target.value })
+            }
           />
         </GridWrapper>
 

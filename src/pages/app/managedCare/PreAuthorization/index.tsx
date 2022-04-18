@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import PreAuthorzationDetails from './PreAuthorizationDetail';
 import PreAuthorizations from './PreAuthorizationList';
 
@@ -32,7 +33,7 @@ const AppPreAuthorization = () => {
         />
       )}
 
-      {resource.collectionsResource.show === 'details' && (
+      {resource.collectionsResource.show === FormType.DETAIL && (
         <PreAuthorzationDetails
           row={resource.collectionsResource.selectedCollection}
           backClick={() =>

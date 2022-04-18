@@ -2,7 +2,14 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -20,7 +27,12 @@ const ClaimPaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your payment detail details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -79,10 +91,22 @@ const ClaimPaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             </div>
           </GridWrapper>
           <GridWrapper style={{ alignItems: 'center' }} className="two-columns">
-            <Input label="Authorization Code" name="authorizationCode" size="small" />
-            <Button label="Update" type="submit" style={{ width: '80px', height: '42px' }} />
+            <Input
+              label="Authorization Code"
+              name="authorizationCode"
+              size="small"
+            />
+            <Button
+              label="Update"
+              type="submit"
+              style={{ width: '80px', height: '42px' }}
+            />
             <Input label="CoPayAmount" name="coPayAmount" size="small" />
-            <Button label="Update" type="submit" style={{ width: '80px', height: '42px' }} />
+            <Button
+              label="Update"
+              type="submit"
+              style={{ width: '80px', height: '42px' }}
+            />
           </GridWrapper>
           <BottomWrapper>
             <Button label="Approve" type="submit" />

@@ -8,7 +8,10 @@ function Breadcrumbs() {
   const pathnames = location.pathname.split('/').filter((x) => x);
 
   return (
-    <MUIBreadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', flexWrap: 'nowrap' }}>
+    <MUIBreadcrumbs
+      aria-label="breadcrumb"
+      sx={{ display: 'flex', flexWrap: 'nowrap' }}
+    >
       {pathnames.map((name, index) => {
         const last = index === pathnames.length - 1;
         const to = `/${pathnames.slice(0, index + 1).join('/')}`;

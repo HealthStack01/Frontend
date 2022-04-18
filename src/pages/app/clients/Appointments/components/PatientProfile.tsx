@@ -45,8 +45,8 @@ const PatientProfile = ({ patient }) => {
 
         <div>
           <p>
-            Description: {dob ? formatDistanceToNowStrict(parseISO(dob)) : ''} {gender} {maritalstatus} {religion}{' '}
-            {profession}
+            Description: {dob ? formatDistanceToNowStrict(parseISO(dob)) : ''}{' '}
+            {gender} {maritalstatus} {religion} {profession}
           </p>
           <p>Geneotype: {genotype}</p>
           <p>Blood Group: {bloodgroup}</p>

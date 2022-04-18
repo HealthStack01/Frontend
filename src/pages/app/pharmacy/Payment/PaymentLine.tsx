@@ -4,8 +4,9 @@ import { toast } from 'react-toastify';
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
-import { InputType, PaymentLineSchema } from '../../schema';
+import { InputType } from '../../schema/util';
 import { GridWrapper } from '../../styles';
+import { PaymentLineSchema } from '../schema';
 import AmountLabel from './AmountLabel';
 
 const FULL = 'Full';
@@ -41,7 +42,9 @@ const PaymentLine = ({ payment, draftPayment }) => {
 
   return (
     <GridWrapper>
-      {PaymentLineSchema.filter((obj) => obj.inputType !== InputType.HIDDEN).map((schema, i) => (
+      {PaymentLineSchema.filter(
+        (obj) => obj.inputType !== InputType.HIDDEN,
+      ).map((schema, i) => (
         <div key={i}>
           <label>{schema.name}</label>
           <p>{schema.selector(payment)}</p>
@@ -50,6 +53,7 @@ const PaymentLine = ({ payment, draftPayment }) => {
       <div>
         <RadioButton
           title="Type"
+          name="Type"
           options={[FULL, PART]}
           onChange={(e) => {
             setIsFullPayment(e.target.value === FULL);
@@ -62,7 +66,11 @@ const PaymentLine = ({ payment, draftPayment }) => {
         {!isFullPayment && (
           <>
             <div>
-              <Input type="number" defaultValue={amountPaying} onChange={checkAndSetAmountEntered} />
+              <Input
+                type="number"
+                defaultValue={amountPaying}
+                onChange={checkAndSetAmountEntered}
+              />
             </div>
             <div>
               <AmountLabel>paid up {amountPaying}</AmountLabel>

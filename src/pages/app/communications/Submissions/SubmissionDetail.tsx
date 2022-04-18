@@ -2,8 +2,14 @@ import React from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicFieldView from '../../../../components/inputs/DynamicFieldView';
-import { SubmissionSchema } from '../../schema/communication';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { SubmissionSchema } from '../schema';
 import SubmissionLine from './SubmissionLine';
 
 const SubmissionDetails = ({ onEdit, onDelete, row, backClick }) => {
@@ -16,7 +22,12 @@ const SubmissionDetails = ({ onEdit, onDelete, row, backClick }) => {
             <span>Below are your Submission’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Delete'}
               background="#FFE9E9"

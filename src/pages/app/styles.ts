@@ -333,7 +333,8 @@ export const autoSuggestStyles = (defaultTheme) => {
     inputOpen: classes.react_autosuggest__input__open,
     inputFocused: classes.react_autosuggest__input__focused,
     // suggestionsContainer: classes.react_autosuggest__suggestions_container,
-    suggestionsContainerOpen: classes.react_autosuggest__suggestions_container__open,
+    suggestionsContainerOpen:
+      classes.react_autosuggest__suggestions_container__open,
     suggestionsList: classes.react_autosuggest__suggestions_list,
     suggestion: classes.react_autosuggest__suggestion,
     suggestionHighlighted: classes.react_autosuggest__suggestion__highlighted,

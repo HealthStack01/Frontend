@@ -6,7 +6,8 @@ import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
-import { ProductEntrySchema } from '../../schema';
+import { FormType } from '../../schema/util';
+import { ProductEntrySchema } from '../schema';
 import { productEntryQuery } from './query';
 
 const AppProductEntry = () => {
@@ -21,7 +22,9 @@ const AppProductEntry = () => {
       productEntryResource: {
         ...resource.productEntryResource,
         show,
-        selectedProductEntry: selectedProductEntry || resource.productEntryResource.selectedProductEntry,
+        selectedProductEntry:
+          selectedProductEntry ||
+          resource.productEntryResource.selectedProductEntry,
       },
     });
   const [searchText, setSearchText] = useState('');
@@ -36,7 +39,9 @@ const AppProductEntry = () => {
   } = useRepository<any>(Models.PRODUCTENTRY, navigate);
 
   useEffect(() => {
-    setFindQuery(productEntryQuery(facility?._id, location?._id, searchText || undefined));
+    setFindQuery(
+      productEntryQuery(facility?._id, location?._id, searchText || undefined),
+    );
   }, []);
 
   return (
@@ -51,7 +56,8 @@ const AppProductEntry = () => {
           items={productEntries}
         />
       )}
-      {(resource.productEntryResource.show === 'create' || resource.productEntryResource.show === 'edit') && (
+      {(resource.productEntryResource.show === FormType.CREATE ||
+        resource.productEntryResource.show === FormType.EDIT) && (
         <FormView
           title="Product Entry"
           schema={ProductEntrySchema}
@@ -60,7 +66,7 @@ const AppProductEntry = () => {
           selectedData={selectedProductEntry}
         />
       )}
-      {resource.productEntryResource.show === 'details' && (
+      {resource.productEntryResource.show === FormType.DETAIL && (
         <DetailView
           title="Product Entry"
           schema={ProductEntrySchema}

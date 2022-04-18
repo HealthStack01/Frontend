@@ -21,5 +21,8 @@ export const autoSuggestQuery = (options, searchText) => {
       $options: 'i',
     };
   }
+  if (options.fields) {
+    params.query = { ...params.query, ...options.fields };
+  }
   return params;
 };

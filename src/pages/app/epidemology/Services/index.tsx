@@ -1,4 +1,5 @@
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import EmployeeCreate from './RevenueCreate';
 import EmployeeDetails from './RevenueDetail';
 import Employees from './RevenueList';
@@ -31,7 +32,7 @@ const AppServices = () => {
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
+      {resource.employeeResource.show === FormType.CREATE && (
         <EmployeeCreate
           backClick={() =>
             setResource((prevState) => ({
@@ -44,7 +45,7 @@ const AppServices = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'details' && (
+      {resource.employeeResource.show === FormType.DETAIL && (
         <EmployeeDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
@@ -67,7 +68,7 @@ const AppServices = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
+      {resource.employeeResource.show === FormType.EDIT && (
         <EmployeeModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>

@@ -6,7 +6,8 @@ import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
-import { LocationSchema } from '../../schema';
+import { FormType } from '../../schema/util';
+import { LocationSchema } from '../schema';
 
 const AppLocation = () => {
   const { resource, setResource } = useObjectState();
@@ -20,7 +21,9 @@ const AppLocation = () => {
       locationResource: {
         ...resource.locationResource,
         show,
-        selectedLocation: selectedLocation || resource.locationResource.selectedLocation,
+        selectedLocation: selectedLocation._id
+          ? selectedLocation
+          : resource.locationResource.selectedLocation,
       },
     });
 
@@ -48,7 +51,8 @@ const AppLocation = () => {
           items={locations}
         />
       )}
-      {(resource.locationResource.show === 'create' || resource.locationResource.show === 'edit') && (
+      {(resource.locationResource.show === FormType.CREATE ||
+        resource.locationResource.show === FormType.EDIT) && (
         <FormView
           title="Location"
           schema={LocationSchema}
@@ -57,7 +61,7 @@ const AppLocation = () => {
           selectedData={selectedLocation}
         />
       )}
-      {resource.locationResource.show === 'details' && (
+      {resource.locationResource.show === FormType.DETAIL && (
         <DetailView
           title="Location"
           schema={LocationSchema}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import ReferralsDetails from './ReferralsDetail';
 import Referrals from './ReferralsList';
 const AppReferrals = () => {
@@ -31,7 +32,7 @@ const AppReferrals = () => {
         />
       )}
 
-      {resource.revenuesResource.show === 'details' && (
+      {resource.revenuesResource.show === FormType.DETAIL && (
         <ReferralsDetails
           row={resource.revenuesResource.selectedRevenue}
           backClick={() =>

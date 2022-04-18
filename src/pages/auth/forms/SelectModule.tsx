@@ -2,7 +2,7 @@ import { Box, FormGroup, Stack } from '@mui/material';
 import React from 'react';
 
 import DynamicInput from '../../../components/inputs/DynamicInput';
-import { ModulesSchema } from '../../app/schema';
+import { ModulesSchema } from '../../app/schema/ModelSchema';
 
 function SelectModule({ control }) {
   return (
@@ -13,9 +13,17 @@ function SelectModule({ control }) {
           justifyContent: 'space-between',
         }}
       >
-        {ModulesSchema.map((schema, i) => (
+        {ModulesSchema.map((field, i) => (
           <FormGroup key={i}>
-            <DynamicInput control={control} {...schema} />
+            <DynamicInput
+              {...field}
+              key={i}
+              name={field.key}
+              control={control}
+              label={field.name}
+              inputType={field.inputType}
+              options={field.options || []}
+            />
           </FormGroup>
         ))}
       </Box>

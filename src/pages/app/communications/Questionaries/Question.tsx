@@ -7,12 +7,14 @@ import useRepository from '../../../../components/hooks/repository';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import { Models } from '../../Constants';
-import { InputType } from '../../schema';
+import { InputType } from '../../schema/util';
 import { BottomWrapper, DetailsWrapper } from '../../styles';
 
 const QuestionInput = ({ onSubmit, question }) => {
   const { submit } = useRepository(Models.QUESTION);
-  const { handleSubmit, control, register, reset } = useForm({ defaultValues: question });
+  const { handleSubmit, control, register, reset } = useForm({
+    defaultValues: question,
+  });
   const [editMode, setEditMode] = useState(false);
 
   const addQuestion = (data) => {
@@ -25,12 +27,22 @@ const QuestionInput = ({ onSubmit, question }) => {
         setEditMode(false);
         return submittedQ;
       })
-      .then(() => toast.success(`${question._id ? 'Updated' : 'Added'} question successfully`))
+      .then(() =>
+        toast.success(
+          `${question._id ? 'Updated' : 'Added'} question successfully`,
+        ),
+      )
       .catch((error) => toast.error('Error occured adding question ' + error));
   };
 
   return (
-    <DetailsWrapper title={(question.caption || question.name || 'Add new Question') + ' - ' + question.index}>
+    <DetailsWrapper
+      title={
+        (question.caption || question.name || 'Add new Question') +
+        ' - ' +
+        question.index
+      }
+    >
       <form onSubmit={handleSubmit(addQuestion)}>
         <Controller
           name="name"
@@ -58,7 +70,11 @@ const QuestionInput = ({ onSubmit, question }) => {
             />
           )}
         />
-        <input type="hidden" {...register('index')} defaultValue={question.index} />
+        <input
+          type="hidden"
+          {...register('index')}
+          defaultValue={question.index}
+        />
         <CustomSelect
           label="Choose a Input Type"
           name="formInputType"
@@ -71,7 +87,13 @@ const QuestionInput = ({ onSubmit, question }) => {
           <Button label="Clear" background="#FFE9E9" color="#ED0423" />
           {!question._id && <Button label="Add" type="submit" />}
           {editMode && <Button label="Update" type="submit" />}
-          {!editMode && question._id && <Button label="Edit" type="submit" onClick={() => setEditMode(true)} />}
+          {!editMode && question._id && (
+            <Button
+              label="Edit"
+              type="submit"
+              onClick={() => setEditMode(true)}
+            />
+          )}
         </BottomWrapper>
       </form>
     </DetailsWrapper>

@@ -5,8 +5,15 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../components/buttons/Button';
 import DynamicInput from '../../../components/inputs/DynamicInput';
 import { Dictionary } from '../../../types.d';
-import { getResolver } from '../schema';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../styles';
+import { getDefaultValues, getResolver } from '../schema/util';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../styles';
 
 interface Props {
   title: string;
@@ -16,13 +23,23 @@ interface Props {
   selectedData?: Dictionary;
 }
 
-const FormView: React.FC<Props> = ({ title, schema, backClick, selectedData, onSubmit }) => {
-  const resolver = yupResolver(getResolver(schema));
+const FormView: React.FC<Props> = ({
+  title,
+  schema,
+  backClick,
+  selectedData = {},
+  onSubmit,
+}) => {
+  const resolver = yupResolver(getResolver(schema.flat()));
+  const defaultValues = getDefaultValues(schema.flat());
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ defaultValues: selectedData._reactName ? {} : selectedData, resolver }); //FIXME: wrong data passed here is still a mystery
+  } = useForm({
+    defaultValues: { ...defaultValues, ...selectedData },
+    resolver,
+  });
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -31,26 +48,58 @@ const FormView: React.FC<Props> = ({ title, schema, backClick, selectedData, onS
             <h2>
               {selectedData._id ? 'Update' : 'Create'} {title}
             </h2>
-            <span>Create a New {title} by filling out the form below to get started.</span>
+            <span>
+              Create a New {title} by filling out the form below to get started.
+              {errors &&
+                JSON.stringify(
+                  ((Object.values(errors)[0] as any) || ({} as any)).message,
+                )}
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FullDetailsWrapper title="Create Band">
-            <GridWrapper>
-              {schema.map((client, index) => (
-                <DynamicInput
-                  key={index}
-                  name={client.key}
-                  control={control}
-                  label={client.name}
-                  inputType={client.inputType}
-                  options={client.options}
-                  data={selectedData}
-                  errors={errors}
-                />
-              ))}
-            </GridWrapper>
+          <FullDetailsWrapper title={'Create' + title}>
+            {schema.map((field: any, index) => {
+              if (field.length) {
+                return (
+                  <GridWrapper className="subgrid two-columns" key={index}>
+                    {field.map((field, childIndex) => (
+                      <DynamicInput
+                        {...field}
+                        key={childIndex}
+                        name={field.key}
+                        control={control}
+                        label={field.name}
+                        inputType={field.inputType}
+                        options={field.options || []}
+                        data={selectedData}
+                        errors={errors}
+                      />
+                    ))}
+                  </GridWrapper>
+                );
+              } else {
+                return (
+                  <DynamicInput
+                    {...field}
+                    key={index}
+                    name={field.key}
+                    control={control}
+                    label={field.name}
+                    inputType={field.inputType}
+                    options={field.options || []}
+                    data={selectedData}
+                    errors={errors}
+                  />
+                );
+              }
+            })}
           </FullDetailsWrapper>
 
           <BottomWrapper>

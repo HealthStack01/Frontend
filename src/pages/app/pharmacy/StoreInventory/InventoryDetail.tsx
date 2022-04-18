@@ -4,7 +4,13 @@ import { toast } from 'react-toastify';
 import Button from '../../../../components/buttons/Button';
 import useRepository from '../../../../components/hooks/repository';
 import { Models } from '../../Constants';
-import { FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 import FieldModifier from './FieldModifier';
 import ProductAudit from './ProductAudit';
 import ProductBatch from './ProductBatch';
@@ -17,7 +23,8 @@ interface Props {
 
 const priceModifier = (data, newValue, facilityId) => {
   const contractSel = data.contracts.find(
-    (element) => element.source_org === facilityId && element.dest_org === facilityId
+    (element) =>
+      element.source_org === facilityId && element.dest_org === facilityId,
   );
   contractSel.price = newValue;
 };
@@ -40,8 +47,10 @@ const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
       .then((result: any) => {
         setService(result);
         const price =
-          result.contracts.find((obj) => obj.source_org === location._id && obj.dest_org === location._id)?.price ||
-          0.0;
+          result.contracts.find(
+            (obj) =>
+              obj.source_org === location._id && obj.dest_org === location._id,
+          )?.price || 0.0;
         setDefaultPrice(price);
       })
       .catch((err) => toast.error('Error getting service details ' + err));
@@ -55,7 +64,12 @@ const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
             <span>Below are your Inventory’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={onBackClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -69,7 +83,12 @@ const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
                 showicon={true}
                 onClick={() => setState('price')}
               />
-              <Button label="Batches" background="#fdfdfd" color="#333" onClick={() => setState('batch')} />
+              <Button
+                label="Batches"
+                background="#fdfdfd"
+                color="#333"
+                onClick={() => setState('batch')}
+              />
               <Button
                 label={'Reoder Level'}
                 background={'#ECF3FF'}
@@ -97,7 +116,14 @@ const InventoryDetails: React.FC<Props> = ({ row, onBackClick }) => {
             />
           )}
           {state === 'batch' && <ProductBatch onBackClick={onBackClick} />}
-          {state === 'audit' && <ProductAudit onBackClick={onBackClick} locationId="" facilityId="" userId="" />}
+          {state === 'audit' && (
+            <ProductAudit
+              onBackClick={onBackClick}
+              locationId=""
+              facilityId=""
+              userId=""
+            />
+          )}
           {state === 'reorder' && (
             <FieldModifier
               name="Reorder Level"

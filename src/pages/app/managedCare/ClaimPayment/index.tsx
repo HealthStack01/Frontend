@@ -1,4 +1,5 @@
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import ClaimPaymentDetails from './ClaimPaymentDetail';
 import ClaimPayments from './ClaimPaymentList';
 
@@ -30,7 +31,7 @@ const AppClaimPayments = () => {
         />
       )}
 
-      {resource.employeeResource.show === 'details' && (
+      {resource.employeeResource.show === FormType.DETAIL && (
         <ClaimPaymentDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>

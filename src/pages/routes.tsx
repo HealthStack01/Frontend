@@ -1,5 +1,7 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
+import useRepository from '../components/hooks/repository';
 import AdminDashboard from '../pages/app/admin/AdminDashboard';
 import AppBands from '../pages/app/admin/Bands';
 import AppEmployees from '../pages/app/admin/Employees';
@@ -11,7 +13,6 @@ import ClinicDashboard from '../pages/app/clinic/ClinicDashboard';
 import AppChannel from '../pages/app/communications/Channel';
 import CommunicationsDashboard from '../pages/app/communications/CommunicationDashboard';
 import AppConfiguration from '../pages/app/communications/Configurations';
-import AppInput from '../pages/app/communications/InputField';
 import AppQuestionnaires from '../pages/app/communications/Questionaries';
 import AppSubmission from '../pages/app/communications/Submissions';
 import AppCollections from '../pages/app/finance/Collections';
@@ -41,9 +42,40 @@ import AppInventory from '../pages/app/pharmacy/StoreInventory';
 import Login from '../pages/auth';
 import IndividualSignup from '../pages/auth/IndividualSignup';
 import Signup from '../pages/auth/Signup';
+import { Models } from './app/Constants';
 import PrivateOutlet from './PrivateOutlet';
 
-function AppRoutes() {
+const moduleLocationTypes = {
+  clinic: 'Clinic',
+  clients: 'Front Desk',
+  admin: 'Front Desk',
+  pharmacy: 'Pharmacy',
+  finance: 'Finance',
+  inventory: 'Store',
+  ward: 'Ward',
+  laboratory: 'Laboratory',
+};
+
+const AppRoutes = () => {
+  const { setLocationType } = useRepository(Models.LOCATION);
+
+  const [currentModule, setCurrentModule] = useState('');
+  const location = useLocation();
+  useEffect(() => {
+    const paths = location.pathname.split('/');
+    const newModule = paths.length > 2 && paths[2];
+    setCurrentModule(newModule);
+    if (
+      newModule != currentModule &&
+      Object.keys(moduleLocationTypes).includes(newModule)
+    ) {
+      setLocationType(moduleLocationTypes[newModule]);
+      console.debug({
+        locationType: moduleLocationTypes[newModule],
+        newModule,
+      });
+    }
+  }, [location]);
   return (
     <>
       <Routes>
@@ -55,7 +87,10 @@ function AppRoutes() {
 
           {/* Clients */}
           <Route path="/app/clients" element={<ClientDashboard />} />
-          <Route path="/app/clients/appointments" element={<AppClientAppointment />} />
+          <Route
+            path="/app/clients/appointments"
+            element={<AppClientAppointment />}
+          />
           <Route path="/app/clients/clients" element={<AppClient />} />
 
           {/* Admin */}
@@ -66,8 +101,14 @@ function AppRoutes() {
 
           {/* Laboratory */}
           <Route path="/app/laboratory" element={<LaboratoryDashboard />} />
-          <Route path="/app/laboratory/billlabsent" element={<AppBillLabSent />} />
-          <Route path="/app/laboratory/billclient" element={<AppBillClientLab />} />
+          <Route
+            path="/app/laboratory/billlabsent"
+            element={<AppBillLabSent />}
+          />
+          <Route
+            path="/app/laboratory/billclient"
+            element={<AppBillClientLab />}
+          />
           <Route path="/app/laboratory/payment" element={<AppPaymentsLab />} />
           <Route path="/app/laboratory/result" element={<AppLaboratory />} />
 
@@ -83,35 +124,64 @@ function AppRoutes() {
 
           <Route path="/app/pharmacy" element={<PharmacyDashboard />} />
           <Route path="/app/pharmacy/billclient" element={<AppBillClient />} />
-          <Route path="/app/pharmacy/billsent" element={<AppBillPrescriptionSent />} />
-          <Route path="/app/pharmacy/payment" element={<AppPaymentsPharmacy />} />
+          <Route
+            path="/app/pharmacy/billsent"
+            element={<AppBillPrescriptionSent />}
+          />
+          <Route
+            path="/app/pharmacy/payment"
+            element={<AppPaymentsPharmacy />}
+          />
           <Route path="/app/pharmacy/dispensory" element={<Appdispensory />} />
           <Route path="/app/pharmacy/inventory" element={<AppInventory />} />
-          <Route path="/app/pharmacy/productentry" element={<AppProductEntry />} />
+          <Route
+            path="/app/pharmacy/productentry"
+            element={<AppProductEntry />}
+          />
           <Route path="/app/pharmacy/pos" element={<AppPOS />} />
 
           {/* Clinic */}
           <Route path="/app/clinic" element={<ClinicDashboard />} />
-          <Route path="/app/clinic/appointments" element={<AppClientAppointment />} />
+          <Route
+            path="/app/clinic/appointments"
+            element={<AppClientAppointment />}
+          />
 
           {/* Manged Care */}
           <Route path="/app/managedCare" element={<ManagedCareDashboard />} />
-          <Route path="/app/managedCare/claimpayment" element={<AppClaimPayments />} />
+          <Route
+            path="/app/managedCare/claimpayment"
+            element={<AppClaimPayments />}
+          />
           <Route path="/app/managedCare/claims" element={<AppClaims />} />
           <Route path="/app/managedCare/referrals" element={<AppReferrals />} />
-          <Route path="/app/managedCare/preauthorization" element={<AppPreAuthorization />} />
+          <Route
+            path="/app/managedCare/preauthorization"
+            element={<AppPreAuthorization />}
+          />
 
           {/* Communication */}
-          <Route path="/app/communication" element={<CommunicationsDashboard />} />
+          <Route
+            path="/app/communication"
+            element={<CommunicationsDashboard />}
+          />
           <Route path="/app/communication/channel" element={<AppChannel />} />
-          <Route path="/app/communication/configuration" element={<AppConfiguration />} />
-          <Route path="/app/communication/questionnaires" element={<AppQuestionnaires />} />
-          <Route path="/app/communication/submissions" element={<AppSubmission />} />
-          <Route path="/app/communication/inputfields" element={<AppInput />} />
+          <Route
+            path="/app/communication/configuration"
+            element={<AppConfiguration />}
+          />
+          <Route
+            path="/app/communication/questionnaires"
+            element={<AppQuestionnaires />}
+          />
+          <Route
+            path="/app/communication/submissions"
+            element={<AppSubmission />}
+          />
         </Route>
       </Routes>
     </>
   );
-}
+};
 
 export default AppRoutes;

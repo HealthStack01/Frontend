@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Step, StepButton, Stepper } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -8,12 +8,20 @@ import { toast } from 'react-toastify';
 import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
 import client from '../../context/feathers';
-import { getResolver, OnboardingEmployeeSchema, OrganisationSchema } from '../app/schema';
+import {
+  getOrganisationSchema,
+  OnboardingEmployeeSchema,
+} from '../app/schema/ModelSchema';
+import { getResolver } from '../app/schema/util';
 import AddAdmin from './forms/AddAdmin';
 import CreateOrganization from './forms/CreateOrganization';
 import SelectModule from './forms/SelectModule';
 
-const steps = ['Organization Information', 'Choose Modules', 'Add Admin Employees'];
+const steps = [
+  'Organization Information',
+  'Choose Modules',
+  'Add Admin Employee',
+];
 
 const STEP_ORGANISATION = 0;
 const STEP_MODULES = 1;
@@ -22,7 +30,10 @@ const STEP_EMPLOYEE = 2;
 function Signup() {
   const FacilityServ = client.service('facility');
   const EmployeeServ = client.service('employee');
-  const organnisationResolver = getResolver(OrganisationSchema);
+  const organnisationResolver = getResolver(getOrganisationSchema({}));
+  const [organisationSchema, setOrganisationSchema] = useState<any>(
+    getOrganisationSchema({}),
+  );
   const employeeResolver = getResolver(OnboardingEmployeeSchema);
 
   const navigate = useNavigate();
@@ -33,6 +44,7 @@ function Signup() {
     handleSubmit,
     control,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: yupResolver(organnisationResolver),
   });
@@ -40,7 +52,8 @@ function Signup() {
   const handleNext = (data) => {
     processStep(data)
       .then((_) => {
-        const newActiveStep = activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
+        const newActiveStep =
+          activeStep < STEP_EMPLOYEE ? activeStep + 1 : activeStep;
         setActiveStep(newActiveStep);
       })
       .catch((error) => {
@@ -73,27 +86,33 @@ function Signup() {
     if (activeStep === STEP_ORGANISATION) {
       return Promise.resolve(true);
     } else if (activeStep === STEP_MODULES) {
-      const selectedModules = Object.keys(data).filter((key) => key.includes('module') && data[key]);
-      if (selectedModules.length > 1) {
-        return createFacility(data)
+      console.debug({ data });
+      const modules = [...(data.modules1 || []), ...(data.modules2 || [])];
+      if (modules.length > 1) {
+        return createFacility({ ...data, modules })
           .then((res) => {
             setCreatedFacility(res);
             return true;
           })
           .catch((error) => {
-            return Promise.reject(`Error occurred creating facility ${error.message}`);
+            return Promise.reject(
+              `Error occurred creating facility ${error.message}`,
+            );
           });
       } else {
         return Promise.reject('Please select 2 modules or more!');
       }
     } else if (activeStep === STEP_EMPLOYEE) {
-      return createAdminEmployee(data)
+      console.debug({ data, createdFacility });
+      return createAdminEmployee({ ...data, facility: createdFacility._id })
         .then((res) => {
           setCreatedAdminEmployee(res);
           navigate('/');
         })
         .catch((error) => {
-          return Promise.reject(`Error occurred creating admin employee ${error.message}`);
+          return Promise.reject(
+            `Error occurred creating admin employee ${error.message}`,
+          );
         });
     }
   };
@@ -130,6 +149,16 @@ function Signup() {
       });
   };
 
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === 'facilityState') {
+        const newSchema = getOrganisationSchema({ ...value });
+        setOrganisationSchema(newSchema);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   return (
     <AuthWrapper paragraph="Signup here as an organization">
       <Stepper nonLinear activeStep={activeStep}>
@@ -143,9 +172,17 @@ function Signup() {
       </Stepper>
 
       <form onSubmit={handleSubmit(handleNext)}>
-        {activeStep === STEP_ORGANISATION && <CreateOrganization control={control} errors={errors} />}
+        {activeStep === STEP_ORGANISATION && (
+          <CreateOrganization
+            schema={organisationSchema}
+            control={control}
+            errors={errors}
+          />
+        )}
         {activeStep === STEP_MODULES && <SelectModule control={control} />}
-        {activeStep === STEP_EMPLOYEE && <AddAdmin control={control} adminEmployee={createdAdminEmployee} />}
+        {activeStep === STEP_EMPLOYEE && (
+          <AddAdmin control={control} adminEmployee={createdAdminEmployee} />
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -167,7 +204,11 @@ function Signup() {
             <></>
           )}
           <Box sx={{ flex: '1 1 auto' }} />
-          {activeStep === STEP_EMPLOYEE ? <Button>Complete</Button> : <Button>Next</Button>}
+          {activeStep === STEP_EMPLOYEE ? (
+            <Button>Complete</Button>
+          ) : (
+            <Button>Next</Button>
+          )}
         </Box>
       </form>
       <p style={{ padding: '2rem 0' }}>

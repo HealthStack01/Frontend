@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useObjectState } from '../../../../context/context';
+import { FormType } from '../../schema/util';
 import POSCreate from './POSCreate';
 import POSDetails from './POSDetail';
 import POS from './POSList';
@@ -33,7 +34,7 @@ const AppPOS = () => {
           }}
         />
       )}
-      {resource.employeeResource.show === 'create' && (
+      {resource.employeeResource.show === FormType.CREATE && (
         <POSCreate
           backClick={() =>
             setResource((prevState) => ({
@@ -46,7 +47,7 @@ const AppPOS = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'details' && (
+      {resource.employeeResource.show === FormType.DETAIL && (
         <POSDetails
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>
@@ -69,7 +70,7 @@ const AppPOS = () => {
           }
         />
       )}
-      {resource.employeeResource.show === 'edit' && (
+      {resource.employeeResource.show === FormType.EDIT && (
         <POSModify
           row={resource.employeeResource.selectedEmployee}
           backClick={() =>

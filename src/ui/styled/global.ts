@@ -259,8 +259,10 @@ export const LeftText = styled(Text)`
 
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
-  flex-direction: ${(props) => (props.flexDirection ? props.flexDirection : 'column')};
-  align-items: ${(props) => (props.alignItems ? props.alignItems : 'flex-start')};
+  flex-direction: ${(props) =>
+    props.flexDirection ? props.flexDirection : 'column'};
+  align-items: ${(props) =>
+    props.alignItems ? props.alignItems : 'flex-start'};
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -280,19 +282,25 @@ export const Stat = styled(StatWrapper)`
   align-items: ${(props) => (props.alignItems ? props.alignItems : 'center')};
   background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: ${(props) => (props.borderRadius ? props.borderRadius : '15px')};
+  border-radius: ${(props) =>
+    props.borderRadius ? props.borderRadius : '15px'};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
-  margin-bottom: ${(props) => (props.margingBottom ? props.margingBottom : '30px')};
+  margin-bottom: ${(props) =>
+    props.margingBottom ? props.margingBottom : '30px'};
 
   &::before {
     content: '';
     width: 100%;
     padding-top: 100%;
     border-radius: 50%;
-    background-image: linear-gradient(to top right, var(--main-color), var(--second-color));
+    background-image: linear-gradient(
+      to top right,
+      var(--main-color),
+      var(--second-color)
+    );
     position: absolute;
     left: -50%;
     top: 0;
@@ -318,7 +326,8 @@ export const AttendWrapper = styled(StatWrapper)`
   margin-left: 0.6rem;
   font-size: 12px;
   padding: ${(props) => (props.padding ? props.padding : '1rem')};
-  border-radius: ${(props) => (props.borderRadius ? props.borderRadius : '4px')};
+  border-radius: ${(props) =>
+    props.borderRadius ? props.borderRadius : '4px'};
 
   /* flex: 1; */
 `;

@@ -4,7 +4,13 @@ import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -14,7 +20,11 @@ interface Props {
 
 const locationTypeOptions: string[] = ['Locations 1', 'Location 2'];
 
-const HMOAuthorizationModify: React.FC<Props> = ({ cancelEditClicked, row, backClick }) => {
+const HMOAuthorizationModify: React.FC<Props> = ({
+  cancelEditClicked,
+  row,
+  backClick,
+}) => {
   const [values, setValue] = useState({
     id: row.id,
     locationname: row.locationname,
@@ -30,7 +40,12 @@ const HMOAuthorizationModify: React.FC<Props> = ({ cancelEditClicked, row, backC
             <span>Below are your location’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Cancel Editing'}
               background={'#f2f2f2'}
@@ -47,7 +62,9 @@ const HMOAuthorizationModify: React.FC<Props> = ({ cancelEditClicked, row, backC
             label="Name"
             value={values.locationname}
             placeholder={values.locationname}
-            onChange={(e) => setValue({ ...values, locationname: e.target.value })}
+            onChange={(e) =>
+              setValue({ ...values, locationname: e.target.value })
+            }
           />
           <CustomSelect
             name={values.locationType}
@@ -64,7 +81,11 @@ const HMOAuthorizationModify: React.FC<Props> = ({ cancelEditClicked, row, backC
         </GridWrapper>
 
         <BottomWrapper>
-          <Button label="Delete Location" background="#FFE9E9" color="#ED0423" />
+          <Button
+            label="Delete Location"
+            background="#FFE9E9"
+            color="#ED0423"
+          />
           <Button label="Save Location" />
         </BottomWrapper>
       </GrayWrapper>

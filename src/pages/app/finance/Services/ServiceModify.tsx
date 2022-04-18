@@ -3,8 +3,14 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
-import { ServicesSchema } from '../../schema/ModelSchema';
-import { BottomWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { ServicesSchema } from '../schema';
 
 interface Props {
   cancelEditClicked?: () => void;
@@ -13,7 +19,12 @@ interface Props {
   onSubmit: (_data) => void;
 }
 
-const ServiceModify: React.FC<Props> = ({ cancelEditClicked, row: services, backClick, onSubmit }) => {
+const ServiceModify: React.FC<Props> = ({
+  cancelEditClicked,
+  row: services,
+  backClick,
+  onSubmit,
+}) => {
   const { handleSubmit, control } = useForm({
     defaultValues: services,
   });
@@ -27,7 +38,12 @@ const ServiceModify: React.FC<Props> = ({ cancelEditClicked, row: services, back
             <span>Below are your service's details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Cancel Editing'}
               background={'#f2f2f2'}

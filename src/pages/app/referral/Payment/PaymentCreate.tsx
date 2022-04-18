@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 
 import Button from '../../../../components/buttons/Button';
 import Input from '../../../../components/inputs/basic/Input';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 const clientFormData = [
   {
@@ -61,9 +68,16 @@ const PaymentCreate: React.FC<Props> = ({ backClick }) => {
         <HeadWrapper>
           <div>
             <h2>Create Payment</h2>
-            <span>Create a New payment by filling out the form below to get started.</span>
+            <span>
+              Create a New payment by filling out the form below to get started.
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form action="" onSubmit={() => {}}>
           <FullDetailsWrapper title="Create Payment">

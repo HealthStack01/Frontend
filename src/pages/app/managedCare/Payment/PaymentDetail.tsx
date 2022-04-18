@@ -5,7 +5,14 @@ import Input from '../../../../components/inputs/basic/Input';
 import RadioButton from '../../../../components/inputs/basic/Radio';
 import CustomSelect from '../../../../components/inputs/basic/Select';
 import { ButtonGroup } from '../../../../ui/styled/global';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 interface Props {
   editBtnClicked?: () => void;
@@ -39,7 +46,12 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
             <span>Below are your payment’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
           </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -138,7 +150,12 @@ const PaymentDetails: React.FC<Props> = ({ row, backClick }) => {
               <p>{row.status}</p>
             </div>
             <div>
-              <RadioButton title="Type" options={typeOptions} onChange={(e) => setUpdate(e.target.value)} />
+              <RadioButton
+                name="Type"
+                title="Type"
+                options={typeOptions}
+                onChange={(e) => setUpdate(e.target.value)}
+              />
               {update === 'Part' && (
                 <div>
                   <Input

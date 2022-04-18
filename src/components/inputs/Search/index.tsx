@@ -10,21 +10,24 @@ interface Props {
   placeholder?: string;
 }
 
-const SearchInput: React.FC<Props> = ({ onChange, label, className, placeholder }) => {
+const SearchInput: React.FC<Props> = ({
+  onChange,
+  label,
+  className,
+  placeholder,
+}) => {
   return (
     <SearchBox className={className}>
-      <form name="search">
-        <DebounceInput
-          className="input is-small "
-          type="text"
-          placeholder={placeholder}
-          label={label}
-          minLength={1}
-          debounceTimeout={400}
-          element={SearchField}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </form>
+      <DebounceInput
+        className="input is-small "
+        type="text"
+        placeholder={placeholder}
+        label={label}
+        minLength={1}
+        debounceTimeout={400}
+        element={SearchField}
+        onChange={(e) => onChange(e.target.value)}
+      />
       <i className="bi bi-search"></i>
     </SearchBox>
   );

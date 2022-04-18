@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import sumBy from 'lodash/sumBy';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,8 +10,15 @@ import useRepository from '../../../../components/hooks/repository';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { PlacementWrapper } from '../../../../ui/styled/global';
 import { Models } from '../../Constants';
-import { PaymentLineSchema, PaymentWalletSchema } from '../../schema';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { PaymentLineSchema, PaymentWalletSchema } from '../schema';
 import AmountLabel from './AmountLabel';
 import PaymentLine from './PaymentLine';
 import { subwalletQuery } from './query';
@@ -25,7 +33,11 @@ const flattenAndAddCategory = (row) => {
 };
 
 const getAmt = (obj) =>
-  obj.isFullPayment ? obj.partPay : obj.billing_status === 'Unpaid' ? obj.serviceInfo.amount : obj.paymentInfo.balance;
+  obj.isFullPayment
+    ? obj.partPay
+    : obj.billing_status === 'Unpaid'
+      ? obj.serviceInfo.amount
+      : obj.paymentInfo.balance;
 
 const PaymentDetails = ({ row, onBackClick }) => {
   const { find: querySubwallet, user } = useRepository(Models.SUBWALLET);
@@ -35,7 +47,9 @@ const PaymentDetails = ({ row, onBackClick }) => {
   const [totalAmountDue, setTotalAmountDue] = useState(0);
   const [totalAmountPaying, setTotalAmountPaying] = useState(0);
   const { handleSubmit, control } = useForm();
-  const [paymentItems, setPaymentItems] = useState([...flattenAndAddCategory(row)]);
+  const [paymentItems, setPaymentItems] = useState([
+    ...flattenAndAddCategory(row),
+  ]);
   const [selectedPaymentItems, setSelectedPaymentItems] = useState([]);
   const [paying, setPaying] = useState(false);
   const participantInfo = row.bills[0].order[0].participantInfo;
@@ -59,7 +73,11 @@ const PaymentDetails = ({ row, onBackClick }) => {
     setTotalAmountPaying(sumBy(fullPayments, getAmt));
   };
 
-  const draftPayment = (payment: any, isFullPayment: boolean, amountPaying: number) => {
+  const draftPayment = (
+    payment: any,
+    isFullPayment: boolean,
+    amountPaying: number,
+  ) => {
     const paying = { ...payment };
     const payObj = {
       amount: isFullPayment ? paying.paymentInfo.balance : amountPaying,
@@ -72,19 +90,24 @@ const PaymentDetails = ({ row, onBackClick }) => {
       amount: payObj.amount,
     };
     paying.paymentInfo.paymentDetails.push(payObj);
-    const newPaymentItems = [...selectedPaymentItems.filter((obj) => obj._id !== payment._id), paying];
+    const newPaymentItems = [
+      ...selectedPaymentItems.filter((obj) => obj._id !== payment._id),
+      paying,
+    ];
     setSelectedPaymentItems(newPaymentItems);
     setTotalAmountPaying(sumBy(newPaymentItems, getAmt));
     return paying;
   };
 
   const submitServicePayment = () => {
-    const payments = selectedPaymentItems.length ? selectedPaymentItems : paymentItems;
+    const payments = selectedPaymentItems.length
+      ? selectedPaymentItems
+      : paymentItems;
     const remBalance = walletBalance - totalAmountPaying;
 
     if (totalAmountPaying > walletBalance) {
       toast.error(
-        'Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid'
+        'Total amount due greater than money received. Kindly top up account or reduce number of bills to be paid',
       );
       return;
     }
@@ -134,7 +157,8 @@ const PaymentDetails = ({ row, onBackClick }) => {
       facilityId: user.currentEmployee.facilityDetail._id,
       totalamount: totalAmountPaying,
       createdby: user._id,
-      status: totalAmountDue === totalAmountPaying ? 'Fully Paid' : 'Part Payment',
+      status:
+        totalAmountDue === totalAmountPaying ? 'Fully Paid' : 'Part Payment',
       balance: remBalance,
       bills: payments,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
@@ -152,7 +176,9 @@ const PaymentDetails = ({ row, onBackClick }) => {
   };
 
   const acceptPayment = (data) => {
-    let confirm = window.confirm(`Are you sure you want to accept N ${data.amount} from ${row.clientname}`);
+    let confirm = window.confirm(
+      `Are you sure you want to accept N ${data.amount} from ${row.clientname}`,
+    );
     if (!confirm) return;
     const amountPaid = +data.amount;
 
@@ -173,8 +199,12 @@ const PaymentDetails = ({ row, onBackClick }) => {
   };
 
   const recalculateTotals = (payments) => {
-    setTotalAmountPaying(sumBy(payments, (obj: any) => obj.paymentInfo.amountDue));
-    setTotalAmountDue(sumBy(paymentItems, (obj: any) => obj.paymentInfo.amountDue));
+    setTotalAmountPaying(
+      sumBy(payments, (obj: any) => obj.paymentInfo.amountDue),
+    );
+    setTotalAmountDue(
+      sumBy(paymentItems, (obj: any) => obj.paymentInfo.amountDue),
+    );
   };
 
   const handlePaymentsChanged = (payments) => {
@@ -183,7 +213,9 @@ const PaymentDetails = ({ row, onBackClick }) => {
   };
 
   useEffect(() => {
-    querySubwallet(subwalletQuery(user.currentEmployee.facility, participantInfo.clientId))
+    querySubwallet(
+      subwalletQuery(user.currentEmployee.facility, participantInfo.clientId),
+    )
       .then((res: any) => {
         if (res.data.length > 0) {
           setWalletBalance(res.data[0].amount);
@@ -202,7 +234,12 @@ const PaymentDetails = ({ row, onBackClick }) => {
             <span>Below are your payment’s details</span>
           </div>
           <div>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={onBackClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={onBackClick}
+            />
           </div>
         </HeadWrapper>
         <FullDetailsWrapper>
@@ -252,23 +289,34 @@ const PaymentDetails = ({ row, onBackClick }) => {
             <HeadWrapper>
               <div>
                 <h2>
-                  Pay {selectedPaymentItems.length ? 'some' : 'all'} bills for {row.clientname}
+                  Pay {selectedPaymentItems.length ? 'some' : 'all'} bills for{' '}
+                  {row.clientname}
                 </h2>
               </div>
               <div>
                 <AmountLabel>Total Amount Due {totalAmountDue}</AmountLabel>
               </div>
               <div>
-                <AmountLabel>Total Amount Paying {totalAmountPaying}</AmountLabel>
+                <AmountLabel>
+                  Total Amount Paying {totalAmountPaying}
+                </AmountLabel>
               </div>
             </HeadWrapper>
             {selectedPaymentItems.map((payment, i) => (
-              <PaymentLine key={i} payment={payment} draftPayment={draftPayment} />
+              <PaymentLine
+                key={i}
+                payment={payment}
+                draftPayment={draftPayment}
+              />
             ))}
             {totalAmountPaying && (
               <BottomWrapper>
                 <Button
-                  label={selectedPaymentItems.length === 0 ? 'Pay for all' : 'Pay for some'}
+                  label={
+                    selectedPaymentItems.length === 0
+                      ? 'Pay for all'
+                      : 'Pay for some'
+                  }
                   type="submit"
                   onClick={() => {
                     submitServicePayment();

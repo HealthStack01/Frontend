@@ -1,6 +1,6 @@
-/* eslint-disable prettier/prettier */
 import DataTable from 'react-data-table-component';
 
+import CustomTable from '../../../../../components/customtable';
 import {
   AllergySchema,
   BillOrderSchema,
@@ -8,7 +8,7 @@ import {
   LaboratorySchema,
   MedicationSchema,
   PrescriptionSchema,
-} from '../../../schema';
+} from '../../../clinic/schema';
 
 const DocumentViewer = ({ document }) => {
   const parents = ['Medication list'];
@@ -68,7 +68,6 @@ const DocumentViewer = ({ document }) => {
       const schema =
         schemaDictionary[documentname + '.' + key] ||
         schemaDictionary['Generic'];
-      console.error({ schema,documentname, documentdetail: documentdetail[key], key });
       return (
         <DataTable
           key={documentname + key}
@@ -86,18 +85,16 @@ const DocumentViewer = ({ document }) => {
 
   const schema = schemaDictionary[documentname] || schemaDictionary['Generic'];
   return (
-    <>
-      <DataTable
-        key={documentname}
-        title={documentname}
-        columns={schema.columns}
-        data={schema.data(documentdetail)}
-        selectableRows
-        pointerOnHover
-        highlightOnHover
-        striped
-      />
-    </>
+    <CustomTable
+      key={documentname}
+      title={documentname}
+      columns={schema.columns}
+      data={schema.data(documentdetail)}
+      selectable
+      pointerOnHover
+      highlightOnHover
+      striped
+    />
   );
 };
 

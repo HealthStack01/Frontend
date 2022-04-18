@@ -31,9 +31,19 @@ interface Repository<T> {
   setLocationType: (_location) => void;
 }
 
-const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () => void): Repository<T> => {
+const useRepository = <T>(
+  modelName: string,
+  onNavigate?: (view: string) => () => void,
+): Repository<T> => {
   let Service = client.service(modelName);
-  const { user, facility, location, setLocation, locationType, setLocationType } = useContext(UserContext);
+  const {
+    user,
+    facility,
+    location,
+    setLocation,
+    locationType,
+    setLocationType,
+  } = useContext(UserContext);
   const [findQuery, setFindQuery] = useState(null);
   const [list, setList] = useState([]);
   const [groupedList, setGroupedList] = useState([]);
@@ -45,7 +55,9 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
         onNavigate && onNavigate(Views.LIST)();
       })
       .catch((err) => {
-        toast(`'Error deleting ${modelName}, probable network issues or ' + ${err}'`);
+        toast(
+          `'Error deleting ${modelName}, probable network issues or ' + ${err}'`,
+        );
       });
   };
 
@@ -63,24 +75,44 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
       },
       ...extras,
     };
-    return Service.find(params)
-      .then((response) => {
-        console.debug('received response of model ', modelName, ' with body ', { params: { ...params }, response });
-        setList(response.data);
-        //TODO: This is a hack for billclient list table, find a better way
-        setGroupedList(response.groupedOrder);
-        return response;
-      })
-      .catch((error) => {
-        console.error('received error of model ', modelName, ' with body ', { params: { ...params }, error });
-      });
+    return (
+      Service &&
+      Service.find(params)
+        .then((response) => {
+          console.debug(
+            'received response of model ',
+            modelName,
+            ' with body ',
+            {
+              params: { ...params },
+              response,
+            },
+          );
+          setList(response.data);
+          //TODO: This is a hack for billclient list table, find a better way
+          setGroupedList(response.groupedOrder);
+          return response;
+        })
+        .catch((error) => {
+          console.error('received error of model ', modelName, ' with body ', {
+            params: { ...params },
+            error,
+          });
+        })
+    );
   };
 
   const spreadSubData = (data): DictionaryOf<string> => {
     let result = {};
     Object.entries(data).map(([key, value]) => {
       // Exceptions
-      if (typeof value === 'object' && !data.documentname && !data.questions && !data.interactions && !data.client) {
+      if (
+        typeof value === 'object' &&
+        !data.documentname &&
+        !data.questions &&
+        !data.interactions &&
+        !data.client
+      ) {
         result = { ...result, ...value };
       } else {
         result[key] = value;
@@ -92,15 +124,17 @@ const useRepository = <T>(modelName: string, onNavigate?: (view: string) => () =
   const submit = (dataIn) => {
     const data = spreadSubData(dataIn);
     const values = getFormStrings(data._id);
-    console.debug('submitted ' + modelName + ' data ', JSON.stringify({ data }));
+    console.debug(
+      'submitted ' + modelName + ' data ',
+      JSON.stringify({ data }),
+    );
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
     }
-
     return (data._id ? Service.update(data._id, data) : Service.create(data))
       .then((data) => {
-        onNavigate && onNavigate(Views.LIST)();
         toast(`${modelName.toUpperCase()} ${values.message}`);
+        onNavigate && onNavigate(Views.LIST)();
         return data;
       })
       .catch((err) => {

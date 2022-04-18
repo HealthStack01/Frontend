@@ -7,10 +7,21 @@ import DnDBox from '../../../../components/dnd';
 import useRepository from '../../../../components/hooks/repository';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { Models } from '../../Constants';
-import { QuestionnaireSchema } from '../../schema/communication';
-import { BottomWrapper, FullDetailsWrapper, GrayWrapper, GridWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  BottomWrapper,
+  FullDetailsWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
+import { QuestionnaireSchema } from '../schema';
 
-const QuestionnaireForm = ({ backClick, questionnaire: defaultValue, onSubmit }) => {
+const QuestionnaireForm = ({
+  backClick,
+  questionnaire: defaultValue,
+  onSubmit,
+}) => {
   const { submit } = useRepository<any>(Models.QUESTIONNAIRE);
   const { handleSubmit, control } = useForm();
   const [questionnaire, setQuestionnaire] = useState(defaultValue || {});
@@ -31,14 +42,24 @@ const QuestionnaireForm = ({ backClick, questionnaire: defaultValue, onSubmit })
         <HeadWrapper>
           <div>
             <h2>Create Questionnaire</h2>
-            <span>Create a new Questionnaire by filling out the form below to get started.</span>
+            <span>
+              Create a new Questionnaire by filling out the form below to get
+              started.
+            </span>
           </div>
-          <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+          <Button
+            label="Back to List"
+            background="#fdfdfd"
+            color="#333"
+            onClick={backClick}
+          />
         </HeadWrapper>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper>
             <GridWrapper className="two-columns">
-              {QuestionnaireSchema.filter((obj) => obj.name !== 'questions').map((client, index) => (
+              {QuestionnaireSchema.filter(
+                (obj) => obj.name !== 'questions',
+              ).map((client, index) => (
                 <DynamicInput
                   key={index}
                   name={client.key}
@@ -51,11 +72,17 @@ const QuestionnaireForm = ({ backClick, questionnaire: defaultValue, onSubmit })
             </GridWrapper>
             <BottomWrapper>
               <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-              <Button label={questionnaire._id ? 'Update' : 'Save'} type="submit" />
+              <Button
+                label={questionnaire._id ? 'Update' : 'Save'}
+                type="submit"
+              />
             </BottomWrapper>
           </FullDetailsWrapper>
         </form>
-        <DnDBox questions={questionnaire.questions} onChange={updateQuestions} />
+        <DnDBox
+          questions={questionnaire.questions}
+          onChange={updateQuestions}
+        />
       </GrayWrapper>
     </PageWrapper>
   );

@@ -6,7 +6,8 @@ import { Models, Views } from '../../Constants';
 import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
-import { BandSchema } from '../../schema';
+import { FormType } from '../../schema/util';
+import { BandSchema } from '../schema';
 
 const AppBand = () => {
   const { resource, setResource } = useObjectState();
@@ -20,7 +21,9 @@ const AppBand = () => {
       bandResource: {
         ...resource.bandResource,
         show,
-        selectedBand: selectedBand || resource.bandResource.selectedBand,
+        selectedBand: selectedBand._id
+          ? selectedBand
+          : resource.bandResource.selectedBand,
       },
     });
 
@@ -48,7 +51,8 @@ const AppBand = () => {
           items={bands}
         />
       )}
-      {(resource.bandResource.show === 'create' || resource.bandResource.show === 'edit') && (
+      {(resource.bandResource.show === FormType.CREATE ||
+        resource.bandResource.show === FormType.EDIT) && (
         <FormView
           title="Band"
           schema={BandSchema}
@@ -57,7 +61,7 @@ const AppBand = () => {
           selectedData={selectedBand}
         />
       )}
-      {resource.bandResource.show === 'details' && (
+      {resource.bandResource.show === FormType.DETAIL && (
         <DetailView
           title="Band"
           schema={BandSchema}

@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useObjectState, UserContext } from '../../../../context/context';
 import client from '../../../../context/feathers';
+import { FormType } from '../../schema/util';
 import CollectionDetails from './CollectionDetail';
 import Collections from './CollectionList';
 
@@ -156,7 +157,7 @@ const AppCollections = () => {
         />
       )}
 
-      {resource.collectionsResource.show === 'details' && (
+      {resource.collectionsResource.show === FormType.DETAIL && (
         <CollectionDetails
           row={resource.collectionsResource.selectedCollection}
           backClick={() =>

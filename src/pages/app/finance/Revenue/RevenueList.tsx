@@ -4,8 +4,8 @@ import CustomTable from '../../../../components/customtable';
 import Input from '../../../../components/inputs/basic/Input';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { RevenueSchema } from '../../schema/ModelSchema';
 import { PageWrapper } from '../../styles';
+import { RevenueSchema } from '../schema';
 
 interface Props {
   handleCreate?: () => void;
@@ -19,7 +19,7 @@ interface Props {
       amount: number;
       mode: string;
     },
-    _event: any
+    _event: any,
   ) => void;
   items: any[];
 }

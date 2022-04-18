@@ -4,10 +4,16 @@ import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
-import { BillsSummary } from '../../schema';
+import { BillsSummary } from '../../shared/bill';
 import { PageWrapper } from '../../styles';
 
-const BillClient = ({ handleCreate, onRowClicked, onSearch, progressPending, items }) => {
+const BillClient = ({
+  handleCreate,
+  onRowClicked,
+  onSearch,
+  progressPending,
+  items,
+}) => {
   return (
     <>
       <PageWrapper>
@@ -31,7 +37,13 @@ const BillClient = ({ handleCreate, onRowClicked, onSearch, progressPending, ite
           </Button>
         </TableMenu>
 
-        <div style={{ width: '100%', height: 'calc(100vh - 200px)', overflow: 'auto' }}>
+        <div
+          style={{
+            width: '100%',
+            height: 'calc(100vh - 200px)',
+            overflow: 'auto',
+          }}
+        >
           <CustomTable
             title="Bills"
             columns={BillsSummary}

@@ -4,7 +4,7 @@ import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
 import { Models, Views } from '../../Constants';
 import ListView from '../../generic/ListView';
-import { PaymentsSummary } from '../../schema';
+import { PaymentsSummary } from '../schema';
 import PaymentDetails from './PaymentDetail';
 import { paymentQuery } from './query';
 
@@ -20,11 +20,15 @@ const AppPaymentsPharmacy = () => {
       paymentsResource: {
         ...resource.paymentsResource,
         show,
-        selectedPayment: selectedPayment || resource.paymentsResource.selectedPayment,
+        selectedPayment:
+          selectedPayment || resource.paymentsResource.selectedPayment,
       },
     });
 
-  const { groupedList: payments, setFindQuery } = useRepository(Models.BILLS, handleNavigation);
+  const { groupedList: payments, setFindQuery } = useRepository(
+    Models.BILLS,
+    handleNavigation,
+  );
 
   const [searchText, setSearchText] = useState('');
 
@@ -44,7 +48,12 @@ const AppPaymentsPharmacy = () => {
         />
       )}
 
-      {show === Views.DETAIL && <PaymentDetails row={selectedPayments} onBackClick={handleNavigation(Views.LIST)} />}
+      {show === Views.DETAIL && (
+        <PaymentDetails
+          row={selectedPayments}
+          onBackClick={handleNavigation(Views.LIST)}
+        />
+      )}
     </>
   );
 };
