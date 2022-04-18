@@ -49,7 +49,8 @@ const useRepository = <T>(
   const [groupedList, setGroupedList] = useState([]);
 
   const remove = (obj): Promise<T> => {
-    return Service.remove(typeof obj === 'string' ? obj : obj._id)
+    console.debug({ obj });
+    return Service.remove(obj._id ? obj._id : obj)
       .then((_) => {
         toast(`${modelName} deleted successfully`);
         onNavigate && onNavigate(Views.LIST)();

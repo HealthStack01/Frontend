@@ -70,10 +70,6 @@ const AppRoutes = () => {
       Object.keys(moduleLocationTypes).includes(newModule)
     ) {
       setLocationType(moduleLocationTypes[newModule]);
-      console.debug({
-        locationType: moduleLocationTypes[newModule],
-        newModule,
-      });
     }
   }, [location]);
   return (
