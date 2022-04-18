@@ -17,8 +17,8 @@ import { FullDetailsWrapper, PageWrapper } from '../../styles';
 import { loadError, loadSuccess } from '../../Utils';
 import PatientProfile from './components/PatientProfile';
 import TabBox from './components/TabBox';
+import VideoConference from './components/VideoConference';
 import { queryDocumentations, queryOrders } from './query';
-import VideoConference from './VideoConference';
 
 const documentSchemas = {
   Prescription: PrescriptionOrderSchema,

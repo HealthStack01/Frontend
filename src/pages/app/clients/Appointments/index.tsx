@@ -32,6 +32,7 @@ const AppClientAppointment = () => {
     submit: handleSubmit,
     setFindQuery,
     facility,
+    remove,
   } = useRepository(Models.APPOINTMENT, handleNavigation);
 
   const [searchText, setSearchText] = useState('');
@@ -70,7 +71,7 @@ const AppClientAppointment = () => {
           editBtnClicked={() =>
             handleNavigation(Views.EDIT)(selectedAppointment)
           }
-          deleteBtnClicked={() => {}}
+          deleteBtnClicked={remove}
           schema={schema}
         />
       )}

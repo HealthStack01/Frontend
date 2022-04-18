@@ -65,44 +65,41 @@ const FormView: React.FC<Props> = ({
         </HeadWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FullDetailsWrapper title={'Create' + title}>
-            <GridWrapper>
-              {/*FIXME: Handle grid basesed schema */}
-              {schema.flat().map((field: any, index) => {
-                if (field['length']) {
-                  return (
-                    <GridWrapper className="subgrid two-columns" key={index}>
-                      {field.map((field, childIndex) => (
-                        <DynamicInput
-                          {...field}
-                          key={childIndex}
-                          name={field.key}
-                          control={control}
-                          label={field.name}
-                          inputType={field.inputType}
-                          options={field.options || []}
-                          data={selectedData}
-                          errors={errors}
-                        />
-                      ))}
-                    </GridWrapper>
-                  );
-                } else {
-                  return (
-                    <DynamicInput
-                      {...field}
-                      key={index}
-                      name={field.key}
-                      control={control}
-                      label={field.name}
-                      inputType={field.inputType}
-                      options={field.options || []}
-                      data={selectedData}
-                      errors={errors}
-                    />
-                  );
-                }
-              })}
-            </GridWrapper>
+            {schema.map((field: any, index) => {
+              if (field.length) {
+                return (
+                  <GridWrapper className="subgrid two-columns" key={index}>
+                    {field.map((field, childIndex) => (
+                      <DynamicInput
+                        {...field}
+                        key={childIndex}
+                        name={field.key}
+                        control={control}
+                        label={field.name}
+                        inputType={field.inputType}
+                        options={field.options || []}
+                        data={selectedData}
+                        errors={errors}
+                      />
+                    ))}
+                  </GridWrapper>
+                );
+              } else {
+                return (
+                  <DynamicInput
+                    {...field}
+                    key={index}
+                    name={field.key}
+                    control={control}
+                    label={field.name}
+                    inputType={field.inputType}
+                    options={field.options || []}
+                    data={selectedData}
+                    errors={errors}
+                  />
+                );
+              }
+            })}
           </FullDetailsWrapper>
 
           <BottomWrapper>

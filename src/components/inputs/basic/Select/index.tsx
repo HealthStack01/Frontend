@@ -30,7 +30,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   useEffect(() => {
     if (options.length) {
       setOptionsList(options);
-    } else {
+    } else if (options.model) {
       let Service = options.model && client.service((options as any).model);
       Service.find()
         .then((res) => {
@@ -44,7 +44,7 @@ const CustomSelect: React.FC<SelectProps> = ({
           toast(`error fetching list ${error}`);
         });
     }
-  }, []);
+  }, [options]);
 
   return (
     <FormControl>

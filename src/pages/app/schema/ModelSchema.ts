@@ -1,9 +1,10 @@
 import * as yup from 'yup';
 
+import { Dictionary } from '../../../types.d';
 import { Nigeria } from '../Nigeria';
 import { InputType, Schema } from './util';
 
-export const OrganisationSchema: Schema[] = [
+export const getOrganisationSchema = (formData: Dictionary): Schema[] => [
   {
     name: 'S/N',
     key: '_id',
@@ -49,6 +50,7 @@ export const OrganisationSchema: Schema[] = [
     sortable: true,
     required: true,
     options: Nigeria.map((obj) => obj.state),
+    defaultValue: formData['facilityState'],
     inputType: InputType.SELECT_LIST,
   },
   {
@@ -58,7 +60,9 @@ export const OrganisationSchema: Schema[] = [
     selector: (row) => row.facilityLGA,
     sortable: true,
     required: true,
-    options: ['Lagos'],
+    options:
+      (Nigeria || []).find((obj) => obj.state === formData['facilityState'])
+        ?.lgas || [],
     inputType: InputType.SELECT_LIST,
   },
 
@@ -69,7 +73,9 @@ export const OrganisationSchema: Schema[] = [
     selector: (row) => row.facilityCity,
     sortable: true,
     required: true,
-    options: ['Lagos'],
+    options:
+      (Nigeria || []).find((obj) => obj.state === formData['facilityState'])
+        ?.lgas || [],
     inputType: InputType.SELECT_LIST,
   },
 
