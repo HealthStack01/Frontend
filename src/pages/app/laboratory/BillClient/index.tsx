@@ -1,100 +1,61 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import { FormType } from '../../schema/util';
+import { Models, Views } from '../../Constants';
 import BillCreate from './BillCreate';
 import BillDetails from './BillDetail';
-import BillClient from './BillList';
-import BillModify from './BillModify';
+import Bill from './BillList';
+import { LabClientQuery } from './query';
 
-const AppBillClientLab = () => {
+const AppBillClient = () => {
   const { resource, setResource } = useObjectState();
+
+  const {
+    billClientResource: { show, selectedBillClient },
+  } = resource;
+
+  const handleNavigation = (show: string) => (selectedBillClient?: any) =>
+    setResource({
+      ...resource,
+      billClientResource: {
+        ...resource.billClientResource,
+        show,
+        selectedBillClient: selectedBillClient || resource.billClientResource.selectedBillClient,
+      },
+    });
+
+  const {
+    groupedList: clientBillsSummary,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository(Models.BILLS, handleNavigation);
+  const [searchText, setSearchText] = useState('');
+  useEffect(() => {
+    setFindQuery(LabClientQuery(undefined, searchText || undefined));
+  }, [searchText]);
 
   return (
     <>
-      {resource.billClientResource.show === 'lists' && (
-        <BillClient
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                show: 'details',
-                selectedBillClient: row,
-              },
-            }));
-          }}
+      {show === Views.LIST && (
+        <Bill
+          handleCreate={handleNavigation(Views.CREATE)}
+          onRowClicked={(row) => handleNavigation(Views.DETAIL)(row)}
+          onSearch={setSearchText}
+          progressPending={false}
+          items={clientBillsSummary}
         />
       )}
-      {resource.billClientResource.show === FormType.CREATE && (
-        <BillCreate
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'lists',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.billClientResource.show === FormType.DETAIL && (
+      {show === Views.CREATE && <BillCreate backClick={handleNavigation(Views.LIST)} onSubmit={handleSubmit} />}
+      {show === Views.DETAIL && (
         <BillDetails
-          row={resource.billClientResource.selectedBillClient}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'edit',
-              },
-            }))
-          }
-        />
-      )}
-      {resource.billClientResource.show === FormType.EDIT && (
-        <BillModify
-          row={resource.billClientResource.selectedBillClient}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billClientResource: {
-                ...prevState.billClientResource,
-                show: 'lists',
-              },
-            }))
-          }
-          cancelEditClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              bandResource: {
-                ...prevState.bandResource,
-                show: 'details',
-              },
-            }))
-          }
+          row={selectedBillClient}
+          backClick={handleNavigation(Views.LIST)}
+          editBtnClicked={() => handleNavigation(Views.EDIT)(selectedBillClient)}
         />
       )}
     </>
   );
 };
 
-export default AppBillClientLab;
+export default AppBillClient;

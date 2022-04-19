@@ -21,19 +21,11 @@ export const BillCustomerSchema = [
     inputType: InputType.SELECT_AUTO_SUGGEST,
     options: {
       model: Models.CLIENT,
-      or: [
-        'firstname',
-        'lastname',
-        'middlename',
-        'phone',
-        'clientTags',
-        'mrn',
-        'specificDetails',
-      ],
+      or: ['firstname', 'lastname', 'middlename', 'phone', 'clientTags', 'mrn', 'specificDetails'],
       labelSelector: (obj) =>
-        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${
-          obj.gender
-        } ${obj.profession} ${obj.phone} ${obj.email}`,
+        `${obj.firstname} ${obj.lastname} ${toDurationString(obj.dob)} ${obj.gender} ${obj.profession} ${obj.phone} ${
+          obj.email
+        }`,
       valueSelector: (obj) => obj,
     },
   },
@@ -79,14 +71,6 @@ export const BillsSummary = [
 ];
 
 export const BillServiceSchema = [
-  {
-    name: 'Category',
-    key: 'category',
-    selector: (row) => row.category,
-    description: 'Category',
-    sortable: true,
-    required: true,
-  },
   {
     name: 'Service',
     key: 'inventoryId',

@@ -27,10 +27,7 @@ const BillPrescriptionSent = ({ onRowClicked, onSearch, items }) => {
 
       <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
         {items.map((data, index) => (
-          <AccordionBox
-            title={`${data.clientname} with ${data.orders.length} Pending Prescriptions`}
-            key={index}
-          >
+          <AccordionBox title={`${data.clientname} with ${data.orders.length} Pending Prescriptions`} key={index}>
             <CustomTable
               key={index}
               columns={BillPrescriptionSchema}
