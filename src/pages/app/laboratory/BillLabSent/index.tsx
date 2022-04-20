@@ -20,11 +20,16 @@ const AppBillPrescriptionSent = () => {
         ...resource.appointmentResource,
         show,
         selectedBillPrescriptionSent:
-          selectedBillPrescriptionSent || resource.billPrescriptionSentResource.selectedBillPrescriptionSent,
+          selectedBillPrescriptionSent ||
+          resource.billPrescriptionSentResource.selectedBillPrescriptionSent,
       },
     });
 
-  const { groupedList: billprescription, submit: handleSubmit, setFindQuery } = useRepository(Models.ORDER, navigate);
+  const {
+    groupedList: billprescription,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository(Models.ORDER, navigate);
 
   const [searchText, setSearchText] = useState('');
 

@@ -12,13 +12,7 @@ import {
   PageWrapper,
 } from '../../styles';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
-
-const LaboratoryDetails: React.FC<Props> = ({ row, backClick }) => {
+const LaboratoryDetails = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
