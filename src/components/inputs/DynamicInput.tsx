@@ -217,7 +217,10 @@ const DynamicInput = (props) => {
     );
   }
 
-  if (inputType === InputType.SELECT_AUTO_SUGGEST) {
+  if (
+    inputType === InputType.SELECT_AUTO_SUGGEST ||
+    inputType === InputType.SNOMED
+  ) {
     return (
       <Controller
         control={control}
@@ -229,6 +232,7 @@ const DynamicInput = (props) => {
             defaultValue={data[name]}
             readonly={readonly}
             error={errors[name]}
+            inputType={inputType}
             {...field}
           />
         )}

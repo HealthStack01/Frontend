@@ -1,10 +1,12 @@
 import { FormHelperText } from '@mui/material';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { defaultTheme } from 'react-autosuggest/dist/theme';
 import { toast } from 'react-toastify';
 
 import client from '../../context/feathers';
+import { InputType } from '../../pages/app/schema/util';
 import { autoSuggestStyles } from '../../pages/app/styles';
 import Input from './basic/Input';
 import { autoSuggestQuery } from './query';
@@ -26,6 +28,9 @@ const searchProvidedOptions = (options, value) => {
 
 const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
 
+const snomedUrl = (term) =>
+  `https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/2022-03-31/descriptions?&limit=100&term=${term}&active=true&conceptActive=true&lang=english&groupByConcept=true`;
+
 const AutoSuggestInput = ({
   defaultValue,
   label,
@@ -33,6 +38,7 @@ const AutoSuggestInput = ({
   options,
   onChange,
   error,
+  inputType,
 }) => {
   let Service = options.model && client.service(options.model);
   const [value, setValue] = useState('');
@@ -49,19 +55,34 @@ const AutoSuggestInput = ({
   );
 
   const onSuggestionsFetchRequested = ({ value: searchText }) => {
-    if (options.length) {
-      setSuggestions(searchProvidedOptions(options, searchText));
-    } else {
-      const query = autoSuggestQuery(options, searchText);
-      console.debug({ query });
-      Service.find(query)
-        .then((res) => {
-          setSuggestions(res.data);
+    if (inputType === InputType.SNOMED) {
+      console.debug('in here');
+      axios(snomedUrl(searchText))
+        .then((response) => {
+          const results = response.data.items.map((item) => item.term);
+          setSuggestions(results);
         })
         .catch((error) => {
-          toast(`error fetching suggestions ${error}`);
+          console.debug({ error });
+          toast(`error fetching SNOMED concepts, Check your network ${error}`);
         });
+      return;
     }
+
+    if (options.length) {
+      setSuggestions(searchProvidedOptions(options, searchText));
+      return;
+    }
+
+    const query = autoSuggestQuery(options, searchText);
+    console.debug({ query });
+    Service.find(query)
+      .then((res) => {
+        setSuggestions(res.data);
+      })
+      .catch((error) => {
+        toast(`error fetching suggestions ${error}`);
+      });
   };
 
   const inputProps = {
