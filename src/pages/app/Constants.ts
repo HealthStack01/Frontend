@@ -30,6 +30,7 @@ const Models = {
   QUESTIONNAIRE: 'questionnaire',
   QUESTION: 'question',
   SUBMISSION: 'conversation',
+  LABNOTE: 'labresults',
 };
 
 const DateFormats = {

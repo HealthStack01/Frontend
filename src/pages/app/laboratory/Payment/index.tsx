@@ -1,62 +1,61 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import { FormType } from '../../schema/util';
+import { Models, Views } from '../../Constants';
+import ListView from '../../generic/ListView';
+import { PaymentsSummary } from '../schema';
 import PaymentDetails from './PaymentDetail';
-import Payments from './PaymentList';
-const AppPaymentsLab = () => {
-  const { resource, setResource } = useObjectState();
+import { paymentQuery } from './query';
 
+const AppPaymentsPharmacy = () => {
+  const { resource, setResource } = useObjectState();
+  const {
+    paymentsResource: { show, selectedPayment: selectedPayments },
+  } = resource;
+
+  const handleNavigation = (show: string) => (selectedPayment?: any) =>
+    setResource({
+      ...resource,
+      paymentsResource: {
+        ...resource.paymentsResource,
+        show,
+        selectedPayment:
+          selectedPayment || resource.paymentsResource.selectedPayment,
+      },
+    });
+
+  const { groupedList: payments, setFindQuery } = useRepository(
+    Models.BILLS,
+    handleNavigation
+  );
+
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    setFindQuery(paymentQuery(undefined, searchText || undefined));
+  }, [searchText]);
   return (
     <>
-      {resource.paymentsResource.show === 'lists' && (
-        <Payments
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                ...prevState.paymentsResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row) => {
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                show: 'details',
-                selectedPayment: row,
-              },
-            }));
-          }}
+      {show === Views.LIST && (
+        <ListView
+          title="Payments"
+          schema={PaymentsSummary}
+          items={payments}
+          handleSearch={setSearchText}
+          onRowClicked={(rows) => handleNavigation(Views.DETAIL)(rows)}
+          loading={false}
         />
       )}
 
-      {resource.paymentsResource.show === FormType.DETAIL && (
+      {show === Views.DETAIL && (
         <PaymentDetails
-          row={resource.paymentsResource.selectedPayment}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                ...prevState.paymentsResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              paymentsResource: {
-                ...prevState.paymentsResource,
-                show: 'edit',
-              },
-            }))
-          }
+          row={selectedPayments}
+          onBackClick={handleNavigation(Views.LIST)}
         />
       )}
     </>
   );
 };
 
-export default AppPaymentsLab;
+export default AppPaymentsPharmacy;
