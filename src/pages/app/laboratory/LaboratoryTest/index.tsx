@@ -1,59 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import { FormType } from '../../schema/util';
+import { Models, Views } from '../../Constants';
+import ListView from '../../generic/ListView';
+import { LabTestSummary } from '../schema';
 import LaboratoryDetails from './LaboratoryDetail';
-import Laboratory from './LaboratoryList';
+import { labTestQuery } from './query';
 
 const AppLaboratory = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    employeeResource: { show, selectedEmployee },
+  } = resource;
+  const handleNavigation = (show: string) => (selectedEmployee?: any) =>
+    setResource({
+      ...resource,
+      employeeResource: {
+        ...resource.employeeResource,
+        show,
+        selectedEmployee:
+          selectedEmployee || resource.employeeResource.selectedEmployee,
+      },
+    });
+  const {
+    list: labtest,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository(Models.BILLS, handleNavigation);
+
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    setFindQuery(labTestQuery(undefined, searchText || undefined));
+  }, [searchText]);
+
+  useEffect(() => {
+    setFindQuery(labTestQuery(undefined, searchText || undefined));
+  }, []);
 
   return (
     <>
-      {resource.employeeResource.show === 'lists' && (
-        <Laboratory
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                show: 'details',
-                selectedEmployee: row,
-              },
-            }));
-          }}
+      {show === Views.LIST && (
+        <ListView
+          title="Lab Test Result"
+          schema={LabTestSummary}
+          items={labtest}
+          handleSearch={setSearchText}
+          onRowClicked={(rows) => handleNavigation(Views.DETAIL)(rows)}
+          loading={false}
         />
       )}
-
-      {resource.employeeResource.show === FormType.DETAIL && (
+      {show === Views.DETAIL && (
         <LaboratoryDetails
-          row={resource.employeeResource.selectedEmployee}
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              employeeResource: {
-                ...prevState.employeeResource,
-                show: 'edit',
-              },
-            }))
-          }
+          onSubmit={handleSubmit}
+          row={selectedEmployee}
+          backClick={handleNavigation(Views.LIST)}
         />
       )}
     </>

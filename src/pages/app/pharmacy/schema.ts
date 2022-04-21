@@ -11,6 +11,15 @@ export const PaymentsSummary = [
     selector: (row) => row.bills.map((obj) => obj.order).flat().length,
   },
 ];
+export const LabTestSummary = [
+  { name: 'S/N', selector: (row) => row.sn },
+  { name: 'Date', selector: (row) => row.createdAt.substring(0, 8) },
+  { name: 'Client', selector: (row) => row.orderInfo.orderObj.clientname },
+  {
+    name: 'Test',
+    selector: (row) => row.serviceInfo.name,
+  },
+];
 
 export const DispensorySummary = [
   { name: 'S/N', selector: (row) => row.sn },

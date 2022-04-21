@@ -33,7 +33,7 @@ interface Repository<T> {
 
 const useRepository = <T>(
   modelName: string,
-  onNavigate?: (view: string) => () => void,
+  onNavigate?: (view: string) => () => void
 ): Repository<T> => {
   let Service = client.service(modelName);
   const {
@@ -56,7 +56,7 @@ const useRepository = <T>(
       })
       .catch((err) => {
         toast(
-          `'Error deleting ${modelName}, probable network issues or ' + ${err}'`,
+          `'Error deleting ${modelName}, probable network issues or ' + ${err}'`
         );
       });
   };
@@ -75,6 +75,7 @@ const useRepository = <T>(
       },
       ...extras,
     };
+
     return (
       Service &&
       Service.find(params)
@@ -86,7 +87,7 @@ const useRepository = <T>(
             {
               params: { ...params },
               response,
-            },
+            }
           );
           setList(response.data);
           //TODO: This is a hack for billclient list table, find a better way
@@ -126,7 +127,7 @@ const useRepository = <T>(
     const values = getFormStrings(data._id);
     console.debug(
       'submitted ' + modelName + ' data ',
-      JSON.stringify({ data }),
+      JSON.stringify({ data })
     );
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id;
@@ -151,7 +152,7 @@ const useRepository = <T>(
     Service.on('updated', find);
     Service.on('patched', find);
     Service.on('removed', find);
-    if (onNavigate) find();
+    // if (onNavigate) find();
     return () => {
       Service = null;
     };

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import Button from '../../../../components/buttons/Button';
-import RadioButton from '../../../../components/inputs/basic/Radio';
-import Textarea from '../../../../components/inputs/basic/Textarea';
+import useRepository from '../../../../components/hooks/repository';
+import DynamicInput from '../../../../components/inputs/DynamicInput';
+import { Models } from '../../Constants';
 import {
   BottomWrapper,
   FullDetailsWrapper,
@@ -11,14 +13,26 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../../styles';
+import { LabResultDetailSchema } from '../schema';
 
-interface Props {
-  editBtnClicked?: () => void;
-  backClick: () => void;
-  row?: any;
-}
+const LaboratoryDetails = ({ row, backClick, onSubmit: _ }) => {
+  const [labNote, setLabNote] = useState([]);
+  const { user, submit: submitLabNote } = useRepository(Models.LABNOTE);
+  const { handleSubmit, control } = useForm({
+    defaultValues: row,
+  });
+  const addNote = (data) => {
+    const Id = row.resultDetail._id;
+    setLabNote(data);
+    let document: any = {};
+    if (user.currentEmployee) {
+      document.facility = user.currentEmployee.facilityDetail._id;
+      document.facilityname = user.currentEmployee.facilityDetail.facilityName;
+    }
+    document.documentdetail = labNote;
+    submitLabNote({ Id, document });
+  };
 
-const LaboratoryDetails: React.FC<Props> = ({ row, backClick }) => {
   return (
     <PageWrapper>
       <GrayWrapper>
@@ -36,37 +50,26 @@ const LaboratoryDetails: React.FC<Props> = ({ row, backClick }) => {
             />
           </div>
         </HeadWrapper>
-        <FullDetailsWrapper>
-          <GridWrapper className="two-columns">
-            <div>
-              <label>Client</label>
-              <p>{row.client}</p>
-            </div>
-            <div>
-              <label>Test</label>
-              <p>{row.test}</p>
-            </div>
 
-            <RadioButton
-              name="Appointment Schedule"
-              title="Appointment Schedule"
-              options={[
-                {
-                  value: 'Draft',
-                  label: 'draft',
-                },
-                {
-                  value: 'Finals',
-                  label: 'final',
-                },
-              ]}
-            />
-            <Textarea label="Findings" />
-            <Textarea label="Recommendations" />
-          </GridWrapper>
-          <BottomWrapper>
-            <Button label="Save" />
-          </BottomWrapper>
+        <FullDetailsWrapper>
+          <form onSubmit={handleSubmit(addNote)}>
+            <GridWrapper className="two-columns">
+              {LabResultDetailSchema.map((client, index) => (
+                <DynamicInput
+                  key={index}
+                  name={client.key}
+                  control={control}
+                  label={client.name}
+                  inputType={client.inputType}
+                  options={client.options || []}
+                  data={row}
+                />
+              ))}
+            </GridWrapper>
+            <BottomWrapper>
+              <Button label="Save" />
+            </BottomWrapper>
+          </form>
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>

@@ -1,65 +1,61 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
+import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
-import { FormType } from '../../schema/util';
-import BillLabSentDetails from './BillLabSentDetail';
+import { Models, Views } from '../../Constants';
+import BillLabSentDetail from './BillLabSentDetail';
 import BillLabSent from './BillLabSentList';
+import { orderQuery } from './query';
 
-const AppBillLabSent = () => {
+const AppBillPrescriptionSent = () => {
   const { resource, setResource } = useObjectState();
+  const {
+    billPrescriptionSentResource: { show, selectedBillPrescriptionSent },
+  } = resource;
+
+  const navigate = (show: string) => (selectedBillPrescriptionSent?: any) =>
+    setResource({
+      ...resource,
+      billPrescriptionSentResource: {
+        ...resource.appointmentResource,
+        show,
+        selectedBillPrescriptionSent:
+          selectedBillPrescriptionSent ||
+          resource.billPrescriptionSentResource.selectedBillPrescriptionSent,
+      },
+    });
+
+  const {
+    groupedList: billprescription,
+    submit: handleSubmit,
+    setFindQuery,
+  } = useRepository(Models.ORDER, navigate);
+
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    setFindQuery(orderQuery(undefined, searchText || undefined));
+  }, [searchText]);
 
   return (
     <>
-      {resource.billPrescriptionSentResource.show === 'lists' && (
+      {show === Views.LIST && (
         <BillLabSent
-          handleCreate={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'create',
-              },
-            }))
-          }
-          onRowClicked={(row, _event) => {
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                show: 'details',
-                selectedBillPrescriptionSent: row,
-              },
-            }));
-          }}
+          onRowClicked={(row) => navigate(Views.DETAIL)(row)}
+          onSearch={setSearchText}
+          items={billprescription}
         />
       )}
 
-      {resource.billPrescriptionSentResource.show === FormType.DETAIL && (
-        <BillLabSentDetails
-          row={
-            resource.billPrescriptionSentResource.selectedBillPrescriptionSent
-          }
-          backClick={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'lists',
-              },
-            }))
-          }
-          editBtnClicked={() =>
-            setResource((prevState) => ({
-              ...prevState,
-              billPrescriptionSentResource: {
-                ...prevState.billPrescriptionSentResource,
-                show: 'edit',
-              },
-            }))
-          }
+      {show === Views.DETAIL && (
+        <BillLabSentDetail
+          onSubmit={handleSubmit}
+          row={selectedBillPrescriptionSent}
+          backClick={navigate(Views.LIST)}
         />
       )}
     </>
   );
 };
 
-export default AppBillLabSent;
+export default AppBillPrescriptionSent;
