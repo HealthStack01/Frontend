@@ -4,7 +4,12 @@ import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import { ButtonGroup } from '../../../../ui/styled/global';
 import { BillServiceSchema } from '../../shared/bill';
-import { FullDetailsWrapper, GrayWrapper, HeadWrapper, PageWrapper } from '../../styles';
+import {
+  FullDetailsWrapper,
+  GrayWrapper,
+  HeadWrapper,
+  PageWrapper,
+} from '../../styles';
 
 const BillDetails = ({ editBtnClicked, row, backClick }) => {
   row.bills.forEach((obj) => {
@@ -22,7 +27,12 @@ const BillDetails = ({ editBtnClicked, row, backClick }) => {
             <span>Below are your Bill’s details</span>
           </div>
           <ButtonGroup>
-            <Button label="Back to List" background="#fdfdfd" color="#333" onClick={backClick} />
+            <Button
+              label="Back to List"
+              background="#fdfdfd"
+              color="#333"
+              onClick={backClick}
+            />
             <Button
               label={'Delete'}
               background="#FFE9E9"

@@ -43,7 +43,7 @@ const PaymentLine = ({ payment, draftPayment }) => {
   return (
     <GridWrapper>
       {PaymentLineSchema.filter(
-        (obj) => obj.inputType !== InputType.HIDDEN
+        (obj) => obj.inputType !== InputType.HIDDEN,
       ).map((schema, i) => (
         <div key={i}>
           <label>{schema.name}</label>

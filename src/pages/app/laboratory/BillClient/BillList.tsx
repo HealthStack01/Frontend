@@ -7,7 +7,13 @@ import { TableMenu } from '../../../../ui/styled/global';
 import { BillsSummary } from '../../shared/bill';
 import { PageWrapper } from '../../styles';
 
-const BillClient = ({ handleCreate, onRowClicked, onSearch, progressPending, items }) => {
+const BillClient = ({
+  handleCreate,
+  onRowClicked,
+  onSearch,
+  progressPending,
+  items,
+}) => {
   return (
     <>
       <PageWrapper>

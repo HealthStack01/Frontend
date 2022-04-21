@@ -191,7 +191,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
                       options={schema.options}
                     />
                   );
-                }
+                },
               )}
               <button
                 style={{

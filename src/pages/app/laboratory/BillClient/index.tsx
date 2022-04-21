@@ -21,7 +21,8 @@ const AppBillClient = () => {
       billClientResource: {
         ...resource.billClientResource,
         show,
-        selectedBillClient: selectedBillClient || resource.billClientResource.selectedBillClient,
+        selectedBillClient:
+          selectedBillClient || resource.billClientResource.selectedBillClient,
       },
     });
 
@@ -46,12 +47,19 @@ const AppBillClient = () => {
           items={clientBillsSummary}
         />
       )}
-      {show === Views.CREATE && <BillCreate backClick={handleNavigation(Views.LIST)} onSubmit={handleSubmit} />}
+      {show === Views.CREATE && (
+        <BillCreate
+          backClick={handleNavigation(Views.LIST)}
+          onSubmit={handleSubmit}
+        />
+      )}
       {show === Views.DETAIL && (
         <BillDetails
           row={selectedBillClient}
           backClick={handleNavigation(Views.LIST)}
-          editBtnClicked={() => handleNavigation(Views.EDIT)(selectedBillClient)}
+          editBtnClicked={() =>
+            handleNavigation(Views.EDIT)(selectedBillClient)
+          }
         />
       )}
     </>
