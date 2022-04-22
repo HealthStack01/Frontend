@@ -35,6 +35,7 @@ enum InputType {
   JSON,
   FILE_UPLOAD,
   READ_ONLY,
+  SNOMED,
 }
 
 enum FormType {

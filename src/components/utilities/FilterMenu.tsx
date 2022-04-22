@@ -105,35 +105,37 @@ const FilterMenu = ({
                 borderRadius: '4px',
               }}
             >
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
-                >
-                  <div style={{ padding: '5px 10px', margin: ' 0 0 10px 0' }}>
-                    <input type="checkbox" />
-                    <label>None</label>
-                  </div>
-                  <div style={{ padding: '5px 10px', margin: '10px 0' }}>
-                    <input type="checkbox" />
-                    <label>Date</label>
-                  </div>
-                  <div style={{ padding: '5px 10px', margin: '10px 0' }}>
-                    <input type="checkbox" />
-                    <label>Description</label>
-                  </div>
-                  {schema
-                    .filter((obj) => obj.filterable)
-                    .map((obj, i) => (
-                      <div key={i}>
-                        <input type="checkbox" onChange={onSearch} />
-                        <label>{obj.description}</label>
-                      </div>
-                    ))}
-                </MenuList>
-              </ClickAwayListener>
+              {schema.length ? (
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="composition-menu"
+                    aria-labelledby="composition-button"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    <div style={{ padding: '5px 10px', margin: ' 0 0 10px 0' }}>
+                      <input type="checkbox" />
+                      <label>None</label>
+                    </div>
+                    <div style={{ padding: '5px 10px', margin: '10px 0' }}>
+                      <input type="checkbox" />
+                      <label>Date</label>
+                    </div>
+                    <div style={{ padding: '5px 10px', margin: '10px 0' }}>
+                      <input type="checkbox" />
+                      <label>Description</label>
+                    </div>
+                    {schema
+                      .filter((obj) => obj.filterable)
+                      .map((obj, i) => (
+                        <div key={i}>
+                          <input type="checkbox" onChange={onSearch} />
+                          <label>{obj.description}</label>
+                        </div>
+                      ))}
+                  </MenuList>
+                </ClickAwayListener>
+              ) : null}
             </div>
           </Grow>
         )}
