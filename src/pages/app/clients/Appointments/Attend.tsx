@@ -53,7 +53,6 @@ const Attend = ({ appointment, backClick }) => {
 
   const loadClient = () => {
     getClient(appointment.clientId).then((client) => {
-      console.debug({ client, appointment });
       setClient(client);
     });
   };

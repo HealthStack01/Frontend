@@ -14,7 +14,6 @@ const ItemsInput = ({
   name,
   readonly,
 }) => {
-  console.debug({ schema, defaultValue, label });
   const [items, setItems] = useState(defaultValue || []);
   const { control, watch } = useForm();
   const [data, setData] = useState<any>({});

@@ -56,14 +56,13 @@ const AutoSuggestInput = ({
 
   const onSuggestionsFetchRequested = ({ value: searchText }) => {
     if (inputType === InputType.SNOMED) {
-      console.debug('in here');
       axios(snomedUrl(searchText))
         .then((response) => {
           const results = response.data.items.map((item) => item.term);
           setSuggestions(results);
         })
         .catch((error) => {
-          console.debug({ error });
+          console.error({ error });
           toast(`error fetching SNOMED concepts, Check your network ${error}`);
         });
       return;
@@ -75,7 +74,6 @@ const AutoSuggestInput = ({
     }
 
     const query = autoSuggestQuery(options, searchText);
-    console.debug({ query });
     Service.find(query)
       .then((res) => {
         setSuggestions(res.data);

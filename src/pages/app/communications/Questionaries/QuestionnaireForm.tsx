@@ -29,7 +29,6 @@ const QuestionnaireForm = ({
   const [questionnaire, setQuestionnaire] = useState(defaultValue || {});
 
   const updateQuestions = (questions) => {
-    console.debug({ questions });
     submit({ ...questionnaire, questions: [...questions] })
       .then(() => {
         setQuestionnaire({ ...questionnaire, questions: [...questions] });

@@ -50,7 +50,6 @@ const SubmissionForm = ({ backClick, onSubmit, data }) => {
       questionnaire: questionnaire._id,
       completed: true,
     };
-    console.debug({ submission });
     onSubmit(submission);
   };
 

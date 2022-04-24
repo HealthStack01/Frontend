@@ -86,7 +86,6 @@ function Signup() {
     if (activeStep === STEP_ORGANISATION) {
       return Promise.resolve(true);
     } else if (activeStep === STEP_MODULES) {
-      console.debug({ data });
       const modules = [...(data.modules1 || []), ...(data.modules2 || [])];
       if (modules.length > 1) {
         return createFacility({ ...data, modules })
@@ -103,7 +102,6 @@ function Signup() {
         return Promise.reject('Please select 2 modules or more!');
       }
     } else if (activeStep === STEP_EMPLOYEE) {
-      console.debug({ data, createdFacility });
       return createAdminEmployee({ ...data, facility: createdFacility._id })
         .then((res) => {
           setCreatedAdminEmployee(res);
