@@ -27,7 +27,6 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({
   label,
-  value,
   errorText,
   type = 'text',
   name,
@@ -41,7 +40,6 @@ const Input: React.FC<InputProps> = ({
   <div>
     <InputBox>
       <InputField
-        value={value}
         className="form__input"
         onChange={onChange}
         type={type}

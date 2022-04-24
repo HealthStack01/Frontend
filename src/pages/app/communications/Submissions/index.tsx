@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import useRepository from '../../../../components/hooks/repository';
 import { useObjectState } from '../../../../context/context';
@@ -31,7 +31,12 @@ const AppSubmission = () => {
     find: handleSearch,
     remove: handleDelete,
     submit: handleSubmit,
+    setFindQuery,
   } = useRepository<any>(Models.SUBMISSION, navigate);
+
+  useEffect(() => {
+    setFindQuery({ name: '' });
+  }, []);
 
   return (
     <>

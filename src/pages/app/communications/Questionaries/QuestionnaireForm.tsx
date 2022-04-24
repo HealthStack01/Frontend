@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import Button from '../../../../components/buttons/Button';
-import DnDBox from '../../../../components/dnd';
 import useRepository from '../../../../components/hooks/repository';
 import DynamicInput from '../../../../components/inputs/DynamicInput';
 import { Models } from '../../Constants';
@@ -16,6 +15,7 @@ import {
   PageWrapper,
 } from '../../styles';
 import { QuestionnaireSchema } from '../schema';
+import DnDBox from './QuestionsDnd';
 
 const QuestionnaireForm = ({
   backClick,
@@ -23,16 +23,19 @@ const QuestionnaireForm = ({
   onSubmit,
 }) => {
   const { submit } = useRepository<any>(Models.QUESTIONNAIRE);
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm({
+    defaultValues: defaultValue,
+  });
   const [questionnaire, setQuestionnaire] = useState(defaultValue || {});
 
   const updateQuestions = (questions) => {
+    console.debug({ questions });
     submit({ ...questionnaire, questions: [...questions] })
       .then(() => {
         setQuestionnaire({ ...questionnaire, questions: [...questions] });
       })
       .catch((error) => {
-        toast.error('Error occured submitting questionnaire' + error);
+        toast.error('Error occured updating questions ' + error);
       });
   };
 
@@ -71,7 +74,6 @@ const QuestionnaireForm = ({
               ))}
             </GridWrapper>
             <BottomWrapper>
-              <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
               <Button
                 label={questionnaire._id ? 'Update' : 'Save'}
                 type="submit"
@@ -79,10 +81,12 @@ const QuestionnaireForm = ({
             </BottomWrapper>
           </FullDetailsWrapper>
         </form>
-        <DnDBox
-          questions={questionnaire.questions}
-          onChange={updateQuestions}
-        />
+        {questionnaire._id && (
+          <DnDBox
+            questions={questionnaire.questions}
+            onChange={updateQuestions}
+          />
+        )}
       </GrayWrapper>
     </PageWrapper>
   );

@@ -21,8 +21,7 @@ const AppChannel = () => {
       channelResource: {
         ...resource.channelResource,
         show,
-        selectedChannel:
-          selectedChannel || resource.channelResource.selectedChannel,
+        selectedChannel: show === FormType.CREATE ? {} : selectedChannel,
       },
     });
 
@@ -30,9 +29,13 @@ const AppChannel = () => {
     list: channels,
     find: handleSearch,
     remove: handleDelete,
-    submit: handleSubmit,
+    submit,
     setFindQuery,
   } = useRepository<any>(Models.CHANNEL, navigate);
+
+  const preSubmit = (data) => {
+    submit({ ...data, providerConfig: JSON.parse(data.providerConfig) });
+  };
 
   useEffect(() => {
     setFindQuery({ query: { facility: undefined } });
@@ -56,7 +59,7 @@ const AppChannel = () => {
           title="Channel"
           schema={ChannelSchema}
           backClick={navigate(Views.LIST)}
-          onSubmit={handleSubmit}
+          onSubmit={preSubmit}
           selectedData={{
             ...selectedChannel,
             providerConfig: JSON.stringify(selectedChannel['providerConfig']),

@@ -9,6 +9,7 @@ import {
   GridWrapper,
   HeadWrapper,
 } from '../styles';
+import ItemsInput from './ItemsInput';
 
 interface Props {
   title: string;
@@ -26,6 +27,7 @@ const DetailView: React.FC<Props> = ({
   schema,
   value,
   backClick,
+  children,
 }) => {
   return (
     <PageWrapper>
@@ -61,16 +63,30 @@ const DetailView: React.FC<Props> = ({
           </ButtonGroup>
         </HeadWrapper>
         <FullDetailsWrapper>
-          <GridWrapper>
-            {schema.map((schema) => (
-              <div key={schema.key}>
-                <label>{schema.name}</label>
-                <p>
-                  {schema.selector ? schema.selector(value) : value[schema.key]}
-                </p>
-              </div>
-            ))}
-          </GridWrapper>
+          {schema.map((schema) =>
+            schema.schema && schema.selector ? (
+              <ItemsInput
+                label={schema.name}
+                readonly={true}
+                schema={schema}
+                defaultValue={schema.selector(value, true)}
+                name={schema.key}
+                onChange={() => {}}
+              />
+            ) : (
+              <GridWrapper>
+                <div key={schema.key}>
+                  <label>{schema.name}</label>
+                  <p>
+                    {schema.selector
+                      ? schema.selector(value)
+                      : value[schema.key]}
+                  </p>
+                </div>
+              </GridWrapper>
+            ),
+          )}
+          {children}
         </FullDetailsWrapper>
       </GrayWrapper>
     </PageWrapper>

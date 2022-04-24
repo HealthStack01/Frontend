@@ -43,6 +43,8 @@ import Login from '../pages/auth';
 import IndividualSignup from '../pages/auth/IndividualSignup';
 import Signup from '../pages/auth/Signup';
 import { Models } from './app/Constants';
+import AppCaseDefinition from './app/epidemology/CaseDefinition';
+import EpidemiologyDashboard from './app/epidemology/EpidemiologyDashboard';
 import PrivateOutlet from './PrivateOutlet';
 
 const moduleLocationTypes = {
@@ -173,6 +175,17 @@ const AppRoutes = () => {
           <Route
             path="/app/communication/submissions"
             element={<AppSubmission />}
+          />
+
+          {/* Epidemiology */}
+          <Route path="/app/epidemiology" element={<EpidemiologyDashboard />} />
+          <Route
+            path="/app/epidemiology/case-definition"
+            element={<AppCaseDefinition />}
+          />
+          <Route
+            path="/app/epidemiology/signals"
+            element={<AppCaseDefinition />}
           />
         </Route>
       </Routes>

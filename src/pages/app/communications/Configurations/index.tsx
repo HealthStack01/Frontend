@@ -22,8 +22,7 @@ const AppConfiguration = () => {
         ...resource.configurationResource,
         show,
         selectedConfiguration:
-          selectedConfiguration ||
-          resource.configurationResource.selectedConfiguration,
+          show === FormType.CREATE ? {} : selectedConfiguration,
       },
     });
 
@@ -60,8 +59,8 @@ const AppConfiguration = () => {
           onSubmit={handleSubmit}
           selectedData={{
             ...selectedConfiguration,
-            questionnaire: selectedConfiguration.questionnaire._id,
-            channel: selectedConfiguration.channel._id,
+            questionnaire: selectedConfiguration.questionnaire?._id,
+            channel: selectedConfiguration.channel?._id,
           }}
         />
       )}

@@ -101,8 +101,8 @@ export const menuItems = [
     iconClassName: 'bi bi-bezier',
     subMenus: [
       { name: 'Dashboard', to: '/' },
-      { name: 'Case Defination', to: '/' },
-      { name: 'Signals', to: '/' },
+      { name: 'Case Definition', to: '/app/epidemiology/case-definition' },
+      { name: 'Signals', to: '/app/epidemiology/signal' },
     ],
   },
   {
@@ -125,10 +125,9 @@ export const menuItems = [
     subMenus: [
       { name: 'Dashboard', to: '/app/communication' },
       { name: 'Channel', to: '/app/communication/channel' },
-      { name: 'Configuration', to: '/app/communication/configuration' },
       { name: 'Questionnaires', to: '/app/communication/questionnaires' },
+      { name: 'Configuration', to: '/app/communication/configuration' },
       { name: 'Submissions', to: '/app/communication/submissions' },
-      { name: 'Input Fields', to: '/app/communication/inputfields' },
     ],
   },
   {
