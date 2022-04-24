@@ -2,7 +2,6 @@ import { Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 
 import Button from '../../../../../components/buttons/Button';
-import DnDBox from '../../../../../components/dnd';
 import {
   ButtonGroup,
   ContentWrapper,
@@ -156,9 +155,6 @@ const TabBox = ({
             schema={RadiologySchema}
             data={radiologyTests}
           />
-        </TabPanel>
-        <TabPanel value={currentTab} index={3}>
-          <DnDBox questions={[]} onChange={() => {}} />
         </TabPanel>
       </GrayWrapper>
     </>

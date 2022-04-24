@@ -31,6 +31,7 @@ const Models = {
   QUESTION: 'question',
   SUBMISSION: 'conversation',
   LABNOTE: 'labresults',
+  CASE_DEFINITION: 'casedefinition',
 };
 
 const DateFormats = {

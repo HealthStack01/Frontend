@@ -7,6 +7,7 @@ import DetailView from '../../generic/DetailView';
 import ListView from '../../generic/ListView';
 import { FormType } from '../../schema/util';
 import { QuestionnaireSchema } from '../schema';
+import SubmissionLine from '../Submissions/SubmissionLine';
 import QuestionnaireForm from './QuestionnaireForm';
 
 const AppQuestionnaire = () => {
@@ -67,7 +68,20 @@ const AppQuestionnaire = () => {
           backClick={navigate(Views.LIST)}
           onEdit={() => navigate(Views.EDIT)(selectedQuestionnaire)}
           onDelete={() => handleDelete(selectedQuestionnaire)}
-        />
+        >
+          <div className="grid grid-cols-12">See Questions Herer</div>
+          {selectedQuestionnaire.questions.map((question) => (
+            <SubmissionLine
+              key={question._id}
+              control={null}
+              interaction={{
+                question,
+                questionCaption: question.caption,
+                response: '',
+              }}
+            />
+          ))}
+        </DetailView>
       )}
     </>
   );

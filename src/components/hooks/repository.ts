@@ -66,7 +66,6 @@ const useRepository = <T>(
     const extras = isString ? {} : { ...findQuery, ...query };
     const params = {
       query: {
-        //facility: user.stacker ? -1 : facility._id,
         name: isString && query ? { $regex: query, $options: 'i' } : undefined,
         $limit: 200,
         $sort: {
@@ -109,10 +108,14 @@ const useRepository = <T>(
       // Exceptions
       if (
         typeof value === 'object' &&
-        !data.documentname &&
-        !data.questions &&
+        !data.documentname && // Documentation
+        !data.questions && // questionnaire
         !data.interactions &&
-        !data.client
+        !data.client && //Orders,and others
+        !data.providerConfig && // client
+        !data.options && // question
+        !data.disease && // case definition
+        !data.observations //  case definition
       ) {
         result = { ...result, ...value };
       } else {
@@ -123,7 +126,7 @@ const useRepository = <T>(
   };
 
   const submit = (dataIn) => {
-    const data = spreadSubData(dataIn);
+    const data = dataIn.length ? dataIn : spreadSubData(dataIn);
     const values = getFormStrings(data._id);
     console.debug(
       'submitted ' + modelName + ' data ',
@@ -152,7 +155,7 @@ const useRepository = <T>(
     Service.on('updated', find);
     Service.on('patched', find);
     Service.on('removed', find);
-    // if (onNavigate) find();
+    //if (onNavigate) find();
     return () => {
       Service = null;
     };

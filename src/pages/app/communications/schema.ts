@@ -114,7 +114,6 @@ const ConversationConfigSchema = [
     description: 'Extra Data',
     selector: (row) => row.extras,
     sortable: true,
-    required: true,
     inputType: InputType.JSON,
   },
 ];

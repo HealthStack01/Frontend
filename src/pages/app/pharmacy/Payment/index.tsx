@@ -27,7 +27,7 @@ const AppPaymentsPharmacy = () => {
 
   const { groupedList: payments, setFindQuery } = useRepository(
     Models.BILLS,
-    handleNavigation
+    handleNavigation,
   );
 
   const [searchText, setSearchText] = useState('');

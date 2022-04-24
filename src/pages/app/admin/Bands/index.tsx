@@ -16,7 +16,6 @@ const AppBand = () => {
   } = resource;
 
   const navigate = (show: string) => (selectedBand?: any) => {
-    console.debug({ show, selectedBand });
     setResource({
       ...resource,
       bandResource: {

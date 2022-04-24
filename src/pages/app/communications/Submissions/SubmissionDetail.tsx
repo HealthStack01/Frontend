@@ -48,14 +48,18 @@ const SubmissionDetails = ({ onEdit, onDelete, row, backClick }) => {
         </HeadWrapper>
         <FullDetailsWrapper>
           <GridWrapper>
-            {SubmissionSchema.map((field) => (
-              <DynamicFieldView field={field} data={row} />
+            {SubmissionSchema.map((field, i) => (
+              <DynamicFieldView key={i} field={field} data={row} />
             ))}
           </GridWrapper>
           {'Submitted Fields'}
           <GridWrapper>
-            {row.interactions.map((interaction) => (
-              <SubmissionLine control={undefined} interaction={interaction} />
+            {row.interactions.map((interaction, i) => (
+              <SubmissionLine
+                key={i}
+                control={undefined}
+                interaction={interaction}
+              />
             ))}
           </GridWrapper>
         </FullDetailsWrapper>

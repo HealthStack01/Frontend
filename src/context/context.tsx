@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Views } from '../pages/app/Constants';
+import { FormType } from '../pages/app/schema/util';
 import client from './feathers';
 
 interface UserContextProps {
@@ -33,6 +34,8 @@ interface ObjectContextProps {
 
   facilityResource: { show: string; selectedFacility: {} };
   // epidiologyModule: { show: string; selectedEpid: {} };
+  caseDefinitionResource: { show: string; selectedCaseDefinition };
+  signalResource: { show: string; selectedSignal };
 
   // Admin Module
   bandResource: { show: string; selectedBand: {} };
@@ -79,92 +82,99 @@ const objectDefaultValues: ObjectContextProps = {
 
   //Admin
   facilityResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedFacility: {},
   },
   bandResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedBand: {},
   },
   locationResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedLocation: {},
   },
   employeeResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedEmployee: {},
   },
 
   // Finance
   billServicesResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedBillService: {},
   },
   paymentsResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedPayment: {},
   },
   revenuesResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedRevenue: {},
   },
   collectionsResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedCollection: {},
   },
   servicesResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedService: {},
   },
   hmoAuthorizationsResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedHMOAuthorization: {},
   },
 
   // Pharmacy
   billClientResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedBillClient: {},
   },
   billPrescriptionSentResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedBillPrescriptionSent: {},
   },
   dispensoryResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedDispensory: {},
   },
   storeInventoryResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedStoreInventory: {},
   },
   productEntryResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedProductEntry: {},
   },
   posResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedPOS: {},
   },
 
   // Selected Documentation
   selectedDocumentation: '',
 
+  //Epidemiology
+  caseDefinitionResource: {
+    show: FormType.LIST,
+    selectedCaseDefinition: {},
+  },
+  signalResource: { show: FormType.LIST, selectedSignal: {} },
+
   // Communications
   channelResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedChannel: {},
   },
   configurationResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedConfiguration: {},
   },
   questionnaireResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedQuestionnaire: {},
   },
   submissionResource: {
-    show: 'lists',
+    show: FormType.LIST,
     selectedSubmission: {},
   },
 };

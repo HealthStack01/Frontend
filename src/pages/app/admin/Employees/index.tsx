@@ -23,9 +23,7 @@ const AppEmployee = () => {
       employeeResource: {
         ...resource.employeeResource,
         show,
-        selectedEmployee: selectedEmployee?._id
-          ? selectedEmployee
-          : resource.employeeResource.selectedEmployee,
+        selectedEmployee: show === FormType.CREATE ? {} : selectedEmployee,
       },
     });
 

@@ -16,22 +16,20 @@ import {
 } from '../../styles';
 import SubmissionLine from './SubmissionLine';
 
-const getDefaultValues = (interactions) => {
+const getDefaultValues = (interactions = []) => {
   const values = {};
   interactions.forEach((obj) => (values[obj.question] = obj.response));
   return values;
 };
 
-const SubmissionCreate = ({
-  backClick,
-  onSubmit,
-  data: selectedSubmission,
-}) => {
+const SubmissionForm = ({ backClick, onSubmit, data }) => {
   const { control, handleSubmit } = useForm({
-    defaultValues: getDefaultValues(selectedSubmission.interactions),
+    defaultValues: getDefaultValues(data.interactions),
   });
   const { find: getQuestionnaires } = useRepository(Models.QUESTIONNAIRE);
-  const [questionnaire, setQuestionnaire] = useState<Dictionary>();
+  const [questionnaire, setQuestionnaire] = useState<Dictionary>(
+    data.questionnaire,
+  );
 
   const onSubmitSubmission = (data) => {
     const interactions = Object.keys(data).map((questionId) => {
@@ -47,7 +45,7 @@ const SubmissionCreate = ({
       };
     });
     const submission = {
-      id: selectedSubmission ? selectedSubmission._id : undefined,
+      id: data ? data._id : undefined,
       interactions,
       questionnaire: questionnaire._id,
       completed: true,
@@ -56,13 +54,15 @@ const SubmissionCreate = ({
   };
 
   useEffect(() => {
-    getQuestionnaires({ query: { facility: undefined } })
-      .then((res: any) => {
-        setQuestionnaire(res.data[0]);
-      })
-      .catch((e) => {
-        toast.error('Questionnaires not available ' + e);
-      });
+    if (!questionnaire) {
+      getQuestionnaires({ query: { facility: undefined } })
+        .then((res: any) => {
+          setQuestionnaire(res.data[0]);
+        })
+        .catch((e) => {
+          toast.error('Questionnaires not available ' + e);
+        });
+    }
   }, []);
 
   if (!questionnaire) return <div>Loading questionnaire</div>;
@@ -99,14 +99,12 @@ const SubmissionCreate = ({
               </div>
             </GridWrapper>
             <GridWrapper>
-              {questionnaire.questions.map((question) => (
+              {questionnaire.questions.map((question, i) => (
                 <SubmissionLine
+                  key={i}
                   control={control}
                   interaction={{
-                    ...getInteraction(
-                      question,
-                      selectedSubmission.interactions,
-                    ),
+                    ...getInteraction(question, data.interactions),
                     question,
                   }}
                 />
@@ -124,4 +122,4 @@ const SubmissionCreate = ({
   );
 };
 
-export default SubmissionCreate;
+export default SubmissionForm;

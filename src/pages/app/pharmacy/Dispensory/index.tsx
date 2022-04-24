@@ -36,7 +36,6 @@ const AppDispensorysPharmacy = () => {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    console.debug(facility);
     if (facility)
       setFindQuery(dispensoryQuery(facility._id, searchText || undefined));
   }, [searchText, facility]);
