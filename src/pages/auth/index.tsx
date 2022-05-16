@@ -1,3 +1,9 @@
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+} from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -5,7 +11,6 @@ import { toast } from 'react-toastify';
 
 import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
-import CheckboxInput from '../../components/inputs/basic/Checkbox';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
 import Preloader from '../../components/utilities/Preloader';
@@ -16,6 +21,7 @@ function Login() {
   const navigate = useNavigate();
   const { handleSubmit, control } = useForm();
   const { setUser } = useContext(UserContext);
+  const [keepMeIn, setKeepMeIn] = useState(false);
   const [loaderTimer, setLoaderTimer] = useState(true);
   useEffect(() => {
     window.scrollTo({
@@ -39,7 +45,7 @@ function Login() {
           currentEmployee: { ...res.user.employeeData[0] },
         };
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
+        if (keepMeIn) localStorage.setItem('user', JSON.stringify(user));
         navigate('/app');
       })
       .catch((err) => {
@@ -68,7 +74,22 @@ function Login() {
                 <PasswordInput {...field} />
               )}
             />
-            <CheckboxInput label="" options={['Keep me Logged in']} />
+            <FormControl
+              component="fieldset"
+              sx={{ width: '1r00%', mt: 1, mb: 1 }}
+            >
+              <FormGroup>
+                <FormControlLabel
+                  label="Keep me Logged in"
+                  control={
+                    <Checkbox
+                      name="keepMeIn"
+                      onChange={(_, value) => setKeepMeIn(value)}
+                    />
+                  }
+                />
+              </FormGroup>
+            </FormControl>
             <Button type="submit" label="Login" fullwidth="true" />
           </form>
 

@@ -32,7 +32,7 @@ export const getCaseDefinitionSchema = (facilityId) => [
     description: 'Name of Disease',
     selector: (row) => row.disease?.name,
     sortable: true,
-    inputType: InputType.TEXT,
+    inputType: InputType.SNOMED,
   },
   {
     name: 'Symptoms',

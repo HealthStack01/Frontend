@@ -44,6 +44,7 @@ const BillClient = ({
             overflow: 'auto',
           }}
         >
+          {console.debug({ items })}
           <CustomTable
             title="Bills"
             columns={BillsSummary}
