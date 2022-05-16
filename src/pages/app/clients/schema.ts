@@ -130,7 +130,7 @@ const getAppointmentSchema = (facilityId) => [
       sortable: true,
       required: true,
       inputType: InputType.DATETIME,
-      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+      // validator: yup.string().min(5, 'Enter a valid Organisation name'),
     },
     {
       name: 'Classification',
@@ -154,7 +154,7 @@ const getAppointmentSchema = (facilityId) => [
           label: 'Home Visit',
         },
       ],
-      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+      // validator: yup.string().min(5, 'Enter a valid Organisation name'),
     },
     {
       name: 'Appointment Type',
@@ -165,7 +165,7 @@ const getAppointmentSchema = (facilityId) => [
       required: true,
       inputType: InputType.SELECT_LIST,
       options: ['New', 'Type B', 'Followup', 'Annual Checkup'],
-      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+      // validator: yup.string().min(5, 'Enter a valid Organisation name'),
     },
     {
       name: 'Appointment Status',
@@ -183,7 +183,7 @@ const getAppointmentSchema = (facilityId) => [
         'With Doctor',
       ],
       inputType: InputType.SELECT_LIST,
-      // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+      // validator: yup.string().min(5, 'Enter a valid Organisation name'),
     },
   ],
   {
@@ -194,7 +194,7 @@ const getAppointmentSchema = (facilityId) => [
     sortable: true,
     required: true,
     inputType: InputType.TEXT_AREA,
-    // validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+    // validator: yup.string().min(5, 'Enter a valid Organisation name'),
   },
 ];
 

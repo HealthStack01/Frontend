@@ -4,7 +4,7 @@ import { Dictionary } from '../../../types.d';
 import { Nigeria } from '../Nigeria';
 import { InputType, Schema } from './util';
 
-export const getOrganisationSchema = (formData: Dictionary): Schema[] => [
+export const getOrganisationSchema = (): Schema[] => [
   {
     name: 'S/N',
     key: '_id',
@@ -20,7 +20,7 @@ export const getOrganisationSchema = (formData: Dictionary): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
-    validator: yup.string().min(5, 'Enter a valid Organnisation name'),
+    validator: yup.string().min(5, 'Enter a valid Organisation name'),
   },
   {
     name: 'CAC Number',
@@ -31,88 +31,6 @@ export const getOrganisationSchema = (formData: Dictionary): Schema[] => [
     required: true,
     inputType: InputType.NUMBER,
     validator: yup.number().min(5, 'Enter a valid CAC number'),
-  },
-  {
-    name: 'Country',
-    key: 'facilityCountry',
-    description: 'Facility Country',
-    selector: (row) => row.facilityCountry,
-    sortable: true,
-    required: true,
-    options: ['Nigeria'],
-    inputType: InputType.SELECT_LIST,
-  },
-  {
-    name: 'State',
-    key: 'facilityState',
-    description: 'Organization State',
-    selector: (row) => row.facilityState,
-    sortable: true,
-    required: true,
-    options: Nigeria.map((obj) => obj.state),
-    defaultValue: formData['facilityState'],
-    inputType: InputType.SELECT_LIST,
-  },
-  {
-    name: 'LGA',
-    key: 'facilityLGA',
-    description: 'LGA',
-    selector: (row) => row.facilityLGA,
-    sortable: true,
-    required: true,
-    options:
-      (Nigeria || []).find((obj) => obj.state === formData['facilityState'])
-        ?.lgas || [],
-    inputType: InputType.SELECT_LIST,
-  },
-
-  {
-    name: 'City',
-    key: 'facilityCity',
-    description: 'Organization City',
-    selector: (row) => row.facilityCity,
-    sortable: true,
-    required: true,
-    options:
-      (Nigeria || []).find((obj) => obj.state === formData['facilityState'])
-        ?.lgas || [],
-    inputType: InputType.SELECT_LIST,
-  },
-
-  {
-    name: 'Address',
-    key: 'facilityAddress',
-    description: 'Organization Registered Address',
-    selector: (row) => row.facilityAddress,
-    sortable: true,
-    required: true,
-    inputType: InputType.TEXT,
-    validator: yup.string().min(10, 'Enter a valid Address'),
-  },
-
-  {
-    name: 'Phone  Number',
-    key: 'facilityContactPhone',
-    description: 'Organization Contact Phone Number',
-    selector: (row) => row.facilityContactPhone,
-    sortable: true,
-    required: true,
-    inputType: InputType.PHONE,
-    validator: yup
-      .string()
-      .min(10, 'Enter a  Phone number')
-      .max(13, 'Enter a Phone number'),
-  },
-
-  {
-    name: 'Email',
-    key: 'facilityEmail',
-    description: 'Organization Email',
-    selector: (row) => row.facilityContactPhone,
-    sortable: true,
-    required: true,
-    inputType: InputType.EMAIL,
-    validator: yup.string().email(),
   },
   {
     name: 'CEO',
@@ -146,6 +64,89 @@ export const getOrganisationSchema = (formData: Dictionary): Schema[] => [
   },
 ];
 
+export const getOrganisationContactSchema = (
+  formData: Dictionary,
+): Schema[] => [
+  {
+    name: 'Country',
+    key: 'facilityCountry',
+    description: 'Facility Country',
+    selector: (row) => row.facilityCountry,
+    sortable: true,
+    required: true,
+    options: ['Nigeria'],
+    inputType: InputType.SELECT_LIST,
+  },
+  {
+    name: 'State',
+    key: 'facilityState',
+    description: 'Organization State',
+    selector: (row) => row.facilityState,
+    sortable: true,
+    required: true,
+    options: Nigeria.map((obj) => obj.state),
+    defaultValue: formData['facilityState'],
+    inputType: InputType.SELECT_LIST,
+  },
+  {
+    name: 'LGA',
+    key: 'facilityLGA',
+    description: 'LGA',
+    selector: (row) => row.facilityLGA,
+    sortable: true,
+    required: true,
+    options:
+      (Nigeria || []).find((obj) => obj.state === formData['facilityState'])
+        ?.lgas || [],
+    inputType: InputType.SELECT_LIST,
+  },
+  {
+    name: 'City',
+    key: 'facilityCity',
+    description: 'Organization City',
+    selector: (row) => row.facilityCity,
+    sortable: true,
+    required: true,
+    options:
+      (Nigeria || []).find((obj) => obj.state === formData['facilityState'])
+        ?.lgas || [],
+    inputType: InputType.SELECT_LIST,
+  },
+  {
+    name: 'Address',
+    key: 'facilityAddress',
+    description: 'Organization Registered Address',
+    selector: (row) => row.facilityAddress,
+    sortable: true,
+    required: true,
+    inputType: InputType.TEXT,
+    validator: yup.string().min(10, 'Enter a valid Address'),
+  },
+  {
+    name: 'Phone  Number',
+    key: 'facilityContactPhone',
+    description: 'Organization Contact Phone Number',
+    selector: (row) => row.facilityContactPhone,
+    sortable: true,
+    required: true,
+    inputType: InputType.PHONE,
+    validator: yup
+      .string()
+      .min(10, 'Enter a  Phone number')
+      .max(13, 'Enter a Phone number'),
+  },
+  {
+    name: 'Email',
+    key: 'facilityEmail',
+    description: 'Organization Email',
+    selector: (row) => row.facilityContactPhone,
+    sortable: true,
+    required: true,
+    inputType: InputType.EMAIL,
+    validator: yup.string().email(),
+  },
+];
+
 export const OnboardingEmployeeSchema = [
   {
     name: 'Firstname',
@@ -162,41 +163,10 @@ export const OnboardingEmployeeSchema = [
     required: true,
   },
   {
-    name: 'Organization Email',
+    name: 'Email',
     key: 'email',
-    description: 'Organnisation  Email',
+    description: 'Organisation  Email',
     inputType: InputType.TEXT,
-    required: true,
-  },
-  {
-    name: 'Personal email',
-    key: 'personalEmail',
-    description: 'Personal email',
-    inputType: InputType.TEXT,
-    required: true,
-  },
-  {
-    name: 'Phone number',
-    key: 'phone',
-    description: 'Enter phone number',
-    inputType: InputType.TEXT,
-    required: true,
-  },
-
-  {
-    name: 'Country',
-    key: 'facilityCountry',
-    description: 'Facility Country',
-    options: ['Nigeria'],
-    inputType: InputType.SELECT_LIST,
-    required: true,
-  },
-  {
-    name: 'State',
-    key: 'facilityState',
-    description: 'Organization State',
-    options: ['Lagos'],
-    inputType: InputType.SELECT_LIST,
     required: true,
   },
   {

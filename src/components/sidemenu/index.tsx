@@ -170,8 +170,6 @@ function SideMenu({ isOpen }) {
     });
   }, []);
 
-  useEffect(() => {}, []);
-
   return (
     <Sidemenu className={`side-menu ${!isOpen ? '' : 'hide'}`}>
       <TopSection>

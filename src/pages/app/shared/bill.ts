@@ -69,12 +69,21 @@ export const BillCustomerSchema = [
 ];
 
 export const BillsSummary = [
-  { name: 'S/N', selector: (row) => row.sn },
-  { name: 'Client Name', selector: (row) => row.clientname },
-  { name: 'Bills', selector: (row) => row.bills.length },
+  { name: 'S/N', selector: (row) => row.sn, inputType: InputType.READ_ONLY },
+  {
+    name: 'Client Name',
+    selector: (row) => row.clientname,
+    inputType: InputType.READ_ONLY,
+  },
+  {
+    name: 'Bills',
+    selector: (row) => row.bills.length,
+    inputType: InputType.READ_ONLY,
+  },
   {
     name: 'Bill Items',
     selector: (row) => row.bills.map((obj) => obj.order).flat().length,
+    inputType: InputType.READ_ONLY,
   },
 ];
 

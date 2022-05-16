@@ -31,6 +31,7 @@ const AppBillClient = () => {
     submit: handleSubmit,
     setFindQuery,
   } = useRepository(Models.BILLS, handleNavigation);
+
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     setFindQuery(BillClientQuery(undefined, searchText || undefined));

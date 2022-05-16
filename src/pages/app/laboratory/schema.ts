@@ -6,18 +6,22 @@ export const LabTestSummary = [
   {
     name: 'Test',
     selector: (row) => row.serviceInfo.name,
+    inputType: InputType.READ_ONLY,
   },
   {
     name: 'Amount',
     selector: (row) => row.serviceInfo.amount,
+    inputType: InputType.READ_ONLY,
   },
   {
     name: 'Payment Status',
     selector: (row) => row.billing_status,
+    inputType: InputType.READ_ONLY,
   },
   {
     name: 'Result Status',
     selector: (row) => row.report_status,
+    inputType: InputType.READ_ONLY,
   },
 ];
 
@@ -67,9 +71,17 @@ export const LabResultSchema = [
   },
 ];
 export const PaymentsSummary = [
-  { name: 'S/N', selector: (row) => row.sn },
-  { name: 'Client Name', selector: (row) => row.clientname },
-  { name: 'Bills', selector: (row) => row.bills.length },
+  { name: 'S/N', selector: (row) => row.sn, inputType: InputType.READ_ONLY },
+  {
+    name: 'Client Name',
+    selector: (row) => row.clientname,
+    inputType: InputType.READ_ONLY,
+  },
+  {
+    name: 'Bills',
+    selector: (row) => row.bills.length,
+    inputType: InputType.READ_ONLY,
+  },
   {
     name: 'Bill Items',
     selector: (row) => row.bills.map((obj) => obj.order).flat().length,

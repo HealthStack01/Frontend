@@ -117,6 +117,7 @@ const DynamicInput = (props) => {
   }
 
   if (inputType === InputType.MULTIPLE_ADD && props.schema) {
+    console.debug({ props });
     return (
       <Controller
         name={name}
@@ -125,7 +126,7 @@ const DynamicInput = (props) => {
           <ItemsInput
             {...field}
             label={label}
-            readonly={true}
+            readonly={false}
             schema={props}
             defaultValue={data[name]}
           />

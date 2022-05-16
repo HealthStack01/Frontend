@@ -40,11 +40,6 @@ const AppointmentDetails = ({
                   color="#333"
                   onClick={backClick}
                 />
-                <Button
-                  label={'Start or Join Telemedicine'}
-                  background={'#04ed7c'}
-                  color={'#fff'}
-                />
               </ButtonGroup>
             </HeadWrapper>
             <FullDetailsWrapper>
