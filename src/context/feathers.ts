@@ -3,10 +3,7 @@ import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client';
 import io from 'socket.io-client';
 
-// const local = 'http://localhost:8080';
-const url = 'http://ec2-18-168-154-165.eu-west-2.compute.amazonaws.com:8080';
-// const prod = 'https://healthstack-backend.herokuapp.com';
-const socket = io(url, {
+const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:8080', {
   transports: ['websocket'],
   forceNew: true,
 });
