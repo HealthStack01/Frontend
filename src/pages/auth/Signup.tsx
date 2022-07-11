@@ -235,15 +235,15 @@ function Signup() {
       <Link
         className="nav-link"
         style={{
-          padding: '16px 32px',
-          color: '#333',
-          borderRadius: '4px',
-          background: '#eeeeee',
-          marginLeft: '0.6rem',
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          textDecoration: 'bold',
+          // padding: '15px 30px',
+          // color: '#333',
+          // borderRadius: '4px',
+          // background: '#eeeeee',
+          // marginLeft: '0.6rem',
+          // position: 'fixed',
+          // top: '20px',
+          // right: '20px',
+          // textDecoration: 'bold',
           display:'none' 
         }}
         to="/signupindividual"
