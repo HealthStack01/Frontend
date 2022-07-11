@@ -243,8 +243,8 @@ function Signup() {
           position: 'fixed',
           top: '20px',
           right: '20px',
-          textDecoration: 'none',
-          display:'none'
+          textDecoration: 'bold',
+          display:'none' 
         }}
         to="/signupindividual"
       >
