@@ -244,6 +244,7 @@ function Signup() {
           top: '20px',
           right: '20px',
           textDecoration: 'none',
+          display:'none'
         }}
         to="/signupindividual"
       >
