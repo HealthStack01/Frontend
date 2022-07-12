@@ -123,7 +123,7 @@ export const menuItems = [
     to: '/app/communication',
     iconClassName: 'bi bi-rss',
     subMenus: [
-      // { name: 'Dashboard', to: '/app/communication' },
+      
       { name: 'Channel', to: '/app/communication/channel' },
       { name: 'Questionnaires', to: '/app/communication/questionnaires' },
       { name: 'Configuration', to: '/app/communication/configuration' },
