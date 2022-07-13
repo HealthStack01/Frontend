@@ -30,7 +30,7 @@ export const getOrganisationSchema = (): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.NUMBER,
-    validator: yup.number().min(14, 'Enter a valid CAC number')
+    validator: yup.number().min(14, 'Enter a valid CAC number').max(14,'enter a valid CAC number')
   },
   {
     name: 'CEO',
