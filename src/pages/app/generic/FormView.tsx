@@ -110,6 +110,6 @@ const FormView: React.FC<Props> = ({
       </GrayWrapper>
     </PageWrapper>
   );
-};
+}; 
 
 export default FormView;
