@@ -10,7 +10,7 @@ const getAppointmentSchema = (facilityId) => [
     key: 'sn',
     selector: (row) => row.sn,
     description: 'SN',
-    sortable: true,
+    sortable: false,
     inputType: InputType.HIDDEN,
   },
   {
