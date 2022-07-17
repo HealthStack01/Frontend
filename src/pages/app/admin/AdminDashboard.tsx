@@ -4,7 +4,7 @@ import { PageWrapper } from '../styles';
 
 function AdminDashboard() {
   return (
-    <PageWrapper>
+    <PageWrapper >
       <h2>Admin Dashboard</h2>
     </PageWrapper>
   );

@@ -20,7 +20,7 @@ export const getOrganisationSchema = (): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.TEXT,
-    validator: yup.string().min(5, 'Enter a valid Organisation name'),
+    validator: yup.string().min(5, 'Name must exceed 5 characters'),
   },
   {
     name: 'CAC Number',
@@ -30,7 +30,7 @@ export const getOrganisationSchema = (): Schema[] => [
     sortable: true,
     required: true,
     inputType: InputType.NUMBER,
-    validator: yup.number().min(5, 'Enter a valid CAC number'),
+    validator: yup.number().min(14, 'Enter a valid CAC number')
   },
   {
     name: 'CEO',

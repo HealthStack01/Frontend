@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import MenuItem from '../menuitem';
 import { Lists } from '../menuitem/style';
@@ -18,7 +18,6 @@ export const menuItems = [
     to: '/app/clients',
     iconClassName: 'bi bi-people',
     subMenus: [
-      { name: 'Dashboard', to: '/app/clients' },
       { name: 'Appointment', to: '/app/clients/appointments' },
       { name: 'Client', to: '/app/clients/clients' },
     ],
@@ -28,10 +27,7 @@ export const menuItems = [
     exact: true,
     to: '/app/clinic',
     iconClassName: 'bi bi-file-medical',
-    subMenus: [
-      { name: 'Dashboard', to: '/app/clinic' },
-      { name: 'Appointment', to: '/app/clinic/appointments' },
-    ],
+    subMenus: [{ name: 'Appointment', to: '/app/clinic/appointments' }],
   },
   {
     name: 'Pharmacy',
@@ -39,7 +35,6 @@ export const menuItems = [
     to: '/app/pharmacy',
     iconClassName: 'bi bi-file-medical',
     subMenus: [
-      { name: 'Dashboard', to: '/app/pharmacy' },
       { name: 'Bill client', to: '/app/pharmacy/billclient' },
       { name: 'Bill Prescription Sent', to: '/app/pharmacy/billsent' },
       { name: 'Payment', to: '/app/pharmacy/payment' },
@@ -55,7 +50,6 @@ export const menuItems = [
     to: '/app/laboratory',
     iconClassName: 'bi bi-binoculars',
     subMenus: [
-      { name: 'Dashboard', to: '/app/laboratory' },
       { name: 'Bill client', to: '/app/laboratory/billclient' },
       { name: 'Bill Lab Orders Sent', to: '/app/laboratory/billlabsent' },
       { name: 'Payment', to: '/app/laboratory/payment' },
@@ -68,7 +62,6 @@ export const menuItems = [
     to: '/app/managedCare',
     iconClassName: 'bi bi-alarm',
     subMenus: [
-      { name: 'Dashboard', to: '/app/managedCare' },
       { name: 'Claim Payment', to: '/app/managedCare/claimpayment' },
       { name: 'Claims', to: '/app/managedCare/claims' },
       { name: 'Referrals', to: '/app/managedCare/referrals' },
@@ -85,7 +78,6 @@ export const menuItems = [
     to: '/app/finance',
     iconClassName: 'bi bi-cash',
     subMenus: [
-      { name: 'Dashboard', to: '/app/finance' },
       { name: 'Bill Services', to: '/app/finance/billservices' },
       { name: 'Payment', to: '/app/finance/payment' },
       { name: 'Revenue', to: '/app/finance/revenue' },
@@ -100,7 +92,6 @@ export const menuItems = [
     to: '/',
     iconClassName: 'bi bi-bezier',
     subMenus: [
-      { name: 'Dashboard', to: '/' },
       { name: 'Case Definition', to: '/app/epidemiology/case-definition' },
       { name: 'Signals', to: '/app/epidemiology/signal' },
     ],
@@ -111,7 +102,6 @@ export const menuItems = [
     to: '/app/admin',
     iconClassName: 'bi bi-person',
     subMenus: [
-      { name: 'Dashboard', to: '/app/admin' },
       { name: 'Bands', to: '/app/admin/bands' },
       { name: 'Employees', to: '/app/admin/employees' },
       { name: 'Location', to: '/app/admin/location' },
@@ -123,7 +113,6 @@ export const menuItems = [
     to: '/app/communication',
     iconClassName: 'bi bi-rss',
     subMenus: [
-      { name: 'Dashboard', to: '/app/communication' },
       { name: 'Channel', to: '/app/communication/channel' },
       { name: 'Questionnaires', to: '/app/communication/questionnaires' },
       { name: 'Configuration', to: '/app/communication/configuration' },

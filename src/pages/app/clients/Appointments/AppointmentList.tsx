@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-
 import Button from '../../../../components/buttons/Button';
-import CalenderGrid from '../../../../components/calender';
 import CustomTable from '../../../../components/customtable';
-import SwitchButton from '../../../../components/switch';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
@@ -15,8 +11,6 @@ const Appointments = ({
   onSearch,
   items,
 }) => {
-  const [listView, setListView] = useState(true);
-
   return (
     <>
       <PageWrapper>
@@ -24,7 +18,6 @@ const Appointments = ({
         <TableMenu>
           <div className="inner-table">
             <FilterMenu schema={schema.flat()} onSearch={onSearch} />
-            <SwitchButton onClick={() => setListView(!listView)} />
           </div>
 
           <Button onClick={handleCreate}>
@@ -39,18 +32,14 @@ const Appointments = ({
             overflow: 'auto',
           }}
         >
-          {listView ? (
-            <CustomTable
-              columns={schema.flat()}
-              data={items}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={onRowClicked}
-            />
-          ) : (
-            <CalenderGrid />
-          )}
+          <CustomTable
+            columns={schema.flat()}
+            data={items}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={onRowClicked}
+          />
         </div>
       </PageWrapper>
     </>

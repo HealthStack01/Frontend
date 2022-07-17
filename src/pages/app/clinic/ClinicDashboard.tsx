@@ -4,7 +4,7 @@ import { PageWrapper } from '../styles';
 
 const ClinicDashboard = () => {
   return (
-    <PageWrapper>
+    <PageWrapper  >
       <h2>Clinic Dashboard</h2>
     </PageWrapper>
   );
