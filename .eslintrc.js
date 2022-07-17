@@ -31,31 +31,21 @@ module.exports = {
     'simple-import-sort',
   ],
   rules: {
-    'import/no-unresolved': [
-      2,
-      { commonjs: true, amd: true },
-    ],
+    'import/no-unresolved': [2, { commonjs: true, amd: true }],
     'import/named': 'off',
     'import/namespace': 2,
     'import/default': 2,
     'import/export': 2,
-    // 'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
-    'prettier/prettier': 'off',
+    'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     indent: ['error', 2, { SwitchCase: 1 }],
     'linebreak-style': 'off',
-    'no-console': [
-      'error',
-      { allow: ['error', 'debug', 'warn'] },
-    ],
+    'no-console': ['error', { allow: ['error', 'debug', 'warn'] }],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      { argsIgnorePattern: '^_' },
-    ],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
   settings: {
     'import/resolver': {
@@ -64,4 +54,4 @@ module.exports = {
       },
     },
   },
-}
+};
