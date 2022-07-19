@@ -22,9 +22,9 @@ const AppProductEntry = () => {
       productEntryResource: {
         ...resource.productEntryResource,
         show,
-        selectedProductEntry:
-          selectedProductEntry ||
-          resource.productEntryResource.selectedProductEntry,
+        selectedProductEntry: selectedProductEntry?._id
+          ? selectedProductEntry
+          :resource.productEntryResource.selectedProductEntry,
       },
     });
   const [searchText, setSearchText] = useState('');
@@ -66,6 +66,8 @@ const AppProductEntry = () => {
           selectedData={selectedProductEntry}
         />
       )}
+    
+
       {resource.productEntryResource.show === FormType.DETAIL && (
         <DetailView
           title="Product Entry"

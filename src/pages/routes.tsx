@@ -91,6 +91,7 @@ const AppRoutes = () => {
           />
           <Route path="/app/clients/clients" element={<AppClient />} />
 
+
           {/* Admin */}
           <Route path="/app/admin" element={<AdminDashboard />} />
           <Route path="/app/admin/bands" element={<AppBands />} />
