@@ -1,5 +1,3 @@
-
-
 import Button from '../../../../components/buttons/Button';
 import CustomTable from '../../../../components/customtable';
 import FilterMenu from '../../../../components/utilities/FilterMenu';
@@ -14,8 +12,6 @@ const Appointments = ({
   onSearch,
   items,
 }) => {
-  
-
   return (
     <>
       <PageWrapper>
@@ -23,7 +19,6 @@ const Appointments = ({
         <TableMenu>
           <div className="inner-table">
             <FilterMenu schema={schema.flat()} onSearch={onSearch} />
-            {/* <SwitchButton onClick={() => setListView(!listView)} /> */}
           </div>
 
           
@@ -39,7 +34,6 @@ const Appointments = ({
             overflow: 'auto',
           }}
         >
-          
           <CustomTable
             columns={schema.flat()}
             data={items}
@@ -48,7 +42,6 @@ const Appointments = ({
             striped
             onRowClicked={onRowClicked}
           />
-          
         </div>
       </PageWrapper>
     </>

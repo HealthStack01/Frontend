@@ -21,6 +21,7 @@ interface Props {
   onSubmit: (_data, _event) => void;
   schema: any;
   selectedData?: Dictionary;
+  submitBtnCaption?: string;
 }
 
 const FormView: React.FC<Props> = ({
@@ -29,6 +30,7 @@ const FormView: React.FC<Props> = ({
   backClick,
   selectedData = {},
   onSubmit,
+  submitBtnCaption = 'Save Form',
 }) => {
   const resolver = yupResolver(getResolver(schema.flat()));
   const defaultValues = getDefaultValues(schema.flat());
@@ -104,12 +106,12 @@ const FormView: React.FC<Props> = ({
 
           <BottomWrapper>
             <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-            <Button label="Create Appointment" type="submit" />
+            <Button label={submitBtnCaption} type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>
     </PageWrapper>
   );
-}; 
+};
 
 export default FormView;
