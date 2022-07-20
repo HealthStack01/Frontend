@@ -22,8 +22,8 @@ const AppClient = () => {
       clientResource: {
         ...resource.clientResource,
         show,
-        selectedClient:
-          selectedClient || resource.clientResource.selectedClient,
+        selectedClient: selectedClient?._id
+          ?selectedClient : resource.clientResource.selectedClient,
       },
     });
 
