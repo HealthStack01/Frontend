@@ -7,6 +7,7 @@ import DetailView from '../../generic/DetailView';
 import FormView from '../../generic/FormView';
 import ListView from '../../generic/ListView';
 import { FormType } from '../../schema/util';
+import { queryClients } from '../Appointments/query';
 import { ClientMiniSchema } from '../schema';
 
 const AppClient = () => {
@@ -28,16 +29,20 @@ const AppClient = () => {
 
   const {
     list: clients,
-    find: handleSearch,
     remove: handleDelete,
     submit: handleSubmit,
     setFindQuery,
   } = useRepository<any>(Models.CLIENT, navigate);
   const [formSchema] = useState(ClientMiniSchema);
 
+  
+  const [searchText, setSearchText] = useState('');
+
   useEffect(() => {
-    setFindQuery({ query: { facility: undefined } });
-  }, []);
+    setFindQuery(
+      queryClients(undefined, undefined, searchText || undefined),
+    );
+  }, [searchText]);
 
   return (
     <>
@@ -46,7 +51,7 @@ const AppClient = () => {
           title="Client"
           schema={ClientMiniSchema}
           handleCreate={navigate(Views.CREATE)}
-          handleSearch={handleSearch}
+          handleSearch={setSearchText}
           onRowClicked={(row) => navigate(Views.DETAIL)(row)}
           items={clients}
         />
