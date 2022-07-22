@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const PageWrapper = styled.div`
   display: flex;
+  
 `;
 
 export const AuthContainer = styled.div`
@@ -10,7 +11,7 @@ export const AuthContainer = styled.div`
   padding-top: 12%;
   padding-bottom: 4%;
   background: ${({ theme }) => theme.background};
-  display: flex;
+  display:flex;
   align-items: center;
   justify-content: center;
   z-index: 10;

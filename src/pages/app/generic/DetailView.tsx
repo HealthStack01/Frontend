@@ -2,12 +2,12 @@ import React from 'react';
 
 import Button from '../../../components/buttons/Button';
 import { ButtonGroup } from '../../../ui/styled/global';
-import { PageWrapper } from '../../../ui/styled/styles';
 import {
   FullDetailsWrapper,
   GrayWrapper,
   GridWrapper,
   HeadWrapper,
+  PageWrapper,
 } from '../styles';
 import ItemsInput from './ItemsInput';
 
