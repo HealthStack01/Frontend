@@ -23,7 +23,7 @@ const AppClient = () => {
         ...resource.clientResource,
         show,
         selectedClient: selectedClient?._id
-          ?selectedClient : resource.clientResource.selectedClient,
+          ? selectedClient : resource.clientResource.selectedClient,
       },
     });
 
