@@ -22,7 +22,8 @@ const AppBillClient = () => {
         ...resource.billClientResource,
         show,
         selectedBillClient: selectedBillClient?._id
-          ?selectedBillClient : resource.billClientResource.selectedBillClient,
+          ? selectedBillClient
+          : resource.billClientResource.selectedBillClient,
       },
     });
 

@@ -22,9 +22,9 @@ const AppProductEntry = () => {
       productEntryResource: {
         ...resource.productEntryResource,
         show,
-        selectedProductEntry: selectedProductEntry?._id
-          ? selectedProductEntry
-          : resource.productEntryResource.selectedProductEntry,
+        selectedProductEntry:
+          selectedProductEntry ||
+          resource.productEntryResource.selectedProductEntry,
       },
     });
   const [searchText, setSearchText] = useState('');
