@@ -35,9 +35,7 @@ const AppClient = () => {
     setFindQuery,
   } = useRepository<any>(Models.CLIENT, navigate);
   const [formSchema] = useState(ClientMiniSchema);
-
   const [searchText, setSearchText] = useState('');
-
   useEffect(() => {
     setFindQuery(queryClients(undefined, undefined, searchText || undefined));
   }, [searchText]);
