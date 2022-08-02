@@ -4,7 +4,6 @@ import FilterMenu from '../../../../components/utilities/FilterMenu';
 import { TableMenu } from '../../../../ui/styled/global';
 import { PageWrapper } from '../../styles';
 
-
 const Appointments = ({
   schema,
   handleCreate,
