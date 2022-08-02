@@ -40,7 +40,7 @@ const AppProductEntry = () => {
 
   useEffect(() => {
     setFindQuery(
-      productEntryQuery(facility?._id, location?._id, searchText || undefined)
+      productEntryQuery(facility?._id, location?._id, searchText || undefined),
     );
   }, []);
 
