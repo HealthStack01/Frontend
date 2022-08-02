@@ -54,7 +54,7 @@ const FormView: React.FC<Props> = ({
               Create a New {title} by filling out the form below to get started.
               {errors &&
                 JSON.stringify(
-                  ((Object.values(errors)[0] as any) || ({} as any)).message
+                  ((Object.values(errors)[0] as any) || ({} as any)).message,
                 )}
             </span>
           </div>
