@@ -64,7 +64,6 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
       billingContract: contracts,
       billMode: paymentOption,
     };
-    
     const serviceItems = [...clientBills, serviceItem];
     setClientBills(serviceItems);
     setTotalAmount(sumBy(serviceItems, (obj) => +obj.amount));
