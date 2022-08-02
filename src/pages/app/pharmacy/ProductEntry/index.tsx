@@ -66,7 +66,6 @@ const AppProductEntry = () => {
           selectedData={selectedProductEntry}
         />
       )}
-
       {resource.productEntryResource.show === FormType.DETAIL && (
         <DetailView
           title="Product Entry"
