@@ -23,7 +23,6 @@ const Appointments = ({
             <i className="bi bi-plus-circle"></i> Add new
           </Button>
         </TableMenu>
-
         <div
           style={{
             width: '100%',
