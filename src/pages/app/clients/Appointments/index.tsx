@@ -33,7 +33,7 @@ const AppClientAppointment = () => {
     setFindQuery,
     facility,
     remove,
-  } = useRepository(Models.APPOINTMENT, handleNavigation);
+  } = useRepository<any>(Models.APPOINTMENT, handleNavigation);
 
   const [searchText, setSearchText] = useState('');
 

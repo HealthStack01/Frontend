@@ -160,7 +160,7 @@ export const GrayWrapper = styled.div`
   transition: width 2s, height 4s;
 
   &.grid {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 2fr;
   }
 

@@ -22,8 +22,9 @@ const AppClient = () => {
       clientResource: {
         ...resource.clientResource,
         show,
-        selectedClient:
-          selectedClient || resource.clientResource.selectedClient,
+        selectedClient: selectedClient?._id
+          ? selectedClient
+          : resource.clientResource.selectedClient,
       },
     });
 
@@ -36,9 +37,7 @@ const AppClient = () => {
   const [formSchema] = useState(ClientMiniSchema);
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
-    setFindQuery(
-      queryClients(undefined, undefined, searchText || undefined),
-    );
+    setFindQuery(queryClients(undefined, undefined, searchText || undefined));
   }, [searchText]);
 
   return (

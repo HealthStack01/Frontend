@@ -18,7 +18,12 @@ const Appointments = ({
         <TableMenu>
           <div className="inner-table">
             <FilterMenu schema={schema.flat()} onSearch={onSearch} />
+<<<<<<< HEAD
           </div> 
+=======
+          </div>
+
+>>>>>>> 50fa161a8086dfc87ccc6a2f100a60c1dc8ab99d
           <Button onClick={handleCreate}>
             <i className="bi bi-plus-circle"></i> Add new
           </Button>

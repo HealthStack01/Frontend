@@ -21,8 +21,9 @@ const AppBillClient = () => {
       billClientResource: {
         ...resource.billClientResource,
         show,
-        selectedBillClient:
-          selectedBillClient || resource.billClientResource.selectedBillClient,
+        selectedBillClient: selectedBillClient?._id
+          ? selectedBillClient
+          : resource.billClientResource.selectedBillClient,
       },
     });
 
@@ -30,7 +31,7 @@ const AppBillClient = () => {
     groupedList: clientBillsSummary,
     submit: handleSubmit,
     setFindQuery,
-  } = useRepository(Models.BILLS, handleNavigation);
+  } = useRepository<any>(Models.BILLS, handleNavigation);
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     setFindQuery(BillClientQuery(undefined, searchText || undefined));
