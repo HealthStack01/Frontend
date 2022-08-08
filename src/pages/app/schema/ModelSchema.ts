@@ -65,7 +65,7 @@ export const getOrganisationSchema = (): Schema[] => [
 ];
 
 export const getOrganisationContactSchema = (
-  formData: Dictionary,
+  formData: Dictionary
 ): Schema[] => [
   {
     name: 'Country',

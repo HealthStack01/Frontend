@@ -1,9 +1,13 @@
+
 import { Grow, MenuList, Popper } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import * as React from 'react';
 
 import DateRange from '../inputs/DateRange';
 import SearchInput from '../inputs/Search';
+
+
+
 
 const FilterMenu = ({
   schema = [],
@@ -150,8 +154,12 @@ const FilterMenu = ({
         onChange={onSearch ? onSearch : () => {}}
       />
       {dateField && <DateRange />}
+
+
+     
     </div>
   );
 };
 
 export default FilterMenu;
+
