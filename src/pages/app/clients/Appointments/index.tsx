@@ -61,8 +61,8 @@ const AppClientAppointment = () => {
           backClick={handleNavigation(Views.LIST)}
           onSubmit={handleSubmit}
           selectedData={selectedAppointment}
-          schema={schema}
           submitBtnCaption="Create Appointment"
+          schema={schema}
 
         />
       )}
