@@ -30,7 +30,7 @@ function Signup() {
   const EmployeeServ = client.service('employee');
   const organisationResolver = getResolver(getOrganisationSchema());
   const [contactSchema, setContactSchema] = useState(
-    getOrganisationContactSchema({})
+    getOrganisationContactSchema({}),
   );
   const employeeResolver = getResolver(OnboardingEmployeeSchema);
 
