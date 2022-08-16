@@ -159,7 +159,7 @@ function Signup() {
 
   return (
     <AuthWrapper paragraph="Signup here as an organization">
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper  activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={activeStep > index}>
             <StepButton color="inherit" onClick={handleStep(index)}>
