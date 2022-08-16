@@ -22,6 +22,7 @@ interface Props {
   schema: any;
   selectedData?: Dictionary;
   submitBtnCaption?: string;
+  submitBtnCap2?:string;
 }
 
 const FormView: React.FC<Props> = ({
@@ -31,6 +32,7 @@ const FormView: React.FC<Props> = ({
   selectedData = {},
   onSubmit,
   submitBtnCaption = 'Save Form',
+  submitBtnCap2 = 'Create Appointment',
 }) => {
   const resolver = yupResolver(getResolver(schema.flat()));
   const defaultValues = getDefaultValues(schema.flat());
@@ -106,7 +108,7 @@ const FormView: React.FC<Props> = ({
 
           <BottomWrapper>
             <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-            <Button label={submitBtnCaption} type="submit" />
+            <Button label={submitBtnCaption || submitBtnCap2}  type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>
