@@ -106,7 +106,7 @@ const FormView: React.FC<Props> = ({
 
           <BottomWrapper>
             <Button label="Clear Form" background="#FFE9E9" color="#ED0423" />
-            <Button label={submitBtnCaption}  type="submit" />
+            <Button label={submitBtnCaption} type="submit" />
           </BottomWrapper>
         </form>
       </GrayWrapper>
