@@ -22,7 +22,6 @@ interface Props {
   schema: any;
   selectedData?: Dictionary;
   submitBtnCaption?: string;
-  submitBtnCap2?:string;
 }
 
 const FormView: React.FC<Props> = ({
