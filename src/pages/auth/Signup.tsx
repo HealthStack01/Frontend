@@ -30,7 +30,7 @@ function Signup() {
   const EmployeeServ = client.service('employee');
   const organisationResolver = getResolver(getOrganisationSchema());
   const [contactSchema, setContactSchema] = useState(
-    getOrganisationContactSchema({}),
+    getOrganisationContactSchema({})
   );
   const employeeResolver = getResolver(OnboardingEmployeeSchema);
 
@@ -95,7 +95,7 @@ function Signup() {
           })
           .catch((error) => {
             return Promise.reject(
-              `Error occurred creating facility ${error.message}`,
+              `Error occurred creating facility ${error.message}`
             );
           });
       } else {
@@ -109,7 +109,7 @@ function Signup() {
         })
         .catch((error) => {
           return Promise.reject(
-            `Error occurred creating admin employee ${error.message}`,
+            `Error occurred creating admin employee ${error.message}`
           );
         });
     }
@@ -159,7 +159,7 @@ function Signup() {
 
   return (
     <AuthWrapper paragraph="Signup here as an organization">
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper  activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={activeStep > index}>
             <StepButton color="inherit" onClick={handleStep(index)}>
