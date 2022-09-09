@@ -7,8 +7,6 @@ import DateRange from '../inputs/DateRange';
 import SearchInput from '../inputs/Search';
 
 
-
-
 const FilterMenu = ({
   schema = [],
   onSearch = (_) => {},
@@ -154,9 +152,6 @@ const FilterMenu = ({
         onChange={onSearch ? onSearch : () => {}}
       />
       {dateField && <DateRange />}
-
-
-     
     </div>
   );
 };
