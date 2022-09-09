@@ -63,7 +63,6 @@ const AppClientAppointment = () => {
           selectedData={selectedAppointment}
           submitBtnCaption="Create Appointment"
           schema={schema}
-
         />
       )}
       {show === Views.DETAIL && (
