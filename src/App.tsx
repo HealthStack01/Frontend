@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
 
-import DateAdapter from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import React, { useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <LocalizationProvider dateAdapter={DateAdapter}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ObjectProvider>
           <UserProvider>
             <GlobalStyle />

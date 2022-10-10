@@ -49,7 +49,7 @@ const BillClientCreate = ({ backClick, onSubmit: _ }) => {
   }) => {
     setClient(clientId);
     const { paymentOption } = getBillingInfo(clientId.paymentinfo);
-    const { sellingPrice } = getSellingPrice(contracts,paymentOption);
+    const { sellingPrice } = getSellingPrice(contracts, paymentOption);
     const amount = sellingPrice * quantity;
     const serviceItem = {
       productId,
