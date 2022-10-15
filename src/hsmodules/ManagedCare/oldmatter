@@ -1,0 +1,755 @@
+ <div className="card-content ">
+ <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="field">
+                    <label className="label is-small"> Category
+                    <p className="control has-icons-left has-icons-right">
+                        <input className="input  is-small" ref={register({ required: true })}  name="category" type="text" placeholder="Category" />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-hospital"></i>
+                        </span>                    
+                    </p>
+                    </label>
+                    </div>
+                <div className="field">
+                <label className="label is-small">Name
+                    <p className="control has-icons-left has-icons-right">
+                    <input className="input is-small " ref={register({ required: true })}  name="name" type="text" placeholder="Services Name" />
+                    <span className="icon is-small is-left">
+                        <i className="fas fa-map-signs"></i>
+                    </span>
+                    
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Panel
+                <p className="control has-icons-left">
+                    <input className="checkbox is-small" ref={register({ required: true })} name="panel" type="checkbox" placeholder="Panel"/>
+                   {/*  <span className="icon is-small is-left">
+                    <i className="fas fa-map-marker-alt"></i>
+                    </span> */}
+                </p>
+                </label>
+                </div>
+
+                {panel && <>
+                <div className="field">
+                    <div className="field is-expanded"  /* style={ !user.stacker?{display:"none"}:{}} */ >
+                        <ServiceSearch  getSearchService={getSearchService} clearService={successService} /> 
+                        <p className="control has-icons-left " style={{display:"none"}}>
+                            <input className="input is-small" /* ref={register ({ required: true }) }  *//* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/ />
+                            <span className="icon is-small is-left">
+                            <i className="fas  fa-map-marker-alt"></i>
+                            </span>
+                        </p>
+                    </div>  
+                </div>
+                <p className="control">
+                            <button className="button is-info is-small  is-pulled-right selectadd">
+                            <span className="is-small" onClick={handleAddPanel}> +</span>
+                            </button>
+                        </p>
+            </> }
+
+           {panelList.length>0 &&     <div>
+           <strong> Panel Items:</strong> {panelList.map((plan,i)=>(
+                        <span key={i} className="ml-1">
+                            {plan.name};
+                            </span>))}
+             </div>
+            }       
+
+
+
+
+
+
+
+
+
+           {/*  <div className="field">
+            <label className="label is-small">Phone
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>
+                </p>
+                </label>
+                 </div>
+            <div className="field">
+            <label className="label is-small">Email
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Services Email"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Department
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-user-md"></i>
+                    </span>
+                </p>
+                </label>
+                {errors.department && <span>This field is required</span>}
+                </div>
+            <div className="field">
+            <label className="label is-small">Departmental Unit
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-hospital-symbol"></i>
+                    </span>
+                </p>
+                </label>
+                </div> */}
+           {/*  <div className="field">
+            <label className="label is-small">Category
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="ServicesCategory" type="text" placeholder="Services Category"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>
+                </p>
+                </label>
+            </div> */}
+           
+           
+            </form>
+
+             </div>
+   </div>
+
+   // from orglist
+   export default function OrganizationClient() {
+    const {state}=useContext(ObjectContext) //,setState
+    // eslint-disable-next-line
+    const [selectedFacility,setSelectedFacility]=useState()
+    const [success, setSuccess] =useState(false)
+  
+    //const [showState,setShowState]=useState() //create|modify|detail
+    
+    //console.log("Organization parent", state)
+    
+
+    return(
+        <section className= "section remPadTop">
+           {/*  <div className="level">
+            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Organization  Module</span></div>
+            </div> */}
+            <div className="columns ">
+            <div className="column is-8 ">
+                <OrganizationList />
+                </div>
+            <div className="column is-4 ">
+                {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
+                {(state.facilityModule.show ==='detail')&&<OrganizationDetail  />}
+                {(state.facilityModule.show ==='modify')&&<OrganizationModify facility={selectedFacility} />}
+               
+            </div>
+
+            </div>                            
+            </section>
+       
+    )
+    
+}
+
+export function OrganizationCreate(){
+    const { register, handleSubmit} = useForm(); //, watch, errors, reset 
+    const [error, setError] =useState(false)
+    const [success, setSuccess] =useState(false)
+    const [message,setMessage] = useState("")
+    const facilityServ=client.service('facility')
+    const orgServ=client.service('organizationclient')
+    const [chosen, setChosen] =useState("")
+    //const navigate=useNavigate()
+    const {user} = useContext(UserContext) //,setUser
+
+    
+    const onSubmit = (data,e) =>{
+        e.preventDefault();
+        setMessage("")
+        setError(false)
+        setSuccess(false)
+          data.createdby=user._id
+          //console.log(data);
+          
+        facilityServ.create(data)
+        .then((res)=>{
+                //console.log(JSON.stringify(res))
+                e.target.reset();
+                setMessage("Created Organization successfully")
+                setSuccess(true)
+            })
+            .catch((err)=>{
+                setMessage("Error creating facility, probable network issues "+ err )
+                setError(true)
+            })
+
+      } 
+
+      const handleClick=()=>{
+
+        console.log(chosen)
+        let stuff={
+            facility:user.currentEmployee.facilityDetail._id ,
+            organization:chosen._id,
+            relationshiptype:"managedcare"
+        }
+        orgServ.create(stuff)
+        .then((res)=>{
+                //console.log(JSON.stringify(res))
+               // e.target.reset();
+               setSuccess(true)
+                toast({
+                    message: 'Organization added succesfully',
+                    type: 'is-success',
+                    dismissible: true,
+                    pauseOnHover: true,
+                  })
+                  setSuccess(false)
+            })
+            .catch((err)=>{
+                toast({
+                    message: 'Error adding organization ' + err,
+                    type: 'is-danger',
+                    dismissible: true,
+                    pauseOnHover: true,
+                  })
+            })
+
+      }
+      const getSearchfacility=(obj)=>{
+          setChosen(obj)
+
+       /*  setCategoryName(obj.categoryname)
+        setChosen2(obj) */
+        
+         if (!obj){
+             //"clear stuff"
+            /*  setCategoryName("")
+             setChosen2() */
+            
+         }
+     }
+
+    return (
+        <>
+        
+          <div className="field is-horizontal">
+             <div className="field-body">
+                <div className="field is-expanded"  /* style={ !user.stacker?{display:"none"}:{}} */ >
+                        <FacilitySearch  getSearchfacility={getSearchfacility} clear={success} /> 
+                        <p className="control has-icons-left " style={{display:"none"}}>
+                            <input className="input is-small" /* ref={register ({ required: true }) }  *//* add array no */  /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */ />
+                            <span className="icon is-small is-left">
+                            <i className="fas  fa-map-marker-alt"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div className="field">
+                        <p className="control">
+                                <button className="button is-success is-small selectadd">
+                                <span className="is-small" onClick={handleClick}>Add</span>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+      {/*   <div className="card ">
+            <div className="card-header">
+                <p className="card-header-title">
+                    Create Organization
+                </p>
+            </div>
+            <div className="card-content vscrollable">
+            { success && <div className="message"> {message}</div>}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="field mb-2">
+                    <p className="control has-icons-left has-icons-right">
+                        <input className="input is-small" ref={register({ required: true })}  name="facilityName" type="text" placeholder="Name of Facility" />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-hospital"></i>
+                        </span>                    
+                    </p>
+                </div>
+                <div className="field mb-2">
+                    <p className="control has-icons-left has-icons-right">
+                    <input className="input is-small" ref={register({ required: true })}  name="facilityAddress" type="text" placeholder="Address of Facility" />
+                    <span className="icon is-small is-left">
+                        <i className="fas fa-map-signs"></i>
+                    </span>
+                    
+                </p>
+            </div>
+            <div className="field mb-2">
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityCity" type="text" placeholder="City/Town"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-map-marker-alt"></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field mb-2">
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityContactPhone" type="text" placeholder="Contact Phone No"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>
+                </p>
+            </div>
+           
+            <div className="field mb-2">
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityEmail" type="email" placeholder="Organization Email"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field mb-2">
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityOwner" type="text" placeholder="Organization CEO"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-user-md"></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field mb-2">
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityType" type="text" placeholder="Organization Type"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-hospital-symbol"></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field mb-2">
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityCategory" type="text" placeholder="Organization Category"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field mb-2">
+                <p className="control">
+                    <button className="button is-success is-small">
+                        Create
+                    </button>
+                </p>
+            </div>
+            { error && <div className="message"> {message}</div>}
+            </form>
+        </div>
+        </div>
+         */}</>
+    )
+   
+}
+
+export function OrganizationDetail(){
+    //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+     // eslint-disable-next-line
+    const [error, setError] =useState(false) //, 
+    //const [success, setSuccess] =useState(false)
+     // eslint-disable-next-line
+    const [message, setMessage] = useState("") //,
+    //const facilityServ=client.service('/facility')
+    //const navigate=useNavigate()
+    const {user,setUser} = useContext(UserContext)
+    const {state,setState} = useContext(ObjectContext)
+
+   
+
+   const facility=state.facilityModule.selectedFacility
+
+    const handleEdit= async()=>{
+        const    newfacilityModule={
+            selectedFacility:facility,
+            show :'modify'
+        }
+       await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule}))
+       //console.log(state)
+       
+    }
+    const closeForm=async()=>{
+       
+        const    newfacilityModule={
+            selectedFacility:facility,
+            show :'create'
+        }
+       await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule}))
+        console.log("close form")
+    }
+ 
+    return (
+        <>
+        <div className="card ">
+            <div className="card-header">
+                <p className="card-header-title">
+                    Organization Details
+                </p>
+                <button className="delete pushleft" aria-label="close"  onClick={()=>closeForm()}></button>
+            </div>
+            <div className="card-content vscrollable">
+           
+            <fieldset>
+                <div className="field ">
+                    <label className="label is-small"> <span className="icon is-small is-left">
+                            <i className="fas fa-hospital"></i>
+                        </span>                    
+                        Name: <span className="is-small "   name="facilityName"> {facility.organizationDetail.facilityName} </span>
+                        </label>
+                
+                        
+             
+                    </div>
+                <div className="field">
+                <label className="label is-small"><span className="icon is-small is-left">
+                        <i className="fas fa-map-signs"></i>
+                    </span>Address:
+                   
+                    <span className="is-small "  name="facilityAddress">{facility.organizationDetail.facilityAddress} </span> 
+                    </label>
+                </div>
+            <div className="field">
+            <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-map-marker-alt"></i>
+                    </span>City: 
+                
+                    <span className="is-small "  name="facilityCity">{facility.organizationDetail.facilityCity}</span> 
+                    </label>
+                </div>
+            <div className="field">
+            <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>Phone:           
+                    <span className="is-small "  name="facilityContactPhone" >{facility.organizationDetail.facilityContactPhone}</span>
+                        </label>
+ 
+                
+                
+                 </div>
+            <div className="field">
+            <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>Email:                     <span className="is-small "  name="facilityEmail" >{facility.organizationDetail.facilityEmail}</span>
+                    
+                         </label>
+
+               
+                </div>
+            <div className="field">
+            <label className="label is-small"> <span className="icon is-small is-left">
+                    <i className="fas fa-user-md"></i></span>CEO:
+                    <span className="is-small "  name="facilityOwner">{facility.organizationDetail.facilityOwner}</span>
+                    </label>
+                </div>
+            <div className="field">
+            <label className="label is-small"> <span className="icon is-small is-left">
+                    <i className="fas fa-hospital-symbol"></i>
+                    </span>Type:              
+                    <span className="is-small "  name="facilityType">{facility.organizationDetail.facilityType}</span>
+                </label>
+ 
+                </div>
+            <div className="field">
+             <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>Category:              
+                    <span className="is-small "  name= "facilityCategory">{facility.organizationDetail.facilityCategory}</span>
+                </label>
+
+
+            </div>
+          {user.stacker &&   <div className="field">
+                <p className="control">
+                    <button className="button is-success is-small" onClick={handleEdit}>
+                        Edit
+                    </button>
+                </p>
+            </div>}
+            { error && <div className="message"> {message}</div>}
+            </fieldset>
+        </div>
+        </div>
+        </>
+    )
+   
+   
+}
+
+export function OrganizationModify(){
+    const { register, handleSubmit, setValue,reset } = useForm(); //watch, errors,
+    const [error, setError] =useState(false)
+    const [success, setSuccess] =useState(false)
+    const [message,setMessage] = useState("")
+    const facilityServ=client.service('/facility')
+    //const navigate=useNavigate()
+     // eslint-disable-next-line
+    const {user} = useContext(UserContext)
+    const {state,setState} = useContext(ObjectContext)
+
+    const facility=state.facilityModule.selectedFacility
+
+        useEffect(() => {
+            setValue("facilityName", facility.facilityName,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityAddress", facility.facilityAddress,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityCity", facility.facilityCity,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityContactPhone", facility.facilityContactPhone,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityEmail", facility.facilityEmail,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityOwner", facility.facilityOwner,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityType", facility.facilityType,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("facilityCategory", facility.facilityCategory,  {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            
+            return () => {
+                
+            }
+        })
+
+   const handleCancel=async()=>{
+    const    newfacilityModule={
+        selectedFacility:{},
+        show :'create'
+      }
+   await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule}))
+   //console.log(state)
+           }
+
+
+        const changeState =()=>{
+        const    newfacilityModule={
+            selectedFacility:{},
+            show :'create'
+        }
+        setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule}))
+
+        }
+    const handleDelete=async()=>{
+        let conf=window.confirm("Are you sure you want to delete this data?")
+        
+        const dleteId=facility._id
+        if (conf){
+             
+        facilityServ.remove(dleteId)
+        .then((res)=>{
+                //console.log(JSON.stringify(res))
+                reset();
+                setMessage("Deleted Organization successfully")
+                setSuccess(true)
+                changeState()
+               setTimeout(() => {
+                setSuccess(false)
+                }, 200);
+                changeState()
+            })
+            .catch((err)=>{
+                setMessage("Error deleting facility, probable network issues "+ err )
+                setError(true)
+                setTimeout(() => {
+                    setError(false)
+                }, 200);
+            })
+        }
+    }
+        
+
+   /* ()=> setValue("firstName", "Bill", , {
+            shouldValidate: true,
+            shouldDirty: true
+          })) */
+    const onSubmit = (data,e) =>{
+        e.preventDefault();
+        setMessage("")
+        setError(false)
+        setSuccess(false)
+        console.log(data)
+          //data.createdby=user._id
+          //console.log(data);
+          
+        facilityServ.update(facility._id,data)
+        .then((res)=>{
+                //console.log(JSON.stringify(res))
+               // e.target.reset();
+                setMessage("updated Organization successfully")
+                setSuccess(true)
+                changeState()
+
+            })
+            .catch((err)=>{
+                setMessage("Error creating facility, probable network issues "+ err )
+                setError(true)
+            })
+
+      } 
+     
+      
+    return (
+        
+        <>
+        <div className="card ">
+            <div className="card-header">
+                <p className="card-header-title">
+                    Organization Details
+                </p>
+            </div>
+            <div className="card-content vscrollable">
+            { success && <div className="message"> {message}</div>}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="field">
+                    <label className="label is-small">Name 
+                    <p className="control has-icons-left has-icons-right">
+                        <input className="input  is-small" ref={register({ required: true })}  name="facilityName" type="text" placeholder="Name of Facility" />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-hospital"></i>
+                        </span>                    
+                    </p>
+                    </label>
+                    </div>
+                <div className="field">
+                <label className="label is-small">Address
+                    <p className="control has-icons-left has-icons-right">
+                    <input className="input is-small" ref={register({ required: true })}  name="facilityAddress" type="text" placeholder="Address of Facility" />
+                    <span className="icon is-small is-left">
+                        <i className="fas fa-map-signs"></i>
+                    </span>
+                    
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">City
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityCity" type="text" placeholder="City/Town"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-map-marker-alt"></i>
+                    </span>
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Phone
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityContactPhone" type="text" placeholder="Contact Phone No"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>
+                </p>
+                </label>
+                 </div>
+            <div className="field">
+            <label className="label is-small">Email
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityEmail" type="email" placeholder="Organization Email"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">CEO
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityOwner" type="text" placeholder="Organization Owner"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-user-md"></i>
+                    </span>
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Type
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityType" type="text" placeholder="Organization Type"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-hospital-symbol"></i>
+                    </span>
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Category
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="facilityCategory" type="text" placeholder="Organization Category"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>
+                </p>
+                </label>
+            </div>
+            <div className="field  is-grouped">
+                <p className="control">
+                    <button className="button is-success is-small">
+                        Save
+                    </button>
+                </p>
+                <p className="control">
+                    <button className="button is-warning is-small" onClick={handleCancel}>
+                        Cancel
+                    </button>
+                </p>
+                <p className="control">
+                    <button className="button is-danger is-small" onClick={handleDelete}>
+                       Delete
+                    </button>
+                </p>
+            </div>
+            { error && <div className="message"> {message}</div>}
+            </form>
+        </div>
+        </div>
+        </>
+    )
+   
+   
+                
+}   
+
+<td><label className=" is-small">
+        <input  type="radio" name={ProductEntry._id} value="Full" checked={ProductEntry.show==="none"}  onChange={(e)=>{handleChangePart(ProductEntry,e)}}/>
+        <span > Full</span>
+        </label> <br/>
+        <label className=" is-small">
+        <input type="radio" name={ProductEntry._id}  value="Part" onChange={(e)=>handleChangePart(ProductEntry,e)}/>
+        <span> Part </span>
+        </label>
+        <div className="field has-addons" style={{display:`${ProductEntry.show}`}}>
+        <div className="control">
+            <input  className="input selectadd" type="text" name={ProductEntry._id}  /* value={ProductEntry.partPay}  */  onChange={(e)=>handlePartAmount(ProductEntry,e)} />
+            </div> 
+            <div className="control">
+            <button className="button is-info selectadd" onClick={(e)=>handleUpdate(ProductEntry,e)}>Update</button>
+            </div>
+            </div>
+{/*  {ProductEntry.partPay} */}
+ </td>

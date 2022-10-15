@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppRoutes from '../../pages/routes';
+import AppRoutes from '../../hsmodules/routes';
 import { LayoutWrapper } from './styles';
 
 function Layout() {

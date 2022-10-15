@@ -1,0 +1,126 @@
+ <div className="card-content ">
+ <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="field">
+                    <label className="label is-small"> Category
+                    <p className="control has-icons-left has-icons-right">
+                        <input className="input  is-small" ref={register({ required: true })}  name="category" type="text" placeholder="Category" />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-hospital"></i>
+                        </span>                    
+                    </p>
+                    </label>
+                    </div>
+                <div className="field">
+                <label className="label is-small">Name
+                    <p className="control has-icons-left has-icons-right">
+                    <input className="input is-small " ref={register({ required: true })}  name="name" type="text" placeholder="Services Name" />
+                    <span className="icon is-small is-left">
+                        <i className="fas fa-map-signs"></i>
+                    </span>
+                    
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Panel
+                <p className="control has-icons-left">
+                    <input className="checkbox is-small" ref={register({ required: true })} name="panel" type="checkbox" placeholder="Panel"/>
+                   {/*  <span className="icon is-small is-left">
+                    <i className="fas fa-map-marker-alt"></i>
+                    </span> */}
+                </p>
+                </label>
+                </div>
+
+                {panel && <>
+                <div className="field">
+                    <div className="field is-expanded"  /* style={ !user.stacker?{display:"none"}:{}} */ >
+                        <ServiceSearch  getSearchService={getSearchService} clearService={successService} /> 
+                        <p className="control has-icons-left " style={{display:"none"}}>
+                            <input className="input is-small" /* ref={register ({ required: true }) }  *//* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/ />
+                            <span className="icon is-small is-left">
+                            <i className="fas  fa-map-marker-alt"></i>
+                            </span>
+                        </p>
+                    </div>  
+                </div>
+                <p className="control">
+                            <button className="button is-info is-small  is-pulled-right selectadd">
+                            <span className="is-small" onClick={handleAddPanel}> +</span>
+                            </button>
+                        </p>
+            </> }
+
+           {panelList.length>0 &&     <div>
+           <strong> Panel Items:</strong> {panelList.map((plan,i)=>(
+                        <span key={i} className="ml-1">
+                            {plan.name};
+                            </span>))}
+             </div>
+            }       
+
+
+
+
+
+
+
+
+
+           {/*  <div className="field">
+            <label className="label is-small">Phone
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>
+                </p>
+                </label>
+                 </div>
+            <div className="field">
+            <label className="label is-small">Email
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Services Email"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>
+                </p>
+                </label>
+                </div>
+            <div className="field">
+            <label className="label is-small">Department
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-user-md"></i>
+                    </span>
+                </p>
+                </label>
+                {errors.department && <span>This field is required</span>}
+                </div>
+            <div className="field">
+            <label className="label is-small">Departmental Unit
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-hospital-symbol"></i>
+                    </span>
+                </p>
+                </label>
+                </div> */}
+           {/*  <div className="field">
+            <label className="label is-small">Category
+                <p className="control has-icons-left">
+                    <input className="input is-small" ref={register({ required: true })} name="ServicesCategory" type="text" placeholder="Services Category"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>
+                </p>
+                </label>
+            </div> */}
+           
+           
+            </form>
+
+             </div>
+   </div>
