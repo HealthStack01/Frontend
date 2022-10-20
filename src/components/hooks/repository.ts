@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 
 import { UserContext } from '../../context/context';
 import client from '../../context/feathers';
-import { Views } from '../../pages/app/Constants';
-import { getFormStrings } from '../../pages/app/Utils';
+import { Views } from '../../hsmodules/app/Constants';
+import { getFormStrings } from '../../hsmodules/app/Utils';
 import { DictionaryOf } from '../../types.d';
 
 interface Repository<T> {

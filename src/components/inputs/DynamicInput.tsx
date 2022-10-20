@@ -17,10 +17,10 @@ import Input from '../../components/inputs/basic/Input';
 import RadioButton from '../../components/inputs/basic/Radio';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
-import { DateFormats } from '../../pages/app/Constants';
-import { toAPIDate } from '../../pages/app/DateUtils';
-import ItemsInput from '../../pages/app/generic/ItemsInput';
-import { InputType } from '../../pages/app/schema/util';
+import { DateFormats } from '../../hsmodules/app/Constants';
+import { toAPIDate } from '../../hsmodules/app/DateUtils';
+import ItemsInput from '../../hsmodules/app/generic/ItemsInput';
+import { InputType } from '../../hsmodules/app/schema/util';
 import AutoSuggestInput from './AutoSuggestInput';
 
 // TODO: Anstract intp seperate components - the controller warapping

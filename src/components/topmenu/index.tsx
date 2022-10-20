@@ -1,7 +1,7 @@
 import keyBy from 'lodash/keyBy';
 import React, { useEffect, useState } from 'react';
 
-import { Models } from '../../pages/app/Constants';
+import { Models } from '../../hsmodules/app/Constants';
 import Breadcrumbs from '../breadcrumb';
 import useRepository from '../hooks/repository';
 import LocationModal from '../inputs/LocationModal';

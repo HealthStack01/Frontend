@@ -6,8 +6,8 @@ import { defaultTheme } from 'react-autosuggest/dist/theme';
 import { toast } from 'react-toastify';
 
 import client from '../../context/feathers';
-import { InputType } from '../../pages/app/schema/util';
-import { autoSuggestStyles } from '../../pages/app/styles';
+import { InputType } from '../../hsmodules/app/schema/util';
+import { autoSuggestStyles } from '../../hsmodules/app/styles';
 import Input from './basic/Input';
 import { autoSuggestQuery } from './query';
 

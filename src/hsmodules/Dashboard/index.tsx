@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { LayoutContent, LayoutWrapper } from '../../components/layout/styles';
 import SideMenu from '../../components/sidemenu';
 import TopMenu from '../../components/topmenu';
-import { UserContext } from '../../context/context';
+import { UserContext } from '../../context';
 
 const Dashboard: React.FC = ({ children }) => {
   const { locationType } = useContext(UserContext);

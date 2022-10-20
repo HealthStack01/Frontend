@@ -10,8 +10,8 @@ import React, {
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { Views } from '../pages/app/Constants';
-import { FormType } from '../pages/app/schema/util';
+import { Views } from '../hsmodules/app/Constants';
+import { FormType } from '../hsmodules/app/schema/util';
 import client from './feathers';
 
 interface UserContextProps {

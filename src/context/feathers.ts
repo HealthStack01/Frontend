@@ -3,7 +3,7 @@ import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client';
 import io from 'socket.io-client';
 
-const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:8080', {
+const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:3035', {
   transports: ['websocket'],
   forceNew: true,
 });
