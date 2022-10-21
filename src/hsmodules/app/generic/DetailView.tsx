@@ -18,6 +18,7 @@ interface Props {
   backClick: () => void;
   schema: any;
   value?: any;
+  children?: React.ReactNode | undefined;
 }
 
 const DetailView: React.FC<Props> = ({

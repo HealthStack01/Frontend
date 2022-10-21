@@ -6,7 +6,7 @@ import Select from '@mui/material/Select';
 import React, { SelectHTMLAttributes, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import client from '../../../../context/feathers';
+import client from '../../../../feathers';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;

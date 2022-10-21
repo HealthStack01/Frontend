@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import AuthWrapper from '../../components/AuthWrapper';
 import Button from '../../components/buttons/Button';
-import client from '../../context/feathers';
+import client from '../../feathers';
 import {
   getOrganisationContactSchema,
   getOrganisationSchema,

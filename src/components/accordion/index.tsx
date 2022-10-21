@@ -7,6 +7,7 @@ import React from 'react';
 interface AccordionProps {
   title?: string;
   defaultExpanded?: boolean;
+  children?: React.ReactNode | undefined;
 }
 
 const AccordionBox: React.FC<AccordionProps> = ({

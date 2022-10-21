@@ -4,6 +4,7 @@ interface PageTextProps {
   className?: string;
   fontSize?: any;
   color?: string;
+  children?: React.ReactNode | undefined;
 }
 
 export const PageText: React.FC<PageTextProps> = ({ className, children }) => (

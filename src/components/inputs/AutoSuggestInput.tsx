@@ -5,7 +5,7 @@ import Autosuggest from 'react-autosuggest';
 import { defaultTheme } from 'react-autosuggest/dist/theme';
 import { toast } from 'react-toastify';
 
-import client from '../../context/feathers';
+import client from '../../feathers';
 import { InputType } from '../../hsmodules/app/schema/util';
 import { autoSuggestStyles } from '../../hsmodules/app/styles';
 import Input from './basic/Input';

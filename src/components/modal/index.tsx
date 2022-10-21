@@ -6,6 +6,7 @@ import React from 'react';
 interface ModalProps {
   open: boolean;
   onClose?: () => void;
+  children?: React.ReactNode | undefined;
 }
 const style = {
   width: '68%',

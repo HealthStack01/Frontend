@@ -8,7 +8,7 @@ import LocationModal from '../inputs/LocationModal';
 import LocationSelect from '../inputs/LocationSelect';
 import ProfileMenu from '../profilemenu';
 import { Profile, TopMenuWrapper } from './styles';
-// import { avatar } from '../../assets/images/img_avatar.png';
+//import { avatar } from '../../assets/images/img_avatar.png';
 
 const defaultList = [{ code: 'NG', label: '', location: '' }];
 
@@ -20,7 +20,7 @@ const TopMenu = ({ isOpen, handleClick }) => {
   const [selectedLocation, setSelectedLocation] = useState<any>();
   const [open, setOpen] = useState<boolean>(true);
 
-  useEffect(() => {
+ /*  useEffect(() => {
     setLocationsById(keyBy(list, (obj: any) => obj._id));
     setLocationOptions([
       ...list.map(({ _id, name }) => ({
@@ -30,9 +30,9 @@ const TopMenu = ({ isOpen, handleClick }) => {
       })),
       { code: 'NG', label: 'Default', location: '' },
     ]);
-  }, [list]);
+  }, [list]); */
 
-  useEffect(() => {
+ /*  useEffect(() => {
     setSelectedLocation(null);
     setOpen(true);
     if (facility && locationType)
@@ -47,7 +47,7 @@ const TopMenu = ({ isOpen, handleClick }) => {
         },
       });
   }, [facility, locationType]);
-
+*/
   const handleSelectLocation = (locationId) => {
     setLocationOptions([]);
     setSelectedLocation(locationsById[locationId]);
@@ -56,7 +56,12 @@ const TopMenu = ({ isOpen, handleClick }) => {
       ...locationOptions,
       { code: 'NG', label: 'No Location Selected', location: '' },
     ]);
-  };
+  }; 
+  return(
+    <>
+    simpa dania
+    </>)
+  /* )
 
   return (
     <TopMenuWrapper>
@@ -99,13 +104,13 @@ const TopMenu = ({ isOpen, handleClick }) => {
         </div>
 
         <div className="profile-item">
-          <i className="bi bi-bell-fill" />
-          {/* <Avatar src="/img_avatar.png" alt="" /> */}
-          <ProfileMenu />
+          <i className="bi bi-bell-fill" /
+          {/* <Avatar src="/img_avatar.png" alt="" />} */
+         /*  <ProfileMenu />
         </div>
       </Profile>
     </TopMenuWrapper>
-  );
-};
+  ); */
+}; 
 
 export default TopMenu;

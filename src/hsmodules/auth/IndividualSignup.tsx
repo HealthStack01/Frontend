@@ -47,7 +47,7 @@ function IndividualSignup() {
 
         {errors.firstName && (
           <p style={{ color: 'blue', fontSize: '16px' }}>
-            {errors.firstName?.message}
+            <> {errors.firstName?.message}</> 
           </p>
         )}
         <Controller
@@ -63,7 +63,7 @@ function IndividualSignup() {
         />
         {errors.lastName && (
           <p style={{ color: 'blue', fontSize: '16px' }}>
-            {errors.lastName?.message}
+           <>{errors.lastName?.message}</> 
           </p>
         )}
 
@@ -77,7 +77,7 @@ function IndividualSignup() {
 
         {errors.email && (
           <p style={{ color: 'blue', fontSize: '16px' }}>
-            {errors.email?.message}
+           <>  {errors.email?.message}</> 
           </p>
         )}
 
@@ -95,7 +95,7 @@ function IndividualSignup() {
 
         {errors.phoneNumber && (
           <p style={{ color: 'blue', fontSize: '16px' }}>
-            {errors.phoneNumber?.message}
+           <>  {errors.phoneNumber?.message}</> 
           </p>
         )}
 
@@ -107,7 +107,7 @@ function IndividualSignup() {
 
         {errors.password && (
           <p style={{ color: 'blue', fontSize: '16px' }}>
-            {errors.password?.message}
+           <>{errors.password?.message}</> 
           </p>
         )}
 

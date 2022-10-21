@@ -13,6 +13,7 @@ interface CardWrapperProps {
   height?: string;
   width?: string;
   border?: string;
+  children?: React.ReactNode | undefined;
 }
 
 const CardWrapper: React.FC<CardWrapperProps> = ({ children, className }) => (

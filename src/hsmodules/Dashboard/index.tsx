@@ -6,7 +6,13 @@ import SideMenu from '../../components/sidemenu';
 import TopMenu from '../../components/topmenu';
 import { UserContext } from '../../context';
 
-const Dashboard: React.FC = ({ children }) => {
+
+interface DashProps {
+
+  children?: React.ReactNode | undefined;
+}
+
+const Dashboard: React.FC<DashProps> = ({  children }) => { {
   const { locationType } = useContext(UserContext);
   useEffect(() => {
     window.scrollTo({
@@ -16,7 +22,7 @@ const Dashboard: React.FC = ({ children }) => {
     document.title = 'Health Stack - Dashboard';
   }, []);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<Boolean>(false);
   return (
     <LayoutWrapper>
       <SideMenu isOpen={isOpen} />
@@ -25,12 +31,12 @@ const Dashboard: React.FC = ({ children }) => {
           <TopMenu isOpen={isOpen} handleClick={() => setIsOpen(!isOpen)} />
         )}
         <div className="layout__content-main">
-          {children}
+           {children} 
           <Outlet />
         </div>
       </LayoutContent>
     </LayoutWrapper>
   );
-};
+}};
 
 export default Dashboard;

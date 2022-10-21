@@ -138,8 +138,8 @@ const AppRoutes = () => {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signupindividual" element={<IndividualSignup />} />
-          <Route path="/app" element={<PrivateOutlet />}/>
-        {/*   <Route index element={<Overview />} /> */}
+          <Route path="/app" element={<PrivateOutlet />}>
+            <Route index element={<Overview />} /> 
   
             <Route path='/app/accounts' element={
                             <AccountHome />
@@ -476,7 +476,7 @@ const AppRoutes = () => {
                         <Route path='/app/ward/discharge' element={
                             <Discharge />
                         }/>
-
+                    </Route>
 
           
         </Routes>

@@ -5,6 +5,7 @@ import Side from './banner/side';
 
 interface AuthProps {
   paragraph?: string;
+  children?:React.ReactNode | undefined;
 }
 
 const AuthWrapper: React.FC<AuthProps> = ({ paragraph, children }) => {

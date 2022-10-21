@@ -14,8 +14,8 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import PasswordInput from '../../components/inputs/basic/Password';
 import Preloader from '../../components/utilities/Preloader';
-import { UserContext } from '../../context/context';
-import client from '../../context/feathers';
+import { UserContext } from '../../context';
+import client from '../../feathers';
 
 function Login() {
   const navigate = useNavigate();

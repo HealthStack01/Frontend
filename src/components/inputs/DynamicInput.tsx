@@ -309,13 +309,14 @@ const DynamicInput = (props) => {
           control={control}
           name={name}
           render={({ field: { ref: _re, ...field } }) => (
-            <JSONInput
+              <Input
               {...field}
-              id="a_unique_id"
-              placeholder={{ foo: 'bar' }}
-              locale={locale}
-              height="50px"
+             /*  id="a_unique_id" */
+              placeholder="JSON Input"
+             /*  locale={locale} */
+              /* height="50px" */
             />
+            
           )}
         ></Controller>
       </FormGroup>
