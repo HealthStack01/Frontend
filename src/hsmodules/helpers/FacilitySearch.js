@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext,ObjectContext} from '../../context'
 import {toast} from 'bulma-toast'
-import {FacilityCreate} from '../facility/Facility'
+import {FacilityCreate} from '../Admin/Facility'
 
 
 // Demo styles, see 'Styles' section below for some notes on use.

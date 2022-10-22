@@ -32,25 +32,25 @@ import Encounter from './EncounterMgt/Encounter'
 import EpidemiologyHome from './Epidemiology/EpidemiologyHome'
 import Expense from './Accounts/Expense'
 import FacilityAccount from './Finance/FacilityAccount'
-import FacilityHome from './facility/FacilityHome'
-import Accessibility from './facility/Accessibility'
+import FacilityHome from './Admin/FacilityHome'
+import Accessibility from './Admin/Accessibility'
 import FinanceHome from './Finance/FinanceHome'
 import FinanceReport from './Finance/FinanceReport'
 import FinanceSetup from './Finance/FinanceSetup'
-import CareTeam from './facility/CareTeam'
-import Department from './facility/Department'
-import DeptUnits from './facility/DeptUnits'
-import Employee from './facility/Employee'
-import Facility from './facility/Facility'
-import HSModules from './facility/HSModules'
-import Bands from './facility/Bands'
-import Roaster from './facility/Roaster'
-import Workspace from './facility/Workspace'
+import CareTeam from './Admin/CareTeam'
+import Department from './Admin/Department'
+import DeptUnits from './Admin/DeptUnits'
+import Employee from './Admin/Employee'
+import Facility from './Admin/Facility'
+import HSModules from './Admin/HSModules'
+import Bands from './Admin/Bands'
+import Roaster from './Admin/Roaster'
+import Workspace from './Admin/Workspace'
 import WardHome from './Ward/WardHome'
 import Inpatient from './Ward/Inpatient'
 import Admissions from './Ward/Admissions'
 import Discharge from './Ward/Discharge'
-import Location from './facility/Location'
+import Location from './Admin/Location'
 import Transfer from './Ward/Transfer'
  import useRepository from '../components/hooks/repository'; 
 import FrontDesk, { FrontDeskList } from './ClientMgt/FrontDesk'
@@ -177,16 +177,16 @@ const AppRoutes = () => {
                         <Route path='/app/clinic/payments' element={
                             <Payment/>
                         }/>
-                        <Route path='/app/client/encounter' element={
+                        <Route path='/app/clients/encounter' element={
                             <Encounter/>
                         }/>
-                        <Route path='/app/client/client' element={
+                        <Route path='/app/clients/clients' element={
                             <Patients />
                         }/>
-                        <Route path='/app/client/clinicreports' element={
+                        <Route path='/app/clients/clinicreports' element={
                             <ClinicReport />
                         }/>
-                        <Route path='/app/client/frontdesk' element={
+                        <Route path='/app/clients/frontdesk' element={
                             <FrontDesk />
                         }/>
 

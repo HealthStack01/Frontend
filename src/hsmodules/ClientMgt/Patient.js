@@ -34,7 +34,7 @@ export default function Client() {
                 </div>
             <div className="column is-6 ">
               {(state.ClientModule.show ==='List')&&<ClientList />}
-                {(state.ClientModule.show ==='create')&&<ClientCreate />}
+              {/*   {(state.ClientModule.show ==='create')&&<ClientCreate />} */}
                 {(state.ClientModule.show ==='detail')&&<ClientDetail  />}
                 {(state.ClientModule.show ==='modify')&&<ClientModify Client={selectedClient} />} 
             </div>

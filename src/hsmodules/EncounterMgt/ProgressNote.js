@@ -6,7 +6,7 @@ import {DocumentClassList} from './DocumentClass'
 //import {useNavigate} from 'react-router-dom'
 import {UserContext,ObjectContext} from '../../context'
 import {toast} from 'bulma-toast'
-import Roaster from '../facility/Roaster';
+import Roaster from '../Admin/Roaster';
 
 export default function ProgressNote() {
 

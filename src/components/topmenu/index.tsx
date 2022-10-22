@@ -57,12 +57,7 @@ const TopMenu = ({ isOpen, handleClick }) => {
       { code: 'NG', label: 'No Location Selected', location: '' },
     ]);
   }; 
-  return(
-    <>
-    simpa dania
-    </>)
-  /* )
-
+ 
   return (
     <TopMenuWrapper>
       <div
@@ -104,13 +99,13 @@ const TopMenu = ({ isOpen, handleClick }) => {
         </div>
 
         <div className="profile-item">
-          <i className="bi bi-bell-fill" /
-          {/* <Avatar src="/img_avatar.png" alt="" />} */
-         /*  <ProfileMenu />
+          <i className="bi bi-bell-fill" />
+          {/* <Avatar src="/img_avatar.png" alt="" /> */}
+          <ProfileMenu />
         </div>
       </Profile>
     </TopMenuWrapper>
-  ); */
+  );
 }; 
 
 export default TopMenu;

@@ -413,7 +413,7 @@ export function BandList(){
 
     return(
         <>
-           {user?( <>  
+           {facilities?( <>  
                 <div className="level">
                     <div className="level-left">
                         <div className="level-item">
