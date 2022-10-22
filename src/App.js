@@ -19,44 +19,44 @@ function App() {
 
   const [state,setState] = useState({
     facilityModule:{
-      show:'create',
+      show:'list',
       selectedFacility:{}
     },
 
     EmployeeModule:{
-      show:'create',
+      show:'list',
       selectedEmployee:{}
     },
     ChartAccountModule:{
-      show:'create',
+      show:'list',
       selectedAccount:{}
     },
     ExpenseModule:{
-      show:'create',
+      show:'list',
       selectedExpense:{}
     },
     BankModule:{
-      show:'create',
+      show:'list',
       selectedBank:{}
     },
     EpidemiologyModule:{
-      show:'create',
+      show:'list',
       selectedEpid:{}
     },
     LocationModule:{
-      show:'create',
+      show:'list',
       selectedLocation:{}
     },
     BandModule:{
-      show:'create',
+      show:'list',
       selectedBand:{}
     },
     ProductModule:{
-      show:'create',
+      show:'list',
       selectedProduct:{}
     },
     StoreModule:{
-      show:'create',
+      show:'list',
       selectedStore:{}
     },
     InventoryModule:{
@@ -64,39 +64,39 @@ function App() {
       selectedInventory:{}
     },
     ProductEntryModule:{
-      show:'create',
+      show:'list',
       selectedProductEntry:{}
     },
     ProductExitModule:{
-      show:'create',
+      show:'list',
       selectedProductEntry:{}
     },
     ClinicModule:{
-      show:'create',
+      show:'list',
       selectedClinic:{}
     },
     FrontDesk:{
-      show:'create',
+      show:'list',
       selectedFrontDesk:{}
     },
     ClientModule:{
-      show:'create',
+      show:'list',
       selectedClient:{}
     },
     DocumentClassModule:{
-      show:'create',
+      show:'list',
       selectedDocumentClass:{}
     },
     WardModule:{
-      show:'create',
+      show:'list',
       selectedWard:{}
     },
     AdmissionModule:{
-      show:'create',
+      show:'list',
       selectedAdmission:{}
     },
     DischargeModule:{
-      show:'create',
+      show:'list',
       selectedDischarge:{}
     },
     EndEncounterModule:{
@@ -104,39 +104,39 @@ function App() {
       selectedEndEncounter:{}
     },
     AppointmentModule:{
-      show:'create',
+      show:'list',
       selectedAppointment:{}
     },
     OrderModule:{
-      show:'create',
+      show:'list',
       selectedOrder:{}
     },
     DispenseModule:{
-      show:'create',
+      show:'list',
       selectedDispense:{}
     },
     DestinationModule:{
-      show:'create',
+      show:'list',
       selectedDestination:{}
     },
     ManagedCareModule:{
-      show:'create',
+      show:'list',
       selectedResource:{}
     },
     ManagedCare2Module:{
-      show:'create',
+      show:'list',
       selectedResource:{}
     },
     medicationModule:{
-      show:'create',
+      show:'list',
       selectedMedication:{}
     },
     ServicesModule:{
-      show:'create',
+      show:'list',
       selectedServices:{}
     },
     financeModule:{
-      show:'create',
+      show:'list',
       state:'false',
       selectedFinance:{}
     },
@@ -158,13 +158,13 @@ function App() {
     },
     SelectedClient:{
       client:{},
-      show:'create'
+      show:'list'
     },
    Beneficiary:{
       principal:{},
       dependent:[],
       others:{},
-      show:'create'
+      show:'list'
     },
     currBeneficiary:""
 

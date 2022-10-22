@@ -22,19 +22,16 @@ export default function Bands() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
             <div className="columns ">
-            <div className="column is-8 ">
-            <BandList />
-                </div>
-            <div className="column is-8 ">
+           
                 
-                
+            {(state.BandModule.show ==='list')&&<BandList />}
                 {(state.BandModule.show ==='create')&&<BandCreate />}
                 {(state.BandModule.show ==='detail')&&<BandDetail  />}
                 {(state.BandModule.show ==='modify')&&<BandModify Band={selectedBand} />}
                
             </div>
 
-            </div>                            
+                                    
             </section>
        
     )
