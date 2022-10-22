@@ -21,7 +21,7 @@ export default function Bands() {
            {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
-            <div className="columns ">
+            <div >
            
                 
             {(state.BandModule.show ==='list')&&<BandList />}
@@ -342,6 +342,7 @@ export function BandList(){
    
         const getFacilities= async()=>{
             if (user.currentEmployee){
+                console.log(user)
             
         const findBand= await BandServ.find(
                 {query: {

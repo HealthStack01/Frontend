@@ -20,7 +20,7 @@ const TopMenu = ({ isOpen, handleClick }) => {
   const [selectedLocation, setSelectedLocation] = useState<any>();
   const [open, setOpen] = useState<boolean>(true);
 
- /*  useEffect(() => {
+  useEffect(() => {
     setLocationsById(keyBy(list, (obj: any) => obj._id));
     setLocationOptions([
       ...list.map(({ _id, name }) => ({
@@ -30,7 +30,7 @@ const TopMenu = ({ isOpen, handleClick }) => {
       })),
       { code: 'NG', label: 'Default', location: '' },
     ]);
-  }, [list]); */
+  }, [list]); 
 
  /*  useEffect(() => {
     setSelectedLocation(null);
