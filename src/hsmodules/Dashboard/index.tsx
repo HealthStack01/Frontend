@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { LayoutContent, LayoutWrapper } from '../../components/layout/styles';
 import SideMenu from '../../components/sidemenu';
 import TopMenu from '../../components/topmenu';
-import { UserContext } from '../../context';
+import { UserContext, ObjectContext } from '../../context';
 
 
 interface DashProps {
@@ -13,7 +13,7 @@ interface DashProps {
 }
 
 const Dashboard: React.FC<DashProps> = ({  children }) => { {
-  const { locationType } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   useEffect(() => {
     window.scrollTo({
       top: 0,
