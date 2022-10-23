@@ -5,7 +5,13 @@ import {DebounceInput} from 'react-debounce-input';
 import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext,ObjectContext} from '../../context'
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
 import {toast} from 'bulma-toast'
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import { fontSize } from '@mui/system';
 // eslint-disable-next-line
 const searchfacility={};
 
@@ -15,7 +21,7 @@ export default function Bands() {
     // eslint-disable-next-line
     const [selectedBand,setSelectedBand]=useState()
     //const [showState,setShowState]=useState() //create|modify|detail
-    
+     
     return(
         <section className= "section remPadTop">
            {/*  <div className="level">
@@ -278,12 +284,15 @@ export function BandList(){
     //const navigate=useNavigate()
    // const {user,setUser} = useContext(UserContext)
     const [facilities,setFacilities]=useState([])
+
+    const [loading,setLoading]= useState([])
      // eslint-disable-next-line
    const [selectedBand, setSelectedBand]=useState() //
     // eslint-disable-next-line
     const {state,setState}=useContext(ObjectContext)
     // eslint-disable-next-line
     const {user,setUser}=useContext(UserContext)
+    
 
 
 
@@ -341,6 +350,8 @@ export function BandList(){
         }
    
         const getFacilities= async()=>{
+            console.log(user);
+            setLoading(true)
             if (user.currentEmployee){
             
         const findBand= await BandServ.find(
@@ -353,12 +364,12 @@ export function BandList(){
                     }})
 
          await setFacilities(findBand.data)
+         setLoading(false)
                 }
                 else {
                     if (user.stacker){
                         const findBand= await BandServ.find(
                             {query: {
-                                
                                 $limit:200,
                                 $sort: {
                                     facility: -1
@@ -366,6 +377,7 @@ export function BandList(){
                                 }})
             
                     await setFacilities(findBand.data)
+                
 
                     }
                 }
@@ -407,80 +419,95 @@ export function BandList(){
 
 
     //todo: pagination and vertical scroll bar
+    const BandSchema = [
+  {
+    name: 'S/N',
+    key: '_id',
+    description: 'Enter name of band',
+    sortable: true,
+    inputType: "HIDDEN",
+  },
+  {
+    name: 'Name of Band',
+    key: 'name',
+    description: 'Enter name of band',
+    selector: (row) => row.name,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+  {
+    name: 'Band Type',
+    key: 'bandType',
+    description: 'Enter name of band',
+    selector: (row) => row.bandType,
+    sortable: true,
+    required: true,
+    inputType: "SELECT_LIST",
+    options: ['Provider', 'Company', 'Patient', 'Plan'],
+  },
+  {
+    name: 'Description of Band',
+    key: 'description',
+    description: 'Enter description of band',
+    selector: (row) => row.description,
+    sortable: true,
+    required: false,
+    inputType: "TEXT",
+  },
+]
+   const handleCreate = ()=>{
 
-    return(
-        <>
-           {facilities?( <>  
-                <div className="level">
-                    <div className="level-left">
-                        <div className="level-item">
-                            <div className="field">
-                                <p className="control has-icons-left  ">
-                                    <DebounceInput className="input is-small " 
-                                        type="text" placeholder="Search Bands"
-                                        minLength={3}
-                                        debounceTimeout={400}
-                                        onChange={(e)=>handleSearch(e.target.value)} />
-                                    <span className="icon is-small is-left">
-                                        <i className="fas fa-search"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Bands </span></div>
-                    <div className="level-right">
-                        <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>
-                    </div>
+   }
+   const onRowClicked = ()=>{
 
+   }
+   
+    return (
+      <>
+        {facilities ? (
+          <>
+            <div className="level">
+              <PageWrapper
+                style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              >
+                <TableMenu>
+                  <div style={{display:"flex",alignItems:"center"}}>
+                    {handleSearch && (
+                      <div className="inner-table">
+                        <FilterMenu onSearch={handleSearch} />
+                      </div>
+                    )}
+                    <h2 style={{marginLeft:"10px", fontSize:"0.95rem"}}>List of Bands</h2>
+                  </div>
+
+                  {handleCreate && (
+                    <Button style={{fontSize:"14px",fontWeight:"600"}} label="Add new " onClick={handleCreate} />
+                  )}
+                </TableMenu>
+
+                <div
+                  style={{ width: "100%", height: "600px", overflow: "auto" }}
+                >
+                    <CustomTable
+                    title={""}
+                    columns={BandSchema}
+                    data={facilities}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={onRowClicked}
+                    progressPending={loading}
+                  />
                 </div>
-                <div className="table-container pullup ">
-                                <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                                    <thead>
-                                        <tr>
-                                        <th><abbr title="Serial No">S/No</abbr></th>
-                                        <th>Name</th>
-                                        <th><abbr title="Band Type">Band Type</abbr></th>
-                                       <th><abbr title="Description">Description</abbr></th>
-                                          {/*<th><abbr title="Phone">Phone</abbr></th>
-                                        <th><abbr title="Email">Email</abbr></th>
-                                        <th><abbr title="Department">Department</abbr></th>
-                                        <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> */}
-                                       {user.stacker && <th><abbr title="Facility">Facility</abbr></th>}
-                                        {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        
-                                    </tfoot>
-                                    <tbody>
-                                        {facilities.map((Band, i)=>(
-
-                                            <tr key={Band._id} onClick={()=>handleRow(Band)} className={Band._id===(selectedBand?._id||null)?"is-selected":""}>
-                                            <th>{i+1}</th>
-                                            <th>{Band.name}</th>
-                                            <td>{Band.bandType}</td>
-                                            < td>{Band.description}</td>
-                                            {/*<td>{Band.phone}</td>
-                                            <td>{Band.email}</td>
-                                            <td>{Band.department}</td>
-                                            <td>{Band.deptunit}</td> */}
-                                           {user.stacker &&  <td>{Band.facility}</td>}
-                                           {/*  <td><span   className="showAction"  >...</span></td> */}
-                                           
-                                            </tr>
-
-                                        ))}
-                                    </tbody>
-                                    </table>
-                                    
-                </div>              
-            </>):<div>loading</div>}
-            </>
-              
-    )
+              </PageWrapper>
+            </div>
+          </>
+        ) : (
+          <div>loading</div>
+        )}
+      </>
+    );
     }
 
 
