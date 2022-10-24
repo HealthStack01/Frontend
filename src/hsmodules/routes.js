@@ -29,8 +29,9 @@ import Clinic from "./Clinic/Clinic";
 import ClinicReport from "./Clinic/ClinicReport";
 import ClinicSetup from "./Clinic/ClinicSetup";
 import ClinicStore from "./Clinic/ClinicStore";
+import ClinicCheckin from "./Clinic/CheckIn";
 import Collections from "./Finance/Collections";
-import Dashboard from "./Epidemiology/DashBoard";
+import EpidemiologyDashboard from "./Epidemiology/DashBoard";
 
 import InventoryDispense from "./inventory/Dispensary";
 import PharmacyDispense from "./Pharmacy/Dispensary";
@@ -120,6 +121,7 @@ import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
 
 import {Models} from "./app/Constants";
+import ClientPayment from "./Client/Payment";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -171,17 +173,13 @@ const AppRoutes = () => {
             element={<ChartofAccount />}
           />
 
-          {/* ***************************** CLINIC ROUTES ************************************* */}
+          {/* ***************************** CLINICS ROUTES ************************************* */}
 
           <Route path="/app/clinic" element={<ClinicHome />} />
           <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
           <Route path="/app/clinic/appointments" element={<Appointments />} />
           <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
           <Route path="/app/clinic/payments" element={<Payment />} />
-          <Route path="/app/clients/encounter" element={<Encounter />} />
-          <Route path="/app/clients/clients" element={<Patients />} />
-          <Route path="/app/clients/clinicreports" element={<ClinicReport />} />
-          <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
           <Route path="/app/clinic" element={<ClinicHome />} />
           <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
           <Route path="/app/clinic/appointments" element={<Appointments />} />
@@ -190,16 +188,34 @@ const AppRoutes = () => {
           <Route path="/app/clinic/patients" element={<Patients />} />
           <Route path="/app/clinic/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clinic/clinics" element={<Clinic />} />
+          <Route path="/app/clinic/checkin" element={<ClinicCheckin />} />
 
-          {/* ***************************** EPID ROUTES ************************************* */}
+          {/* ***************************** CLIENTS ROUTES ************************************* */}
 
-          <Route path="/app/epid" element={<EpidemiologyHome />} />
-          <Route path="/app/epid/map" element={<Map />} />
-          <Route path="/app/epid/dashboard" element={<Dashboard />} />
-          <Route path="/app/epid/definitions" element={<CaseDefinition />} />
-          <Route path="/app/epid/communication" element={<BillLab />} />
-          <Route path="/app/epid/signals" element={<Signals />} />
+          <Route path="/app/clients/encounter" element={<Encounter />} />
+          <Route path="/app/clients/clients" element={<Patients />} />
+          <Route path="/app/clients/clinicreports" element={<ClinicReport />} />
+          <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
+          <Route path="/app/clients/payment" element={<ClientPayment />} />
 
+          {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
+
+          <Route path="/app/epidemiology" element={<EpidemiologyHome />}>
+            <Route path="/app/epidemiology/map" element={<Map />} />
+            <Route
+              path="/app/epidemiology/dashboard"
+              element={<EpidemiologyDashboard />}
+            />
+            <Route
+              path="/app/epidemiology/casedefinition"
+              element={<CaseDefinition />}
+            />
+            <Route
+              path="/app/epidemiology/communication"
+              element={<BillLab />}
+            />
+            <Route path="/app/epidemiology/signal" element={<Signals />} />
+          </Route>
           {/* ***************************** ADMIN ROUTES ************************************* */}
 
           <Route path="/app/admin" element={<FacilityHome />} />
@@ -219,16 +235,17 @@ const AppRoutes = () => {
 
           {/* ***************************** FINANCE ROUTES ************************************* */}
 
-          <Route path="/app/finance" element={<FinanceHome />} />
-          <Route path="/app/finance/payment" element={<Payment />} />
-          <Route path="/app/finance/collections" element={<Collections />} />
-          <Route path="/app/finance/services" element={<Services />} />
-          <Route path="/app/finance/billservice" element={<BillService />} />
-          <Route path="/app/finance/hmoauth" element={<HMOauth />} />
+          <Route path="/app/finance" element={<FinanceHome />}>
+            <Route path="/app/finance/payment" element={<Payment />} />
+            <Route path="/app/finance/collections" element={<Collections />} />
+            <Route path="/app/finance/services" element={<Services />} />
+            <Route path="/app/finance/billservices" element={<BillService />} />
+            <Route path="/app/finance/hmoauth" element={<HMOauth />} />
 
-          <Route path="/app/finance/revenue" element={<FacilityAccount />} />
+            <Route path="/app/finance/revenue" element={<FacilityAccount />} />
 
-          <Route path="/app/finance/location" element={<Store />} />
+            <Route path="/app/finance/location" element={<Store />} />
+          </Route>
 
           {/* ***************************** INVENTORY ROUTES ************************************* */}
 
@@ -276,10 +293,10 @@ const AppRoutes = () => {
             path="/app/laboratory/billclient"
             element={<LaboratoryBillService />}
           />
-          <Route path="/app/laboratory/lab-result" element={<LabReport />} />
-          <Route path="/app/laboratory/lab-bill" element={<BillLab />} />
+          <Route path="/app/laboratory/labresult" element={<LabReport />} />
+          <Route path="/app/laboratory/billlaborders" element={<BillLab />} />
           <Route path="/app/laboratory/labs" element={<Labs />} />
-          <Route path="/app/laboratory/lab-payment" element={<LabPayment />} />
+          <Route path="/app/laboratory/payment" element={<LabPayment />} />
 
           {/* ***************************** PHARMACY ROUTES ************************************* */}
 
@@ -305,7 +322,10 @@ const AppRoutes = () => {
               path="/app/pharmacy/productentry"
               element={<PharmacyProductEntry />}
             />
-            <Route path="/app/pharmacy/pos" element={<PharmacyProductExit />} />
+            <Route
+              path="/app/pharmacy/issueout"
+              element={<PharmacyProductExit />}
+            />
             <Route
               path="/app/pharmacy/requisition"
               element={<PharmacyInventoryReport />}

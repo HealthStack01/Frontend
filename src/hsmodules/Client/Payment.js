@@ -24,7 +24,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 //import BillPrescriptionCreate from './BillPrescriptionCreate';
 
-export default function Payment() {
+export default function ClientPayment() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -313,8 +313,6 @@ export function BillingList() {
 
   const handleCreate = () => {};
 
-  ///**************************UPDATE SCHEMA ACCORDING TO THE DATA FOR FINANCE PAYMENT PAGE******************************
-
   const PaymentSchema = [
     {
       name: "S/No",
@@ -328,7 +326,7 @@ export function BillingList() {
       name: "Name",
       key: "name",
       description: "Enter name of band",
-      //selector: row => row.orderInfo.orderObj.clientname,
+      selector: row => row.orderInfo.orderObj.clientname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -346,7 +344,7 @@ export function BillingList() {
       name: "Description of Band",
       key: "description",
       description: "Enter description of band",
-      //selector: row => row.orderInfo.orderObj.order,
+      selector: row => row.orderInfo.orderObj.order,
       sortable: true,
       required: false,
       inputType: "TEXT",

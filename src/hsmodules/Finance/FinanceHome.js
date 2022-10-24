@@ -4,7 +4,7 @@ import Store, {StoreList} from "./Store";
 import {UserContext, ObjectContext} from "../../context";
 import {Outlet} from "react-router-dom";
 
-export default function InventoryHome() {
+export default function FinacneHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const handleCloseModal = () => {

@@ -19,7 +19,8 @@ export const menuItems = [
     iconClassName: "bi bi-people",
     subMenus: [
       {name: "Appointment", to: "/app/clients/appointments"},
-      {name: "Client", to: "/app/clients/clients"},
+      {name: "Clients", to: "/app/clients/clients"},
+      {name: "Payments", to: "/app/clients/payments"},
     ],
   },
   {
@@ -27,7 +28,10 @@ export const menuItems = [
     exact: true,
     to: "/app/clinic",
     iconClassName: "bi bi-file-medical",
-    subMenus: [{name: "Appointment", to: "/app/clinic/appointments"}],
+    subMenus: [
+      {name: "Appointment", to: "/app/clinic/appointments"},
+      {name: "checkin", to: "/app/clinic/checkin"},
+    ],
   },
   {
     name: "Pharmacy",
@@ -35,13 +39,13 @@ export const menuItems = [
     to: "/app/pharmacy",
     iconClassName: "bi bi-file-medical",
     subMenus: [
-      {name: "Bill client", to: "/app/pharmacy/billclient"},
+      {name: "Bill Client", to: "/app/pharmacy/billclient"},
       {name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription"},
       {name: "Payment", to: "/app/pharmacy/payment"},
       {name: "Dispensary", to: "/app/pharmacy/dispensary"},
       {name: "Store Inventory", to: "/app/pharmacy/storeinventory"},
       {name: "Product Entry", to: "/app/pharmacy/productentry"},
-      {name: "POS", to: "/app/pharmacy/pos"},
+      {name: "Issue Out", to: "/app/pharmacy/issueout"},
       {name: "Requisiition", to: "/app/pharmacy/requisition"},
       {name: "Transfer", to: "/app/pharmacy/transfer"},
     ],
@@ -52,10 +56,10 @@ export const menuItems = [
     to: "/app/laboratory",
     iconClassName: "bi bi-binoculars",
     subMenus: [
-      {name: "Bill client", to: "/app/laboratory/billclient"},
-      {name: "Bill Lab Orders Sent", to: "/app/laboratory/billlabsent"},
+      {name: "Bill Client", to: "/app/laboratory/billclient"},
+      {name: "Bill Lab Orders", to: "/app/laboratory/billlaborders"},
       {name: "Payment", to: "/app/laboratory/payment"},
-      {name: "Lab Result", to: "/app/laboratory/result"},
+      {name: "Lab Result", to: "/app/laboratory/labresult"},
     ],
   },
   {
@@ -94,8 +98,10 @@ export const menuItems = [
     to: "/",
     iconClassName: "bi bi-bezier",
     subMenus: [
-      {name: "Case Definition", to: "/app/epidemiology/case-definition"},
+      {name: "Dashboard", to: "/app/epidemiology/dashboard"},
+      {name: "Case Definition", to: "/app/epidemiology/casedefinition"},
       {name: "Signals", to: "/app/epidemiology/signal"},
+      {name: "Map", to: "/app/epidemiology/map"},
     ],
   },
   {
