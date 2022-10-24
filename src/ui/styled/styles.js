@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const PageWrapper = styled.div`
   display: flex;
-  
+  flex-direction: "column";
 `;
 
 export const AuthContainer = styled.div`

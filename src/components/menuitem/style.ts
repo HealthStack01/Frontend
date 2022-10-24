@@ -1,5 +1,5 @@
-import { Link as LinkRef } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link as LinkRef } from "react-router-dom";
+import styled from "styled-components";
 
 export const Lists = styled.ul`
   padding: 0;
@@ -16,7 +16,7 @@ export const Lists = styled.ul`
     transition: max-height 0.2s ease-in;
   }
   &.sub-menu.active {
-    max-height: 400px;
+    max-height: 500px;
   }
 `;
 

@@ -73,7 +73,7 @@ const FilterMenu = ({
               justifyContent: 'space-around',
               flexWrap: 'nowrap',
               padding: '4px 10px',
-              width: '120px',
+              width: '200px',
               borderRadius: '4px',
               margin: '0 10px',
               background: '#fafafa',
