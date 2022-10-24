@@ -1,5 +1,9 @@
 import React from 'react';
+<<<<<<< HEAD
 // import { createRoot } from 'react-dom/client';
+=======
+/* import { createRoot } from 'react-dom/client'; */
+>>>>>>> 56038078bf20f61ffc1bc93419c1cb7ef21b7a79
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';

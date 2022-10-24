@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { UserContext, ObjectContext } from "../context";
@@ -65,6 +66,71 @@ import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./Pharmacy/InventoryReport";
 /* import InventorySetup from './inventory/InventorySetup' */
 import InventorySetup from "./Pharmacy/InventorySetup";
+=======
+import { useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+
+import {UserContext,ObjectContext} from '../context'
+import AccountHome from './Accounts/AccountHome'
+import Appointments from './Clinic/Appointments'
+import Login from './auth';
+import IndividualSignup from './auth/IndividualSignup';
+import Signup from './auth/Signup';
+import PrivateOutlet from './PrivateOutlet';
+import Overview from './app/Overview';
+
+import BillLab from './Laboratory/BillLab'
+import BillPrescription from './Finance/BillPrescription'
+import InventoryBillPrescription from './inventory/BillPrescription'
+
+import PharmcyBillPrescription from './Pharmacy/BillPrescription'
+import BillRadiology from './Radiology/BillRadiology'
+import BillService from './Finance/BillService'
+import BillTheatre from './Theatre/BillTheatre'
+import CaseDefinition from './Epidemiology/CaseDefinition'
+import ChartofAccount from './Accounts/ChartofAccount'
+import ClinicHome from './Clinic/ClinicHome'
+import Clinic from './Clinic/Clinic'
+import ClinicReport from './Clinic/ClinicReport'
+import ClinicSetup from './Clinic/ClinicSetup'
+import ClinicStore from './Clinic/ClinicStore'
+import Collections from './Finance/Collections'
+import Dashboard from './Epidemiology/DashBoard'
+/* import Dispense from './inventory/Dispensary' */
+import Dispense from './Pharmacy/Dispensary'
+import Encounter from './EncounterMgt/Encounter'
+import EpidemiologyHome from './Epidemiology/EpidemiologyHome'
+import Expense from './Accounts/Expense'
+import FacilityAccount from './Finance/FacilityAccount'
+import FacilityHome from './Admin/FacilityHome'
+import Accessibility from './Admin/Accessibility'
+import FinanceHome from './Finance/FinanceHome'
+import FinanceReport from './Finance/FinanceReport'
+import FinanceSetup from './Finance/FinanceSetup'
+import CareTeam from './Admin/CareTeam'
+import Department from './Admin/Department'
+import DeptUnits from './Admin/DeptUnits'
+import Employee from './Admin/Employee'
+import Facility from './Admin/Facility'
+import HSModules from './Admin/HSModules'
+import Bands from './Admin/Bands'
+import Roaster from './Admin/Roaster'
+import Workspace from './Admin/Workspace'
+import WardHome from './Ward/WardHome'
+import Inpatient from './Ward/Inpatient'
+import Admissions from './Ward/Admissions'
+import Discharge from './Ward/Discharge'
+import Location from './Admin/Location'
+import Transfer from './Ward/Transfer'
+ import useRepository from '../components/hooks/repository'; 
+import FrontDesk, { FrontDeskList } from './ClientMgt/FrontDesk'
+import HMOauth from './Finance/HMOauth'
+import InventoryHome from './inventory/InventoryHome'
+/* import InventoryReport from './inventory/InventoryReport' */
+import PharmacyReport from './Pharmacy/InventoryReport'
+import InventorySetup from './inventory/InventorySetup'
+/* import InventorySetup from './Pharmacy/InventorySetup' */
+>>>>>>> 56038078bf20f61ffc1bc93419c1cb7ef21b7a79
 /* import InventoryStore from './inventory/InventoryStore' */
 import InventoryStore from "./Pharmacy/InventoryStore";
 import Journal from "./Accounts/Journal";
@@ -138,7 +204,70 @@ const AppRoutes = () => {
     ) {
       /* setLocationType(moduleLocationTypes[newModule]); */
     }
+<<<<<<< HEAD
   }, [location]);
+=======
+  }, [location]); 
+   
+    return (
+      <>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signupindividual" element={<IndividualSignup />} />
+        {/*   protected route */}
+          <Route path="/app" element={<PrivateOutlet />}>
+            <Route index element={<Overview />} /> 
+  
+            <Route path='/app/accounts' element={
+                            <AccountHome />
+                        }/>
+                        <Route path='/app/accounts/payments' element={
+                            <Payment />
+                        }/>
+                        <Route path='/app/accounts/expenses' element={
+                            <Expense />
+                        }/>
+                       <Route path='/app/accounts/reports' element={
+                            <Report />
+                        }/>
+                         <Route path='/app/accounts/journals' element={
+                            <Journal/>
+                        }/>
+                        <Route path='/app/accounts/ledgers' element={
+                            <Ledgers/>
+                        }/>
+                        <Route path='/app/accounts/chartsaccount' element={
+                            <ChartofAccount />
+                        }/>
+                        <Route path='/app/clinic' element={
+                            <ClinicHome />
+                        }/>
+                        <Route path='/app/clinic/clinicsetup' element={
+                            <ClinicSetup />
+                        }/>
+                        <Route path='/app/clinic/appointments' element={
+                            <Appointments/>
+                        }/>
+                        <Route path='/app/clinic/clinicstore' element={
+                            <ClinicStore />
+                        }/>
+                        <Route path='/app/clinic/payments' element={
+                            <Payment/>
+                        }/>
+                        <Route path='/app/clients/encounter' element={
+                            <Encounter/>
+                        }/>
+                        <Route path='/app/clients/clients' element={
+                            <Patients />
+                        }/>
+                        <Route path='/app/clients/clinicreports' element={
+                            <ClinicReport />
+                        }/>
+                        <Route path='/app/clients/frontdesk' element={
+                            <FrontDesk />
+                        }/>
+>>>>>>> 56038078bf20f61ffc1bc93419c1cb7ef21b7a79
 
   return (
     <>
