@@ -60,7 +60,7 @@ import InventoryHome from './inventory/InventoryHome'
 /* import InventoryReport from './inventory/InventoryReport' */
 import PharmacyReport from './Pharmacy/InventoryReport'
 import InventorySetup from './inventory/InventorySetup'
-import InventorySetup from './Pharmacy/InventorySetup'
+/* import InventorySetup from './Pharmacy/InventorySetup' */
 /* import InventoryStore from './inventory/InventoryStore' */
 import InventoryStore from './Pharmacy/InventoryStore'
 import Journal from './Accounts/Journal'
