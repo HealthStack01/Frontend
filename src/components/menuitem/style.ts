@@ -1,5 +1,5 @@
-import { Link as LinkRef } from 'react-router-dom';
-import styled from 'styled-components';
+import {Link as LinkRef} from "react-router-dom";
+import styled from "styled-components";
 
 export const Lists = styled.ul`
   padding: 0;
@@ -8,36 +8,37 @@ export const Lists = styled.ul`
   &.sub-menu {
     color: #333;
     margin-left: 20px;
-    border-left: 1px dashed ${({ theme }) => theme.btnText};
+    border-left: 1px dashed ${({theme}) => theme.btnText};
     box-sizing: border-box;
     padding-left: 30px;
     max-height: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     transition: max-height 0.2s ease-in;
   }
   &.sub-menu.active {
-    max-height: 400px;
+    max-height: 300px;
   }
 `;
 
 export const ListItem = styled.li`
   list-style: none;
-  padding: 0.8rem;
+  padding: 0.5rem;
 `;
 
 export const MenuList = styled.div`
   &.menu-item {
-    color: ${({ theme }) => theme.btnText};
+    color: ${({theme}) => theme.btnText};
     text-decoration: none;
     font-size: 15px !important;
     color: red;
     display: block;
     font-weight: 600;
     cursor: pointer;
-    padding: 0.8rem;
+    padding: 0.5rem;
   }
   &.menu-item.active {
-    background: ${({ theme }) => theme.primary};
+    background: ${({theme}) => theme.primary};
     border-radius: 5px;
     color: #fff;
   }
@@ -47,7 +48,7 @@ export const MenuList = styled.div`
     justify-content: space-between;
 
     & span {
-      font-size: 18px !important;
+      font-size: 0.95rem !important;
       /* font-size: 18px; */
     }
   }
@@ -62,7 +63,7 @@ export const MenuList = styled.div`
 
 export const Link = styled(LinkRef)`
   &.menu-item {
-    color: ${({ theme }) => theme.btnText};
+    color: ${({theme}) => theme.btnText};
     text-decoration: none;
     font-size: 15px;
     display: block;
@@ -71,7 +72,7 @@ export const Link = styled(LinkRef)`
     padding: 0.8rem;
   }
   &.menu-item.active {
-    background: ${({ theme }) => theme.primary};
+    background: ${({theme}) => theme.primary};
     border-radius: 5px;
     color: #fff;
   }
