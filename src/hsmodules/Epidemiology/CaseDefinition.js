@@ -842,7 +842,7 @@ export function CaseDefinitionList() {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const BandSchema = [
+  const caseDefinitionSchema = [
     {
       name: "S/NO",
       key: "sn",
@@ -888,7 +888,7 @@ export function CaseDefinitionList() {
                   </div>
                 )}
                 <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                  List of Bands
+                  Case Definitions
                 </h2>
               </div>
 
@@ -904,7 +904,7 @@ export function CaseDefinitionList() {
             <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <CustomTable
                 title={""}
-                columns={BandSchema}
+                columns={caseDefinitionSchema}
                 data={facilities}
                 pointerOnHover
                 highlightOnHover
