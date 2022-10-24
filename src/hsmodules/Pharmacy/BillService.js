@@ -7,8 +7,9 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
-import PaymentCreate from "./PaymentCreate";
-import PatientProfile from "../Client/PatientProfile";
+// import PaymentCreate from "./PaymentCreate";
+import PaymentCreate from "./PharmacyPayment";
+import Payment from "./PharmacyPayment";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -214,7 +215,6 @@ export function BillsList() {
     });
 
     //  console.log("updatedorder", findProductEntry.groupedOrder)
-    console.log("product-entry", findProductEntry);
     await setFacilities(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };

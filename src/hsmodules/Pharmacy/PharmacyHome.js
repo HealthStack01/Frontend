@@ -21,10 +21,10 @@ export default function PharmacyHome({children}) {
             <h1 className="title">Pharmacy Module</h1>
             <h2 className="subtitle">Have fun working today!</h2>
           </div>
-        </div>
-        <div className="layout__content-main">
-          {children}
-          <Outlet />
+          <div className="layout__content-main">
+            {children}
+            <Outlet />
+          </div>
         </div>
       </section>
     </section>

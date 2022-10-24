@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Route, Routes, useLocation} from "react-router-dom";
 
 import {UserContext, ObjectContext} from "../context";
+
 import AccountHome from "./Accounts/AccountHome";
 import Appointments from "./Clinic/Appointments";
 import Login from "./auth";
@@ -11,12 +12,14 @@ import PrivateOutlet from "./PrivateOutlet";
 import Overview from "./app/Overview";
 
 import BillLab from "./Laboratory/BillLab";
+
 import FinanceBillPrescription from "./Finance/BillPrescription";
 import InventoryBillPrescription from "./inventory/BillPrescription";
 import PharmacyBillPrescription from "./Pharmacy/BillPrescription";
 import BillRadiology from "./Radiology/BillRadiology";
 import LaboratoryBillService from "./Laboratory/BillService";
 import PharmacyBillService from "./Pharmacy/BillService";
+
 import BillService from "./Finance/BillService";
 import BillTheatre from "./Theatre/BillTheatre";
 import CaseDefinition from "./Epidemiology/CaseDefinition";
@@ -28,8 +31,10 @@ import ClinicSetup from "./Clinic/ClinicSetup";
 import ClinicStore from "./Clinic/ClinicStore";
 import Collections from "./Finance/Collections";
 import Dashboard from "./Epidemiology/DashBoard";
+
 import InventoryDispense from "./inventory/Dispensary";
 import PharmacyDispense from "./Pharmacy/Dispensary";
+
 import Encounter from "./EncounterMgt/Encounter";
 import EpidemiologyHome from "./Epidemiology/EpidemiologyHome";
 import Expense from "./Accounts/Expense";
@@ -54,6 +59,7 @@ import Admissions from "./Ward/Admissions";
 import Discharge from "./Ward/Discharge";
 import Location from "./Admin/Location";
 import Transfer from "./Ward/Transfer";
+
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
 import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
@@ -65,6 +71,7 @@ import InventorySetup from "./inventory/InventorySetup";
 import PharmacyInventorySetup from "./Pharmacy/InventorySetup";
 import InventoryStore from "./inventory/InventoryStore";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
+
 import Journal from "./Accounts/Journal";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
 import LabPayment from "./Laboratory/LabPayment";
@@ -79,6 +86,7 @@ import Pharmacy, {
   PharmacyListStandalone,
 } from "./Pharmacy/Pharmacy";
 import PharmacyHome from "./Pharmacy/PharmacyHome";
+
 //import InventoryPayment from './inventory/PharmacyPayment'
 import PharmacyPayment from "./Pharmacy/PharmacyPayment";
 import FinacneProductEntry from "./Finance/Services";
@@ -90,6 +98,7 @@ import PharmacyProductExit from "./Pharmacy/ProductExit";
 import FinanceProducts from "./Finance/Products";
 import InventoryProducts from "./inventory/Products";
 import PharmacyProducts from "./Pharmacy/Products";
+
 import RadAppointments from "./Radiology/RadAppointments";
 import RadCheckedin from "./Radiology/RadCheckedin";
 import Radiology from "./Radiology/Radiologys"; //, { StoreList, StoreListStandalone }
@@ -101,6 +110,7 @@ import Services from "./Finance/Services";
 import Signals from "./Epidemiology/Signals"; //, { StoreList, StoreListStandalone }
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store' */
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store'  */
+
 import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
 import Theatre from "./Theatre/Theatres"; //, /* { StoreList, StoreListStandalone } */
 import TheatreAppointments from "./Theatre/TheatreAppointments";
@@ -108,6 +118,7 @@ import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
+
 import {Models} from "./app/Constants";
 
 const moduleLocationTypes = {

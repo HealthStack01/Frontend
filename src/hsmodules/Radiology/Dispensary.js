@@ -1,4 +1,5 @@
 /* eslint-disable */
+<<<<<<< HEAD
 import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
@@ -7,6 +8,16 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
+=======
+import React, { useState, useContext, useEffect, useRef } from "react";
+import client from "../../feathers";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+//import {useNavigate} from 'react-router-dom'
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { format, formatDistanceToNowStrict } from "date-fns";
+>>>>>>> refs/remotes/origin/frontend
 //import PaymentCreate from './PaymentCreate'
 import PatientProfile from "../Client/PatientProfile";
 /* import {ProductCreate} from './Products' */
@@ -15,7 +26,11 @@ import PatientProfile from "../Client/PatientProfile";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
+<<<<<<< HEAD
 import {ProductExitCreate} from "./DispenseExit";
+=======
+import { ProductExitCreate } from "./DispenseExit";
+>>>>>>> refs/remotes/origin/frontend
 //import BillPrescriptionCreate from './BillPrescriptionCreate';
 
 export default function Dispense() {
@@ -35,9 +50,15 @@ export default function Dispense() {
   // eslint-disable-next-line
   const [selectedOrders, setSelectedOrders] = useState([]); //
   // eslint-disable-next-line
+<<<<<<< HEAD
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+=======
+  const { state, setState } = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const { user, setUser } = useContext(UserContext);
+>>>>>>> refs/remotes/origin/frontend
 
   return (
     <section className="section remPadTop">
@@ -77,20 +98,34 @@ export function DispenseList() {
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
   // eslint-disable-next-line
+<<<<<<< HEAD
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+=======
+  const { state, setState } = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const { user, setUser } = useContext(UserContext);
+>>>>>>> refs/remotes/origin/frontend
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
 
+<<<<<<< HEAD
   const handleSelectedClient = async Client => {
+=======
+  const handleSelectedClient = async (Client) => {
+>>>>>>> refs/remotes/origin/frontend
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -102,7 +137,11 @@ export function DispenseList() {
     if (oldClient !== newClient) {
       //alert("New Client Onboard")
       //remove all checked clientsly
+<<<<<<< HEAD
       selectedOrders.forEach(el => (el.checked = ""));
+=======
+      selectedOrders.forEach((el) => (el.checked = ""));
+>>>>>>> refs/remotes/origin/frontend
       setSelectedOrders([]);
     }
 
@@ -116,15 +155,26 @@ export function DispenseList() {
       show: "detail",
       state: e.target.checked,
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
     if (e.target.checked) {
+<<<<<<< HEAD
       await setSelectedOrders(prevstate => prevstate.concat(order));
     } else {
       setSelectedOrders(prevstate =>
         prevstate.filter(el => el._id !== order._id)
+=======
+      await setSelectedOrders((prevstate) => prevstate.concat(order));
+    } else {
+      setSelectedOrders((prevstate) =>
+        prevstate.filter((el) => el._id !== order._id)
+>>>>>>> refs/remotes/origin/frontend
       );
     }
 
@@ -156,14 +206,22 @@ export function DispenseList() {
       selectedDispense: {},
       show: "create",
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
+<<<<<<< HEAD
   const handleSearch = val => {
+=======
+  const handleSearch = (val) => {
+>>>>>>> refs/remotes/origin/frontend
     const field = "name";
     //console.log(val)
     BillServ.find({
@@ -185,13 +243,21 @@ export function DispenseList() {
         }``,
       },
     })
+<<<<<<< HEAD
       .then(res => {
+=======
+      .then((res) => {
+>>>>>>> refs/remotes/origin/frontend
         // console.log(res)
         setFacilities(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
+<<<<<<< HEAD
       .catch(err => {
+=======
+      .catch((err) => {
+>>>>>>> refs/remotes/origin/frontend
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -239,10 +305,17 @@ export function DispenseList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
+<<<<<<< HEAD
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());
     BillServ.on("patched", obj => getFacilities());
     BillServ.on("removed", obj => getFacilities());
+=======
+    BillServ.on("created", (obj) => getFacilities());
+    BillServ.on("updated", (obj) => getFacilities());
+    BillServ.on("patched", (obj) => getFacilities());
+    BillServ.on("removed", (obj) => getFacilities());
+>>>>>>> refs/remotes/origin/frontend
     return () => {
       cleanup();
     };
@@ -253,7 +326,11 @@ export function DispenseList() {
       selectedClient: {},
       show: "create",
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -263,7 +340,11 @@ export function DispenseList() {
       show: "create",
       state: "",
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
@@ -278,7 +359,11 @@ export function DispenseList() {
 
   useEffect(() => {
     if (state.financeModule.show === "create") {
+<<<<<<< HEAD
       selectedOrders.forEach(el => (el.checked = ""));
+=======
+      selectedOrders.forEach((el) => (el.checked = ""));
+>>>>>>> refs/remotes/origin/frontend
       setSelectedOrders([]);
     }
     return () => {};
@@ -297,7 +382,11 @@ export function DispenseList() {
                   placeholder="Search Medications"
                   minLength={3}
                   debounceTimeout={400}
+<<<<<<< HEAD
                   onChange={e => handleSearch(e.target.value)}
+=======
+                  onChange={(e) => handleSearch(e.target.value)}
+>>>>>>> refs/remotes/origin/frontend
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-search"></i>
@@ -383,7 +472,11 @@ export function DispenseList() {
                                       <input
                                         type="checkbox"
                                         name={order._id}
+<<<<<<< HEAD
                                         onChange={e =>
+=======
+                                        onChange={(e) =>
+>>>>>>> refs/remotes/origin/frontend
                                           handleChoseClient(Clinic, e, order)
                                         }
                                         checked={order.checked}
@@ -433,7 +526,11 @@ export function DispenseDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
+<<<<<<< HEAD
   const {state, setState} = useContext(ObjectContext);
+=======
+  const { state, setState } = useContext(ObjectContext);
+>>>>>>> refs/remotes/origin/frontend
   const BillServ = client.service("order");
   /* const [ProductEntry, setProductEntry] = useState("")
     const [facilities, setFacilities] = useState("") */
@@ -441,7 +538,11 @@ export function DispenseDetail() {
   let ProductEntry = state.DispenseModule.selectedDispense;
   //const facilities=ProductEntry.orders
 
+<<<<<<< HEAD
   const handleRow = async ProductEntry => {
+=======
+  const handleRow = async (ProductEntry) => {
+>>>>>>> refs/remotes/origin/frontend
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -452,7 +553,11 @@ export function DispenseDetail() {
       selectedMedication: ProductEntry,
       show: "detail",
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -460,12 +565,20 @@ export function DispenseDetail() {
     // ProductEntry.show=!ProductEntry.show
   };
 
+<<<<<<< HEAD
   const handleEdit = async ProductEntry => {
+=======
+  const handleEdit = async (ProductEntry) => {
+>>>>>>> refs/remotes/origin/frontend
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: "modify",
     };
+<<<<<<< HEAD
     await setState(prevstate => ({
+=======
+    await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
@@ -473,7 +586,11 @@ export function DispenseDetail() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     const client1 = state.currentClients.find(el => {
+=======
+    const client1 = state.currentClients.find((el) => {
+>>>>>>> refs/remotes/origin/frontend
       return (
         JSON.stringify(el.client_id) ===
         JSON.stringify(state.DispenseModule.selectedDispense)
@@ -495,12 +612,20 @@ export function DispenseDetail() {
         BillServ.on('updated', (obj)=>getFacilities())
        
         BillServ.on('removed', (obj)=>getFacilities()) */
+<<<<<<< HEAD
     BillServ.on("patched", obj => {
+=======
+    BillServ.on("patched", (obj) => {
+>>>>>>> refs/remotes/origin/frontend
       //update state.DispenseModule.selectedDispense
       // console.log(obj.clientId)
       // console.log("currentClients",state.currentClients)
       const current1 = state.currentClients.find(
+<<<<<<< HEAD
         el => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
+=======
+        (el) => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
+>>>>>>> refs/remotes/origin/frontend
       );
       setCurrentOrder(current1);
       // console.log("currentone",current1)

@@ -2,10 +2,9 @@
 import React, {useState, useEffect, useContext} from "react";
 import Store, {StoreList} from "./Store";
 import {UserContext, ObjectContext} from "../../context";
-
 import {Outlet} from "react-router-dom";
 
-export default function InventoryHome({children}) {
+export default function InventoryHome() {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const handleCloseModal = () => {
@@ -22,10 +21,10 @@ export default function InventoryHome({children}) {
             <h1 className="title">Inventory Module</h1>
             <h2 className="subtitle">Have fun working today!</h2>
           </div>
-        </div>
-        <div className="layout__content-main">
-          {children}
-          <Outlet />
+          <div className="layout__content-main">
+            {children}
+            <Outlet />
+          </div>
         </div>
       </section>
     </section>

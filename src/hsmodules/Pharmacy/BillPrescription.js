@@ -9,19 +9,18 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import BillPrescriptionCreate from "./BillPrescriptionCreate";
 import PatientProfile from "../Client/PatientProfile";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import AccordionBox from "./ui-components/accordion";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
 
 // Demo styles, see 'Styles' section below for some notes on use.
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-
 import ClientBilledPrescription from "./ClientPrescription";
-import AccordionBox from "./ui-components/accordion";
 
 export default function PharmacyBillPrescription() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -60,8 +59,8 @@ export default function PharmacyBillPrescription() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      {state.medicationModule.show === "list" && <BillPrescriptionList />}
       {state.medicationModule.show === "detail" && <BillPrescriptionCreate />}
+      {state.medicationModule.show === "list" && <BillPrescriptionList />}
       {state.medicationModule.show === "detail" && <PatientProfile />}
     </section>
   );
@@ -79,7 +78,6 @@ export function BillPrescriptionList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
@@ -234,11 +232,8 @@ export function BillPrescriptionList() {
     }));
     //console.log(state)
   };
-
   const onRowClicked = () => {};
-
   const onSearch = () => {};
-
   const BillPrescriptionSchema = [
     {
       name: "S/N",
@@ -295,9 +290,6 @@ export function BillPrescriptionList() {
       inputType: "TEXT",
     },
   ];
-
-  console.log(facilities[0]);
-
   return (
     <>
       <PageWrapper style={{padding: "20px"}}>
@@ -309,10 +301,9 @@ export function BillPrescriptionList() {
             flexDirection: "column",
           }}
         >
-          <TableMenu>
-            <div style={{width: "100%", display: "flex", alignItems: "center"}}>
-              <h2>Bill Prescription Sent</h2>
-
+          <TableMenu style={{}}>
+            <div style={{display: "flex", width: "100%", alignItems: "center"}}>
+              <h2 style={{}}>Bill Prescription Sent</h2>
               <div
                 className="inner-table"
                 style={{
@@ -328,37 +319,26 @@ export function BillPrescriptionList() {
               </div>
             </div>
           </TableMenu>
-
           <div style={{width: "50%", height: "600px", overflow: "auto"}}>
-            {facilities.map((data, index) => {
-              console.log(data);
-              return (
-                // <AccordionBox
-                //   title={`${data.clientname} with ${data.orders.length} Pending Prescriptions`}
-                //   key={index}
-                // >
-                <CustomTable
-                  key={index}
-                  columns={BillPrescriptionSchema}
-                  data={data.orders}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                />
-                // </AccordionBox>
-              );
-            })}
+            {facilities.map((data, index) => (
+              <CustomTable
+                key={index}
+                columns={BillPrescriptionSchema}
+                data={data.orders}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={onRowClicked}
+              />
+            ))}
           </div>
-
-          {/* <div style={{width: "45%"}}>
+          {/* <div style={{ width: "45%" }}>
             <ClientBilledPrescription
               selectedClient={facilities[0].client_id}
             />
           </div> */}
         </div>
       </PageWrapper>
-      {/* <ClientBilledPrescription selectedClient={Clinic.client_id} /> */}
     </>
   );
 }
