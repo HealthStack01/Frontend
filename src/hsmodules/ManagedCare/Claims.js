@@ -1,4 +1,14 @@
 /* eslint-disable */
+<<<<<<< HEAD
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+//import {useNavigate} from 'react-router-dom'
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
+=======
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
@@ -7,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { format, formatDistanceToNowStrict } from "date-fns";
+>>>>>>> refs/remotes/origin/frontend
 //import BillDispenseCreate from './BillPrescriptionCreate'
 import PatientProfile from "../Client/PatientProfile";
 /* import {ProductCreate} from './Products' */
@@ -15,7 +26,11 @@ import PatientProfile from "../Client/PatientProfile";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
+<<<<<<< HEAD
+export default function ClientBilledPrescription({selectedClient}) {
+=======
 export default function ClientBilledPrescription({ selectedClient }) {
+>>>>>>> refs/remotes/origin/frontend
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -30,26 +45,44 @@ export default function ClientBilledPrescription({ selectedClient }) {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
+<<<<<<< HEAD
+  const {state, setState} = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const {user, setUser} = useContext(UserContext);
+=======
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+>>>>>>> refs/remotes/origin/frontend
   const [selectedMedication, setSelectedMedication] = useState("");
 
   console.log(selectedClient);
 
+<<<<<<< HEAD
+  const handleSelectedClient = async Client => {
+=======
   const handleSelectedClient = async (Client) => {
+>>>>>>> refs/remotes/origin/frontend
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
+<<<<<<< HEAD
+    await setState(prevstate => ({
+=======
     await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
+<<<<<<< HEAD
+  const handleMedicationRow = async ProductEntry => {
+=======
   const handleMedicationRow = async (ProductEntry) => {
+>>>>>>> refs/remotes/origin/frontend
     //handle selected single order
     //console.log("b4",state)
 
@@ -62,7 +95,11 @@ export default function ClientBilledPrescription({ selectedClient }) {
       selectedMedication: ProductEntry,
       show: "detail",
     };
+<<<<<<< HEAD
+    await setState(prevstate => ({
+=======
     await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -75,14 +112,22 @@ export default function ClientBilledPrescription({ selectedClient }) {
       selectedDispense: {},
       show: "create",
     };
+<<<<<<< HEAD
+    await setState(prevstate => ({
+=======
     await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
+<<<<<<< HEAD
+  const handleSearch = val => {
+=======
   const handleSearch = (val) => {
+>>>>>>> refs/remotes/origin/frontend
     const field = "name";
     //console.log(val)
     OrderServ.find({
@@ -106,13 +151,21 @@ export default function ClientBilledPrescription({ selectedClient }) {
         },
       },
     })
+<<<<<<< HEAD
+      .then(res => {
+=======
       .then((res) => {
+>>>>>>> refs/remotes/origin/frontend
         // console.log(res)
         setClientOrders(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
+<<<<<<< HEAD
+      .catch(err => {
+=======
       .catch((err) => {
+>>>>>>> refs/remotes/origin/frontend
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -148,6 +201,16 @@ export default function ClientBilledPrescription({ selectedClient }) {
   useEffect(() => {
     // console.log("started")
     getFacilities();
+<<<<<<< HEAD
+    OrderServ.on("created", obj => getFacilities());
+    OrderServ.on("updated", obj => getFacilities());
+    OrderServ.on("patched", obj => getFacilities());
+    OrderServ.on("removed", obj => getFacilities());
+    return () => {};
+  }, []);
+
+  const handleRow = async ProductEntry => {
+=======
     OrderServ.on("created", (obj) => getFacilities());
     OrderServ.on("updated", (obj) => getFacilities());
     OrderServ.on("patched", (obj) => getFacilities());
@@ -156,13 +219,18 @@ export default function ClientBilledPrescription({ selectedClient }) {
   }, []);
 
   const handleRow = async (ProductEntry) => {
+>>>>>>> refs/remotes/origin/frontend
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: "detail",
     };
+<<<<<<< HEAD
+    await setState(prevstate => ({
+=======
     await setState((prevstate) => ({
+>>>>>>> refs/remotes/origin/frontend
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import MenuItem from "../menuitem";
-import { Lists } from "../menuitem/style";
-import { MainMenu, Sidemenu, TopSection } from "./styles";
+import {Lists} from "../menuitem/style";
+import {MainMenu, Sidemenu, TopSection} from "./styles";
 
 export const menuItems = [
   {
@@ -18,8 +18,8 @@ export const menuItems = [
     to: "/app/clients",
     iconClassName: "bi bi-people",
     subMenus: [
-      { name: "Appointment", to: "/app/clients/appointments" },
-      { name: "Client", to: "/app/clients/clients" },
+      {name: "Appointment", to: "/app/clients/appointments"},
+      {name: "Client", to: "/app/clients/clients"},
     ],
   },
   {
@@ -27,7 +27,7 @@ export const menuItems = [
     exact: true,
     to: "/app/clinic",
     iconClassName: "bi bi-file-medical",
-    subMenus: [{ name: "Appointment", to: "/app/clinic/appointments" }],
+    subMenus: [{name: "Appointment", to: "/app/clinic/appointments"}],
   },
   {
     name: "Pharmacy",
@@ -35,15 +35,15 @@ export const menuItems = [
     to: "/app/pharmacy",
     iconClassName: "bi bi-file-medical",
     subMenus: [
-      { name: "Bill client", to: "/app/pharmacy/billclient" },
-      { name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription" },
-      { name: "Payment", to: "/app/pharmacy/payment" },
-      { name: "Dispensary", to: "/app/pharmacy/dispensary" },
-      { name: "Store Inventory", to: "/app/pharmacy/inventory" },
-      { name: "Product Entry", to: "/app/pharmacy/productentry" },
-      { name: "POS", to: "/app/pharmacy/pos" },
-      { name: "Requisition", to: "app/pharmacy/requisition" },
-      { name: "Transfer", to: "app/pharmacy/transfer" },
+      {name: "Bill client", to: "/app/pharmacy/billclient"},
+      {name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription"},
+      {name: "Payment", to: "/app/pharmacy/payment"},
+      {name: "Dispensary", to: "/app/pharmacy/dispensary"},
+      {name: "Store Inventory", to: "/app/pharmacy/storeinventory"},
+      {name: "Product Entry", to: "/app/pharmacy/productentry"},
+      {name: "POS", to: "/app/pharmacy/pos"},
+      {name: "Requisiition", to: "/app/pharmacy/requisition"},
+      {name: "Transfer", to: "/app/pharmacy/transfer"},
     ],
   },
   {
@@ -52,10 +52,10 @@ export const menuItems = [
     to: "/app/laboratory",
     iconClassName: "bi bi-binoculars",
     subMenus: [
-      { name: "Bill client", to: "/app/laboratory/billclient" },
-      { name: "Bill Lab Orders Sent", to: "/app/laboratory/billlabsent" },
-      { name: "Payment", to: "/app/laboratory/payment" },
-      { name: "Lab Result", to: "/app/laboratory/result" },
+      {name: "Bill client", to: "/app/laboratory/billclient"},
+      {name: "Bill Lab Orders Sent", to: "/app/laboratory/billlabsent"},
+      {name: "Payment", to: "/app/laboratory/payment"},
+      {name: "Lab Result", to: "/app/laboratory/result"},
     ],
   },
   {
@@ -64,14 +64,14 @@ export const menuItems = [
     to: "/app/managedCare",
     iconClassName: "bi bi-alarm",
     subMenus: [
-      { name: "Claim Payment", to: "/app/managedCare/claimpayment" },
-      { name: "Claims", to: "/app/managedCare/claims" },
-      { name: "Referrals", to: "/app/managedCare/referrals" },
-      { name: "Check In", to: "/app/managedCare/checkin" },
-      { name: "Preauthorization", to: "/app/managedCare/preauthorization" },
-      { name: "Beneficiaries", to: "/app/managedCare/beneficiaries" },
-      { name: "Organizations", to: "/app/managedCare/organization" },
-      { name: "Tarrif", to: "/app/managedCare/tarrif" },
+      {name: "Claim Payment", to: "/app/managedCare/claimpayment"},
+      {name: "Claims", to: "/app/managedCare/claims"},
+      {name: "Referrals", to: "/app/managedCare/referrals"},
+      {name: "Check In", to: "/app/managedCare/checkin"},
+      {name: "Preauthorization", to: "/app/managedCare/preauthorization"},
+      {name: "Beneficiaries", to: "/app/managedCare/beneficiaries"},
+      {name: "Organizations", to: "/app/managedCare/organization"},
+      {name: "Tarrif", to: "/app/managedCare/tarrif"},
     ],
   },
   {
@@ -80,12 +80,12 @@ export const menuItems = [
     to: "/app/finance",
     iconClassName: "bi bi-cash",
     subMenus: [
-      { name: "Bill Services", to: "/app/finance/billservices" },
-      { name: "Payment", to: "/app/finance/payment" },
-      { name: "Revenue", to: "/app/finance/revenue" },
-      { name: "Collections", to: "/app/finance/collections" },
-      { name: "Services", to: "/app/finance/services" },
-      { name: "HMO Authorization", to: "/app/finance/hmoauthorization" },
+      {name: "Bill Services", to: "/app/finance/billservices"},
+      {name: "Payment", to: "/app/finance/payment"},
+      {name: "Revenue", to: "/app/finance/revenue"},
+      {name: "Collections", to: "/app/finance/collections"},
+      {name: "Services", to: "/app/finance/services"},
+      {name: "HMO Authorization", to: "/app/finance/hmoauthorization"},
     ],
   },
   {
@@ -94,8 +94,8 @@ export const menuItems = [
     to: "/",
     iconClassName: "bi bi-bezier",
     subMenus: [
-      { name: "Case Definition", to: "/app/epidemiology/case-definition" },
-      { name: "Signals", to: "/app/epidemiology/signal" },
+      {name: "Case Definition", to: "/app/epidemiology/case-definition"},
+      {name: "Signals", to: "/app/epidemiology/signal"},
     ],
   },
   {
@@ -104,9 +104,9 @@ export const menuItems = [
     to: "/app/admin",
     iconClassName: "bi bi-person",
     subMenus: [
-      { name: "Bands", to: "/app/admin/bands" },
-      { name: "Employees", to: "/app/admin/employees" },
-      { name: "Location", to: "/app/admin/location" },
+      {name: "Bands", to: "/app/admin/bands"},
+      {name: "Employees", to: "/app/admin/employees"},
+      {name: "Location", to: "/app/admin/location"},
     ],
   },
   {
@@ -115,10 +115,10 @@ export const menuItems = [
     to: "/app/communication",
     iconClassName: "bi bi-rss",
     subMenus: [
-      { name: "Channel", to: "/app/communication/channel" },
-      { name: "Questionnaires", to: "/app/communication/questionnaires" },
-      { name: "Configuration", to: "/app/communication/configuration" },
-      { name: "Submissions", to: "/app/communication/submissions" },
+      {name: "Channel", to: "/app/communication/channel"},
+      {name: "Questionnaires", to: "/app/communication/questionnaires"},
+      {name: "Configuration", to: "/app/communication/configuration"},
+      {name: "Submissions", to: "/app/communication/submissions"},
     ],
   },
   {
@@ -132,7 +132,7 @@ export const menuItems = [
   },
 ];
 
-function SideMenu({ isOpen }) {
+function SideMenu({isOpen}) {
   const [inactive, setInactive] = useState(false);
   const navigate = useNavigate();
 
@@ -147,11 +147,11 @@ function SideMenu({ isOpen }) {
   useEffect(() => {
     const menuItems = document.querySelectorAll(".menu-item");
 
-    menuItems.forEach((el) => {
+    menuItems.forEach(el => {
       el.addEventListener("click", () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach((el) => el.classList.remove("active"));
+        menuItems.forEach(el => el.classList.remove("active"));
         el.classList.toggle("active");
 
         if (next !== null) {

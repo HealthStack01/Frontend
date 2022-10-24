@@ -1,17 +1,17 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
 import PaymentCreate from "../Finance/PaymentCreate";
 import PatientProfile from "../Client/PatientProfile";
 
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -42,9 +42,9 @@ export default function Payment() {
   // eslint-disable-next-line
   const [selectedOrders, setSelectedOrders] = useState([]); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   return (
     <section className="section remPadTop">
@@ -85,20 +85,20 @@ export function PharmacyBillingList() {
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
 
-  const handleSelectedClient = async (Client) => {
+  const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -110,7 +110,7 @@ export function PharmacyBillingList() {
     if (oldClient !== newClient) {
       //alert("New Client Onboard")
       //remove all checked clientsly
-      selectedOrders.forEach((el) => (el.checked = ""));
+      selectedOrders.forEach(el => (el.checked = ""));
       setSelectedOrders([]);
     }
 
@@ -124,17 +124,17 @@ export function PharmacyBillingList() {
       show: "detail",
       state: e.target.checked,
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
 
     //set of checked items
     if (e.target.checked) {
-      await setSelectedOrders((prevstate) => prevstate.concat(order));
+      await setSelectedOrders(prevstate => prevstate.concat(order));
     } else {
-      setSelectedOrders((prevstate) =>
-        prevstate.filter((el) => el._id !== order._id)
+      setSelectedOrders(prevstate =>
+        prevstate.filter(el => el._id !== order._id)
       );
     }
 
@@ -164,14 +164,14 @@ export function PharmacyBillingList() {
       selectedDispense: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
     //console.log(val)
     BillServ.find({
@@ -214,13 +214,13 @@ export function PharmacyBillingList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         // console.log(res)
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -264,10 +264,10 @@ export function PharmacyBillingList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    BillServ.on("created", (obj) => getFacilities());
-    BillServ.on("updated", (obj) => getFacilities());
-    BillServ.on("patched", (obj) => getFacilities());
-    BillServ.on("removed", (obj) => getFacilities());
+    BillServ.on("created", obj => getFacilities());
+    BillServ.on("updated", obj => getFacilities());
+    BillServ.on("patched", obj => getFacilities());
+    BillServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -280,7 +280,7 @@ export function PharmacyBillingList() {
 
   useEffect(() => {
     if (state.financeModule.show === "create") {
-      selectedOrders.forEach((el) => (el.checked = ""));
+      selectedOrders.forEach(el => (el.checked = ""));
       setSelectedOrders([]);
     }
     return () => {};
@@ -289,40 +289,40 @@ export function PharmacyBillingList() {
   const handleCreate = () => {};
   const onRowClicked = () => {};
   const PaymentsSummary = [
-    { name: "S/N", selector: (row) => row.sn },
-    { name: "Client Name", selector: (row) => row.clientname },
-    { name: "Bills", selector: (row) => row.bills.length },
+    {name: "S/N", selector: row => row.sn},
+    {name: "Client Name", selector: row => row.clientname},
+    {name: "Bills", selector: row => row.bills.length},
     {
       name: "Bill Items",
-      selector: (row) => row.bills.map((obj) => obj.order).flat().length,
+      selector: row => row.bills.map(obj => obj.order).flat().length,
     },
   ];
 
   return (
     <>
-      <PageWrapper style={{ flexDirection: "column", padding: "0.6rem 1rem" }}>
+      <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
         <TableMenu>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
               List of Payment
             </h2>
           </div>
 
           {handleCreate && (
             <Button
-              style={{ fontSize: "14px", fontWeight: "600" }}
+              style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
               onClick={handleCreate}
             />
           )}
         </TableMenu>
 
-        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+        <div style={{width: "100%", height: "600px", overflow: "auto"}}>
           <CustomTable
             title={""}
             columns={PaymentsSummary}
@@ -350,7 +350,7 @@ export function DispenseDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const BillServ = client.service("order");
   /* const [ProductEntry, setProductEntry] = useState("")
     const [facilities, setFacilities] = useState("") */
@@ -358,7 +358,7 @@ export function DispenseDetail() {
   let ProductEntry = state.DispenseModule.selectedDispense;
   //const facilities=ProductEntry.orders
 
-  const handleRow = async (ProductEntry) => {
+  const handleRow = async ProductEntry => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -369,7 +369,7 @@ export function DispenseDetail() {
       selectedMedication: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -377,12 +377,12 @@ export function DispenseDetail() {
     // ProductEntry.show=!ProductEntry.show
   };
 
-  const handleEdit = async (ProductEntry) => {
+  const handleEdit = async ProductEntry => {
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
@@ -390,7 +390,7 @@ export function DispenseDetail() {
   };
 
   useEffect(() => {
-    const client1 = state.currentClients.find((el) => {
+    const client1 = state.currentClients.find(el => {
       return (
         JSON.stringify(el.client_id) ===
         JSON.stringify(state.DispenseModule.selectedDispense)
@@ -412,12 +412,12 @@ export function DispenseDetail() {
         BillServ.on('updated', (obj)=>getFacilities())
        
         BillServ.on('removed', (obj)=>getFacilities()) */
-    BillServ.on("patched", (obj) => {
+    BillServ.on("patched", obj => {
       //update state.DispenseModule.selectedDispense
       // console.log(obj.clientId)
       // console.log("currentClients",state.currentClients)
       const current1 = state.currentClients.find(
-        (el) => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
+        el => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
       );
       setCurrentOrder(current1);
       // console.log("currentone",current1)

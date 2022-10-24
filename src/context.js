@@ -25,6 +25,9 @@ export default function MyUserProvider({ children }) {
       }
     })();
   }, []);
+  // const setLocationType =() => {
+  //     console.log("location")
+  // }
 
   const { Provider } = UserContext;
   return (

@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const PageWrapper = styled.div`
   display: flex;
+<<<<<<< HEAD
+=======
   flex-direction: "column";
+>>>>>>> refs/remotes/origin/frontend
 `;
 
 export const AuthContainer = styled.div`
@@ -10,7 +13,7 @@ export const AuthContainer = styled.div`
   height: 100vh;
   padding-top: 12%;
   padding-bottom: 4%;
-  background: ${({ theme }) => theme.background};
+  background: ${({theme}) => theme.background};
   display: flex;
   align-items: center;
   justify-content: center;

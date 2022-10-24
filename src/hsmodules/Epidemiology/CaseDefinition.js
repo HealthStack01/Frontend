@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
 /* import {ProductCreate} from './Products' */
@@ -34,9 +34,9 @@ export default function CaseDefinition() {
   // eslint-disable-next-line
   const [selectedOrders, setSelectedOrders] = useState([]); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   return (
     <section className="section remPadTop">
@@ -66,7 +66,7 @@ export default function CaseDefinition() {
 }
 
 export function CaseDefinitionCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -74,7 +74,7 @@ export function CaseDefinitionCreate() {
   const [facility, setFacility] = useState();
   const BandServ = client.service("casedefinition");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const bandTypeOptions = ["Immediate Notification", "Weekly", "Monthly"];
@@ -102,7 +102,7 @@ export function CaseDefinitionCreate() {
   const [mgtProtocol, setMgtProtocol] = useState("");
   const [notified, setNotified] = useState("");
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -125,12 +125,12 @@ export function CaseDefinitionCreate() {
       });
     }
   });
-  const handleChecked = (e) => {
+  const handleChecked = e => {
     // console.log(e.target.checked)
     setSympreq(e.target.checked);
   };
 
-  const handleChecked2 = (e) => {
+  const handleChecked2 = e => {
     // console.log(e.target.checked)
     setFindingreq(e.target.checked);
   };
@@ -155,7 +155,7 @@ export function CaseDefinitionCreate() {
     }
     if (symptoms.length > 0) {
       let sympcollection = [];
-      symptoms.forEach((el) => {
+      symptoms.forEach(el => {
         let obs = {
           category: "symptoms",
           name: el.symptom,
@@ -174,7 +174,7 @@ export function CaseDefinitionCreate() {
     }
     if (findings.length > 0) {
       let findingscollection = [];
-      findings.forEach((el) => {
+      findings.forEach(el => {
         let obs = {
           category: "Signs",
           name: el.finding,
@@ -191,7 +191,7 @@ export function CaseDefinitionCreate() {
     }
     if (labs.length > 0) {
       let labscollection = [];
-      labs.forEach((el) => {
+      labs.forEach(el => {
         let obs = {
           category: "Laboratory",
           name: el.lab,
@@ -221,7 +221,7 @@ export function CaseDefinitionCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     BandServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Band successfully") */
@@ -239,7 +239,7 @@ export function CaseDefinitionCreate() {
         });
         setSuccess(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Band " + err,
           type: "is-danger",
@@ -255,7 +255,7 @@ export function CaseDefinitionCreate() {
       sympreq,
     };
     console.log(newsymptom);
-    setSymptoms((prev) => [...prev, newsymptom]);
+    setSymptoms(prev => [...prev, newsymptom]);
     // setAllergy({})
     setSymptom("");
     setDuration("");
@@ -267,7 +267,7 @@ export function CaseDefinitionCreate() {
       findingreq,
     };
     console.log(newFinding);
-    setFindings((prev) => [...prev, newFinding]);
+    setFindings(prev => [...prev, newFinding]);
     // setAllergy({})
     setFinding("");
     setFindingreq(false);
@@ -278,7 +278,7 @@ export function CaseDefinitionCreate() {
       labvalue,
     };
     console.log(newLabs);
-    setLabs((prev) => [...prev, newLabs]);
+    setLabs(prev => [...prev, newLabs]);
     // setAllergy({})
     setLab("");
     setLabvalue("");
@@ -286,15 +286,15 @@ export function CaseDefinitionCreate() {
   };
   const onDelete = (comp, i) => {
     //console.log(comp,i)
-    setSymptoms((prevstate) => prevstate.filter((el, index) => index !== i));
+    setSymptoms(prevstate => prevstate.filter((el, index) => index !== i));
   };
   const onDeleteFinding = (comp, i) => {
     //console.log(comp,i)
-    setFindings((prevstate) => prevstate.filter((el, index) => index !== i));
+    setFindings(prevstate => prevstate.filter((el, index) => index !== i));
   };
   const onDeleteLab = (comp, i) => {
     //console.log(comp,i)
-    setLabs((prevstate) => prevstate.filter((el, index) => index !== i));
+    setLabs(prevstate => prevstate.filter((el, index) => index !== i));
   };
   return (
     <>
@@ -317,7 +317,7 @@ export function CaseDefinitionCreate() {
                 <div className="select is-small ">
                   <select
                     name="notificationtype"
-                    ref={register({ required: true })}
+                    ref={register({required: true})}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Notification Type </option>
@@ -335,7 +335,7 @@ export function CaseDefinitionCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  ref={register({required: true})}
                   name="disease"
                   type="text"
                   placeholder="Name of Disease"
@@ -367,7 +367,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={symptom}
-                        /* ref={register} */ onChange={(e) => {
+                        /* ref={register} */ onChange={e => {
                           setSymptom(e.target.value);
                         }}
                         name="symptom"
@@ -381,7 +381,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={duration}
-                        /* ref={register} */ onChange={(e) => {
+                        /* ref={register} */ onChange={e => {
                           setDuration(e.target.value);
                         }}
                         name="durationn"
@@ -396,7 +396,7 @@ export function CaseDefinitionCreate() {
                         type="checkbox"
                         value={sympreq}
                         name="sympreq"
-                        onChange={(e) => {
+                        onChange={e => {
                           handleChecked(e);
                         }} /* ref={register} */
                       />
@@ -473,7 +473,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={finding}
-                        /* ref={register} */ onChange={(e) => {
+                        /* ref={register} */ onChange={e => {
                           setFinding(e.target.value);
                         }}
                         name="finding"
@@ -489,7 +489,7 @@ export function CaseDefinitionCreate() {
                         type="checkbox"
                         value={findingreq}
                         name="sympreq"
-                        onChange={(e) => {
+                        onChange={e => {
                           handleChecked2(e);
                         }} /* ref={register} */
                       />
@@ -566,7 +566,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={lab}
-                        /* ref={register} */ onChange={(e) => {
+                        /* ref={register} */ onChange={e => {
                           setLab(e.target.value);
                         }}
                         name="lab"
@@ -580,7 +580,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={labvalue}
-                        /* ref={register} */ onChange={(e) => {
+                        /* ref={register} */ onChange={e => {
                           setLabvalue(e.target.value);
                         }}
                         name="lab value"
@@ -652,7 +652,7 @@ export function CaseDefinitionCreate() {
                     <textarea
                       className="textarea is-small"
                       value={mgtProtocol}
-                      /* ref={register} */ onChange={(e) => {
+                      /* ref={register} */ onChange={e => {
                         setMgtProtocol(e.target.value);
                       }}
                       name="mgtProtocol"
@@ -669,7 +669,7 @@ export function CaseDefinitionCreate() {
                 <div className="select is-small ">
                   <select
                     name="notifiedPerson"
-                    ref={register({ required: true })}
+                    ref={register({required: true})}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Person to Notify </option>
@@ -710,22 +710,22 @@ export function CaseDefinitionList() {
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedEpid: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
     //console.log(state)
   };
-  const handleRow = async (Band) => {
+  const handleRow = async Band => {
     //console.log("b4",state)
 
     //console.log("handlerow",Band)
@@ -736,14 +736,14 @@ export function CaseDefinitionList() {
       selectedEpid: Band,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
     console.log(newBandModule);
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "disease.name";
     console.log(val);
     BandServ.find({
@@ -759,13 +759,13 @@ export function CaseDefinitionList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Band  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Band, probable network issues " + err);
         setError(true);
@@ -827,10 +827,10 @@ export function CaseDefinitionList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    BandServ.on("created", (obj) => getFacilities());
-    BandServ.on("updated", (obj) => getFacilities());
-    BandServ.on("patched", (obj) => getFacilities());
-    BandServ.on("removed", (obj) => getFacilities());
+    BandServ.on("created", obj => getFacilities());
+    BandServ.on("updated", obj => getFacilities());
+    BandServ.on("patched", obj => getFacilities());
+    BandServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -851,7 +851,7 @@ export function CaseDefinitionList() {
                       placeholder="Search Bands"
                       minLength={3}
                       debounceTimeout={400}
-                      onChange={(e) => handleSearch(e.target.value)}
+                      onChange={e => handleSearch(e.target.value)}
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-search"></i>
@@ -949,7 +949,7 @@ export function CaseDefinitionDetail() {
   //const BandServ=client.service('/Band')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Band = state.EpidemiologyModule.selectedEpid;
 
@@ -958,7 +958,7 @@ export function CaseDefinitionDetail() {
       EpidemiologyModule: Band,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
@@ -1153,7 +1153,7 @@ export function CaseDefinitionDetail() {
 }
 
 export function CaseDefinitionModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1164,8 +1164,8 @@ export function CaseDefinitionModify() {
   const BandServ = client.service("casedefinition");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Band = state.EpidemiologyModule.selectedBand;
 
@@ -1211,10 +1211,7 @@ export function CaseDefinitionModify() {
       selectedBand: {},
       show: "create",
     };
-    await setState((prevstate) => ({
-      ...prevstate,
-      BandModule: newBandModule,
-    }));
+    await setState(prevstate => ({...prevstate, BandModule: newBandModule}));
     //console.log(state)
   };
 
@@ -1223,7 +1220,7 @@ export function CaseDefinitionModify() {
       selectedBand: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, BandModule: newBandModule }));
+    setState(prevstate => ({...prevstate, BandModule: newBandModule}));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -1231,7 +1228,7 @@ export function CaseDefinitionModify() {
     const dleteId = Band._id;
     if (conf) {
       BandServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Band successfully")
@@ -1248,7 +1245,7 @@ export function CaseDefinitionModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Band, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1274,7 +1271,7 @@ export function CaseDefinitionModify() {
     //console.log(data);
 
     BandServ.patch(Band._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Band successfully")
@@ -1287,7 +1284,7 @@ export function CaseDefinitionModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Band, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1314,7 +1311,7 @@ export function CaseDefinitionModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({ required: true })}
+                    ref={register({required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1331,7 +1328,7 @@ export function CaseDefinitionModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({ required: true })}
+                    ref={register({required: true})}
                     disabled
                     name="bandType"
                     type="text"
@@ -1440,7 +1437,7 @@ export function CaseDefinitionModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
+export function InputSearch({getSearchfacility, clear}) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1457,7 +1454,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1474,7 +1471,7 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1492,7 +1489,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -1510,13 +1507,13 @@ export function InputSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1550,8 +1547,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

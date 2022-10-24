@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
 //import BillDispenseCreate from './BillPrescriptionCreate'
 import PatientProfile from "../Client/PatientProfile";
 /* import {ProductCreate} from './Products' */
@@ -15,7 +15,7 @@ import PatientProfile from "../Client/PatientProfile";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
-export default function ClientBilledPrescription({ selectedClient }) {
+export default function ClientBilledPrescription({selectedClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -30,26 +30,26 @@ export default function ClientBilledPrescription({ selectedClient }) {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState("");
 
   console.log(selectedClient);
 
-  const handleSelectedClient = async (Client) => {
+  const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-  const handleMedicationRow = async (ProductEntry) => {
+  const handleMedicationRow = async ProductEntry => {
     //handle selected single order
     //console.log("b4",state)
 
@@ -62,7 +62,7 @@ export default function ClientBilledPrescription({ selectedClient }) {
       selectedMedication: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -75,14 +75,14 @@ export default function ClientBilledPrescription({ selectedClient }) {
       selectedDispense: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
     //console.log(val)
     OrderServ.find({
@@ -106,13 +106,13 @@ export default function ClientBilledPrescription({ selectedClient }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         // console.log(res)
         setClientOrders(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -148,21 +148,21 @@ export default function ClientBilledPrescription({ selectedClient }) {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    OrderServ.on("created", (obj) => getFacilities());
-    OrderServ.on("updated", (obj) => getFacilities());
-    OrderServ.on("patched", (obj) => getFacilities());
-    OrderServ.on("removed", (obj) => getFacilities());
+    OrderServ.on("created", obj => getFacilities());
+    OrderServ.on("updated", obj => getFacilities());
+    OrderServ.on("patched", obj => getFacilities());
+    OrderServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
-  const handleRow = async (ProductEntry) => {
+  const handleRow = async ProductEntry => {
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
