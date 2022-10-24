@@ -4,7 +4,7 @@ import Store, {StoreList} from "./Clinic";
 import {UserContext, ObjectContext} from "../../context";
 import {Outlet} from "react-router-dom";
 
-export default function ClinicHome() {
+export default function ClinicHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const handleCloseModal = () => {
