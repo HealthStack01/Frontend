@@ -26,10 +26,7 @@ export default function MyUserProvider({children}){
            //navigate("/")
         }  
     })()},[])
-    const setLocationType =() => {
-        console.log("location")
-    }
-
+   
    const { Provider } = UserContext
    return(
        <Provider value={{user,setUser,setLocationType}}>

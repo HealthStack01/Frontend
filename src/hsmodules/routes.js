@@ -11,9 +11,10 @@ import PrivateOutlet from './PrivateOutlet';
 import Overview from './app/Overview';
 
 import BillLab from './Laboratory/BillLab'
-/* import BillPrescription from './Finance/BillPrescription'
-import BillPrescription from './inventory/BillPrescription' */
-import BillPrescription from './Pharmacy/BillPrescription'
+import BillPrescription from './Finance/BillPrescription'
+import InventoryBillPrescription from './inventory/BillPrescription'
+
+import PharmcyBillPrescription from './Pharmacy/BillPrescription'
 import BillRadiology from './Radiology/BillRadiology'
 import BillService from './Finance/BillService'
 import BillTheatre from './Theatre/BillTheatre'
@@ -57,8 +58,8 @@ import FrontDesk, { FrontDeskList } from './ClientMgt/FrontDesk'
 import HMOauth from './Finance/HMOauth'
 import InventoryHome from './inventory/InventoryHome'
 /* import InventoryReport from './inventory/InventoryReport' */
-import InventoryReport from './Pharmacy/InventoryReport'
-/* import InventorySetup from './inventory/InventorySetup' */
+import PharmacyReport from './Pharmacy/InventoryReport'
+import InventorySetup from './inventory/InventorySetup'
 import InventorySetup from './Pharmacy/InventorySetup'
 /* import InventoryStore from './inventory/InventoryStore' */
 import InventoryStore from './Pharmacy/InventoryStore'
@@ -138,6 +139,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signupindividual" element={<IndividualSignup />} />
+        {/*   protected route */}
           <Route path="/app" element={<PrivateOutlet />}>
             <Route index element={<Overview />} /> 
   
