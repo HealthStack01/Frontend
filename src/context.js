@@ -5,7 +5,7 @@ export default function MyUserProvider({ children }) {
   //const [data, setData] = useState(null)
   const [user, setUser] = useState(null);
   const [location, setLocation] = useState(null);
-  const [locationType, setLocationType] = useState('Front Desk');
+  // const [locationType, setLocationType] = useState('Front Desk');
 
   useEffect(() => {
     (async () => {
@@ -26,15 +26,12 @@ export default function MyUserProvider({ children }) {
     })();
   }, []);
 
-  // const setLocationType =() => {
-  //     console.log("location")
-  // }
-
   const { Provider } = UserContext;
   return (
     <Provider value={{ user, setUser, setLocationType }}>{children}</Provider>
   );
 }
+
 export const UserContext = createContext();
 export const ObjectContext = createContext();
 export const MessageContext = createContext();

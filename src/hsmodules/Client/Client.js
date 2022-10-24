@@ -16,10 +16,14 @@ import ClientBilledPrescription from '../Finance/ClientBill'
 import ClientGroup from './ClientGroup';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import {ClientMiniSchema} from "./schema"
 // eslint-disable-next-line
 const searchfacility={};
-
-
 export default function Client() {
     const {state}=useContext(ObjectContext) //,setState
     // eslint-disable-next-line
@@ -699,6 +703,7 @@ export function ClientList(){
     const [page, setPage] = useState(0) 
     const [limit, setLimit] = useState(50) 
     const [total, setTotal] = useState(0) 
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -863,89 +868,52 @@ export function ClientList(){
                  }
              }, [facilities])
     //todo: pagination and vertical scroll bar
+    const handleCreate = () => {};
+    const onRowClicked = () => {};
 
     return(
         <>
            {user?( <>  
                 <div className="level">
-                    <div className="level-left">
-                        <div className="level-item">
-                            <div className="field">
-                                <p className="control has-icons-left  ">
-                                    <DebounceInput className="input is-small " 
-                                        type="text" placeholder="Search Clients"
-                                        minLength={3}
-                                        debounceTimeout={400}
-                                        onChange={(e)=>handleSearch(e.target.value)} />
-                                    <span className="icon is-small is-left">
-                                        <i className="fas fa-search"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Clients </span></div>
-                    <div className="level-right">
-                        <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>
-                    </div>
-
+                    <PageWrapper
+                style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              >
+                <TableMenu>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {handleSearch && (
+                      <div className="inner-table">
+                        <FilterMenu onSearch={handleSearch} />
+                      </div>
+                    )}
+                    <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                      List of Clients
+                    </h2>
+                  </div>
+                  {handleCreate && (
+                    <Button
+                      style={{ fontSize: "14px", fontWeight: "600" }}
+                      label="Add new "
+                      onClick={handleCreate}
+                    />
+                  )}
+                </TableMenu>
+                <div
+                  style={{ width: "100%", height: "600px", overflow: "auto" }}
+                >
+                  <CustomTable
+                    title={""}
+                    columns={ClientMiniSchema}
+                    data={facilities}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={onRowClicked}
+                    progressPending={loading}
+                  />
                 </div>
-                <div className="table-container pullup  vscrola"  id="scrollableDiv">
-                <InfiniteScroll
-                        dataLength={facilities.length}
-                        next={getFacilities}
-                        hasMore={total>facilities.length}
-                        loader={<h4>Loading...</h4>}
-                        scrollableTarget="scrollableDiv"
-                    >
-                                <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                                    <thead>
-                                        <tr>
-                                        <th><abbr title="Serial No">S/No</abbr></th>
-                                        <th><abbr title="Last Name">Last Name</abbr></th>
-                                        <th>First Name</th>
-                                        <th><abbr title="Middle Name">Middle Name</abbr></th>
-                                        <th><abbr title="Age">Payment Mode</abbr></th>
-                                       <th><abbr title="Age">Age</abbr></th>
-                                        <th><abbr title="Gender">Gender</abbr></th> 
-                                        <th><abbr title="Phone">Phone</abbr></th>
-                                        <th><abbr title="Email">Email</abbr></th>
-                                        <th><abbr title="Tags">Tags</abbr></th>
-                                        {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        
-                                    </tfoot>
-                                    <tbody>
-                                        {facilities.map((Client, i)=>(
-
-                                            <tr key={Client._id} onClick={()=>handleRow(Client)}  className={Client._id===(selectedClient?._id||null)?"is-selected":""}>
-                                            <td>{i+1}</td>
-                                            <th>{Client.lastname}</th>
-                                            <td>{Client.firstname}</td>
-                                            <td>{Client.middlename}</td>
-                                            <td>{Client.paymentinfo.map((pay,i)=>(
-                                                <>
-                                                {pay.paymentmode} {pay.paymentmode==="Cash"?"":":" } {pay.organizationName}<br></br>
-                                                </>
-                                            ))}</td>
-                                           <td>{Client.dob && <>{formatDistanceToNowStrict(new Date(Client.dob))}</>}</td>
-                                            <td>{Client.gender}</td>
-                                             <td>{Client.phone}</td>
-                                            <td>{Client.email}</td>
-                                            <td>{Client.clientTags}</td>
-                                           {/*  <td><span   className="showAction"  >...</span></td> */}
-                                           
-                                            </tr>
-
-                                        ))}
-                                    </tbody>
-                                    </table>
-                                    </InfiniteScroll>                  
-                </div>              
+              </PageWrapper>
+            </div>               
+                         
             </>):<div>loading</div>}
         </>
               

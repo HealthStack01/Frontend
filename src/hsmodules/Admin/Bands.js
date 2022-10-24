@@ -24,7 +24,7 @@ export default function Bands() {
      
     return(
         <section className= "section remPadTop">
-           {/*  <div className="level">
+       =    {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
             <div >
