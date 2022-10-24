@@ -9,12 +9,12 @@ import IndividualSignup from "./auth/IndividualSignup";
 import Signup from "./auth/Signup";
 import PrivateOutlet from "./PrivateOutlet";
 import Overview from "./app/Overview";
-
+import PharmacyDispense from "./Pharmacy/Dispensary";
 import BillLab from "./Laboratory/BillLab";
 import BillPrescription from "./Finance/BillPrescription";
 import InventoryBillPrescription from "./inventory/BillPrescription";
-
-import PharmcyBillPrescription from "./Pharmacy/BillPrescription";
+import PharmacyBillService from "./Pharmacy/BillService";
+import PharmacyBillPrescription from "./Pharmacy/BillPrescription";
 import BillRadiology from "./Radiology/BillRadiology";
 import BillService from "./Finance/BillService";
 import BillTheatre from "./Theatre/BillTheatre";
@@ -27,8 +27,7 @@ import ClinicSetup from "./Clinic/ClinicSetup";
 import ClinicStore from "./Clinic/ClinicStore";
 import Collections from "./Finance/Collections";
 import Dashboard from "./Epidemiology/DashBoard";
-/* import Dispense from './inventory/Dispensary' */
-import Dispense from "./Pharmacy/Dispensary";
+import InventoryDispense from "./inventory/Dispensary";
 import Encounter from "./EncounterMgt/Encounter";
 import EpidemiologyHome from "./Epidemiology/EpidemiologyHome";
 import Expense from "./Accounts/Expense";
@@ -57,11 +56,14 @@ import useRepository from "../components/hooks/repository";
 import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
-/* import InventoryReport from './inventory/InventoryReport' */
+import InventoryReport from "./inventory/InventoryReport";
 import PharmacyReport from "./Pharmacy/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
+import PharmacyInventoryStore from "./inventory/InventoryStore";
 /* import InventorySetup from './Pharmacy/InventorySetup' */
-
+import PharmacyProductEntry from "./Pharmacy/ProductEntry";
+import PharmacyProductExit from "./Pharmacy/ProductExit";
+import PharmacyTransfer from "./Pharmacy/Transfer";
 import InventoryStore from "./Pharmacy/InventoryStore";
 import Journal from "./Accounts/Journal";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";

@@ -18,7 +18,7 @@ import PatientProfile from "../Client/PatientProfile";
 import { ProductExitCreate } from "./DispenseExit";
 //import BillPrescriptionCreate from './BillPrescriptionCreate';
 
-export default function Dispense() {
+export default function PharmacyDispense() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
