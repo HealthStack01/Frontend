@@ -14,7 +14,6 @@ import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
 // eslint-disable-next-line
-
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -507,6 +506,7 @@ export function ClientList() {
   const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -642,6 +642,7 @@ export function ClientList() {
   };
 
   const getFacilities = async () => {
+    console.log(user);
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
@@ -651,13 +652,14 @@ export function ClientList() {
           createdAt: -1,
         },
       };
-      if (state.employeeLocation.locationType !== "Front Desk") {
-        stuff.locationId = state.employeeLocation.locationId;
-      }
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
 
       const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
+      console.log(findClient.data);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -710,9 +712,9 @@ export function ClientList() {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
-      query.locationId = state.employeeLocation.locationId;
-    }
+    // if (state.employeeLocation.locationType !== "Front Desk") {
+    //   query.locationId = state.employeeLocation.locationId;
+    // }
 
     const findClient = await ClientServ.find({ query: query });
 
@@ -725,6 +727,7 @@ export function ClientList() {
 
   useEffect(() => {
     if (!!startDate) {
+      alert("Start date fired");
       handleCalendarClose();
     } else {
       getFacilities();
@@ -733,32 +736,124 @@ export function ClientList() {
     return () => {};
   }, [startDate]);
   //todo: pagination and vertical scroll bar
+  const handleCreate = () => {};
+  const ClientAppointmentSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date/Time",
+      key: "createdAt",
+      description: "Enter Date and Time",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "Enter First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: (row) => row.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Classification",
+      key: "dob",
+      description: "Date of Birth",
+      selector: (row) => row.dob,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Location",
+      key: "loaction_name",
+      description: "Enter Location",
+      selector: (row) => row.location_name,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+    },
+
+    {
+      name: "Type",
+      key: "location_type",
+      description: "Enter Location Type",
+      selector: (row) => row.location_type,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+    },
+
+    {
+      name: "Status",
+      key: "appointment_status",
+      description: "Enter appointment status",
+      selector: (row) => row.appointment_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Reason",
+      key: "appointment_reason",
+      description: "Enter appointment reason",
+      selector: (row) => row.appointment_reason,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Practitioner",
+      key: "practitioner_name",
+      description: "Enter Practitioner Name",
+      selector: (row) => row.practitioner_name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
       {user ? (
         <>
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Appointments"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={(e) => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="level-item">
+          <PageWrapper
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          >
+            <TableMenu>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch}  />
+                  </div>
+                )}
+                <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                  Appointment
+                </h2>
                 <DatePicker
                   selected={startDate}
                   onChange={(date) => handleDate(date)}
@@ -766,106 +861,30 @@ export function ClientList() {
                   placeholderText="Filter By Date"
                   isClearable
                 />
-                {/* <input name="filter_time"  ref={register ({ required: true })}  type="datetime-local" /> */}
               </div>
+
+              {handleCreate && (
+                <Button
+                  style={{ fontSize: "0.75rem", fontWeight: "600" }}
+                  label="Add new "
+                  onClick={handleCreate}
+                />
+              )}
+            </TableMenu>
+
+            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <CustomTable
+                title={""}
+                columns={ClientAppointmentSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={loading}
+              />
             </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                Appointments{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Time">Date/Time</abbr>
-                  </th>
-                  <th>First Name</th>
-                  <th>
-                    <abbr title="Last Name">Last Name</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Class">Classification</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Location">Location</abbr>
-                  </th>
-                  {/* <th><abbr title="Phone">Phone</abbr></th>
-                   */}
-                  <th>
-                    <abbr title="Type">Type</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Status">Status</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Reason">Reason</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Practitioner">Practitioner</abbr>
-                  </th>
-                  {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Client, i) => (
-                  <tr
-                    key={Client._id}
-                    onClick={() => handleRow(Client)}
-                    className={
-                      Client._id === (selectedAppointment?._id || null)
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <td>
-                      <strong>
-                        {format(
-                          new Date(Client.start_time),
-                          "dd-MM-yy HH:mm:ss"
-                        )}
-                      </strong>
-                    </td>
-                    <th>{Client.firstname}</th>
-                    {/* <td>{Client.middlename}</td> */}
-                    <td>{Client.lastname}</td>
-                    {/*  < td>{formatDistanceToNowStrict(new Date(Client.dob))}</td> */}
-                    {/*  <td>{Client.gender}</td> */}
-                    {/*  <td>{Client.phone}</td> */}
-                    <td>{Client.appointmentClass}</td>
-                    <td>
-                      {Client.location_name} {Client.location_type}
-                    </td>
-                    <td>{Client.appointment_type}</td>
-                    <td>{Client.appointment_status}</td>
-                    <td>{Client.appointment_reason}</td>
-                    <td>{Client.practitioner_name}</td>
-                    {/* <td><span   className="showAction"  >...</span></td> */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          </PageWrapper>
         </>
       ) : (
         <div>loading</div>

@@ -1,15 +1,20 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {format, formatDistanceToNowStrict} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { format, formatDistanceToNowStrict } from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
 import LaboratoryReportForm from "../clientForm/forms/laboratoryReportForm";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -35,9 +40,9 @@ export default function LabReport() {
   // eslint-disable-next-line
   const [selectedOrders, setSelectedOrders] = useState([]); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   return (
     <section className="section remPadTop">
@@ -78,20 +83,20 @@ export function LabOrderList() {
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
 
-  const handleSelectedClient = async Client => {
+  const handleSelectedClient = async (Client) => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -103,7 +108,7 @@ export function LabOrderList() {
     if (oldClient !== newClient) {
       //alert("New Client Onboard")
       //remove all checked clientsly
-      selectedOrders.forEach(el => (el.checked = ""));
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
     }
 
@@ -117,23 +122,23 @@ export function LabOrderList() {
       show: "detail",
       state: e.target.checked,
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
 
     //set of checked items
     if (e.target.checked) {
-      await setSelectedOrders(prevstate => prevstate.concat(order));
+      await setSelectedOrders((prevstate) => prevstate.concat(order));
     } else {
-      setSelectedOrders(prevstate =>
-        prevstate.filter(el => el._id !== order._id)
+      setSelectedOrders((prevstate) =>
+        prevstate.filter((el) => el._id !== order._id)
       );
     }
 
     // console.log(selectedOrders)
   };
-  const handleMedicationRow = async order => {
+  const handleMedicationRow = async (order) => {
     await handleSelectedClient(order.orderInfo.orderObj.client);
 
     await setSelectedFinance(order);
@@ -146,13 +151,13 @@ export function LabOrderList() {
       show: "detail",
       report_status: order.report_status,
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     //console.log(val)
     BillServ.find({
@@ -203,13 +208,13 @@ export function LabOrderList() {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         // console.log(res)
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -253,10 +258,10 @@ export function LabOrderList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    BillServ.on("created", obj => getFacilities());
-    BillServ.on("updated", obj => getFacilities());
-    BillServ.on("patched", obj => getFacilities());
-    BillServ.on("removed", obj => getFacilities());
+    BillServ.on("created", (obj) => getFacilities());
+    BillServ.on("updated", (obj) => getFacilities());
+    BillServ.on("patched", (obj) => getFacilities());
+    BillServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -266,7 +271,7 @@ export function LabOrderList() {
 
   useEffect(() => {
     if (state.financeModule.show === "create") {
-      selectedOrders.forEach(el => (el.checked = ""));
+      selectedOrders.forEach((el) => (el.checked = ""));
       setSelectedOrders([]);
     }
     return () => {};
@@ -285,7 +290,7 @@ export function LabOrderList() {
                   placeholder="Search Bills"
                   minLength={3}
                   debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-search"></i>
@@ -371,7 +376,7 @@ export function LabOrderList() {
 }
 
 export function LabNoteCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -379,16 +384,16 @@ export function LabNoteCreate() {
   const [facility, setFacility] = useState();
   //const ClientServ=client.service('labresults')
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [reportStatus, setReportStatus] = useState("Draft");
   const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -446,7 +451,7 @@ export function LabNoteCreate() {
 
     if (bill_report_status === "Pending") {
       ClientServ.create(document)
-        .then(res => {
+        .then((res) => {
           e.target.reset();
 
           setSuccess(true);
@@ -458,7 +463,7 @@ export function LabNoteCreate() {
           });
           setSuccess(false);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating Lab Result " + err,
             type: "is-danger",
@@ -470,7 +475,7 @@ export function LabNoteCreate() {
 
     if (bill_report_status === "Draft") {
       ClientServ.patch(order.resultDetail._id, document)
-        .then(res => {
+        .then((res) => {
           e.target.reset();
 
           setSuccess(true);
@@ -482,7 +487,7 @@ export function LabNoteCreate() {
           });
           setSuccess(false);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error updating Lab Result " + err,
             type: "is-danger",
@@ -496,13 +501,13 @@ export function LabNoteCreate() {
       show: "show",
       // report_status:order.report_status
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
   };
 
-  const handleChangePart = async e => {
+  const handleChangePart = async (e) => {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
@@ -597,7 +602,7 @@ export function LabNoteCreate() {
                   checked={
                     reportStatus === "Draft" || reportStatus === "Pending"
                   }
-                  onChange={e => {
+                  onChange={(e) => {
                     handleChangePart(e);
                   }}
                   disabled={bill_report_status === "Final"}
@@ -611,7 +616,7 @@ export function LabNoteCreate() {
                   name="status"
                   value="Final"
                   checked={reportStatus === "Final"}
-                  onChange={e => handleChangePart(e)}
+                  onChange={(e) => handleChangePart(e)}
                   disabled={bill_report_status === "Final"}
                 />
                 <span> Final </span>

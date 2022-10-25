@@ -2,6 +2,7 @@ export const customStyles = {
   header: {
     style: {
       minHeight: "40px",
+      fontSize: "0.75rem",
     },
   },
   headRow: {

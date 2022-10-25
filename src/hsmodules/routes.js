@@ -118,6 +118,8 @@ import TheatreReport from "./Theatre/TheatreReport";
 
 import { Models } from "./app/Constants";
 import ClientPayment from "./Client/Payment";
+// import ClientsAppointments from "./Clients/Appointments";
+import ClientsAppointments from "./Client/Appointments";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -193,6 +195,10 @@ const AppRoutes = () => {
           <Route path="/app/clients/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
           <Route path="/app/clients/payment" element={<ClientPayment />} />
+          <Route
+            path="/app/clients/appointments"
+            element={<ClientsAppointments />}
+          />
 
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 
-export default function PharmacyInventoryReport() {
+export default function InventoryReport() {
   return (
     <section className="section remPadTop">
       <div className="level">
