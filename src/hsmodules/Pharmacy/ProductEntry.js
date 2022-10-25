@@ -1,4 +1,5 @@
 /* eslint-disable */
+<<<<<<< HEAD
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
@@ -8,12 +9,30 @@ import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { ProductCreate } from "./Products";
 import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+=======
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+//import {useNavigate} from 'react-router-dom'
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {ProductCreate} from "./Products";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
 import DatePicker from "react-datepicker";
 import InfiniteScroll from "react-infinite-scroll-component";
+
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
 // eslint-disable-next-line
 const searchfacility = {};
+<<<<<<< HEAD
 
 export default function PharmacyProductEntry() {
   const { state } = useContext(ObjectContext); //,setState
@@ -21,6 +40,15 @@ export default function PharmacyProductEntry() {
   const [selectedProductEntry, setSelectedProductEntry] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
 
+=======
+
+export default function ProductEntry() {
+  const {state} = useContext(ObjectContext); //,setState
+  // eslint-disable-next-line
+  const [selectedProductEntry, setSelectedProductEntry] = useState();
+  //const [showState,setShowState]=useState() //create|modify|detail
+
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
@@ -51,7 +79,11 @@ export function ProductEntryCreate() {
   const [facility, setFacility] = useState();
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
+<<<<<<< HEAD
   const { user } = useContext(UserContext); //,setUser
+=======
+  const {user} = useContext(UserContext); //,setUser
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Purchase Invoice");
@@ -65,7 +97,11 @@ export function ProductEntryCreate() {
   const [quantity, setQuantity] = useState("");
   const [costprice, setCostprice] = useState("");
   const [productItem, setProductItem] = useState([]);
+<<<<<<< HEAD
   const { state } = useContext(ObjectContext);
+=======
+  const {state} = useContext(ObjectContext);
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
 
   /*  const [productEntry,setProductEntry]=useState({
         productitems:[],
@@ -87,7 +123,11 @@ export function ProductEntryCreate() {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
+<<<<<<< HEAD
   const getSearchfacility = (obj) => {
+=======
+  const getSearchfacility = obj => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     setProductId(obj._id);
     setName(obj.name);
     setBaseunit(obj.baseunit);
@@ -104,7 +144,11 @@ export function ProductEntryCreate() {
     return () => {};
   }, [user]);
 
+<<<<<<< HEAD
   const handleChangeType = async (e) => {
+=======
+  const handleChangeType = async e => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     await setType(e.target.value);
   };
   const handleClickProd = async () => {
@@ -118,7 +162,11 @@ export function ProductEntryCreate() {
       return;
     }
     await setSuccess(false);
+<<<<<<< HEAD
     setProductItem((prevProd) => prevProd.concat(productItemI));
+=======
+    setProductItem(prevProd => prevProd.concat(productItemI));
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     setName("");
     setBaseunit("");
     setQuantity("");
@@ -127,7 +175,11 @@ export function ProductEntryCreate() {
     // console.log(success)
     //  console.log(productItem)
   };
+<<<<<<< HEAD
   const handleDate = async (date) => {
+=======
+  const handleDate = async date => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     setDate(date);
   };
 
@@ -144,7 +196,11 @@ export function ProductEntryCreate() {
     setProductItem([]);
   };
 
+<<<<<<< HEAD
   const onSubmit = async (e) => {
+=======
+  const onSubmit = async e => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     let confirm = window.confirm(`Are you sure you want to save this entry ?`);
     if (confirm) {
       e.preventDefault();
@@ -197,7 +253,11 @@ export function ProductEntryCreate() {
       }
       //console.log("b4 create",productEntry);
       ProductEntryServ.create(productEntry)
+<<<<<<< HEAD
         .then((res) => {
+=======
+        .then(res => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           //console.log(JSON.stringify(res))
           resetform();
           /*  setMessage("Created ProductEntry successfully") */
@@ -211,7 +271,11 @@ export function ProductEntryCreate() {
           setSuccess(false);
           setProductItem([]);
         })
+<<<<<<< HEAD
         .catch((err) => {
+=======
+        .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -223,7 +287,11 @@ export function ProductEntryCreate() {
   };
   const removeEntity = (entity, i) => {
     //console.log(entity)
+<<<<<<< HEAD
     setProductItem((prev) => prev.filter((obj, index) => index !== i));
+=======
+    setProductItem(prev => prev.filter((obj, index) => index !== i));
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   };
 
   return (
@@ -265,7 +333,11 @@ export function ProductEntryCreate() {
                       /* ref={register({ required: true })} */ value={source}
                       name="supplier"
                       type="text"
+<<<<<<< HEAD
                       onChange={(e) => setSource(e.target.value)}
+=======
+                      onChange={e => setSource(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                       placeholder="Supplier"
                     />
                     <span className="icon is-small is-left">
@@ -282,7 +354,11 @@ export function ProductEntryCreate() {
                   <div className="control has-icons-left has-icons-right">
                     <DatePicker
                       selected={date}
+<<<<<<< HEAD
                       onChange={(date) => handleDate(date)}
+=======
+                      onChange={date => handleDate(date)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Pick Date"
 
@@ -301,7 +377,11 @@ export function ProductEntryCreate() {
                       /* ref={register} */ name="documentNo"
                       value={documentNo}
                       type="text"
+<<<<<<< HEAD
                       onChange={(e) => setDocumentNo(e.target.value)}
+=======
+                      onChange={e => setDocumentNo(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                       placeholder=" Invoice Number"
                     />
                     <span className="icon is-small is-left">
@@ -318,9 +398,13 @@ export function ProductEntryCreate() {
                       }
                       name="totalamount"
                       type="text"
+<<<<<<< HEAD
                       onChange={async (e) =>
                         await setTotalamount(e.target.value)
                       }
+=======
+                      onChange={async e => await setTotalamount(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                       placeholder=" Total Amount"
                     />
                     <span className="icon is-small is-left">
@@ -346,7 +430,11 @@ export function ProductEntryCreate() {
                 />
                 <p
                   className="control has-icons-left "
+<<<<<<< HEAD
                   style={{ display: "none" }}
+=======
+                  style={{display: "none"}}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                 >
                   <input
                     className="input is-small"
@@ -355,7 +443,11 @@ export function ProductEntryCreate() {
                     }
                     name="productId"
                     type="text"
+<<<<<<< HEAD
                     onChange={(e) => setProductId(e.target.value)}
+=======
+                    onChange={e => setProductId(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                     placeholder="Product Id"
                   />
                   <span className="icon is-small is-left">
@@ -374,7 +466,11 @@ export function ProductEntryCreate() {
                     /* ref={register({ required: true })} */ name="quantity"
                     value={quantity}
                     type="text"
+<<<<<<< HEAD
                     onChange={(e) => setQuantity(e.target.value)}
+=======
+                    onChange={e => setQuantity(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                     placeholder="Quantity"
                   />
                   <span className="icon is-small is-left">
@@ -390,7 +486,11 @@ export function ProductEntryCreate() {
                     /* ref={register({ required: true })} */ name="costprice"
                     value={costprice}
                     type="text"
+<<<<<<< HEAD
                     onChange={(e) => setCostprice(e.target.value)}
+=======
+                    onChange={e => setCostprice(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                     placeholder="Cost Price"
                   />
                   <span className="icon is-small is-left">
@@ -490,6 +590,7 @@ export function ProductEntryList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+<<<<<<< HEAD
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState(); //
   // eslint-disable-next-line
@@ -499,6 +600,18 @@ export function ProductEntryList() {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(20);
   const [total, setTotal] = useState(0);
+=======
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
+  const [selectedProductEntry, setSelectedProductEntry] = useState(); //
+  // eslint-disable-next-line
+  const {state, setState} = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const {user, setUser} = useContext(UserContext);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(20); //LIMITATIONS FOR THE NUMBER OF FACILITIES FOR SERVER TO RETURN PER PAGE
+  const [total, setTotal] = useState(0); //TOTAL NUMBER OF FACILITIES AVAILABLE IN THE SERVER
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   const [restful, setRestful] = useState(true);
   const [next, setNext] = useState(false);
 
@@ -507,13 +620,21 @@ export function ProductEntryList() {
       selectedProductEntry: {},
       show: "create",
     };
+<<<<<<< HEAD
     await setState((prevstate) => ({
+=======
+    await setState(prevstate => ({
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
   };
+<<<<<<< HEAD
   const handleRow = async (ProductEntry) => {
+=======
+  const handleRow = async ProductEntry => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -524,14 +645,22 @@ export function ProductEntryList() {
       selectedProductEntry: ProductEntry,
       show: "detail",
     };
+<<<<<<< HEAD
     await setState((prevstate) => ({
+=======
+    await setState(prevstate => ({
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
+<<<<<<< HEAD
   const handleSearch = async (val) => {
+=======
+  const handleSearch = async val => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     const field = "source";
     //console.log(val)
     ProductEntryServ.find({
@@ -559,14 +688,22 @@ export function ProductEntryList() {
         },
       },
     })
+<<<<<<< HEAD
       .then((res) => {
+=======
+      .then(res => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         //console.log(res)
         setFacilities(res.data);
         setTotal(res.total);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
+<<<<<<< HEAD
       .catch((err) => {
+=======
+      .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         //  console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -591,6 +728,7 @@ export function ProductEntryList() {
       });
 
       await setTotal(findProductEntry.total);
+<<<<<<< HEAD
       await setFacilities((prevstate) =>
         prevstate.concat(findProductEntry.data)
       );
@@ -598,6 +736,13 @@ export function ProductEntryList() {
         setNext(true);
 
         setPage((page) => page + 1);
+=======
+      await setFacilities(prevstate => prevstate.concat(findProductEntry.data));
+      if (findProductEntry.total > findProductEntry.skip) {
+        setNext(true);
+
+        setPage(page => page + 1);
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
       } else {
         setNext(false);
       }
@@ -631,18 +776,30 @@ export function ProductEntryList() {
           },
         },
       })
+<<<<<<< HEAD
         .then((resp) => {
+=======
+        .then(resp => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           setTotal(resp.total);
           setFacilities(resp.data);
           if (resp.total > resp.data.length) {
             setNext(true);
 
+<<<<<<< HEAD
             setPage((page) => page + 1);
+=======
+            setPage(page => page + 1);
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           } else {
             setNext(false);
           }
         })
+<<<<<<< HEAD
         .catch((err) => {
+=======
+        .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           console.log(err);
         });
     } else {
@@ -673,18 +830,30 @@ export function ProductEntryList() {
         },
       },
     })
+<<<<<<< HEAD
       .then((resp) => {
+=======
+      .then(resp => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         setTotal(resp.total);
         updatelist(resp.data);
         //setFacilities(resp.data)
         if (resp.total > resp.data.length) {
           setNext(true);
+<<<<<<< HEAD
           setPage((page) => page + 1);
+=======
+          setPage(page => page + 1);
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         } else {
           setNext(false);
         }
       })
+<<<<<<< HEAD
       .catch((err) => {
+=======
+      .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         console.log(err);
       });
   };
@@ -700,6 +869,7 @@ export function ProductEntryList() {
       return;
       //  getFacilities()
     }
+<<<<<<< HEAD
     ProductEntryServ.on("created", (obj) => getUpdatedFacilities());
     ProductEntryServ.on("updated", (obj) => getUpdatedFacilities());
     ProductEntryServ.on("patched", (obj) => getUpdatedFacilities());
@@ -708,6 +878,16 @@ export function ProductEntryList() {
   }, []);
 
   const updatelist = async (data) => {
+=======
+    ProductEntryServ.on("created", obj => getUpdatedFacilities());
+    ProductEntryServ.on("updated", obj => getUpdatedFacilities());
+    ProductEntryServ.on("patched", obj => getUpdatedFacilities());
+    ProductEntryServ.on("removed", obj => getUpdatedFacilities());
+    return () => {};
+  }, []);
+
+  const updatelist = async data => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     await setFacilities(data);
   };
   const updates = () => {
@@ -726,13 +906,21 @@ export function ProductEntryList() {
     setTotal(0);
     getNewFacilities();
   };
+<<<<<<< HEAD
   const handleDelete = async (obj) => {
+=======
+  const handleDelete = async obj => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     let confirm = window.confirm(
       `Are you sure you want to delete this entry with Document No: ${obj.documentNo} ?`
     );
     if (confirm) {
       await ProductEntryServ.remove(obj._id)
+<<<<<<< HEAD
         .then((resp) => {
+=======
+        .then(resp => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           toast({
             message: "Sucessfuly deleted ProductEntry ",
             type: "is-success",
@@ -740,7 +928,11 @@ export function ProductEntryList() {
             pauseOnHover: true,
           });
         })
+<<<<<<< HEAD
         .catch((err) => {
+=======
+        .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           toast({
             message: "Error deleting ProductEntry " + err,
             type: "is-danger",
@@ -751,10 +943,80 @@ export function ProductEntryList() {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const productEntrySchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "Enter Created date",
+      selector: row => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Type",
+      key: "type",
+      description: "Enter Type",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Source",
+      key: "source",
+      description: "Enter Source",
+      selector: row => row.source,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Document No",
+      key: "documentNo",
+      description: "Enter Document Number",
+      selector: row => row.documentNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Total Amount",
+      key: "totalamount",
+      description: "Enter Total Amount",
+      selector: row => row.totalamount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Actions",
+      key: "action",
+      description: "Enter Action",
+      selector: row => "X",
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   return (
     <>
       {state.StoreModule.selectedStore ? (
         <>
+<<<<<<< HEAD
           <div className="level">
             <div className="level-left">
               <div className="level-item">
@@ -862,6 +1124,45 @@ export function ProductEntryList() {
               </table>
             </InfiniteScroll>
           </div>
+=======
+          <PageWrapper
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+          >
+            <TableMenu>
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
+                )}
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  Notifications
+                </h2>
+              </div>
+
+              {handleCreateNew && (
+                <Button
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                  label="Add new "
+                  onClick={handleCreateNew}
+                />
+              )}
+            </TableMenu>
+
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <CustomTable
+                title={""}
+                columns={productEntrySchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={loading}
+              />
+            </div>
+          </PageWrapper>
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         </>
       ) : (
         <div>loading... </div>
@@ -880,7 +1181,11 @@ export function ProductEntryDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
+<<<<<<< HEAD
   const { state, setState } = useContext(ObjectContext);
+=======
+  const {state, setState} = useContext(ObjectContext);
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
 
   const ProductEntry = state.ProductEntryModule.selectedProductEntry;
 
@@ -889,7 +1194,11 @@ export function ProductEntryDetail() {
       selectedProductEntry: ProductEntry,
       show: "modify",
     };
+<<<<<<< HEAD
     await setState((prevstate) => ({
+=======
+    await setState(prevstate => ({
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -1032,7 +1341,11 @@ export function ProductEntryDetail() {
 }
 
 export function ProductEntryModify() {
+<<<<<<< HEAD
   const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+=======
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1043,8 +1356,13 @@ export function ProductEntryModify() {
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
   // eslint-disable-next-line
+<<<<<<< HEAD
   const { user } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+=======
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
 
   const ProductEntry = state.ProductEntryModule.selectedProductEntry;
 
@@ -1066,7 +1384,11 @@ export function ProductEntryModify() {
       selectedProductEntry: {},
       show: "create",
     };
+<<<<<<< HEAD
     await setState((prevstate) => ({
+=======
+    await setState(prevstate => ({
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -1078,7 +1400,11 @@ export function ProductEntryModify() {
       selectedProductEntry: {},
       show: "create",
     };
+<<<<<<< HEAD
     setState((prevstate) => ({
+=======
+    setState(prevstate => ({
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -1089,7 +1415,11 @@ export function ProductEntryModify() {
     const dleteId = ProductEntry._id;
     if (conf) {
       ProductEntryServ.remove(dleteId)
+<<<<<<< HEAD
         .then((res) => {
+=======
+        .then(res => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted ProductEntry successfully")
@@ -1106,7 +1436,11 @@ export function ProductEntryModify() {
           });
           changeState();
         })
+<<<<<<< HEAD
         .catch((err) => {
+=======
+        .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           // setMessage("Error deleting ProductEntry, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1129,7 +1463,11 @@ export function ProductEntryModify() {
     //console.log(data);
 
     ProductEntryServ.patch(ProductEntry._id, data)
+<<<<<<< HEAD
       .then((res) => {
+=======
+      .then(res => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated ProductEntry successfully")
@@ -1142,7 +1480,11 @@ export function ProductEntryModify() {
 
         changeState();
       })
+<<<<<<< HEAD
       .catch((err) => {
+=======
+      .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
         //setMessage("Error creating ProductEntry, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1170,7 +1512,11 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
+<<<<<<< HEAD
                     ref={register({ required: true })}
+=======
+                    ref={register({required: true})}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1187,7 +1533,11 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
+<<<<<<< HEAD
                     ref={register({ required: true })}
+=======
+                    ref={register({required: true})}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                     disabled
                     name="ProductEntryType"
                     type="text"
@@ -1235,7 +1585,11 @@ export function ProductEntryModify() {
   );
 }
 
+<<<<<<< HEAD
 export function ProductSearch({ getSearchfacility, clear }) {
+=======
+export function ProductSearch({getSearchfacility, clear}) {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
   const productServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1254,7 +1608,11 @@ export function ProductSearch({ getSearchfacility, clear }) {
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
 
+<<<<<<< HEAD
   const handleRow = async (obj) => {
+=======
+  const handleRow = async obj => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1271,8 +1629,13 @@ export function ProductSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
+<<<<<<< HEAD
   const handleBlur = async (e) => {};
   const handleSearch = async (value) => {
+=======
+  const handleBlur = async e => {};
+  const handleSearch = async value => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -1295,14 +1658,22 @@ export function ProductSearch({ getSearchfacility, clear }) {
             },
           },
         })
+<<<<<<< HEAD
         .then((res) => {
+=======
+        .then(res => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           // console.log("product  fetched successfully")
           // console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
+<<<<<<< HEAD
         .catch((err) => {
+=======
+        .catch(err => {
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -1346,8 +1717,13 @@ export function ProductSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
+<<<<<<< HEAD
                 onBlur={(e) => handleBlur(e)}
                 onChange={(e) => handleSearch(e.target.value)}
+=======
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
+>>>>>>> b81356df098c34ce0d2f80607037199e81772e7f
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

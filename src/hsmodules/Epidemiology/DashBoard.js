@@ -227,7 +227,7 @@ export function DashBoardMain() {
       },
     });
 
-    console.log("updatedorder", findProductEntry.groupedOrder);
+    // console.log("updatedorder", findProductEntry.groupedOrder);
     await setFacilities(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };

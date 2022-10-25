@@ -104,7 +104,7 @@ import RadiologyPayment from "./Radiology/RadiologyPayment";
 import RadiologyReport from "./Radiology/RadiologyReport";
 import Report from "./Accounts/Report";
 import Services from "./Finance/Services";
-import Signals from "./Epidemiology/Signals"; //, { StoreList, StoreListStandalone }
+import EpidemiologySignals from "./Epidemiology/Signals"; //, { StoreList, StoreListStandalone }
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store' */
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store'  */
 
@@ -216,7 +216,10 @@ const AppRoutes = () => {
               path="/app/epidemiology/communication"
               element={<BillLab />}
             />
-            <Route path="/app/epidemiology/signal" element={<Signals />} />
+            <Route
+              path="/app/epidemiology/signal"
+              element={<EpidemiologySignals />}
+            />
           </Route>
           {/* ***************************** ADMIN ROUTES ************************************* */}
 
