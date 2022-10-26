@@ -1,8 +1,8 @@
-import React from 'react';
-import DataTable from 'react-data-table-component';
+import React from "react";
+import DataTable from "react-data-table-component";
 
-import EmptyData from '../empty';
-import { customStyles } from './styles';
+import EmptyData from "../empty";
+import { customStyles } from "./styles";
 
 interface Props {
   title?: string;
@@ -19,10 +19,23 @@ interface Props {
 }
 
 const CustomLoader = () => (
-  <div style={{ padding: '24px' }}>
+  <div style={{ padding: "24px" }}>
     <img src="/loading.gif" width={400} />
   </div>
 );
+
+const conditionalRowStyles = [
+  {
+    when: (row) => row.quantity > 100,
+    style: {
+      backgroundColor: "green",
+      color: "white",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+  },
+];
 
 const CustomTable: React.FC<Props> = ({
   title,
@@ -54,11 +67,12 @@ const CustomTable: React.FC<Props> = ({
       responsive
       dense={dense}
       style={{
-        width: '100%',
+        width: "100%",
       }}
       progressComponent={<CustomLoader />}
       progressPending={progressPending}
       noDataComponent={<EmptyData />}
+      conditionalRowStyles={conditionalRowStyles}
     />
   );
 };

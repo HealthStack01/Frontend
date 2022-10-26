@@ -1,4 +1,14 @@
 /* eslint-disable */
+<<<<<<< HEAD
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+//import {useNavigate} from 'react-router-dom'
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {ClientCreate, ClientDetail, ClientList} from "../Client/Client";
+=======
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
@@ -7,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { ClientCreate, ClientDetail, ClientList } from "../Client/Client";
+>>>>>>> refs/remotes/origin/frontend
 
 import EncounterMain from "./DispensaryMain";
 import EncounterRight from "./EncounterRight";
@@ -16,7 +27,11 @@ var random = require("random-string-generator");
 const searchfacility = {};
 
 export default function Encounter() {
+<<<<<<< HEAD
+  const {state} = useContext(ObjectContext); //,setState
+=======
   const { state } = useContext(ObjectContext); //,setState
+>>>>>>> refs/remotes/origin/frontend
   // eslint-disable-next-line
   //const [selectedProductEntry,setSelectedProductEntry]=useState()
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -98,7 +113,11 @@ export default function Encounter() {
   );
 }
 
+<<<<<<< HEAD
+export function InventorySearch({getSearchfacility, clear}) {
+=======
 export function InventorySearch({ getSearchfacility, clear }) {
+>>>>>>> refs/remotes/origin/frontend
   const productServ = client.service("inventory");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -115,11 +134,19 @@ export function InventorySearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
+<<<<<<< HEAD
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
+  const [productModal, setProductModal] = useState(false);
+
+  const handleRow = async obj => {
+=======
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
   const handleRow = async (obj) => {
+>>>>>>> refs/remotes/origin/frontend
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -136,7 +163,11 @@ export function InventorySearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
+<<<<<<< HEAD
+  const handleBlur = async e => {
+=======
   const handleBlur = async (e) => {
+>>>>>>> refs/remotes/origin/frontend
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -154,7 +185,11 @@ export function InventorySearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
+<<<<<<< HEAD
+  const handleSearch = async value => {
+=======
   const handleSearch = async (value) => {
+>>>>>>> refs/remotes/origin/frontend
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -180,14 +215,22 @@ export function InventorySearch({ getSearchfacility, clear }) {
             },
           },
         })
+<<<<<<< HEAD
+        .then(res => {
+=======
         .then((res) => {
+>>>>>>> refs/remotes/origin/frontend
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
+<<<<<<< HEAD
+        .catch(err => {
+=======
         .catch((err) => {
+>>>>>>> refs/remotes/origin/frontend
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -224,9 +267,15 @@ export function InventorySearch({ getSearchfacility, clear }) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
+<<<<<<< HEAD
+            style={{width: "100%"}}
+          >
+            <div className="dropdown-trigger" style={{width: "100%"}}>
+=======
             style={{ width: "100%" }}
           >
             <div className="dropdown-trigger" style={{ width: "100%" }}>
+>>>>>>> refs/remotes/origin/frontend
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -234,8 +283,13 @@ export function InventorySearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
+<<<<<<< HEAD
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
+=======
                 onBlur={(e) => handleBlur(e)}
                 onChange={(e) => handleSearch(e.target.value)}
+>>>>>>> refs/remotes/origin/frontend
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -243,7 +297,11 @@ export function InventorySearch({ getSearchfacility, clear }) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
+<<<<<<< HEAD
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
+=======
             <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+>>>>>>> refs/remotes/origin/frontend
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""

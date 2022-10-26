@@ -1,16 +1,16 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
 import BillPrescriptionCreate from "./BillPrescriptionCreate";
 import PatientProfile from "../Client/PatientProfile";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -39,9 +39,9 @@ export default function PharmacyBillPrescription() {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   /*  useEffect(() => {
         const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
@@ -81,24 +81,24 @@ export function BillPrescriptionList() {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState("");
 
-  const handleSelectedClient = async (Client) => {
+  const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-  const handleMedicationRow = async (ProductEntry) => {
+  const handleMedicationRow = async ProductEntry => {
     //handle selected single order
     //console.log("b4",state)
 
@@ -111,7 +111,7 @@ export function BillPrescriptionList() {
       selectedMedication: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -124,14 +124,14 @@ export function BillPrescriptionList() {
       selectedDispense: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "name";
     console.log(val);
     OrderServ.find({
@@ -168,14 +168,14 @@ export function BillPrescriptionList() {
         },
       },
     })
-      .then(async (res) => {
+      .then(async res => {
         console.log(res);
         setFacilities(res.groupedOrder);
         // await setState((prevstate)=>({...prevstate, currentClients:res.groupedOrder}))
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -202,7 +202,7 @@ export function BillPrescriptionList() {
 
     // console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       currentClients: findProductEntry.groupedOrder,
     }));
@@ -212,21 +212,21 @@ export function BillPrescriptionList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    OrderServ.on("created", (obj) => getFacilities());
-    OrderServ.on("updated", (obj) => getFacilities());
-    OrderServ.on("patched", (obj) => getFacilities());
-    OrderServ.on("removed", (obj) => getFacilities());
+    OrderServ.on("created", obj => getFacilities());
+    OrderServ.on("updated", obj => getFacilities());
+    OrderServ.on("patched", obj => getFacilities());
+    OrderServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
-  const handleRow = async (ProductEntry) => {
+  const handleRow = async ProductEntry => {
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
@@ -238,7 +238,7 @@ export function BillPrescriptionList() {
     {
       name: "S/N",
       key: "sn",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -247,7 +247,7 @@ export function BillPrescriptionList() {
       name: "Date",
       key: "date",
       description: "Enter date",
-      selector: (row) => row.createdAt && row.createdAt.substring(0, 10),
+      selector: row => row.createdAt && row.createdAt.substring(0, 10),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -256,7 +256,7 @@ export function BillPrescriptionList() {
       name: "Name",
       key: "name",
       description: "Enter name of band",
-      selector: (row) => row.order,
+      selector: row => row.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -266,7 +266,7 @@ export function BillPrescriptionList() {
       name: "Fufilled",
       key: "Fufilled",
       description: "Fufilled",
-      selector: (row) => (row.fufilled ? "Yes" : "No"),
+      selector: row => (row.fufilled ? "Yes" : "No"),
       sortable: true,
       required: false,
       inputType: "TEXT",
@@ -275,7 +275,7 @@ export function BillPrescriptionList() {
       name: "Status",
       key: "order_status",
       description: "Enter status",
-      selector: (row) => row.order_status,
+      selector: row => row.order_status,
       sortable: true,
       required: false,
       inputType: "TEXT",
@@ -284,7 +284,7 @@ export function BillPrescriptionList() {
       name: "Requesting Physician",
       key: "physician",
       description: "Enter physician",
-      selector: (row) => row.requestingdoctor_Name,
+      selector: row => row.requestingdoctor_Name,
       sortable: true,
       required: false,
       inputType: "TEXT",
@@ -292,7 +292,7 @@ export function BillPrescriptionList() {
   ];
   return (
     <>
-      <PageWrapper style={{ padding: "20px" }}>
+      <PageWrapper style={{padding: "20px"}}>
         <div
           style={{
             width: "100%",
@@ -302,9 +302,7 @@ export function BillPrescriptionList() {
           }}
         >
           <TableMenu style={{}}>
-            <div
-              style={{ display: "flex", width: "100%", alignItems: "center" }}
-            >
+            <div style={{display: "flex", width: "100%", alignItems: "center"}}>
               <h2 style={{}}>Bill Prescription Sent</h2>
               <div
                 className="inner-table"
@@ -321,7 +319,7 @@ export function BillPrescriptionList() {
               </div>
             </div>
           </TableMenu>
-          <div style={{ width: "50%", height: "600px", overflow: "auto" }}>
+          <div style={{width: "50%", height: "600px", overflow: "auto"}}>
             {facilities.map((data, index) => (
               <CustomTable
                 key={index}
@@ -356,7 +354,7 @@ export function DispenseDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const OrderServ = client.service("order");
   /* const [ProductEntry, setProductEntry] = useState("")
     const [facilities, setFacilities] = useState("") */
@@ -364,7 +362,7 @@ export function DispenseDetail() {
   let ProductEntry = state.DispenseModule.selectedDispense;
   //const facilities=ProductEntry.orders
 
-  const handleRow = async (ProductEntry) => {
+  const handleRow = async ProductEntry => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -375,7 +373,7 @@ export function DispenseDetail() {
       selectedMedication: ProductEntry,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -383,12 +381,12 @@ export function DispenseDetail() {
     // ProductEntry.show=!ProductEntry.show
   };
 
-  const handleEdit = async (ProductEntry) => {
+  const handleEdit = async ProductEntry => {
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
@@ -396,7 +394,7 @@ export function DispenseDetail() {
   };
 
   useEffect(() => {
-    const client1 = state.currentClients.find((el) => {
+    const client1 = state.currentClients.find(el => {
       return (
         JSON.stringify(el.client_id) ===
         JSON.stringify(state.DispenseModule.selectedDispense)
@@ -418,12 +416,12 @@ export function DispenseDetail() {
         OrderServ.on('updated', (obj)=>getFacilities())
        
         OrderServ.on('removed', (obj)=>getFacilities()) */
-    OrderServ.on("patched", (obj) => {
+    OrderServ.on("patched", obj => {
       //update state.DispenseModule.selectedDispense
       // console.log(obj.clientId)
       // console.log("currentClients",state.currentClients)
       const current1 = state.currentClients.find(
-        (el) => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
+        el => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
       );
       setCurrentOrder(current1);
       // console.log("currentone",current1)
