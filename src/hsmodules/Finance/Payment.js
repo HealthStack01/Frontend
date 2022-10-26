@@ -286,25 +286,28 @@ export function BillingList() {
   };
 
   const onRowClicked = async (Client, e) => {
-    // alert(expanded)
-    //console.log(Client)
-    console.log(Client);
     await setSelectedClient(Client);
 
-    const clientOrders = Client.bills[0].order.map(data => {
-      const orderData = {
-        date: data.createdAt,
-        status: data.billing_status,
-        description: data.serviceInfo.name,
-        category: Client.bills[0].catName,
-        amount: Client.bills[0].catAmount,
-        order: data,
-      };
-      return orderData;
+    const clientOrders = Client.bills.map(data => {
+      const allOrders = [];
+
+      data.order.map(order => {
+        const orderData = {
+          date: order.createdAt,
+          status: order.billing_status,
+          description: order.serviceInfo.name,
+          category: data.catName,
+          amount: data.catAmount,
+          order: order,
+        };
+
+        allOrders.push(orderData);
+      });
+      return allOrders;
     });
 
-    console.log(clientOrders);
-    setClientBills(clientOrders);
+    //console.log(clientOrders);
+    setClientBills(clientOrders.flat(1));
   };
   //1.consider using props for global data
   useEffect(() => {
