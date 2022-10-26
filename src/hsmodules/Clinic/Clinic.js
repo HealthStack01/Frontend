@@ -6,6 +6,11 @@ import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'bulma-toast';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -269,6 +274,10 @@ export function ClinicList({ standalone, closeModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(50);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newClinicModule = {
@@ -422,107 +431,49 @@ export function ClinicList({ standalone, closeModal }) {
     //save into healthstack vs import
     //replace facility id for foremost
   };
+  const handleCreate = () => {};
+  const onRowClicked = () => {};
 
   return (
     <>
       {user ? (
         <>
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Clinics"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={(e) => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-              {/*   <button className="button" onClick={handleLoad}>
-                        load data
-                    </button> */}
-            </div>
-            <div className="level-item">
-              {' '}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Clinics
-              </span>
-            </div>
-            <div className="level-right">
-              {!standalone && (
-                <div className="level-item">
-                  <div className="level-item">
-                    <div
-                      className="button is-success is-small"
-                      onClick={handleCreateNew}
-                    >
-                      New
+            <PageWrapper
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+            >
+              <TableMenu>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
                     </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>Name</th>
-                  {/* <th><abbr title="Last Name">Clinic Type</abbr></th>
-                                       <th><abbr title="Profession">Profession</abbr></th>
-                                         <th><abbr title="Phone">Phone</abbr></th>
-                                        <th><abbr title="Email">Email</abbr></th>
-                                        <th><abbr title="Department">Department</abbr></th>
-                                        <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> 
-                                        <th><abbr title="Facility">Facility</abbr></th>*/}
-                  {!standalone && (
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
                   )}
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Clinic, i) => (
-                  <tr
-                    key={Clinic._id}
-                    onClick={() => handleRow(Clinic)}
-                    className={
-                      Clinic._id === (selectedClinic?._id || null)
-                        ? 'is-selected'
-                        : ''
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <th>{Clinic.name}</th>
-                    {/*<td>{Clinic.ClinicType}</td>
-                                            < td>{Clinic.profession}</td>
-                                            <td>{Clinic.phone}</td>
-                                            <td>{Clinic.email}</td>
-                                            <td>{Clinic.department}</td>
-                                            <td>{Clinic.deptunit}</td> 
-                                            <td>{Clinic.facility}</td>*/}
-                    {!standalone && (
-                      <td>
-                        <span className="showAction">...</span>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                    List of Clients
+                  </h2>
+                </div>
+                {handleCreate && (
+                  <Button
+                    style={{ fontSize: '14px', fontWeight: '600' }}
+                    label="Add new "
+                    onClick={handleCreate}
+                  />
+                )}
+              </TableMenu>
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                <CustomTable
+                  title={''}
+                  columns={ClientMiniSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={onRowClicked}
+                  progressPending={loading}
+                />
+              </div>
+            </PageWrapper>
           </div>
         </>
       ) : (

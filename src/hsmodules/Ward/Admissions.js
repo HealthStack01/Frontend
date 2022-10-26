@@ -1,14 +1,20 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
-import AdmissionCreate from "./AdmissionCreate";
-import PatientProfile from "../Client/PatientProfile";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { format, formatDistanceToNowStrict } from 'date-fns';
+import AdmissionCreate from './AdmissionCreate';
+import PatientProfile from '../Client/PatientProfile';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import { WardAppointmentSchema } from './schema';
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -22,8 +28,8 @@ export default function Admission() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const OrderServ = client.service("order");
+  const [message, setMessage] = useState('');
+  const OrderServ = client.service('order');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -55,10 +61,10 @@ export default function Admission() {
         </div>
 
         <div className="column is-4 ">
-          {state.AdmissionModule.show === "detail" && <AdmissionCreate />}
+          {state.AdmissionModule.show === 'detail' && <AdmissionCreate />}
         </div>
         <div className="column is-3 ">
-          {state.AdmissionModule.show === "detail" && <PatientProfile />}
+          {state.AdmissionModule.show === 'detail' && <PatientProfile />}
         </div>
       </div>
     </section>
@@ -72,8 +78,8 @@ export function AdmissionList() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const OrderServ = client.service("order");
+  const [message, setMessage] = useState('');
+  const OrderServ = client.service('order');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -83,13 +89,13 @@ export function AdmissionList() {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
-  const [selectedMedication, setSelectedMedication] = useState("");
-
+  const [selectedMedication, setSelectedMedication] = useState('');
+  const [loading, setLoading] = useState(false);
   const handleSelectedClient = async (Client) => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -108,7 +114,7 @@ export function AdmissionList() {
 
     const newProductEntryModule = {
       selectedAdmission: ProductEntry,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -121,7 +127,7 @@ export function AdmissionList() {
   const handleCreateNew = async () => {
     const newProductEntryModule = {
       selectedDispense: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -131,7 +137,7 @@ export function AdmissionList() {
   };
 
   const handleSearch = async (val) => {
-    const field = "name";
+    const field = 'name';
     console.log(val);
     OrderServ.find({
       query: {
@@ -139,27 +145,27 @@ export function AdmissionList() {
           {
             order: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             order_status: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             clientname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
         ],
-        order_category: "Admission Order",
-        fulfilled: "False",
+        order_category: 'Admission Order',
+        fulfilled: 'False',
         destination: user.currentEmployee.facilityDetail._id,
         destination_location: state.WardModule.selectedWard._id,
-        order_status: "Pending",
+        order_status: 'Pending',
         // storeId:state.StoreModule.selectedStore._id,
         //facility:user.currentEmployee.facilityDetail._id || "",
         $limit: 50,
@@ -172,27 +178,27 @@ export function AdmissionList() {
         console.log(res);
         setFacilities(res.groupedOrder);
         // await setState((prevstate)=>({...prevstate, currentClients:res.groupedOrder}))
-        setMessage(" ProductEntry  fetched successfully");
+        setMessage(' ProductEntry  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         // console.log(err)
         setMessage(
-          "Error fetching ProductEntry, probable network issues " + err
+          'Error fetching ProductEntry, probable network issues ' + err
         );
         setError(true);
       });
   };
 
   const getFacilities = async () => {
-    console.log("here b4 server");
+    console.log('here b4 server');
     const findProductEntry = await OrderServ.find({
       query: {
-        order_category: "Admission Order",
-        fulfilled: "False",
+        order_category: 'Admission Order',
+        fulfilled: 'False',
         destination: user.currentEmployee.facilityDetail._id,
         destination_location: state.WardModule.selectedWard._id,
-        order_status: "Pending", // need to set this finally
+        order_status: 'Pending', // need to set this finally
         //storeId:state.StoreModule.selectedStore._id,
         //clientId:state.ClientModule.selectedClient._id,
         $limit: 100,
@@ -202,7 +208,7 @@ export function AdmissionList() {
       },
     });
 
-    console.log("updatedorder", findProductEntry.data);
+    console.log('updatedorder', findProductEntry.data);
     await setFacilities(findProductEntry.data);
     await setState((prevstate) => ({
       ...prevstate,
@@ -214,10 +220,10 @@ export function AdmissionList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    OrderServ.on("created", (obj) => getFacilities());
-    OrderServ.on("updated", (obj) => getFacilities());
-    OrderServ.on("patched", (obj) => getFacilities());
-    OrderServ.on("removed", (obj) => getFacilities());
+    OrderServ.on('created', (obj) => getFacilities());
+    OrderServ.on('updated', (obj) => getFacilities());
+    OrderServ.on('patched', (obj) => getFacilities());
+    OrderServ.on('removed', (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -226,7 +232,7 @@ export function AdmissionList() {
 
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -243,7 +249,50 @@ export function AdmissionList() {
 
   return (
     <>
-      <div className="level">
+      {user ? (
+        <>
+          <div className="level">
+            <PageWrapper
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+            >
+              <TableMenu>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2
+                    style={{
+                      marginLeft: '10px',
+                      fontSize: '0.95rem',
+                      width: '300px',
+                    }}
+                  >
+                    List of Appointments
+                  </h2>
+                </div>
+              </TableMenu>
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                <CustomTable
+                  title={''}
+                  columns={WardAppointmentSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                />
+              </div>
+            </PageWrapper>
+          </div>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
+
+      {/* <div className="level">
         <div className="level-left">
           <div className="level-item">
             <div className="field">
@@ -269,11 +318,11 @@ export function AdmissionList() {
             Pending Admissions{" "}
           </span>
         </div>
-        {/* <div className="level-right">
+        <div className="level-right">
                        <div className="level-item"> 
                             <div nclassName="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
                         </div> 
-                    </div>*/}
+                    </div>
       </div>
       <div className=" pullup">
         <div className=" is-fullwidth vscrollable pr-1">
@@ -316,7 +365,6 @@ export function AdmissionList() {
                   <td>
                     <span>{format(new Date(order.createdAt), "dd-MM-yy")}</span>
                   </td>{" "}
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
                   <th>
                     {order.client.firstname} {order.client.lastname}
                   </th>
@@ -329,7 +377,7 @@ export function AdmissionList() {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
@@ -338,15 +386,15 @@ export function DispenseDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
-  const [selectedMedication, setSelectedMedication] = useState("");
-  const [currentOrder, setCurrentOrder] = useState("");
+  const [selectedMedication, setSelectedMedication] = useState('');
+  const [currentOrder, setCurrentOrder] = useState('');
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
   const { state, setState } = useContext(ObjectContext);
-  const OrderServ = client.service("order");
+  const OrderServ = client.service('order');
   /* const [ProductEntry, setProductEntry] = useState("")
     const [facilities, setFacilities] = useState("") */
 
@@ -362,7 +410,7 @@ export function DispenseDetail() {
 
     const newProductEntryModule = {
       selectedMedication: ProductEntry,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -375,7 +423,7 @@ export function DispenseDetail() {
   const handleEdit = async (ProductEntry) => {
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -407,7 +455,7 @@ export function DispenseDetail() {
         OrderServ.on('updated', (obj)=>getFacilities())
        
         OrderServ.on('removed', (obj)=>getFacilities()) */
-    OrderServ.on("patched", (obj) => {
+    OrderServ.on('patched', (obj) => {
       //update state.DispenseModule.selectedDispense
       // console.log(obj.clientId)
       // console.log("currentClients",state.currentClients)
@@ -466,8 +514,8 @@ export function DispenseDetail() {
                       onClick={() => handleRow(order)}
                       className={
                         order._id === (selectedMedication?._id || null)
-                          ? "is-selected"
-                          : ""
+                          ? 'is-selected'
+                          : ''
                       }
                     >
                       <th>{i + 1}</th>
@@ -475,12 +523,12 @@ export function DispenseDetail() {
                                                 <td>{ProductEntry.orders.length}</td> */}
                       <td>
                         <span>
-                          {format(new Date(order.createdAt), "dd-MM-yy")}
+                          {format(new Date(order.createdAt), 'dd-MM-yy')}
                         </span>
-                      </td>{" "}
+                      </td>{' '}
                       {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
                       <th>{order.order}</th>
-                      <td>{order.fulfilled === "True" ? "Yes" : "No"}</td>
+                      <td>{order.fulfilled === 'True' ? 'Yes' : 'No'}</td>
                       <td>{order.order_status}</td>
                       <td>{order.requestingdoctor_Name}</td>
                       {/*  <td><span className="showAction"  >...</span></td> */}
