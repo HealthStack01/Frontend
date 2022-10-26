@@ -51,7 +51,7 @@ const FilterMenu = ({schema = [], onSearch = _ => {}, dateField = false}) => {
         position: "relative",
         justifyContent: "space-around",
         zIndex: "10",
-        height: "40px",
+        //height: "40px",
       }}
     >
       {schema.length ? (
