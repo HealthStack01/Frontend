@@ -11,13 +11,13 @@ export const Lists = styled.ul`
     border-left: 1px dashed ${({theme}) => theme.btnText};
     box-sizing: border-box;
     padding-left: 30px;
-    max-height: 0;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    height: 0;
+    overflow: hidden;
     transition: max-height 0.2s ease-in;
   }
   &.sub-menu.active {
-    max-height: 300px;
+    height: inherit;
+    max-height: 100vh;
   }
 `;
 

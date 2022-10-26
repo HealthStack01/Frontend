@@ -16,7 +16,7 @@ var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function ProductEntry() {
+export default function PharmacyProductExit() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();

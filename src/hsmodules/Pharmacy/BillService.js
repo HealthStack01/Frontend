@@ -216,6 +216,8 @@ export function BillsList() {
 
     //  console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
+
+    console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
   const handleRow = async (Client, e) => {

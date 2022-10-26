@@ -1,7 +1,7 @@
-import {createContext, useEffect, useState} from "react";
+import { createContext, useEffect, useState } from "react";
 import client from "./feathers";
 
-export default function MyUserProvider({children}) {
+export default function MyUserProvider({ children }) {
   //const [data, setData] = useState(null)
   const [user, setUser] = useState(null);
   const [location, setLocation] = useState(null);
@@ -29,9 +29,9 @@ export default function MyUserProvider({children}) {
   //     console.log("location")
   // }
 
-  const {Provider} = UserContext;
+  const { Provider } = UserContext;
   return (
-    <Provider value={{user, setUser, setLocationType}}>{children}</Provider>
+    <Provider value={{ user, setUser, setLocationType }}>{children}</Provider>
   );
 }
 export const UserContext = createContext();
