@@ -63,6 +63,22 @@ export const menuItems = [
     ],
   },
   {
+    name: "Radiology",
+    exact: true,
+    to: "/app/radiology",
+    iconClassName: "bi bi-binoculars",
+    subMenus: [
+      // {name: "Home", to: "/app/radiology"},
+      // {name: "Radiology", to: "/app/radiology/radiology"},
+      {name: "Bill Client", to: "/app/radiology/billservice"},
+      {name: "Checked-In", to: "/app/radiology/checkedin"},
+      {name: "Appointment", to: "/app/radiology/appointments"},
+      {name: "Bill Lab Orders", to: "/app/radiology/radiology-bill"},
+      // {name: "Payment", to: "/app/radiology/payment"},
+      {name: "Lab Result", to: "/app/radiology/radiology-result"},
+    ],
+  },
+  {
     name: "Managed Care",
     exact: true,
     to: "/app/managedCare",

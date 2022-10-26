@@ -349,11 +349,11 @@ const AppRoutes = () => {
           <Route path="/app/radiology" element={<RadiologyHome />} />
 
           <Route
-            path="/app/radiology/radiology-checkedin"
+            path="/app/radiology/checkedin"
             element={<RadCheckedin />}
           />
           <Route
-            path="/app/radiology/radiology-appointments"
+            path="/app/radiology/appointments"
             element={<RadAppointments />}
           />
           <Route path="/app/radiology/billservice" element={<BillService />} />
@@ -367,7 +367,7 @@ const AppRoutes = () => {
           />
           <Route path="/app/radiology/radiology" element={<Radiology />} />
           <Route
-            path="/app/radiology/radiology-payment"
+            path="/app/radiology/payment"
             element={<RadiologyPayment />}
           />
 
