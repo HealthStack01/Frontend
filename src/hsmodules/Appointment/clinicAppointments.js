@@ -19,6 +19,9 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { AppointmentSchema } from './schema';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -501,6 +504,7 @@ export function ClientList() {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -733,6 +737,24 @@ export function ClientList() {
   const handleCreate = () => {};
   const onRowClicked = () => {};
 
+  const mapFacilities = () => {
+    let mapped = [];
+    facilities.map((facility, i) => {
+      mapped.push({
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
+        end: facility?.end_time,
+        id: i,
+      });
+    });
+    return mapped;
+  };
+  const activeStyle = {
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0.4rem .8rem',
+  };
+
   return (
     <>
       {user ? (
@@ -748,14 +770,8 @@ export function ClientList() {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2
-                    style={{
-                      marginLeft: '10px',
-                      fontSize: '0.95rem',
-                      width: '300px',
-                    }}
-                  >
-                    List of Appointments
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+                    Appointments
                   </h2>
                   <DatePicker
                     selected={startDate}
@@ -763,8 +779,28 @@ export function ClientList() {
                     dateFormat="dd/MM/yyyy"
                     placeholderText="Filter By Date"
                     isClearable
-                    style={{ marginLeft: '60px' }}
                   />
+                  {/* <SwitchButton /> */}
+                  <Switch>
+                    <button
+                      value={value}
+                      onClick={() => {
+                        setValue('list');
+                      }}
+                      style={value === 'list' ? activeStyle : {}}
+                    >
+                      <BsList style={{ fontSize: '2rem' }} />
+                    </button>
+                    <button
+                      value={value}
+                      onClick={() => {
+                        setValue('grid');
+                      }}
+                      style={value === 'grid' ? activeStyle : {}}
+                    >
+                      <BsFillGridFill style={{ fontSize: '2rem' }} />
+                    </button>
+                  </Switch>
                 </div>
 
                 {handleCreate && (
@@ -776,16 +812,20 @@ export function ClientList() {
                 )}
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                <CustomTable
-                  title={''}
-                  columns={AppointmentSchema}
-                  data={facilities}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                />
+                {value === 'list' ? (
+                  <CustomTable
+                    title={''}
+                    columns={AppointmentSchema}
+                    data={facilities}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={handleRow}
+                    progressPending={loading}
+                  />
+                ) : (
+                  <CalendarGrid appointments={mapFacilities()} />
+                )}
               </div>
             </PageWrapper>
           </div>
