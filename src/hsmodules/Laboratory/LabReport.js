@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
+import {DebounceInput} from "react-debounce-input";
 import { useForm } from "react-hook-form";
+import * as yup from 'yup';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
@@ -10,8 +11,8 @@ import { format, formatDistanceToNowStrict } from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
 import LaboratoryReportForm from "../clientForm/forms/laboratoryReportForm";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -79,6 +80,7 @@ export function LabOrderList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading]=useState(false)
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
@@ -138,7 +140,7 @@ export function LabOrderList() {
 
     // console.log(selectedOrders)
   };
-  const handleMedicationRow = async (order) => {
+  const onRowClicked = async order => {
     await handleSelectedClient(order.orderInfo.orderObj.client);
 
     await setSelectedFinance(order);
@@ -277,103 +279,123 @@ export function LabOrderList() {
     return () => {};
   }, [state.financeModule.show]);
 
+// ######### DEFINE FUNCTIONS AND SCHEMA HERE
+  const handleCreate = () => { };
+  const labReportSchema = [
+    {
+      name: "S/No",
+      key: "sn",
+      description: "Enter serial number",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "Enter date",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      validator: yup.string().required("Enter today's date"),
+    },
+    {
+      name: "Client",
+      key: "client",
+      description: "Enter client name",
+      selector: (row) => {
+        return row.orderInfo.orderObj.clientname
+      },
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      validator: yup.string().required("Enter client's name"),
+    },
+    {
+      name: "Test",
+      key: "description",
+      description: "Enter test result details",
+      selector: (row) => row.orderInfo.orderObj.order,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      validator: yup.string().required("Enter details of lab results"),
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: (row) => row.serviceInfo.price,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      validator: yup.string().required("Enter amount"),
+    },
+    {
+      name: "Billing Status",
+      key: "billing_status",
+      description: "Enter Payment Status",
+      selector: (row) => row.billing_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      validator: yup.string().required("Enter client payment status"),
+    },
+    {
+      name: "Report Status",
+      key: "report_status",
+      description: "Select facility",
+      selector: (row) => row.report_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      validator: yup.string().required("Enter Client Result Status"),
+    }
+  ];
+
   return (
-    <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Bills"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
+        <>
+          <PageWrapper
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          >
+          <TableMenu>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              Lab Result
+            </h2>
           </div>
+
+          {handleCreate && (
+            <Button
+              style={{ fontSize: "14px", fontWeight: "600" }}
+              label="Add new "
+              onClick={handleCreate}
+            />
+          )}
+        </TableMenu>
+
+        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+          <CustomTable
+            title={""}
+            columns={labReportSchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={onRowClicked}
+            progressPending={loading}
+          />
         </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            Laboratory test{" "}
-          </span>
-        </div>
-        {/* <div className="level-right">
-                       <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div> 
-                    </div>*/}
-      </div>
-      <div className=" pullup ">
-        <div className=" is-fullwidth vscrollable pr-1">
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Date">Date</abbr>
-                </th>
-                <th>
-                  <abbr title="Client">Client</abbr>
-                </th>
-                {/*  <th><abbr title="Client">Client</abbr></th> */}
-                <th>
-                  <abbr title="Description">Test</abbr>
-                </th>
-                <th>
-                  <abbr title="Amount">Amount</abbr>
-                </th>
-                {/*  <th>Fulfilled</th> */}
-                <th>
-                  <abbr title="Status">Payment Status</abbr>
-                </th>
-                <th>
-                  <abbr title="Status">Result Status</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {facilities.map((order, i) => (
-                <tr
-                  key={order._id}
-                  onClick={() => handleMedicationRow(order)}
-                  className={
-                    order._id === (selectedFinance?._id || null)
-                      ? "is-selected"
-                      : ""
-                  }
-                >
-                  <th>{i + 1}</th>
-                  <td>
-                    <span>{format(new Date(order.createdAt), "dd-MM-yy")}</span>
-                  </td>{" "}
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                  <th>{order.orderInfo.orderObj.clientname}</th>
-                  {/* client name */}
-                  <th>{order.serviceInfo.name}</th>
-                  {/* test name */}{" "}
-                  {/*  <td>{order.fulfilled==="True"?"Yes":"No"}</td> */}
-                  <td>{order.serviceInfo.amount}</td>
-                  <td>{order.billing_status}</td>
-                  <td>{order.report_status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </>
-  );
-}
+        </PageWrapper>
+      </>
+)}
+
 
 export function LabNoteCreate() {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset

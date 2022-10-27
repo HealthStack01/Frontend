@@ -1,17 +1,15 @@
 /* eslint-disable */
-import React, {useState,useContext, useEffect,useRef} from 'react'
-import client from '../../feathers'
-import {toast} from 'bulma-toast'
-import DocumentClass from '../EncounterMgt/DocumentClass'
-
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {toast} from "bulma-toast";
+import DocumentClass from "../Documentation/DocumentClass";
 
 export default function InventorySetup() {
-   
-    return (
-        <section className= "section remPadTop">
-            <DocumentClass />
+  return (
+    <section className="section remPadTop">
+      <DocumentClass />
 
-            {/* <div className="level">
+      {/* <div className="level">
                 <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Inventory Admin</span></div>
             </div>
             <div className="columns ">
@@ -39,7 +37,7 @@ export default function InventorySetup() {
                 <div className="column is-3 has-background-white">
                     right
                 </div>
-            </div>   */}                          
-        </section>
-    )
+            </div>   */}
+    </section>
+  );
 }

@@ -1,21 +1,21 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Clinic() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClinic, setSelectedClinic] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -25,40 +25,36 @@ export default function Clinic() {
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Clinic  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <ClinicList />
-        </div>
-        <div className="column is-4 ">
-          {state.ClinicModule.show === 'create' && <ClinicCreate />}
-          {state.ClinicModule.show === 'detail' && <ClinicDetail />}
-          {state.ClinicModule.show === 'modify' && (
-            <ClinicModify Clinic={selectedClinic} />
-          )}
-        </div>
-      </div>
+
+      {state.ClinicModule.show === "list" && <ClinicList />}
+
+      {state.ClinicModule.show === "create" && <ClinicCreate />}
+      {state.ClinicModule.show === "detail" && <ClinicDetail />}
+      {state.ClinicModule.show === "modify" && (
+        <ClinicModify Clinic={selectedClinic} />
+      )}
     </section>
   );
 }
 
 export function ClinicCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClinicServ = client.service('location');
+  const ClinicServ = client.service("location");
 
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     // buble-up from inputsearch for creating resource
 
-    setValue('facility', obj._id, {
+    setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -75,7 +71,7 @@ export function ClinicCreate() {
     //setFacility(user.activeClinic.FacilityId)//
     if (!user.stacker) {
       console.log(currentUser);
-      setValue('facility', user.currentEmployee.facilityDetail._id, {
+      setValue("facility", user.currentEmployee.facilityDetail._id, {
         shouldValidate: true,
         shouldDirty: true,
       });
@@ -84,7 +80,7 @@ export function ClinicCreate() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setError(false);
     setSuccess(false);
     // data.createdby=user._id
@@ -92,25 +88,25 @@ export function ClinicCreate() {
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
-    data.locationType = 'Clinic';
+    data.locationType = "Clinic";
     ClinicServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Clinic successfully") */
         setSuccess(true);
         toast({
-          message: 'Clinic created succesfully',
-          type: 'is-success',
+          message: "Clinic created succesfully",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
-          message: 'Error creating Clinic ' + err,
-          type: 'is-danger',
+          message: "Error creating Clinic " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -137,7 +133,7 @@ export function ClinicCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  ref={register({required: true})}
                   name="name"
                   type="text"
                   placeholder="Name of Clinic"
@@ -175,19 +171,16 @@ export function ClinicCreate() {
             </div> */}
             <div
               className="field"
-              style={!user.stacker ? { display: 'none' } : {}}
+              style={!user.stacker ? {display: "none"} : {}}
             >
               <InputSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: 'none' }}
-              >
+              <p className="control has-icons-left " style={{display: "none"}}>
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  ref={register({required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -253,27 +246,27 @@ export function ClinicCreate() {
   );
 }
 
-export function ClinicList({ standalone, closeModal }) {
+export function ClinicList({standalone, closeModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClinicServ = client.service('location');
-  const oldpeopleServ = client.service('oldapmispeople');
-  const oldpatientServ = client.service('oldapmispatient');
-  const foremost = client.service('foremost');
+  const [message, setMessage] = useState("");
+  const ClinicServ = client.service("location");
+  const oldpeopleServ = client.service("oldapmispeople");
+  const oldpatientServ = client.service("oldapmispatient");
+  const foremost = client.service("foremost");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClinic, setSelectedClinic] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -282,15 +275,15 @@ export function ClinicList({ standalone, closeModal }) {
   const handleCreateNew = async () => {
     const newClinicModule = {
       selectedClinic: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
     //console.log(state)
   };
-  const handleRow = async (Clinic) => {
+  const handleRow = async Clinic => {
     //console.log("b4",state)
 
     //console.log("handlerow",Clinic)
@@ -299,9 +292,9 @@ export function ClinicList({ standalone, closeModal }) {
 
     const newClinicModule = {
       selectedClinic: Clinic,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
@@ -309,32 +302,32 @@ export function ClinicList({ standalone, closeModal }) {
     closeModal();
   };
 
-  const handleSearch = (val) => {
-    const field = 'name';
+  const handleSearch = val => {
+    const field = "name";
     console.log(val);
     ClinicServ.find({
       query: {
         [field]: {
           $regex: val,
-          $options: 'i',
+          $options: "i",
         },
-        facility: user.currentEmployee.facilityDetail._id || '',
-        locationType: 'Clinic',
+        facility: user.currentEmployee.facilityDetail._id || "",
+        locationType: "Clinic",
         $limit: 10,
         $sort: {
           name: 1,
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Clinic  fetched successfully');
+        setMessage(" Clinic  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Clinic, probable network issues ' + err);
+        setMessage("Error fetching Clinic, probable network issues " + err);
         setError(true);
       });
   };
@@ -343,7 +336,7 @@ export function ClinicList({ standalone, closeModal }) {
     if (user.currentEmployee) {
       const findClinic = await ClinicServ.find({
         query: {
-          locationType: 'Clinic',
+          locationType: "Clinic",
           facility: user.currentEmployee.facilityDetail._id,
           $limit: 20,
           $sort: {
@@ -357,7 +350,7 @@ export function ClinicList({ standalone, closeModal }) {
       if (user.stacker) {
         const findClinic = await ClinicServ.find({
           query: {
-            locationType: 'Clinic',
+            locationType: "Clinic",
             $limit: 20,
             $sort: {
               name: 1,
@@ -396,17 +389,17 @@ export function ClinicList({ standalone, closeModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClinicServ.on('created', (obj) => getFacilities());
-    ClinicServ.on('updated', (obj) => getFacilities());
-    ClinicServ.on('patched', (obj) => getFacilities());
-    ClinicServ.on('removed', (obj) => getFacilities());
+    ClinicServ.on("created", obj => getFacilities());
+    ClinicServ.on("updated", obj => getFacilities());
+    ClinicServ.on("patched", obj => getFacilities());
+    ClinicServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
   //todo: pagination and vertical scroll bar
 
   const handleLoad = async () => {
-    console.log('something'); //5bb5f0538a2a1e386cc10b2e
+    console.log("something"); //5bb5f0538a2a1e386cc10b2e
     let people = [];
     //1.create blank database
     // oldpeopleServ.create({})
@@ -416,16 +409,16 @@ export function ClinicList({ standalone, closeModal }) {
     const findClinic = await oldpatientServ
       .find({
         query: {
-          facilityId: '5bb5f0538a2a1e386cc10b2e',
+          facilityId: "5bb5f0538a2a1e386cc10b2e",
         },
       })
-      .then((resp) => {
+      .then(resp => {
         console.log(resp);
       })
 
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
 
-    console.log('done');
+    console.log("done");
     // await setFacilities(findClinic.data)
     //take their clients
     //save into healthstack vs import
@@ -440,30 +433,30 @@ export function ClinicList({ standalone, closeModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{display: "flex", alignItems: "center"}}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     List of Clients
                   </h2>
                 </div>
                 {handleCreate && (
                   <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
+                    style={{fontSize: "14px", fontWeight: "600"}}
                     label="Add new "
                     onClick={handleCreate}
                   />
                 )}
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={ClientMiniSchema}
                   data={facilities}
                   pointerOnHover
@@ -489,20 +482,20 @@ export function ClinicDetail() {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const ClinicServ=client.service('/Clinic')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Clinic = state.ClinicModule.selectedClinic;
 
   const handleEdit = async () => {
     const newClinicModule = {
       selectedClinic: Clinic,
-      show: 'modify',
+      show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
@@ -521,7 +514,7 @@ export function ClinicDetail() {
               <tr>
                 <td>
                   <label className="label is-small">
-                    {' '}
+                    {" "}
                     <span className="icon is-small is-left">
                       <i className="fas fa-hospital"></i>
                     </span>
@@ -530,8 +523,8 @@ export function ClinicDetail() {
                 </td>
                 <td>
                   <span className="is-size-7 padleft" name="name">
-                    {' '}
-                    {Clinic.name}{' '}
+                    {" "}
+                    {Clinic.name}{" "}
                   </span>
                 </td>
               </tr>
@@ -546,7 +539,7 @@ export function ClinicDetail() {
                 </td>
                 <td>
                   <span className="is-size-7 padleft" name="ClinicType">
-                    {Clinic.locationType}{' '}
+                    {Clinic.locationType}{" "}
                   </span>
                 </td>
               </tr>
@@ -638,28 +631,28 @@ export function ClinicDetail() {
 }
 
 export function ClinicModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
-  const ClinicServ = client.service('location');
+  const ClinicServ = client.service("location");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Clinic = state.ClinicModule.selectedClinic;
 
   useEffect(() => {
-    setValue('name', Clinic.name, {
+    setValue("name", Clinic.name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('locationType', Clinic.locationType, {
+    setValue("locationType", Clinic.locationType, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -694,9 +687,9 @@ export function ClinicModify() {
   const handleCancel = async () => {
     const newClinicModule = {
       selectedClinic: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
@@ -706,17 +699,17 @@ export function ClinicModify() {
   const changeState = () => {
     const newClinicModule = {
       selectedClinic: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClinicModule: newClinicModule }));
+    setState(prevstate => ({...prevstate, ClinicModule: newClinicModule}));
   };
   const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
+    let conf = window.confirm("Are you sure you want to delete this data?");
 
     const dleteId = Clinic._id;
     if (conf) {
       ClinicServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Clinic successfully")
@@ -726,19 +719,19 @@ export function ClinicModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: 'Clinic deleted succesfully',
-            type: 'is-success',
+            message: "Clinic deleted succesfully",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Clinic, probable network issues "+ err )
           // setError(true)
           toast({
-            message: 'Error deleting Clinic, probable network issues or ' + err,
-            type: 'is-danger',
+            message: "Error deleting Clinic, probable network issues or " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -759,25 +752,25 @@ export function ClinicModify() {
     //console.log(data);
 
     ClinicServ.patch(Clinic._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Clinic successfully")
         toast({
-          message: 'Clinic updated succesfully',
-          type: 'is-success',
+          message: "Clinic updated succesfully",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Clinic, probable network issues "+ err )
         // setError(true)
         toast({
-          message: 'Error updating Clinic, probable network issues or ' + err,
-          type: 'is-danger',
+          message: "Error updating Clinic, probable network issues or " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -794,12 +787,12 @@ export function ClinicModify() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="field">
               <label className="label is-small">
-                {' '}
+                {" "}
                 Name
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({ required: true })}
+                    ref={register({required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -816,7 +809,7 @@ export function ClinicModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({ required: true })}
+                    ref={register({required: true})}
                     disabled
                     name="ClinicType"
                     type="text"
@@ -921,24 +914,24 @@ export function ClinicModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
-  const facilityServ = client.service('facility');
+export function InputSearch({getSearchfacility, clear}) {
+  const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -955,9 +948,9 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
-      console.log('stuff was chosen');
+      console.log("stuff was chosen");
     }
 
     /*  console.log("blur")
@@ -973,8 +966,8 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
-    const field = 'facilityName'; //field variable
+  const handleSearch = async val => {
+    const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
       facilityServ
@@ -983,7 +976,7 @@ export function InputSearch({ getSearchfacility, clear }) {
             //service
             [field]: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
             $limit: 10,
             $sort: {
@@ -991,21 +984,21 @@ export function InputSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
-          console.log('facility  fetched successfully');
+        .then(res => {
+          console.log("facility  fetched successfully");
           setFacilities(res.data);
-          setSearchMessage(' facility  fetched successfully');
+          setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
-            'Error searching facility, probable network issues ' + err
+            "Error searching facility, probable network issues " + err
           );
           setSearchError(true);
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -1014,7 +1007,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      setSimpa('');
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
@@ -1022,7 +1015,7 @@ export function InputSearch({ getSearchfacility, clear }) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-          <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
+          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "
@@ -1031,8 +1024,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

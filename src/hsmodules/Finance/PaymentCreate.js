@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
-import Encounter from "../EncounterMgt/Encounter";
+import Encounter from "../Documentation/Encounter";
 var random = require("random-string-generator");
 
 import {PageWrapper} from "../../ui/styled/styles";
@@ -18,7 +18,7 @@ import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreate() {
+export default function PaymentCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
@@ -68,6 +68,7 @@ export default function PaymentCreate() {
   const [partTable, setPartTable] = useState([]);
 
   const {state, setState} = useContext(ObjectContext);
+
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
@@ -256,44 +257,80 @@ export default function PaymentCreate() {
     await setButtonState(false);
   };
 
+  const getFacilities = async () => {
+    // console.log("here b4 server")
+    const findProductEntry = await SubwalletServ.find({
+      query: {
+        client: medication.participantInfo.client._id,
+        organization: user.employeeData[0].facilityDetail._id,
+        //storeId:state.StoreModule.selectedStore._id,
+        //clientId:state.ClientModule.selectedClient._id,
+        //$limit:100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
+    //    console.log(findProductEntry)
+
+    // console.log("balance", findProductEntry.data[0].amount)
+    if (findProductEntry.data.length > 0) {
+      setSubWallet(findProductEntry.data[0]);
+      await setBalance(findProductEntry.data[0].amount);
+    } else {
+      await setBalance(0);
+    }
+
+    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
+  };
+
+  //console.log(state.financeModule);
+
   useEffect(() => {
-    const oldname =
-      medication.participantInfo.client.firstname +
-      " " +
-      medication.participantInfo.client.lastname;
-    // console.log("oldname",oldname)
+    // const oldname =
+    //   medication.participantInfo.client.firstname +
+    //   " " +
+    //   medication.participantInfo.client.lastname;
+    // // console.log("oldname",oldname)
+    // setSource(
+    //   medication.participantInfo.client.firstname +
+    //     " " +
+    //     medication.participantInfo.client.lastname
+    // );
+
+    // const newname = source;
+    // //   console.log("newname",newname)
+    // if (oldname !== newname) {
+    //   //newdispense
+
+    //   setProductItem([]);
+    //   setTotalamount(0);
+    // }
+    // //is the row checked or unchecked
+    // if (state.financeModule.state) {
+    //   medication.show = "none";
+    //   medication.proposedpayment = {
+    //     balance: 0,
+    //     paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
+    //     amount: medication.paymentInfo.balance,
+    //   };
+    //   //no payment detail push
+
+    //   setProductItem(prevProd => prevProd.concat(medication));
+    // } else {
+    //   if (productItem.length > 0) {
+    //     setProductItem(prevProd =>
+    //       prevProd.filter(el => el._id !== medication._id)
+    //     );
+    //   }
+    // }
+
     setSource(
       medication.participantInfo.client.firstname +
         " " +
         medication.participantInfo.client.lastname
     );
-
-    const newname = source;
-    //   console.log("newname",newname)
-    if (oldname !== newname) {
-      //newdispense
-
-      setProductItem([]);
-      setTotalamount(0);
-    }
-    //is the row checked or unchecked
-    if (state.financeModule.state) {
-      medication.show = "none";
-      medication.proposedpayment = {
-        balance: 0,
-        paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
-        amount: medication.paymentInfo.balance,
-      };
-      //no payment detail push
-
-      setProductItem(prevProd => prevProd.concat(medication));
-    } else {
-      if (productItem.length > 0) {
-        setProductItem(prevProd =>
-          prevProd.filter(el => el._id !== medication._id)
-        );
-      }
-    }
+    setProductItem(state.financeModule.selectedBills);
 
     // const paymentoptions= []
     //const info = medication.participantInfo.client.paymentinfo
@@ -331,33 +368,6 @@ export default function PaymentCreate() {
     return () => {};
   }, [productItem]);
 
-  const getFacilities = async () => {
-    // console.log("here b4 server")
-    const findProductEntry = await SubwalletServ.find({
-      query: {
-        client: medication.participantInfo.client._id,
-        organization: user.employeeData[0].facilityDetail._id,
-        //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
-        //$limit:100,
-        $sort: {
-          createdAt: -1,
-        },
-      },
-    });
-    //    console.log(findProductEntry)
-
-    // console.log("balance", findProductEntry.data[0].amount)
-    if (findProductEntry.data.length > 0) {
-      setSubWallet(findProductEntry.data[0]);
-      await setBalance(findProductEntry.data[0].amount);
-    } else {
-      await setBalance(0);
-    }
-
-    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
-  };
-
   //initialize page
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
@@ -375,6 +385,7 @@ export default function PaymentCreate() {
 
     return async () => {
       const newProductEntryModule = {
+        selectedBills: [],
         selectedFinance: {},
         show: "create",
       };
@@ -596,6 +607,7 @@ export default function PaymentCreate() {
           pauseOnHover: true,
         });
         const newProductEntryModule = {
+          selectedBills: [],
           selectedFinance: {},
           show: "create",
         };
@@ -757,6 +769,7 @@ export default function PaymentCreate() {
           pauseOnHover: true,
         });
         const newProductEntryModule = {
+          selectedBills: [],
           selectedFinance: {},
           show: "create",
         };
@@ -828,7 +841,6 @@ export default function PaymentCreate() {
       description: "Enter Type",
       selector: row => (
         <div style={{display: "flex", flexDirection: "column"}}>
-          {console.log(row)}
           <label style={{marginBottom: "5px"}}>
             <input
               type="radio"
@@ -1046,7 +1058,14 @@ export default function PaymentCreate() {
                   onRowClicked={row => console.log(row)}
                   progressPending={loading}
                 />
-                <div className="field mt-2 is-grouped">
+                <div
+                  className="field mt-2 is-grouped"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <p className="control">
                     <button
                       className="button is-success is-small"
@@ -1070,6 +1089,25 @@ export default function PaymentCreate() {
                          Generate Invoice
                      </button>
                  </p>  */}
+
+                  <p className="control">
+                    <button
+                      className="button is-success is-small"
+                      disabled={!productItem.length > 0}
+                      onClick={closeModal}
+                      style={{
+                        backgroundColor: "#808000",
+                        color: "#fff",
+                        fontSize: "0.75rem",
+                        borderRadius: "2px",
+                        padding: "0.6rem 1.2rem",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </p>
                 </div>
               </div>
             </>

@@ -18,6 +18,11 @@ import AccordionBox from "./ui-components/accordion";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
+// import {TableMenu} from "../../ui/styled/global";
+// import FilterMenu from "../../components/utilities/FilterMenu";
+// import Button from "../../components/buttons/Button";
+// import CustomTable from "../../components/customtable";
+import ModalBox from "./ui-components/modal";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
@@ -59,9 +64,12 @@ export default function PharmacyBillPrescription() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      {state.medicationModule.show === "detail" && <BillPrescriptionCreate />}
-      {state.medicationModule.show === "list" && <BillPrescriptionList />}
-      {state.medicationModule.show === "detail" && <PatientProfile />}
+      <BillPrescriptionList />
+
+      <ModalBox open={false}>
+        <BillPrescriptionCreate />
+        {/* <PatientProfile /> */}
+      </ModalBox>
     </section>
   );
 }
@@ -85,6 +93,7 @@ export function BillPrescriptionList() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -184,7 +193,7 @@ export function BillPrescriptionList() {
       });
   };
   const getFacilities = async () => {
-    console.log("here b4 server");
+    //console.log("here b4 server");
     const findProductEntry = await OrderServ.find({
       query: {
         order_category: "Prescription",
@@ -202,6 +211,7 @@ export function BillPrescriptionList() {
 
     // console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
+    //console.log(findProductEntry.groupedOrder);
     await setState(prevstate => ({
       ...prevstate,
       currentClients: findProductEntry.groupedOrder,
@@ -232,12 +242,48 @@ export function BillPrescriptionList() {
     }));
     //console.log(state)
   };
-  const onRowClicked = () => {};
-  const onSearch = () => {};
-  const BillPrescriptionSchema = [
+
+  const selectedClient = false;
+
+  const billPrescriptionSchema = [
     {
-      name: "S/N",
+      name: "S/NO",
       key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.clientname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Number of Prescriptions",
+      key: "order",
+      description: "Enter number of prescription",
+      selector: row =>
+        `${row.orders.length} pending prescription${
+          row.orders.length > 1 ? "s" : ""
+        }`,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
+
+  const selectedDispenseSchema = [
+    {
+      name: "S/NO",
+      width: "80px",
+      key: "sn",
+      description: "Enter name of Disease",
       selector: row => row.sn,
       sortable: true,
       required: true,
@@ -245,100 +291,139 @@ export function BillPrescriptionList() {
     },
     {
       name: "Date",
+      width: "100px",
       key: "date",
-      description: "Enter date",
-      selector: row => row.createdAt && row.createdAt.substring(0, 10),
+      description: "Enter Date",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
       sortable: true,
       required: true,
       inputType: "DATE",
     },
     {
-      name: "Name",
-      key: "name",
-      description: "Enter name of band",
+      name: "Medication",
+      width: "50%",
+      key: "medication",
+      description: "Enter Name",
       selector: row => row.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
-      name: "Fufilled",
-      key: "Fufilled",
-      description: "Fufilled",
-      selector: row => (row.fufilled ? "Yes" : "No"),
+      name: "Fullfilled",
+      width: "100px",
+      key: "fullfilled",
+      description: "Enter Name",
+      selector: row => (row.fulfilled === "True" ? "Yes" : "No"),
       sortable: true,
-      required: false,
+      required: true,
       inputType: "TEXT",
     },
     {
       name: "Status",
-      key: "order_status",
-      description: "Enter status",
+      width: "100px",
+      key: "medication",
+      description: "Enter Name",
       selector: row => row.order_status,
       sortable: true,
-      required: false,
+      required: true,
       inputType: "TEXT",
     },
     {
       name: "Requesting Physician",
-      key: "physician",
-      description: "Enter physician",
+      headerStyle: (selector, id) => {
+        return {textAlign: "center"};
+      },
+      key: "name",
+      description: "Enter Name",
       selector: row => row.requestingdoctor_Name,
       sortable: true,
-      required: false,
+      required: true,
       inputType: "TEXT",
     },
   ];
+
   return (
     <>
-      <PageWrapper style={{padding: "20px"}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px",
+          width: "100%",
+          flex: "1",
+        }}
+      >
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+              Pending Prescription
+            </h2>
+          </div>
+          {/* 
+          {handleCreateNew && (
+            <Button
+              style={{fontSize: "14px", fontWeight: "600"}}
+              label="Add new "
+              onClick={handleCreateNew}
+            />
+          )} */}
+        </TableMenu>
         <div
+          //className="columns"
           style={{
-            width: "100%",
-            height: "100%",
             display: "flex",
-            flexDirection: "column",
+            width: "100%",
+            justifyContent: "space-between",
           }}
         >
-          <TableMenu style={{}}>
-            <div style={{display: "flex", width: "100%", alignItems: "center"}}>
-              <h2 style={{}}>Bill Prescription Sent</h2>
+          <div
+            style={{
+              height: "calc(100% - 70px)",
+              transition: "width 0.5s ease-in",
+              width: selectedDispense ? "30%" : "100%",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={billPrescriptionSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={row => handleRow(row)}
+              progressPending={loading}
+            />
+          </div>
+
+          {selectedDispense && (
+            <>
               <div
-                className="inner-table"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "40px",
+                  height: "calc(100% - 70px)",
+                  width: "69.5%",
                 }}
               >
-                <FilterMenu
-                  schema={BillPrescriptionSchema}
-                  onSearch={onSearch}
+                <CustomTable
+                  title={""}
+                  columns={selectedDispenseSchema}
+                  data={selectedDispense.orders}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={row => handleMedicationRow(row)}
+                  progressPending={loading}
                 />
               </div>
-            </div>
-          </TableMenu>
-          <div style={{width: "50%", height: "600px", overflow: "auto"}}>
-            {facilities.map((data, index) => (
-              <CustomTable
-                key={index}
-                columns={BillPrescriptionSchema}
-                data={data.orders}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={onRowClicked}
-              />
-            ))}
-          </div>
-          {/* <div style={{ width: "45%" }}>
-            <ClientBilledPrescription
-              selectedClient={facilities[0].client_id}
-            />
-          </div> */}
+            </>
+          )}
         </div>
-      </PageWrapper>
+      </div>
     </>
   );
 }

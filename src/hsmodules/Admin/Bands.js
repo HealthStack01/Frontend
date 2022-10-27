@@ -16,6 +16,7 @@ import {fontSize} from "@mui/system";
 const searchfacility = {};
 
 export default function Bands() {
+  console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState();
@@ -27,7 +28,7 @@ export default function Bands() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        {state.BandModule.show === "list" && <BandList />}
+        <BandList />
         {state.BandModule.show === "create" && <BandCreate />}
         {state.BandModule.show === "detail" && <BandDetail />}
         {state.BandModule.show === "modify" && (
