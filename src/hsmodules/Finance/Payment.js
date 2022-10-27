@@ -45,6 +45,15 @@ export default function FinancePayment() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <section className="section remPadTop">
@@ -52,11 +61,11 @@ export default function FinancePayment() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      <BillingList />
+      <BillingList openModal={handleOpenModal} />
 
-      {/* <ModalBox open={state.financeModule.show === "detail"}>
+      <ModalBox open={openModal} onClose={handleCloseModal}>
         <PaymentCreate />
-      </ModalBox> */}
+      </ModalBox>
 
       {/* <div className="column is-4">
         {state.financeModule.show === "detail" && <PaymentCreate />}
@@ -68,7 +77,7 @@ export default function FinancePayment() {
   );
 }
 
-export function BillingList() {
+export function BillingList({openModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -93,6 +102,7 @@ export function BillingList() {
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
   const [clientBills, setClientBills] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const handleSelectedClient = async Client => {
     const newClientModule = {
@@ -110,10 +120,15 @@ export function BillingList() {
     setOldClient(client.clientname);
     let newClient = client.clientname;
     if (oldClient !== newClient) {
-      //alert("New Client Onboard")
-      //remove all checked clientsly
       selectedOrders.forEach(el => (el.checked = ""));
       setSelectedOrders([]);
+      setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: [],
+        },
+      }));
     }
 
     // console.log(e.target.checked)
@@ -121,35 +136,50 @@ export function BillingList() {
     await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
     //handleMedicationRow(order)/
 
-    client.bills.forEach(bill => {
+    await client.bills.forEach(bill => {
       // console.log(bill)
       bill.order.forEach(order => {
-        order.checked = true;
+        let medication = order;
+        medication.show = "none";
+        medication.checked = true;
+        medication.proposedpayment = {
+          balance: 0,
+          paidup:
+            medication.paymentInfo.paidup + medication.paymentInfo.balance,
+          amount: medication.paymentInfo.balance,
+        };
         setSelectedFinance(order);
         const newProductEntryModule = {
           selectedFinance: order,
           show: "detail",
           state: true,
+          selectedBills: [],
         };
         setState(prevstate => ({
           ...prevstate,
-          financeModule: newProductEntryModule,
+          financeModule: {
+            ...newProductEntryModule,
+            selectedBills: prevstate.financeModule.selectedBills.concat(order),
+          },
         }));
 
         setSelectedOrders(prevstate => prevstate.concat(order));
       });
     });
+
+    openModal();
   };
 
   const handleChoseClient = async (client, e, order) => {
     setOldClient(client.clientname);
-    let newClient = client.clientname;
-    if (oldClient !== newClient) {
-      //alert("New Client Onboard")
-      //remove all checked clientsly
-      selectedOrders.forEach(el => (el.checked = ""));
-      setSelectedOrders([]);
-    }
+
+    // let newClient = client.clientname;
+    // if (oldClient !== newClient) {
+    //   //alert("New Client Onboard")
+    //   //remove all checked clientsly
+    //   selectedOrders.forEach(el => (el.checked = ""));
+    //   setSelectedOrders([]);
+    //}
 
     // console.log(e.target.checked)
     order.checked = e.target.checked;
@@ -157,6 +187,7 @@ export function BillingList() {
     //handleMedicationRow(order)
     await setSelectedFinance(order);
     const newProductEntryModule = {
+      ...state.financeModule,
       selectedFinance: order,
       show: "detail",
       state: e.target.checked,
@@ -168,8 +199,33 @@ export function BillingList() {
 
     //set of checked items
     if (e.target.checked) {
-      await setSelectedOrders(prevstate => prevstate.concat(order));
+      let medication = order;
+      medication.show = "none";
+      medication.proposedpayment = {
+        balance: 0,
+        paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
+        amount: medication.paymentInfo.balance,
+      };
+
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.concat(medication),
+        },
+      }));
+      await setSelectedOrders(prevstate => prevstate.concat(medication));
     } else {
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.filter(
+            el => el._id !== order._id
+          ),
+        },
+      }));
+
       setSelectedOrders(prevstate =>
         prevstate.filter(el => el._id !== order._id)
       );
@@ -285,10 +341,25 @@ export function BillingList() {
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
-  const onRowClicked = async (Client, e) => {
-    await setSelectedClient(Client);
+  const onRowClicked = async (client, e) => {
+    await setSelectedClient(client);
 
-    const clientOrders = Client.bills.map(data => {
+    setOldClient(client.clientname);
+    let newClient = client.clientname;
+
+    if (oldClient !== newClient) {
+      selectedOrders.forEach(el => (el.checked = ""));
+      setSelectedOrders([]);
+      setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: [],
+        },
+      }));
+    }
+
+    const clientOrders = client.bills.map(data => {
       const allOrders = [];
 
       data.order.map(order => {
@@ -335,9 +406,29 @@ export function BillingList() {
     return () => {};
   }, [state.financeModule.show]);
 
-  const handleCreate = () => {};
+  useEffect(() => {
+    const productItem = selectedOrders;
+    setTotalAmount(0);
+    productItem.forEach(el => {
+      if (el.show === "none") {
+        if (el.billing_status === "Unpaid") {
+          setTotalAmount(
+            prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
+          );
+        } else {
+          setTotalAmount(
+            prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
+          );
+        }
+      }
+      if (el.show === "flex") {
+        setTotalAmount(prevtotal => Number(prevtotal) + Number(el.partPay));
+      }
 
-  ///**************************UPDATE SCHEMA ACCORDING TO THE DATA FOR FINANCE PAYMENT PAGE******************************
+      //
+    });
+  }, [selectedOrders]);
+
   const financePlaymentListSchema = [
     {
       name: "S/NO",
@@ -501,106 +592,84 @@ export function BillingList() {
           flex: "1",
         }}
       >
-        <div>
-          <TableMenu>
-            <div style={{display: "flex", alignItems: "center"}}>
-              {handleSearch && (
-                <div className="inner-table">
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-              <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                Unpaid Invoices/Bills
-              </h2>
-            </div>
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+              Unpaid Invoices/Bills
+            </h2>
+          </div>
 
-            {/* {handleCreateNew && (
-              <Button
-                style={{fontSize: "14px", fontWeight: "600"}}
-                label="Add new "
-                onClick={handleCreateNew}
-              />
-            )} */}
-          </TableMenu>
+          {selectedOrders.length > 0 && (
+            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+              Amount Due : <span>&#8358;</span>
+              {totalAmount}
+            </h2>
+          )}
 
-          {/* <div className="level-right">
-                       <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div> 
-                    </div>*/}
-        </div>
-        <div>
+          {selectedOrders.length > 0 && (
+            <Button
+              style={{fontSize: "14px", fontWeight: "600"}}
+              label={`Make Payment`}
+              onClick={openModal}
+            />
+          )}
+        </TableMenu>
+
+        <div
+          className="columns"
+          style={{
+            display: "flex",
+            width: "100%",
+            //flex: "1",
+            justifyContent: "space-between",
+          }}
+        >
           <div
-            className="columns"
             style={{
-              display: "flex",
-              width: "100%",
-              //flex: "1",
-              justifyContent: "space-between",
+              height: "calc(100% - 70px)",
+              transition: "width 0.5s ease-in",
+              width: selectedClient ? "49.5%" : "100%",
             }}
           >
-            <div
-              style={{
-                height: "calc(100% - 70px)",
-                width:
-                  state.financeModule.show === "detail" && !selectedClient
-                    ? "47%"
-                    : selectedClient && state.financeModule.show !== "detail"
-                    ? "49.5%"
-                    : selectedClient && state.financeModule.show === "detail"
-                    ? "23%"
-                    : "100%",
-                transition: "width 0.5s ease-in",
-              }}
-            >
-              <CustomTable
-                title={""}
-                columns={financePlaymentListSchema}
-                data={facilities}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={row => onRowClicked(row)}
-                progressPending={loading}
-              />
-            </div>
+            <CustomTable
+              title={""}
+              columns={financePlaymentListSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={row => onRowClicked(row)}
+              progressPending={loading}
+            />
+          </div>
 
-            {selectedClient && (
-              <>
-                <div
-                  style={{
-                    height: "calc(100% - 70px)",
-                    width:
-                      state.financeModule.show === "detail" ? "24%" : "49.5%",
-                    transition: "width 0.5s ease-in",
-                  }}
-                >
-                  <CustomTable
-                    title={""}
-                    columns={selectedClientSchema}
-                    data={clientBills}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    //onRowClicked={row => onRowClicked(row)}
-                    progressPending={loading}
-                  />
-                </div>
-              </>
-            )}
-
-            {state.financeModule.show === "detail" && (
+          {selectedClient && (
+            <>
               <div
                 style={{
                   height: "calc(100% - 70px)",
-                  width: "51.5%",
+                  width: "49.5%",
                   transition: "width 0.5s ease-in",
                 }}
               >
-                <PaymentCreate />
+                <CustomTable
+                  title={""}
+                  columns={selectedClientSchema}
+                  data={clientBills}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={row => onRowClicked(row)}
+                  progressPending={loading}
+                />
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </>

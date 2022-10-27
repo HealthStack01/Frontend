@@ -1,28 +1,28 @@
-import keyBy from 'lodash/keyBy';
-import React, { useEffect, useState } from 'react';
+import keyBy from "lodash/keyBy";
+import React, {useEffect, useState} from "react";
 
-import { Models } from '../../hsmodules/app/Constants';
-import Breadcrumbs from '../breadcrumb';
-import useRepository from '../hooks/repository';
-import LocationModal from '../inputs/LocationModal';
-import LocationSelect from '../inputs/LocationSelect';
-import ProfileMenu from '../profilemenu';
-import { Profile, TopMenuWrapper } from './styles';
+import {Models} from "../../hsmodules/app/Constants";
+import Breadcrumbs from "../breadcrumb";
+import useRepository from "../hooks/repository";
+import LocationModal from "../inputs/LocationModal";
+import LocationSelect from "../inputs/LocationSelect";
+import ProfileMenu from "../profilemenu";
+import {Profile, TopMenuWrapper} from "./styles";
 //import { avatar } from '../../assets/images/img_avatar.png';
 
-const defaultList = [{ code: 'NG', label: '', location: '' }];
+const defaultList = [{code: "NG", label: "", location: ""}];
 
-const TopMenu = ({ isOpen, handleClick }) => {
+const TopMenu = ({isOpen, handleClick}) => {
   const [locationOptions, setLocationOptions] = useState(defaultList);
   const [locationsById, setLocationsById] = useState({});
-  const { list, setFindQuery, facility, locationType, setLocation } =
+  const {list, setFindQuery, facility, locationType, setLocation} =
     useRepository(Models.LOCATION);
   const [selectedLocation, setSelectedLocation] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
 
-/*                                                                                                                                                                                                                                          */
+  /*                                                                                                                                                                                                                                          */
 
- /*  useEffect(() => {
+  /*  useEffect(() => {
     setSelectedLocation(null);
     setOpen(true);
     if (facility && locationType)
@@ -38,27 +38,25 @@ const TopMenu = ({ isOpen, handleClick }) => {
       });
   }, [facility, locationType]);
 */
-  const handleSelectLocation = (locationId) => {
+  const handleSelectLocation = locationId => {
     setLocationOptions([]);
     setSelectedLocation(locationsById[locationId]);
     setLocation(locationsById[locationId]);
     setLocationOptions([
       ...locationOptions,
-      { code: 'NG', label: 'No Location Selected', location: '' },
+      {code: "NG", label: "No Location Selected", location: ""},
     ]);
-  }; 
- 
+  };
+
   return (
     <TopMenuWrapper>
-      <div
-        style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}
-      >
+      <div style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}>
         <span
           onClick={handleClick}
           style={{
-            fontSize: '1.2rem',
-            marginRight: '1rem',
-            fontWeight: 'bold',
+            fontSize: "1.2rem",
+            marginRight: "1rem",
+            fontWeight: "bold",
           }}
         >
           {!isOpen ? (
@@ -74,7 +72,7 @@ const TopMenu = ({ isOpen, handleClick }) => {
       <Profile>
         <div className="location-selector">
           <LocationSelect
-            defaultLocationId={selectedLocation?._id || ''}
+            defaultLocationId={selectedLocation?._id || ""}
             locations={locationOptions}
             onChange={handleSelectLocation}
           />
@@ -96,6 +94,6 @@ const TopMenu = ({ isOpen, handleClick }) => {
       </Profile>
     </TopMenuWrapper>
   );
-}; 
+};
 
 export default TopMenu;

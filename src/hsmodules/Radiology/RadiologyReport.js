@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
-import Encounter from "../EncounterMgt/Encounter";
+import Encounter from "../Documentation/Encounter";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -74,7 +74,7 @@ export function RadiologyOrderList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
@@ -292,13 +292,13 @@ export function RadiologyOrderList() {
     return () => {};
   }, [state.financeModule.show]);
 
-// ######### DEFINE FUNCTIONS AND SCHEMA HERE
+  // ######### DEFINE FUNCTIONS AND SCHEMA HERE
   const radReportSchema = [
     {
       name: "S/No",
       key: "sn",
       description: "Enter serial number",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -306,7 +306,7 @@ export function RadiologyOrderList() {
       name: "Date",
       key: "createdAt",
       description: "Enter date",
-      selector: (row) => row.createdAt,
+      selector: row => row.createdAt,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -315,8 +315,8 @@ export function RadiologyOrderList() {
       name: "Client",
       key: "client",
       description: "Enter client name",
-      selector: (row) => {
-        return row.orderInfo.orderObj.clientname
+      selector: row => {
+        return row.orderInfo.orderObj.clientname;
       },
       sortable: true,
       required: true,
@@ -326,7 +326,7 @@ export function RadiologyOrderList() {
       name: "Test",
       key: "description",
       description: "Enter test result details",
-      selector: (row) => row.orderInfo.orderObj.order,
+      selector: row => row.orderInfo.orderObj.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -335,7 +335,7 @@ export function RadiologyOrderList() {
       name: "Amount",
       key: "amount",
       description: "Enter amount",
-      selector: (row) => row.serviceInfo.price,
+      selector: row => row.serviceInfo.price,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -344,7 +344,7 @@ export function RadiologyOrderList() {
       name: "Billing Status",
       key: "billing_status",
       description: "Enter Payment Status",
-      selector: (row) => row.billing_status,
+      selector: row => row.billing_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -353,40 +353,38 @@ export function RadiologyOrderList() {
       name: "Report Status",
       key: "report_status",
       description: "Select facility",
-      selector: (row) => row.report_status,
+      selector: row => row.report_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
-    }
+    },
   ];
 
   return (
-      <>
-          <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-          >
-          <TableMenu>
-          <div style={{ display: "flex", alignItems: "center" }}>
+    <>
+      <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
               Radiology Results
             </h2>
           </div>
 
           {handleCreate && (
             <Button
-              style={{ fontSize: "14px", fontWeight: "600" }}
+              style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
               onClick={handleCreate}
             />
           )}
         </TableMenu>
 
-        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+        <div style={{width: "100%", height: "600px", overflow: "auto"}}>
           <CustomTable
             title={""}
             columns={radReportSchema}
@@ -398,8 +396,8 @@ export function RadiologyOrderList() {
             progressPending={loading}
           />
         </div>
-        </PageWrapper>
-      </>
+      </PageWrapper>
+    </>
   );
 }
 

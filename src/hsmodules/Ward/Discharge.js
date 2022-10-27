@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import DischargeCreate from "./DischargeCreate";
 import PatientProfile from "../Client/PatientProfile";
-import {DischargeOrdersList} from "../EncounterMgt/DischargeOrders";
+import {DischargeOrdersList} from "../Documentation/DischargeOrders";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};

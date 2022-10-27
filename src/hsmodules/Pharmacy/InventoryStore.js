@@ -22,7 +22,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import EmptyData from "./ui-components/empty";
-import {InventoryStoreSchema} from "./schema";
+import {InventoryStoreSchema} from "./ui-components/schema";
 import styled from "styled-components";
 
 // eslint-disable-next-line
