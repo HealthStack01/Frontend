@@ -18,7 +18,7 @@ import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreate() {
+export default function PaymentCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
@@ -1058,7 +1058,14 @@ export default function PaymentCreate() {
                   onRowClicked={row => console.log(row)}
                   progressPending={loading}
                 />
-                <div className="field mt-2 is-grouped">
+                <div
+                  className="field mt-2 is-grouped"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <p className="control">
                     <button
                       className="button is-success is-small"
@@ -1082,6 +1089,25 @@ export default function PaymentCreate() {
                          Generate Invoice
                      </button>
                  </p>  */}
+
+                  <p className="control">
+                    <button
+                      className="button is-success is-small"
+                      disabled={!productItem.length > 0}
+                      onClick={closeModal}
+                      style={{
+                        backgroundColor: "#808000",
+                        color: "#fff",
+                        fontSize: "0.75rem",
+                        borderRadius: "2px",
+                        padding: "0.6rem 1.2rem",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </p>
                 </div>
               </div>
             </>

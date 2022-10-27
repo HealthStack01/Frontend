@@ -64,7 +64,7 @@ export default function FinancePayment() {
       <BillingList openModal={handleOpenModal} />
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
-        <PaymentCreate />
+        <PaymentCreate closeModal={handleCloseModal} />
       </ModalBox>
 
       {/* <div className="column is-4">

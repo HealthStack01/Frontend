@@ -1037,21 +1037,29 @@ export default function PaymentCreate() {
                   </tbody>
                 </table>
 
-                <div className="field mt-2 is-grouped">
-                  <p className="control">
-                    <button
-                      className="button is-success is-small"
-                      disabled={!productItem.length > 0}
-                      onClick={handlePayment}
-                    >
-                      Pay
-                    </button>
-                  </p>
+                <div
+                  className="field mt-2 is-grouped"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <button
+                    className="button is-success is-small"
+                    disabled={!productItem.length > 0}
+                    onClick={handlePayment}
+                  >
+                    Pay
+                  </button>
+
                   {/* <p className="control">
                      <button className="button is-info is-small" disabled={!productItem.length>0} onClick={onSubmit} >
                          Generate Invoice
                      </button>
                  </p>  */}
+
+                  <button className="button is-danger is-small">Cancel</button>
                 </div>
               </div>
             </>
