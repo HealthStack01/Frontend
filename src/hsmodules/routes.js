@@ -196,7 +196,7 @@ const AppRoutes = () => {
           <Route path="/app/clients/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
           <Route path="/app/clients/payment" element={<ClientPayment />} />
-
+            </Route>
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 
           <Route path="/app/epidemiology" element={<EpidemiologyHome />}>
@@ -220,7 +220,7 @@ const AppRoutes = () => {
           </Route>
           {/* ***************************** ADMIN ROUTES ************************************* */}
 
-          <Route path="/app/admin" element={<FacilityHome />} />
+          <Route path="/app/admin" element={<FacilityHome />}>
           <Route path="/app/admin/accessibility" element={<Accessibility />} />
 
           <Route path="/app/admin/careteam" element={<CareTeam />} />
@@ -234,7 +234,7 @@ const AppRoutes = () => {
           <Route path="/app/admin/roaster" element={<Roaster />} />
           <Route path="/app/admin/Workspace" element={<Workspace />} />
           <Route path="/app/admin/clinicsetup" element={<ClinicSetup />} />
-
+          </Route>
           {/* ***************************** FINANCE ROUTES ************************************* */}
 
           <Route path="/app/finance" element={<FinanceHome />}>
@@ -404,7 +404,8 @@ const AppRoutes = () => {
           <Route path="/app/ward/admissions" element={<Admissions />} />
           <Route path="/app/ward/encounter" element={<Encounter />} />
           <Route path="/app/ward/discharge" element={<Discharge />} />
-        </Route>
+      </Route>
+   
       </Routes>
     </>
   );
