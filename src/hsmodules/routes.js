@@ -245,7 +245,7 @@ const AppRoutes = () => {
             <Route path="/app/finance/collections" element={<Collections />} />
             <Route path="/app/finance/services" element={<Services />} />
             <Route path="/app/finance/billservices" element={<BillService />} />
-            <Route path="/app/finance/hmoauth" element={<HMOauth />} />
+            <Route path="/app/finance/hmoauthorization" element={<HMOauth />} />
 
             <Route path="/app/finance/revenue" element={<FacilityAccount />} />
 

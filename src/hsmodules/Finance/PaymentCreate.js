@@ -1,17 +1,17 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {ProductCreate} from "./Products";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { ProductCreate } from "./Products";
 import Encounter from "../EncounterMgt/Encounter";
 var random = require("random-string-generator");
 
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -30,7 +30,7 @@ export default function PaymentCreate() {
   const OrderServ = client.service("order");
   const InvoiceServ = client.service("invoice");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Bill");
@@ -67,7 +67,7 @@ export default function PaymentCreate() {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
 
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
@@ -80,7 +80,7 @@ export default function PaymentCreate() {
     // handleSearch(val)
   };
 
-  const handleChangeMode = async value => {
+  const handleChangeMode = async (value) => {
     //console.log(value)
     await setPaymentMode(value);
     /*   console.log(paymentOptions)
@@ -119,7 +119,7 @@ export default function PaymentCreate() {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = async obj => {
+  const getSearchfacility = async (obj) => {
     await setObj(obj);
     if (!obj) {
       //"clear stuff"
@@ -149,7 +149,7 @@ export default function PaymentCreate() {
     if (billMode.type === "HMO Cover") {
       //paymentmode
       let contract = contracts.filter(
-        el => el.source_org === billMode.detail.hmo
+        (el) => el.source_org === billMode.detail.hmo
       );
       //  console.log(contract[0].price)
       setSellingPrice(contract[0].price);
@@ -158,7 +158,7 @@ export default function PaymentCreate() {
     if (billMode.type === "Company Cover") {
       //paymentmode
       let contract = contracts.filter(
-        el => el.source_org === billMode.detail.company
+        (el) => el.source_org === billMode.detail.company
       );
       //   console.log(contract[0].price)
       setSellingPrice(contract[0].price);
@@ -232,7 +232,7 @@ export default function PaymentCreate() {
     );
     if (confirm) {
       await SubwalletTxServ.create(obj)
-        .then(resp => {
+        .then((resp) => {
           // console.log(resp)
 
           toast({
@@ -244,7 +244,7 @@ export default function PaymentCreate() {
           setAmountPaid(0);
           setDescription("");
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error accepting deposit " + err,
             type: "is-danger",
@@ -286,11 +286,11 @@ export default function PaymentCreate() {
       };
       //no payment detail push
 
-      setProductItem(prevProd => prevProd.concat(medication));
+      setProductItem((prevProd) => prevProd.concat(medication));
     } else {
       if (productItem.length > 0) {
-        setProductItem(prevProd =>
-          prevProd.filter(el => el._id !== medication._id)
+        setProductItem((prevProd) =>
+          prevProd.filter((el) => el._id !== medication._id)
         );
       }
     }
@@ -305,20 +305,20 @@ export default function PaymentCreate() {
 
   const getTotal = async () => {
     setTotalamount(0);
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (el.show === "none") {
         if (el.billing_status === "Unpaid") {
           setTotalamount(
-            prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
+            (prevtotal) => Number(prevtotal) + Number(el.serviceInfo.amount)
           );
         } else {
           setTotalamount(
-            prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
+            (prevtotal) => Number(prevtotal) + Number(el.paymentInfo.balance)
           );
         }
       }
       if (el.show === "flex") {
-        setTotalamount(prevtotal => Number(prevtotal) + Number(el.partPay));
+        setTotalamount((prevtotal) => Number(prevtotal) + Number(el.partPay));
       }
 
       //
@@ -368,17 +368,17 @@ export default function PaymentCreate() {
     setDocumentNo(invoiceNo);
 
     getFacilities();
-    SubwalletServ.on("created", obj => getFacilities());
-    SubwalletServ.on("updated", obj => getFacilities());
-    SubwalletServ.on("patched", obj => getFacilities());
-    SubwalletServ.on("removed", obj => getFacilities());
+    SubwalletServ.on("created", (obj) => getFacilities());
+    SubwalletServ.on("updated", (obj) => getFacilities());
+    SubwalletServ.on("patched", (obj) => getFacilities());
+    SubwalletServ.on("removed", (obj) => getFacilities());
 
     return async () => {
       const newProductEntryModule = {
         selectedFinance: {},
         show: "create",
       };
-      await setState(prevstate => ({
+      await setState((prevstate) => ({
         ...prevstate,
         financeModule: newProductEntryModule,
       }));
@@ -400,14 +400,14 @@ export default function PaymentCreate() {
     // console.log(bill, e.target.value)
     if (e.target.value === "Part") {
       bill.show = "flex";
-      setPartPay(prev => prev.concat(bill));
-      setPartTable(prev => prev.concat(bill));
+      setPartPay((prev) => prev.concat(bill));
+      setPartTable((prev) => prev.concat(bill));
     }
 
     if (e.target.value === "Full") {
       bill.show = "none";
 
-      let item = await productItem.find(el => el._id === bill._id);
+      let item = await productItem.find((el) => el._id === bill._id);
       const payObj = {
         amount: item.paymentInfo.balance,
         mode: "Full",
@@ -423,12 +423,12 @@ export default function PaymentCreate() {
       // item.paymentInfo.balance=item.paymentInfo.balance - item.paymentInfo.balance
       //  item.paymentInfo.paidup=Number(item.paymentInfo.paidup) + Number(payObj.amount)
       getTotal();
-      setPartPay(prev => prev.concat(bill));
-      setPartTable(prev => prev.filter(i => i._id !== bill._id));
+      setPartPay((prev) => prev.concat(bill));
+      setPartTable((prev) => prev.filter((i) => i._id !== bill._id));
     }
   };
 
-  const handleChangeFull = async e => {
+  const handleChangeFull = async (e) => {
     // console.log(medication)
     if (e.target.value === "Part") {
       setPart(true);
@@ -454,9 +454,9 @@ export default function PaymentCreate() {
       });
       return;
     }
-    let item = await productItem.find(el => el._id === bill._id);
+    let item = await productItem.find((el) => el._id === bill._id);
     item.partPay = partAmount;
-    setPartPay(prev => prev.concat(bill));
+    setPartPay((prev) => prev.concat(bill));
     //setProductItem(productItem)
   };
 
@@ -475,7 +475,7 @@ export default function PaymentCreate() {
       return;
     }
     // console.log(bill)
-    let item = await productItem.find(el => el._id === bill._id);
+    let item = await productItem.find((el) => el._id === bill._id);
 
     let partAmount = item.partPay;
 
@@ -494,7 +494,7 @@ export default function PaymentCreate() {
     }
 
     getTotal();
-    setPartPay(prev => prev.concat(bill));
+    setPartPay((prev) => prev.concat(bill));
     toast({
       message: "Part payment updated successfully",
       type: "is-success",
@@ -517,7 +517,7 @@ export default function PaymentCreate() {
       return;
     }
 
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (!el.proposedpayment.amount) {
         toast({
           message: "one or more bills do not have a payment method selected",
@@ -530,7 +530,7 @@ export default function PaymentCreate() {
     });
 
     //transform
-    productItem.forEach(el => {
+    productItem.forEach((el) => {
       if (el.show === "flex") {
         const payObj = {
           amount: el.proposedpayment.amount,
@@ -552,7 +552,7 @@ export default function PaymentCreate() {
 
     let allItems = productItem;
 
-    allItems.forEach(el => {
+    allItems.forEach((el) => {
       el.paymentInfo.balance = el.proposedpayment.balance;
       el.paymentInfo.paidup = el.proposedpayment.paidup;
       el.paymentInfo.amountpaid = el.proposedpayment.amount;
@@ -587,7 +587,7 @@ export default function PaymentCreate() {
     // console.log(obj)
 
     InvoiceServ.create(obj)
-      .then(async resp => {
+      .then(async (resp) => {
         setProductItem([]);
         toast({
           message: "payment successful",
@@ -599,12 +599,12 @@ export default function PaymentCreate() {
           selectedFinance: {},
           show: "create",
         };
-        await setState(prevstate => ({
+        await setState((prevstate) => ({
           ...prevstate,
           finance: newProductEntryModule,
         }));
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error occurred with payment" + err,
           type: "is-danger",
@@ -657,7 +657,7 @@ export default function PaymentCreate() {
       // console.log(fraction)
       // console.log(partBulk)
 
-      productItem.forEach(el => {
+      productItem.forEach((el) => {
         // console.log(el)
 
         const payObj = {
@@ -688,7 +688,7 @@ export default function PaymentCreate() {
       }
 
       //pay all bills in full
-      productItem.forEach(el => {
+      productItem.forEach((el) => {
         if (el.show === "flex") {
           const payObj = {
             amount: el.proposedpayment.amount,
@@ -711,7 +711,7 @@ export default function PaymentCreate() {
 
     let allItems = productItem;
 
-    allItems.forEach(el => {
+    allItems.forEach((el) => {
       el.paymentInfo.balance = el.proposedpayment.balance;
       el.paymentInfo.paidup = el.proposedpayment.paidup;
       el.paymentInfo.amountpaid = el.proposedpayment.amount;
@@ -748,7 +748,7 @@ export default function PaymentCreate() {
     //  console.log(obj.amountPaid)
 
     InvoiceServ.create(obj)
-      .then(async resp => {
+      .then(async (resp) => {
         setProductItem([]);
         toast({
           message: "payment successful",
@@ -760,7 +760,7 @@ export default function PaymentCreate() {
           selectedFinance: {},
           show: "create",
         };
-        await setState(prevstate => ({
+        await setState((prevstate) => ({
           ...prevstate,
           finance: newProductEntryModule,
         }));
@@ -768,7 +768,7 @@ export default function PaymentCreate() {
         setPart(false);
         setIsPart(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error occurred with payment" + err,
           type: "is-danger",
@@ -788,7 +788,7 @@ export default function PaymentCreate() {
     //2.4 mark bills as paid
   };
 
-  const handleBulkAmount = e => {
+  const handleBulkAmount = (e) => {
     setPartBulk(e.target.value);
   };
 
@@ -798,7 +798,7 @@ export default function PaymentCreate() {
       width: "75px",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -807,7 +807,7 @@ export default function PaymentCreate() {
       name: "Category",
       key: "category",
       description: "Enter Category",
-      selector: row => <b>{row.orderInfo.orderObj.order_category}</b>,
+      selector: (row) => <b>{row.orderInfo.orderObj.order_category}</b>,
       sortable: true,
       required: true,
       inputType: "SELECT_TYPE",
@@ -816,7 +816,7 @@ export default function PaymentCreate() {
       name: "Description",
       key: "description",
       description: "Enter Description",
-      selector: row => row.serviceInfo.name,
+      selector: (row) => row.serviceInfo.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -826,43 +826,43 @@ export default function PaymentCreate() {
       width: "200px",
       key: "sn",
       description: "Enter Type",
-      selector: row => (
-        <div style={{display: "flex", flexDirection: "column"}}>
+      selector: (row) => (
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {console.log(row)}
-          <label style={{marginBottom: "5px"}}>
+          <label style={{ marginBottom: "5px" }}>
             <input
               type="radio"
               name={row._id}
               value="Full"
-              checked={!partTable.find(i => i._id === row._id)}
-              onChange={e => {
+              checked={!partTable.find((i) => i._id === row._id)}
+              onChange={(e) => {
                 handleChangePart(row, e);
               }}
             />
             <span> Full </span>
           </label>
 
-          <label style={{marginBottom: "5px"}}>
+          <label style={{ marginBottom: "5px" }}>
             <input
               type="radio"
               name={row._id}
               value="Part"
-              checked={partTable.find(i => i._id === row._id)}
-              onChange={e => handleChangePart(row, e)}
+              checked={partTable.find((i) => i._id === row._id)}
+              onChange={(e) => handleChangePart(row, e)}
             />
             <span> Part </span>
           </label>
 
-          {partTable.find(i => i._id === row._id) && (
+          {partTable.find((i) => i._id === row._id) && (
             <div>
-              <div style={{marginBottom: "5px"}}>
+              <div style={{ marginBottom: "5px" }}>
                 <input
-                  className="input is-small selectadd"
                   type="text"
                   name={row._id}
                   placeholder="Amount"
                   value={partBulk}
-                  onChange={e => handlePartAmount(row, e)}
+                  onChange={(e) => handlePartAmount(row, e)}
+                  style={{ width: "150px" }}
                 />
               </div>
               <button
@@ -875,7 +875,7 @@ export default function PaymentCreate() {
                   border: "none",
                   cursor: "pointer",
                 }}
-                onClick={e => handleUpdate(row, e)}
+                onClick={(e) => handleUpdate(row, e)}
               >
                 Update
               </button>
@@ -892,18 +892,18 @@ export default function PaymentCreate() {
       width: "200px",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => (
-        <div style={{display: "flex", flexDirection: "column"}}>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Balance Due:</b>{" "}
+      selector: (row) => (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", marginBottom: "8px" }}>
+            <b style={{ marginRight: "3px" }}>Balance Due:</b>{" "}
             {row.paymentInfo.balance.toFixed(2)}
           </div>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Paid up:</b>{" "}
+          <div style={{ display: "flex", marginBottom: "8px" }}>
+            <b style={{ marginRight: "3px" }}>Paid up:</b>{" "}
             {row.paymentInfo.paidup.toFixed(2)}
           </div>
-          <div style={{display: "flex", marginBottom: "8px"}}>
-            <b style={{marginRight: "3px"}}>Amount:</b>{" "}
+          <div style={{ display: "flex", marginBottom: "8px" }}>
+            <b style={{ marginRight: "3px" }}>Amount:</b>{" "}
             {row.paymentInfo.amountDue.toFixed(2)}
           </div>
         </div>
@@ -916,7 +916,7 @@ export default function PaymentCreate() {
 
   return (
     <>
-      <div style={{width: "100%"}}>
+      <div style={{ width: "100%" }}>
         <div
           style={{
             backgroundColor: "#F8F8F8",
@@ -934,7 +934,7 @@ export default function PaymentCreate() {
               marginBottom: "15px",
             }}
           >
-            <p style={{fontSize: "0.75rem", fontWeight: "bold"}}>
+            <p style={{ fontSize: "0.75rem", fontWeight: "bold" }}>
               Pay Bills for {source} #{documentNo}
             </p>
             <div
@@ -944,7 +944,7 @@ export default function PaymentCreate() {
                 borderRadius: "15px",
               }}
             >
-              <p style={{color: "#fff", fontSize: "0.75rem"}}>
+              <p style={{ color: "#fff", fontSize: "0.75rem" }}>
                 Total Amount Due: N {totalamount.toFixed(2)}
               </p>
             </div>
@@ -958,14 +958,14 @@ export default function PaymentCreate() {
               justifyContent: "space-between",
             }}
           >
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <label className=" is-small">
                 <input
                   type="radio"
                   name="fullPay"
                   value="Full"
                   checked={!part}
-                  onChange={e => {
+                  onChange={(e) => {
                     handleChangeFull(e);
                   }}
                 />
@@ -984,22 +984,22 @@ export default function PaymentCreate() {
                     type="radio"
                     name="fullPay"
                     value="Part"
-                    onChange={e => handleChangeFull(e)}
+                    onChange={(e) => handleChangeFull(e)}
                   />
                   <span> Part </span>
                 </label>
 
                 {part && (
-                  <div style={{marginLeft: "15px"}}>
+                  <div style={{ marginLeft: "15px" }}>
                     <div className="control">
                       <input
                         className="input is-small selectadd"
-                        style={{padding: "3px"}}
+                        style={{ padding: "3px" }}
                         type="text"
                         name="bulkpay"
                         placeholder="Enter amount"
                         value={partBulk}
-                        onChange={e => handleBulkAmount(e)}
+                        onChange={(e) => handleBulkAmount(e)}
                       />
                     </div>
                   </div>
@@ -1018,7 +1018,7 @@ export default function PaymentCreate() {
                   border: "none",
                   cursor: "pointer",
                 }}
-                onClick={e => handleBulkPayment(e)}
+                onClick={(e) => handleBulkPayment(e)}
               >
                 Pay
               </button>
@@ -1043,7 +1043,7 @@ export default function PaymentCreate() {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={row => console.log(row)}
+                  onRowClicked={(row) => console.log(row)}
                   progressPending={loading}
                 />
                 <div className="field mt-2 is-grouped">
