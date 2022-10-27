@@ -15,29 +15,29 @@ import { Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 
-export const appointments = [
-  {
-    title: 'Dr Philips - Surgery',
-    startDate: '2021-11-05T11:45',
-    endDate: '2021-11-05T12:45',
-    id: 0,
-    location: 'Room 1',
-  },
-  {
-    title: 'Dr Jon - Dentist',
-    startDate: '2021-11-05T13:45',
-    endDate: '2021-11-05T14:45',
-    id: 0,
-    location: 'Room 4',
-  },
-  {
-    title: 'General Checkup',
-    startDate: '2021-11-03T09:45',
-    endDate: '2021-11-03T12:45',
-    id: 0,
-    location: 'Room 1',
-  },
-];
+// export const appointments = [
+//   {
+//     title: 'Dr Philips - Surgery',
+//     startDate: '2021-11-05T11:45',
+//     endDate: '2021-11-05T12:45',
+//     id: 0,
+//     location: 'Room 1',
+//   },
+//   {
+//     title: 'Dr Jon - Dentist',
+//     startDate: '2021-11-05T13:45',
+//     endDate: '2021-11-05T14:45',
+//     id: 0,
+//     location: 'Room 4',
+//   },
+//   {
+//     title: 'General Checkup',
+//     startDate: '2021-11-03T09:45',
+//     endDate: '2021-11-03T12:45',
+//     id: 0,
+//     location: 'Room 1',
+//   },
+// ];
 
 const useStyles = makeStyles(() => ({}));
 
@@ -82,12 +82,12 @@ const Appointment = ({ children, style, ...restProps }) => (
     {children}
   </Appointments.Appointment>
 );
-const CalendarGrid = () => {
+const CalendarGrid = ({ appointments }) => {
   return (
     <Paper>
       <Scheduler data={appointments}>
         <ViewState
-          defaultCurrentDate="2021-11-05"
+          defaultCurrentDate={new Date()}
           defaultCurrentViewName="Week"
         />
         <DayView startDayHour={9} endDayHour={19} />

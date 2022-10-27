@@ -6,6 +6,8 @@
     "@babel/core": "7.0.0",
     "@date-io/date-fns": "^2.13.1",
     "@devexpress/dx-react-core": "^3.0.1",
+    "@devexpress/dx-react-scheduler": "^3.0.6",
+    "@devexpress/dx-react-scheduler-material-ui": "^3.0.6",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@feathersjs/authentication-client": "^4.5.13",

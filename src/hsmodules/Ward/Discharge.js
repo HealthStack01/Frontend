@@ -85,6 +85,7 @@ export function DischargeList() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -245,7 +246,49 @@ export function DischargeList() {
 
   return (
     <>
-      <div className="level">
+      {user ? (
+        <>
+          <div className="level">
+            <PageWrapper
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            >
+              <TableMenu>
+                <div style={{display: "flex", alignItems: "center"}}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "0.95rem",
+                      width: "300px",
+                    }}
+                  >
+                    List of Appointments
+                  </h2>
+                </div>
+              </TableMenu>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+                <CustomTable
+                  title={""}
+                  columns={WardDischargedPatient}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                />
+              </div>
+            </PageWrapper>
+          </div>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
+      {/* <div className="level">
         <div className="level-left">
           <div className="level-item">
             <div className="field">
@@ -271,11 +314,11 @@ export function DischargeList() {
             Pending Discharges{" "}
           </span>
         </div>
-        {/* <div className="level-right">
+        <div className="level-right">
                        <div className="level-item"> 
                             <div nclassName="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
                         </div> 
-                    </div>*/}
+                    </div>
       </div>
       <div className=" pullup">
         <div className=" is-fullwidth vscrollable pr-1">
@@ -318,7 +361,7 @@ export function DischargeList() {
                   <td>
                     <span>{format(new Date(order.createdAt), "dd-MM-yy")}</span>
                   </td>{" "}
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
+                  {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/>
                   <th>
                     {order.client.firstname} {order.client.lastname}
                   </th>
@@ -331,7 +374,7 @@ export function DischargeList() {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
