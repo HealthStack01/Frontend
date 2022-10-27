@@ -23,6 +23,45 @@ import { AppointmentSchema } from '../Clinic/schema';
 const searchfacility = {};
 
 export default function RadCheckedin() {
+  const { state } = useContext(ObjectContext); //,setState
+  // eslint-disable-next-line
+  const [selectedClient, setSelectedClient] = useState();
+  //const [showState,setShowState]=useState() //create|modify|detail
+
+  return (
+    <section className="section remPadTop">
+      <div
+        className="columns "
+        style={{
+          display: 'flex',
+        }}
+      >
+        <div
+          className="column is-6"
+          style={{
+            width: '50%',
+          }}
+        >
+          <CheckIn />
+        </div>
+        <div
+          className="column is-6 "
+          style={{
+            width: '50%',
+          }}
+        >
+          <CheckOut />
+          {/* {state.ClientModule.show === 'List' && <CheckIn />} */}
+          {/* {state.ClientModule.show === 'detail' && <ClientDetail />} */}
+          {/* {state.ClientModule.show === 'modify' && (
+            <ClientModify Client={selectedClient} />
+          )} */}
+        </div>
+      </div>
+    </section>
+  );
+}
+export function CheckIn() {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -434,8 +473,7 @@ export default function RadCheckedin() {
     </>
   );
 }
-
-export function RadCheckedOutList() {
+export function CheckOut() {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);

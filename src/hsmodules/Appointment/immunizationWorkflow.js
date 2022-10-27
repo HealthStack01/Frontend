@@ -27,11 +27,26 @@ export default function ImmunizationCheckIn() {
 
   return (
     <section className="section remPadTop">
-      <div className="columns ">
-        <div className="column is-6 ">
+      <div
+        className="columns "
+        style={{
+          display: 'flex',
+        }}
+      >
+        <div
+          className="column is-6"
+          style={{
+            width: '50%',
+          }}
+        >
           <CheckIn />
         </div>
-        <div className="column is-6 ">
+        <div
+          className="column is-6 "
+          style={{
+            width: '50%',
+          }}
+        >
           <CheckOut />
           {/* {state.ClientModule.show === 'List' && <CheckIn />} */}
           {/* {state.ClientModule.show === 'detail' && <ClientDetail />} */}

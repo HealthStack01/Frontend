@@ -33,11 +33,26 @@ export default function TheatreCheckedin() {
 
   return (
     <section className="section remPadTop">
-      <div className="columns ">
-        <div className="column is-6 ">
+      <div
+        className="columns "
+        style={{
+          display: 'flex',
+        }}
+      >
+        <div
+          className="column is-6 "
+          style={{
+            width: '50%',
+          }}
+        >
           <TheatreStatusList />
         </div>
-        <div className="column is-6 ">
+        <div
+          className="column is-6 "
+          style={{
+            width: '50%',
+          }}
+        >
           <TheatreCheckedOutList />
           {/*  {(state.AppointmentModule.show ==='create')&&<TheatreAppointmentCreate />}
                 {(state.AppointmentModule.show ==='detail')&&<TheatreAppointmentDetail  />}
