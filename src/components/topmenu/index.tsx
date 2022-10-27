@@ -18,19 +18,9 @@ const TopMenu = ({ isOpen, handleClick }) => {
   const { list, setFindQuery, facility, locationType, setLocation } =
     useRepository(Models.LOCATION);
   const [selectedLocation, setSelectedLocation] = useState<any>();
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    setLocationsById(keyBy(list, (obj: any) => obj._id));
-    setLocationOptions([
-      ...list.map(({ _id, name }) => ({
-        code: 'NG',
-        label: name,
-        location: _id,
-      })),
-      { code: 'NG', label: 'Default', location: '' },
-    ]);
-  }, [list]); 
+/*                                                                                                                                                                                                                                          */
 
  /*  useEffect(() => {
     setSelectedLocation(null);
