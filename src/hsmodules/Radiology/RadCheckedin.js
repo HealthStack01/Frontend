@@ -13,6 +13,11 @@ import LocationSearch from "../helpers/LocationSearch"
 import EmployeeSearch from "../helpers/EmployeeSearch"
 import BillServiceCreate from '../Finance/BillServiceCreate'
 import "react-datepicker/dist/react-datepicker.css";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 const searchfacility={};
 
@@ -434,6 +439,7 @@ export function RadStatusList(){
     //const navigate=useNavigate()
    // const {user,setUser} = useContext(UserContext)
     const [facilities,setFacilities]=useState([])
+    const [loading, setLoading]=useState(false)
      // eslint-disable-next-line
    const [selectedClient, setSelectedClient]=useState() //
     // eslint-disable-next-line
@@ -660,6 +666,9 @@ const handleDate=async (date)=>{
     }, [startDate])
     //todo: pagination and vertical scroll bar
 
+// ######### DEFINE FUNCTIONS AND SCHEMA HERE
+  const onRowClicked = () => {};
+  const handleCreate = () => {};
     return(
         <>
            {user?( <>  

@@ -9,6 +9,11 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import BillRadiologyCreate from "./BillRadiologyCreate";
 import PatientProfile from "../Client/PatientProfile";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -81,6 +86,7 @@ export function BillRadiologyList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
@@ -236,120 +242,129 @@ export function BillRadiologyList() {
     //console.log(state)
   };
 
+  // ######### DEFINE FUNCTIONS AND SCHEMA HERE
+  const onRowClicked = () => {};
+  const handleCreate = () => {};
+
   return (
-    <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Tests"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            Pending Investigations{" "}
-          </span>
-        </div>
-        {/* <div className="level-right">
-                       <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div> 
-                    </div>*/}
-      </div>
-      <div className=" pullup">
-        <div className=" is-fullwidth vscrollable pr-1">
-          <div>
-            {facilities.map((Clinic, i) => (
-              <div key={Clinic.client_id}>
-                <div>
-                  <div>
-                    <strong>
-                      {" "}
-                      {i + 1} {Clinic.clientname} with {Clinic.orders.length}{" "}
-                      Pending Investgation(s){" "}
-                    </strong>
-                  </div>
-                </div>
-                <div>
-                  <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                    <thead>
-                      <tr>
-                        <th>
-                          <abbr title="Serial No">S/No</abbr>
-                        </th>
-                        <th>
-                          <abbr title="Date">Date</abbr>
-                        </th>
-                        <th>
-                          <abbr title="Order">Medication</abbr>
-                        </th>
-                        <th>Fulfilled</th>
-                        <th>
-                          <abbr title="Status">Status</abbr>
-                        </th>
-                        <th>
-                          <abbr title="Requesting Physician">
-                            Requesting Physician
-                          </abbr>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Clinic.orders.map((order, i) => (
-                        <tr
-                          key={order._id}
-                          onClick={() => handleMedicationRow(order)}
-                          className={
-                            order._id === (selectedMedication?._id || null)
-                              ? "is-selected"
-                              : ""
-                          }
-                        >
-                          <th>{i + 1}</th>
-                          <td>
-                            <span>
-                              {format(new Date(order.createdAt), "dd-MM-yy")}
-                            </span>
-                          </td>{" "}
-                          {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                          <th>{order.order}</th>
-                          <td>{order.fulfilled === "True" ? "Yes" : "No"}</td>
-                          <td>{order.order_status}</td>
-                          <td>{order.requestingdoctor_Name}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  {/*   */}
-                  <ClientBilledRadiology selectedClient={Clinic.client_id} />
-                  {/*  } */}
-                </div>
+      <>
+          <PageWrapper
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          >
+          <TableMenu>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
               </div>
-            ))}
-            {/* <!-- Add Ref to Load More div --> */}
-            {/*  <div className="loading" ref={loader}>
-                                    <h2>Load More</h2>
-                        </div> */}
+            )}
+            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              Bills To Be Paid
+            </h2>
           </div>
+
+          {handleCreate && (
+            <Button
+              style={{ fontSize: "14px", fontWeight: "600" }}
+              label="Add new "
+              onClick={handleCreate}
+            />
+          )}
+        </TableMenu>
+
+        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+          <CustomTable
+            title={""}
+            columns={BandSchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={onRowClicked}
+            progressPending={loading}
+          />
         </div>
-      </div>
-    </>
+        </PageWrapper>
+      </>
   );
 }
+// {/* <div className=" pullup">
+//   <div className=" is-fullwidth vscrollable pr-1">
+//     <div>
+//       {facilities.map((Clinic, i) => (
+//         <div key={Clinic.client_id}>
+//           <div>
+//             <div>
+//               <strong>
+//                 {" "}
+//                 {i + 1} {Clinic.clientname} with {Clinic.orders.length}{" "}
+//                 Pending Investgation(s){" "}
+//               </strong>
+//             </div>
+//           </div>
+//           <div>
+//             <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
+//               <thead>
+//                 <tr>
+//                   <th>
+//                     <abbr title="Serial No">S/No</abbr>
+//                   </th>
+//                   <th>
+//                     <abbr title="Date">Date</abbr>
+//                   </th>
+//                   <th>
+//                     <abbr title="Order">Medication</abbr>
+//                   </th>
+//                   <th>Fulfilled</th>
+//                   <th>
+//                     <abbr title="Status">Status</abbr>
+//                   </th>
+//                   <th>
+//                     <abbr title="Requesting Physician">
+//                       Requesting Physician
+//                     </abbr>
+//                   </th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {Clinic.orders.map((order, i) => (
+//                   <tr
+//                     key={order._id}
+//                     onClick={() => handleMedicationRow(order)}
+//                     className={
+//                       order._id === (selectedMedication?._id || null)
+//                         ? "is-selected"
+//                         : ""
+//                     }
+//                   >
+//                     <th>{i + 1}</th>
+//                     <td>
+//                       <span>
+//                         {format(new Date(order.createdAt), "dd-MM-yy")}
+//                       </span>
+//                     </td>{" "}
+//                     {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
+//                     <th>{order.order}</th>
+//                     <td>{order.fulfilled === "True" ? "Yes" : "No"}</td>
+//                     <td>{order.order_status}</td>
+//                     <td>{order.requestingdoctor_Name}</td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//             {/*   */}
+//             <ClientBilledRadiology selectedClient={Clinic.client_id} />
+//             {/*  } */}
+//           </div>
+//         </div>
+//       ))}
+//       {/* <!-- Add Ref to Load More div --> */}
+//       {/*  <div className="loading" ref={loader}>
+//                               <h2>Load More</h2>
+//                   </div> */}
+//     </div>
+//   </div>
+// </div> */}
 
 export function DispenseDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,

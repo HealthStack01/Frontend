@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import Appointments from "./Clinic/Appointments";
@@ -10,15 +10,14 @@ import IndividualSignup from "./auth/IndividualSignup";
 import Signup from "./auth/Signup";
 import PrivateOutlet from "./PrivateOutlet";
 import Overview from "./app/Overview";
-
+import PharmacyDispense from "./Pharmacy/Dispensary";
 import BillLab from "./Laboratory/BillLab";
-
-import FinanceBillPrescription from "./Finance/BillPrescription";
+import BillPrescription from "./Finance/BillPrescription";
 import InventoryBillPrescription from "./inventory/BillPrescription";
+import PharmacyBillService from "./Pharmacy/BillService";
 import PharmacyBillPrescription from "./Pharmacy/BillPrescription";
 import BillRadiology from "./Radiology/BillRadiology";
 import LaboratoryBillService from "./Laboratory/BillService";
-import PharmacyBillService from "./Pharmacy/BillService";
 
 import BillService from "./Finance/BillService";
 import BillTheatre from "./Theatre/BillTheatre";
@@ -34,8 +33,6 @@ import Collections from "./Finance/Collections";
 import EpidemiologyDashboard from "./Epidemiology/DashBoard";
 
 import InventoryDispense from "./inventory/Dispensary";
-import PharmacyDispense from "./Pharmacy/Dispensary";
-
 import Encounter from "./EncounterMgt/Encounter";
 import EpidemiologyHome from "./Epidemiology/EpidemiologyHome";
 import Expense from "./Accounts/Expense";
@@ -63,16 +60,17 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
-import PharmacyInventoryReport from "./Pharmacy/InventoryReport";
+import PharmacyReport from "./Pharmacy/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
-import PharmacyInventorySetup from "./Pharmacy/InventorySetup";
-import InventoryStore from "./inventory/InventoryStore";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
-
+/* import InventorySetup from './Pharmacy/InventorySetup' */
+import PharmacyProductEntry from "./Pharmacy/ProductEntry";
+import PharmacyProductExit from "./Pharmacy/ProductExit";
+import InventoryStore from "./Pharmacy/InventoryStore";
 import Journal from "./Accounts/Journal";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
 import LabPayment from "./Laboratory/LabPayment";
@@ -87,15 +85,13 @@ import Pharmacy, {
   PharmacyListStandalone,
 } from "./Pharmacy/Pharmacy";
 import PharmacyHome from "./Pharmacy/PharmacyHome";
-
+import PharmacyInventoryReport from "./Pharmacy/InventoryReport";
 //import InventoryPayment from './inventory/PharmacyPayment'
 import PharmacyPayment from "./Pharmacy/PharmacyPayment";
 import FinacneProductEntry from "./Finance/Services";
 import InventoryProductEntry from "./inventory/ProductEntry";
-import PharmacyProductEntry from "./Pharmacy/ProductEntry";
 import FinanceProductExit from "./Finance/ProductExit";
 import InventoryProductExit from "./inventory/ProductExit";
-import PharmacyProductExit from "./Pharmacy/ProductExit";
 import FinanceProducts from "./Finance/Products";
 import InventoryProducts from "./inventory/Products";
 import PharmacyProducts from "./Pharmacy/Products";
@@ -112,7 +108,7 @@ import EpidemiologySignals from "./Epidemiology/Signals"; //, { StoreList, Store
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store' */
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store'  */
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import Theatre from "./Theatre/Theatres"; //, /* { StoreList, StoreListStandalone } */
 import TheatreAppointments from "./Theatre/TheatreAppointments";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
@@ -120,9 +116,11 @@ import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
 
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 import ClientPayment from "./Client/Payment";
 import ClientHome from "./Client/ClientHome";
+// import ClientsAppointments from "./Clients/Appointments";
+import ClientsAppointments from "./Client/Appointments";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -136,7 +134,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -198,7 +196,6 @@ const AppRoutes = () => {
           <Route path="/app/clients/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
           <Route path="/app/clients/payment" element={<ClientPayment />} />
-          </Route>
 
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 
@@ -351,11 +348,11 @@ const AppRoutes = () => {
           <Route path="/app/radiology" element={<RadiologyHome />} />
 
           <Route
-            path="/app/radiology/radiology-checkedin"
+            path="/app/radiology/checkedin"
             element={<RadCheckedin />}
           />
           <Route
-            path="/app/radiology/radiology-appointments"
+            path="/app/radiology/appointments"
             element={<RadAppointments />}
           />
           <Route path="/app/radiology/billservice" element={<BillService />} />
@@ -369,7 +366,7 @@ const AppRoutes = () => {
           />
           <Route path="/app/radiology/radiology" element={<Radiology />} />
           <Route
-            path="/app/radiology/radiology-payment"
+            path="/app/radiology/payment"
             element={<RadiologyPayment />}
           />
 
