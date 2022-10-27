@@ -1,5 +1,4 @@
 /* eslint-disable */
-<<<<<<< HEAD
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import {} from 'react-router-dom'; //Route, Switch,Link, NavLink,
 import client from '../../feathers';
@@ -11,19 +10,6 @@ import { toast } from 'bulma-toast';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import AdmissionCreate from './AdmissionCreate';
 import PatientProfile from '../Client/PatientProfile';
-=======
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {format, formatDistanceToNowStrict} from "date-fns";
-import AdmissionCreate from "./AdmissionCreate";
-import PatientProfile from "../Client/PatientProfile";
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -55,9 +41,9 @@ export default function Inpatient() {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   /*  useEffect(() => {
         const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
@@ -107,30 +93,25 @@ export function InpatientList() {
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-<<<<<<< HEAD
   const { user, setUser } = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState('');
   const [loading, setLoading] = useState(false);
-=======
-  const {user, setUser} = useContext(UserContext);
-  const [selectedMedication, setSelectedMedication] = useState("");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 
-  const handleSelectedClient = async Client => {
+  const handleSelectedClient = async (Client) => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-  const handleMedicationRow = async inpatient => {
+  const handleMedicationRow = async (inpatient) => {
     let currClient = inpatient.client;
     // eslint-disable-next-line
     currClient.ward = inpatient.ward_name;
@@ -145,7 +126,7 @@ export function InpatientList() {
       selectedClient: currClient,
       show: 'modify',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -159,20 +140,15 @@ export function InpatientList() {
       selectedDispense: {},
       show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
   };
 
-<<<<<<< HEAD
   const handleSearch = async (val) => {
     const field = 'name';
-=======
-  const handleSearch = async val => {
-    const field = "name";
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     console.log(val);
     OrderServ.find({
       query: {
@@ -209,14 +185,14 @@ export function InpatientList() {
         },
       },
     })
-      .then(async res => {
+      .then(async (res) => {
         console.log(res);
         setFacilities(res.groupedOrder);
         // await setState((prevstate)=>({...prevstate, currentClients:res.groupedOrder}))
         setMessage(' ProductEntry  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         // console.log(err)
         setMessage(
           'Error fetching ProductEntry, probable network issues ' + err
@@ -245,7 +221,7 @@ export function InpatientList() {
     console.log(findProductEntry);
 
     await setFacilities(findProductEntry.data);
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       currentClients: findProductEntry.data,
     }));
@@ -255,28 +231,21 @@ export function InpatientList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-<<<<<<< HEAD
     OrderServ.on('created', (obj) => getFacilities());
     OrderServ.on('updated', (obj) => getFacilities());
     OrderServ.on('patched', (obj) => getFacilities());
     OrderServ.on('removed', (obj) => getFacilities());
-=======
-    OrderServ.on("created", obj => getFacilities());
-    OrderServ.on("updated", obj => getFacilities());
-    OrderServ.on("patched", obj => getFacilities());
-    OrderServ.on("removed", obj => getFacilities());
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     return () => {};
   }, []);
 
-  const handleRow = async ProductEntry => {
+  const handleRow = async (ProductEntry) => {
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
@@ -460,20 +429,15 @@ export function DispenseDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-<<<<<<< HEAD
   const { state, setState } = useContext(ObjectContext);
   const OrderServ = client.service('order');
-=======
-  const {state, setState} = useContext(ObjectContext);
-  const OrderServ = client.service("order");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   /* const [ProductEntry, setProductEntry] = useState("")
     const [facilities, setFacilities] = useState("") */
 
   let ProductEntry = state.DispenseModule.selectedDispense;
   //const facilities=ProductEntry.orders
 
-  const handleRow = async ProductEntry => {
+  const handleRow = async (ProductEntry) => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -484,7 +448,7 @@ export function DispenseDetail() {
       selectedMedication: ProductEntry,
       show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -492,12 +456,12 @@ export function DispenseDetail() {
     // ProductEntry.show=!ProductEntry.show
   };
 
-  const handleEdit = async ProductEntry => {
+  const handleEdit = async (ProductEntry) => {
     const newProductEntryModule = {
       selectedDispense: ProductEntry,
       show: 'modify',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
@@ -505,7 +469,7 @@ export function DispenseDetail() {
   };
 
   useEffect(() => {
-    const client1 = state.currentClients.find(el => {
+    const client1 = state.currentClients.find((el) => {
       return (
         JSON.stringify(el.client_id) ===
         JSON.stringify(state.DispenseModule.selectedDispense)
@@ -527,16 +491,12 @@ export function DispenseDetail() {
         OrderServ.on('updated', (obj)=>getFacilities())
        
         OrderServ.on('removed', (obj)=>getFacilities()) */
-<<<<<<< HEAD
     OrderServ.on('patched', (obj) => {
-=======
-    OrderServ.on("patched", obj => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       //update state.DispenseModule.selectedDispense
       // console.log(obj.clientId)
       // console.log("currentClients",state.currentClients)
       const current1 = state.currentClients.find(
-        el => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
+        (el) => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
       );
       setCurrentOrder(current1);
       // console.log("currentone",current1)

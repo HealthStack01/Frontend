@@ -1,5 +1,4 @@
 /* eslint-disable */
-<<<<<<< HEAD
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; //Route, Switch,Link, NavLink,
 import client from '../../feathers';
@@ -11,53 +10,24 @@ import { toast } from 'bulma-toast';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ClientFinInfo from './ClientFinInfo';
 import BillServiceCreate from '../Finance/BillServiceCreate';
-// import { AppointmentCreate } from '../Appointment/Appointments';
+import { AppointmentCreate } from '../Clinic/Appointments';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClientBilledPrescription from '../Finance/ClientBill';
 import ClientGroup from './ClientGroup';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
+
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
 import { ClientMiniSchema } from './schema';
 // eslint-disable-next-line
 const searchfacility = {};
+
 export default function Client() {
   const { state } = useContext(ObjectContext); //,setState
-=======
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict} from "date-fns";
-import ClientFinInfo from "./ClientFinInfo";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import {AppointmentCreate} from "../Clinic/Appointments";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ClientBilledPrescription from "../Finance/ClientBill";
-import ClientGroup from "./ClientGroup";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import {ClientMiniSchema} from "./schema";
-// eslint-disable-next-line
-const searchfacility = {};
-
-export default function Client() {
-  const {state} = useContext(ObjectContext); //,setState
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -69,17 +39,10 @@ export default function Client() {
           <ClientList />
         </div>
         <div className="column is-6 ">
-<<<<<<< HEAD
           {state.ClientModule.show === 'List' && <ClientList />}
           {/*   {(state.ClientModule.show ==='create')&&<ClientCreate />} */}
           {state.ClientModule.show === 'detail' && <ClientDetail />}
           {state.ClientModule.show === 'modify' && (
-=======
-          {state.ClientModule.show === "List" && <ClientList />}
-          {/*   {(state.ClientModule.show ==='create')&&<ClientCreate />} */}
-          {state.ClientModule.show === "detail" && <ClientDetail />}
-          {state.ClientModule.show === "modify" && (
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             <ClientModify Client={selectedClient} />
           )}
         </div>
@@ -89,17 +52,12 @@ export default function Client() {
 }
 
 export function ClientCreate() {
-<<<<<<< HEAD
   const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
-=======
-  const {register, handleSubmit, setValue, getValues, reset} = useForm(); //, watch, errors, reset
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-<<<<<<< HEAD
   const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
@@ -107,15 +65,6 @@ export function ClientCreate() {
   const mpiServ = client.service('mpi');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
-=======
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const mpiServ = client.service("mpi");
-  //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
@@ -124,23 +73,15 @@ export function ClientCreate() {
   const [date, setDate] = useState();
 
   // eslint-disable-next-line
-<<<<<<< HEAD
+
   const getSearchfacility = (obj) => {
     setValue('facility', obj._id, {
-=======
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-<<<<<<< HEAD
   const handleDate = async (date) => {
-=======
-  const handleDate = async date => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     setDate(date);
   };
   useEffect(() => {
@@ -195,11 +136,7 @@ export function ClientCreate() {
 
     if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
       // console.log("simpa")
-<<<<<<< HEAD
       data.middlename = data.middlename || '';
-=======
-      data.middlename = data.middlename || "";
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       (query.gender = data.gender),
         (query.dob = data.dob),
         (query.$or = [
@@ -238,11 +175,7 @@ export function ClientCreate() {
     }
   };
 
-<<<<<<< HEAD
   const checkQuery = (query) => {
-=======
-  const checkQuery = query => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     setPatList([]);
     if (
       !(
@@ -251,13 +184,8 @@ export function ClientCreate() {
         query.constructor === Object
       )
     ) {
-<<<<<<< HEAD
       ClientServ.find({ query: query })
         .then((res) => {
-=======
-      ClientServ.find({query: query})
-        .then(res => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -266,11 +194,7 @@ export function ClientCreate() {
             return;
           }
         })
-<<<<<<< HEAD
         .catch((err) => {
-=======
-        .catch(err => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           console.log(err);
         });
     }
@@ -283,11 +207,7 @@ export function ClientCreate() {
     setBillModal(false);
   };
 
-<<<<<<< HEAD
   const choosen = async (client) => {
-=======
-  const choosen = async client => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -306,34 +226,20 @@ export function ClientCreate() {
     //toast niotification
     //cash payment
   };
-<<<<<<< HEAD
   const dupl = (client) => {
     toast({
       message: 'Client previously registered in this facility',
       type: 'is-danger',
-=======
-  const dupl = client => {
-    toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       dismissible: true,
       pauseOnHover: true,
     });
     reset();
     setPatList([]);
   };
-<<<<<<< HEAD
   const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
         (el) => el.facility === user.currentEmployee.facilityDetail._id
-=======
-  const reg = async client => {
-    if (
-      client.relatedfacilities.findIndex(
-        el => el.facility === user.currentEmployee.facilityDetail._id
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       ) === -1
     ) {
       //create mpi record
@@ -347,7 +253,6 @@ export function ClientCreate() {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-<<<<<<< HEAD
         .then((resp) => {
           toast({
             message: 'Client created succesfully',
@@ -363,23 +268,6 @@ export function ClientCreate() {
             dismissible: true,
             pauseOnHover: true,
           });
-=======
-        .then(resp => {
-          toast({
-            message: "Client created succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
-        })
-        .catch(err => {
-          toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         });
     }
     //reset form
@@ -387,23 +275,14 @@ export function ClientCreate() {
     setPatList([]);
     //cash payment
   };
-<<<<<<< HEAD
   const depen = (client) => {
-=======
-  const depen = client => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     setDependant(true);
   };
   const onSubmit = async (data, e) => {
     if (!date) {
       toast({
-<<<<<<< HEAD
         message: 'Please enter Date of Birth! ',
         type: 'is-danger',
-=======
-        message: "Please enter Date of Birth! ",
-        type: "is-danger",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         dismissible: true,
         pauseOnHover: true,
       });
@@ -411,11 +290,7 @@ export function ClientCreate() {
       return;
     }
     e.preventDefault();
-<<<<<<< HEAD
     setMessage('');
-=======
-    setMessage("");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     setError(false);
     setSuccess(false);
     checkClient();
@@ -440,23 +315,14 @@ export function ClientCreate() {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-<<<<<<< HEAD
         .then((res) => {
-=======
-        .then(res => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           //console.log(JSON.stringify(res))
           e.target.reset();
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-<<<<<<< HEAD
             message: 'Client created succesfully',
             type: 'is-success',
-=======
-            message: "Client created succesfully",
-            type: "is-success",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             dismissible: true,
             pauseOnHover: true,
           });
@@ -465,17 +331,10 @@ export function ClientCreate() {
           setDependant(false);
           setDate();
         })
-<<<<<<< HEAD
         .catch((err) => {
           toast({
             message: 'Error creating Client ' + err,
             type: 'is-danger',
-=======
-        .catch(err => {
-          toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             dismissible: true,
             pauseOnHover: true,
           });
@@ -503,11 +362,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-<<<<<<< HEAD
                       ref={register({ required: true })}
-=======
-                      ref={register({required: true})}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -535,7 +390,6 @@ export function ClientCreate() {
                   </p>
                 </div>
 
-<<<<<<< HEAD
                 <div className="field">
                   <p className="control has-icons-left">
                     <input
@@ -557,29 +411,6 @@ export function ClientCreate() {
             <div className="field is-horizontal">
               <div className="field-body">
                 <div className="field">
-=======
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      ref={register({required: true})}
-                      name="lastname"
-                      type="text"
-                      placeholder="Last Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" fas fa-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Biodata</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                   <p className="control has-icons-left is-danger">
                     {/*   <input className="input is-small is-danger" ref={register({ required: true })} name="dob" type="text" placeholder="Date of Birth"  onBlur={checkClient}/>
                         <span className="icon is-small is-left">
@@ -588,11 +419,7 @@ export function ClientCreate() {
                     <DatePicker
                       className="is-danger red-border is-small"
                       selected={date}
-<<<<<<< HEAD
                       onChange={(date) => handleDate(date)}
-=======
-                      onChange={date => handleDate(date)}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Enter date with dd/MM/yyyy format "
                       //isClearable
@@ -678,11 +505,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-<<<<<<< HEAD
                       ref={register({ required: true })}
-=======
-                      ref={register({required: true})}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -830,7 +653,6 @@ export function ClientCreate() {
                       <i className="fas fa-envelope"></i>
                     </span>
                   </p>
-<<<<<<< HEAD
                 </div>
                 <div className="field">
                   <p className="control has-icons-left">
@@ -846,23 +668,6 @@ export function ClientCreate() {
                     </span>
                   </p>
                 </div>
-=======
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="disabilities"
-                      type="text"
-                      placeholder="Disabilities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
               </div>
             </div>
 
@@ -997,11 +802,7 @@ export function ClientCreate() {
           </form>
         </div>
       </div>
-<<<<<<< HEAD
       <div className={`modal ${billModal ? 'is-active' : ''}`}>
-=======
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         <div className="modal-background"></div>
         <div className="modal-card modalbkgrnd z10">
           <header className="modal-card-head selectadd">
@@ -1042,12 +843,12 @@ export function ClientList() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-<<<<<<< HEAD
   const [message, setMessage] = useState('');
   const ClientServ = client.service('client');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
@@ -1057,44 +858,19 @@ export function ClientList() {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
-=======
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("client");
-  //const navigate=useNavigate()
-  // const {user,setUser} = useContext(UserContext)
-  const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState(); //
-  // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
-  // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(50);
-  const [total, setTotal] = useState(0);
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
-<<<<<<< HEAD
       show: 'create',
     };
     await setState((prevstate) => ({
-=======
-      show: "create",
-    };
-    await setState(prevstate => ({
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
   };
 
-<<<<<<< HEAD
   const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
@@ -1102,29 +878,14 @@ export function ClientList() {
       show: 'detail',
     };
     await setState((prevstate) => ({
-=======
-  const handleRow = async Client => {
-    await setSelectedClient(Client);
-    const newClientModule = {
-      selectedClient: Client,
-      show: "detail",
-    };
-    await setState(prevstate => ({
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-<<<<<<< HEAD
   const handleSearch = (val) => {
     // eslint-disable-next-line
     const field = 'firstname';
-=======
-  const handleSearch = val => {
-    // eslint-disable-next-line
-    const field = "firstname";
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     console.log(val);
     ClientServ.find({
       query: {
@@ -1132,77 +893,48 @@ export function ClientList() {
           {
             firstname: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             lastname: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             middlename: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             phone: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             clientTags: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             mrn: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             email: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
-=======
-              $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             },
           },
           {
             specificDetails: {
               $regex: val,
-<<<<<<< HEAD
               $options: 'i',
             },
           },
@@ -1210,22 +942,12 @@ export function ClientList() {
         ],
 
         'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
-=======
-              $options: "i",
-            },
-          },
-          {gender: val},
-        ],
-
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         $limit: limit,
         $sort: {
           createdAt: -1,
         },
       },
     })
-<<<<<<< HEAD
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
@@ -1235,17 +957,6 @@ export function ClientList() {
       .catch((err) => {
         console.log(err);
         setMessage('Error fetching Client, probable network issues ' + err);
-=======
-      .then(res => {
-        console.log(res);
-        setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
-        setSuccess(true);
-      })
-      .catch(err => {
-        console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         setError(true);
       });
   };
@@ -1254,11 +965,7 @@ export function ClientList() {
     if (user.currentEmployee) {
       const findClient = await ClientServ.find({
         query: {
-<<<<<<< HEAD
           'relatedfacilities.facility': user.currentEmployee.facilityDetail._id,
-=======
-          "relatedfacilities.facility": user.currentEmployee.facilityDetail._id,
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           $limit: limit,
           $skip: page * limit,
           $sort: {
@@ -1269,21 +976,13 @@ export function ClientList() {
       if (page === 0) {
         await setFacilities(findClient.data);
       } else {
-<<<<<<< HEAD
         await setFacilities((prevstate) => prevstate.concat(findClient.data));
-=======
-        await setFacilities(prevstate => prevstate.concat(findClient.data));
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       }
 
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-<<<<<<< HEAD
       setPage((page) => page + 1);
-=======
-      setPage(page => page + 1);
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -1313,17 +1012,10 @@ export function ClientList() {
                     console.log(user)
                     getFacilities(user) */
     }
-<<<<<<< HEAD
     ClientServ.on('created', (obj) => rest());
     ClientServ.on('updated', (obj) => rest());
     ClientServ.on('patched', (obj) => rest());
     ClientServ.on('removed', (obj) => rest());
-=======
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1339,13 +1031,6 @@ export function ClientList() {
     //  await setRestful(false)
   };
   useEffect(() => {
-<<<<<<< HEAD
-    console.log(facilities);
-    return () => {};
-  }, [facilities]);
-  //todo: pagination and vertical scroll bar
-  const handleCreate = () => {};
-=======
     //console.log(facilities)
     return () => {};
   }, [facilities]);
@@ -1353,7 +1038,6 @@ export function ClientList() {
 
   const handleCreate = () => {};
 
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   const onRowClicked = () => {};
 
   return (
@@ -1362,47 +1046,23 @@ export function ClientList() {
         <>
           <div className="level">
             <PageWrapper
-<<<<<<< HEAD
               style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-=======
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
-            >
-              <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-<<<<<<< HEAD
                   <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                    List of Clients
-                  </h2>
-                </div>
-                {handleCreate && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label="Add new "
-                    onClick={handleCreate}
-                  />
-                )}
-              </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                <CustomTable
-                  title={''}
-=======
-                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     List of Clients
                   </h2>
                 </div>
 
                 {handleCreate && (
                   <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
+                    style={{ fontSize: '14px', fontWeight: '600' }}
                     label="Add new "
                     onClick={handleCreate}
                     showicon={true}
@@ -1410,10 +1070,9 @@ export function ClientList() {
                 )}
               </TableMenu>
 
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
                 <CustomTable
-                  title={""}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
+                  title={''}
                   columns={ClientMiniSchema}
                   data={facilities}
                   pointerOnHover
@@ -1446,19 +1105,11 @@ export function ClientDetail() {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   // eslint-disable-next-line
-<<<<<<< HEAD
   const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
-=======
-  const [message, setMessage] = useState(""); //,
-  //const ClientServ=client.service('/Client')
-  //const navigate=useNavigate()
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -1466,15 +1117,9 @@ export function ClientDetail() {
   const handleEdit = async () => {
     const newClientModule = {
       selectedClient: Client,
-<<<<<<< HEAD
       show: 'modify',
     };
     await setState((prevstate) => ({
-=======
-      show: "modify",
-    };
-    await setState(prevstate => ({
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1522,11 +1167,7 @@ export function ClientDetail() {
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Client Details</p>
-<<<<<<< HEAD
           {(user.currentEmployee?.roles.includes('Bill Client') ||
-=======
-          {(user.currentEmployee?.roles.includes("Bill Client") ||
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             user.currentEmployee?.roles.length === 0 ||
             user.stacker) && (
             <button
@@ -1548,11 +1189,7 @@ export function ClientDetail() {
                       name="firstname"
                       type="text"
                     >
-<<<<<<< HEAD
                       First Name{' '}
-=======
-                      First Name{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -1572,13 +1209,8 @@ export function ClientDetail() {
                       name="middlename"
                       type="text"
                     >
-<<<<<<< HEAD
                       {' '}
                       Middle Name{' '}
-=======
-                      {" "}
-                      Middle Name{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -1618,17 +1250,10 @@ export function ClientDetail() {
                       name="dob"
                       type="text"
                     >
-<<<<<<< HEAD
                       Date of Birth{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {new Date(Client.dob).toLocaleDateString('en-GB')}
-=======
-                      Date of Birth{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -1644,18 +1269,13 @@ export function ClientDetail() {
                       name="gender"
                       type="text"
                     >
-<<<<<<< HEAD
                       Gender{' '}
-=======
-                      Gender{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
                     </span>
                   </p>
-<<<<<<< HEAD
                 </div>
               )}
               {Client.maritalstatus && (
@@ -1694,46 +1314,6 @@ export function ClientDetail() {
                   </p>
                 </div>
               )}
-=======
-                </div>
-              )}
-              {Client.maritalstatus && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="maritalstatus"
-                      type="text"
-                    >
-                      Marital Status{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.maritalstatus}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.mrn && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="mrn"
-                      type="text"
-                    >
-                      Medical Records Number{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.mrn}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             </div>
           </div>
           <div className="field is-horizontal">
@@ -1746,11 +1326,7 @@ export function ClientDetail() {
                       name="religion"
                       type="text"
                     >
-<<<<<<< HEAD
                       Religion{' '}
-=======
-                      Religion{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1767,11 +1343,7 @@ export function ClientDetail() {
                       name="profession"
                       type="text"
                     >
-<<<<<<< HEAD
                       Profession{' '}
-=======
-                      Profession{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1790,11 +1362,7 @@ export function ClientDetail() {
                       name="phone"
                       type="text"
                     >
-<<<<<<< HEAD
                       {' '}
-=======
-                      {" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1813,11 +1381,7 @@ export function ClientDetail() {
                       name="email"
                       type="email"
                     >
-<<<<<<< HEAD
                       Email{' '}
-=======
-                      Email{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1837,11 +1401,7 @@ export function ClientDetail() {
                   name="address"
                   type="text"
                 >
-<<<<<<< HEAD
                   Residential Address{' '}
-=======
-                  Residential Address{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1860,11 +1420,7 @@ export function ClientDetail() {
                       name="city"
                       type="text"
                     >
-<<<<<<< HEAD
                       Town/City{' '}
-=======
-                      Town/City{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1881,11 +1437,7 @@ export function ClientDetail() {
                       name="lga"
                       type="text"
                     >
-<<<<<<< HEAD
                       Local Govt Area{' '}
-=======
-                      Local Govt Area{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1902,11 +1454,7 @@ export function ClientDetail() {
                       name="state"
                       type="text"
                     >
-<<<<<<< HEAD
                       State{' '}
-=======
-                      State{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1923,11 +1471,7 @@ export function ClientDetail() {
                       name="country"
                       type="text"
                     >
-<<<<<<< HEAD
                       Country{' '}
-=======
-                      Country{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1948,11 +1492,7 @@ export function ClientDetail() {
                       name="bloodgroup"
                       type="text"
                     >
-<<<<<<< HEAD
                       Blood Group{' '}
-=======
-                      Blood Group{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1961,7 +1501,6 @@ export function ClientDetail() {
                       <i className="nop-envelope"></i>
                     </span>
                   </p>
-<<<<<<< HEAD
                 </div>
               )}
 
@@ -1982,28 +1521,6 @@ export function ClientDetail() {
                   </p>
                 </div>
               )}
-=======
-                </div>
-              )}
-
-              {Client.genotype && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="genotype"
-                      type="text"
-                    >
-                      Genotype{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.genotype}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
               {Client.disabilities && (
                 <div className="field">
                   <p className="control has-icons-left">
@@ -2012,11 +1529,7 @@ export function ClientDetail() {
                       name="disabilities"
                       type="text"
                     >
-<<<<<<< HEAD
                       Disabilities{' '}
-=======
-                      Disabilities{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -2040,11 +1553,7 @@ export function ClientDetail() {
                       name="allergies"
                       type="text"
                     >
-<<<<<<< HEAD
                       Allergies{' '}
-=======
-                      Allergies{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -2061,11 +1570,7 @@ export function ClientDetail() {
                       name="comorbidities"
                       type="text"
                     >
-<<<<<<< HEAD
                       Co-mobidities{' '}
-=======
-                      Co-mobidities{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -2086,11 +1591,7 @@ export function ClientDetail() {
                   name="clientTags"
                   type="text"
                 >
-<<<<<<< HEAD
                   Tags{' '}
-=======
-                  Tags{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -2107,11 +1608,7 @@ export function ClientDetail() {
                   name="specificDetails"
                   type="text"
                 >
-<<<<<<< HEAD
                   Specific Details about Client{' '}
-=======
-                  Specific Details about Client{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -2168,11 +1665,7 @@ export function ClientDetail() {
                       name="nok_email"
                       type="email"
                     >
-<<<<<<< HEAD
                       Next of Kin Email{' '}
-=======
-                      Next of Kin Email{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -2189,11 +1682,7 @@ export function ClientDetail() {
                       name="nok_relationship"
                       type="text"
                     >
-<<<<<<< HEAD
                       Next of Kin Relationship"{' '}
-=======
-                      Next of Kin Relationship"{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -2240,11 +1729,7 @@ export function ClientDetail() {
               <button
                 className="button is-link is-small"
                 onClick={() => {
-<<<<<<< HEAD
                   history.push('/app/clinic/encounter');
-=======
-                  history.push("/app/clinic/encounter");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                 }}
               >
                 Attend to Client
@@ -2253,11 +1738,7 @@ export function ClientDetail() {
           </div>
         </div>
       </div>
-<<<<<<< HEAD
       <div className={`modal ${finacialInfoModal ? 'is-active' : ''}`}>
-=======
-      <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -2279,11 +1760,7 @@ export function ClientDetail() {
         </div>
       </div>
 
-<<<<<<< HEAD
       <div className={`modal ${billingModal ? 'is-active' : ''}`}>
-=======
-      <div className={`modal ${billingModal ? "is-active" : ""}`}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -2304,11 +1781,7 @@ export function ClientDetail() {
                     </footer> */}
         </div>
       </div>
-<<<<<<< HEAD
       <div className={`modal ${appointmentModal ? 'is-active' : ''}`}>
-=======
-      <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -2329,11 +1802,7 @@ export function ClientDetail() {
                     </footer> */}
         </div>
       </div>
-<<<<<<< HEAD
       <div className={`modal ${billModal ? 'is-active' : ''}`}>
-=======
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -2362,17 +1831,12 @@ export function ClientDetail() {
 }
 
 export function ClientModify() {
-<<<<<<< HEAD
   const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
-=======
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-<<<<<<< HEAD
   const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const ClientServ = client.service('client');
@@ -2380,20 +1844,10 @@ export function ClientModify() {
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
-=======
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const ClientServ = client.service("client");
-  //const navigate=useNavigate()
-  // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 
   const Client = state.ClientModule.selectedClient;
 
   useEffect(() => {
-<<<<<<< HEAD
     setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
@@ -2487,101 +1941,6 @@ export function ClientModify() {
       shouldDirty: true,
     });
     setValue('allergies', Client.allergies, {
-=======
-    setValue("firstname", Client.firstname, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("middlename", Client.middlename, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("lastname", Client.lastname, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("phone", Client.phone, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("email", Client.email, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("dob", Client.dob, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("gender", Client.gender, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("profession", Client.profession, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("address", Client.address, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("city", Client.city, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("state", Client.state, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("country", Client.country, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("nok_name", Client.nok_name, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("nok_email", Client.nok_email, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("nok_phoneno", Client.nokphoneno, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("lga", Client.lga, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("bloodgroup", Client.bloodgroup, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("genotype", Client.genotype, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("disabilities", Client.disabilities, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("specificDetails", Client.specificDetails, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("clientTags", Client.clientTags, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("mrn", Client.mrn, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("comorbidities", Client.comorbidities, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("allergies", Client.allergies, {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -2592,15 +1951,9 @@ export function ClientModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedClient: Client,
-<<<<<<< HEAD
       show: 'detail',
     };
     await setState((prevstate) => ({
-=======
-      show: "detail",
-    };
-    await setState(prevstate => ({
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -2610,7 +1963,6 @@ export function ClientModify() {
   const changeState = () => {
     const newClientModule = {
       selectedClient: {},
-<<<<<<< HEAD
       show: 'create',
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
@@ -2618,24 +1970,11 @@ export function ClientModify() {
   // eslint-disable-next-line
   const handleDelete = async () => {
     let conf = window.confirm('Are you sure you want to delete this data?');
-=======
-      show: "create",
-    };
-    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
-  };
-  // eslint-disable-next-line
-  const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-<<<<<<< HEAD
         .then((res) => {
-=======
-        .then(res => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -2645,33 +1984,19 @@ export function ClientModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-<<<<<<< HEAD
             message: 'Client deleted succesfully',
             type: 'is-success',
-=======
-            message: "Client deleted succesfully",
-            type: "is-success",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-<<<<<<< HEAD
         .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
             message: 'Error deleting Client, probable network issues or ' + err,
             type: 'is-danger',
-=======
-        .catch(err => {
-          // setMessage("Error deleting Client, probable network issues "+ err )
-          // setError(true)
-          toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             dismissible: true,
             pauseOnHover: true,
           });
@@ -2692,43 +2017,25 @@ export function ClientModify() {
     //console.log(data);
 
     ClientServ.patch(Client._id, data)
-<<<<<<< HEAD
       .then((res) => {
-=======
-      .then(res => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-<<<<<<< HEAD
           message: 'Client updated succesfully',
           type: 'is-success',
-=======
-          message: "Client updated succesfully",
-          type: "is-success",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-<<<<<<< HEAD
       .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
           message: 'Error updating Client, probable network issues or ' + err,
           type: 'is-danger',
-=======
-      .catch(err => {
-        //setMessage("Error creating Client, probable network issues "+ err )
-        // setError(true)
-        toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           dismissible: true,
           pauseOnHover: true,
         });
@@ -2747,11 +2054,7 @@ export function ClientModify() {
               <div className="field-body">
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
-<<<<<<< HEAD
                     <label className="label is-size-7">First Name </label>{' '}
-=======
-                    <label className="label is-size-7">First Name </label>{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     <input
                       className="input is-small"
                       ref={register()}
@@ -2811,7 +2114,6 @@ export function ClientModify() {
                       type="text"
                       placeholder="Date of Birth "
                     />
-<<<<<<< HEAD
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
                     </span>
@@ -2827,8 +2129,6 @@ export function ClientModify() {
                       type="text"
                       placeholder="Gender  "
                     />
-=======
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
                     </span>
@@ -2836,24 +2136,6 @@ export function ClientModify() {
                 </div>
                 <div className="field">
                   <p className="control has-icons-left">
-<<<<<<< HEAD
-=======
-                    <label className="label is-size-7">Gender </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="gender"
-                      type="text"
-                      placeholder="Gender  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     <label className="label is-size-7">Marital Status </label>
                     <input
                       className="input is-small"
@@ -3131,11 +2413,7 @@ export function ClientModify() {
             <div className="field">
               <p className="control has-icons-left">
                 <label className="label is-size-7">
-<<<<<<< HEAD
                   Specific Details about client{' '}
-=======
-                  Specific Details about client{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                 </label>
                 <input
                   className="input is-small"
@@ -3186,11 +2464,7 @@ export function ClientModify() {
                 <div className="field">
                   <p className="control has-icons-left">
                     <label className="label is-size-7">
-<<<<<<< HEAD
                       Next of Kin Email{' '}
-=======
-                      Next of Kin Email{" "}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                     </label>
                     <input
                       className="input is-small"
@@ -3257,13 +2531,8 @@ export function ClientModify() {
   );
 }
 
-<<<<<<< HEAD
 export function InputSearch({ getSearchfacility, clear }) {
   const ClientServ = client.service('client');
-=======
-export function InputSearch({getSearchfacility, clear}) {
-  const ClientServ = client.service("client");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -3271,26 +2540,16 @@ export function InputSearch({getSearchfacility, clear}) {
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-<<<<<<< HEAD
   const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
   const [simpa, setSimpa] = useState('');
-=======
-  const [searchMessage, setSearchMessage] = useState("");
-  // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-<<<<<<< HEAD
   const handleRow = async (obj) => {
-=======
-  const handleRow = async obj => {
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -3307,15 +2566,9 @@ export function InputSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-<<<<<<< HEAD
   const handleBlur = async (e) => {
     if (count === 2) {
       console.log('stuff was chosen');
-=======
-  const handleBlur = async e => {
-    if (count === 2) {
-      console.log("stuff was chosen");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     }
 
     /*  console.log("blur")
@@ -3331,13 +2584,8 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-<<<<<<< HEAD
   const handleSearch = async (val) => {
     const field = 'facilityName'; //field variable
-=======
-  const handleSearch = async val => {
-    const field = "facilityName"; //field variable
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -3345,11 +2593,7 @@ export function InputSearch({getSearchfacility, clear}) {
           //service
           [field]: {
             $regex: val,
-<<<<<<< HEAD
             $options: 'i',
-=======
-            $options: "i",
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           },
           $limit: 10,
           $sort: {
@@ -3357,7 +2601,6 @@ export function InputSearch({getSearchfacility, clear}) {
           },
         },
       })
-<<<<<<< HEAD
         .then((res) => {
           console.log('facility  fetched successfully');
           setFacilities(res.data);
@@ -3368,27 +2611,11 @@ export function InputSearch({getSearchfacility, clear}) {
           console.log(err);
           setSearchMessage(
             'Error searching facility, probable network issues ' + err
-=======
-        .then(res => {
-          console.log("facility  fetched successfully");
-          setFacilities(res.data);
-          setSearchMessage(" facility  fetched successfully");
-          setShowPanel(true);
-        })
-        .catch(err => {
-          console.log(err);
-          setSearchMessage(
-            "Error searching facility, probable network issues " + err
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
           );
           setSearchError(true);
         });
     } else {
-<<<<<<< HEAD
       console.log('less than 3 ');
-=======
-      console.log("less than 3 ");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -3397,11 +2624,7 @@ export function InputSearch({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-<<<<<<< HEAD
       setSimpa('');
-=======
-      setSimpa("");
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
     }
     return () => {};
   }, [clear]);
@@ -3409,11 +2632,7 @@ export function InputSearch({getSearchfacility, clear}) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-<<<<<<< HEAD
           <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
-=======
-          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "
@@ -3422,13 +2641,8 @@ export function InputSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-<<<<<<< HEAD
                 onBlur={(e) => handleBlur(e)}
                 onChange={(e) => handleSearch(e.target.value)}
-=======
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

@@ -636,6 +636,7 @@ export function ClientList() {
   };
 
   const getFacilities = async () => {
+    console.log(user);
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
@@ -645,13 +646,14 @@ export function ClientList() {
           createdAt: -1,
         },
       };
-      if (state.employeeLocation.locationType !== 'Front Desk') {
-        // stuff.locationId = state.employeeLocation.locationId;
-      }
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
 
       const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
+      console.log(findClient.data);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -704,9 +706,9 @@ export function ClientList() {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
-      query.locationId = state.employeeLocation.locationId;
-    }
+    // if (state.employeeLocation.locationType !== "Front Desk") {
+    //   query.locationId = state.employeeLocation.locationId;
+    // }
 
     const findClient = await ClientServ.find({ query: query });
 

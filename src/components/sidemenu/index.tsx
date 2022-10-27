@@ -18,60 +18,18 @@ export const menuItems = [
     to: '/app/clients',
     iconClassName: 'bi bi-people',
     subMenus: [
-<<<<<<< HEAD
       { name: 'Appointment', to: '/app/clients/appointments' },
-      { name: 'Client', to: '/app/clients/clients' },
-=======
-      { name: "Appointment", to: "/app/clients/appointments" },
-      { name: "Clients", to: "/app/clients/clients" },
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
+      { name: 'Clients', to: '/app/clients/clients' },
     ],
   },
   {
     name: 'Clinic',
     exact: true,
-<<<<<<< HEAD
     to: '/app/clinic',
     iconClassName: 'bi bi-file-medical',
     subMenus: [
       { name: 'Appointment', to: '/app/clinic/appointments' },
-      { name: 'Check In', to: '/app/clinic/checkin' },
-    ],
-  },
-  {
-    name: 'Pharmacy',
-    exact: true,
-    to: '/app/pharmacy',
-    iconClassName: 'bi bi-file-medical',
-    subMenus: [
-      { name: 'Bill client', to: '/app/pharmacy/billclient' },
-      { name: 'Bill Prescription Sent', to: '/app/pharmacy/billprescription' },
-      { name: 'Payment', to: '/app/pharmacy/payment' },
-      { name: 'Dispensary', to: '/app/pharmacy/dispensary' },
-      { name: 'Store Inventory', to: '/app/pharmacy/inventory' },
-      { name: 'Product Entry', to: '/app/pharmacy/productentry' },
-      { name: 'POS', to: '/app/pharmacy/pos' },
-      { name: 'Requisition', to: 'app/pharmacy/requisition' },
-      { name: 'Transfer', to: 'app/pharmacy/transfer' },
-    ],
-  },
-  {
-    name: 'Laboratory',
-    exact: true,
-    to: '/app/laboratory',
-    iconClassName: 'bi bi-binoculars',
-    subMenus: [
-      { name: 'Bill client', to: '/app/laboratory/billclient' },
-      { name: 'Bill Lab Orders Sent', to: '/app/laboratory/billlabsent' },
-      { name: 'Payment', to: '/app/laboratory/payment' },
-      { name: 'Lab Result', to: '/app/laboratory/result' },
-=======
-    to: "/app/clinic",
-    iconClassName: "bi bi-file-medical",
-    subMenus: [
-      { name: "Appointment", to: "/app/clinic/appointments" },
-      { name: "checkin", to: "/app/clinic/checkin" },
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
+      { name: 'checkin', to: '/app/clinic/checkin' },
     ],
   },
   {
@@ -80,26 +38,15 @@ export const menuItems = [
     to: '/app/managedCare',
     iconClassName: 'bi bi-alarm',
     subMenus: [
-<<<<<<< HEAD
-      { name: 'Claim Payment', to: '/app/managedCare/claimpayment' },
-      { name: 'Claims', to: '/app/managedCare/claims' },
-      { name: 'Referrals', to: '/app/managedCare/referrals' },
-      { name: 'Check In', to: '/app/managedCare/checkin' },
-      { name: 'Preauthorization', to: '/app/managedCare/preauthorization' },
-      { name: 'Beneficiaries', to: '/app/managedCare/beneficiaries' },
-      { name: 'Organizations', to: '/app/managedCare/organization' },
-      { name: 'Tarrif', to: '/app/managedCare/tarrif' },
-=======
-      { name: "Bill Client", to: "/app/pharmacy/billclient" },
-      { name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription" },
-      { name: "Payment", to: "/app/pharmacy/payment" },
-      { name: "Dispensary", to: "/app/pharmacy/dispensary" },
-      { name: "Store Inventory", to: "/app/pharmacy/storeinventory" },
-      { name: "Product Entry", to: "/app/pharmacy/productentry" },
-      { name: "Issue Out", to: "/app/pharmacy/issueout" },
-      { name: "Requisiition", to: "/app/pharmacy/requisition" },
-      { name: "Transfer", to: "/app/pharmacy/transfer" },
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
+      { name: 'Bill Client', to: '/app/pharmacy/billclient' },
+      { name: 'Bill Prescription Sent', to: '/app/pharmacy/billprescription' },
+      { name: 'Payment', to: '/app/pharmacy/payment' },
+      { name: 'Dispensary', to: '/app/pharmacy/dispensary' },
+      { name: 'Store Inventory', to: '/app/pharmacy/storeinventory' },
+      { name: 'Product Entry', to: '/app/pharmacy/productentry' },
+      { name: 'Issue Out', to: '/app/pharmacy/issueout' },
+      { name: 'Requisiition', to: '/app/pharmacy/requisition' },
+      { name: 'Transfer', to: '/app/pharmacy/transfer' },
     ],
   },
   {
@@ -108,19 +55,10 @@ export const menuItems = [
     to: '/app/finance',
     iconClassName: 'bi bi-cash',
     subMenus: [
-<<<<<<< HEAD
-      { name: 'Bill Services', to: '/app/finance/billservices' },
-      { name: 'Payment', to: '/app/finance/payment' },
-      { name: 'Revenue', to: '/app/finance/revenue' },
-      { name: 'Collections', to: '/app/finance/collections' },
-      { name: 'Services', to: '/app/finance/services' },
-      { name: 'HMO Authorization', to: '/app/finance/hmoauthorization' },
-=======
-      { name: "Bill Client", to: "/app/laboratory/billclient" },
-      { name: "Bill Lab Orders", to: "/app/laboratory/billlaborders" },
-      { name: "Payment", to: "/app/laboratory/payment" },
-      { name: "Lab Result", to: "/app/laboratory/labresult" },
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
+      { name: 'Bill Client', to: '/app/laboratory/billclient' },
+      { name: 'Bill Lab Orders', to: '/app/laboratory/billlaborders' },
+      { name: 'Payment', to: '/app/laboratory/payment' },
+      { name: 'Lab Result', to: '/app/laboratory/labresult' },
     ],
   },
   {
@@ -150,17 +88,10 @@ export const menuItems = [
     to: '/app/communication',
     iconClassName: 'bi bi-rss',
     subMenus: [
-<<<<<<< HEAD
-      { name: 'Channel', to: '/app/communication/channel' },
-      { name: 'Questionnaires', to: '/app/communication/questionnaires' },
-      { name: 'Configuration', to: '/app/communication/configuration' },
-      { name: 'Submissions', to: '/app/communication/submissions' },
-=======
-      { name: "Dashboard", to: "/app/epidemiology/dashboard" },
-      { name: "Case Definition", to: "/app/epidemiology/casedefinition" },
-      { name: "Signals", to: "/app/epidemiology/signal" },
-      { name: "Map", to: "/app/epidemiology/map" },
->>>>>>> 8df31333eb9e0ae2eaa5add5f2f2bee9e76b8255
+      { name: 'Dashboard', to: '/app/epidemiology/dashboard' },
+      { name: 'Case Definition', to: '/app/epidemiology/casedefinition' },
+      { name: 'Signals', to: '/app/epidemiology/signal' },
+      { name: 'Map', to: '/app/epidemiology/map' },
     ],
   },
   {
