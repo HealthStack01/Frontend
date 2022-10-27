@@ -473,7 +473,6 @@ export function CollectionList() {
   }, [state.StoreModule.selectedStore]);
 
   //todo: pagination and vertical scroll bar
-  const onRowClicked = () => {};
 
   const CollectionSchema = [
     {
