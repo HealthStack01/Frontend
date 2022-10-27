@@ -15,7 +15,6 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
-import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -35,13 +34,11 @@ export default function Employee() {
           <EmployeeList />
         </div>
         <div className="column is-4 ">
+          {state.EmployeeModule.show === "create" && <EmployeeCreate />}
           {state.EmployeeModule.show === "detail" && <EmployeeDetail />}
           {state.EmployeeModule.show === "modify" && (
             <EmployeeModify Employee={selectedEmployee} />
           )}
-          <ModalBox open={state.EmployeeModule.show === "create"}>
-            <EmployeeCreate />
-          </ModalBox>
         </div>
       </div>
     </section>
@@ -133,7 +130,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="firstname"
                   type="text"
                   placeholder="First Name"
@@ -147,7 +144,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="lastname"
                   type="text"
                   placeholder="Last Name"
@@ -161,7 +158,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="profession"
                   type="text"
                   placeholder="Profession"
@@ -175,7 +172,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="phone"
                   type="text"
                   placeholder=" Phone No"
@@ -190,7 +187,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="email"
                   type="email"
                   placeholder="Email"
@@ -214,7 +211,7 @@ export function EmployeeCreate() {
               >
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -230,7 +227,7 @@ export function EmployeeCreate() {
                   <div className="dropdown-trigger">
                     <input
                       className="input is-small"
-                      // ref={register({ required: true })}
+                      ref={register({ required: true })}
                       name="department"
                       type="text"
                       placeholder="Department"
@@ -254,7 +251,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="deptunit"
                   type="text"
                   placeholder="Department Unit"
@@ -268,7 +265,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="password"
                   type="text"
                   placeholder="password"
@@ -540,11 +537,11 @@ export function EmployeeList() {
                 </h2>
               </div>
 
-              {handleCreateNew && (
+              {handleCreate && (
                 <Button
                   style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreateNew}
+                  onClick={handleCreate}
                 />
               )}
             </TableMenu>

@@ -199,6 +199,11 @@ const AppRoutes = () => {
             />
             <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
             <Route path="/app/clients/payment" element={<ClientPayment />} />
+            <Route
+              path="/app/clients/appointments"
+              element={<ClientsAppointments />}
+            />{" "}
+            <Route path="/app/clients/clients" element={<Patients />} />
           </Route>
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 
@@ -223,24 +228,21 @@ const AppRoutes = () => {
           </Route>
           {/* ***************************** ADMIN ROUTES ************************************* */}
 
-          <Route path="/app/admin" element={<FacilityHome />}>
-            <Route
-              path="/app/admin/accessibility"
-              element={<Accessibility />}
-            />
+          <Route path="/app/admin" element={<FacilityHome />} />
+          <Route path="/app/admin/accessibility" element={<Accessibility />} />
 
-            <Route path="/app/admin/careteam" element={<CareTeam />} />
-            <Route path="/app/admin/department" element={<Department />} />
-            <Route path="/app/admin/dept-unit" element={<DeptUnits />} />
-            <Route path="/app/admin/employees" element={<Employee />} />
-            <Route path="/app/admin/facility" element={<Facility />} />
-            <Route path="/app/admin/hsmodules" element={<HSModules />} />
-            <Route path="/app/admin/location" element={<Location />} />
-            <Route path="/app/admin/bands" element={<Bands />} />
-            <Route path="/app/admin/roaster" element={<Roaster />} />
-            <Route path="/app/admin/Workspace" element={<Workspace />} />
-            <Route path="/app/admin/clinicsetup" element={<ClinicSetup />} />
-          </Route>
+          <Route path="/app/admin/careteam" element={<CareTeam />} />
+          <Route path="/app/admin/department" element={<Department />} />
+          <Route path="/app/admin/dept-unit" element={<DeptUnits />} />
+          <Route path="/app/admin/employees" element={<Employee />} />
+          <Route path="/app/admin/facility" element={<Facility />} />
+          <Route path="/app/admin/hsmodules" element={<HSModules />} />
+          <Route path="/app/admin/location" element={<Location />} />
+          <Route path="/app/admin/bands" element={<Bands />} />
+          <Route path="/app/admin/roaster" element={<Roaster />} />
+          <Route path="/app/admin/Workspace" element={<Workspace />} />
+          <Route path="/app/admin/clinicsetup" element={<ClinicSetup />} />
+
           {/* ***************************** FINANCE ROUTES ************************************* */}
 
           <Route path="/app/finance" element={<FinanceHome />}>

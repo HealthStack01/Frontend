@@ -1,30 +1,29 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
 // eslint-disable-next-line
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "../../components/modal";
 
 const searchfacility = {};
 
 export default function ClientsAppointments() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
@@ -37,13 +36,11 @@ export default function ClientsAppointments() {
           <ClientList />
         </div>
         <div className="column is-4 ">
+          {state.AppointmentModule.show === "create" && <AppointmentCreate />}
           {state.AppointmentModule.show === "detail" && <ClientDetail />}
           {state.AppointmentModule.show === "modify" && (
             <ClientModify Client={selectedClient} />
           )}
-          <ModalBox open={state.AppointmentModule.show === "create"}>
-            <AppointmentCreate />
-          </ModalBox>
         </div>
       </div>
     </section>
@@ -51,8 +48,8 @@ export default function ClientsAppointments() {
 }
 
 export function AppointmentCreate() {
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -66,7 +63,7 @@ export function AppointmentCreate() {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
@@ -88,15 +85,15 @@ export function AppointmentCreate() {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -111,7 +108,7 @@ export function AppointmentCreate() {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -121,7 +118,7 @@ export function AppointmentCreate() {
       setChosen1();
     }
   };
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -187,7 +184,7 @@ export function AppointmentCreate() {
     console.log(data);
 
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
@@ -210,7 +207,7 @@ export function AppointmentCreate() {
         setSuccess2(false);
         // showBilling()
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Appointment " + err,
           type: "is-danger",
@@ -276,7 +273,7 @@ export function AppointmentCreate() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{ display: "none" }}
+                      style={{display: "none"}}
                     >
                       <input
                         className="input is-small"
@@ -285,7 +282,7 @@ export function AppointmentCreate() {
                         }
                         name="ClientId"
                         type="text"
-                        onChange={(e) => setClientId(e.target.value)}
+                        onChange={e => setClientId(e.target.value)}
                         placeholder="Product Id"
                       />
                       <span className="icon is-small is-left">
@@ -308,7 +305,7 @@ export function AppointmentCreate() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -317,7 +314,7 @@ export function AppointmentCreate() {
                       }
                       name="locationId"
                       type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
+                      onChange={e => setLocationId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -338,7 +335,7 @@ export function AppointmentCreate() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -347,7 +344,7 @@ export function AppointmentCreate() {
                       }
                       name="practionerId"
                       type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
+                      onChange={e => setPractionerId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -366,7 +363,7 @@ export function AppointmentCreate() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      // ref={register}
+                      ref={register}
                     />
                     {c + " "}
                   </label>
@@ -376,7 +373,7 @@ export function AppointmentCreate() {
             <div className="field">
               <input
                 name="start_time"
-                // ref={register({ required: true })}
+                ref={register({required: true})}
                 type="datetime-local"
               />
             </div>
@@ -423,7 +420,7 @@ export function AppointmentCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  ref={register()}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -433,11 +430,11 @@ export function AppointmentCreate() {
                 </span>
               </p>
             </div>
-            <div className="field " style={{ display: "none" }}>
+            <div className="field " style={{display: "none"}}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  ref={register()}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -457,7 +454,7 @@ export function AppointmentCreate() {
               <p className="control">
                 <button
                   className="button is-warning is-small"
-                  onClick={(e) => e.target.reset()}
+                  onClick={e => e.target.reset()}
                 >
                   Cancel
                 </button>
@@ -504,9 +501,9 @@ export function ClientList() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -516,7 +513,7 @@ export function ClientList() {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -525,23 +522,23 @@ export function ClientList() {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -630,14 +627,14 @@ export function ClientList() {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -659,7 +656,7 @@ export function ClientList() {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -691,15 +688,15 @@ export function ClientList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -719,12 +716,12 @@ export function ClientList() {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -738,12 +735,13 @@ export function ClientList() {
     return () => {};
   }, [startDate]);
   //todo: pagination and vertical scroll bar
+  const handleCreate = () => {};
   const ClientAppointmentSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -751,7 +749,7 @@ export function ClientList() {
       name: "Date/Time",
       key: "createdAt",
       description: "Enter Date and Time",
-      selector: (row) => row.createdAt,
+      selector: row => row.createdAt,
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -761,7 +759,7 @@ export function ClientList() {
       name: "First Name",
       key: "firstname",
       description: "Enter First Name",
-      selector: (row) => row.firstname,
+      selector: row => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -771,7 +769,7 @@ export function ClientList() {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: (row) => row.lastname,
+      selector: row => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -781,7 +779,7 @@ export function ClientList() {
       name: "Classification",
       key: "dob",
       description: "Date of Birth",
-      selector: (row) => row.dob,
+      selector: row => row.dob,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -791,7 +789,7 @@ export function ClientList() {
       name: "Location",
       key: "loaction_name",
       description: "Enter Location",
-      selector: (row) => row.location_name,
+      selector: row => row.location_name,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -801,7 +799,7 @@ export function ClientList() {
       name: "Type",
       key: "location_type",
       description: "Enter Location Type",
-      selector: (row) => row.location_type,
+      selector: row => row.location_type,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -811,7 +809,7 @@ export function ClientList() {
       name: "Status",
       key: "appointment_status",
       description: "Enter appointment status",
-      selector: (row) => row.appointment_status,
+      selector: row => row.appointment_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -821,7 +819,7 @@ export function ClientList() {
       name: "Reason",
       key: "appointment_reason",
       description: "Enter appointment reason",
-      selector: (row) => row.appointment_reason,
+      selector: row => row.appointment_reason,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -831,7 +829,7 @@ export function ClientList() {
       name: "Practitioner",
       key: "practitioner_name",
       description: "Enter Practitioner Name",
-      selector: (row) => row.practitioner_name,
+      selector: row => row.practitioner_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -843,37 +841,37 @@ export function ClientList() {
       {user ? (
         <>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
                   Appointment
                 </h2>
                 <DatePicker
                   selected={startDate}
-                  onChange={(date) => handleDate(date)}
+                  onChange={date => handleDate(date)}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Filter By Date"
                   isClearable
                 />
               </div>
 
-              {handleCreateNew && (
+              {handleCreate && (
                 <Button
-                  style={{ fontSize: "0.75rem", fontWeight: "600" }}
+                  style={{fontSize: "0.75rem", fontWeight: "600"}}
                   label="Add new "
-                  onClick={handleCreateNew}
+                  onClick={handleCreate}
                 />
               )}
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <CustomTable
                 title={""}
                 columns={ClientAppointmentSchema}
@@ -906,7 +904,7 @@ export function ClientDetail() {
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -917,7 +915,7 @@ export function ClientDetail() {
       selectedAppointment: Client,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -930,7 +928,7 @@ export function ClientDetail() {
       selectedClient: patient,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1487,7 +1485,7 @@ export function ClientDetail() {
 }
 
 export function ClientModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1498,8 +1496,8 @@ export function ClientModify() {
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState("");
@@ -1515,7 +1513,7 @@ export function ClientModify() {
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
 
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -1526,7 +1524,7 @@ export function ClientModify() {
     }
   };
 
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -1597,7 +1595,7 @@ export function ClientModify() {
 
     return () => {};
   });
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     // await setAppointment_type(e.target.value)
     setValue("appointment_type", e.target.value, {
       shouldValidate: true,
@@ -1605,7 +1603,7 @@ export function ClientModify() {
     });
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     // await setAppointment_status(e.target.value)
     setValue("appointment_status", e.target.value, {
       shouldValidate: true,
@@ -1618,7 +1616,7 @@ export function ClientModify() {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1630,7 +1628,7 @@ export function ClientModify() {
       selectedAppointment: {},
       show: "create",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1641,7 +1639,7 @@ export function ClientModify() {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -1658,7 +1656,7 @@ export function ClientModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1695,7 +1693,7 @@ export function ClientModify() {
     }
     data.actions = Client.actions;
     ClientServ.patch(Client._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
@@ -1708,7 +1706,7 @@ export function ClientModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1749,7 +1747,7 @@ export function ClientModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -1758,7 +1756,7 @@ export function ClientModify() {
                       }
                       name="locationId"
                       type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
+                      onChange={e => setLocationId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -1780,7 +1778,7 @@ export function ClientModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -1789,7 +1787,7 @@ export function ClientModify() {
                       }
                       name="practionerId"
                       type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
+                      onChange={e => setPractionerId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -1808,7 +1806,7 @@ export function ClientModify() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      // ref={register}
+                      ref={register}
                     />
                     {c + " "}
                   </label>
@@ -1818,7 +1816,7 @@ export function ClientModify() {
             <div className="field">
               <input
                 name="start_time"
-                // ref={register({ required: true })}
+                ref={register({required: true})}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1832,7 +1830,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     /* name="type" */ /* value={appointment_type} */ name="appointment_type"
-                    // ref={register({ required: true })}
+                    ref={register({required: true})}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -1852,7 +1850,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    // ref={register({ required: true })}
+                    ref={register({required: true})}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -1875,7 +1873,7 @@ export function ClientModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  ref={register()}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -1885,11 +1883,11 @@ export function ClientModify() {
                 </span>
               </p>
             </div>
-            <div className="field " style={{ display: "none" }}>
+            <div className="field " style={{display: "none"}}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  ref={register()}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -1936,7 +1934,7 @@ export function ClientModify() {
   );
 }
 
-export function ClientSearch({ getSearchfacility, clear }) {
+export function ClientSearch({getSearchfacility, clear}) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1953,11 +1951,11 @@ export function ClientSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1984,7 +1982,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -2002,7 +2000,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     setVal(val);
     if (val === "") {
       setShowPanel(false);
@@ -2067,14 +2065,14 @@ export function ClientSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -2111,9 +2109,9 @@ export function ClientSearch({ getSearchfacility, clear }) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
@@ -2121,15 +2119,15 @@ export function ClientSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""

@@ -13,7 +13,6 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
-import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -33,13 +32,11 @@ export default function Location() {
           <LocationList />
         </div>
         <div className="column is-4 ">
+          {state.LocationModule.show === "create" && <LocationCreate />}
           {state.LocationModule.show === "detail" && <LocationDetail />}
           {state.LocationModule.show === "modify" && (
             <LocationModify Location={selectedLocation} />
           )}
-          <ModalBox open={state.LocationModule.show === "create"}>
-            <LocationCreate />
-          </ModalBox>
         </div>
       </div>
     </section>
@@ -155,7 +152,7 @@ export function LocationCreate() {
                 <div className="select is-small ">
                   <select
                     name="locationType"
-                    // ref={register({ required: true })}
+                    ref={register({ required: true })}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Location Type </option>
@@ -173,7 +170,7 @@ export function LocationCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="name"
                   type="text"
                   placeholder="Name of Location"
@@ -223,7 +220,7 @@ export function LocationCreate() {
               >
                 <input
                   className="input is-small"
-                  // ref={register({ required: true })}
+                  ref={register({ required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -431,6 +428,7 @@ export function LocationList() {
 
   //todo: pagination and vertical scroll bar
 
+  const handleCreate = () => {};
   const onRowClicked = () => {};
 
   const LocationSchema = [
@@ -482,11 +480,11 @@ export function LocationList() {
                 </h2>
               </div>
 
-              {handleCreateNew && (
+              {handleCreate && (
                 <Button
                   style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreateNew}
+                  onClick={handleCreate}
                 />
               )}
             </TableMenu>
@@ -650,7 +648,7 @@ export function LocationDetail() {
                           <div className="select is-small ">
                             <select
                               name="type"
-                              // ref={register({ required: true })}
+                              ref={register({ required: true })}
                               /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                             >
                               <option value="">
@@ -670,7 +668,7 @@ export function LocationDetail() {
                         <p className="control has-icons-left has-icons-right">
                           <input
                             className="input is-small"
-                            // ref={register({ required: true })}
+                            ref={register({ required: true })}
                             name="typeName"
                             type="text"
                             placeholder="Name of Sub-location"
