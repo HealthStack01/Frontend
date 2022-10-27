@@ -122,6 +122,7 @@ import TheatreReport from "./Theatre/TheatreReport";
 
 import {Models} from "./app/Constants";
 import ClientPayment from "./Client/Payment";
+import ClientHome from "./Client/ClientHome";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -191,12 +192,13 @@ const AppRoutes = () => {
           <Route path="/app/clinic/checkin" element={<ClinicCheckin />} />
 
           {/* ***************************** CLIENTS ROUTES ************************************* */}
-
+          <Route path="/app/clients/" element={<ClientHome />} >
           <Route path="/app/clients/encounter" element={<Encounter />} />
           <Route path="/app/clients/clients" element={<Patients />} />
           <Route path="/app/clients/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
           <Route path="/app/clients/payment" element={<ClientPayment />} />
+          </Route>
 
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 

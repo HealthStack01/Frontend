@@ -410,7 +410,7 @@ export function BillingList() {
   );
 }
 
-// {/*
+/* // {/*
 //       <div className="level">
 //         <div className="level-left">
 //           <div className="level-item">
@@ -441,7 +441,7 @@ export function BillingList() {
 //                        <div className="level-item">
 //                             <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
 //                         </div>
-//                     </div>*/}
+//                     </div>*/
 //       </div>
 //       <div className=" pullup shift-right ">
 //         <div className="columns">
@@ -585,4 +585,4 @@ export function BillingList() {
 //             </div>
 //           )}
 //         </div>
-//       </div> */}
+//       </div> 

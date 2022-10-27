@@ -21,18 +21,17 @@ export default function Clinic() {
            {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Clinic  Module</span></div>
             </div> */}
-            <div className="columns ">
-            <div className="column is-8 ">
-                <ClinicList />
-                </div>
-            <div className="column is-4 ">
+           
+                
+                {(state.ClinicModule.show ==='list')&&<ClinicList />}
+            
                 {(state.ClinicModule.show ==='create')&&<ClinicCreate />}
                 {(state.ClinicModule.show ==='detail')&&<ClinicDetail  />}
                 {(state.ClinicModule.show ==='modify')&&<ClinicModify Clinic={selectedClinic} />}
                
-            </div>
+           
 
-            </div>                            
+                                   
             </section>
        
     )
