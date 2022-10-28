@@ -73,7 +73,7 @@ import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
 /* import InventorySetup from './Pharmacy/InventorySetup' */
 import PharmacyProductEntry from "./Pharmacy/ProductEntry";
 import PharmacyProductExit from "./Pharmacy/ProductExit";
-import InventoryStore from "./Pharmacy/InventoryStore";
+import InventoryStore from "./inventory/InventoryStore";
 import Journal from "./Accounts/Journal";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
 import LaboratoryPayment from "./Laboratory/LaboratoryPayment";
@@ -279,20 +279,20 @@ const AppRoutes = () => {
             element={<InventoryDispense />}
           />
           <Route
-            path="/app/inventory/inv-bill"
+            path="/app/inventory/billprescription"
             element={<InventoryBillPrescription />}
           />
           <Route path="/app/inventory/inv-admin" element={<InventorySetup />} />
           <Route
-            path="/app/inventory/inv-inventory"
+            path="/app/inventory/storeinventory"
             element={<InventoryStore />}
           />
           <Route
-            path="/app/inventory/inv-entry"
+            path="/app/inventory/productentry"
             element={<InventoryProductEntry />}
           />
           <Route
-            path="/app/inventory/inv-exit"
+            path="/app/inventory/issueout"
             element={<InventoryProductExit />}
           />
           <Route

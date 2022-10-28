@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
-import Fade from '@mui/material/Fade';
-import Modal from '@mui/material/Modal';
-import React from 'react';
+import {Box} from "@mui/material";
+import Fade from "@mui/material/Fade";
+import Modal from "@mui/material/Modal";
+import React from "react";
 
 interface ModalProps {
   open: boolean;
@@ -9,18 +9,18 @@ interface ModalProps {
   children?: React.ReactNode | undefined;
 }
 const style = {
-  width: '68%',
-  maxWidth: '90%',
-  height: '80%',
-  maxHeight: '100%',
-  bgcolor: '#fff',
+  width: "68%",
+  maxWidth: "90%",
+  height: "80%",
+  maxHeight: "100%",
+  bgcolor: "#fff",
   boxShadow: 24,
   p: 4,
-  borderRadius: '6px',
-  minWidth: '350px !important',
+  borderRadius: "6px",
+  minWidth: "350px !important",
 };
 
-const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
+const ModalBox: React.FC<ModalProps> = ({open, onClose, children}) => (
   <>
     <Modal
       aria-labelledby="transition-modal-title"
@@ -32,11 +32,16 @@ const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
       BackdropProps={{
         timeout: 500,
       }}
-      sx={{ width: '100%', display: 'grid', placeItems: 'center ' }}
+      sx={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
       <Fade in={open}>
         <Box sx={style}>
-          <div style={{ height: '100%', overflowY: 'auto' }}>{children}</div>
+          <div style={{height: "100%", overflowY: "auto"}}>{children}</div>
         </Box>
       </Fade>
     </Modal>

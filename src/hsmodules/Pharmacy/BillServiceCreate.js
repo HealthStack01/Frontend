@@ -16,6 +16,7 @@ const searchfacility = {};
 
 export default function BillServiceCreate() {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm();
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);

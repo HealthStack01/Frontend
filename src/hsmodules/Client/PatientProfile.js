@@ -125,13 +125,14 @@ export default function PatientProfile() {
                 {firstname} {middlename} {lastname}
               </p>
               <p className="subtitle is-7 ">
-                {paymentinfo.map((pay, i) => (
-                  <>
-                    {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-                    {pay.organizationName}
-                    <br></br>
-                  </>
-                ))}
+                {paymentinfo &&
+                  paymentinfo.map((pay, i) => (
+                    <>
+                      {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
+                      {pay.organizationName}
+                      <br></br>
+                    </>
+                  ))}
                 {/* {cash && "Cash"}
                                 {familycover && "Family Cover"}
                                 {companycover && "Company Cover"}

@@ -26,11 +26,15 @@ import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
 
 export default function PharmacyBillService() {
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
   const {state, setState} = useContext(ObjectContext);
 
-  const handlecloseModal = async () => {
-    await setShowModal(false);
+  const handleOpenCreateModal = async () => {
+    await setCreateModal(true);
+  };
+
+  const handleCloseCreateModal = async () => {
+    await setCreateModal(false);
   };
 
   return (
@@ -39,9 +43,9 @@ export default function PharmacyBillService() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      <BillsList setShowModal={setShowModal} />
+      <BillsList openCreateModal={handleOpenCreateModal} />
 
-      <ModalBox open={showModal} onClose={handlecloseModal}>
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
         <BillServiceCreate />
       </ModalBox>
 
@@ -55,7 +59,7 @@ export default function PharmacyBillService() {
   );
 }
 
-export function BillsList({setShowModal}) {
+export function BillsList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -159,7 +163,7 @@ export function BillsList({setShowModal}) {
       DispenseModule: newProductEntryModule,
     }));
 
-    await setShowModal(true);
+    await openCreateModal(true);
   };
 
   const handleSearch = val => {

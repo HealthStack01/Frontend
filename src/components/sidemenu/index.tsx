@@ -158,6 +158,12 @@ export const menuItems = [
     exact: true,
     to: "/app/documentation",
     iconClassName: "bi bi-rss",
+    subMenus: [
+      {
+        name: "New Design",
+        to: "/app/documentation/new-view",
+      },
+    ],
   },
   {
     name: "Ward",

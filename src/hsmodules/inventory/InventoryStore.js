@@ -1,5 +1,8 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+
+import DataTable from "react-data-table-component";
+
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -13,10 +16,19 @@ import {ProductEntryCreate} from "./ProductEntry";
 
 import "react-datepicker/dist/react-datepicker.css";
 
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import EmptyData from "./ui-components/empty";
+import {InventoryStoreSchema} from "./ui-components/schema";
+import styled from "styled-components";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PharmacyInventoryStore() {
+export default function Inventory() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
@@ -318,6 +330,12 @@ export function InventoryCreate() {
   );
 }
 
+const CustomLoader = () => (
+  <div style={{padding: "24px"}}>
+    <img src="/loading.gif" width={400} />
+  </div>
+);
+
 export function InventoryList() {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
@@ -330,6 +348,7 @@ export function InventoryList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoadidng] = useState(false);
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState(); //
   // eslint-disable-next-line
@@ -383,7 +402,7 @@ export function InventoryList() {
         },
         facility: user.currentEmployee.facilityDetail._id || "",
         storeId: state.StoreModule.selectedStore._id,
-        $limit: 1000,
+        $limit: 100,
         $sort: {
           name: 1,
         },
@@ -456,14 +475,14 @@ export function InventoryList() {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           storeId: state.StoreModule.selectedStore._id,
-          $limit: limit,
+          $limit: 2000, //limit,
           /*  $skip:page * limit, */
           $sort: {
             name: 1,
           },
         },
       });
-      console.log("this is data", allInventory);
+
       // await setFacilities(findInventory.data)
       await setTotal(allInventory.total);
       await setFacilities(allInventory.data);
@@ -472,7 +491,7 @@ export function InventoryList() {
         // setNext(true)
         setPage(page => page + 1);
       } else {
-        //setNext(false)
+        //setNext(fals
       }
 
       // pages++
@@ -527,128 +546,130 @@ export function InventoryList() {
   }, [page]);
 
   //todo: pagination and vertical scroll bar
+  const handleCreate = () => {};
+  const onRowClicked = () => {};
+
+  //*******************CONDITION THAT SHOWS DIFFERENT ROW BACKGROUND COLOR BASED ON  A CERTAIN CONDITION MET************
+  const conditionalRowStyles = [
+    {
+      when: row => row.buy,
+      style: {
+        backgroundColor: "pink",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+  ];
+
+  const customStyles = {
+    header: {
+      style: {
+        minHeight: "40px",
+      },
+    },
+    headRow: {
+      style: {
+        background: "#2d2d2d",
+        color: "#000",
+        fontWeight: "bold",
+        fontSize: "0.75rem",
+        border: "none",
+        boxShadow: "0 3px 3px 0 rgba(3,4,94,0.2)",
+      },
+    },
+    headCells: {
+      style: {
+        "&:not(:last-of-type)": {
+          border: "none",
+        },
+        background: "#F8F8F8",
+        fontWeight: "bold",
+        fontSize: "0.75rem",
+        border: "none",
+      },
+    },
+    cells: {
+      style: {
+        border: "none",
+      },
+    },
+    rows: {
+      style: {
+        border: "none",
+        background: "#F8F8F8",
+        //padding: "16px",
+        fontSize: "0.75rem",
+        fontWeight: "500",
+        fontFamily: "Manrope, sans-serif",
+        display: "flex",
+        alignItems: "center",
+      },
+      stripedStyle: {
+        background: "#fff",
+        border: "none",
+      },
+    },
+  };
 
   return (
     <>
       {user ? (
         <>
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Inventory"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
+          <PageWrapper
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+          >
+            <TableMenu>
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
+                )}
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  Inventory Store
+                </h2>
               </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                Inventory{" "}
-              </span>
-            </div>
-            {/* <div className="level-right">
-                        <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>
-                    </div> */}
-          </div>
 
-          <div className="table-container pullup vscrola" id="scrollableDiv">
-            <InfiniteScroll
-              dataLength={facilities.length}
-              next={getInventories}
-              hasMore={total > facilities.length}
-              loader={<h4>Loading...</h4>}
-              scrollableTarget="scrollableDiv"
-            >
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    {/* <th><abbr title="Category">Category</abbr></th> */}
-                    <th>Product</th>
-                    <th>
-                      <abbr title="Quantity">Quantity</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Base Unit">Base Unit</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Stock Value">Stock Value</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Cost Price</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Selling Price">Selling Price</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Re-Order Level">Re-Order Level</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Expiry">Expiry</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {facilities.map((Inventory, i) => (
-                    <tr
-                      key={Inventory._id}
-                      onClick={() => handleRow(Inventory)}
-                      className={
-                        Inventory._id === (selectedInventory?._id || null)
-                          ? "is-selected"
-                          : ""
-                      }
-                      style={{backgroundColor: Inventory.buy ? "pink" : ""}}
-                    >
-                      <th>{i + 1}</th>
-                      {/* <td>{Inventory.productDetail.category}</td> */}
-                      <th>{Inventory.name}</th>
-                      <td>{Inventory.quantity}</td>
-                      <td>{Inventory.baseunit}</td>
-                      <td>
-                        {Inventory.stockvalue.toLocaleString("en-US", {
-                          maximumFractionDigits: 2,
-                        })}
-                      </td>
-                      <td>
-                        {Inventory.costprice
-                          ? Inventory.costprice.toFixed(2)
-                          : ""}
-                      </td>
-                      <td>{Inventory.sellingprice}</td>
-                      <td>{Inventory.reorder_level}</td>
-                      <td
-                        style={{
-                          backgroundColor: Inventory.expiry ? "red" : "",
-                        }}
-                      >
-                        {Inventory.expiry ? "Exist" : ""}
-                      </td>
-                      {/* <td><span className="showAction"  >...</span></td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </InfiniteScroll>
-          </div>
+              {handleCreate && (
+                <Button
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                  label="Add new "
+                  onClick={handleCreate}
+                />
+              )}
+            </TableMenu>
+
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <DataTable
+                title={""}
+                columns={InventoryStoreSchema.filter(
+                  obj => obj.selector && obj.inputType
+                )}
+                data={facilities.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
+                pointerOnHover={true}
+                highlightOnHover={true}
+                striped={true}
+                customStyles={customStyles}
+                onRowClicked={onRowClicked}
+                fixedHeader={true}
+                selectableRows={false}
+                onSelectedRowsChange={handleRow}
+                fixedHeaderScrollHeight="100%"
+                responsive
+                dense={false}
+                style={{
+                  width: "100%",
+                }}
+                progressComponent={<CustomLoader />}
+                progressPending={loading}
+                noDataComponent={<EmptyData />}
+                conditionalRowStyles={conditionalRowStyles}
+              />
+            </div>
+          </PageWrapper>
+          ;
         </>
       ) : (
         <div>loading</div>
@@ -1406,9 +1427,7 @@ export function InventoryBatches() {
                 {productItem.map((ProductEntry, i) => (
                   <tr
                     key={i}
-                    style={{
-                      backgroundColor: ProductEntry.expiry ? "red" : "",
-                    }}
+                    style={{backgroundColor: ProductEntry.expiry ? "red" : ""}}
                   >
                     <th>{i + 1}</th>
                     <td>{ProductEntry.batchNo}</td>

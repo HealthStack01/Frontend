@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+import "./styles/documentation.scss";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -79,6 +80,7 @@ export default function Documentation({standalone}) {
             <EncounterMain client={selectedClient} />
           </div>
         )}
+
         {standalone && (
           <div
             className={

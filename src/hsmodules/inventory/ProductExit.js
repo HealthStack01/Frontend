@@ -7,11 +7,16 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function ProductEntry() {
+export default function PharmacyProductExit() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -22,18 +27,13 @@ export default function ProductEntry() {
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <ProductExitList />
-        </div>
-        <div className="column is-6 ">
-          {state.ProductExitModule.show === "create" && <ProductExitCreate />}
-          {state.ProductExitModule.show === "detail" && <ProductExitDetail />}
-          {state.ProductExitModule.show === "modify" && (
-            <ProductExitModify ProductEntry={selectedProductEntry} />
-          )}
-        </div>
-      </div>
+
+      {state.ProductExitModule.show === "list" && <ProductExitList />}
+      {state.ProductExitModule.show === "create" && <ProductExitCreate />}
+      {state.ProductExitModule.show === "detail" && <ProductExitDetail />}
+      {state.ProductExitModule.show === "modify" && (
+        <ProductExitModify ProductEntry={selectedProductEntry} />
+      )}
     </section>
   );
 }
@@ -327,6 +327,8 @@ export function ProductExitCreate() {
     setChangeAmount(true);
     return () => {};
   }, [quantity]);
+
+  const onRowClicked = () => {};
 
   return (
     <>
@@ -625,6 +627,7 @@ export function ProductExitList() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newProductExitModule = {
@@ -703,6 +706,7 @@ export function ProductExitList() {
       });
 
       await setFacilities(findProductEntry.data);
+      console.log(findProductEntry.data);
     } else {
       if (user.stacker) {
         /* toast({
@@ -769,100 +773,125 @@ export function ProductExitList() {
     return () => {};
   }, [state.StoreModule.selectedStore]);
   //todo: pagination and vertical scroll bar
+  const handleCreate = () => {};
+  const ProductExitSchema = [
+    {
+      name: "S/No",
+      key: "sn",
+      description: "",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "date",
+      key: "date",
+      description: "Enter date",
+      selector: row => row.date,
+
+      sortable: true,
+      required: true,
+      inputType: "DATETIME",
+    },
+    {
+      name: "Type",
+      key: "type",
+      description: "Enter type",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+      options: ["Purchase Invoice", "Initialization", "Audit"],
+    },
+    {
+      name: "Client",
+      key: "client",
+      description: "Enter client",
+      selector: row => row.client,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Document No",
+      key: "DocumentNO",
+      description: "Enter Document Number",
+      selector: row => row.documentNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Total Amount",
+      key: "totalamount",
+      description: "Enter Total Amount",
+      selector: row => row.totalamount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Entered By ",
+      key: "source",
+      description: "Enter Entered By ",
+      selector: row => row.enteredby,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: " Actions",
+      key: "actions",
+      description: "Enter Actions",
+      selector: row => row.actions,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
       {state.StoreModule.selectedStore ? (
         <>
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search ProductEntry"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                Product Exits{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
+          <PageWrapper
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+          >
+            <TableMenu>
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
                   </div>
-                </div>
+                )}
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  Inventory Store
+                </h2>
               </div>
+
+              {handleCreate && (
+                <Button
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                  label="Add new "
+                  onClick={handleCreate}
+                />
+              )}
+            </TableMenu>
+
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <CustomTable
+                title={""}
+                columns={ProductExitSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={loading}
+              />
             </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Date">Date</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Type">Type</abbr>
-                  </th>
-                  <th>Client</th>
-                  <th>
-                    <abbr title="Document No">Document No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Total Amount">Total Amount</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Enteredby">Entered By</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Actions">Actions</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((ProductEntry, i) => (
-                  <tr
-                    key={ProductEntry._id}
-                    onClick={() => handleRow(ProductEntry)}
-                  >
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.date}</td>
-                    <th>{ProductEntry.type}</th>
-                    <td>{ProductEntry.source}</td>
-                    <td>{ProductEntry.documentNo}</td>
-                    <td>{ProductEntry.totalamount}</td>
-                    <td>{ProductEntry.enteredby}</td>
-                    <td>
-                      <span className="showAction">...</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          </PageWrapper>
         </>
       ) : (
         <div>loading... Choose a Store</div>

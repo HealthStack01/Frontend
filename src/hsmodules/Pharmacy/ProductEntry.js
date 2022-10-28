@@ -18,6 +18,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
+import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -25,25 +26,54 @@ export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
+
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
+
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+  };
+  const handleCloseDetailModal = () => {
+    setDetailModal(false);
+  };
+
+  const handleOpenModifyModal = () => {
+    setModifyModal(true);
+  };
+  const handleCloseModifyModal = () => {
+    setModifyModal(false);
+  };
 
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <ProductEntryList />
-        </div>
-        <div className="column is-6 ">
-          {state.ProductEntryModule.show === "create" && <ProductEntryCreate />}
-          {state.ProductEntryModule.show === "detail" && <ProductEntryDetail />}
-          {state.ProductEntryModule.show === "modify" && (
-            <ProductEntryModify ProductEntry={selectedProductEntry} />
-          )}
-        </div>
-      </div>
+
+      <ProductEntryList
+        openCreateModal={handleOpenCreateModal}
+        openDetailModal={handleOpenDetailModal}
+      />
+
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+        <ProductEntryCreate />
+      </ModalBox>
+
+      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+        <ProductEntryDetail openModifyModal={handleOpenModifyModal} />
+      </ModalBox>
+
+      <ModalBox open={modifyModal} onClose={handleCloseModifyModal}>
+        <ProductEntryModify />
+      </ModalBox>
     </section>
   );
 }
@@ -482,7 +512,7 @@ export function ProductEntryCreate() {
   );
 }
 
-export function ProductEntryList() {
+export function ProductEntryList({openCreateModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -517,6 +547,7 @@ export function ProductEntryList() {
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
+    openCreateModal();
   };
   const handleRow = async ProductEntry => {
     //console.log("b4",state)
@@ -534,6 +565,7 @@ export function ProductEntryList() {
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
+    openDetailModal();
   };
 
   const handleSearch = async val => {
@@ -813,7 +845,25 @@ export function ProductEntryList() {
       name: "Actions",
       key: "action",
       description: "Enter Action",
-      selector: row => "X",
+      selector: row => (
+        <button
+          className="button is-info is-small"
+          style={{
+            backgroundColor: "orange",
+            color: "#fff",
+            fontSize: "0.75rem",
+            borderRadius: "2px",
+            padding: "0.27rem 1rem",
+            border: "none",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            handleDelete(row);
+          }}
+        >
+          Delete
+        </button>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -869,7 +919,7 @@ export function ProductEntryList() {
   );
 }
 
-export function ProductEntryDetail() {
+export function ProductEntryDetail({openModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -893,6 +943,7 @@ export function ProductEntryDetail() {
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
+    openModifyModal();
   };
 
   return (

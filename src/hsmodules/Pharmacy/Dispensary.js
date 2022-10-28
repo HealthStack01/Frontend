@@ -24,6 +24,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {InventoryStoreSchema} from "./ui-components/schema";
+import ModalBox from "./ui-components/modal";
 
 export default function Dispense() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -45,30 +46,37 @@ export default function Dispense() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [createModal, setCreateModal] = useState(false);
+
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
 
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <DispenseList />
-        </div>
 
-        <div className="column is-6 ">
-          {state.financeModule.show === "detail" && <ProductExitCreate />}
-        </div>
-        {/*  <div className="column is-3 ">
+      <DispenseList openCreateModal={handleOpenCreateModal} />
+
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+        <ProductExitCreate />
+      </ModalBox>
+
+      {/*  <div className="column is-3 ">
                 
                 {(state.financeModule.show ==='detail')&&<PatientProfile />}
                 </div> */}
-      </div>
     </section>
   );
 }
 
-export function DispenseList() {
+export function DispenseList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -169,6 +177,7 @@ export function DispenseList() {
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
+    openCreateModal();
   };
 
   const handleSearch = val => {
@@ -293,8 +302,6 @@ export function DispenseList() {
     return () => {};
   }, [state.financeModule.show]);
 
-  const handleCreate = () => {};
-
   const onRowClicked = () => {};
 
   const DispensorySummary = [
@@ -305,6 +312,8 @@ export function DispenseList() {
       selector: row => row.bills.map(obj => obj.order).flat().length,
     },
   ];
+
+  const dispensarySchema = [];
 
   return (
     <>
@@ -325,7 +334,7 @@ export function DispenseList() {
             <Button
               style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
-              onClick={handleCreate}
+              onClick={handleCreateNew}
             />
           )}
         </TableMenu>

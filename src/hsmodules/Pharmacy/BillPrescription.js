@@ -47,6 +47,7 @@ export default function PharmacyBillPrescription() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [createModal, setCreateModal] = useState(false);
 
   /*  useEffect(() => {
         const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
@@ -58,23 +59,35 @@ export default function PharmacyBillPrescription() {
          }
      }, []) */
 
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
+
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      <BillPrescriptionList />
+      <BillPrescriptionList showCreateModal={handleOpenCreateModal} />
 
-      <ModalBox open={false}>
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        style={{display: "flex"}}
+      >
         <BillPrescriptionCreate />
-        {/* <PatientProfile /> */}
+        <PatientProfile />
       </ModalBox>
     </section>
   );
 }
 
-export function BillPrescriptionList() {
+export function BillPrescriptionList({showCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -126,6 +139,7 @@ export function BillPrescriptionList() {
     }));
     //console.log(state)
     // ProductEntry.show=!ProductEntry.show
+    showCreateModal();
   };
 
   const handleCreateNew = async () => {
@@ -137,7 +151,6 @@ export function BillPrescriptionList() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
   };
 
   const handleSearch = async val => {

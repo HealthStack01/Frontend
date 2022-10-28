@@ -11,7 +11,14 @@ import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+
 import "react-datepicker/dist/react-datepicker.css";
+import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -19,25 +26,54 @@ export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
+
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
+
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+  };
+  const handleCloseDetailModal = () => {
+    setDetailModal(false);
+  };
+
+  const handleOpenModifyModal = () => {
+    setModifyModal(true);
+  };
+  const handleCloseModifyModal = () => {
+    setModifyModal(false);
+  };
 
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <ProductEntryList />
-        </div>
-        <div className="column is-6 ">
-          {state.ProductEntryModule.show === "create" && <ProductEntryCreate />}
-          {state.ProductEntryModule.show === "detail" && <ProductEntryDetail />}
-          {state.ProductEntryModule.show === "modify" && (
-            <ProductEntryModify ProductEntry={selectedProductEntry} />
-          )}
-        </div>
-      </div>
+
+      <ProductEntryList
+        openCreateModal={handleOpenCreateModal}
+        openDetailModal={handleOpenDetailModal}
+      />
+
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+        <ProductEntryCreate />
+      </ModalBox>
+
+      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+        <ProductEntryDetail openModifyModal={handleOpenModifyModal} />
+      </ModalBox>
+
+      <ModalBox open={modifyModal} onClose={handleCloseModifyModal}>
+        <ProductEntryModify />
+      </ModalBox>
     </section>
   );
 }
@@ -476,7 +512,7 @@ export function ProductEntryCreate() {
   );
 }
 
-export function ProductEntryList() {
+export function ProductEntryList({openCreateModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -488,6 +524,7 @@ export function ProductEntryList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState(); //
   // eslint-disable-next-line
@@ -495,8 +532,8 @@ export function ProductEntryList() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(20);
-  const [total, setTotal] = useState(0);
+  const [limit, setLimit] = useState(20); //LIMITATIONS FOR THE NUMBER OF FACILITIES FOR SERVER TO RETURN PER PAGE
+  const [total, setTotal] = useState(0); //TOTAL NUMBER OF FACILITIES AVAILABLE IN THE SERVER
   const [restful, setRestful] = useState(true);
   const [next, setNext] = useState(false);
 
@@ -510,6 +547,7 @@ export function ProductEntryList() {
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
+    openCreateModal();
   };
   const handleRow = async ProductEntry => {
     //console.log("b4",state)
@@ -527,6 +565,7 @@ export function ProductEntryList() {
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
+    openDetailModal();
   };
 
   const handleSearch = async val => {
@@ -747,117 +786,131 @@ export function ProductEntryList() {
     }
   };
 
+  const productEntrySchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "Enter Created date",
+      selector: row => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Type",
+      key: "type",
+      description: "Enter Type",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Source",
+      key: "source",
+      description: "Enter Source",
+      selector: row => row.source,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Document No",
+      key: "documentNo",
+      description: "Enter Document Number",
+      selector: row => row.documentNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Total Amount",
+      key: "totalamount",
+      description: "Enter Total Amount",
+      selector: row => row.totalamount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Actions",
+      key: "action",
+      description: "Enter Action",
+      selector: row => (
+        <button
+          className="button is-info is-small"
+          style={{
+            backgroundColor: "orange",
+            color: "#fff",
+            fontSize: "0.75rem",
+            borderRadius: "2px",
+            padding: "0.27rem 1rem",
+            border: "none",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            handleDelete(row);
+          }}
+        >
+          Delete
+        </button>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
       {state.StoreModule.selectedStore ? (
         <>
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Type or Source"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Product Additions to Inventory{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
+          <PageWrapper
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+          >
+            <TableMenu>
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
                   </div>
-                </div>
+                )}
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  Notifications
+                </h2>
               </div>
-            </div>
-          </div>
 
-          <div className="table-container pullup vscrola" id="scrollableDiv">
-            <InfiniteScroll
-              dataLength={facilities.length}
-              next={getFacilities}
-              hasMore={total > facilities.length}
-              loader={<h4>Loading...</h4>}
-              scrollableTarget="scrollableDiv"
-            >
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Date">Date</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Type</abbr>
-                    </th>
-                    <th>Source</th>
-                    <th>
-                      <abbr title="Document No">Document No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Total Amount">Total Amount</abbr>
-                    </th>
-                    {/* <th><abbr title="Enteredby">Entered By</abbr></th> */}
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {facilities.map((ProductEntry, i) => (
-                    <tr
-                      key={ProductEntry._id}
-                      onClick={() => handleRow(ProductEntry)}
-                    >
-                      <th>{i + 1}</th>
-                      <td>
-                        {ProductEntry.date ? (
-                          <>
-                            {format(
-                              new Date(ProductEntry.date),
-                              "dd-MM-yy HH:mm"
-                            )}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </td>
-                      <th>{ProductEntry.type}</th>
-                      <td>{ProductEntry.source}</td>
-                      <td>{ProductEntry.documentNo}</td>
-                      <td>{ProductEntry.totalamount}</td>
-                      {/*   <td>{ProductEntry.enteredby}</td> */}
-                      <td onClick={() => handleDelete(ProductEntry)}>
-                        <span className="showAction">X</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </InfiniteScroll>
-          </div>
+              {handleCreateNew && (
+                <Button
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                  label="Add new "
+                  onClick={handleCreateNew}
+                />
+              )}
+            </TableMenu>
+
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <CustomTable
+                title={""}
+                columns={productEntrySchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={loading}
+              />
+            </div>
+          </PageWrapper>
         </>
       ) : (
         <div>loading... </div>
@@ -866,7 +919,7 @@ export function ProductEntryList() {
   );
 }
 
-export function ProductEntryDetail() {
+export function ProductEntryDetail({openModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -890,6 +943,7 @@ export function ProductEntryDetail() {
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
+    openModifyModal();
   };
 
   return (
