@@ -171,13 +171,14 @@ export function PharmacyBillingList({openModal}) {
 
   const handleChoseClient = async (client, e, order) => {
     setOldClient(client.clientname);
-    let newClient = client.clientname;
-    if (oldClient !== newClient) {
-      //alert("New Client Onboard")
-      //remove all checked clientsly
-      selectedOrders.forEach(el => (el.checked = ""));
-      setSelectedOrders([]);
-    }
+
+    // let newClient = client.clientname;
+    // if (oldClient !== newClient) {
+    //   //alert("New Client Onboard")
+    //   //remove all checked clientsly
+    //   selectedOrders.forEach(el => (el.checked = ""));
+    //   setSelectedOrders([]);
+    //}
 
     // console.log(e.target.checked)
     order.checked = e.target.checked;
@@ -185,6 +186,7 @@ export function PharmacyBillingList({openModal}) {
     //handleMedicationRow(order)
     await setSelectedFinance(order);
     const newProductEntryModule = {
+      ...state.financeModule,
       selectedFinance: order,
       show: "detail",
       state: e.target.checked,
@@ -196,8 +198,33 @@ export function PharmacyBillingList({openModal}) {
 
     //set of checked items
     if (e.target.checked) {
-      await setSelectedOrders(prevstate => prevstate.concat(order));
+      let medication = order;
+      medication.show = "none";
+      medication.proposedpayment = {
+        balance: 0,
+        paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
+        amount: medication.paymentInfo.balance,
+      };
+
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.concat(medication),
+        },
+      }));
+      await setSelectedOrders(prevstate => prevstate.concat(medication));
     } else {
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.filter(
+            el => el._id !== order._id
+          ),
+        },
+      }));
+
       setSelectedOrders(prevstate =>
         prevstate.filter(el => el._id !== order._id)
       );

@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
-import Encounter from "../Documentation/Encounter";
+import Encounter from "../Documentation/Documentation";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";

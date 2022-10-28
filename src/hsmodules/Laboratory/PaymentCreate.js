@@ -7,12 +7,18 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Encounter";
+import Encounter from "../Documentation/Documentation";
 var random = require("random-string-generator");
+
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function PaymentCreate() {
+export default function PaymentCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
 
@@ -58,8 +64,11 @@ export default function PaymentCreate() {
   const [partBulk, setPartBulk] = useState("");
   const [isPart, setIsPart] = useState(false);
   const [subWallet, setSubWallet] = useState();
+  const [loading, setLoading] = useState(false);
+  const [partTable, setPartTable] = useState([]);
 
   const {state, setState} = useContext(ObjectContext);
+
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
@@ -248,44 +257,80 @@ export default function PaymentCreate() {
     await setButtonState(false);
   };
 
+  const getFacilities = async () => {
+    // console.log("here b4 server")
+    const findProductEntry = await SubwalletServ.find({
+      query: {
+        client: medication.participantInfo.client._id,
+        organization: user.employeeData[0].facilityDetail._id,
+        //storeId:state.StoreModule.selectedStore._id,
+        //clientId:state.ClientModule.selectedClient._id,
+        //$limit:100,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    });
+    //    console.log(findProductEntry)
+
+    // console.log("balance", findProductEntry.data[0].amount)
+    if (findProductEntry.data.length > 0) {
+      setSubWallet(findProductEntry.data[0]);
+      await setBalance(findProductEntry.data[0].amount);
+    } else {
+      await setBalance(0);
+    }
+
+    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
+  };
+
+  //console.log(state.financeModule);
+
   useEffect(() => {
-    const oldname =
-      medication.participantInfo.client.firstname +
-      " " +
-      medication.participantInfo.client.lastname;
-    // console.log("oldname",oldname)
+    // const oldname =
+    //   medication.participantInfo.client.firstname +
+    //   " " +
+    //   medication.participantInfo.client.lastname;
+    // // console.log("oldname",oldname)
+    // setSource(
+    //   medication.participantInfo.client.firstname +
+    //     " " +
+    //     medication.participantInfo.client.lastname
+    // );
+
+    // const newname = source;
+    // //   console.log("newname",newname)
+    // if (oldname !== newname) {
+    //   //newdispense
+
+    //   setProductItem([]);
+    //   setTotalamount(0);
+    // }
+    // //is the row checked or unchecked
+    // if (state.financeModule.state) {
+    //   medication.show = "none";
+    //   medication.proposedpayment = {
+    //     balance: 0,
+    //     paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
+    //     amount: medication.paymentInfo.balance,
+    //   };
+    //   //no payment detail push
+
+    //   setProductItem(prevProd => prevProd.concat(medication));
+    // } else {
+    //   if (productItem.length > 0) {
+    //     setProductItem(prevProd =>
+    //       prevProd.filter(el => el._id !== medication._id)
+    //     );
+    //   }
+    // }
+
     setSource(
       medication.participantInfo.client.firstname +
         " " +
         medication.participantInfo.client.lastname
     );
-
-    const newname = source;
-    //   console.log("newname",newname)
-    if (oldname !== newname) {
-      //newdispense
-
-      setProductItem([]);
-      setTotalamount(0);
-    }
-    //is the row checked or unchecked
-    if (state.financeModule.state) {
-      medication.show = "none";
-      medication.proposedpayment = {
-        balance: 0,
-        paidup: medication.paymentInfo.paidup + medication.paymentInfo.balance,
-        amount: medication.paymentInfo.balance,
-      };
-      //no payment detail push
-
-      setProductItem(prevProd => prevProd.concat(medication));
-    } else {
-      if (productItem.length > 0) {
-        setProductItem(prevProd =>
-          prevProd.filter(el => el._id !== medication._id)
-        );
-      }
-    }
+    setProductItem(state.financeModule.selectedBills);
 
     // const paymentoptions= []
     //const info = medication.participantInfo.client.paymentinfo
@@ -323,33 +368,6 @@ export default function PaymentCreate() {
     return () => {};
   }, [productItem]);
 
-  const getFacilities = async () => {
-    // console.log("here b4 server")
-    const findProductEntry = await SubwalletServ.find({
-      query: {
-        client: medication.participantInfo.client._id,
-        organization: user.employeeData[0].facilityDetail._id,
-        //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
-        //$limit:100,
-        $sort: {
-          createdAt: -1,
-        },
-      },
-    });
-    //    console.log(findProductEntry)
-
-    // console.log("balance", findProductEntry.data[0].amount)
-    if (findProductEntry.data.length > 0) {
-      setSubWallet(findProductEntry.data[0]);
-      await setBalance(findProductEntry.data[0].amount);
-    } else {
-      await setBalance(0);
-    }
-
-    //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
-  };
-
   //initialize page
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
@@ -367,6 +385,7 @@ export default function PaymentCreate() {
 
     return async () => {
       const newProductEntryModule = {
+        selectedBills: [],
         selectedFinance: {},
         show: "create",
       };
@@ -393,6 +412,7 @@ export default function PaymentCreate() {
     if (e.target.value === "Part") {
       bill.show = "flex";
       setPartPay(prev => prev.concat(bill));
+      setPartTable(prev => prev.concat(bill));
     }
 
     if (e.target.value === "Full") {
@@ -415,6 +435,7 @@ export default function PaymentCreate() {
       //  item.paymentInfo.paidup=Number(item.paymentInfo.paidup) + Number(payObj.amount)
       getTotal();
       setPartPay(prev => prev.concat(bill));
+      setPartTable(prev => prev.filter(i => i._id !== bill._id));
     }
   };
 
@@ -586,6 +607,7 @@ export default function PaymentCreate() {
           pauseOnHover: true,
         });
         const newProductEntryModule = {
+          selectedBills: [],
           selectedFinance: {},
           show: "create",
         };
@@ -747,6 +769,7 @@ export default function PaymentCreate() {
           pauseOnHover: true,
         });
         const newProductEntryModule = {
+          selectedBills: [],
           selectedFinance: {},
           show: "create",
         };
@@ -781,111 +804,193 @@ export default function PaymentCreate() {
   const handleBulkAmount = e => {
     setPartBulk(e.target.value);
   };
-  // console.log("simpa")
+
+  const paymentCreateSchema = [
+    {
+      name: "S/NO",
+      width: "75px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter Category",
+      selector: row => <b>{row.orderInfo.orderObj.order_category}</b>,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_TYPE",
+    },
+    {
+      name: "Description",
+      key: "description",
+      description: "Enter Description",
+      selector: row => row.serviceInfo.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Type",
+      width: "200px",
+      key: "sn",
+      description: "Enter Type",
+      selector: row => (
+        <div style={{display: "flex", flexDirection: "column"}}>
+          <label style={{marginBottom: "5px"}}>
+            <input
+              type="radio"
+              name={row._id}
+              value="Full"
+              checked={!partTable.find(i => i._id === row._id)}
+              onChange={e => {
+                handleChangePart(row, e);
+              }}
+            />
+            <span> Full </span>
+          </label>
+
+          <label style={{marginBottom: "5px"}}>
+            <input
+              type="radio"
+              name={row._id}
+              value="Part"
+              checked={partTable.find(i => i._id === row._id)}
+              onChange={e => handleChangePart(row, e)}
+            />
+            <span> Part </span>
+          </label>
+
+          {partTable.find(i => i._id === row._id) && (
+            <div>
+              <div style={{marginBottom: "5px"}}>
+                <input
+                  className="input is-small selectadd"
+                  type="text"
+                  name={row._id}
+                  placeholder="Amount"
+                  value={partBulk}
+                  onChange={e => handlePartAmount(row, e)}
+                />
+              </div>
+              <button
+                style={{
+                  backgroundColor: "#3298dc",
+                  color: "#fff",
+                  fontSize: "0.75rem",
+                  borderRadius: "2px",
+                  padding: "0.4rem 1rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+                onClick={e => handleUpdate(row, e)}
+              >
+                Update
+              </button>
+            </div>
+          )}
+        </div>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      width: "200px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => (
+        <div style={{display: "flex", flexDirection: "column"}}>
+          <div style={{display: "flex", marginBottom: "8px"}}>
+            <b style={{marginRight: "3px"}}>Balance Due:</b>{" "}
+            {row.paymentInfo.balance.toFixed(2)}
+          </div>
+          <div style={{display: "flex", marginBottom: "8px"}}>
+            <b style={{marginRight: "3px"}}>Paid up:</b>{" "}
+            {row.paymentInfo.paidup.toFixed(2)}
+          </div>
+          <div style={{display: "flex", marginBottom: "8px"}}>
+            <b style={{marginRight: "3px"}}>Amount:</b>{" "}
+            {row.paymentInfo.amountDue.toFixed(2)}
+          </div>
+        </div>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
+
   return (
     <>
-      <div className="card card-overflow mb-2 ">
-        <div className="card-header">
-          <p className="card-header-title">Make Deposit for {source}</p>
-          <button className="button is-success is-small btnheight mt-2">
-            Balance: N {balance.toFixed(2)}
-          </button>
-        </div>
-        <div className="card-content pb-1">
-          <div id="Deposit">
-            <div className="field is-horizontal pullup">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="paymentmode"
-                        value={paymentmode}
-                        onChange={e => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value="">Payment Mode </option>
-                        <option value="Cash">Cash</option>
-                        <option value="Wallet">Wallet </option>
-                        <option value="Bank Transfer">Bank Transfer </option>
-                        <option value="Card">Card</option>
-                        <option value="Cheque">Cheque</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      name="order"
-                      value={amountPaid}
-                      type="text"
-                      onChange={e => setAmountPaid(e.target.value)}
-                      placeholder="Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hashtag"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p
-                    className="control  " /* style={{display:"none"}} has-icons-left*/
-                  >
-                    <input
-                      className="input is-small"
-                      name="description"
-                      value={description}
-                      type="text"
-                      onChange={async e => await setDescription(e.target.value)}
-                      placeholder="Payment Details"
-                    />
-                    {/* <span className="icon is-small is-left">
-                     <i className="fas fa-dollar-sign"></i> 
-                     </span>*/}
-                  </p>
-                </div>
-                <div className="field ">
-                  <p className="control">
-                    <button
-                      className="button is-info is-small  is-pulled-left selectadd"
-                      disabled={buttonState}
-                    >
-                      <span className="is-small" onClick={handleAccept}>
-                        Accept
-                      </span>
-                    </button>
-                  </p>
-                </div>
-              </div>
+      <div style={{width: "100%"}}>
+        <div
+          style={{
+            backgroundColor: "#F8F8F8",
+            padding: "7px",
+            marginBottom: "15px",
+            boxShadow: "0 3px 3px 0 rgb(3 4 94 / 20%)",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "15px",
+            }}
+          >
+            <p style={{fontSize: "0.75rem", fontWeight: "bold"}}>
+              Pay Bills for {source} #{documentNo}
+            </p>
+            <div
+              style={{
+                padding: "3px 5px",
+                backgroundColor: "rgb(241, 70, 104)",
+                borderRadius: "15px",
+              }}
+            >
+              <p style={{color: "#fff", fontSize: "0.75rem"}}>
+                Total Amount Due: N {totalamount.toFixed(2)}
+              </p>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <div className="card-header-title">
-            Pay Bills for {source} #{documentNo}
-          </div>
-          <div>
-            <div className="button is-danger is-small btnheight my-1">
-              Total Amount Due: N {totalamount.toFixed(2)}
-            </div>
-            <div>
-              <div className="row">
-                <label className=" is-small">
-                  <input
-                    type="radio"
-                    name="fullPay"
-                    value="Full"
-                    checked={!part}
-                    onChange={e => {
-                      handleChangeFull(e);
-                    }}
-                  />
-                  <span> Full </span>
-                </label>
+
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{display: "flex", alignItems: "center"}}>
+              <label className=" is-small">
+                <input
+                  type="radio"
+                  name="fullPay"
+                  value="Full"
+                  checked={!part}
+                  onChange={e => {
+                    handleChangeFull(e);
+                  }}
+                />
+                <span> Full </span>
+              </label>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginLeft: "15px",
+                }}
+              >
                 <label className=" is-small">
                   <input
                     type="radio"
@@ -895,37 +1000,40 @@ export default function PaymentCreate() {
                   />
                   <span> Part </span>
                 </label>
+
+                {part && (
+                  <div style={{marginLeft: "15px"}}>
+                    <div className="control">
+                      <input
+                        className="input is-small selectadd"
+                        style={{padding: "3px"}}
+                        type="text"
+                        name="bulkpay"
+                        placeholder="Enter amount"
+                        value={partBulk}
+                        onChange={e => handleBulkAmount(e)}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-              {part ? (
-                <div className="field has-addons mr-1 mb-1">
-                  <div className="control">
-                    <input
-                      className="input is-small selectadd"
-                      type="text"
-                      name="bulkpay"
-                      value={partBulk}
-                      onChange={e => handleBulkAmount(e)}
-                    />
-                  </div>
-                  <div className="control">
-                    <button
-                      className="button is-info  is-small selectadd"
-                      onClick={e => handleBulkPayment(e)}
-                    >
-                      Pay
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="control">
-                  <button
-                    className="button is-info  is-small selectadd"
-                    onClick={e => handleBulkPayment(e)}
-                  >
-                    Pay
-                  </button>
-                </div>
-              )}
+            </div>
+
+            <div className="control">
+              <button
+                style={{
+                  backgroundColor: "#3298dc",
+                  color: "#fff",
+                  fontSize: "0.75rem",
+                  borderRadius: "2px",
+                  padding: "0.4rem 1rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+                onClick={e => handleBulkPayment(e)}
+              >
+                Pay
+              </button>
             </div>
           </div>
         </div>
@@ -933,116 +1041,45 @@ export default function PaymentCreate() {
         <div className="card-content px-1 ">
           {productItem.length > 0 && (
             <>
-              <div className="vscrollable-acc pullup">
-                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable shift-right shift-left">
-                  <thead>
-                    <tr>
-                      <th>
-                        <abbr title="Serial No">S/No</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Category">Category</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Description">Description</abbr>
-                      </th>
-
-                      <th>
-                        <abbr title="Cost Price">Type</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Amount">Amount</abbr>
-                      </th>
-                      {/* <th><abbr title="Cost Price">Amount</abbr></th> */}
-                      {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                    </tr>
-                  </thead>
-                  <tfoot></tfoot>
-                  <tbody>
-                    {productItem.map((ProductEntry, i) => (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <th>
-                          {ProductEntry.orderInfo.orderObj.order_category}
-                        </th>
-                        <td>{ProductEntry.serviceInfo.name}</td>
-                        <td>
-                          <label className=" is-small">
-                            <input
-                              type="radio"
-                              name={ProductEntry._id}
-                              value="Full"
-                              checked={ProductEntry.show === "none"}
-                              onChange={e => {
-                                handleChangePart(ProductEntry, e);
-                              }}
-                            />
-                            <span> Full</span>
-                          </label>{" "}
-                          <br />
-                          <label className=" is-small">
-                            <input
-                              type="radio"
-                              name={ProductEntry._id}
-                              value="Part"
-                              onChange={e => handleChangePart(ProductEntry, e)}
-                            />
-                            <span> Part </span>
-                          </label>
-                          <div style={{display: `${ProductEntry.show}`}}>
-                            <div className="blk">
-                              <div>
-                                <input
-                                  className="input selectadd shift-left"
-                                  type="text"
-                                  name={ProductEntry._id}
-                                  /* value={ProductEntry.partPay}  */ onChange={e =>
-                                    handlePartAmount(ProductEntry, e)
-                                  }
-                                />
-                              </div>
-                              <div>
-                                <button
-                                  className="button is-info selectadd"
-                                  onClick={e => handleUpdate(ProductEntry, e)}
-                                >
-                                  Update
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          {/*  {ProductEntry.partPay} */}
-                        </td>
-                        <td>
-                          <p>
-                            <strong>Balance Due:</strong>
-                            {ProductEntry.paymentInfo?.balance.toFixed(2)} (
-                            {ProductEntry.proposedpayment?.balance.toFixed(2)})
-                          </p>
-                          <p>
-                            <strong>Paid Up:</strong>
-                            {ProductEntry.paymentInfo?.paidup.toFixed(2)} (
-                            {ProductEntry.proposedpayment?.paidup.toFixed(2)})
-                          </p>
-                          <p>
-                            <strong>Amount:</strong>
-                            {ProductEntry.paymentInfo.amountDue.toFixed(2)}
-                          </p>
-                        </td>
-
-                        {/* <td>{ProductEntry.amount}</td> */}
-                        {/*  <td><span className="showAction"  >x</span></td> */}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                <div className="field mt-2 is-grouped">
+              <div
+                style={{
+                  height: "calc(100% - 70px)",
+                  width: "100%",
+                  transition: "width 0.5s ease-in",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={paymentCreateSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={row => console.log(row)}
+                  progressPending={loading}
+                />
+                <div
+                  className="field mt-2 is-grouped"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <p className="control">
                     <button
                       className="button is-success is-small"
                       disabled={!productItem.length > 0}
                       onClick={handlePayment}
+                      style={{
+                        backgroundColor: "rgb(72, 199, 116)",
+                        color: "#fff",
+                        fontSize: "0.75rem",
+                        borderRadius: "2px",
+                        padding: "0.6rem 1.2rem",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
                     >
                       Pay
                     </button>
@@ -1052,6 +1089,25 @@ export default function PaymentCreate() {
                          Generate Invoice
                      </button>
                  </p>  */}
+
+                  <p className="control">
+                    <button
+                      className="button is-success is-small"
+                      disabled={!productItem.length > 0}
+                      onClick={closeModal}
+                      style={{
+                        backgroundColor: "#808000",
+                        color: "#fff",
+                        fontSize: "0.75rem",
+                        borderRadius: "2px",
+                        padding: "0.6rem 1.2rem",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </p>
                 </div>
               </div>
             </>
