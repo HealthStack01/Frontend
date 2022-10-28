@@ -4,7 +4,7 @@ import {Route, Routes, useLocation} from "react-router-dom";
 import {UserContext, ObjectContext} from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
-import Appointments from "./Appointment/clinicAppointments";
+import ClinicAppointments from "./Appointment/clinicAppointments";
 import Login from "./auth";
 import IndividualSignup from "./auth/IndividualSignup";
 import Signup from "./auth/Signup";
@@ -126,6 +126,7 @@ import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
 import ClientHome from "./Client/ClientHome";
+import TheatreCheckIn from "./Appointment/TheatreWorkflow";
 // import ClientsAppointments from "./Clients/Appointments";
 //import ClientsAppointments from "./Client/Appointments";
 
@@ -185,13 +186,19 @@ const AppRoutes = () => {
 
           <Route path="/app/clinic" element={<ClinicHome />} />
           <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
-          <Route path="/app/clinic/appointments" element={<Appointments />} />
+          <Route
+            path="/app/clinic/appointments"
+            element={<ClinicAppointments />}
+          />
           <Route path="/app/clinic/checkin" element={<ClinicCheckIn />} />
           <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
           <Route path="/app/clinic/payments" element={<Payment />} />
           <Route path="/app/clinic" element={<ClinicHome />} />
           <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
-          <Route path="/app/clinic/appointments" element={<Appointments />} />
+          <Route
+            path="/app/clinic/appointments"
+            element={<ClinicAppointments />}
+          />
           <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
           <Route path="/app/clinic/documentation" element={<Documentation />} />
           <Route path="/app/clinic/patients" element={<Patients />} />
@@ -389,7 +396,7 @@ const AppRoutes = () => {
 
           <Route
             path="/app/theatre/theatre-checkedin"
-            element={<TheatreCheckedin />}
+            element={<TheatreCheckIn />}
           />
           <Route
             path="/app/theatre/theatre-appointments"

@@ -1,83 +1,94 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Route, Link, NavLink, useLocation, useNavigate} from "react-router-dom";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
-import DatePicker from "react-datepicker";
-import LocationSearch from "../helpers/LocationSearch";
-import EmployeeSearch from "../helpers/EmployeeSearch";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import "react-datepicker/dist/react-datepicker.css";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import LocationSearch from '../helpers/LocationSearch';
+import EmployeeSearch from '../helpers/EmployeeSearch';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import 'react-datepicker/dist/react-datepicker.css';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import { AppointmentSchema } from './schema';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
+import ModalBox from './ui-components/modal';
+import ModalHeader from './ui-components/Heading/modalHeader';
+import { Box, Grid } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
 // eslint-disable-next-line
 const searchfacility = {};
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import {AppointmentSchema} from "./schema";
-import Switch from "../../components/switch";
-import {BsFillGridFill, BsList} from "react-icons/bs";
-import CalendarGrid from "../../components/calender";
 
 export default function TheatreAppointments() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      {state.AppointmentModule.show === "list" && <TheatreAppointmentList />}
-      {state.AppointmentModule.show === "create" && (
-        <TheatreAppointmentCreate />
+      {state.AppointmentModule.show === 'list' && (
+        <ClientList showModal={showModal} setShowModal={setShowModal} />
       )}
-      {state.AppointmentModule.show === "detail" && (
-        <TheatreAppointmentDetail />
+      {showModal && (
+        <ModalBox open={state.AppointmentModule.show === 'create'}>
+          <AppointmentCreate
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        </ModalBox>
       )}
-      {state.AppointmentModule.show === "modify" && (
-        <TheatreAppointmentModify Client={selectedClient} />
+      {state.AppointmentModule.show === 'detail' && <ClientDetail />}
+      {state.AppointmentModule.show === 'modify' && (
+        <ClientModify Client={selectedClient} />
       )}
     </section>
   );
 }
 
-export function TheatreAppointmentCreate() {
-  const {state, setState} = useContext(ObjectContext);
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+export function AppointmentCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("appointments");
-
-  const {user} = useContext(UserContext); //,setUser
+  const ClientServ = client.service('appointments');
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ["On-site", "Off-Site"];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -86,15 +97,15 @@ export function TheatreAppointmentCreate() {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -103,14 +114,13 @@ export function TheatreAppointmentCreate() {
       setClientId();
       setChosen();
     }
-    /*  handleSelectedClient(obj) */
 
     /*  setValue("facility", obj._id,  {
             shouldValidate: true,
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -120,7 +130,7 @@ export function TheatreAppointmentCreate() {
       setChosen1();
     }
   };
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -151,9 +161,18 @@ export function TheatreAppointmentCreate() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: 'list',
+        },
+      }));
+
     // data.createdby=user._id
     console.log(data);
     if (user.currentEmployee) {
@@ -172,7 +191,7 @@ export function TheatreAppointmentCreate() {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -186,65 +205,50 @@ export function TheatreAppointmentCreate() {
     console.log(data);
 
     ClientServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type("");
-        setAppointment_status("");
-        setClientId("");
-        setLocationId("");
+        setAppointment_type('');
+        setAppointment_status('');
+        setClientId('');
+        setLocationId('');
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast({
           message:
-            "Appointment created succesfully, Kindly bill patient if required",
-          type: "is-success",
+            'Appointment created succesfully, Kindly bill patient if required',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
-        showBilling();
+        // showBilling()
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
+          message: 'Error creating Appointment ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
       });
   };
 
-  /*  useEffect(() => {
-        getSearchfacility(state.ClientModule.selectedClient )
-        
-       
-        return () => {
-           
-        }
-    }, [state.ClientModule.selectedClient ]) */
+  useEffect(() => {
+    getSearchfacility(state.ClientModule.selectedClient);
 
-  const handleSelectedClient = async Client => {
-    // await setSelectedClient(Client)
-    const newClientModule = {
-      selectedClient: Client,
-      show: "detail",
-    };
-    console.log("something", Client);
-    alert("looking for client");
-    await setState(prevstate => ({
-      ...prevstate,
-      ClientModule: newClientModule,
-    }));
-  };
+    /* appointee=state.ClientModule.selectedClient 
+        console.log(appointee.firstname) */
+    return () => {};
+  }, [state.ClientModule.selectedClient]);
 
   /*   const showBilling = () =>{
         setBillingModal(true)
-       //navigate('/app/finance/billservice')
+       //history.push('/app/finance/billservice')
         }
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
@@ -259,322 +263,259 @@ export function TheatreAppointmentCreate() {
                 }
                await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
             } */
-  const handlecloseModal1 = () => {
-    setBillingModal(false);
-  };
-  const showBilling = () => {
-    setBillingModal(true);
-    //navigate('/app/finance/billservice')
-  };
 
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Appointment For Procedure</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                {/*  <label className="label is-small mr-2">Client:</label> */}
-
-                {state.ClientModule.selectedClient.firstname !== undefined ? (
-                  <>
-                    <label className="label is-size-7">
-                      {" "}
-                      {state.ClientModule.selectedClient.firstname}{" "}
-                      {state.ClientModule.selectedClient.lastname}
-                    </label>
-                  </>
-                ) : (
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <ClientSearch
-                      getSearchfacility={getSearchfacility}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{display: "none"}}
-                    >
-                      <input
-                        className="input is-small"
-                        /* ref={register ({ required: true }) } */ /* add array no */ value={
-                          clientId
-                        }
-                        name="ClientId"
-                        type="text"
-                        onChange={e => setClientId(e.target.value)}
-                        placeholder="Product Id"
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                    {/* {sellingprice &&   "N"}{sellingprice} {sellingprice &&   "per"}  {baseunit} {invquantity} {sellingprice &&   "remaining"}  */}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <LocationSearch
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{display: "none"}}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        locationId
-                      }
-                      name="locationId"
-                      type="text"
-                      onChange={e => setLocationId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <EmployeeSearch
-                    getSearchfacility={getSearchfacility2}
-                    clear={success2}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{display: "none"}}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
-                      name="practionerId"
-                      type="text"
-                      onChange={e => setPractionerId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* <div className="field is-horizontal">
-                       
-                       <div className="field ml-3 ">
-                      
-                         {
-                               appClass.map((c,i) => 
-                                   <label  className=" is-small" key={c}>
-                                       <input type="radio" value={c} name="appointmentClass" ref={register} />{c + " "}
-                                   </label>
-                               )
-                           }
-                       </div>  
-                       </div> */}
-            <div className="field">
-              <input
-                name="start_time"
-                {...register("x", {required: true})}
-                type="datetime-local"
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={'Create Appointment'} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState((prevstate) => ({
+                      ...prevstate,
+                      AppointmentModule: {
+                        selectedAppointment: {},
+                        show: 'list',
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: '2rem',
+                  color: 'crimson',
+                  cursor: 'pointer',
+                  float: 'right',
+                }}
               />
-            </div>
+            </Grid>
+          </Grid>
 
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select name="type" value={type} onChange={handleChangeType}>
-                    <option value="">Choose Appointment Type </option>
-                    <option value="New">New Procedure</option>
-                    <option value="Followup">Repeat Procedure</option>
-
-                    {/*  <option value="Readmission with 24hrs">Readmission with 24hrs</option>
-                            <option value="Annual Checkup">Annual Checkup</option>
-                            <option value="Walk in">Walk-in</option> */}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    name="appointment_status"
-                    value={appointment_status}
-                    onChange={handleChangeStatus}
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <ClientSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <LocationSearch
+                getSearchfacility={getSearchfacility1}
+                clear={success1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <div className="field ml-3 ">
+                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+                {appClass.map((c, i) => (
+                  <label
+                    className=" is-small"
+                    key={c}
+                    style={{ fontSize: '16px', fontWeight: 'bold' }}
                   >
-                    <option value="">Appointment Status </option>
-                    <option value="Scheduled">Scheduled</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Billed">Billed</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Procedure in Progress">
-                      Procedure in Progress
-                    </option>
-                    <option value="Completed Procedure">
-                      Completed Procedure
-                    </option>
-                    <option value="Checked Out">Checked Out</option>
-                    <option value="No Show">No Show</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-                </div>
+                    <input
+                      type="radio"
+                      value={c}
+                      name="appointmentClass"
+                      {...register('appointmentClass', { required: true })}
+                      style={{
+                        border: '1px solid #0364FF',
+                        transform: 'scale(1.5)',
+                        color: '#0364FF',
+                        margin: '.5rem',
+                      }}
+                    />
+                    {c + ' '}
+                  </label>
+                ))}
               </div>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("x")}
-                  name="appointment_reason"
-                  type="text"
-                  placeholder="Surgical Procedure"
-                />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("x")}
-                  name="information"
-                  type="text"
-                  placeholder="Other Information"
-                />
-              </p>
-            </div>
-            <div className="field " style={{display: "none"}}>
-              <p className="control has-icons-left has-icons-right">
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <div className="field">
                 <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="billingservice"
-                  type="text"
-                  placeholder="Billing service"
+                  name="start_time"
+                  {...register('start_time', { required: true })}
+                  type="datetime-local"
+                  style={{
+                    border: '1px solid #0364FF',
+                    padding: '1rem',
+                    color: ' #979DAC',
+                  }}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-warning is-small"
-                  onClick={e => e.target.reset()}
-                >
-                  Cancel
-                </button>
-              </p>
-              {/* <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-            </div>
-          </form>
-        </div>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="type"
+                value={type}
+                onChange={handleChangeType}
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                }}
+              >
+                <option defaultChecked>Choose Appointment Type </option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
+              </select>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="appointment_status"
+                value={appointment_status}
+                onChange={handleChangeStatus}
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                }}
+              >
+                <option defaultChecked>Appointment Status </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Checked In">Checked In</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
+                <option value="No Show">No Show</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                {...register('appointment_reason', { required: true })}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="10"
+                cols="50"
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                  width: '100%',
+                }}
+              >
+                {' '}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: '#0364FF',
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                onClick={(e) => e.target.reset()}
+                style={{
+                  backgroundColor: '#ffffff',
+                  width: '100%',
+                  color: '#0364FF',
+                  border: '1px solid #0364FF',
+                  cursor: 'pointer',
+                }}
+              >
+                Clear
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </div>
-
-      {/* <div className={`modal ${billingModal?"is-active":""}` }>
-                <div className="modal-background"></div>
-                <div className="modal-card">
-                    <header className="modal-card-head">
-                    <p className="modal-card-title">Bill Client</p>
-                    <button className="delete" aria-label="close"  onClick={handlecloseModal1}></button>
-                    </header>
-                    <section className="modal-card-body">
-                   
-                   { (!!state.ClientModule.client )&& <BillServiceCreate closeModal={handlecloseModal1}/>}
-                    </section>
-                    
-                </div>
-            </div> */}
     </>
   );
 }
 
-export function TheatreAppointmentList() {
+export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("appointments");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("list");
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(true);
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
-    const field = "firstname";
+  const handleSearch = (val) => {
+    const field = 'firstname';
     //  console.log(val)
 
     let query = {
@@ -582,73 +523,73 @@ export function TheatreAppointmentList() {
         {
           firstname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           phone: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
@@ -658,20 +599,20 @@ export function TheatreAppointmentList() {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (state.employeeLocation.locationType !== 'Front Desk') {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -691,7 +632,7 @@ export function TheatreAppointmentList() {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -723,15 +664,15 @@ export function TheatreAppointmentList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -751,12 +692,12 @@ export function TheatreAppointmentList() {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({query: query});
+    const findClient = await ClientServ.find({ query: query });
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setStartDate(date);
   };
 
@@ -771,15 +712,14 @@ export function TheatreAppointmentList() {
   }, [startDate]);
   //todo: pagination and vertical scroll bar
 
-  const handleCreate = () => {};
   const onRowClicked = () => {};
 
   const mapFacilities = () => {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + " " + facility?.lastname,
-        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
         end: facility?.end_time,
         id: i,
       });
@@ -787,11 +727,10 @@ export function TheatreAppointmentList() {
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0.4rem .8rem",
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0.4rem .8rem',
   };
-  console.log(mapFacilities(), facilities);
 
   return (
     <>
@@ -799,21 +738,21 @@ export function TheatreAppointmentList() {
         <>
           <div className="level">
             <PageWrapper
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Appointments
                   </h2>
                   <DatePicker
                     selected={startDate}
-                    onChange={date => handleDate(date)}
+                    onChange={(date) => handleDate(date)}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="Filter By Date"
                     isClearable
@@ -823,36 +762,36 @@ export function TheatreAppointmentList() {
                     <button
                       value={value}
                       onClick={() => {
-                        setValue("list");
+                        setValue('list');
                       }}
-                      style={value === "list" ? activeStyle : {}}
+                      style={value === 'list' ? activeStyle : {}}
                     >
-                      <BsList style={{fontSize: "2rem"}} />
+                      <BsList style={{ fontSize: '2rem' }} />
                     </button>
                     <button
                       value={value}
                       onClick={() => {
-                        setValue("grid");
+                        setValue('grid');
                       }}
-                      style={value === "grid" ? activeStyle : {}}
+                      style={value === 'grid' ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{fontSize: "2rem"}} />
+                      <BsFillGridFill style={{ fontSize: '2rem' }} />
                     </button>
                   </Switch>
                 </div>
 
-                {handleCreate && (
+                {handleCreateNew && (
                   <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
+                    style={{ fontSize: '14px', fontWeight: '600' }}
                     label="Add new "
-                    onClick={handleCreate}
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
-                {value === "list" ? (
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                {value === 'list' ? (
                   <CustomTable
-                    title={""}
+                    title={''}
                     columns={AppointmentSchema}
                     data={facilities}
                     pointerOnHover
@@ -875,19 +814,19 @@ export function TheatreAppointmentList() {
   );
 }
 
-export function TheatreAppointmentDetail() {
+export function ClientDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
-  let {path, url} = useLocation();
+
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -896,27 +835,27 @@ export function TheatreAppointmentDetail() {
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: "modify",
+      show: 'modify',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
   };
   const handleAttend = async () => {
-    const patient = await client.service("client").get(Client.clientId);
+    const patient = await client.service('client').get(Client.clientId);
     await setSelectedClient(patient);
     const newClientModule = {
       selectedClient: patient,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate("/app/theatre/encounter");
+    navigate('/app/clinic/encounter');
   };
 
   return (
@@ -936,7 +875,7 @@ export function TheatreAppointmentDetail() {
                       name="firstname"
                       type="text"
                     >
-                      First Name{" "}
+                      First Name{' '}
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -956,8 +895,8 @@ export function TheatreAppointmentDetail() {
                       name="middlename"
                       type="text"
                     >
-                      {" "}
-                      Middle Name{" "}
+                      {' '}
+                      Middle Name{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -997,10 +936,10 @@ export function TheatreAppointmentDetail() {
                       name="dob"
                       type="text"
                     >
-                      Date of Birth{" "}
+                      Date of Birth{' '}
                     </label>
                     <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
+                      {new Date(Client.dob).toLocaleDateString('en-GB')}
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -1016,7 +955,7 @@ export function TheatreAppointmentDetail() {
                       name="gender"
                       type="text"
                     >
-                      Gender{" "}
+                      Gender{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
@@ -1033,7 +972,7 @@ export function TheatreAppointmentDetail() {
                       name="maritalstatus"
                       type="text"
                     >
-                      Marital Status{" "}
+                      Marital Status{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.maritalstatus}
@@ -1052,7 +991,7 @@ export function TheatreAppointmentDetail() {
                       name="mrn"
                       type="text"
                     >
-                      Medical Records Number{" "}
+                      Medical Records Number{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.mrn}</label>
                     <span className="icon is-small is-left">
@@ -1073,7 +1012,7 @@ export function TheatreAppointmentDetail() {
                       name="religion"
                       type="text"
                     >
-                      Religion{" "}
+                      Religion{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1090,7 +1029,7 @@ export function TheatreAppointmentDetail() {
                       name="profession"
                       type="text"
                     >
-                      Profession{" "}
+                      Profession{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1109,7 +1048,7 @@ export function TheatreAppointmentDetail() {
                       name="phone"
                       type="text"
                     >
-                      {" "}
+                      {' '}
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1128,7 +1067,7 @@ export function TheatreAppointmentDetail() {
                       name="email"
                       type="email"
                     >
-                      Email{" "}
+                      Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1148,7 +1087,7 @@ export function TheatreAppointmentDetail() {
                   name="address"
                   type="text"
                 >
-                  Residential Address{" "}
+                  Residential Address{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1167,7 +1106,7 @@ export function TheatreAppointmentDetail() {
                       name="city"
                       type="text"
                     >
-                      Town/City{" "}
+                      Town/City{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1184,7 +1123,7 @@ export function TheatreAppointmentDetail() {
                       name="lga"
                       type="text"
                     >
-                      Local Govt Area{" "}
+                      Local Govt Area{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1201,7 +1140,7 @@ export function TheatreAppointmentDetail() {
                       name="state"
                       type="text"
                     >
-                      State{" "}
+                      State{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1218,7 +1157,7 @@ export function TheatreAppointmentDetail() {
                       name="country"
                       type="text"
                     >
-                      Country{" "}
+                      Country{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1239,7 +1178,7 @@ export function TheatreAppointmentDetail() {
                       name="bloodgroup"
                       type="text"
                     >
-                      Blood Group{" "}
+                      Blood Group{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1259,7 +1198,7 @@ export function TheatreAppointmentDetail() {
                       name="genotype"
                       type="text"
                     >
-                      Genotype{" "}
+                      Genotype{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.genotype}</label>
                     <span className="icon is-small is-left">
@@ -1276,7 +1215,7 @@ export function TheatreAppointmentDetail() {
                       name="disabilities"
                       type="text"
                     >
-                      Disabilities{" "}
+                      Disabilities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -1300,7 +1239,7 @@ export function TheatreAppointmentDetail() {
                       name="allergies"
                       type="text"
                     >
-                      Allergies{" "}
+                      Allergies{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -1317,7 +1256,7 @@ export function TheatreAppointmentDetail() {
                       name="comorbidities"
                       type="text"
                     >
-                      Co-mobidities{" "}
+                      Co-mobidities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -1338,7 +1277,7 @@ export function TheatreAppointmentDetail() {
                   name="clientTags"
                   type="text"
                 >
-                  Tags{" "}
+                  Tags{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -1355,7 +1294,7 @@ export function TheatreAppointmentDetail() {
                   name="specificDetails"
                   type="text"
                 >
-                  Specific Details about Client{" "}
+                  Specific Details about Client{' '}
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -1412,7 +1351,7 @@ export function TheatreAppointmentDetail() {
                       name="nok_email"
                       type="email"
                     >
-                      Next of Kin Email{" "}
+                      Next of Kin Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -1429,7 +1368,7 @@ export function TheatreAppointmentDetail() {
                       name="nok_relationship"
                       type="text"
                     >
-                      Next of Kin Relationship"{" "}
+                      Next of Kin Relationship"{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -1467,25 +1406,25 @@ export function TheatreAppointmentDetail() {
   );
 }
 
-export function TheatreAppointmentModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+export function ClientModify() {
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
-  const appClass = ["On-site", "Teleconsultation"];
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
+  const appClass = ['On-site', 'Teleconsultation'];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1496,7 +1435,7 @@ export function TheatreAppointmentModify() {
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
 
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -1507,7 +1446,7 @@ export function TheatreAppointmentModify() {
     }
   };
 
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -1519,76 +1458,76 @@ export function TheatreAppointmentModify() {
   };
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("ClientId", Client.clientId, {
+    setValue('ClientId', Client.clientId, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_reason", Client.appointment_reason, {
+    setValue('appointment_reason', Client.appointment_reason, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_status", Client.appointment_status, {
+    setValue('appointment_status', Client.appointment_status, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_type", Client.appointment_type, {
+    setValue('appointment_type', Client.appointment_type, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
-      "start_time",
+      'start_time',
       format(new Date(Client.start_time), "yyyy-MM-dd'T'HH:mm:ss"),
       {
         shouldValidate: true,
         shouldDirty: true,
       }
     );
-    setValue("appointmentClass", Client.appointmentClass, {
+    setValue('appointmentClass', Client.appointmentClass, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
     return () => {};
   });
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
-    setValue("appointment_type", e.target.value, {
+    setValue('appointment_type', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     // await setAppointment_status(e.target.value)
-    setValue("appointment_status", e.target.value, {
+    setValue('appointment_status', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1597,9 +1536,9 @@ export function TheatreAppointmentModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1609,20 +1548,20 @@ export function TheatreAppointmentModify() {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -1632,19 +1571,19 @@ export function TheatreAppointmentModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
+            message: 'Client deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
+            message: 'Error deleting Client, probable network issues or ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1659,7 +1598,7 @@ export function TheatreAppointmentModify() {
     // console.log(data)
     //  data.facility=Client.facility
     //console.log(data);
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1676,25 +1615,25 @@ export function TheatreAppointmentModify() {
     }
     data.actions = Client.actions;
     ClientServ.patch(Client._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: "Client updated succesfully",
-          type: "is-success",
+          message: 'Client updated succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
+          message: 'Error updating Client, probable network issues or ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -1714,7 +1653,7 @@ export function TheatreAppointmentModify() {
 
             <div className="field">
               <label className="label is-size-7">
-                {" "}
+                {' '}
                 {Client.firstname} {Client.lastname}
               </label>
             </div>
@@ -1730,7 +1669,7 @@ export function TheatreAppointmentModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{display: "none"}}
+                    style={{ display: 'none' }}
                   >
                     <input
                       className="input is-small"
@@ -1739,7 +1678,7 @@ export function TheatreAppointmentModify() {
                       }
                       name="locationId"
                       type="text"
-                      onChange={e => setLocationId(e.target.value)}
+                      onChange={(e) => setLocationId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -1761,7 +1700,7 @@ export function TheatreAppointmentModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{display: "none"}}
+                    style={{ display: 'none' }}
                   >
                     <input
                       className="input is-small"
@@ -1770,7 +1709,7 @@ export function TheatreAppointmentModify() {
                       }
                       name="practionerId"
                       type="text"
-                      onChange={e => setPractionerId(e.target.value)}
+                      onChange={(e) => setPractionerId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -1791,7 +1730,7 @@ export function TheatreAppointmentModify() {
                       name="appointmentClass"
                       ref={register}
                     />
-                    {c + " "}
+                    {c + ' '}
                   </label>
                 ))}
               </div>
@@ -1799,7 +1738,7 @@ export function TheatreAppointmentModify() {
             <div className="field">
               <input
                 name="start_time"
-                {...register("x", {required: true})}
+                ref={register({ required: true })}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1812,14 +1751,18 @@ export function TheatreAppointmentModify() {
               <div className="control">
                 <div className="select is-small">
                   <select
-                    name="type"
-                    // /* value={appointment_type} */ name="appointment_type"
-                    {...register("x", {required: true})}
+                    /* name="type" */ /* value={appointment_type} */ name="appointment_type"
+                    ref={register({ required: true })}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
-                    <option value="New">New Procedure</option>
-                    <option value="Repeat">Repeat Procedure</option>
+                    <option value="New">New</option>
+                    <option value="Followup">Followup</option>
+                    <option value="Readmission with 24hrs">
+                      Readmission with 24hrs
+                    </option>
+                    <option value="Annual Checkup">Annual Checkup</option>
+                    <option value="Walk in">Walk-in</option>
                   </select>
                 </div>
               </div>
@@ -1829,7 +1772,7 @@ export function TheatreAppointmentModify() {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    {...register("x", {required: true})}
+                    ref={register({ required: true })}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -1837,18 +1780,13 @@ export function TheatreAppointmentModify() {
                     <option value="">Appointment Status </option>
                     <option value="Scheduled">Scheduled</option>
                     <option value="Confirmed">Confirmed</option>
-                    <option value="Billed">Billed</option>
-                    <option value="Paid">Paid</option>
                     <option value="Checked In">Checked In</option>
-                    <option value="Procedure in Progress">
-                      Procedure in Progress
-                    </option>
-                    <option value="Completed Procedure">
-                      Completed Procedure
-                    </option>
-                    <option value="Checked Out">Checked Out</option>
+                    <option value="Vitals Taken">Vitals Taken</option>
+                    <option value="With Nurse">With Nurse</option>
+                    <option value="With Doctor">With Doctor</option>
                     <option value="No Show">No Show</option>
                     <option value="Cancelled">Cancelled</option>
+                    <option value="Billed">Billed</option>
                   </select>
                 </div>
               </div>
@@ -1857,7 +1795,7 @@ export function TheatreAppointmentModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  ref={register()}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -1867,11 +1805,11 @@ export function TheatreAppointmentModify() {
                 </span>
               </p>
             </div>
-            <div className="field " style={{display: "none"}}>
+            <div className="field " style={{ display: 'none' }}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  ref={register()}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -1918,41 +1856,42 @@ export function TheatreAppointmentModify() {
   );
 }
 
-export function ClientSearch({getSearchfacility, clear}) {
-  const ClientServ = client.service("client");
+export function ClientSearch({ getSearchfacility, clear }) {
+  const ClientServ = client.service('client');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
+  const [val, setVal] = useState('');
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
+  const [closeDropdown, setCloseDropdown] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
     await setSimpa(
       obj.firstname +
-        " " +
+        ' ' +
         obj.middlename +
-        " " +
+        ' ' +
         obj.lastname +
-        " " +
+        ' ' +
         obj.gender +
-        " " +
+        ' ' +
         obj.phone
     );
 
@@ -1966,9 +1905,9 @@ export function ClientSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -1984,14 +1923,14 @@ export function ClientSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     setVal(val);
-    if (val === "") {
+    if (val === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -2000,43 +1939,43 @@ export function ClientSearch({getSearchfacility, clear}) {
             {
               firstname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               middlename: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               phone: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               clientTags: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               mrn: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               specificDetails: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
           ],
@@ -2049,30 +1988,30 @@ export function ClientSearch({getSearchfacility, clear}) {
           },
         },
       })
-        .then(res => {
-          console.log("product  fetched successfully");
+        .then((res) => {
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
+            message: 'Error creating ProductEntry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
       console.log(facilities);
     }
   };
-
+  console.log(simpa);
   const handleAddproduct = () => {
     setProductModal(true);
   };
@@ -2082,45 +2021,43 @@ export function ClientSearch({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
-      setSimpa("");
+      console.log('success has changed', clear);
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
-              <DebounceInput
-                className="input is-small  is-expanded mb-0"
-                type="text"
-                placeholder="Search for Client"
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
+              <DebouncedInput
+                label={'Search for Client'}
                 value={simpa}
                 minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={handleBlur}
+                onChangeValue={handleSearch}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
+            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ""
+                  ''
                 ) : (
                   <div
                     className="dropdown-item" /* onClick={handleAddproduct} */
                   >
-                    {" "}
-                    <span> {val} is not yet your client</span>{" "}
+                    {' '}
+                    <span> {val} is not yet your client</span>{' '}
                   </div>
                 )}
 
@@ -2128,47 +2065,34 @@ export function ClientSearch({getSearchfacility, clear}) {
                   <div
                     className="dropdown-item"
                     key={facility._id}
-                    onClick={() => handleRow(facility)}
+                    onClick={() => {
+                      handleRow(facility), setCloseDropdown(true);
+                    }}
                   >
-                    <div>
-                      <span>{facility.firstname}</span>
-                      <span className="padleft">{facility.middlename}</span>
-                      <span className="padleft">{facility.lastname}</span>
-                      <span className="padleft">
-                        {" "}
-                        {formatDistanceToNowStrict(new Date(facility.dob))}
-                      </span>
-                      <span className="padleft">{facility.gender}</span>
-                      <span className="padleft">{facility.profession}</span>
-                      <span className="padleft">{facility.phone}</span>
-                      <span className="padleft">{facility.email}</span>
+                    <div style={{ cursor: 'pointer' }}>
+                      {closeDropdown ? (
+                        <></>
+                      ) : (
+                        <>
+                          <span>{facility.firstname}</span>
+                          <span className="padleft">{facility.middlename}</span>
+                          <span className="padleft">{facility.lastname}</span>
+                          <span className="padleft">
+                            {' '}
+                            {formatDistanceToNowStrict(new Date(facility.dob))}
+                          </span>
+                          <span className="padleft">{facility.gender}</span>
+                          <span className="padleft">{facility.profession}</span>
+                          <span className="padleft">{facility.phone}</span>
+                          <span className="padleft">{facility.email}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            {/* <ProductCreate /> */}
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
         </div>
       </div>
     </div>

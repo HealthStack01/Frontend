@@ -18,48 +18,39 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { AppointmentSchema } from '../Clinic/schema';
+import { CustomButton } from '../../components/buttons/Button/base/styles';
 
 export default function CrmCheckIn() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [checkinpage, setCheckinpage] = useState('checkin');
 
   return (
     <section className="section remPadTop">
-      <div
-        className="columns "
-        style={{
-          display: 'flex',
-        }}
-      >
-        <div
-          className="column is-6"
-          style={{
-            width: '50%',
-          }}
-        >
-          <CheckIn />
+      <div className="columns ">
+        <div className="column is-6">
+          {checkinpage === 'checkin' && (
+            <CheckIn pageView={checkinpage} setPageView={setCheckinpage} />
+          )}
+          {checkinpage === 'checkout' && (
+            <CheckOut pageView={checkinpage} setPageView={setCheckinpage} />
+          )}
         </div>
-        <div
-          className="column is-6 "
-          style={{
-            width: '50%',
-          }}
-        >
-          <CheckOut />
-          {/* {state.ClientModule.show === 'List' && <CheckIn />} */}
-          {/* {state.ClientModule.show === 'detail' && <ClientDetail />} */}
-          {/* {state.ClientModule.show === 'modify' && (
+        <div className="column is-6 ">
+          {/* {state.ClientModule.show === 'List' && <CheckIn />}
+          {state.ClientModule.show === 'detail' && <ClientDetail />}
+           {state.ClientModule.show === 'modify' && ( 
             <ClientModify Client={selectedClient} />
-          )} */}
+          )}  */}
         </div>
       </div>
     </section>
   );
 }
 
-export function CheckIn() {
+export function CheckIn({ pageView, setPageView }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -308,7 +299,7 @@ export function CheckIn() {
     return () => {};
   }, [startDate]);
   //todo: pagination and vertical scroll bar
-
+  console.log(pageView);
   return (
     <>
       {user ? (
@@ -318,7 +309,13 @@ export function CheckIn() {
               style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
@@ -327,6 +324,17 @@ export function CheckIn() {
                   <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                     Checked In Clients
                   </h2>
+                  <CustomButton
+                    style={{
+                      backgroundColor: '#00d1b2',
+                      color: '#fff',
+                      textAlign: 'right',
+                      marginLeft: 'auto',
+                    }}
+                    onClick={() => setPageView('checkout')}
+                  >
+                    {pageView === 'checkin' ? 'Check Out' : 'Check In'}
+                  </CustomButton>
                 </div>
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
@@ -471,7 +479,7 @@ export function CheckIn() {
     </>
   );
 }
-export function CheckOut() {
+export function CheckOut({ pageView, setPageView }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -727,10 +735,19 @@ export function CheckOut() {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{
+                flexDirection: 'column',
+                padding: '0.6rem 1rem',
+              }}
             >
               <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
@@ -739,6 +756,16 @@ export function CheckOut() {
                   <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                     Checked Out Clients
                   </h2>
+                  <CustomButton
+                    style={{
+                      backgroundColor: '#00d1b2',
+                      color: '#fff',
+                      marginLeft: 'auto',
+                    }}
+                    onClick={() => setPageView('checkin')}
+                  >
+                    {pageView === 'checkin' ? 'Check In' : 'Check In'}
+                  </CustomButton>
                 </div>
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
