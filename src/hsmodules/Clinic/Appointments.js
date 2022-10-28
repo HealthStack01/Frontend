@@ -340,9 +340,8 @@ export function AppointmentCreate() {
                   >
                     <input
                       className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
+                      {...register("practionerId", {required: true})}
+                      value={practionerId}
                       name="practionerId"
                       type="text"
                       onChange={e => setPractionerId(e.target.value)}
@@ -364,7 +363,7 @@ export function AppointmentCreate() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      ref={register}
+                      {...register("appointmentClass", {required: true})}
                     />
                     {c + " "}
                   </label>
@@ -374,7 +373,7 @@ export function AppointmentCreate() {
             <div className="field">
               <input
                 name="start_time"
-                {...register("x", {required: true})}
+                {...register("start_time", {required: true})}
                 type="datetime-local"
               />
             </div>
@@ -421,7 +420,7 @@ export function AppointmentCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  {...register("appointment_reason")}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -435,7 +434,7 @@ export function AppointmentCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  {...register("billingservice")}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"

@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import {useForm} from "react-hook-form";
 import client from "../../../feathers";
-import Encounter from "../../Documentation/Encounter";
+import Encounter from "../../Documentation/Documentation";
 import {UserContext, ObjectContext} from "../../../context";
 import {toast} from "bulma-toast";
 

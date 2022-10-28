@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Encounter";
+import Encounter from "../Documentation/Documentation";
 import {ClientSearch} from "../helpers/ClientSearch";
 import ServiceSearch from "../helpers/ServiceSearch";
 var random = require("random-string-generator");
