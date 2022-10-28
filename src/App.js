@@ -1,185 +1,178 @@
-import React, { useEffect, useState } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
+import React, {useEffect, useState} from "react";
+import "react-toastify/dist/ReactToastify.css";
 
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import { ThemeProvider } from 'styled-components';
-import MyUserProvider from './context'
-import {UserContext,ObjectContext} from './context'
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {AnimatePresence} from "framer-motion";
+import gsap from "gsap";
+import {BrowserRouter as Router} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
+import {ThemeProvider} from "styled-components";
+import MyUserProvider from "./context";
+import {UserContext, ObjectContext} from "./context";
 /* import { ObjectProvider, UserProvider } from './context/context'; */
-import AppRoutes from './hsmodules/routes';
-import { GlobalStyle } from './ui/styled/global';
- import { darkTheme, lightTheme } from './ui/styled/theme';
+import AppRoutes from "./hsmodules/routes";
+import {GlobalStyle} from "./ui/styled/global";
+import {darkTheme, lightTheme} from "./ui/styled/theme";
 
 function App() {
-
-  const [state,setState] = useState({
-    facilityModule:{
-      show:'list',
-      selectedFacility:{}
+  const [state, setState] = useState({
+    facilityModule: {
+      show: "list",
+      selectedFacility: {},
     },
 
-    EmployeeModule:{
-      show:'list',
-      selectedEmployee:{}
+    EmployeeModule: {
+      show: "list",
+      selectedEmployee: {},
     },
-    ChartAccountModule:{
-      show:'list',
-      selectedAccount:{}
+    ChartAccountModule: {
+      show: "list",
+      selectedAccount: {},
     },
-    ExpenseModule:{
-      show:'list',
-      selectedExpense:{}
+    ExpenseModule: {
+      show: "list",
+      selectedExpense: {},
     },
-    BankModule:{
-      show:'list',
-      selectedBank:{}
+    BankModule: {
+      show: "list",
+      selectedBank: {},
     },
-    EpidemiologyModule:{
-      show:'list',
-      selectedEpid:{}
+    EpidemiologyModule: {
+      show: "list",
+      selectedEpid: {},
     },
-    LocationModule:{
-      show:'list',
-      selectedLocation:{}
+    LocationModule: {
+      show: "list",
+      selectedLocation: {},
     },
-    BandModule:{
-      show:'list',
-      selectedBand:{}
+    BandModule: {
+      show: "list",
+      selectedBand: {},
     },
-    ProductModule:{
-      show:'list',
-      selectedProduct:{}
+    ProductModule: {
+      show: "list",
+      selectedProduct: {},
     },
-    StoreModule:{
-      show:'list',
-      selectedStore:{}
+    StoreModule: {
+      show: "list",
+      selectedStore: {},
     },
-    InventoryModule:{
-      show:'details',
-      selectedInventory:{}
+    InventoryModule: {
+      show: "details",
+      selectedInventory: {},
     },
-    ProductEntryModule:{
-      show:'list',
-      selectedProductEntry:{}
+    ProductEntryModule: {
+      show: "list",
+      selectedProductEntry: {},
     },
-    ProductExitModule:{
-      show:'list',
-      selectedProductEntry:{}
+    ProductExitModule: {
+      show: "list",
+      selectedProductEntry: {},
     },
-    ClinicModule:{
-      show:'list',
-      selectedClinic:{}
+    ClinicModule: {
+      show: "list",
+      selectedClinic: {},
     },
-    FrontDesk:{
-      show:'list',
-      selectedFrontDesk:{}
+    FrontDesk: {
+      show: "list",
+      selectedFrontDesk: {},
     },
-    ClientModule:{
-      show:'list',
-      selectedClient:{}
+    ClientModule: {
+      show: "list",
+      selectedClient: {},
     },
-    DocumentClassModule:{
-      show:'list',
-      selectedDocumentClass:{}
+    DocumentClassModule: {
+      show: "list",
+      selectedDocumentClass: {},
     },
-    WardModule:{
-      show:'list',
-      selectedWard:{}
+    WardModule: {
+      show: "list",
+      selectedWard: {},
     },
-    AdmissionModule:{
-      show:'list',
-      selectedAdmission:{}
+    AdmissionModule: {
+      show: "list",
+      selectedAdmission: {},
     },
-    DischargeModule:{
-      show:'list',
-      selectedDischarge:{}
+    DischargeModule: {
+      show: "list",
+      selectedDischarge: {},
     },
-    EndEncounterModule:{
-      show:'',
-      selectedEndEncounter:{}
+    EndEncounterModule: {
+      show: "",
+      selectedEndEncounter: {},
     },
-    AppointmentModule:{
-      show:'list',
-      selectedAppointment:{}
+    AppointmentModule: {
+      show: "list",
+      selectedAppointment: {},
     },
-    OrderModule:{
-      show:'list',
-      selectedOrder:{}
+    OrderModule: {
+      show: "list",
+      selectedOrder: {},
     },
-    DispenseModule:{
-      show:'list',
-      selectedDispense:{}
+    DispenseModule: {
+      show: "list",
+      selectedDispense: {},
     },
-    DestinationModule:{
-      show:'list',
-      selectedDestination:{}
+    DestinationModule: {
+      show: "list",
+      selectedDestination: {},
     },
-    ManagedCareModule:{
-      show:'list',
-      selectedResource:{}
+    ManagedCareModule: {
+      show: "list",
+      selectedResource: {},
     },
-    ManagedCare2Module:{
-      show:'list',
-      selectedResource:{}
+    ManagedCare2Module: {
+      show: "list",
+      selectedResource: {},
     },
-    medicationModule:{
-      show:'list',
-      selectedMedication:{}
+    medicationModule: {
+      show: "list",
+      selectedMedication: {},
     },
-    ServicesModule:{
-      show:'list',
-      selectedServices:{}
+    ServicesModule: {
+      show: "list",
+      selectedServices: {},
     },
-    financeModule:{
-      show:'list',
-      state:'false',
-      selectedFinance:{}
+    financeModule: {
+      show: "list",
+      state: "false",
+      selectedFinance: {},
     },
-    currentClients:[],
-    showpanel:false,
-    currDate:"",
-    currDate2:"",
-    labFormType:"",
-    employeeLocation:{
-      locationName:"",
-      locationType:"",
-      locationId:"",
-      facilityId:"",
-      facilityName:""
+    currentClients: [],
+    showpanel: false,
+    currDate: "",
+    currDate2: "",
+    labFormType: "",
+    employeeLocation: {
+      locationName: "",
+      locationType: "",
+      locationId: "",
+      facilityId: "",
+      facilityName: "",
     },
-    NoteModule:{
-      show:false,
-      selectedNote:{}
+    NoteModule: {
+      show: false,
+      selectedNote: {},
     },
-    SelectedClient:{
-      client:{},
-      show:'list'
+    SelectedClient: {
+      client: {},
+      show: "list",
     },
-   Beneficiary:{
-      principal:{},
-      dependent:[],
-      others:{},
-      show:'list'
+    Beneficiary: {
+      principal: {},
+      dependent: [],
+      others: {},
+      show: "list",
     },
-    currBeneficiary:""
-
-
-
-  })
-  
-
-
+    currBeneficiary: "",
+  });
 
   useEffect(() => {
-    gsap.to('body', 0, { css: { visibility: 'visible' } });
+    gsap.to("body", 0, {css: {visibility: "visible"}});
   }, []);
 
-  const [theme] = useState('light');
+  const [theme] = useState("light");
   //TODO:  Handle  with  appropriate button
   // const themeToggler = () => {
   //   theme === 'light' ? setTheme('dark') : setTheme('light');
@@ -187,26 +180,26 @@ function App() {
 
   return (
     <>
-   <ThemeProvider  theme={theme === 'light' ? lightTheme : darkTheme } > 
-      {/* <LocalizationProvider dateAdapter={AdapterDateFns}>  */}
-       {/*  <ObjectProvider>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>  */}
+        {/*  <ObjectProvider>
           <UserProvider> */}
-          <ObjectContext.Provider value={{state,setState}}>
-           <MyUserProvider>
+        <ObjectContext.Provider value={{state, setState}}>
+          <MyUserProvider>
             <GlobalStyle />
             <AnimatePresence initial exitBeforeEnter>
               <Router>
-              <AppRoutes />
+                <AppRoutes />
               </Router>
             </AnimatePresence>
-          {/* </UserProvider>
+            {/* </UserProvider>
         </ObjectProvider> */}
-        </MyUserProvider>
+          </MyUserProvider>
         </ObjectContext.Provider>
         <ToastContainer limit={1} />
-      {/* </LocalizationProvider> */}
-     </ThemeProvider> 
-     </>
+        {/* </LocalizationProvider> */}
+      </ThemeProvider>
+    </>
   );
 }
 

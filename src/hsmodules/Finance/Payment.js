@@ -116,7 +116,6 @@ export function BillingList({openModal}) {
   };
 
   const handlePay = async (client, i) => {
-    console.log(client);
     setOldClient(client.clientname);
     let newClient = client.clientname;
     if (oldClient !== newClient) {

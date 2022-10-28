@@ -13,7 +13,7 @@ const style = {
   maxWidth: '90%',
   height: '80%',
   maxHeight: '100%',
-  bgcolor: '#fff',
+  bgcolor: '#FAFAFA',
   boxShadow: 24,
   p: 4,
   borderRadius: '6px',
@@ -32,11 +32,22 @@ const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
       BackdropProps={{
         timeout: 500,
       }}
-      sx={{ width: '100%', display: 'grid', placeItems: 'center ' }}
+      sx={{
+        width: '100%',
+        display: 'grid',
+        placeItems: 'center ',
+      }}
     >
       <Fade in={open}>
         <Box sx={style}>
-          <div style={{ height: '100%', overflowY: 'auto' }}>{children}</div>
+          <div
+            style={{
+              height: '100%',
+              overflowY: 'auto',
+            }}
+          >
+            {children}
+          </div>
         </Box>
       </Fade>
     </Modal>

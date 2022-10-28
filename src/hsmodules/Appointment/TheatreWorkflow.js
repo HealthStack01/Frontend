@@ -2006,7 +2006,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
             <div className="field">
               <input
                 name="start_time"
-                ref={register({ required: true })}
+                {...register('x', { required: true })}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -2033,7 +2033,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    ref={register({ required: true })}
+                    {...register('x', { required: true })}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -2061,7 +2061,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register('x')}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -2075,7 +2075,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register('x')}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"

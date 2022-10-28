@@ -860,7 +860,7 @@ export default function PaymentCreate() {
          
              <div className="field">
                      <p className="control has-icons-left has-icons-right">
-                         <input className="input is-small"  ref={register({ required: true })}  value={source} name="client" type="text" onChange={e=>setSource(e.target.value)} placeholder="Client" />
+                         <input className="input is-small"  {...register("x",{required: true})}  value={source} name="client" type="text" onChange={e=>setSource(e.target.value)} placeholder="Client" />
                          <span className="icon is-small is-left">
                              <i className="fas fa-hospital"></i>
                          </span>                    

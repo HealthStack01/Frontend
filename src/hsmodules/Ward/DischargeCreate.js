@@ -786,7 +786,7 @@ export default function DischargeCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={source}
+                      /* {...register("x",{required: true})} */ value={source}
                       name="client"
                       type="text"
                       onChange={e => setSource(e.target.value)}
@@ -835,7 +835,7 @@ export default function DischargeCreate() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ disabled
+                    /* {...register("x",{required: true})} */ disabled
                     name="order"
                     value={medication.order}
                     type="text"

@@ -1,12 +1,6 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import {
-  Route,
-  Link,
-  NavLink,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
@@ -19,8 +13,6 @@ import LocationSearch from '../helpers/LocationSearch';
 import EmployeeSearch from '../helpers/EmployeeSearch';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
-// eslint-disable-next-line
-const searchfacility = {};
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
@@ -30,6 +22,13 @@ import { AppointmentSchema } from './schema';
 import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
+import ModalBox from './ui-components/modal';
+import ModalHeader from './ui-components/Heading/modalHeader';
+import { Box, Grid } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
+// eslint-disable-next-line
+const searchfacility = {};
 
 export default function TheatreAppointments() {
   const { state } = useContext(ObjectContext); //,setState
@@ -37,24 +36,30 @@ export default function TheatreAppointments() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      {state.AppointmentModule.show === 'list' && <TheatreAppointmentList />}
-      {state.AppointmentModule.show === 'create' && (
-        <TheatreAppointmentCreate />
+      {state.AppointmentModule.show === 'list' && (
+        <ClientList showModal={showModal} setShowModal={setShowModal} />
       )}
-      {state.AppointmentModule.show === 'detail' && (
-        <TheatreAppointmentDetail />
+      {showModal && (
+        <ModalBox open={state.AppointmentModule.show === 'create'}>
+          <AppointmentCreate
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        </ModalBox>
       )}
+      {state.AppointmentModule.show === 'detail' && <ClientDetail />}
       {state.AppointmentModule.show === 'modify' && (
-        <TheatreAppointmentModify Client={selectedClient} />
+        <ClientModify Client={selectedClient} />
       )}
     </section>
   );
 }
 
-export function TheatreAppointmentCreate() {
+export function AppointmentCreate({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -69,7 +74,7 @@ export function TheatreAppointmentCreate() {
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
   const ClientServ = client.service('appointments');
-
+  //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
@@ -83,7 +88,7 @@ export function TheatreAppointmentCreate() {
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ['On-site', 'Off-Site'];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -109,7 +114,6 @@ export function TheatreAppointmentCreate() {
       setClientId();
       setChosen();
     }
-    /*  handleSelectedClient(obj) */
 
     /*  setValue("facility", obj._id,  {
             shouldValidate: true,
@@ -160,6 +164,15 @@ export function TheatreAppointmentCreate() {
     setMessage('');
     setError(false);
     setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: 'list',
+        },
+      }));
+
     // data.createdby=user._id
     console.log(data);
     if (user.currentEmployee) {
@@ -213,7 +226,7 @@ export function TheatreAppointmentCreate() {
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
-        showBilling();
+        // showBilling()
       })
       .catch((err) => {
         toast({
@@ -225,28 +238,13 @@ export function TheatreAppointmentCreate() {
       });
   };
 
-  /*  useEffect(() => {
-        getSearchfacility(state.ClientModule.selectedClient )
-        
-       
-        return () => {
-           
-        }
-    }, [state.ClientModule.selectedClient ]) */
+  useEffect(() => {
+    getSearchfacility(state.ClientModule.selectedClient);
 
-  const handleSelectedClient = async (Client) => {
-    // await setSelectedClient(Client)
-    const newClientModule = {
-      selectedClient: Client,
-      show: 'detail',
-    };
-    console.log('something', Client);
-    alert('looking for client');
-    await setState((prevstate) => ({
-      ...prevstate,
-      ClientModule: newClientModule,
-    }));
-  };
+    /* appointee=state.ClientModule.selectedClient 
+        console.log(appointee.firstname) */
+    return () => {};
+  }, [state.ClientModule.selectedClient]);
 
   /*   const showBilling = () =>{
         setBillingModal(true)
@@ -265,268 +263,204 @@ export function TheatreAppointmentCreate() {
                 }
                await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
             } */
-  const handlecloseModal1 = () => {
-    setBillingModal(false);
-  };
-  const showBilling = () => {
-    setBillingModal(true);
-    //history.push('/app/finance/billservice')
-  };
 
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Appointment For Procedure</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                {/*  <label className="label is-small mr-2">Client:</label> */}
-
-                {state.ClientModule.selectedClient.firstname !== undefined ? (
-                  <>
-                    <label className="label is-size-7">
-                      {' '}
-                      {state.ClientModule.selectedClient.firstname}{' '}
-                      {state.ClientModule.selectedClient.lastname}
-                    </label>
-                  </>
-                ) : (
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <ClientSearch
-                      getSearchfacility={getSearchfacility}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{ display: 'none' }}
-                    >
-                      <input
-                        className="input is-small"
-                        /* ref={register ({ required: true }) } */ /* add array no */ value={
-                          clientId
-                        }
-                        name="ClientId"
-                        type="text"
-                        onChange={(e) => setClientId(e.target.value)}
-                        placeholder="Product Id"
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                    {/* {sellingprice &&   "N"}{sellingprice} {sellingprice &&   "per"}  {baseunit} {invquantity} {sellingprice &&   "remaining"}  */}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <LocationSearch
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{ display: 'none' }}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        locationId
-                      }
-                      name="locationId"
-                      type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <EmployeeSearch
-                    getSearchfacility={getSearchfacility2}
-                    clear={success2}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{ display: 'none' }}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
-                      name="practionerId"
-                      type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* <div className="field is-horizontal">
-                       
-                       <div className="field ml-3 ">
-                      
-                         {
-                               appClass.map((c,i) => 
-                                   <label  className=" is-small" key={c}>
-                                       <input type="radio" value={c} name="appointmentClass" ref={register} />{c + " "}
-                                   </label>
-                               )
-                           }
-                       </div>  
-                       </div> */}
-            <div className="field">
-              <input
-                name="start_time"
-                ref={register({ required: true })}
-                type="datetime-local"
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={'Create Appointment'} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState((prevstate) => ({
+                      ...prevstate,
+                      AppointmentModule: {
+                        selectedAppointment: {},
+                        show: 'list',
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: '2rem',
+                  color: 'crimson',
+                  cursor: 'pointer',
+                  float: 'right',
+                }}
               />
-            </div>
+            </Grid>
+          </Grid>
 
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select name="type" value={type} onChange={handleChangeType}>
-                    <option value="">Choose Appointment Type </option>
-                    <option value="New">New Procedure</option>
-                    <option value="Followup">Repeat Procedure</option>
-
-                    {/*  <option value="Readmission with 24hrs">Readmission with 24hrs</option>
-                            <option value="Annual Checkup">Annual Checkup</option>
-                            <option value="Walk in">Walk-in</option> */}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    name="appointment_status"
-                    value={appointment_status}
-                    onChange={handleChangeStatus}
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <ClientSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <LocationSearch
+                getSearchfacility={getSearchfacility1}
+                clear={success1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <div className="field ml-3 ">
+                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+                {appClass.map((c, i) => (
+                  <label
+                    className=" is-small"
+                    key={c}
+                    style={{ fontSize: '16px', fontWeight: 'bold' }}
                   >
-                    <option value="">Appointment Status </option>
-                    <option value="Scheduled">Scheduled</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Billed">Billed</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Procedure in Progress">
-                      Procedure in Progress
-                    </option>
-                    <option value="Completed Procedure">
-                      Completed Procedure
-                    </option>
-                    <option value="Checked Out">Checked Out</option>
-                    <option value="No Show">No Show</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-                </div>
+                    <input
+                      type="radio"
+                      value={c}
+                      name="appointmentClass"
+                      {...register('appointmentClass', { required: true })}
+                      style={{
+                        border: '1px solid #0364FF',
+                        transform: 'scale(1.5)',
+                        color: '#0364FF',
+                        margin: '.5rem',
+                      }}
+                    />
+                    {c + ' '}
+                  </label>
+                ))}
               </div>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  ref={register()}
-                  name="appointment_reason"
-                  type="text"
-                  placeholder="Surgical Procedure"
-                />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  ref={register()}
-                  name="information"
-                  type="text"
-                  placeholder="Other Information"
-                />
-              </p>
-            </div>
-            <div className="field " style={{ display: 'none' }}>
-              <p className="control has-icons-left has-icons-right">
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <div className="field">
                 <input
-                  className="input is-small"
-                  ref={register()}
-                  name="billingservice"
-                  type="text"
-                  placeholder="Billing service"
+                  name="start_time"
+                  {...register('start_time', { required: true })}
+                  type="datetime-local"
+                  style={{
+                    border: '1px solid #0364FF',
+                    padding: '1rem',
+                    color: ' #979DAC',
+                  }}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-warning is-small"
-                  onClick={(e) => e.target.reset()}
-                >
-                  Cancel
-                </button>
-              </p>
-              {/* <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-            </div>
-          </form>
-        </div>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="type"
+                value={type}
+                onChange={handleChangeType}
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                }}
+              >
+                <option defaultChecked>Choose Appointment Type </option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
+              </select>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="appointment_status"
+                value={appointment_status}
+                onChange={handleChangeStatus}
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                }}
+              >
+                <option defaultChecked>Appointment Status </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Checked In">Checked In</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
+                <option value="No Show">No Show</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                {...register('appointment_reason', { required: true })}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="10"
+                cols="50"
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                  width: '100%',
+                }}
+              >
+                {' '}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: '#0364FF',
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                onClick={(e) => e.target.reset()}
+                style={{
+                  backgroundColor: '#ffffff',
+                  width: '100%',
+                  color: '#0364FF',
+                  border: '1px solid #0364FF',
+                  cursor: 'pointer',
+                }}
+              >
+                Clear
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </div>
-
-      {/* <div className={`modal ${billingModal?"is-active":""}` }>
-                <div className="modal-background"></div>
-                <div className="modal-card">
-                    <header className="modal-card-head">
-                    <p className="modal-card-title">Bill Client</p>
-                    <button className="delete" aria-label="close"  onClick={handlecloseModal1}></button>
-                    </header>
-                    <section className="modal-card-body">
-                   
-                   { (!!state.ClientModule.client )&& <BillServiceCreate closeModal={handlecloseModal1}/>}
-                    </section>
-                    
-                </div>
-            </div> */}
     </>
   );
 }
 
-export function TheatreAppointmentList() {
+export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -564,6 +498,7 @@ export function TheatreAppointmentList() {
       show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(true);
   };
 
   const handleRow = async (Client) => {
@@ -777,7 +712,6 @@ export function TheatreAppointmentList() {
   }, [startDate]);
   //todo: pagination and vertical scroll bar
 
-  const handleCreate = () => {};
   const onRowClicked = () => {};
 
   const mapFacilities = () => {
@@ -797,7 +731,6 @@ export function TheatreAppointmentList() {
     border: 'none',
     padding: '0.4rem .8rem',
   };
-  console.log(mapFacilities(), facilities);
 
   return (
     <>
@@ -847,11 +780,11 @@ export function TheatreAppointmentList() {
                   </Switch>
                 </div>
 
-                {handleCreate && (
+                {handleCreateNew && (
                   <Button
                     style={{ fontSize: '14px', fontWeight: '600' }}
                     label="Add new "
-                    onClick={handleCreate}
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
@@ -881,11 +814,11 @@ export function TheatreAppointmentList() {
   );
 }
 
-export function TheatreAppointmentDetail() {
+export function ClientDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
-  let { path, url } = useLocation();
+
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
@@ -922,7 +855,7 @@ export function TheatreAppointmentDetail() {
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate('/app/theatre/encounter');
+    navigate('/app/clinic/encounter');
   };
 
   return (
@@ -1473,7 +1406,7 @@ export function TheatreAppointmentDetail() {
   );
 }
 
-export function TheatreAppointmentModify() {
+export function ClientModify() {
   const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1818,14 +1751,18 @@ export function TheatreAppointmentModify() {
               <div className="control">
                 <div className="select is-small">
                   <select
-                    name="type"
-                    // /* value={appointment_type} */ name="appointment_type"
+                    /* name="type" */ /* value={appointment_type} */ name="appointment_type"
                     ref={register({ required: true })}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
-                    <option value="New">New Procedure</option>
-                    <option value="Repeat">Repeat Procedure</option>
+                    <option value="New">New</option>
+                    <option value="Followup">Followup</option>
+                    <option value="Readmission with 24hrs">
+                      Readmission with 24hrs
+                    </option>
+                    <option value="Annual Checkup">Annual Checkup</option>
+                    <option value="Walk in">Walk-in</option>
                   </select>
                 </div>
               </div>
@@ -1843,18 +1780,13 @@ export function TheatreAppointmentModify() {
                     <option value="">Appointment Status </option>
                     <option value="Scheduled">Scheduled</option>
                     <option value="Confirmed">Confirmed</option>
-                    <option value="Billed">Billed</option>
-                    <option value="Paid">Paid</option>
                     <option value="Checked In">Checked In</option>
-                    <option value="Procedure in Progress">
-                      Procedure in Progress
-                    </option>
-                    <option value="Completed Procedure">
-                      Completed Procedure
-                    </option>
-                    <option value="Checked Out">Checked Out</option>
+                    <option value="Vitals Taken">Vitals Taken</option>
+                    <option value="With Nurse">With Nurse</option>
+                    <option value="With Doctor">With Doctor</option>
                     <option value="No Show">No Show</option>
                     <option value="Cancelled">Cancelled</option>
+                    <option value="Billed">Billed</option>
                   </select>
                 </div>
               </div>
@@ -1944,6 +1876,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
+  const [closeDropdown, setCloseDropdown] = useState(false);
 
   const handleRow = async (obj) => {
     await setChosen(true);
@@ -2078,7 +2011,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
       console.log(facilities);
     }
   };
-
+  console.log(simpa);
   const handleAddproduct = () => {
     setProductModal(true);
   };
@@ -2093,6 +2026,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
       <div className="field">
@@ -2102,15 +2036,12 @@ export function ClientSearch({ getSearchfacility, clear }) {
             style={{ width: '100%' }}
           >
             <div className="dropdown-trigger" style={{ width: '100%' }}>
-              <DebounceInput
-                className="input is-small  is-expanded mb-0"
-                type="text"
-                placeholder="Search for Client"
+              <DebouncedInput
+                label={'Search for Client'}
                 value={simpa}
                 minLength={3}
-                debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={handleBlur}
+                onChangeValue={handleSearch}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -2134,47 +2065,34 @@ export function ClientSearch({ getSearchfacility, clear }) {
                   <div
                     className="dropdown-item"
                     key={facility._id}
-                    onClick={() => handleRow(facility)}
+                    onClick={() => {
+                      handleRow(facility), setCloseDropdown(true);
+                    }}
                   >
-                    <div>
-                      <span>{facility.firstname}</span>
-                      <span className="padleft">{facility.middlename}</span>
-                      <span className="padleft">{facility.lastname}</span>
-                      <span className="padleft">
-                        {' '}
-                        {formatDistanceToNowStrict(new Date(facility.dob))}
-                      </span>
-                      <span className="padleft">{facility.gender}</span>
-                      <span className="padleft">{facility.profession}</span>
-                      <span className="padleft">{facility.phone}</span>
-                      <span className="padleft">{facility.email}</span>
+                    <div style={{ cursor: 'pointer' }}>
+                      {closeDropdown ? (
+                        <></>
+                      ) : (
+                        <>
+                          <span>{facility.firstname}</span>
+                          <span className="padleft">{facility.middlename}</span>
+                          <span className="padleft">{facility.lastname}</span>
+                          <span className="padleft">
+                            {' '}
+                            {formatDistanceToNowStrict(new Date(facility.dob))}
+                          </span>
+                          <span className="padleft">{facility.gender}</span>
+                          <span className="padleft">{facility.profession}</span>
+                          <span className="padleft">{facility.phone}</span>
+                          <span className="padleft">{facility.email}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={`modal ${productModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            {/* <ProductCreate /> */}
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
         </div>
       </div>
     </div>

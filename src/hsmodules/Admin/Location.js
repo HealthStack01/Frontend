@@ -1,13 +1,13 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -17,7 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const searchfacility = {};
 
 export default function Location() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedLocation, setSelectedLocation] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -44,7 +44,7 @@ export default function Location() {
 }
 
 export function LocationCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -52,7 +52,7 @@ export function LocationCreate() {
   const [facility, setFacility] = useState();
   const LocationServ = client.service("location");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const locationTypeOptions = [
@@ -68,7 +68,7 @@ export function LocationCreate() {
     "Managed Care",
   ];
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -108,7 +108,7 @@ export function LocationCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     LocationServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Location successfully") */
@@ -121,7 +121,7 @@ export function LocationCreate() {
         });
         setSuccess(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Location " + err,
           type: "is-danger",
@@ -141,7 +141,7 @@ export function LocationCreate() {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  ref={register({ required: true })}  name="locationType" type="text" placeholder="Type of Location" />
+                        <input className="input is-small"  {...register("x",{required: true})}  name="locationType" type="text" placeholder="Type of Location" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
@@ -152,7 +152,7 @@ export function LocationCreate() {
                 <div className="select is-small ">
                   <select
                     name="locationType"
-                    ref={register({ required: true })}
+                    {...register("x", {required: true})}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Location Type </option>
@@ -170,7 +170,7 @@ export function LocationCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", {required: true})}
                   name="name"
                   type="text"
                   placeholder="Name of Location"
@@ -182,7 +182,7 @@ export function LocationCreate() {
             </div>
             {/*  <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className=" fas fa-user-md "></i>
                     </span>
@@ -190,7 +190,7 @@ export function LocationCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder=" Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -200,7 +200,7 @@ export function LocationCreate() {
             <div className="field">
                 <p className="control has-icons-left">
                 
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Email"  />
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -208,19 +208,16 @@ export function LocationCreate() {
             </div> */}
             <div
               className="field"
-              style={!user.stacker ? { display: "none" } : {}}
+              style={!user.stacker ? {display: "none"} : {}}
             >
               <InputSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
-              >
+              <p className="control has-icons-left " style={{display: "none"}}>
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", {required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -234,7 +231,7 @@ export function LocationCreate() {
                 <div className="control has-icons-left">
                     <div className="dropdown ">
                         <div className="dropdown-trigger">
-                            <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                             <span className="icon is-small is-left">
                             <i className="fas fa-hospital-symbol"></i>
                             </span>
@@ -260,7 +257,7 @@ export function LocationCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Department Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -268,7 +265,7 @@ export function LocationCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="password" type="text" placeholder="password"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -302,22 +299,22 @@ export function LocationList() {
   // eslint-disable-next-line
   const [selectedLocation, setSelectedLocation] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newLocationModule = {
       selectedLocation: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       LocationModule: newLocationModule,
     }));
     //console.log(state)
   };
-  const handleRow = async (Location) => {
+  const handleRow = async Location => {
     //console.log("b4",state)
 
     //console.log("handlerow",Location)
@@ -328,14 +325,14 @@ export function LocationList() {
       selectedLocation: Location,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       LocationModule: newLocationModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
     console.log(val);
     LocationServ.find({
@@ -351,13 +348,13 @@ export function LocationList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Location  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Location, probable network issues " + err);
         setError(true);
@@ -419,10 +416,10 @@ export function LocationList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    LocationServ.on("created", (obj) => getFacilities());
-    LocationServ.on("updated", (obj) => getFacilities());
-    LocationServ.on("patched", (obj) => getFacilities());
-    LocationServ.on("removed", (obj) => getFacilities());
+    LocationServ.on("created", obj => getFacilities());
+    LocationServ.on("updated", obj => getFacilities());
+    LocationServ.on("patched", obj => getFacilities());
+    LocationServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -437,14 +434,14 @@ export function LocationList() {
       key: "sn",
       description: "Enter name of location",
       sortable: true,
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       inputType: "HIDDEN",
     },
     {
       name: "Name of Location",
       key: "name",
       description: "Enter name of Location",
-      selector: (row) => row.name,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -453,7 +450,7 @@ export function LocationList() {
       name: "Location Type",
       key: "locationType",
       description: "Enter name of Location",
-      selector: (row) => row.locationType,
+      selector: row => row.locationType,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -466,30 +463,30 @@ export function LocationList() {
       {user ? (
         <>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   Employee Locations
                 </h2>
               </div>
 
               {handleCreate && (
                 <Button
-                  style={{ fontSize: "14px", fontWeight: "600" }}
+                  style={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
                   onClick={handleCreate}
                 />
               )}
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <CustomTable
                 title={""}
                 columns={LocationSchema}
@@ -511,7 +508,7 @@ export function LocationList() {
 }
 
 export function LocationDetail() {
-  const { register, handleSubmit, watch, setValue, reset } = useForm(); //errors,
+  const {register, handleSubmit, watch, setValue, reset} = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
@@ -522,7 +519,7 @@ export function LocationDetail() {
   //const {user,setUser} = useContext(UserContext)
   const [showSub, setShowSub] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const LocationServ = client.service("location");
 
@@ -535,7 +532,7 @@ export function LocationDetail() {
       selectedLocation: Location,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       LocationModule: newLocationModule,
     }));
@@ -568,7 +565,7 @@ export function LocationDetail() {
 
   const handleUpdate = () => {
     LocationServ.patch(Location._id, Location)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Location successfully")
@@ -581,7 +578,7 @@ export function LocationDetail() {
 
         setShowUpdate(false);
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Location, probable network issues "+ err )
         // setError(true)
         toast({
@@ -648,7 +645,7 @@ export function LocationDetail() {
                           <div className="select is-small ">
                             <select
                               name="type"
-                              ref={register({ required: true })}
+                              {...register("x", {required: true})}
                               /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                             >
                               <option value="">
@@ -668,7 +665,7 @@ export function LocationDetail() {
                         <p className="control has-icons-left has-icons-right">
                           <input
                             className="input is-small"
-                            ref={register({ required: true })}
+                            {...register("x", {required: true})}
                             name="typeName"
                             type="text"
                             placeholder="Name of Sub-location"
@@ -763,7 +760,7 @@ export function LocationDetail() {
 }
 
 export function LocationModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -774,8 +771,8 @@ export function LocationModify() {
   const LocationServ = client.service("location");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Location = state.LocationModule.selectedLocation;
 
@@ -821,7 +818,7 @@ export function LocationModify() {
       selectedLocation: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       LocationModule: newLocationModule,
     }));
@@ -833,7 +830,7 @@ export function LocationModify() {
       selectedLocation: {},
       show: "create",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       LocationModule: newLocationModule,
     }));
@@ -844,7 +841,7 @@ export function LocationModify() {
     const dleteId = Location._id;
     if (conf) {
       LocationServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Location successfully")
@@ -861,7 +858,7 @@ export function LocationModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Location, probable network issues "+ err )
           // setError(true)
           toast({
@@ -888,7 +885,7 @@ export function LocationModify() {
     //console.log(data);
 
     LocationServ.patch(Location._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Location successfully")
@@ -901,7 +898,7 @@ export function LocationModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Location, probable network issues "+ err )
         // setError(true)
         toast({
@@ -928,7 +925,7 @@ export function LocationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({ required: true })}
+                    {...register("x", {required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -945,7 +942,7 @@ export function LocationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({ required: true })}
+                    {...register("x", {required: true})}
                     disabled
                     name="locationType"
                     type="text"
@@ -960,7 +957,7 @@ export function LocationModify() {
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
                     </span>
@@ -970,7 +967,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Phone
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -980,7 +977,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Location Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Location Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -990,7 +987,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Department
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-user-md"></i>
                     </span>
@@ -1001,7 +998,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Departmental Unit
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-hospital-symbol"></i>
                     </span>
@@ -1011,7 +1008,7 @@ export function LocationModify() {
             {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="LocationCategory" type="text" placeholder="Location Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="LocationCategory" type="text" placeholder="Location Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -1054,7 +1051,7 @@ export function LocationModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
+export function InputSearch({getSearchfacility, clear}) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1071,7 +1068,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1088,7 +1085,7 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1106,7 +1103,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -1124,13 +1121,13 @@ export function InputSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1164,8 +1161,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

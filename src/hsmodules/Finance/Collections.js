@@ -1,14 +1,14 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
 import CustomTable from "../../components/customtable";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import Button from "./ui-components/buttons/Button";
 import FilterMenu from "./ui-components/utilities/FilterMenu";
 import FacilityAccount from "./FacilityAccount";
@@ -16,7 +16,7 @@ import FacilityAccount from "./FacilityAccount";
 const searchfacility = {};
 
 export default function Collections() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -41,7 +41,7 @@ export default function Collections() {
 }
 
 export function ClientAccount() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -50,14 +50,14 @@ export function ClientAccount() {
   const InventoryServ = client.service("subwallettransactions");
   const SubwalletServ = client.service("subwallet");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext); //,setUser
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
 
   const clientSel = state.SelectedClient.client;
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     /*   
         setValue("facility", obj._id,  {
             shouldValidate: true,
@@ -102,7 +102,7 @@ export function ClientAccount() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacility(res.data);
         //e.target.reset();
@@ -116,7 +116,7 @@ export function ClientAccount() {
         });
         // setSuccess(false)
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error getting account details " + err,
           type: "is-danger",
@@ -328,9 +328,9 @@ export function CollectionList() {
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
@@ -338,14 +338,14 @@ export function CollectionList() {
       selectedInventory: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
   };
 
-  const handleRow = async (Inventory) => {
+  const handleRow = async Inventory => {
     //console.log("b4",state)
 
     //console.log("handlerow",Inventory)
@@ -356,14 +356,14 @@ export function CollectionList() {
       client: Inventory,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       SelectedClient: newInventoryModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "fromName";
     console.log(val);
     InventoryServ.find({
@@ -379,13 +379,13 @@ export function CollectionList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         //console.log(res)
         setFacilities(res.data);
         /* setMessage(" Inventory  fetched successfully")
                 setSuccess(true)  */
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         toast({
           message: "Error during search " + err,
@@ -460,10 +460,10 @@ export function CollectionList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    InventoryServ.on("created", (obj) => getFacilities());
-    InventoryServ.on("updated", (obj) => getFacilities());
-    InventoryServ.on("patched", (obj) => getFacilities());
-    InventoryServ.on("removed", (obj) => getFacilities());
+    InventoryServ.on("created", obj => getFacilities());
+    InventoryServ.on("updated", obj => getFacilities());
+    InventoryServ.on("patched", obj => getFacilities());
+    InventoryServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -479,7 +479,7 @@ export function CollectionList() {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -487,7 +487,7 @@ export function CollectionList() {
       name: "Date",
       key: "createdAt",
       description: "Enter Date",
-      selector: (row) => row.createdAt,
+      selector: row => row.createdAt,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -497,7 +497,7 @@ export function CollectionList() {
       name: "Client Name",
       key: "fromName",
       description: "Client Name",
-      selector: (row) => row.fromName,
+      selector: row => row.fromName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -507,7 +507,7 @@ export function CollectionList() {
       name: "Amount",
       key: "amount",
       description: "Amount",
-      selector: (row) => row.amount,
+      selector: row => row.amount,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -517,7 +517,7 @@ export function CollectionList() {
       name: "Mode",
       key: "paymentMode",
       description: "Enter Payment Mode",
-      selector: (row) => row.paymentmode,
+      selector: row => row.paymentmode,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -528,22 +528,22 @@ export function CollectionList() {
       {user ? (
         <>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   Collection in last 30days
                 </h2>
               </div>
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <CustomTable
                 title={""}
                 columns={CollectionSchema}
@@ -574,8 +574,8 @@ export function InventoryDetail() {
   //const InventoryServ=client.service('/Inventory')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
-  const { user } = useContext(UserContext); //,setUser
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext); //,setUser
 
   const Inventory = state.InventoryModule.selectedInventory;
   console.log("selected", Inventory);
@@ -640,7 +640,7 @@ export function InventoryDetail() {
       selectedInventory: Inventory,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -724,7 +724,7 @@ export function InventoryDetail() {
 }
 
 export function InventoryModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -736,15 +736,15 @@ export function InventoryModify() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const billServ = client.service("billing");
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
   const handleSetPrice = async () => {
     const service = await billServ.get(Inventory.billingId); // get the service
     const contractSel = service.contracts.filter(
-      (element) =>
+      element =>
         element.source_org === Inventory.facility &&
         element.dest_org === Inventory.facility
     );
@@ -772,7 +772,7 @@ export function InventoryModify() {
       selectedInventory: {},
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -784,7 +784,7 @@ export function InventoryModify() {
       selectedInventory: {},
       show: "detail",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -796,7 +796,7 @@ export function InventoryModify() {
     const dleteId = Inventory._id;
     if (conf) {
       InventoryServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Inventory successfully")
@@ -813,7 +813,7 @@ export function InventoryModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Inventory, probable network issues "+ err )
           // setError(true)
           toast({
@@ -839,14 +839,14 @@ export function InventoryModify() {
     // data.facility=Inventory.facility
     //console.log(data);
     const contractSel = billservice.contracts.filter(
-      (element) =>
+      element =>
         element.source_org === Inventory.facility &&
         element.dest_org === Inventory.facility
     );
     contractSel[0].price = data.price;
     billServ
       .patch(billservice._id, billservice)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Inventory successfully")
@@ -859,7 +859,7 @@ export function InventoryModify() {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Inventory, probable network issues "+ err )
         // setError(true)
         toast({
@@ -888,7 +888,7 @@ export function InventoryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({ required: true })}
+                    {...register("x", {required: true})}
                     name="price"
                     type="text"
                     placeholder="Name"
@@ -905,7 +905,7 @@ export function InventoryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({ required: true })}
+                    {...register("x", {required: true})}
                     disabled
                     name="oldprice"
                     type="text"
@@ -949,7 +949,7 @@ export function InventoryModify() {
   );
 }
 
-export function ProductSearch({ getSearchfacility, clear }) {
+export function ProductSearch({getSearchfacility, clear}) {
   const facilityServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -966,7 +966,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -983,7 +983,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1001,7 +1001,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "name"; //field variable
 
     if (val.length >= 3) {
@@ -1019,13 +1019,13 @@ export function ProductSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1059,8 +1059,8 @@ export function ProductSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

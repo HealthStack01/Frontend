@@ -78,7 +78,7 @@ export default function PatientProfile() {
   };
   const showBilling = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
 
   return (

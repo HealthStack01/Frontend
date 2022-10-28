@@ -113,6 +113,23 @@ export const menuItems = [
     ],
   },
   {
+    name: "Inventory",
+    exact: true,
+    to: "/app/inventory",
+    iconClassName: "bi bi-file-medical",
+    subMenus: [
+      {name: "Bill Client", to: "/app/pharmacy/billclient"},
+      {name: "Bill Prescription Sent", to: "/app/inventory/billprescription"},
+      {name: "Payment", to: "/app/inventory/payment"},
+      {name: "Dispensary", to: "/app/inventory/dispensary"},
+      {name: "Store Inventory", to: "/app/inventory/storeinventory"},
+      {name: "Product Entry", to: "/app/inventory/productentry"},
+      {name: "Issue Out", to: "/app/inventory/issueout"},
+      {name: "Requisiition", to: "/app/inventory/requisition"},
+      {name: "Transfer", to: "/app/inventory/transfer"},
+    ],
+  },
+  {
     name: "Communication",
     exact: true,
     to: "/app/communication",
@@ -135,6 +152,12 @@ export const menuItems = [
       {name: "Signals", to: "/app/epidemiology/signal"},
       {name: "Map", to: "/app/epidemiology/map"},
     ],
+  },
+  {
+    name: "Documentation",
+    exact: true,
+    to: "/app/documentation",
+    iconClassName: "bi bi-rss",
   },
   {
     name: "Ward",

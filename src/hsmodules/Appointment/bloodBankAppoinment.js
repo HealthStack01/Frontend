@@ -22,20 +22,35 @@ import { AppointmentSchema } from './schema';
 import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
+import ModalBox from './ui-components/modal';
+import ModalHeader from './ui-components/Heading/modalHeader';
+import { Box, Grid } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Appointments() {
+export default function BloodBankAppointments() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      {state.AppointmentModule.show === 'list' && <ClientList />}
-      {state.AppointmentModule.show === 'create' && <AppointmentCreate />}
+      {state.AppointmentModule.show === 'list' && (
+        <ClientList showModal={showModal} setShowModal={setShowModal} />
+      )}
+      {showModal && (
+        <ModalBox open={state.AppointmentModule.show === 'create'}>
+          <AppointmentCreate
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        </ModalBox>
+      )}
       {state.AppointmentModule.show === 'detail' && <ClientDetail />}
       {state.AppointmentModule.show === 'modify' && (
         <ClientModify Client={selectedClient} />
@@ -44,7 +59,7 @@ export default function Appointments() {
   );
 }
 
-export function AppointmentCreate() {
+export function AppointmentCreate({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -149,6 +164,15 @@ export function AppointmentCreate() {
     setMessage('');
     setError(false);
     setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: 'list',
+        },
+      }));
+
     // data.createdby=user._id
     console.log(data);
     if (user.currentEmployee) {
@@ -243,247 +267,200 @@ export function AppointmentCreate() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Appointment</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                {/*  <label className="label is-small mr-2">Client:</label> */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={'Create Appointment'} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState((prevstate) => ({
+                      ...prevstate,
+                      AppointmentModule: {
+                        selectedAppointment: {},
+                        show: 'list',
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: '2rem',
+                  color: 'crimson',
+                  cursor: 'pointer',
+                  float: 'right',
+                }}
+              />
+            </Grid>
+          </Grid>
 
-                {state.ClientModule.selectedClient.firstname !== undefined ? (
-                  <>
-                    <label className="label is-size-7">
-                      {' '}
-                      {state.ClientModule.selectedClient.firstname}{' '}
-                      {state.ClientModule.selectedClient.lastname}
-                    </label>
-                  </>
-                ) : (
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <ClientSearch
-                      getSearchfacility={getSearchfacility}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{ display: 'none' }}
-                    >
-                      <input
-                        className="input is-small"
-                        /* ref={register ({ required: true }) } */ /* add array no */ value={
-                          clientId
-                        }
-                        name="ClientId"
-                        type="text"
-                        onChange={(e) => setClientId(e.target.value)}
-                        placeholder="Product Id"
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                    {/* {sellingprice &&   "N"}{sellingprice} {sellingprice &&   "per"}  {baseunit} {invquantity} {sellingprice &&   "remaining"}  */}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <LocationSearch
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{ display: 'none' }}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        locationId
-                      }
-                      name="locationId"
-                      type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <EmployeeSearch
-                    getSearchfacility={getSearchfacility2}
-                    clear={success2}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{ display: 'none' }}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
-                      name="practionerId"
-                      type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <ClientSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <LocationSearch
+                getSearchfacility={getSearchfacility1}
+                clear={success1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="field ml-3 ">
                 {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
                 {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
+                  <label
+                    className=" is-small"
+                    key={c}
+                    style={{ fontSize: '16px', fontWeight: 'bold' }}
+                  >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      ref={register}
+                      {...register('appointmentClass', { required: true })}
+                      style={{
+                        border: '1px solid #0364FF',
+                        transform: 'scale(1.5)',
+                        color: '#0364FF',
+                        margin: '.5rem',
+                      }}
                     />
                     {c + ' '}
                   </label>
                 ))}
               </div>
-            </div>
-            <div className="field">
-              <input
-                name="start_time"
-                ref={register({ required: true })}
-                type="datetime-local"
-              />
-            </div>
-
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select name="type" value={type} onChange={handleChangeType}>
-                    <option value="">Choose Appointment Type </option>
-                    <option value="New">New</option>
-                    <option value="Followup">Followup</option>
-                    <option value="Readmission with 24hrs">
-                      Readmission with 24hrs
-                    </option>
-                    <option value="Annual Checkup">Annual Checkup</option>
-                    <option value="Walk in">Walk-in</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    name="appointment_status"
-                    value={appointment_status}
-                    onChange={handleChangeStatus}
-                  >
-                    <option value="">Appointment Status </option>
-                    <option value="Scheduled">Scheduled</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Vitals Taken">Vitals Taken</option>
-                    <option value="With Nurse">With Nurse</option>
-                    <option value="With Doctor">With Doctor</option>
-                    <option value="No Show">No Show</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Billed">Billed</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <div className="field">
                 <input
-                  className="input is-small"
-                  ref={register()}
-                  name="appointment_reason"
-                  type="text"
-                  placeholder="Reason For Appointment"
+                  name="start_time"
+                  {...register('start_time', { required: true })}
+                  type="datetime-local"
+                  style={{
+                    border: '1px solid #0364FF',
+                    padding: '1rem',
+                    color: ' #979DAC',
+                  }}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field " style={{ display: 'none' }}>
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="billingservice"
-                  type="text"
-                  placeholder="Billing service"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-warning is-small"
-                  onClick={(e) => e.target.reset()}
-                >
-                  Cancel
-                </button>
-              </p>
-              {/* <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-            </div>
-          </form>
-        </div>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="type"
+                value={type}
+                onChange={handleChangeType}
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                }}
+              >
+                <option defaultChecked>Choose Appointment Type </option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
+              </select>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="appointment_status"
+                value={appointment_status}
+                onChange={handleChangeStatus}
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                }}
+              >
+                <option defaultChecked>Appointment Status </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Checked In">Checked In</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
+                <option value="No Show">No Show</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                {...register('appointment_reason', { required: true })}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="10"
+                cols="50"
+                style={{
+                  border: '1px solid #0364FF',
+                  padding: '1rem',
+                  color: ' #979DAC',
+                  width: '100%',
+                }}
+              >
+                {' '}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: '#0364FF',
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                onClick={(e) => e.target.reset()}
+                style={{
+                  backgroundColor: '#ffffff',
+                  width: '100%',
+                  color: '#0364FF',
+                  border: '1px solid #0364FF',
+                  cursor: 'pointer',
+                }}
+              >
+                Clear
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </div>
-      {/* <div className={`modal ${billingModal?"is-active":""}` }>
-                <div className="modal-background"></div>
-                <div className="modal-card">
-                    <header className="modal-card-head">
-                    <p className="modal-card-title">Bill Client</p>
-                    <button className="delete" aria-label="close"  onClick={handlecloseModal1}></button>
-                    </header>
-                    <section className="modal-card-body">
-                   
-                    < BillServiceCreate closeModal={handlecloseModal1}/>
-                    </section>
-                  
-                </div>
-            </div>  */}
     </>
   );
 }
 
-export function ClientList() {
+export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -521,6 +498,7 @@ export function ClientList() {
       show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(true);
   };
 
   const handleRow = async (Client) => {
@@ -734,7 +712,6 @@ export function ClientList() {
   }, [startDate]);
   //todo: pagination and vertical scroll bar
 
-  const handleCreate = () => {};
   const onRowClicked = () => {};
 
   const mapFacilities = () => {
@@ -754,7 +731,6 @@ export function ClientList() {
     border: 'none',
     padding: '0.4rem .8rem',
   };
-  console.log(mapFacilities(), facilities);
 
   return (
     <>
@@ -804,11 +780,11 @@ export function ClientList() {
                   </Switch>
                 </div>
 
-                {handleCreate && (
+                {handleCreateNew && (
                   <Button
                     style={{ fontSize: '14px', fontWeight: '600' }}
                     label="Add new "
-                    onClick={handleCreate}
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
@@ -1900,6 +1876,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
+  const [closeDropdown, setCloseDropdown] = useState(false);
 
   const handleRow = async (obj) => {
     await setChosen(true);
@@ -2034,7 +2011,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
       console.log(facilities);
     }
   };
-
+  console.log(simpa);
   const handleAddproduct = () => {
     setProductModal(true);
   };
@@ -2049,6 +2026,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
       <div className="field">
@@ -2058,15 +2036,12 @@ export function ClientSearch({ getSearchfacility, clear }) {
             style={{ width: '100%' }}
           >
             <div className="dropdown-trigger" style={{ width: '100%' }}>
-              <DebounceInput
-                className="input is-small  is-expanded mb-0"
-                type="text"
-                placeholder="Search for Client"
+              <DebouncedInput
+                label={'Search for Client'}
                 value={simpa}
                 minLength={3}
-                debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={handleBlur}
+                onChangeValue={handleSearch}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -2090,47 +2065,34 @@ export function ClientSearch({ getSearchfacility, clear }) {
                   <div
                     className="dropdown-item"
                     key={facility._id}
-                    onClick={() => handleRow(facility)}
+                    onClick={() => {
+                      handleRow(facility), setCloseDropdown(true);
+                    }}
                   >
-                    <div>
-                      <span>{facility.firstname}</span>
-                      <span className="padleft">{facility.middlename}</span>
-                      <span className="padleft">{facility.lastname}</span>
-                      <span className="padleft">
-                        {' '}
-                        {formatDistanceToNowStrict(new Date(facility.dob))}
-                      </span>
-                      <span className="padleft">{facility.gender}</span>
-                      <span className="padleft">{facility.profession}</span>
-                      <span className="padleft">{facility.phone}</span>
-                      <span className="padleft">{facility.email}</span>
+                    <div style={{ cursor: 'pointer' }}>
+                      {closeDropdown ? (
+                        <></>
+                      ) : (
+                        <>
+                          <span>{facility.firstname}</span>
+                          <span className="padleft">{facility.middlename}</span>
+                          <span className="padleft">{facility.lastname}</span>
+                          <span className="padleft">
+                            {' '}
+                            {formatDistanceToNowStrict(new Date(facility.dob))}
+                          </span>
+                          <span className="padleft">{facility.gender}</span>
+                          <span className="padleft">{facility.profession}</span>
+                          <span className="padleft">{facility.phone}</span>
+                          <span className="padleft">{facility.email}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={`modal ${productModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            {/* <ProductCreate /> */}
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
         </div>
       </div>
     </div>

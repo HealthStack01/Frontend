@@ -167,7 +167,7 @@ export function DispenseModify(){
                 <div className="field">
                     <label className="label is-small"> Name
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input  is-small" ref={register({ required: true })}  name="name" type="text" placeholder="Name" />
+                        <input className="input  is-small" {...register("x",{required: true})}  name="name" type="text" placeholder="Name" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
@@ -177,7 +177,7 @@ export function DispenseModify(){
                 <div className="field">
                 <label className="label is-small">ProductEntry Type
                     <p className="control has-icons-left has-icons-right">
-                    <input className="input is-small " ref={register({ required: true })} disabled name="ProductEntryType" type="text" placeholder="ProductEntry Type" />
+                    <input className="input is-small " {...register("x",{required: true})} disabled name="ProductEntryType" type="text" placeholder="ProductEntry Type" />
                     <span className="icon is-small is-left">
                         <i className="fas fa-map-signs"></i>
                     </span>
@@ -188,7 +188,7 @@ export function DispenseModify(){
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
                     </span>
@@ -198,7 +198,7 @@ export function DispenseModify(){
             <div className="field">
             <label className="label is-small">Phone
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -208,7 +208,7 @@ export function DispenseModify(){
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="ProductEntry Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="ProductEntry Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -218,7 +218,7 @@ export function DispenseModify(){
             <div className="field">
             <label className="label is-small">Department
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-user-md"></i>
                     </span>
@@ -229,7 +229,7 @@ export function DispenseModify(){
             <div className="field">
             <label className="label is-small">Departmental Unit
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-hospital-symbol"></i>
                     </span>
@@ -239,7 +239,7 @@ export function DispenseModify(){
            {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="ProductEntryCategory" type="text" placeholder="ProductEntry Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="ProductEntryCategory" type="text" placeholder="ProductEntry Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -732,7 +732,7 @@ export function DispenseCreate(){
                  </div>*/}
                  <div className="field">
                  <p className="control has-icons-left">
-                     <input className="input is-small" /* ref={register({ required: true })} */ name="medication" value={medication} type="text" onChange={e=>setMedication(e.target.value)} placeholder="medication"  />
+                     <input className="input is-small" /* {...register("x",{required: true})} */ name="medication" value={medication} type="text" onChange={e=>setMedication(e.target.value)} placeholder="medication"  />
                      <span className="icon is-small is-left">
                      <i className="fas fa-envelope"></i>
                      </span>
@@ -754,7 +754,7 @@ export function DispenseCreate(){
              <div className="field-body">
           <div className="field">
                  <p className="control has-icons-left">
-                     <input className="input is-small" /* ref={register({ required: true })} */ name="instruction" value={instruction} type="text" onChange={e=>setInstruction(e.target.value)} placeholder="Instructions/Note"  />
+                     <input className="input is-small" /* {...register("x",{required: true})} */ name="instruction" value={instruction} type="text" onChange={e=>setInstruction(e.target.value)} placeholder="Instructions/Note"  />
                      <span className="icon is-small is-left">
                      <i className="fas fa-envelope"></i>
                      </span>
@@ -763,7 +763,7 @@ export function DispenseCreate(){
              </div>  
              <div className="field">
                  <p className="control has-icons-left">
-                     <input className="input is-small" /* ref={register({ required: true })} */ name="destination" value={destination} type="text" onChange={e=>setDestination(e.target.value)} placeholder="Destination Pharmacy"  />
+                     <input className="input is-small" /* {...register("x",{required: true})} */ name="destination" value={destination} type="text" onChange={e=>setDestination(e.target.value)} placeholder="Destination Pharmacy"  />
                      <span className="icon is-small is-left">
                      <i className="fas fa-envelope"></i>
                      </span>

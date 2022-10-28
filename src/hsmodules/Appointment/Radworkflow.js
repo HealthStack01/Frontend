@@ -1717,7 +1717,7 @@ export function RadAppointmentModify() {
             <div className="field">
               <input
                 name="start_time"
-                ref={register({ required: true })}
+                {...register('x', { required: true })}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1732,7 +1732,7 @@ export function RadAppointmentModify() {
                   <select
                     name="type"
                     // /* value={appointment_type} */ name="appointment_type"
-                    ref={register({ required: true })}
+                    {...register('x', { required: true })}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -1752,7 +1752,7 @@ export function RadAppointmentModify() {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    ref={register({ required: true })}
+                    {...register('x', { required: true })}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -1775,7 +1775,7 @@ export function RadAppointmentModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register('x')}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -1789,7 +1789,7 @@ export function RadAppointmentModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register('x')}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"

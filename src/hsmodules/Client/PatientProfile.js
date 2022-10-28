@@ -88,24 +88,24 @@ export default function PatientProfile() {
   };
   const showBilling = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
   const showMedication = () => {
     setMedicationModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
   const showTask = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
 
   const showIntolerance = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
   const showProblem = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
   return (
     <div>

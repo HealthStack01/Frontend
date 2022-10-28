@@ -164,7 +164,7 @@ export function InventoryCreate() {
                 {/* Audit/initialization/Purchase Invoice */}
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="type"
                   type="text"
                   placeholder="Type of Product Entry"
@@ -178,7 +178,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="supplier"
                   type="text"
                   placeholder="Supplier"
@@ -192,7 +192,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="date"
                   type="text"
                   placeholder="Date"
@@ -207,7 +207,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="totalamount"
                   type="text"
                   placeholder=" Total Amount"
@@ -234,7 +234,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left " style={{display: "none"}}>
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   /* add array no */ name="productId"
                   type="text"
                   placeholder="Product Id"
@@ -249,7 +249,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="quantity"
                   type="text"
                   placeholder="Quantity"
@@ -264,7 +264,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="costprice"
                   type="text"
                   placeholder="Cost Price"
@@ -278,7 +278,7 @@ export function InventoryCreate() {
                 <div className="control has-icons-left">
                     <div className="dropdown ">
                         <div className="dropdown-trigger">
-                            <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                             <span className="icon is-small is-left">
                             <i className="fas fa-hospital-symbol"></i>
                             </span>
@@ -304,7 +304,7 @@ export function InventoryCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Department Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -312,7 +312,7 @@ export function InventoryCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="password" type="text" placeholder="password"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -995,7 +995,7 @@ export function InventoryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     name="price"
                     type="text"
                     placeholder="Name"
@@ -1012,7 +1012,7 @@ export function InventoryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     disabled
                     name="oldprice"
                     type="text"
@@ -1158,7 +1158,7 @@ export function InventoryReorder() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     name="reorder_level"
                     type="text"
                     placeholder="New Reorder Level"
@@ -1175,7 +1175,7 @@ export function InventoryReorder() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register()}
+                    {...register("x")}
                     disabled
                     name="oldlevel"
                     type="text"
@@ -1351,7 +1351,7 @@ export function InventoryBatches() {
                 <p className="control ">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ name="batchNo"
+                    /* {...register("x",{required: true})} */ name="batchNo"
                     value={batchNo}
                     type="text"
                     onChange={e => setBatchNo(e.target.value)}
@@ -1375,7 +1375,7 @@ export function InventoryBatches() {
                 <p className="control ">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ name="quantity"
+                    /* {...register("x",{required: true})} */ name="quantity"
                     value={quantity}
                     type="text"
                     onChange={e => setQuantity(e.target.value)}

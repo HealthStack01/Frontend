@@ -268,7 +268,7 @@ export function ProductEntryCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={source}
+                      /* {...register("x",{required: true})} */ value={source}
                       name="supplier"
                       type="text"
                       onChange={e => setSource(e.target.value)}
@@ -294,7 +294,7 @@ export function ProductEntryCreate() {
 
                       //isClearable
                     />
-                    {/*   <input className="input is-small"   ref={register({ required: true })}  value={date}  name="date" type="text" onChange={e=>setDate(e.target.value)} placeholder="Date" />
+                    {/*   <input className="input is-small"   {...register("x",{required: true})}  value={date}  name="date" type="text" onChange={e=>setDate(e.target.value)} placeholder="Date" />
                     <span className="icon is-small is-left">
                         <i className="fas fa-map-signs"></i>
                     </span> */}
@@ -319,7 +319,7 @@ export function ProductEntryCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={
+                      /* {...register("x",{required: true})} */ value={
                         totalamount
                       }
                       name="totalamount"
@@ -375,7 +375,7 @@ export function ProductEntryCreate() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ name="quantity"
+                    /* {...register("x",{required: true})} */ name="quantity"
                     value={quantity}
                     type="text"
                     onChange={e => setQuantity(e.target.value)}
@@ -391,7 +391,7 @@ export function ProductEntryCreate() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ name="costprice"
+                    /* {...register("x",{required: true})} */ name="costprice"
                     value={costprice}
                     type="text"
                     onChange={e => setCostprice(e.target.value)}
@@ -1169,7 +1169,7 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1186,7 +1186,7 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     disabled
                     name="ProductEntryType"
                     type="text"
