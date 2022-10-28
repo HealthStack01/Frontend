@@ -629,7 +629,7 @@ export function RadiologyNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Procedure"
                       type="text"
                       placeholder="Procedure"
@@ -645,7 +645,7 @@ export function RadiologyNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Clinical Indication"
                       type="text"
                       placeholder="Clinical Indication"
@@ -661,7 +661,7 @@ export function RadiologyNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Technique"
                       type="text"
                       placeholder="Technique"
@@ -677,7 +677,7 @@ export function RadiologyNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Comparison"
                       type="text"
                       placeholder="Comparison"
@@ -693,7 +693,7 @@ export function RadiologyNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Finding"
                       type="text"
                       placeholder="Findings"
@@ -709,7 +709,7 @@ export function RadiologyNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Impression"
                       type="text"
                       placeholder="Impression"
@@ -725,7 +725,7 @@ export function RadiologyNoteCreate() {
                   <div className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Recommendation"
                       type="text"
                       placeholder="Recommendation"

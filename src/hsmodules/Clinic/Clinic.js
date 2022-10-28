@@ -123,7 +123,7 @@ export function ClinicCreate() {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small" ref={register({ required: true })}  name="ClinicType" type="text" placeholder="Type of Clinic" />
+                        <input className="input is-small" {...register("x",{required: true})}  name="ClinicType" type="text" placeholder="Type of Clinic" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
@@ -133,7 +133,7 @@ export function ClinicCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="name"
                   type="text"
                   placeholder="Name of Clinic"
@@ -145,7 +145,7 @@ export function ClinicCreate() {
             </div>
             {/*  <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className=" fas fa-user-md "></i>
                     </span>
@@ -153,7 +153,7 @@ export function ClinicCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder=" Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -163,7 +163,7 @@ export function ClinicCreate() {
             <div className="field">
                 <p className="control has-icons-left">
                 
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Email"  />
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -180,7 +180,7 @@ export function ClinicCreate() {
               <p className="control has-icons-left " style={{display: "none"}}>
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -194,7 +194,7 @@ export function ClinicCreate() {
                 <div className="control has-icons-left">
                     <div className="dropdown ">
                         <div className="dropdown-trigger">
-                            <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                             <span className="icon is-small is-left">
                             <i className="fas fa-hospital-symbol"></i>
                             </span>
@@ -220,7 +220,7 @@ export function ClinicCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Department Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -228,7 +228,7 @@ export function ClinicCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="password" type="text" placeholder="password"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -792,7 +792,7 @@ export function ClinicModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -809,7 +809,7 @@ export function ClinicModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     disabled
                     name="ClinicType"
                     type="text"
@@ -824,7 +824,7 @@ export function ClinicModify() {
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
                     </span>
@@ -834,7 +834,7 @@ export function ClinicModify() {
             <div className="field">
             <label className="label is-small">Phone
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -844,7 +844,7 @@ export function ClinicModify() {
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Clinic Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Clinic Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -854,7 +854,7 @@ export function ClinicModify() {
             <div className="field">
             <label className="label is-small">Department
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-user-md"></i>
                     </span>
@@ -865,7 +865,7 @@ export function ClinicModify() {
             <div className="field">
             <label className="label is-small">Departmental Unit
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-hospital-symbol"></i>
                     </span>
@@ -875,7 +875,7 @@ export function ClinicModify() {
             {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="ClinicCategory" type="text" placeholder="Clinic Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="ClinicCategory" type="text" placeholder="Clinic Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>

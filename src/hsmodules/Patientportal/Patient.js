@@ -1,22 +1,22 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import {} from 'react-router-dom'; //Route, Switch,Link, NavLink,
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict } from 'date-fns';
-import ClientFinInfo from './ClientFinInfo';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import { AppointmentCreate } from '../Appointment/Appointments';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict} from "date-fns";
+import ClientFinInfo from "./ClientFinInfo";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import {AppointmentCreate} from "../Appointment/Appointments";
+import InfiniteScroll from "react-infinite-scroll-component";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Client() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -28,9 +28,9 @@ export default function Client() {
           <ClientList />
         </div>
         <div className="column is-6 ">
-          {state.ClientModule.show === 'create' && <ClientCreate />}
-          {state.ClientModule.show === 'detail' && <ClientDetail />}
-          {state.ClientModule.show === 'modify' && (
+          {state.ClientModule.show === "create" && <ClientCreate />}
+          {state.ClientModule.show === "detail" && <ClientDetail />}
+          {state.ClientModule.show === "modify" && (
             <ClientModify Client={selectedClient} />
           )}
         </div>
@@ -40,24 +40,24 @@ export default function Client() {
 }
 
 export function ClientCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service('client');
+  const ClientServ = client.service("client");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
   // eslint-disable-next-line
-  const getSearchfacility = (obj) => {
-    setValue('facility', obj._id, {
+  const getSearchfacility = obj => {
+    setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -83,7 +83,7 @@ export function ClientCreate() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setError(false);
     setSuccess(false);
     // data.createdby=user._id
@@ -92,23 +92,23 @@ export function ClientCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         toast({
-          message: 'Client created succesfully',
-          type: 'is-success',
+          message: "Client created succesfully",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
-          message: 'Error creating Client ' + err,
-          type: 'is-danger',
+          message: "Error creating Client " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -133,7 +133,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", {required: true})}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -148,7 +148,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="middlename"
                       type="text"
                       placeholder="Middle Name"
@@ -163,7 +163,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", {required: true})}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -182,7 +182,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", {required: true})}
                       name="dob"
                       type="text"
                       placeholder="Date of Birth"
@@ -196,7 +196,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="gender"
                       type="text"
                       placeholder="Gender"
@@ -210,7 +210,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="maritalstatus"
                       type="text"
                       placeholder="Marital Status"
@@ -224,7 +224,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="mrn"
                       type="text"
                       placeholder="Medical Records Number"
@@ -242,7 +242,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="religion"
                       type="text"
                       placeholder="Religion"
@@ -256,7 +256,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="profession"
                       type="text"
                       placeholder="Profession"
@@ -270,7 +270,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", {required: true})}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -285,7 +285,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small "
-                      ref={register()}
+                      {...register("x")}
                       name="email"
                       type="email"
                       placeholder="Email"
@@ -301,7 +301,7 @@ export function ClientCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="clientTags"
                   type="text"
                   placeholder="Tags"
@@ -316,7 +316,7 @@ export function ClientCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="address"
                   type="text"
                   placeholder="Residential Address"
@@ -332,7 +332,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="city"
                       type="text"
                       placeholder="Town/City"
@@ -346,7 +346,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="lga"
                       type="text"
                       placeholder="Local Govt Area"
@@ -360,7 +360,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="state"
                       type="text"
                       placeholder="State"
@@ -374,7 +374,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="country"
                       type="text"
                       placeholder="Country"
@@ -393,7 +393,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="bloodgroup"
                       type="text"
                       placeholder="Blood Group"
@@ -407,7 +407,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="genotype"
                       type="text"
                       placeholder="Genotype"
@@ -421,7 +421,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="disabilities"
                       type="text"
                       placeholder="Disabilities"
@@ -440,7 +440,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="allergies"
                       type="text"
                       placeholder="Allergies"
@@ -454,7 +454,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="comorbidities"
                       type="text"
                       placeholder="Co-mobidities"
@@ -471,7 +471,7 @@ export function ClientCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="specificDetails"
                   type="text"
                   placeholder="Specific Details about patient"
@@ -488,7 +488,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_name"
                       type="text"
                       placeholder="Next of Kin Full Name"
@@ -502,7 +502,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_phoneno"
                       type="text"
                       placeholder="Next of Kin Phone Number"
@@ -516,7 +516,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_email"
                       type="email"
                       placeholder="Next of Kin Email"
@@ -530,7 +530,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_relationship"
                       type="text"
                       placeholder="Next of Kin Relationship"
@@ -551,7 +551,7 @@ export function ClientCreate() {
               <p className="control">
                 <button
                   className="button is-warning is-small"
-                  onClick={(e) => e.target.reset()}
+                  onClick={e => e.target.reset()}
                 >
                   Cancel
                 </button>
@@ -576,17 +576,17 @@ export function ClientList() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('client');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("client");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -594,30 +594,30 @@ export function ClientList() {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     // eslint-disable-next-line
-    const field = 'firstname';
+    const field = "firstname";
     console.log(val);
     ClientServ.find({
       query: {
@@ -625,46 +625,46 @@ export function ClientList() {
           {
             firstname: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
           {
             lastname: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
           {
             middlename: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
           {
             phone: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
           {
             clientTags: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
           {
             mrn: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
           {
             specificDetails: {
               $regex: val,
-              $options: 'i',
+              $options: "i",
             },
           },
-          { gender: val },
+          {gender: val},
         ],
 
         facility: user.currentEmployee.facilityDetail._id, // || "",
@@ -674,15 +674,15 @@ export function ClientList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -700,11 +700,11 @@ export function ClientList() {
         },
       });
 
-      await setFacilities((prevstate) => prevstate.concat(findClient.data));
+      await setFacilities(prevstate => prevstate.concat(findClient.data));
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage((page) => page + 1);
+      setPage(page => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -733,10 +733,10 @@ export function ClientList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => rest());
-    ClientServ.on('updated', (obj) => rest());
-    ClientServ.on('patched', (obj) => rest());
-    ClientServ.on('removed', (obj) => rest());
+    ClientServ.on("created", obj => rest());
+    ClientServ.on("updated", obj => rest());
+    ClientServ.on("patched", obj => rest());
+    ClientServ.on("removed", obj => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -772,7 +772,7 @@ export function ClientList() {
                       placeholder="Search Clients"
                       minLength={3}
                       debounceTimeout={400}
-                      onChange={(e) => handleSearch(e.target.value)}
+                      onChange={e => handleSearch(e.target.value)}
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-search"></i>
@@ -782,9 +782,9 @@ export function ClientList() {
               </div>
             </div>
             <div className="level-item">
-              {' '}
+              {" "}
               <span className="is-size-6 has-text-weight-medium">
-                List of Clients{' '}
+                List of Clients{" "}
               </span>
             </div>
             <div className="level-right">
@@ -849,8 +849,8 @@ export function ClientList() {
                       onClick={() => handleRow(Client)}
                       className={
                         Client._id === (selectedClient?._id || null)
-                          ? 'is-selected'
-                          : ''
+                          ? "is-selected"
+                          : ""
                       }
                     >
                       <td>{i + 1}</td>
@@ -896,11 +896,11 @@ export function ClientDetail() {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -908,9 +908,9 @@ export function ClientDetail() {
   const handleEdit = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: 'modify',
+      show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -934,7 +934,7 @@ export function ClientDetail() {
 
   const showBilling = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
 
   const handleSchedule = () => {
@@ -970,7 +970,7 @@ export function ClientDetail() {
                       name="firstname"
                       type="text"
                     >
-                      First Name{' '}
+                      First Name{" "}
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -990,8 +990,8 @@ export function ClientDetail() {
                       name="middlename"
                       type="text"
                     >
-                      {' '}
-                      Middle Name{' '}
+                      {" "}
+                      Middle Name{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -1031,10 +1031,10 @@ export function ClientDetail() {
                       name="dob"
                       type="text"
                     >
-                      Date of Birth{' '}
+                      Date of Birth{" "}
                     </label>
                     <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString('en-GB')}
+                      {new Date(Client.dob).toLocaleDateString("en-GB")}
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -1050,7 +1050,7 @@ export function ClientDetail() {
                       name="gender"
                       type="text"
                     >
-                      Gender{' '}
+                      Gender{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
@@ -1067,7 +1067,7 @@ export function ClientDetail() {
                       name="maritalstatus"
                       type="text"
                     >
-                      Marital Status{' '}
+                      Marital Status{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.maritalstatus}
@@ -1086,7 +1086,7 @@ export function ClientDetail() {
                       name="mrn"
                       type="text"
                     >
-                      Medical Records Number{' '}
+                      Medical Records Number{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.mrn}</label>
                     <span className="icon is-small is-left">
@@ -1107,7 +1107,7 @@ export function ClientDetail() {
                       name="religion"
                       type="text"
                     >
-                      Religion{' '}
+                      Religion{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1124,7 +1124,7 @@ export function ClientDetail() {
                       name="profession"
                       type="text"
                     >
-                      Profession{' '}
+                      Profession{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1143,7 +1143,7 @@ export function ClientDetail() {
                       name="phone"
                       type="text"
                     >
-                      {' '}
+                      {" "}
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1162,7 +1162,7 @@ export function ClientDetail() {
                       name="email"
                       type="email"
                     >
-                      Email{' '}
+                      Email{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1182,7 +1182,7 @@ export function ClientDetail() {
                   name="address"
                   type="text"
                 >
-                  Residential Address{' '}
+                  Residential Address{" "}
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1201,7 +1201,7 @@ export function ClientDetail() {
                       name="city"
                       type="text"
                     >
-                      Town/City{' '}
+                      Town/City{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1218,7 +1218,7 @@ export function ClientDetail() {
                       name="lga"
                       type="text"
                     >
-                      Local Govt Area{' '}
+                      Local Govt Area{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1235,7 +1235,7 @@ export function ClientDetail() {
                       name="state"
                       type="text"
                     >
-                      State{' '}
+                      State{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1252,7 +1252,7 @@ export function ClientDetail() {
                       name="country"
                       type="text"
                     >
-                      Country{' '}
+                      Country{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1273,7 +1273,7 @@ export function ClientDetail() {
                       name="bloodgroup"
                       type="text"
                     >
-                      Blood Group{' '}
+                      Blood Group{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1293,7 +1293,7 @@ export function ClientDetail() {
                       name="genotype"
                       type="text"
                     >
-                      Genotype{' '}
+                      Genotype{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.genotype}</label>
                     <span className="icon is-small is-left">
@@ -1310,7 +1310,7 @@ export function ClientDetail() {
                       name="disabilities"
                       type="text"
                     >
-                      Disabilities{' '}
+                      Disabilities{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -1334,7 +1334,7 @@ export function ClientDetail() {
                       name="allergies"
                       type="text"
                     >
-                      Allergies{' '}
+                      Allergies{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -1351,7 +1351,7 @@ export function ClientDetail() {
                       name="comorbidities"
                       type="text"
                     >
-                      Co-mobidities{' '}
+                      Co-mobidities{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -1372,7 +1372,7 @@ export function ClientDetail() {
                   name="clientTags"
                   type="text"
                 >
-                  Tags{' '}
+                  Tags{" "}
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -1389,7 +1389,7 @@ export function ClientDetail() {
                   name="specificDetails"
                   type="text"
                 >
-                  Specific Details about Client{' '}
+                  Specific Details about Client{" "}
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -1446,7 +1446,7 @@ export function ClientDetail() {
                       name="nok_email"
                       type="email"
                     >
-                      Next of Kin Email{' '}
+                      Next of Kin Email{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -1463,7 +1463,7 @@ export function ClientDetail() {
                       name="nok_relationship"
                       type="text"
                     >
-                      Next of Kin Relationship"{' '}
+                      Next of Kin Relationship"{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -1510,7 +1510,7 @@ export function ClientDetail() {
               <button
                 className="button is-link is-small"
                 onClick={() => {
-                  history.push('/app/clinic/encounter');
+                  navigate("/app/clinic/encounter");
                 }}
               >
                 Attend to Client
@@ -1519,7 +1519,7 @@ export function ClientDetail() {
           </div>
         </div>
       </div>
-      <div className={`modal ${finacialInfoModal ? 'is-active' : ''}`}>
+      <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1541,7 +1541,7 @@ export function ClientDetail() {
         </div>
       </div>
 
-      <div className={`modal ${billingModal ? 'is-active' : ''}`}>
+      <div className={`modal ${billingModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1562,7 +1562,7 @@ export function ClientDetail() {
                     </footer> */}
         </div>
       </div>
-      <div className={`modal ${appointmentModal ? 'is-active' : ''}`}>
+      <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1583,7 +1583,7 @@ export function ClientDetail() {
                     </footer> */}
         </div>
       </div>
-      <div className={`modal ${billModal ? 'is-active' : ''}`}>
+      <div className={`modal ${billModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -1612,116 +1612,116 @@ export function ClientDetail() {
 }
 
 export function ClientModify() {
-  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
+  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
-  const ClientServ = client.service('client');
+  const ClientServ = client.service("client");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
 
   useEffect(() => {
-    setValue('firstname', Client.firstname, {
+    setValue("firstname", Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('middlename', Client.middlename, {
+    setValue("middlename", Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('lastname', Client.lastname, {
+    setValue("lastname", Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('phone', Client.phone, {
+    setValue("phone", Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('email', Client.email, {
+    setValue("email", Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('dob', Client.dob, {
+    setValue("dob", Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('gender', Client.gender, {
+    setValue("gender", Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('profession', Client.profession, {
+    setValue("profession", Client.profession, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('address', Client.address, {
+    setValue("address", Client.address, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('city', Client.city, {
+    setValue("city", Client.city, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('state', Client.state, {
+    setValue("state", Client.state, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('country', Client.country, {
+    setValue("country", Client.country, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('nok_name', Client.nok_name, {
+    setValue("nok_name", Client.nok_name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('nok_email', Client.nok_email, {
+    setValue("nok_email", Client.nok_email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('nok_phoneno', Client.nokphoneno, {
+    setValue("nok_phoneno", Client.nokphoneno, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('lga', Client.lga, {
+    setValue("lga", Client.lga, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('bloodgroup', Client.bloodgroup, {
+    setValue("bloodgroup", Client.bloodgroup, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('genotype', Client.genotype, {
+    setValue("genotype", Client.genotype, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('disabilities', Client.disabilities, {
+    setValue("disabilities", Client.disabilities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('specificDetails', Client.specificDetails, {
+    setValue("specificDetails", Client.specificDetails, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('clientTags', Client.clientTags, {
+    setValue("clientTags", Client.clientTags, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('mrn', Client.mrn, {
+    setValue("mrn", Client.mrn, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('comorbidities', Client.comorbidities, {
+    setValue("comorbidities", Client.comorbidities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('allergies', Client.allergies, {
+    setValue("allergies", Client.allergies, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1732,9 +1732,9 @@ export function ClientModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1744,18 +1744,18 @@ export function ClientModify() {
   const changeState = () => {
     const newClientModule = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
+    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
+    let conf = window.confirm("Are you sure you want to delete this data?");
 
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -1765,19 +1765,19 @@ export function ClientModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: 'Client deleted succesfully',
-            type: 'is-success',
+            message: "Client deleted succesfully",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: 'Error deleting Client, probable network issues or ' + err,
-            type: 'is-danger',
+            message: "Error deleting Client, probable network issues or " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1798,25 +1798,25 @@ export function ClientModify() {
     //console.log(data);
 
     ClientServ.patch(Client._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: 'Client updated succesfully',
-          type: 'is-success',
+          message: "Client updated succesfully",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: 'Error updating Client, probable network issues or ' + err,
-          type: 'is-danger',
+          message: "Error updating Client, probable network issues or " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -1835,10 +1835,10 @@ export function ClientModify() {
               <div className="field-body">
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7">First Name </label>{' '}
+                    <label className="label is-size-7">First Name </label>{" "}
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="firstname"
                       type="text"
                       placeholder="First Name "
@@ -1854,7 +1854,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Middle Name </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="middlename"
                       type="text"
                       placeholder="Middle Name "
@@ -1870,7 +1870,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Last Name</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="lastname"
                       type="text"
                       placeholder="Last Name "
@@ -1890,7 +1890,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Date of Birth </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="dob"
                       type="text"
                       placeholder="Date of Birth "
@@ -1905,7 +1905,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Gender </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="gender"
                       type="text"
                       placeholder="Gender  "
@@ -1920,7 +1920,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Marital Status </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="maritalstatus"
                       type="text"
                       placeholder="Marital Status  "
@@ -1935,7 +1935,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Records Number </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="mrn"
                       type="text"
                       placeholder="Records Number  "
@@ -1954,7 +1954,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Religion</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="religion"
                       type="text"
                       placeholder="Religion "
@@ -1969,7 +1969,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Profession </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="profession"
                       type="text"
                       placeholder="Profession"
@@ -1984,7 +1984,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Phone No</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="phone"
                       type="text"
                       placeholder=" Phone No "
@@ -2000,7 +2000,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Email </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="email"
                       type="email"
                       placeholder="Email  "
@@ -2018,7 +2018,7 @@ export function ClientModify() {
                 <label className="label is-size-7">Residential Address </label>
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="address"
                   type="text"
                   placeholder="Residential Address  "
@@ -2035,7 +2035,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Town/City </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="city"
                       type="text"
                       placeholder="Town/City  "
@@ -2050,7 +2050,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Local Govt Area </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="lga"
                       type="text"
                       placeholder="Local Govt Area  "
@@ -2065,7 +2065,7 @@ export function ClientModify() {
                     <label className="label is-size-7">State </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="state"
                       type="text"
                       placeholder="State"
@@ -2080,7 +2080,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Country </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="country"
                       type="text"
                       placeholder="Country  "
@@ -2099,7 +2099,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Blood Group </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="bloodgroup"
                       type="text"
                       placeholder="Blood Group "
@@ -2114,7 +2114,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Genotype </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="genotype"
                       type="text"
                       placeholder="Genotype "
@@ -2129,7 +2129,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Disabilities </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="disabilities"
                       type="text"
                       placeholder="Disabilities  "
@@ -2149,7 +2149,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Allergies </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="allergies"
                       type="text"
                       placeholder="Allergies  "
@@ -2164,7 +2164,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Co-mobidities </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="comorbidities"
                       type="text"
                       placeholder="Co-mobidities "
@@ -2181,7 +2181,7 @@ export function ClientModify() {
                 <label className="label is-size-7">Tags </label>
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="clientTags"
                   type="text"
                   placeholder="Tags "
@@ -2194,11 +2194,11 @@ export function ClientModify() {
             <div className="field">
               <p className="control has-icons-left">
                 <label className="label is-size-7">
-                  Specific Details about client{' '}
+                  Specific Details about client{" "}
                 </label>
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="specificDetails"
                   type="text"
                   placeholder="Specific Details about client "
@@ -2217,7 +2217,7 @@ export function ClientModify() {
                     </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_name"
                       type="text"
                       placeholder="Next of Kin Full Name "
@@ -2232,7 +2232,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Phone Number</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_phoneno"
                       type="text"
                       placeholder=" "
@@ -2245,11 +2245,11 @@ export function ClientModify() {
                 <div className="field">
                   <p className="control has-icons-left">
                     <label className="label is-size-7">
-                      Next of Kin Email{' '}
+                      Next of Kin Email{" "}
                     </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_email"
                       type="email"
                       placeholder="Next of Kin Email  "
@@ -2264,7 +2264,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Relationship </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="nok_relationship"
                       type="text"
                       placeholder="Next of Kin Relationship"
@@ -2308,8 +2308,8 @@ export function ClientModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service('client');
+export function InputSearch({getSearchfacility, clear}) {
+  const ClientServ = client.service("client");
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2317,16 +2317,16 @@ export function InputSearch({ getSearchfacility, clear }) {
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2343,9 +2343,9 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
-      console.log('stuff was chosen');
+      console.log("stuff was chosen");
     }
 
     /*  console.log("blur")
@@ -2361,8 +2361,8 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
-    const field = 'facilityName'; //field variable
+  const handleSearch = async val => {
+    const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -2370,7 +2370,7 @@ export function InputSearch({ getSearchfacility, clear }) {
           //service
           [field]: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
           $limit: 10,
           $sort: {
@@ -2378,21 +2378,21 @@ export function InputSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
-          console.log('facility  fetched successfully');
+        .then(res => {
+          console.log("facility  fetched successfully");
           setFacilities(res.data);
-          setSearchMessage(' facility  fetched successfully');
+          setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
-            'Error searching facility, probable network issues ' + err
+            "Error searching facility, probable network issues " + err
           );
           setSearchError(true);
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -2401,7 +2401,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      setSimpa('');
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
@@ -2409,7 +2409,7 @@ export function InputSearch({ getSearchfacility, clear }) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-          <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
+          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "
@@ -2418,8 +2418,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

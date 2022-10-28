@@ -266,11 +266,12 @@ const AppRoutes = () => {
           {/* ***************************** INVENTORY ROUTES ************************************* */}
 
           <Route path="/app/inventory" element={<InventoryHome />} />
-          {/* <Route
+
+          <Route
             path="/app/inventory/inv-dispense"
             element={<InventoryDispense />}
           />
-          {/* <Route
+          <Route
             path="/app/inventory/inv-bill"
             element={<InventoryBillPrescription />}
           />
@@ -295,7 +296,8 @@ const AppRoutes = () => {
           <Route
             path="/app/inventory/inv-reports"
             element={<InventoryReport />}
-          /> */}
+          />
+
           <Route path="/app/inventory/inv-stores" element={<Store />} />
           <Route
             path="/app/inventory/inv-payment"
@@ -347,11 +349,11 @@ const AppRoutes = () => {
             element={<PharmacyInventoryReport />}
           />
           <Route path="/app/pharmacy/transfer" element={<PharmacyTransfer />} />
-
+          {/* 
           <Route
             path="/app/pharmacy/inv-payment"
             element={<PharmacyPayment />}
-          />
+          /> */}
 
           {/* ***************************** RADIOLOGY ROUTES ************************************* */}
 
