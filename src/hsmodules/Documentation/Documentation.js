@@ -15,7 +15,7 @@ var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Encounter({standalone}) {
+export default function Documentation({standalone}) {
   const {state, setState} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   //const [selectedProductEntry,setSelectedProductEntry]=useState()
@@ -65,9 +65,7 @@ export default function Encounter({standalone}) {
             </div> */}
       <div className="columns ">
         {!standalone && (
-          <div className="column is-2 ">
-            <PatientProfile />
-          </div>
+          <div className="column is-2 ">{/* <PatientProfile /> */}</div>
         )}
 
         {!standalone && (
