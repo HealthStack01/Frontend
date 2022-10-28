@@ -31,13 +31,24 @@ export default function Client() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
+  const [showModal, setShowModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
+  const handleShowModal = () => {
+    {
+      setShowModal(true);
+    }
+  };
 
+  const handleHideModal = () => {
+    {
+      setShowModal(false);
+    }
+  };
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6 ">
-          <ClientList />
+          <ClientList showModal={handleShowModal} />
         </div>
         <div className="column is-6 ">
           {state.ClientModule.show === "List" && <ClientList />}
@@ -46,7 +57,7 @@ export default function Client() {
             <ClientModify Client={selectedClient} />
           )}
 
-          <ModalBox open={state.ClientModule.show === "create"}>
+          <ModalBox open={showModal} onClose={handleHideModal}>
             <ClientCreate />
           </ModalBox>
         </div>
@@ -839,7 +850,7 @@ export function ClientCreate() {
   );
 }
 
-export function ClientList() {
+export function ClientList({ showModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1039,8 +1050,6 @@ export function ClientList() {
   }, [facilities]);
   //todo: pagination and vertical scroll bar
 
-  const onRowClicked = () => {};
-
   return (
     <>
       {user ? (
@@ -1065,7 +1074,7 @@ export function ClientList() {
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
-                    onClick={handleCreateNew}
+                    onClick={showModal}
                     showicon={true}
                   />
                 )}
@@ -1079,7 +1088,7 @@ export function ClientList() {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={onRowClicked}
+                  onRowClicked={handleRow}
                   progressPending={loading}
                 />
               </div>

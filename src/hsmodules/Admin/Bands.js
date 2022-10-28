@@ -1,23 +1,24 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import {toast} from "bulma-toast";
+import { UserContext, ObjectContext } from "../../context";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import { toast } from "bulma-toast";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {fontSize} from "@mui/system";
+import { fontSize } from "@mui/system";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Bands() {
   console.log("bands bands bands");
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
+  const [showModal, setShowModal] = useState(false);
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -40,7 +41,7 @@ export default function Bands() {
 }
 
 export function BandCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -48,7 +49,7 @@ export function BandCreate() {
   const [facility, setFacility] = useState();
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const bandTypeOptions = [
@@ -62,7 +63,7 @@ export function BandCreate() {
   //corporate sponsors pay premium and not claims
   //company pays claims and not premium
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -102,7 +103,7 @@ export function BandCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     BandServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Band successfully") */
@@ -115,7 +116,7 @@ export function BandCreate() {
         });
         setSuccess(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating Band " + err,
           type: "is-danger",
@@ -146,7 +147,7 @@ export function BandCreate() {
                 <div className="select is-small ">
                   <select
                     name="bandType"
-                    ref={register({required: true})}
+                    ref={register({ required: true })}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Band Type </option>
@@ -164,7 +165,7 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  ref={register({ required: true })}
                   name="name"
                   type="text"
                   placeholder="Name of Band"
@@ -178,7 +179,7 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  ref={register({ required: true })}
                   name="description"
                   type="text"
                   placeholder="Description of Band"
@@ -216,16 +217,19 @@ export function BandCreate() {
             </div> */}
             <div
               className="field"
-              style={!user.stacker ? {display: "none"} : {}}
+              style={!user.stacker ? { display: "none" } : {}}
             >
               <InputSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <p
+                className="control has-icons-left "
+                style={{ display: "none" }}
+              >
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  ref={register({ required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -308,19 +312,22 @@ export function BandList() {
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedBand: {},
       show: "create",
     };
-    await setState(prevstate => ({...prevstate, BandModule: newBandModule}));
+    await setState((prevstate) => ({
+      ...prevstate,
+      BandModule: newBandModule,
+    }));
     //console.log(state)
   };
-  const handleRow = async Band => {
+  const handleRow = async (Band) => {
     //console.log("b4",state)
 
     //console.log("handlerow",Band)
@@ -331,11 +338,14 @@ export function BandList() {
       selectedBand: Band,
       show: "detail",
     };
-    await setState(prevstate => ({...prevstate, BandModule: newBandModule}));
+    await setState((prevstate) => ({
+      ...prevstate,
+      BandModule: newBandModule,
+    }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     console.log(val);
     BandServ.find({
@@ -351,13 +361,13 @@ export function BandList() {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Band  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Band, probable network issues " + err);
         setError(true);
@@ -420,10 +430,10 @@ export function BandList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    BandServ.on("created", obj => getFacilities());
-    BandServ.on("updated", obj => getFacilities());
-    BandServ.on("patched", obj => getFacilities());
-    BandServ.on("removed", obj => getFacilities());
+    BandServ.on("created", (obj) => getFacilities());
+    BandServ.on("updated", (obj) => getFacilities());
+    BandServ.on("patched", (obj) => getFacilities());
+    BandServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -440,7 +450,7 @@ export function BandList() {
       name: "Name of Band",
       key: "name",
       description: "Enter name of band",
-      selector: row => row.name,
+      selector: (row) => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -449,7 +459,7 @@ export function BandList() {
       name: "Band Type",
       key: "bandType",
       description: "Enter name of band",
-      selector: row => row.bandType,
+      selector: (row) => row.bandType,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -459,7 +469,7 @@ export function BandList() {
       name: "Description of Band",
       key: "description",
       description: "Enter description of band",
-      selector: row => row.description,
+      selector: (row) => row.description,
       sortable: true,
       required: false,
       inputType: "TEXT",
@@ -474,30 +484,30 @@ export function BandList() {
         <>
           <div className="level">
             <PageWrapper
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                     List of Bands
                   </h2>
                 </div>
 
                 {handleCreate && (
                   <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
+                    style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
                     onClick={handleCreate}
                   />
                 )}
               </TableMenu>
 
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
                 <CustomTable
                   title={""}
                   columns={BandSchema}
@@ -529,7 +539,7 @@ export function BandDetail() {
   //const BandServ=client.service('/Band')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Band = state.BandModule.selectedBand;
 
@@ -538,7 +548,10 @@ export function BandDetail() {
       selectedBand: Band,
       show: "modify",
     };
-    await setState(prevstate => ({...prevstate, BandModule: newBandModule}));
+    await setState((prevstate) => ({
+      ...prevstate,
+      BandModule: newBandModule,
+    }));
     //console.log(state)
   };
 
@@ -671,7 +684,7 @@ export function BandDetail() {
 }
 
 export function BandModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -682,8 +695,8 @@ export function BandModify() {
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Band = state.BandModule.selectedBand;
 
@@ -729,7 +742,10 @@ export function BandModify() {
       selectedBand: {},
       show: "list",
     };
-    await setState(prevstate => ({...prevstate, BandModule: newBandModule}));
+    await setState((prevstate) => ({
+      ...prevstate,
+      BandModule: newBandModule,
+    }));
     //console.log(state)
   };
 
@@ -738,7 +754,7 @@ export function BandModify() {
       selectedBand: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, BandModule: newBandModule}));
+    setState((prevstate) => ({ ...prevstate, BandModule: newBandModule }));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -746,7 +762,7 @@ export function BandModify() {
     const dleteId = Band._id;
     if (conf) {
       BandServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Band successfully")
@@ -763,7 +779,7 @@ export function BandModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Band, probable network issues "+ err )
           // setError(true)
           toast({
@@ -789,7 +805,7 @@ export function BandModify() {
     //console.log(data);
 
     BandServ.patch(Band._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Band successfully")
@@ -802,7 +818,7 @@ export function BandModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Band, probable network issues "+ err )
         // setError(true)
         toast({
@@ -829,7 +845,7 @@ export function BandModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({required: true})}
+                    ref={register({ required: true })}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -846,7 +862,7 @@ export function BandModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({required: true})}
+                    ref={register({ required: true })}
                     disabled
                     name="bandType"
                     type="text"
@@ -955,7 +971,7 @@ export function BandModify() {
   );
 }
 
-export function InputSearch({getSearchfacility, clear}) {
+export function InputSearch({ getSearchfacility, clear }) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -972,7 +988,7 @@ export function InputSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -989,7 +1005,7 @@ export function InputSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1007,7 +1023,7 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -1025,13 +1041,13 @@ export function InputSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1065,8 +1081,8 @@ export function InputSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

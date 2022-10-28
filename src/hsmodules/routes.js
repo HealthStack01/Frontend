@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import Appointments from "./Clinic/Appointments";
@@ -60,7 +60,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -108,7 +108,7 @@ import EpidemiologySignals from "./Epidemiology/Signals"; //, { StoreList, Store
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store' */
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store'  */
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import Theatre from "./Theatre/Theatres"; //, /* { StoreList, StoreListStandalone } */
 import TheatreAppointments from "./Theatre/TheatreAppointments";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
@@ -116,7 +116,7 @@ import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
 
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 import ClientPayment from "./Client/Payment";
 import ClientHome from "./Client/ClientHome";
 // import ClientsAppointments from "./Clients/Appointments";
@@ -134,7 +134,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -230,7 +230,6 @@ const AppRoutes = () => {
 
           <Route path="/app/admin" element={<FacilityHome />} />
           <Route path="/app/admin/accessibility" element={<Accessibility />} />
-
           <Route path="/app/admin/careteam" element={<CareTeam />} />
           <Route path="/app/admin/department" element={<Department />} />
           <Route path="/app/admin/dept-unit" element={<DeptUnits />} />
@@ -251,9 +250,7 @@ const AppRoutes = () => {
             <Route path="/app/finance/services" element={<Services />} />
             <Route path="/app/finance/billservices" element={<BillService />} />
             <Route path="/app/finance/hmoauthorization" element={<HMOauth />} />
-
             <Route path="/app/finance/revenue" element={<FacilityAccount />} />
-
             <Route path="/app/finance/location" element={<Store />} />
           </Route>
 
