@@ -22,14 +22,30 @@ export default function Location() {
   // eslint-disable-next-line
   const [selectedLocation, setSelectedLocation] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
 
-  const handleShowModal = () => {
-    setShowModal(true);
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
   };
 
-  const handleHideModal = () => {
-    setShowModal(false);
+  const handleShowCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
   };
   return (
     <section className="section remPadTop">
@@ -38,15 +54,21 @@ export default function Location() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <LocationList showModal={handleShowModal} />
+          <LocationList
+            showCreateModal={handleShowCreateModal}
+            showDetailModal={handleShowDetailModal}
+          />
         </div>
         <div className="column is-4 ">
-          {state.LocationModule.show === "detail" && <LocationDetail />}
-          {state.LocationModule.show === "modify" && (
-            <LocationModify Location={selectedLocation} />
-          )}
-          <ModalBox open={showModal} onClose={handleHideModal}>
+          <ModalBox open={createModal} onClose={handleHideCreateModal}>
             <LocationCreate />
+          </ModalBox>
+
+          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+            <LocationDetail showModifyModal={handleModifyModal} />
+          </ModalBox>
+          <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+            <LocationModify />
           </ModalBox>
         </div>
       </div>
@@ -297,7 +319,7 @@ export function LocationCreate() {
   );
 }
 
-export function LocationList({ showModal }) {
+export function LocationList({ showCreateModal, showDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -343,6 +365,7 @@ export function LocationList({ showModal }) {
       ...prevstate,
       LocationModule: newLocationModule,
     }));
+    showDetailModal();
     //console.log(state)
   };
 
@@ -492,7 +515,7 @@ export function LocationList({ showModal }) {
                 <Button
                   style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={showModal}
+                  onClick={showCreateModal}
                 />
               )}
             </TableMenu>
@@ -518,7 +541,7 @@ export function LocationList({ showModal }) {
   );
 }
 
-export function LocationDetail() {
+export function LocationDetail({ showModifyModal }) {
   const { register, handleSubmit, watch, setValue, reset } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -548,6 +571,7 @@ export function LocationDetail() {
       LocationModule: newLocationModule,
     }));
     //console.log(state)
+    showModifyModal();
   };
   const handleSublocation = () => {
     setShowSub(true);

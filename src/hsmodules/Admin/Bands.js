@@ -19,17 +19,33 @@ const searchfacility = {};
 export default function Bands() {
   console.log("bands bands bands");
   const { state } = useContext(ObjectContext); //,setState
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
 
-  const handleShowModal = () => {
-    setShowModal(true);
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
   };
 
-  const handleHideModal = () => {
-    setShowModal(false);
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
   };
   return (
     <section className="section remPadTop">
@@ -37,15 +53,21 @@ export default function Bands() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        <BandList showModal={handleShowModal} />
-        <ModalBox open={showModal} onClose={handleHideModal}>
+        <BandList
+          showCreateModal={handleCreateModal}
+          showDetailModal={handleShowDetailModal}
+        />
+        <ModalBox open={createModal} onClose={handleHideCreateModal}>
           <BandCreate />
         </ModalBox>
 
-        {state.BandModule.show === "detail" && <BandDetail />}
-        {state.BandModule.show === "modify" && (
-          <BandModify Band={selectedBand} />
-        )}
+        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+          <BandDetail showModifyModal={handleModifyModal} />
+        </ModalBox>
+
+        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+          <BandModify />
+        </ModalBox>
       </div>
     </section>
   );
@@ -158,7 +180,7 @@ export function BandCreate() {
                 <div className="select is-small ">
                   <select
                     name="bandType"
-                    //{...register("x", {required: true})}
+                    {...register("bandtype", { required: true })}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Band Type </option>
@@ -176,7 +198,7 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("name", { required: true })}
                   name="name"
                   type="text"
                   placeholder="Name of Band"
@@ -190,7 +212,7 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("description", { required: true })}
                   name="description"
                   type="text"
                   placeholder="Description of Band"
@@ -240,7 +262,7 @@ export function BandCreate() {
               >
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("facility", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -306,7 +328,7 @@ export function BandCreate() {
   );
 }
 
-export function BandList({ showModal }) {
+export function BandList({ showCreateModal, showDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -354,6 +376,7 @@ export function BandList({ showModal }) {
       BandModule: newBandModule,
     }));
     //console.log(state)
+    showDetailModal();
   };
 
   const handleSearch = (val) => {
@@ -511,7 +534,7 @@ export function BandList({ showModal }) {
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
-                    onClick={showModal}
+                    onClick={showCreateModal}
                   />
                 )}
               </TableMenu>
@@ -538,7 +561,7 @@ export function BandList({ showModal }) {
   );
 }
 
-export function BandDetail() {
+export function BandDetail({ showModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -562,6 +585,7 @@ export function BandDetail() {
       BandModule: newBandModule,
     }));
     //console.log(state)
+    showModifyModal();
   };
 
   return (

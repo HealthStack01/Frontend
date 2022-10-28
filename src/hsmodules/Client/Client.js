@@ -51,7 +51,6 @@ export default function Client() {
           <ClientList showModal={handleShowModal} />
         </div>
         <div className="column is-6 ">
-          {state.ClientModule.show === "List" && <ClientList />}
           {state.ClientModule.show === "detail" && <ClientDetail />}
           {state.ClientModule.show === "modify" && (
             <ClientModify Client={selectedClient} />

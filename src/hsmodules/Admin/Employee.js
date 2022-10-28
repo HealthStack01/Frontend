@@ -23,15 +23,32 @@ export default function Employee() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState();
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState();
+  const [modifyModal, setModifyModal] = useState(false);
+
   //const [showState,setShowState]=useState() //create|modify|detail
 
-  const handleShowModal = () => {
-    setShowModal(true);
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
   };
 
-  const handleHideModal = () => {
-    setShowModal(false);
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
   };
 
   return (
@@ -41,16 +58,22 @@ export default function Employee() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <EmployeeList showModal={handleShowModal} />
+          <EmployeeList
+            showCreateModal={handleCreateModal}
+            showDetailModal={handleShowDetailModal}
+          />
         </div>
         <div className="column is-4 ">
-          {state.EmployeeModule.show === "detail" && <EmployeeDetail />}
-          {state.EmployeeModule.show === "modify" && (
-            <EmployeeModify Employee={selectedEmployee} />
-          )}
-
-          <ModalBox open={showModal} onClose={handleHideModal}>
+          <ModalBox open={createModal} onClose={handleHideCreateModal}>
             <EmployeeCreate />
+          </ModalBox>
+
+          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+            <EmployeeDetail showModifyModal={handleModifyModal} />
+          </ModalBox>
+
+          <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+            <EmployeeModify />
           </ModalBox>
         </div>
       </div>
@@ -143,7 +166,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("firstname", { required: true })}
                   name="firstname"
                   type="text"
                   placeholder="First Name"
@@ -157,7 +180,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("lastname", { required: true })}
                   name="lastname"
                   type="text"
                   placeholder="Last Name"
@@ -171,7 +194,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("profession", { required: true })}
                   name="profession"
                   type="text"
                   placeholder="Profession"
@@ -185,7 +208,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("phone", { required: true })}
                   name="phone"
                   type="text"
                   placeholder=" Phone No"
@@ -200,7 +223,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("email", { required: true })}
                   name="email"
                   type="email"
                   placeholder="Email"
@@ -224,7 +247,7 @@ export function EmployeeCreate() {
               >
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("facility", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -240,7 +263,7 @@ export function EmployeeCreate() {
                   <div className="dropdown-trigger">
                     <input
                       className="input is-small"
-                      {...register("x", { required: true })}
+                      {...register("text", { required: true })}
                       name="department"
                       type="text"
                       placeholder="Department"
@@ -264,7 +287,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("depunit", { required: true })}
                   name="deptunit"
                   type="text"
                   placeholder="Department Unit"
@@ -278,7 +301,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("password", { required: true })}
                   name="password"
                   type="text"
                   placeholder="password"
@@ -300,7 +323,7 @@ export function EmployeeCreate() {
   );
 }
 
-export function EmployeeList({ showModal }) {
+export function EmployeeList({ showCreateModal, showDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -347,6 +370,7 @@ export function EmployeeList({ showModal }) {
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
+    showDetailModal();
   };
 
   const handleSearch = (val) => {
@@ -552,7 +576,7 @@ export function EmployeeList({ showModal }) {
                 <Button
                   style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={showModal}
+                  onClick={showCreateModal}
                 />
               )}
             </TableMenu>
@@ -578,7 +602,7 @@ export function EmployeeList({ showModal }) {
   );
 }
 
-export function EmployeeDetail() {
+export function EmployeeDetail({ showModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -603,6 +627,7 @@ export function EmployeeDetail() {
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
+    showModifyModal();
   };
   const handleRoles = () => {
     setShowRoles(true);
@@ -950,7 +975,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", { required: true })}
+                    {...register("firstname", { required: true })}
                     name="firstname"
                     type="text"
                     placeholder="First Name"
@@ -967,7 +992,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register("lastname", { required: true })}
                     name="lastname"
                     type="text"
                     placeholder="Last Name"
@@ -984,7 +1009,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register("profession", { required: true })}
                     name="profession"
                     type="text"
                     placeholder="Profession"
@@ -1001,7 +1026,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register("phone", { required: true })}
                     name="phone"
                     type="text"
                     placeholder="Phone No"
@@ -1018,7 +1043,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register("email", { required: true })}
                     name="email"
                     type="email"
                     placeholder="Employee Email"
@@ -1035,7 +1060,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register("department", { required: true })}
                     name="department"
                     type="text"
                     placeholder="Department"
@@ -1045,7 +1070,9 @@ export function EmployeeModify() {
                   </span>
                 </p>
               </label>
-              {errors.department && <span>This field is required</span>}
+              {errors && errors.department && (
+                <span>This field is required</span>
+              )}
             </div>
             <div className="field">
               <label className="label is-small">
@@ -1053,7 +1080,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register("deptunit", { required: true })}
                     name="deptunit"
                     type="text"
                     placeholder="Departmental Unit"
