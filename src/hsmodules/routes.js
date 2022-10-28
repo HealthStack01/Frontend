@@ -250,7 +250,6 @@ const AppRoutes = () => {
 
           <Route path="/app/admin" element={<FacilityHome />} />
           <Route path="/app/admin/accessibility" element={<Accessibility />} />
-
           <Route path="/app/admin/careteam" element={<CareTeam />} />
           <Route path="/app/admin/department" element={<Department />} />
           <Route path="/app/admin/dept-unit" element={<DeptUnits />} />
@@ -271,9 +270,7 @@ const AppRoutes = () => {
             <Route path="/app/finance/services" element={<Services />} />
             <Route path="/app/finance/billservices" element={<BillService />} />
             <Route path="/app/finance/hmoauthorization" element={<HMOauth />} />
-
             <Route path="/app/finance/revenue" element={<FacilityAccount />} />
-
             <Route path="/app/finance/location" element={<Store />} />
           </Route>
 

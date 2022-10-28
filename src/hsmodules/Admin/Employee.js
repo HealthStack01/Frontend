@@ -1,28 +1,55 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
+import { UserContext, ObjectContext } from "../../context";
 import ModuleList from "./ModuleList";
-import {toast} from "bulma-toast";
+import { toast } from "bulma-toast";
 import * as yup from "yup";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Employee() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState();
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState();
+  const [modifyModal, setModifyModal] = useState(false);
+
   //const [showState,setShowState]=useState() //create|modify|detail
+
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
+  };
 
   return (
     <section className="section remPadTop">
@@ -31,14 +58,23 @@ export default function Employee() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <EmployeeList />
+          <EmployeeList
+            showCreateModal={handleCreateModal}
+            showDetailModal={handleShowDetailModal}
+          />
         </div>
         <div className="column is-4 ">
-          {state.EmployeeModule.show === "create" && <EmployeeCreate />}
-          {state.EmployeeModule.show === "detail" && <EmployeeDetail />}
-          {state.EmployeeModule.show === "modify" && (
-            <EmployeeModify Employee={selectedEmployee} />
-          )}
+          <ModalBox open={createModal} onClose={handleHideCreateModal}>
+            <EmployeeCreate />
+          </ModalBox>
+
+          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+            <EmployeeDetail showModifyModal={handleModifyModal} />
+          </ModalBox>
+
+          <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+            <EmployeeModify />
+          </ModalBox>
         </div>
       </div>
     </section>
@@ -46,7 +82,7 @@ export default function Employee() {
 }
 
 export function EmployeeCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -54,11 +90,11 @@ export function EmployeeCreate() {
   const [facility, setFacility] = useState();
   const EmployeeServ = client.service("employee");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -93,7 +129,7 @@ export function EmployeeCreate() {
       // data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
     }
     EmployeeServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Employee successfully") */
@@ -106,7 +142,7 @@ export function EmployeeCreate() {
         });
         setSuccess(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating employee " + err,
           type: "is-danger",
@@ -130,7 +166,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("firstname", { required: true })}
                   name="firstname"
                   type="text"
                   placeholder="First Name"
@@ -144,7 +180,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("lastname", { required: true })}
                   name="lastname"
                   type="text"
                   placeholder="Last Name"
@@ -158,7 +194,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("profession", { required: true })}
                   name="profession"
                   type="text"
                   placeholder="Profession"
@@ -172,7 +208,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("phone", { required: true })}
                   name="phone"
                   type="text"
                   placeholder=" Phone No"
@@ -187,7 +223,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("email", { required: true })}
                   name="email"
                   type="email"
                   placeholder="Email"
@@ -199,16 +235,19 @@ export function EmployeeCreate() {
             </div>
             <div
               className="field"
-              style={!user.stacker ? {display: "none"} : {}}
+              style={!user.stacker ? { display: "none" } : {}}
             >
               <InputSearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <p
+                className="control has-icons-left "
+                style={{ display: "none" }}
+              >
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("facility", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -224,7 +263,7 @@ export function EmployeeCreate() {
                   <div className="dropdown-trigger">
                     <input
                       className="input is-small"
-                      {...register("x", {required: true})}
+                      {...register("text", { required: true })}
                       name="department"
                       type="text"
                       placeholder="Department"
@@ -248,7 +287,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("depunit", { required: true })}
                   name="deptunit"
                   type="text"
                   placeholder="Department Unit"
@@ -262,7 +301,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("password", { required: true })}
                   name="password"
                   type="text"
                   placeholder="password"
@@ -284,7 +323,7 @@ export function EmployeeCreate() {
   );
 }
 
-export function EmployeeList() {
+export function EmployeeList({ showCreateModal, showDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -300,22 +339,22 @@ export function EmployeeList() {
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newEmployeeModule = {
       selectedEmployee: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
   };
-  const handleRow = async Employee => {
+  const handleRow = async (Employee) => {
     //console.log("b4",state)
 
     //console.log("handlerow",Employee)
@@ -326,14 +365,15 @@ export function EmployeeList() {
       selectedEmployee: Employee,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
+    showDetailModal();
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "firstname";
     console.log(val);
     EmployeeServ.find({
@@ -349,13 +389,13 @@ export function EmployeeList() {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Employee  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Employee, probable network issues " + err);
         setError(true);
@@ -408,27 +448,25 @@ export function EmployeeList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    EmployeeServ.on("created", obj => getFacilities());
-    EmployeeServ.on("updated", obj => getFacilities());
-    EmployeeServ.on("patched", obj => {
+    EmployeeServ.on("created", (obj) => getFacilities());
+    EmployeeServ.on("updated", (obj) => getFacilities());
+    EmployeeServ.on("patched", (obj) => {
       getFacilities();
 
       //console.log(facilities.filter(el=>(el._id=selectedEmployee._id)))
     });
-    EmployeeServ.on("removed", obj => getFacilities());
+    EmployeeServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const handleCreate = () => {};
-  const onRowClicked = () => {};
 
   const getEmployeeSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "Enter name of employee",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -436,7 +474,7 @@ export function EmployeeList() {
       name: "Firstname",
       key: "firstname",
       description: "Enter firstname",
-      selector: row => row.firstname,
+      selector: (row) => row.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -446,7 +484,7 @@ export function EmployeeList() {
       name: "Last Name",
       key: "lastname",
       description: "Enter lastname",
-      selector: row => row.lastname,
+      selector: (row) => row.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -456,7 +494,7 @@ export function EmployeeList() {
       name: "Profession",
       key: "profession",
       description: "Enter profession",
-      selector: row => row.profession,
+      selector: (row) => row.profession,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -466,7 +504,7 @@ export function EmployeeList() {
       name: "Phone number",
       key: "phone",
       description: "Enter phone number",
-      selector: row => row.phone,
+      selector: (row) => row.phone,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -476,7 +514,7 @@ export function EmployeeList() {
       name: "Email",
       key: "email",
       description: "Enter Email",
-      selector: row => row.email,
+      selector: (row) => row.email,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -486,7 +524,7 @@ export function EmployeeList() {
       name: "Facility",
       key: "facility",
       description: "Select facility",
-      selector: row => row.department,
+      selector: (row) => row.department,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -497,7 +535,7 @@ export function EmployeeList() {
       name: "Department",
       key: "department",
       description: "Enter department",
-      selector: row => row.department,
+      selector: (row) => row.department,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -507,7 +545,7 @@ export function EmployeeList() {
       name: "Department Unit",
       key: "deptunit",
       description: "Enter department",
-      selector: row => row.deptunit,
+      selector: (row) => row.deptunit,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -520,30 +558,30 @@ export function EmployeeList() {
       {user ? (
         <>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   List of Employees
                 </h2>
               </div>
 
-              {handleCreate && (
+              {handleCreateNew && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreate}
+                  onClick={showCreateModal}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
               <CustomTable
                 title={""}
                 columns={getEmployeeSchema}
@@ -551,7 +589,7 @@ export function EmployeeList() {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={onRowClicked}
+                onRowClicked={handleRow}
                 progressPending={loading}
               />
             </div>
@@ -564,7 +602,7 @@ export function EmployeeList() {
   );
 }
 
-export function EmployeeDetail() {
+export function EmployeeDetail({ showModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -574,7 +612,7 @@ export function EmployeeDetail() {
   //const EmployeeServ=client.service('/Employee')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [showRoles, setShowRoles] = useState("");
 
   const Employee = state.EmployeeModule.selectedEmployee;
@@ -584,11 +622,12 @@ export function EmployeeDetail() {
       selectedEmployee: Employee,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
     //console.log(state)
+    showModifyModal();
   };
   const handleRoles = () => {
     setShowRoles(true);
@@ -772,7 +811,7 @@ export function EmployeeDetail() {
 }
 
 export function EmployeeModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -783,8 +822,8 @@ export function EmployeeModify() {
   const EmployeeServ = client.service("employee");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Employee = state.EmployeeModule.selectedEmployee;
 
@@ -830,7 +869,7 @@ export function EmployeeModify() {
       selectedEmployee: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
@@ -842,7 +881,7 @@ export function EmployeeModify() {
       selectedEmployee: {},
       show: "create",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       EmployeeModule: newEmployeeModule,
     }));
@@ -853,7 +892,7 @@ export function EmployeeModify() {
     const dleteId = Employee._id;
     if (conf) {
       EmployeeServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Employee successfully")
@@ -870,7 +909,7 @@ export function EmployeeModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Employee, probable network issues "+ err )
           // setError(true)
           toast({
@@ -897,7 +936,7 @@ export function EmployeeModify() {
     //console.log(data);
 
     EmployeeServ.patch(Employee._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Employee successfully")
@@ -910,7 +949,7 @@ export function EmployeeModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Employee, probable network issues "+ err )
         // setError(true)
         toast({
@@ -936,7 +975,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("firstname", { required: true })}
                     name="firstname"
                     type="text"
                     placeholder="First Name"
@@ -953,7 +992,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("lastname", { required: true })}
                     name="lastname"
                     type="text"
                     placeholder="Last Name"
@@ -970,7 +1009,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("profession", { required: true })}
                     name="profession"
                     type="text"
                     placeholder="Profession"
@@ -987,7 +1026,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("phone", { required: true })}
                     name="phone"
                     type="text"
                     placeholder="Phone No"
@@ -1004,7 +1043,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("email", { required: true })}
                     name="email"
                     type="email"
                     placeholder="Employee Email"
@@ -1021,7 +1060,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("department", { required: true })}
                     name="department"
                     type="text"
                     placeholder="Department"
@@ -1031,7 +1070,9 @@ export function EmployeeModify() {
                   </span>
                 </p>
               </label>
-              {errors.department && <span>This field is required</span>}
+              {errors && errors.department && (
+                <span>This field is required</span>
+              )}
             </div>
             <div className="field">
               <label className="label is-small">
@@ -1039,7 +1080,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("deptunit", { required: true })}
                     name="deptunit"
                     type="text"
                     placeholder="Departmental Unit"
@@ -1097,7 +1138,7 @@ export function EmployeeModify() {
   );
 }
 
-export function InputSearch({getSearchfacility, clear}) {
+export function InputSearch({ getSearchfacility, clear }) {
   const facilityServ = client.service("facility");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1114,7 +1155,7 @@ export function InputSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1131,7 +1172,7 @@ export function InputSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1149,7 +1190,7 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -1167,13 +1208,13 @@ export function InputSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1207,8 +1248,8 @@ export function InputSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
