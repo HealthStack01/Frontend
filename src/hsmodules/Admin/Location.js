@@ -13,6 +13,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -21,7 +22,15 @@ export default function Location() {
   // eslint-disable-next-line
   const [selectedLocation, setSelectedLocation] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const handleCreate = () => {};
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleHideModal = () => {
+    setShowModal(false);
+  };
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
@@ -29,14 +38,16 @@ export default function Location() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <LocationList />
+          <LocationList showModal={handleShowModal} />
         </div>
         <div className="column is-4 ">
-          {state.LocationModule.show === "create" && <LocationCreate />}
           {state.LocationModule.show === "detail" && <LocationDetail />}
           {state.LocationModule.show === "modify" && (
             <LocationModify Location={selectedLocation} />
           )}
+          <ModalBox open={showModal} onClose={handleHideModal}>
+            <LocationCreate />
+          </ModalBox>
         </div>
       </div>
     </section>
@@ -141,7 +152,7 @@ export function LocationCreate() {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  ref={register({ required: true })}  name="locationType" type="text" placeholder="Type of Location" />
+                        <input className="input is-small"  {...register("x",{required: true})}  name="locationType" type="text" placeholder="Type of Location" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
@@ -152,7 +163,7 @@ export function LocationCreate() {
                 <div className="select is-small ">
                   <select
                     name="locationType"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Location Type </option>
@@ -170,7 +181,7 @@ export function LocationCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="name"
                   type="text"
                   placeholder="Name of Location"
@@ -182,7 +193,7 @@ export function LocationCreate() {
             </div>
             {/*  <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className=" fas fa-user-md "></i>
                     </span>
@@ -190,7 +201,7 @@ export function LocationCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder=" Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -200,7 +211,7 @@ export function LocationCreate() {
             <div className="field">
                 <p className="control has-icons-left">
                 
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Email"  />
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -220,7 +231,7 @@ export function LocationCreate() {
               >
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -234,7 +245,7 @@ export function LocationCreate() {
                 <div className="control has-icons-left">
                     <div className="dropdown ">
                         <div className="dropdown-trigger">
-                            <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                             <span className="icon is-small is-left">
                             <i className="fas fa-hospital-symbol"></i>
                             </span>
@@ -260,7 +271,7 @@ export function LocationCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Department Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -268,7 +279,7 @@ export function LocationCreate() {
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="password" type="text" placeholder="password"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -286,7 +297,7 @@ export function LocationCreate() {
   );
 }
 
-export function LocationList() {
+export function LocationList({ showModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -428,9 +439,6 @@ export function LocationList() {
 
   //todo: pagination and vertical scroll bar
 
-  const handleCreate = () => {};
-  const onRowClicked = () => {};
-
   const LocationSchema = [
     {
       name: "S/N",
@@ -480,11 +488,11 @@ export function LocationList() {
                 </h2>
               </div>
 
-              {handleCreate && (
+              {handleCreateNew && (
                 <Button
                   style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreate}
+                  onClick={showModal}
                 />
               )}
             </TableMenu>
@@ -497,7 +505,7 @@ export function LocationList() {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={onRowClicked}
+                onRowClicked={handleRow}
                 progressPending={loading}
               />
             </div>
@@ -648,7 +656,7 @@ export function LocationDetail() {
                           <div className="select is-small ">
                             <select
                               name="type"
-                              ref={register({ required: true })}
+                              {...register("x", { required: true })}
                               /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                             >
                               <option value="">
@@ -668,7 +676,7 @@ export function LocationDetail() {
                         <p className="control has-icons-left has-icons-right">
                           <input
                             className="input is-small"
-                            ref={register({ required: true })}
+                            {...register("x", { required: true })}
                             name="typeName"
                             type="text"
                             placeholder="Name of Sub-location"
@@ -928,7 +936,7 @@ export function LocationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -945,7 +953,7 @@ export function LocationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     disabled
                     name="locationType"
                     type="text"
@@ -960,7 +968,7 @@ export function LocationModify() {
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
                     </span>
@@ -970,7 +978,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Phone
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -980,7 +988,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Location Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Location Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -990,7 +998,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Department
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-user-md"></i>
                     </span>
@@ -1001,7 +1009,7 @@ export function LocationModify() {
             <div className="field">
             <label className="label is-small">Departmental Unit
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-hospital-symbol"></i>
                     </span>
@@ -1011,7 +1019,7 @@ export function LocationModify() {
             {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="LocationCategory" type="text" placeholder="Location Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="LocationCategory" type="text" placeholder="Location Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>

@@ -376,7 +376,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      // ref={register({required: true})}
+                      {...register("firstname", { required: true })}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -392,7 +392,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("middlename", { required: true })}
                       name="middlename"
                       type="text"
                       placeholder="Middle Name"
@@ -408,7 +408,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      // ref={register({required: true})}
+                      {...register("lastname", { required: true })}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -426,7 +426,7 @@ export function ClientCreate() {
               <div className="field-body">
                 <div className="field">
                   <p className="control has-icons-left is-danger">
-                    {/*   <input className="input is-small is-danger" ref={register({ required: true })} name="dob" type="text" placeholder="Date of Birth"  onBlur={checkClient}/>
+                    {/*   <input className="input is-small is-danger" {...register("x",{required: true})} name="dob" type="text" placeholder="Date of Birth"  onBlur={checkClient}/>
                         <span className="icon is-small is-left">
                         <i className="fas fa-envelope"></i>
                         </span> */}
@@ -444,7 +444,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("gender", { required: true })}
                       name="gender"
                       type="text"
                       placeholder="Gender"
@@ -459,7 +459,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("maritalstatus", { required: true })}
                       name="maritalstatus"
                       type="text"
                       placeholder="Marital Status"
@@ -473,7 +473,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("mrn", { required: true })}
                       name="mrn"
                       type="text"
                       placeholder="Medical Records Number"
@@ -491,7 +491,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("religion", { required: true })}
                       name="religion"
                       type="text"
                       placeholder="Religion"
@@ -505,7 +505,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("profession", { required: true })}
                       name="profession"
                       type="text"
                       placeholder="Profession"
@@ -519,7 +519,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      // ref={register({required: true})}
+                      {...register("phone", { required: true })}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -535,7 +535,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small "
-                      // ref={register()}
+                      {...register("email", { required: true })}
                       name="email"
                       type="email"
                       placeholder="Email"
@@ -552,7 +552,7 @@ export function ClientCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  {...register("clientTags", { required: true })}
                   name="clientTags"
                   type="text"
                   placeholder="Tags"
@@ -567,7 +567,7 @@ export function ClientCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  {...register("address", { required: true })}
                   name="address"
                   type="text"
                   placeholder="Residential Address"
@@ -583,7 +583,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("city", { required: true })}
                       name="city"
                       type="text"
                       placeholder="Town/City"
@@ -597,7 +597,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("lga", { required: true })}
                       name="lga"
                       type="text"
                       placeholder="Local Govt Area"
@@ -611,7 +611,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("state", { required: true })}
                       name="state"
                       type="text"
                       placeholder="State"
@@ -625,7 +625,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("country", { required: true })}
                       name="country"
                       type="text"
                       placeholder="Country"
@@ -644,7 +644,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("bloodgroup", { required: true })}
                       name="bloodgroup"
                       type="text"
                       placeholder="Blood Group"
@@ -658,7 +658,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("genotype", { required: true })}
                       name="genotype"
                       type="text"
                       placeholder="Genotype"
@@ -672,7 +672,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("disabilities", { required: true })}
                       name="disabilities"
                       type="text"
                       placeholder="Disabilities"
@@ -691,7 +691,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("allergies", { required: true })}
                       name="allergies"
                       type="text"
                       placeholder="Allergies"
@@ -705,7 +705,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("comorbities", { required: true })}
                       name="comorbidities"
                       type="text"
                       placeholder="Co-mobidities"
@@ -722,7 +722,7 @@ export function ClientCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  {...register("specificDetails", { required: true })}
                   name="specificDetails"
                   type="text"
                   placeholder="Specific Details about patient"
@@ -739,7 +739,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("nok_name", { required: true })}
                       name="nok_name"
                       type="text"
                       placeholder="Next of Kin Full Name"
@@ -753,7 +753,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("nok_phoneno", { required: true })}
                       name="nok_phoneno"
                       type="text"
                       placeholder="Next of Kin Phone Number"
@@ -767,7 +767,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("nok_email", { required: true })}
                       name="nok_email"
                       type="email"
                       placeholder="Next of Kin Email"
@@ -781,7 +781,7 @@ export function ClientCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      // ref={register()}
+                      {...register("nok_relationship", { required: true })}
                       name="nok_relationship"
                       type="text"
                       placeholder="Next of Kin Relationship"
@@ -1105,7 +1105,7 @@ export function ClientList({ showModal }) {
 export function ClientDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const navigate = useNaviagate();
+  const navigate = useNavigate();
   // eslint-disable-next-line
 
   // eslint-disable-next-line
@@ -1153,7 +1153,7 @@ export function ClientDetail() {
 
   const showBilling = () => {
     setBillingModal(true);
-    //history.push('/app/finance/billservice')
+    //navigate('/app/finance/billservice')
   };
 
   const handleSchedule = () => {
@@ -1739,7 +1739,7 @@ export function ClientDetail() {
               <button
                 className="button is-link is-small"
                 onClick={() => {
-                  history.push("/app/clinic/encounter");
+                  navigate("/app/clinic/encounter");
                 }}
               >
                 Attend to Client
@@ -2067,7 +2067,7 @@ export function ClientModify() {
                     <label className="label is-size-7">First Name </label>{" "}
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("firstname")}
                       name="firstname"
                       type="text"
                       placeholder="First Name "
@@ -2083,7 +2083,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Middle Name </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("middlename")}
                       name="middlename"
                       type="text"
                       placeholder="Middle Name "
@@ -2099,7 +2099,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Last Name</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("lastname")}
                       name="lastname"
                       type="text"
                       placeholder="Last Name "
@@ -2119,7 +2119,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Date of Birth </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("dob")}
                       name="dob"
                       type="text"
                       placeholder="Date of Birth "
@@ -2134,7 +2134,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Gender </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("gender")}
                       name="gender"
                       type="text"
                       placeholder="Gender  "
@@ -2149,7 +2149,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Marital Status </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("maritalstatus")}
                       name="maritalstatus"
                       type="text"
                       placeholder="Marital Status  "
@@ -2164,7 +2164,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Records Number </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("mrn")}
                       name="mrn"
                       type="text"
                       placeholder="Records Number  "
@@ -2183,7 +2183,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Religion</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("religion")}
                       name="religion"
                       type="text"
                       placeholder="Religion "
@@ -2198,7 +2198,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Profession </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("profession")}
                       name="profession"
                       type="text"
                       placeholder="Profession"
@@ -2213,7 +2213,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Phone No</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("phone")}
                       name="phone"
                       type="text"
                       placeholder=" Phone No "
@@ -2229,7 +2229,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Email </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("email")}
                       name="email"
                       type="email"
                       placeholder="Email  "
@@ -2247,7 +2247,7 @@ export function ClientModify() {
                 <label className="label is-size-7">Residential Address </label>
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("address")}
                   name="address"
                   type="text"
                   placeholder="Residential Address  "
@@ -2264,7 +2264,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Town/City </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("city")}
                       name="city"
                       type="text"
                       placeholder="Town/City  "
@@ -2279,7 +2279,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Local Govt Area </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("lga")}
                       name="lga"
                       type="text"
                       placeholder="Local Govt Area  "
@@ -2294,7 +2294,7 @@ export function ClientModify() {
                     <label className="label is-size-7">State </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("state")}
                       name="state"
                       type="text"
                       placeholder="State"
@@ -2309,7 +2309,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Country </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("country")}
                       name="country"
                       type="text"
                       placeholder="Country  "
@@ -2328,7 +2328,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Blood Group </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("bloodgroup")}
                       name="bloodgroup"
                       type="text"
                       placeholder="Blood Group "
@@ -2343,7 +2343,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Genotype </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("genotype")}
                       name="genotype"
                       type="text"
                       placeholder="Genotype "
@@ -2358,7 +2358,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Disabilities </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("disabilities")}
                       name="disabilities"
                       type="text"
                       placeholder="Disabilities  "
@@ -2378,7 +2378,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Allergies </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("allergies")}
                       name="allergies"
                       type="text"
                       placeholder="Allergies  "
@@ -2393,7 +2393,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Co-mobidities </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("comorbities")}
                       name="comorbidities"
                       type="text"
                       placeholder="Co-mobidities "
@@ -2410,7 +2410,7 @@ export function ClientModify() {
                 <label className="label is-size-7">Tags </label>
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("clientTags")}
                   name="clientTags"
                   type="text"
                   placeholder="Tags "
@@ -2427,7 +2427,7 @@ export function ClientModify() {
                 </label>
                 <input
                   className="input is-small"
-                  ref={register()}
+                  {...register("specificDetails")}
                   name="specificDetails"
                   type="text"
                   placeholder="Specific Details about client "
@@ -2446,7 +2446,7 @@ export function ClientModify() {
                     </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("nok_name")}
                       name="nok_name"
                       type="text"
                       placeholder="Next of Kin Full Name "
@@ -2461,7 +2461,7 @@ export function ClientModify() {
                     <label className="label is-size-7">Phone Number</label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("nok_phoneno")}
                       name="nok_phoneno"
                       type="text"
                       placeholder=" "
@@ -2478,7 +2478,7 @@ export function ClientModify() {
                     </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("nok_email")}
                       name="nok_email"
                       type="email"
                       placeholder="Next of Kin Email  "
@@ -2493,7 +2493,7 @@ export function ClientModify() {
                     <label className="label is-size-7"> Relationship </label>
                     <input
                       className="input is-small"
-                      ref={register()}
+                      {...register("nok_relationship")}
                       name="nok_relationship"
                       type="text"
                       placeholder="Next of Kin Relationship"

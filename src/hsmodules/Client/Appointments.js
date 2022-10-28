@@ -20,6 +20,9 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import ModalBox from "./ui-components/modal";
+import Switch from "../../components/switch";
+import { BsFillGridFill, BsList } from "react-icons/bs";
+import CalendarGrid from "../../components/calender";
 
 const searchfacility = {};
 
@@ -242,7 +245,7 @@ export function AppointmentCreate() {
 
   /*   const showBilling = () =>{
         setBillingModal(true)
-       //history.push('/app/finance/billservice')
+       //navigate('/app/finance/billservice')
         }
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
@@ -292,9 +295,8 @@ export function AppointmentCreate() {
                     >
                       <input
                         className="input is-small"
-                        /* ref={register ({ required: true }) } */ /* add array no */ value={
-                          clientId
-                        }
+                        {...register("ClientId", { required: true })}
+                        /* add array no */ value={clientId}
                         name="ClientId"
                         type="text"
                         onChange={(e) => setClientId(e.target.value)}
@@ -324,9 +326,8 @@ export function AppointmentCreate() {
                   >
                     <input
                       className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        locationId
-                      }
+                      {...register("locationId", { required: true })}
+                      /* add array no */ value={locationId}
                       name="locationId"
                       type="text"
                       onChange={(e) => setLocationId(e.target.value)}
@@ -354,9 +355,8 @@ export function AppointmentCreate() {
                   >
                     <input
                       className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
+                      {...register("practionerId", { required: true })}
+                      /* add array no */ value={practionerId}
                       name="practionerId"
                       type="text"
                       onChange={(e) => setPractionerId(e.target.value)}
@@ -378,7 +378,7 @@ export function AppointmentCreate() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      // ref={register}
+                      {...register("appointmentClass", { required: true })}
                     />
                     {c + " "}
                   </label>
@@ -388,7 +388,7 @@ export function AppointmentCreate() {
             <div className="field">
               <input
                 name="start_time"
-                // ref={register({ required: true })}
+                {...register("start_time", { required: true })}
                 type="datetime-local"
               />
             </div>
@@ -433,13 +433,7 @@ export function AppointmentCreate() {
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  // ref={register()}
-                  name="appointment_reason"
-                  type="text"
-                  placeholder="Reason For Appointment"
-                />
+                <input className="input is-small" name="appointment_reason" />
                 <span className="icon is-small is-left">
                   <i className="fas fa-hospital"></i>
                 </span>
@@ -449,7 +443,7 @@ export function AppointmentCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  {...register("billingservice")}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -522,6 +516,7 @@ export function ClientList({ showModal }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState("list");
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -749,6 +744,24 @@ export function ClientList({ showModal }) {
 
     return () => {};
   }, [startDate]);
+
+  const mapFacilities = () => {
+    let mapped = [];
+    facilities.map((facility, i) => {
+      mapped.push({
+        title: facility?.firstname + " " + facility?.lastname,
+        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        end: facility?.end_time,
+        id: i,
+      });
+    });
+    return mapped;
+  };
+  const activeStyle = {
+    backgroundColor: "#0064CC29",
+    border: "none",
+    padding: "0.4rem .8rem",
+  };
   //todo: pagination and vertical scroll bar
 
   const ClientAppointmentSchema = [
@@ -1831,7 +1844,7 @@ export function ClientModify() {
             <div className="field">
               <input
                 name="start_time"
-                // ref={register({ required: true })}
+                {...register("x", { required: true })}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1845,7 +1858,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     /* name="type" */ /* value={appointment_type} */ name="appointment_type"
-                    // ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -1865,7 +1878,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    // ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -1888,7 +1901,7 @@ export function ClientModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  {...register("x")}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -1902,7 +1915,7 @@ export function ClientModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  // ref={register()}
+                  {...register("x")}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"

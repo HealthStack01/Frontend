@@ -1,27 +1,27 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { FacilitySearch } from "../helpers/FacilitySearch";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {FacilitySearch} from "../helpers/FacilitySearch";
 import CategorySearch from "../helpers/CategorySearch";
 import CustomTable from "../../components/customtable";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import Button from "./ui-components/buttons/Button";
 import FilterMenu from "./ui-components/utilities/FilterMenu";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
-import { StoreModify } from "../inventory/Store";
+import {StoreModify} from "../inventory/Store";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Services() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedServices, setSelectedServices] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -57,7 +57,7 @@ export function ServicesCreate() {
   const [facility, setFacility] = useState();
   const ServicesServ = client.service("billing");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [facilityId, setFacilityId] = useState("");
   const [source, setSource] = useState("");
@@ -73,7 +73,7 @@ export function ServicesCreate() {
   const [currentUser, setCurrentUser] = useState("");
   const [panelList, setPanelList] = useState([]);
   const [successService, setSuccessService] = useState(false);
-  const { state } = useContext(ObjectContext);
+  const {state} = useContext(ObjectContext);
   const [chosen2, setChosen2] = useState();
 
   const [Services, setServices] = useState({
@@ -90,7 +90,7 @@ export function ServicesCreate() {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setFacilityId(obj._id);
     setName(obj.facilityName);
     setOrgType(obj.facilityType);
@@ -106,7 +106,7 @@ export function ServicesCreate() {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setCategoryName(obj.categoryname);
     setChosen2(obj);
 
@@ -117,7 +117,7 @@ export function ServicesCreate() {
     }
   };
 
-  const getSearchService = (obj) => {
+  const getSearchService = obj => {
     setService(obj);
     if (!obj) {
       setService("");
@@ -178,7 +178,7 @@ export function ServicesCreate() {
     }
 
     await setSuccess(false);
-    setProductItem((prevProd) => prevProd.concat(productItemI));
+    setProductItem(prevProd => prevProd.concat(productItemI));
     setName("");
     setOrgType("");
     setFacilityId("");
@@ -228,7 +228,7 @@ export function ServicesCreate() {
     };
 
     ServicesServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created Services successfully") */
@@ -245,7 +245,7 @@ export function ServicesCreate() {
         setProductItem([]);
         setPanelList([]);
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Services " + err,
           type: "is-danger",
@@ -255,8 +255,8 @@ export function ServicesCreate() {
       });
   };
 
-  const handleBenefit = (e) => {
-    setBenefittingPlans((prevstate) => prevstate.concat(plan));
+  const handleBenefit = e => {
+    setBenefittingPlans(prevstate => prevstate.concat(plan));
     setPlan("");
   };
 
@@ -273,7 +273,7 @@ export function ServicesCreate() {
     }
 
     //setProductItem(prevstate=> prevstate.splice(i,1))
-    setProductItem((prevstate) =>
+    setProductItem(prevstate =>
       prevstate.filter((ProductionItem, i) => i !== index)
     );
 
@@ -288,7 +288,7 @@ export function ServicesCreate() {
       service_name: service.name,
       panel: service.panel,
     };
-    setPanelList((prevstate) => prevstate.concat(newService));
+    setPanelList(prevstate => prevstate.concat(newService));
     setSuccessService(true);
     newService = {};
     setService("");
@@ -311,7 +311,7 @@ export function ServicesCreate() {
         category: categoryname,
       },
     })
-      .then((resp) => {
+      .then(resp => {
         console.log(resp);
         if (resp.data.length > 0) {
           toast({
@@ -323,7 +323,7 @@ export function ServicesCreate() {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error checking services  " + err,
           type: "is-danger",
@@ -347,7 +347,7 @@ export function ServicesCreate() {
               {/* 
              <div className="field" style={{width:"25%"}}>
                     <p className="control has-icons-left has-icons-right"  >
-                        <input className="input is-small"  ref={register({ required: true })}  value={categoryname} name="categoryname" type="text" onChange={e=>setCategoryName(e.target.value)} placeholder="Category of Service" />
+                        <input className="input is-small"  {...register("x",{required: true})}  value={categoryname} name="categoryname" type="text" onChange={e=>setCategoryName(e.target.value)} placeholder="Category of Service" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
@@ -364,7 +364,7 @@ export function ServicesCreate() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{ display: "none" }}
+                      style={{display: "none"}}
                     >
                       <input
                         className="input is-small"
@@ -373,7 +373,7 @@ export function ServicesCreate() {
                         }
                         name="categoryname"
                         type="text"
-                        onChange={(e) => setCategoryName(e.target.value)}
+                        onChange={e => setCategoryName(e.target.value)}
                         placeholder="Category of Service"
                       />
                       <span className="icon is-small is-left">
@@ -388,10 +388,10 @@ export function ServicesCreate() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ value={source}
+                    /* {...register("x",{required: true})} */ value={source}
                     name="source"
                     type="text"
-                    onChange={(e) => setSource(e.target.value)}
+                    onChange={e => setSource(e.target.value)}
                     onBlur={handleCheck}
                     placeholder="Name of Service"
                     autoComplete="false"
@@ -409,7 +409,7 @@ export function ServicesCreate() {
               {/*   <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <label className="label is-small" >
-                        <input className="checkbox is-small"   ref={register({ required: true })}  checked={panel}  name="panel" type="checkbox" onChange={e=>setPanel(e.target.checked)}  placeholder="Date"  />
+                        <input className="checkbox is-small"   {...register("x",{required: true})}  checked={panel}  name="panel" type="checkbox" onChange={e=>setPanel(e.target.checked)}  placeholder="Date"  />
                     
                         <span>Panel</span></label>
                     </p>
@@ -427,7 +427,7 @@ export function ServicesCreate() {
                       />
                       <p
                         className="control has-icons-left "
-                        style={{ display: "none" }}
+                        style={{display: "none"}}
                       >
                         <input
                           className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
@@ -478,11 +478,11 @@ export function ServicesCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ disabled
+                      /* {...register("x",{required: true})} */ disabled
                       name="cash"
                       value={cash}
                       type="text"
-                      onChange={(e) =>
+                      onChange={e =>
                         setCash(e.target.value)
                       } /* placeholder="Cost Price" */
                     />
@@ -495,10 +495,10 @@ export function ServicesCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ name="costprice"
+                      /* {...register("x",{required: true})} */ name="costprice"
                       value={costprice}
                       type="text"
-                      onChange={(e) => setCostprice(e.target.value)}
+                      onChange={e => setCostprice(e.target.value)}
                       placeholder="Price"
                     />
                     <span className="icon is-small is-left">
@@ -609,9 +609,9 @@ export function ServicesList() {
   // eslint-disable-next-line
   const [selectedServices, setSelectedServices] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
@@ -619,13 +619,13 @@ export function ServicesList() {
       selectedServices: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
   };
-  const handleRow = async (Service) => {
+  const handleRow = async Service => {
     //console.log("b4",state)
 
     //console.log("handlerow",Services)
@@ -636,14 +636,14 @@ export function ServicesList() {
       selectedServices: Service,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
     console.log(val);
     ServicesServ.find({
@@ -660,11 +660,11 @@ export function ServicesList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.groupedOrder);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         toast({
           message: "Error during search " + err,
@@ -711,10 +711,10 @@ export function ServicesList() {
   useEffect(() => {
     getFacilities();
 
-    ServicesServ.on("created", (obj) => getFacilities());
-    ServicesServ.on("updated", (obj) => getFacilities());
-    ServicesServ.on("patched", (obj) => getFacilities());
-    ServicesServ.on("removed", (obj) => getFacilities());
+    ServicesServ.on("created", obj => getFacilities());
+    ServicesServ.on("updated", obj => getFacilities());
+    ServicesServ.on("patched", obj => getFacilities());
+    ServicesServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -733,7 +733,7 @@ export function ServicesList() {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -741,7 +741,7 @@ export function ServicesList() {
       name: "Name",
       key: "fromName",
       description: "Enter Name",
-      selector: (row) => row.fromName,
+      selector: row => row.fromName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -751,7 +751,7 @@ export function ServicesList() {
       name: "Panel",
       key: "panel",
       description: "Panel",
-      selector: (row) => row.panel,
+      selector: row => row.panel,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -761,7 +761,7 @@ export function ServicesList() {
       name: "Amount",
       key: "amount",
       description: "Amount",
-      selector: (row) => row.amount,
+      selector: row => row.amount,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -772,23 +772,23 @@ export function ServicesList() {
       {state.StoreModule.selectedStore ? (
         <>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   Services
                 </h2>
               </div>
 
               {handleCreateNew && (
                 <Button
-                  style={{ fontSize: "14px", fontWeight: "600" }}
+                  style={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
                   onClick={handleCreateNew}
                   showicon={true}
@@ -796,7 +796,7 @@ export function ServicesList() {
               )}
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <CustomTable
                 title={""}
                 columns={ServiceSchema}
@@ -827,7 +827,7 @@ export function ServicesDetail() {
   //const ServicesServ=client.service('/Services')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Services = state.ServicesModule.selectedServices;
   /* console.log(Services) */
@@ -837,7 +837,7 @@ export function ServicesDetail() {
       selectedServices: Services,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
@@ -1021,8 +1021,8 @@ export function ServicesModify() {
   const ServicesServ = client.service("billing");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const [facilityId, setFacilityId] = useState("");
   const [source, setSource] = useState("");
@@ -1136,7 +1136,7 @@ export function ServicesModify() {
         category: categoryname,
       },
     })
-      .then((resp) => {
+      .then(resp => {
         console.log(resp);
         if (resp.data.length > 0) {
           toast({
@@ -1148,7 +1148,7 @@ export function ServicesModify() {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error checking services  " + err,
           type: "is-danger",
@@ -1206,7 +1206,7 @@ export function ServicesModify() {
       }
 
       await setSuccess(false);
-      setProductItem((prevProd) => prevProd.concat(productItemI));
+      setProductItem(prevProd => prevProd.concat(productItemI));
     } else {
       productItemI = {
         source_org: facilityId,
@@ -1247,7 +1247,7 @@ export function ServicesModify() {
     setOrgType("");
   };
 
-  const getSearchService = (obj) => {
+  const getSearchService = obj => {
     setService(obj);
     if (!obj) {
       setService("");
@@ -1255,7 +1255,7 @@ export function ServicesModify() {
     setSuccessService(false);
   };
 
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setCategoryName(obj.categoryname);
     setChosen2(obj);
 
@@ -1265,7 +1265,7 @@ export function ServicesModify() {
       setChosen2();
     }
   };
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setFacilityId(obj._id);
     setName(obj.facilityName);
     setOrgType(obj.facilityType);
@@ -1281,8 +1281,8 @@ export function ServicesModify() {
                 shouldDirty: true
             }) */
   };
-  const handleBenefit = (e) => {
-    setBenefittingPlans((prevstate) => prevstate.concat(plan));
+  const handleBenefit = e => {
+    setBenefittingPlans(prevstate => prevstate.concat(plan));
     setPlan("");
   };
 
@@ -1299,7 +1299,7 @@ export function ServicesModify() {
     }
 
     //setProductItem(prevstate=> prevstate.splice(i,1))
-    setProductItem((prevstate) =>
+    setProductItem(prevstate =>
       prevstate.filter((ProductionItem, i) => i !== index)
     );
 
@@ -1314,7 +1314,7 @@ export function ServicesModify() {
       service_name: service.name,
       panel: service.panel,
     };
-    setPanelList((prevstate) => prevstate.concat(newService));
+    setPanelList(prevstate => prevstate.concat(newService));
     setSuccessService(true);
     newService = {};
     setService("");
@@ -1325,19 +1325,19 @@ export function ServicesModify() {
       selectedServices: Services,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
   };
 
-  const changeState = (resp) => {
+  const changeState = resp => {
     const newServicesModule = {
       selectedServices: resp,
       show: "detail",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
@@ -1348,7 +1348,7 @@ export function ServicesModify() {
     const dleteId = Services._id;
     if (conf) {
       ServicesServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Services successfully")
@@ -1365,7 +1365,7 @@ export function ServicesModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Services, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1412,7 +1412,7 @@ export function ServicesModify() {
     //console.log(data);
 
     ServicesServ.patch(Services._id, data)
-      .then((res) => {
+      .then(res => {
         console.log(JSON.stringify(res));
         // e.target.reset();
         // setMessage("updated Services successfully")
@@ -1425,7 +1425,7 @@ export function ServicesModify() {
 
         changeState(res);
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Services, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1464,7 +1464,7 @@ export function ServicesModify() {
                 />
                 <p
                   className="control has-icons-left "
-                  style={{ display: "none" }}
+                  style={{display: "none"}}
                 >
                   {/* <input className="input is-small"   ref={register ({ required: true }) }  add array no   value={categoryname} name="categoryname" type="text" onChange={e=>setCategoryName(e.target.value)} placeholder="Category of Service" /> */}
                   <span className="icon is-small is-left">
@@ -1476,10 +1476,10 @@ export function ServicesModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ value={source}
+                    /* {...register("x",{required: true})} */ value={source}
                     name="source"
                     type="text"
-                    onChange={(e) => setSource(e.target.value)}
+                    onChange={e => setSource(e.target.value)}
                     onBlur={handleCheck}
                     placeholder="Name of Service"
                     autoComplete="false"
@@ -1499,10 +1499,10 @@ export function ServicesModify() {
                   <label className="label is-small">
                     <input
                       className="checkbox is-small"
-                      /* ref={register({ required: true })} */ checked={panel}
+                      /* {...register("x",{required: true})} */ checked={panel}
                       name="panel"
                       type="checkbox"
-                      onChange={(e) =>
+                      onChange={e =>
                         setPanel(e.target.checked)
                       } /* placeholder="Date" */
                     />
@@ -1524,7 +1524,7 @@ export function ServicesModify() {
                       />
                       <p
                         className="control has-icons-left "
-                        style={{ display: "none" }}
+                        style={{display: "none"}}
                       >
                         <input
                           className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
@@ -1577,7 +1577,7 @@ export function ServicesModify() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{ display: "none" }}
+                      style={{display: "none"}}
                     >
                       <input
                         className="input is-small"
@@ -1586,7 +1586,7 @@ export function ServicesModify() {
                         }
                         name="facilityId"
                         type="text"
-                        onChange={(e) => setFacilityId(e.target.value)}
+                        onChange={e => setFacilityId(e.target.value)}
                         placeholder="Product Id"
                       />
                       <span className="icon is-small is-left">
@@ -1596,7 +1596,7 @@ export function ServicesModify() {
                   </div>
                   {/*  <div className="field">
            <p className="control has-icons-left">
-               <input className="input is-small"  ref={register({ required: true })}  name="quantity" value={quantity} type="text" onChange={e=>setQuantity(e.target.value)} placeholder="Quantity"  />
+               <input className="input is-small"  {...register("x",{required: true})}  name="quantity" value={quantity} type="text" onChange={e=>setQuantity(e.target.value)} placeholder="Quantity"  />
                <span className="icon is-small is-left">
                <i className="fas fa-envelope"></i>
                </span>
@@ -1607,10 +1607,10 @@ export function ServicesModify() {
                     <p className="control has-icons-left">
                       <input
                         className="input is-small"
-                        /* ref={register({ required: true })} */ name="costprice"
+                        /* {...register("x",{required: true})} */ name="costprice"
                         value={costprice}
                         type="text"
-                        onChange={(e) => setCostprice(e.target.value)}
+                        onChange={e => setCostprice(e.target.value)}
                         placeholder="Price"
                       />
                       <span className="icon is-small is-left">
@@ -1641,14 +1641,14 @@ export function ServicesModify() {
                           type="text"
                           name="plan"
                           value={plan}
-                          onChange={(e) => setPlan(e.target.value)}
+                          onChange={e => setPlan(e.target.value)}
                           placeholder="Benefitting Plans"
                         />
                       </div>
                       <div className="control">
                         <button
                           className="button is-info selectadd"
-                          onClick={(e) => handleBenefit(e)}
+                          onClick={e => handleBenefit(e)}
                         >
                           add
                         </button>
@@ -1674,11 +1674,11 @@ export function ServicesModify() {
                     <p className="control has-icons-left">
                       <input
                         className="input is-small"
-                        /* ref={register({ required: true })} */ disabled
+                        /* {...register("x",{required: true})} */ disabled
                         name="cash"
                         value={cash}
                         type="text"
-                        onChange={(e) =>
+                        onChange={e =>
                           setCash(e.target.value)
                         } /* placeholder="Cost Price" */
                       />
@@ -1691,10 +1691,10 @@ export function ServicesModify() {
                     <p className="control has-icons-left">
                       <input
                         className="input is-small"
-                        /* ref={register({ required: true })} */ name="costprice"
+                        /* {...register("x",{required: true})} */ name="costprice"
                         value={costprice}
                         type="text"
-                        onChange={(e) => setCostprice(e.target.value)}
+                        onChange={e => setCostprice(e.target.value)}
                         placeholder="Price"
                       />
                       <span className="icon is-small is-left">
@@ -1812,7 +1812,7 @@ export function ServicesModify() {
   );
 }
 
-export function ServiceSearch({ getSearchService, clearService }) {
+export function ServiceSearch({getSearchService, clearService}) {
   const productServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1831,7 +1831,7 @@ export function ServiceSearch({ getSearchService, clearService }) {
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchService(obj);
@@ -1848,7 +1848,7 @@ export function ServiceSearch({ getSearchService, clearService }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1866,7 +1866,7 @@ export function ServiceSearch({ getSearchService, clearService }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (value) => {
+  const handleSearch = async value => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -1891,14 +1891,14 @@ export function ServiceSearch({ getSearchService, clearService }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           // console.log("product  fetched successfully")
           //console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Services " + err,
             type: "is-danger",
@@ -1935,9 +1935,9 @@ export function ServiceSearch({ getSearchService, clearService }) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 className="input is-small "
                 type="text"
@@ -1945,8 +1945,8 @@ export function ServiceSearch({ getSearchService, clearService }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -1954,7 +1954,7 @@ export function ServiceSearch({ getSearchService, clearService }) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu" style={{ width: "100%" }}>
+            <div className="dropdown-menu" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""

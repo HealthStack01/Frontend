@@ -790,7 +790,7 @@ export default function BillServiceCreate() {
                       clear={success1}
                     />
                     {/* <p className="control has-icons-left has-icons-right">
-                         <input className="input is-small"  ref={register({ required: true })}  value={source} name="client" type="text" onChange={e=>setSource(e.target.value)} placeholder="Client" />
+                         <input className="input is-small"  {...register("x",{required: true})}  value={source} name="client" type="text" onChange={e=>setSource(e.target.value)} placeholder="Client" />
                          <span className="icon is-small is-left">
                              <i className="fas fa-hospital"></i>
                          </span>                    
@@ -827,7 +827,7 @@ export default function BillServiceCreate() {
             {/* horizontal end */}
             {/*  <div className="field">
                  <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                     <input className="input is-small"  ref={register({ required: true })} name="type" type="text" placeholder="Type of Product Entry"/>
+                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
                      <span className="icon is-small is-left">
                      <i className=" fas fa-user-md "></i>
                      </span>
@@ -839,7 +839,8 @@ export default function BillServiceCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={date}
+                      {...register("x", {required: true})}
+                      value={date}
                       name="date"
                       type="text"
                       onChange={e => setDate(e.target.value)}
@@ -854,7 +855,8 @@ export default function BillServiceCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register} */ name="documentNo"
+                      {...register("x", {required: true})}
+                      name="documentNo"
                       value={documentNo}
                       type="text"
                       onChange={e => setDocumentNo(e.target.value)}
@@ -869,9 +871,8 @@ export default function BillServiceCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={
-                        totalamount
-                      }
+                      {...register("x", {required: true})}
+                      value={totalamount}
                       name="totalamount"
                       type="text"
                       onChange={e => setTotalamount(e.target.value)}
@@ -903,9 +904,8 @@ export default function BillServiceCreate() {
                 >
                   <input
                     className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                      productId
-                    }
+                    {...register("x", {required: true})}
+                    value={productId}
                     name="productId"
                     type="text"
                     onChange={e => setProductId(e.target.value)}
@@ -926,7 +926,8 @@ export default function BillServiceCreate() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ name="quantity"
+                    {...register("x",{required: true})}  
+                    name="quantity"
                     value={quantity}
                     type="text"
                     onChange={e => handleQtty(e)}

@@ -312,7 +312,7 @@ export function CaseDefinitionCreate() {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  ref={register({ required: true })}  name="bandType" type="text" placeholder="Type of Band" />
+                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
@@ -323,7 +323,7 @@ export function CaseDefinitionCreate() {
                 <div className="select is-small ">
                   <select
                     name="notificationtype"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Notification Type </option>
@@ -341,7 +341,7 @@ export function CaseDefinitionCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("x", {required: true})}
                   name="disease"
                   type="text"
                   placeholder="Name of Disease"
@@ -675,7 +675,7 @@ export function CaseDefinitionCreate() {
                 <div className="select is-small ">
                   <select
                     name="notifiedPerson"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                   >
                     <option value="">Choose Person to Notify </option>
@@ -1294,7 +1294,7 @@ export function CaseDefinitionModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1311,7 +1311,7 @@ export function CaseDefinitionModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    ref={register({required: true})}
+                    {...register("x", {required: true})}
                     disabled
                     name="bandType"
                     type="text"
@@ -1326,7 +1326,7 @@ export function CaseDefinitionModify() {
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
                     </span>
@@ -1336,7 +1336,7 @@ export function CaseDefinitionModify() {
             <div className="field">
             <label className="label is-small">Phone
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -1346,7 +1346,7 @@ export function CaseDefinitionModify() {
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Band Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Band Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -1356,7 +1356,7 @@ export function CaseDefinitionModify() {
             <div className="field">
             <label className="label is-small">Department
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-user-md"></i>
                     </span>
@@ -1367,7 +1367,7 @@ export function CaseDefinitionModify() {
             <div className="field">
             <label className="label is-small">Departmental Unit
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-hospital-symbol"></i>
                     </span>
@@ -1377,7 +1377,7 @@ export function CaseDefinitionModify() {
             {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="BandCategory" type="text" placeholder="Band Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="BandCategory" type="text" placeholder="Band Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>

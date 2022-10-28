@@ -77,7 +77,7 @@ export default function LaboratoryReportForm() {
             <div className="select is-small ">
               <select
                 name="FormType"
-                ref={register({required: true})}
+                {...register("x", {required: true})}
                 onChange={e => handleChangeMode(e.target.value)}
                 className="selectadd"
               >
@@ -657,7 +657,7 @@ export function Haematology() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -1103,7 +1103,7 @@ export function Serology() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -1750,7 +1750,7 @@ export function Biochemistry() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -2103,7 +2103,7 @@ export function Microbiology() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -2537,7 +2537,7 @@ export function Urine() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -2999,7 +2999,7 @@ export function Urinalysis() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -3288,7 +3288,7 @@ export function Stool() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -3687,7 +3687,7 @@ export function HVS() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -3949,7 +3949,7 @@ export function LabNoteGeneric() {
           <p className="control has-icons-left has-icons-right">
             <input
               className="input is-small"
-              ref={register()}
+              {...register("x")}
               name="Investigation"
               type="text"
               placeholder="Investigation"
@@ -3965,7 +3965,7 @@ export function LabNoteGeneric() {
               <p className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Finding"
                   type="text"
                   placeholder="Findings"
@@ -3980,7 +3980,7 @@ export function LabNoteGeneric() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"
@@ -4216,7 +4216,7 @@ export function LabNoteCreate() {
               <p className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Finding"
                   type="text"
                   placeholder="Findings"
@@ -4232,7 +4232,7 @@ export function LabNoteCreate() {
               <div className="control has-icons-left has-icons-right">
                 <textarea
                   className="textarea is-small"
-                  ref={register()}
+                  {...register("x")}
                   name="Recommendation"
                   type="text"
                   placeholder="Recommendation"

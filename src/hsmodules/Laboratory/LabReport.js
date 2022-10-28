@@ -1,13 +1,13 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
-import { useForm } from "react-hook-form";
-import * as yup from 'yup';
+import {useForm} from "react-hook-form";
+import * as yup from "yup";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
 import LaboratoryReportForm from "../clientForm/forms/laboratoryReportForm";
@@ -41,9 +41,9 @@ export default function LabReport() {
   // eslint-disable-next-line
   const [selectedOrders, setSelectedOrders] = useState([]); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   return (
     <section className="section remPadTop">
@@ -80,25 +80,25 @@ export function LabOrderList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
 
-  const handleSelectedClient = async (Client) => {
+  const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -110,7 +110,7 @@ export function LabOrderList() {
     if (oldClient !== newClient) {
       //alert("New Client Onboard")
       //remove all checked clientsly
-      selectedOrders.forEach((el) => (el.checked = ""));
+      selectedOrders.forEach(el => (el.checked = ""));
       setSelectedOrders([]);
     }
 
@@ -124,17 +124,17 @@ export function LabOrderList() {
       show: "detail",
       state: e.target.checked,
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
 
     //set of checked items
     if (e.target.checked) {
-      await setSelectedOrders((prevstate) => prevstate.concat(order));
+      await setSelectedOrders(prevstate => prevstate.concat(order));
     } else {
-      setSelectedOrders((prevstate) =>
-        prevstate.filter((el) => el._id !== order._id)
+      setSelectedOrders(prevstate =>
+        prevstate.filter(el => el._id !== order._id)
       );
     }
 
@@ -153,13 +153,13 @@ export function LabOrderList() {
       show: "detail",
       report_status: order.report_status,
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
     //console.log(val)
     BillServ.find({
@@ -210,13 +210,13 @@ export function LabOrderList() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         // console.log(res)
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -260,10 +260,10 @@ export function LabOrderList() {
   useEffect(() => {
     // console.log("started")
     getFacilities();
-    BillServ.on("created", (obj) => getFacilities());
-    BillServ.on("updated", (obj) => getFacilities());
-    BillServ.on("patched", (obj) => getFacilities());
-    BillServ.on("removed", (obj) => getFacilities());
+    BillServ.on("created", obj => getFacilities());
+    BillServ.on("updated", obj => getFacilities());
+    BillServ.on("patched", obj => getFacilities());
+    BillServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
 
@@ -273,20 +273,20 @@ export function LabOrderList() {
 
   useEffect(() => {
     if (state.financeModule.show === "create") {
-      selectedOrders.forEach((el) => (el.checked = ""));
+      selectedOrders.forEach(el => (el.checked = ""));
       setSelectedOrders([]);
     }
     return () => {};
   }, [state.financeModule.show]);
 
-// ######### DEFINE FUNCTIONS AND SCHEMA HERE
-  const handleCreate = () => { };
+  // ######### DEFINE FUNCTIONS AND SCHEMA HERE
+  const handleCreate = () => {};
   const labReportSchema = [
     {
       name: "S/No",
       key: "sn",
       description: "Enter serial number",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -294,7 +294,7 @@ export function LabOrderList() {
       name: "Date",
       key: "createdAt",
       description: "Enter date",
-      selector: (row) => row.createdAt,
+      selector: row => row.createdAt,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -304,8 +304,8 @@ export function LabOrderList() {
       name: "Client",
       key: "client",
       description: "Enter client name",
-      selector: (row) => {
-        return row.orderInfo.orderObj.clientname
+      selector: row => {
+        return row.orderInfo.orderObj.clientname;
       },
       sortable: true,
       required: true,
@@ -316,7 +316,7 @@ export function LabOrderList() {
       name: "Test",
       key: "description",
       description: "Enter test result details",
-      selector: (row) => row.orderInfo.orderObj.order,
+      selector: row => row.orderInfo.orderObj.order,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -326,7 +326,7 @@ export function LabOrderList() {
       name: "Amount",
       key: "amount",
       description: "Enter amount",
-      selector: (row) => row.serviceInfo.price,
+      selector: row => row.serviceInfo.price,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -336,7 +336,7 @@ export function LabOrderList() {
       name: "Billing Status",
       key: "billing_status",
       description: "Enter Payment Status",
-      selector: (row) => row.billing_status,
+      selector: row => row.billing_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -346,41 +346,39 @@ export function LabOrderList() {
       name: "Report Status",
       key: "report_status",
       description: "Select facility",
-      selector: (row) => row.report_status,
+      selector: row => row.report_status,
       sortable: true,
       required: true,
       inputType: "TEXT",
       validator: yup.string().required("Enter Client Result Status"),
-    }
+    },
   ];
 
   return (
-        <>
-          <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-          >
-          <TableMenu>
-          <div style={{ display: "flex", alignItems: "center" }}>
+    <>
+      <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
               Lab Result
             </h2>
           </div>
 
           {handleCreate && (
             <Button
-              style={{ fontSize: "14px", fontWeight: "600" }}
+              style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
               onClick={handleCreate}
             />
           )}
         </TableMenu>
 
-        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+        <div style={{width: "100%", height: "600px", overflow: "auto"}}>
           <CustomTable
             title={""}
             columns={labReportSchema}
@@ -392,13 +390,13 @@ export function LabOrderList() {
             progressPending={loading}
           />
         </div>
-        </PageWrapper>
-      </>
-)}
-
+      </PageWrapper>
+    </>
+  );
+}
 
 export function LabNoteCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -406,16 +404,16 @@ export function LabNoteCreate() {
   const [facility, setFacility] = useState();
   //const ClientServ=client.service('labresults')
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [reportStatus, setReportStatus] = useState("Draft");
   const ClientServ = client.service("labresults");
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -473,7 +471,7 @@ export function LabNoteCreate() {
 
     if (bill_report_status === "Pending") {
       ClientServ.create(document)
-        .then((res) => {
+        .then(res => {
           e.target.reset();
 
           setSuccess(true);
@@ -485,7 +483,7 @@ export function LabNoteCreate() {
           });
           setSuccess(false);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating Lab Result " + err,
             type: "is-danger",
@@ -497,7 +495,7 @@ export function LabNoteCreate() {
 
     if (bill_report_status === "Draft") {
       ClientServ.patch(order.resultDetail._id, document)
-        .then((res) => {
+        .then(res => {
           e.target.reset();
 
           setSuccess(true);
@@ -509,7 +507,7 @@ export function LabNoteCreate() {
           });
           setSuccess(false);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error updating Lab Result " + err,
             type: "is-danger",
@@ -523,13 +521,13 @@ export function LabNoteCreate() {
       show: "show",
       // report_status:order.report_status
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
   };
 
-  const handleChangePart = async (e) => {
+  const handleChangePart = async e => {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
@@ -589,7 +587,7 @@ export function LabNoteCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Finding"
                       type="text"
                       placeholder="Findings"
@@ -605,7 +603,7 @@ export function LabNoteCreate() {
                   <div className="control has-icons-left has-icons-right">
                     <textarea
                       className="textarea is-small"
-                      ref={register()}
+                      {...register("x")}
                       name="Recommendation"
                       type="text"
                       placeholder="Recommendation"
@@ -624,7 +622,7 @@ export function LabNoteCreate() {
                   checked={
                     reportStatus === "Draft" || reportStatus === "Pending"
                   }
-                  onChange={(e) => {
+                  onChange={e => {
                     handleChangePart(e);
                   }}
                   disabled={bill_report_status === "Final"}
@@ -638,7 +636,7 @@ export function LabNoteCreate() {
                   name="status"
                   value="Final"
                   checked={reportStatus === "Final"}
-                  onChange={(e) => handleChangePart(e)}
+                  onChange={e => handleChangePart(e)}
                   disabled={bill_report_status === "Final"}
                 />
                 <span> Final </span>

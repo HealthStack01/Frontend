@@ -15,6 +15,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -22,7 +23,16 @@ export default function Employee() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState();
+  const [showModal, setShowModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleHideModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <section className="section remPadTop">
@@ -31,14 +41,17 @@ export default function Employee() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <EmployeeList />
+          <EmployeeList showModal={handleShowModal} />
         </div>
         <div className="column is-4 ">
-          {state.EmployeeModule.show === "create" && <EmployeeCreate />}
           {state.EmployeeModule.show === "detail" && <EmployeeDetail />}
           {state.EmployeeModule.show === "modify" && (
             <EmployeeModify Employee={selectedEmployee} />
           )}
+
+          <ModalBox open={showModal} onClose={handleHideModal}>
+            <EmployeeCreate />
+          </ModalBox>
         </div>
       </div>
     </section>
@@ -130,7 +143,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="firstname"
                   type="text"
                   placeholder="First Name"
@@ -144,7 +157,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="lastname"
                   type="text"
                   placeholder="Last Name"
@@ -158,7 +171,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="profession"
                   type="text"
                   placeholder="Profession"
@@ -172,7 +185,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="phone"
                   type="text"
                   placeholder=" Phone No"
@@ -187,7 +200,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="email"
                   type="email"
                   placeholder="Email"
@@ -211,7 +224,7 @@ export function EmployeeCreate() {
               >
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -227,7 +240,7 @@ export function EmployeeCreate() {
                   <div className="dropdown-trigger">
                     <input
                       className="input is-small"
-                      ref={register({ required: true })}
+                      {...register("x", { required: true })}
                       name="department"
                       type="text"
                       placeholder="Department"
@@ -251,7 +264,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="deptunit"
                   type="text"
                   placeholder="Department Unit"
@@ -265,7 +278,7 @@ export function EmployeeCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  ref={register({ required: true })}
+                  {...register("x", { required: true })}
                   name="password"
                   type="text"
                   placeholder="password"
@@ -287,7 +300,7 @@ export function EmployeeCreate() {
   );
 }
 
-export function EmployeeList() {
+export function EmployeeList({ showModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -423,8 +436,6 @@ export function EmployeeList() {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const handleCreate = () => {};
-  const onRowClicked = () => {};
 
   const getEmployeeSchema = [
     {
@@ -537,11 +548,11 @@ export function EmployeeList() {
                 </h2>
               </div>
 
-              {handleCreate && (
+              {handleCreateNew && (
                 <Button
                   style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreate}
+                  onClick={showModal}
                 />
               )}
             </TableMenu>
@@ -554,7 +565,7 @@ export function EmployeeList() {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={onRowClicked}
+                onRowClicked={handleRow}
                 progressPending={loading}
               />
             </div>
@@ -939,7 +950,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="firstname"
                     type="text"
                     placeholder="First Name"
@@ -956,7 +967,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="lastname"
                     type="text"
                     placeholder="Last Name"
@@ -973,7 +984,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="profession"
                     type="text"
                     placeholder="Profession"
@@ -990,7 +1001,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="phone"
                     type="text"
                     placeholder="Phone No"
@@ -1007,7 +1018,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="email"
                     type="email"
                     placeholder="Employee Email"
@@ -1024,7 +1035,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="department"
                     type="text"
                     placeholder="Department"
@@ -1042,7 +1053,7 @@ export function EmployeeModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     name="deptunit"
                     type="text"
                     placeholder="Departmental Unit"
@@ -1056,7 +1067,7 @@ export function EmployeeModify() {
             {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="EmployeeCategory" type="text" placeholder="Employee Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="EmployeeCategory" type="text" placeholder="Employee Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>

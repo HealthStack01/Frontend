@@ -830,7 +830,7 @@ export default function BillPrescriptionCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={source}
+                      /* {...register("x",{required: true})} */ value={source}
                       name="client"
                       type="text"
                       onChange={e => setSource(e.target.value)}
@@ -871,7 +871,7 @@ export default function BillPrescriptionCreate() {
             {/* horizontal end */}
             {/*  <div className="field">
                  <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                     <input className="input is-small"  ref={register({ required: true })} name="type" type="text" placeholder="Type of Product Entry"/>
+                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
                      <span className="icon is-small is-left">
                      <i className=" fas fa-user-md "></i>
                      </span>
@@ -883,7 +883,7 @@ export default function BillPrescriptionCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={date}
+                      /* {...register("x",{required: true})} */ value={date}
                       name="date"
                       type="text"
                       onChange={e => setDate(e.target.value)}
@@ -913,7 +913,7 @@ export default function BillPrescriptionCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register({ required: true })} */ value={
+                      /* {...register("x",{required: true})} */ value={
                         totalamount
                       }
                       name="totalamount"
@@ -939,7 +939,7 @@ export default function BillPrescriptionCreate() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ disabled
+                    /* {...register("x",{required: true})} */ disabled
                     name="order"
                     value={medication.order}
                     type="text"
@@ -1001,7 +1001,7 @@ export default function BillPrescriptionCreate() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    /* ref={register({ required: true })} */ name="quantity"
+                    /* {...register("x",{required: true})} */ name="quantity"
                     value={quantity}
                     type="text"
                     onChange={e => handleQtty(e)}
