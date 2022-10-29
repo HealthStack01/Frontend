@@ -7,41 +7,59 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
-import PaymentCreate from "./PaymentCreate";
-import PatientProfile from "../Client/PatientProfile";
+// import PaymentCreate from "./PaymentCreate";
+//import PaymentCreate from "./PharmacyPayment";
+//import Payment from "./PharmacyPayment";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import ModalBox from "./ui-components/modal";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
 import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
 
-export default function BillService() {
+export default function PharmacyBillService() {
+  const [createModal, setCreateModal] = useState(false);
+  const {state, setState} = useContext(ObjectContext);
+
+  const handleOpenCreateModal = async () => {
+    await setCreateModal(true);
+  };
+
+  const handleCloseCreateModal = async () => {
+    await setCreateModal(false);
+  };
+
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-5 ">
-          <BillsList />
-        </div>
 
-        <div className="column is-7 ">
-          <BillServiceCreate />
-        </div>
-        {/*  <div className="column is-3 ">
+      <BillsList openCreateModal={handleOpenCreateModal} />
+
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+        <BillServiceCreate />
+      </ModalBox>
+
+      {/* <BillServiceCreate /> */}
+
+      {/*  <div className="column is-3 ">
                 
                 {(state.financeModule.show ==='detail')&&<PatientProfile />}
                 </div> */}
-      </div>
     </section>
   );
 }
 
-export function BillsList() {
+export function BillsList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -63,6 +81,10 @@ export function BillsList() {
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [selectedClient, setSelectedClient] = useState();
+  const [clientBills, setClientBills] = useState([]);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -140,7 +162,8 @@ export function BillsList() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+
+    await openCreateModal(true);
   };
 
   const handleSearch = val => {
@@ -215,6 +238,8 @@ export function BillsList() {
 
     //  console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
+
+    console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
   const handleRow = async (Client, e) => {
@@ -253,145 +278,249 @@ export function BillsList() {
     return () => {};
   }, [state.financeModule.show]);
 
+  const onRowClicked = async (Client, e) => {
+    await setSelectedClient(Client);
+
+    const clientOrders = Client.bills.map(data => {
+      const allOrders = [];
+
+      data.order.map(order => {
+        const orderData = {
+          date: order.createdAt,
+          status: order.billing_status,
+          description: order.serviceInfo.name,
+          category: data.catName,
+          amount: data.catAmount,
+          order: order,
+          bills: [],
+        };
+
+        allOrders.push(orderData);
+      });
+      return allOrders;
+    });
+
+    //console.log(clientOrders);
+    setClientBills(clientOrders.flat(1));
+  };
+
+  const financePlaymentListSchema = [
+    {
+      name: "S/NO",
+      width: "80px",
+      headerStyle: (selector, id) => {
+        return {textAlign: "center"};
+      },
+
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      //width: "200px",
+      key: "clientname",
+      description: "Enter Name",
+      selector: row => row.clientname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Grand Total",
+      // width: "130px",
+      key: "clientAmount",
+      description: "Enter Grand Total",
+      selector: row => row.clientAmount.toFixed(2),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Categories Total",
+      key: "bills",
+      description: "Enter Category Total",
+      selector: row => {
+        const bills = row.bills;
+        return (
+          <>
+            {bills[0].catName} {bills[0].catAmount}
+          </>
+        );
+        //row.clientAmount.toFixed(2);
+        // console.log(bills);
+        // bills.map((category, i) => {
+        //   return category.catAmount.toFixed(2);
+        // });
+      },
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "No of Bills",
+      key: "bills",
+      description: "Enter Number of Bills",
+      selector: row => row.bills.length,
+      sortable: true,
+      required: true,
+      inputType: "BUTTON",
+    },
+  ];
+
+  const selectedClientSchema = [
+    {
+      name: "S/NO",
+      width: "70px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter Date",
+      selector: row => format(new Date(row.date), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter Category",
+      selector: row => row.category,
+      sortable: true,
+      required: true,
+      inputType: "SELECT",
+    },
+    {
+      name: "Description",
+      key: "description",
+      description: "Enter Description",
+      selector: row => row.description,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      key: "status",
+      description: "Enter Status",
+      selector: row => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
+
   return (
     <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Medications"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px",
+          width: "100%",
+          flex: "1",
+        }}
+      >
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+              Unpaid Bills
+            </h2>
           </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            Unpaid Bills{" "}
-          </span>
-        </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="level-item">
+
+          {handleCreateNew && (
+            <Button
+              style={{fontSize: "14px", fontWeight: "600"}}
+              label="Add new "
+              onClick={handleCreateNew}
+            />
+          )}
+        </TableMenu>
+        <div
+          //className="columns"
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              height: "calc(100% - 70px)",
+              transition: "width 0.5s ease-in",
+              width: selectedClient ? "49%" : "100%",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={financePlaymentListSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={row => onRowClicked(row)}
+              progressPending={loading}
+            />
+          </div>
+
+          {selectedClient && (
+            <>
               <div
-                className="button is-success is-small"
-                onClick={handleCreateNew}
+                style={{
+                  height: "calc(100% - 70px)",
+                  width: "49%",
+                }}
               >
-                New
+                <CustomTable
+                  title={""}
+                  columns={selectedClientSchema}
+                  data={clientBills}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={row => onRowClicked(row)}
+                  progressPending={loading}
+                />
               </div>
+            </>
+          )}
+
+          {/* {state.financeModule.show === "detail" && (
+            <div
+              style={{
+                height: "calc(100% - 70px)",
+                width: "51.5%",
+                transition: "width 0.5s ease-in",
+              }}
+            >
+              <PaymentCreate />
             </div>
-          </div>
-        </div>
-      </div>
-      <div className=" pullup ">
-        <div className=" is-fullwidth vscrollable pr-1">
-          <div>
-            {facilities.map((Clinic, i) => (
-              <div key={Clinic.client_id}>
-                <div>
-                  <div>
-                    {/* <input type = "checkbox" name={Clinic.client_id}  />   */}
-                    <strong>
-                      {" "}
-                      {i + 1} {Clinic.clientname}{" "}
-                      {/* with {Clinic.bills.length} Unpaid bills. */}{" "}
-                      {/* Grand Total amount: N */}
-                    </strong>
-                  </div>
-                </div>
-                <div>
-                  <div className=" is-fullwidth vscrollable pr-1">
-                    <div>
-                      {Clinic.bills.map((category, i) => (
-                        <div key={i}>
-                          <div>
-                            <div>
-                              {/* <input type = "checkbox" name={Clinic.client_id} onChange={(e)=>handleMedicationRow(Clinic,e)} /> */}
-                              {category.catName} with {category.order.length}{" "}
-                              Unpaid bills. {/* Total amount: N */}
-                            </div>
-                          </div>
-                          <div>
-                            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                              <thead>
-                                <tr>
-                                  <th>
-                                    <abbr title="Serial No">S/No</abbr>
-                                  </th>
-                                  <th>
-                                    <abbr title="Date">Date</abbr>
-                                  </th>
-                                  <th>
-                                    <abbr title="Description">Description</abbr>
-                                  </th>
-                                  {/*  <th>Fulfilled</th> */}
-                                  <th>
-                                    <abbr title="Status">Status</abbr>
-                                  </th>
-                                  <th>
-                                    <abbr title="Amount">Amount</abbr>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {category.order.map((order, i) => (
-                                  <tr
-                                    key={order._id}
-                                    /*  onClick={()=>handleMedicationRow(order)} */ className={
-                                      order._id ===
-                                      (selectedFinance?._id || null)
-                                        ? "is-selected"
-                                        : ""
-                                    }
-                                  >
-                                    <th>
-                                      <input
-                                        type="checkbox"
-                                        name={order._id}
-                                        onChange={e =>
-                                          handleChoseClient(Clinic, e, order)
-                                        }
-                                        checked={order.checked}
-                                      />{" "}
-                                      {i + 1}
-                                    </th>
-                                    <td>
-                                      <span>
-                                        {format(
-                                          new Date(order.createdAt),
-                                          "dd-MM-yy"
-                                        )}
-                                      </span>
-                                    </td>{" "}
-                                    {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                                    <th>{order.serviceInfo.name}</th>
-                                    {/*  <td>{order.fulfilled==="True"?"Yes":"No"}</td> */}
-                                    <td>{order.billing_status}</td>
-                                    <td>{order.serviceInfo.amount}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          )} */}
         </div>
       </div>
     </>

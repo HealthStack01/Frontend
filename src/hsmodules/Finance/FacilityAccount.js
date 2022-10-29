@@ -1,20 +1,21 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import CustomTable from "../../components/customtable";
 import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function FacilityAccount() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -41,7 +42,7 @@ export default function FacilityAccount() {
 }
 
 export function FacilityServiceRevenue() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -50,15 +51,15 @@ export function FacilityServiceRevenue() {
   const InventoryServ = client.service("subwallettransactions");
   const SubwalletServ = client.service("subwallet");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext); //,setUser
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(false);
 
   //const clientSel= state.SelectedClient.client
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     /*   
         setValue("facility", obj._id,  {
             shouldValidate: true,
@@ -103,7 +104,7 @@ export function FacilityServiceRevenue() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacility(res.data);
         //e.target.reset();
@@ -117,7 +118,7 @@ export function FacilityServiceRevenue() {
         });
         // setSuccess(false)
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error getting account details " + err,
           type: "is-danger",
@@ -173,7 +174,7 @@ export function FacilityServiceRevenue() {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
     },
@@ -181,7 +182,7 @@ export function FacilityServiceRevenue() {
       name: "Date",
       key: "createdAt",
       description: "Enter Date",
-      selector: (row) => row.createdAt,
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -191,7 +192,7 @@ export function FacilityServiceRevenue() {
       name: "Client",
       key: "fromName",
       description: "Enter Client Name",
-      selector: (row) => row.fromName,
+      selector: row => row.fromName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -201,7 +202,7 @@ export function FacilityServiceRevenue() {
       name: "Description",
       key: "description",
       description: "Enter Description",
-      selector: (row) => row.description,
+      selector: row => row.description,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -211,7 +212,7 @@ export function FacilityServiceRevenue() {
       name: "Amount",
       key: "amount",
       description: "Enter Amount",
-      selector: (row) => row.amount,
+      selector: row => row.amount,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -221,7 +222,7 @@ export function FacilityServiceRevenue() {
       name: "Mode",
       key: "paymentmode",
       description: "Enter Payment Mode",
-      selector: (row) => row.paymentmode,
+      selector: row => row.paymentmode,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -234,17 +235,17 @@ export function FacilityServiceRevenue() {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <div style={{display: "flex", alignItems: "center"}}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Service Revenue
                   </h2>
                 </div>
               </TableMenu>
 
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={FacilityAccountSchema}
@@ -267,7 +268,7 @@ export function FacilityServiceRevenue() {
 }
 
 export function HMOServiceRevenue() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -276,14 +277,14 @@ export function HMOServiceRevenue() {
   const InventoryServ = client.service("subwallettransactions");
   const SubwalletServ = client.service("subwallet");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext); //,setUser
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
 
   //const clientSel= state.SelectedClient.client
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     /*   
         setValue("facility", obj._id,  {
             shouldValidate: true,
@@ -328,7 +329,7 @@ export function HMOServiceRevenue() {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacility(res.data);
         //e.target.reset();
@@ -342,7 +343,7 @@ export function HMOServiceRevenue() {
         });
         // setSuccess(false)
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error getting account details " + err,
           type: "is-danger",

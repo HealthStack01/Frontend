@@ -6,12 +6,13 @@ import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
-import {ProductCreate} from "./Products";
+import {ProductCreate, ProductDetail} from "./Products";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import ModalBox from "./ui-components/modal";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -20,7 +21,32 @@ export default function PharmacyProductExit() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
+  const [createModal, setCreateModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
+
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
+
+  const handleOpenModifyModal = () => {
+    setModifyModal(true);
+  };
+  const handleCloseModifyModal = () => {
+    setModifyModal(false);
+  };
+
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+    console.log("detail modal");
+  };
+  const handleCloseDetailModal = () => {
+    setDetailModal(false);
+  };
 
   return (
     <section className="section remPadTop">
@@ -28,12 +54,22 @@ export default function PharmacyProductExit() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
-      {state.ProductExitModule.show === "list" && <ProductExitList />}
-      {state.ProductExitModule.show === "create" && <ProductExitCreate />}
-      {state.ProductExitModule.show === "detail" && <ProductExitDetail />}
-      {state.ProductExitModule.show === "modify" && (
+      <ProductExitList
+        openCreateModal={handleOpenCreateModal}
+        openDetailModal={handleOpenDetailModal}
+      />
+
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+        <ProductExitCreate />
+      </ModalBox>
+
+      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+        <ProductExitDetail />
+      </ModalBox>
+
+      <ModalBox open={modifyModal} onClose={handleCloseModifyModal}>
         <ProductExitModify ProductEntry={selectedProductEntry} />
-      )}
+      </ModalBox>
     </section>
   );
 }
@@ -609,7 +645,7 @@ export function ProductExitCreate() {
   );
 }
 
-export function ProductExitList() {
+export function ProductExitList({openDetailModal, openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -639,6 +675,7 @@ export function ProductExitList() {
       ProductExitModule: newProductExitModule,
     }));
     //console.log(state)
+    openCreateModal();
   };
   const handleRow = async ProductEntry => {
     //console.log("b4",state)
@@ -656,6 +693,7 @@ export function ProductExitList() {
       ProductExitModule: newProductExitModule,
     }));
     //console.log(state)
+    openDetailModal();
   };
 
   const handleSearch = val => {
@@ -773,7 +811,7 @@ export function ProductExitList() {
     return () => {};
   }, [state.StoreModule.selectedStore]);
   //todo: pagination and vertical scroll bar
-  const handleCreate = () => {};
+
   const ProductExitSchema = [
     {
       name: "S/No",
@@ -806,9 +844,9 @@ export function ProductExitList() {
     },
     {
       name: "Client",
-      key: "client",
+      key: "source",
       description: "Enter client",
-      selector: row => row.client,
+      selector: row => (row.source ? row.source : "----"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -835,7 +873,7 @@ export function ProductExitList() {
       name: "Entered By ",
       key: "source",
       description: "Enter Entered By ",
-      selector: row => row.enteredby,
+      selector: row => (row.enteredby ? row.enteredby : "----"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -844,7 +882,7 @@ export function ProductExitList() {
       name: " Actions",
       key: "actions",
       description: "Enter Actions",
-      selector: row => row.actions,
+      selector: row => "----",
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -870,11 +908,11 @@ export function ProductExitList() {
                 </h2>
               </div>
 
-              {handleCreate && (
+              {handleCreateNew && (
                 <Button
                   style={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
-                  onClick={handleCreate}
+                  onClick={handleCreateNew}
                 />
               )}
             </TableMenu>
@@ -925,6 +963,63 @@ export function ProductExitDetail() {
     }));
     //console.log(state)
   };
+
+  const productItemsSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter name of product",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quantity",
+      key: "quantity",
+      description: "Enter Quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Unit",
+      key: "unit",
+      description: "Enter Unit",
+      selector: row => (row.baseunit ? row.baseunit : "----"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Selling Price",
+      key: "sellingprice",
+      description: "Enter Selling price",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
@@ -1017,7 +1112,28 @@ export function ProductExitDetail() {
               </tr>
             </tbody>
           </table>
-          <label className="label is-size-7 mt-2">Product Items:</label>
+
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p>Product Items</p>
+            <CustomTable
+              title={""}
+              columns={productItemsSchema}
+              data={ProductEntry.productitems}
+              pointerOnHover
+              highlightOnHover
+              striped
+              //onRowClicked={row => onRowClicked(row)}
+              progressPending={false}
+            />
+          </div>
+          {/* <label className="label is-size-7 mt-2">Product Items:</label>
           <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
             <thead>
               <tr>
@@ -1054,7 +1170,7 @@ export function ProductExitDetail() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
           {/*   <tr>
                     <td>
             <label className="label is-small"><span className="icon is-small is-left">

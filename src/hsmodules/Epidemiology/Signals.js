@@ -393,6 +393,7 @@ export function SignalsList({standalone, closeModal}) {
   const signalsSchema = [
     {
       name: "S/NO",
+      width: "80px",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
@@ -402,15 +403,17 @@ export function SignalsList({standalone, closeModal}) {
     },
     {
       name: "Date and Time",
+      width: "120px",
       key: "createdAt",
       description: "Enter Date and Time",
-      selector: row => row.createdAt,
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
       sortable: true,
       required: true,
       inputType: "DATE",
     },
     {
       name: "Disease",
+      width: "150px",
       key: "disease",
       description: "Enter Disease",
       selector: row => row.disease,
@@ -420,6 +423,7 @@ export function SignalsList({standalone, closeModal}) {
     },
     {
       name: "Location",
+      width: "150px",
       key: "location",
       description: "Enter Location",
       selector: row => row.location,
@@ -431,13 +435,14 @@ export function SignalsList({standalone, closeModal}) {
       name: "Facility",
       key: "facility",
       description: "Enter Facility",
-      selector: row => row.facility,
+      selector: row => (row.facility ? row.facility : "----------------------"),
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
       name: "Notified By",
+      width: "120px",
       key: "notified_by",
       description: "Enter Notified by",
       selector: row => row.notified_by,
@@ -447,6 +452,7 @@ export function SignalsList({standalone, closeModal}) {
     },
     {
       name: "Notification Type",
+      width: "150px",
       key: "notification_type",
       description: "Enter Notification Type",
       selector: row => row.notification_type,
@@ -456,6 +462,7 @@ export function SignalsList({standalone, closeModal}) {
     },
     {
       name: "Status",
+      width: "100px",
       key: "status",
       description: "Enter Status",
       selector: row => row.status,
@@ -466,6 +473,7 @@ export function SignalsList({standalone, closeModal}) {
     {
       name: "Action",
       key: "action",
+      width: "100px",
       description: "Enter Action",
       selector: row => row.action,
       sortable: true,

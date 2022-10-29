@@ -17,6 +17,7 @@ import FilterMenu from "./ui-components/utilities/FilterMenu";
 // Demo styles, see 'Styles' section below for some notes on use.
 
 import {StoreModify} from "../inventory/Store";
+import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -25,24 +26,61 @@ export default function Services() {
   // eslint-disable-next-line
   const [selectedServices, setSelectedServices] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
+
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+  };
+  const handleCloseDetailModal = () => {
+    setDetailModal(false);
+  };
+
+  const handleOpenModifyModal = () => {
+    setModifyModal(true);
+    setDetailModal(false);
+  };
+  const handleCloseModifyModal = () => {
+    setModifyModal(false);
+  };
 
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Services  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <ServicesList />
-        </div>
-        <div className="column is-6 ">
+
+      <ServicesList
+        openCreateModal={handleOpenCreateModal}
+        openDetallModal={handleOpenDetailModal}
+      />
+
+      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+        <ServicesCreate />
+      </ModalBox>
+
+      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+        <ServicesDetail openModifyModal={handleOpenModifyModal} />
+      </ModalBox>
+
+      <ModalBox open={modifyModal} onClose={handleCloseModifyModal}>
+        <ServicesModify Services={selectedServices} />
+      </ModalBox>
+
+      {/*   
           {state.ServicesModule.show === "create" && <ServicesCreate />}
           {state.ServicesModule.show === "detail" && <ServicesDetail />}
           {state.ServicesModule.show === "modify" && (
             <ServicesModify Services={selectedServices} />
-          )}
-        </div>
-      </div>
+          )} */}
     </section>
   );
 }
@@ -594,7 +632,7 @@ export function ServicesCreate() {
   );
 }
 
-export function ServicesList() {
+export function ServicesList({openCreateModal, openDetallModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -613,6 +651,7 @@ export function ServicesList() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  // const [selectedService, setSelectedService] = useState(false)
 
   const handleCreateNew = async () => {
     const newServicesModule = {
@@ -624,13 +663,35 @@ export function ServicesList() {
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
+    openCreateModal();
   };
+
   const handleRow = async Service => {
     //console.log("b4",state)
 
     //console.log("handlerow",Services)
 
-    await setSelectedServices(Service);
+    await setSelectedServices(Service.services);
+    //console.log(Service.services);
+
+    // const newServicesModule = {
+    //   selectedServices: Service.services,
+    //   show: "detail",
+    // };
+    // await setState(prevstate => ({
+    //   ...prevstate,
+    //   ServicesModule: newServicesModule,
+    // }));
+    //console.log(state)
+  };
+
+  const handleSecondRow = async Service => {
+    //console.log("b4",state)
+
+    //console.log("handlerow",Services)
+
+    //await setSelectedServices(Service.services);
+    //console.log(Service.services);
 
     const newServicesModule = {
       selectedServices: Service,
@@ -641,6 +702,7 @@ export function ServicesList() {
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
+    openDetallModal();
   };
 
   const handleSearch = val => {
@@ -688,9 +750,9 @@ export function ServicesList() {
           },
         },
       });
-      console.log(findServices);
+      //console.log(findServices);
       await setFacilities(findServices.groupedOrder);
-      // console.log(findServices)
+      //console.log(findServices.groupedOrder);
     } else {
       if (user.stacker) {
         toast({
@@ -726,7 +788,6 @@ export function ServicesList() {
                 }
             }, [state.StoreModule.selectedStore]) */
   //todo: pagination and vertical scroll bar
-  const onRowClicked = () => {};
 
   const ServiceSchema = [
     {
@@ -738,41 +799,73 @@ export function ServicesList() {
       inputType: "HIDDEN",
     },
     {
-      name: "Name",
+      name: "categoryname",
       key: "fromName",
-      description: "Enter Name",
-      selector: row => row.fromName,
+      description: "Enter Category name",
+      selector: row =>
+        row.categoryname ? row.categoryname : "----------------------",
       sortable: true,
       required: true,
       inputType: "TEXT",
-    },
-
-    {
-      name: "Panel",
-      key: "panel",
-      description: "Panel",
-      selector: row => row.panel,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Amount",
-      key: "amount",
-      description: "Amount",
-      selector: row => row.amount,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
     },
   ];
+
+  const selectedServiceSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => (row.name ? row.name : "------------------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Panel?",
+      key: "panel",
+      description: "Enter Panel",
+      selector: row => (row.panel ? "YES" : "NO"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Cash Price?",
+      key: "fromName",
+      description: "Enter Category name",
+      selector: row =>
+        row.contracts.map(
+          (el, i) => el.source_org === el.dest_org && `${el.price}`
+        ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
       {state.StoreModule.selectedStore ? (
         <>
-          <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px",
+              width: "100%",
+              flex: "1",
+            }}
           >
             <TableMenu>
               <div style={{display: "flex", alignItems: "center"}}>
@@ -796,19 +889,56 @@ export function ServicesList() {
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
-              <CustomTable
-                title={""}
-                columns={ServiceSchema}
-                data={facilities}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={onRowClicked}
-                progressPending={loading}
-              />
+            <div
+              //className="columns"
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                style={{
+                  height: "calc(100% - 70px)",
+                  transition: "width 0.5s ease-in",
+                  width: selectedServices ? "35%" : "100%",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={ServiceSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={false}
+                />
+              </div>
+
+              {selectedServices && (
+                <>
+                  <div
+                    style={{
+                      height: "calc(100% - 70px)",
+                      width: "64%",
+                    }}
+                  >
+                    <CustomTable
+                      title={""}
+                      columns={selectedServiceSchema}
+                      data={selectedServices}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      onRowClicked={handleSecondRow}
+                      progressPending={false}
+                    />
+                  </div>
+                </>
+              )}
             </div>
-          </PageWrapper>
+          </div>
         </>
       ) : (
         <div>loading... Choose a Store</div>
@@ -817,7 +947,7 @@ export function ServicesList() {
   );
 }
 
-export function ServicesDetail() {
+export function ServicesDetail({openModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -832,6 +962,8 @@ export function ServicesDetail() {
   const Services = state.ServicesModule.selectedServices;
   /* console.log(Services) */
 
+  //console.log(Services);
+
   const handleEdit = async () => {
     const newServicesModule = {
       selectedServices: Services,
@@ -842,7 +974,57 @@ export function ServicesDetail() {
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
+    openModifyModal();
   };
+
+  const pricingInfoSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Organization",
+      key: "source_org_name",
+      description: "Enter Date",
+      selector: row => row.source_org_name,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Amount",
+      key: "price",
+      description: "Enter Category",
+      selector: row => row.price,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Billing Type",
+      key: "billing_type",
+      description: "Enter Category",
+      selector: row => row.billing_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plans",
+      key: "plans",
+      description: "Enter Category",
+      selector: row => (row.panel ? "Yes" : "----------"),
+      sortable: true,
+      required: true,
+      inputType: "SELECT",
+    },
+  ];
 
   return (
     <>
@@ -944,7 +1126,29 @@ export function ServicesDetail() {
                 </tr> */}
             </tbody>
           </table>
-          <label className="label is-size-7 mt-2">Pricing Info:</label>
+
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {/* <p>Pricing Info</p> */}
+            <CustomTable
+              title={"Pricing Info"}
+              columns={pricingInfoSchema}
+              data={Services.contracts}
+              pointerOnHover
+              highlightOnHover
+              striped
+              //onRowClicked={row => onRowClicked(row)}
+              progressPending={false}
+            />
+          </div>
+
+          {/* <label className="label is-size-7 mt-2">Pricing Info:</label>
 
           <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
             <thead>
@@ -963,14 +1167,14 @@ export function ServicesDetail() {
                 </th>
                 <th>
                   <abbr title="Benefitting Plans">Plans</abbr>
-                </th>
-                {/*  <th><abbr title="Cost Price">Amount</abbr></th>
+                </th> */}
+          {/*  <th><abbr title="Cost Price">Amount</abbr></th>
                     <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
+          {/* </tr>
             </thead>
             <tfoot></tfoot>
-            <tbody>
-              {Services.contracts.map((Services, i) => (
+            <tbody> */}
+          {/* {Services.contracts.map((Services, i) => (
                 <tr key={i}>
                   <th>{i + 1}</th>
                   <td>{Services.source_org_name}</td>
@@ -984,13 +1188,14 @@ export function ServicesDetail() {
                           {plan};
                         </span>
                       ))}
-                  </td>
-                  {/*<td>{Services.amount}</td> */}
-                  {/* <td><span className="showAction" onClick={()=>handleRemove(i)} >x</span></td> */}
-                </tr>
+                  </td> */}
+          {/*<td>{Services.amount}</td> */}
+          {/* <td><span className="showAction" onClick={()=>handleRemove(i)} >x</span></td> */}
+          {/* </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
+
           <div className="field mt-2">
             <p className="control">
               <button

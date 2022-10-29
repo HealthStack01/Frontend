@@ -18,8 +18,11 @@ import PharmacyBillService from "./Pharmacy/BillService";
 import PharmacyBillPrescription from "./Pharmacy/BillPrescription";
 import BillRadiology from "./Radiology/BillRadiology";
 import LaboratoryBillService from "./Laboratory/BillService";
+import RadiologyBillService from "./Radiology/BillService";
+import InventoryBillService from "./inventory/BillService";
 
-import BillService from "./Finance/BillService";
+import FinanceBillService from "./Finance/BillService";
+import TheatreBillService from "./Theatre/BillService";
 import BillTheatre from "./Theatre/BillTheatre";
 import CaseDefinition from "./Epidemiology/CaseDefinition";
 import ChartofAccount from "./Accounts/ChartofAccount";
@@ -268,7 +271,10 @@ const AppRoutes = () => {
             <Route path="/app/finance/payment" element={<Payment />} />
             <Route path="/app/finance/collections" element={<Collections />} />
             <Route path="/app/finance/services" element={<Services />} />
-            <Route path="/app/finance/billservices" element={<BillService />} />
+            <Route
+              path="/app/finance/billservices"
+              element={<FinanceBillService />}
+            />
             <Route path="/app/finance/hmoauthorization" element={<HMOauth />} />
             <Route path="/app/finance/revenue" element={<FacilityAccount />} />
             <Route path="/app/finance/location" element={<Store />} />
@@ -303,7 +309,10 @@ const AppRoutes = () => {
             path="/app/inventory/inv-products"
             element={<InventoryProducts />}
           />
-          <Route path="/app/inventory/billservice" element={<BillService />} />
+          <Route
+            path="/app/inventory/billservice"
+            element={<InventoryBillService />}
+          />
           <Route
             path="/app/inventory/inv-reports"
             element={<InventoryReport />}
@@ -375,7 +384,10 @@ const AppRoutes = () => {
             path="/app/radiology/appointments"
             element={<RadAppointments />}
           />
-          <Route path="/app/radiology/billservice" element={<BillService />} />
+          <Route
+            path="/app/radiology/billservice"
+            element={<RadiologyBillService />}
+          />
           <Route
             path="/app/radiology/radiology-result"
             element={<RadiologyReport />}
@@ -399,7 +411,10 @@ const AppRoutes = () => {
             path="/app/theatre/theatre-appointments"
             element={<TheatreAppointments />}
           />
-          <Route path="/app/theatre/billservice" element={<BillService />} />
+          <Route
+            path="/app/theatre/billservice"
+            element={<TheatreBillService />}
+          />
           <Route
             path="/app/theatre/theatre-result"
             element={<TheatreReport />}
