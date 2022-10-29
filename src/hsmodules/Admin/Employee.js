@@ -24,7 +24,7 @@ export default function Employee() {
   // eslint-disable-next-line
   const [selectedEmployee, setSelectedEmployee] = useState();
   const [createModal, setCreateModal] = useState(false);
-  const [detailModal, setDetailModal] = useState();
+  const [detailModal, setDetailModal] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
 
   //const [showState,setShowState]=useState() //create|modify|detail

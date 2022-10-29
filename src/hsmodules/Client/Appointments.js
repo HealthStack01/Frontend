@@ -31,33 +31,46 @@ export default function ClientsAppointments() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
 
-  const handleShowModal = () => {
-    {
-      setShowModal(true);
-    }
+  const handleCreateModal = () => {
+    setCreateModal(true);
   };
 
-  const handleHideModal = () => {
-    setShowModal(false);
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
   };
 
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-8 ">
-          <ClientList showModal={handleShowModal} />
+          <ClientList
+            showcreateModal={handleCreateModal}
+            showDetailModal={handleShowDetailModal}
+          />
         </div>
         <div className="column is-4 ">
-          {state.AppointmentModule.show === "detail" && <ClientDetail />}
           {state.AppointmentModule.show === "modify" && (
             <ClientModify Client={selectedClient} />
           )}
 
-          <ModalBox open={showModal} onClose={handleHideModal}>
+          <ModalBox open={createModal} onClose={handleHideCreateModal}>
             <AppointmentCreate />
+          </ModalBox>
+
+          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+            <ClientDetail />
           </ModalBox>
         </div>
       </div>
@@ -495,7 +508,7 @@ export function AppointmentCreate() {
   );
 }
 
-export function ClientList({ showModal }) {
+export function ClientList({ showcreateModal, showDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -528,6 +541,7 @@ export function ClientList({ showModal }) {
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
+    showDetailModal();
     const newClient = {
       selectedClient: {},
       show: "create",
@@ -546,6 +560,7 @@ export function ClientList({ showModal }) {
       AppointmentModule: newClientModule,
     }));
   };
+  showDetailModal();
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
@@ -894,7 +909,7 @@ export function ClientList({ showModal }) {
                 <Button
                   style={{ fontSize: "0.75rem", fontWeight: "600" }}
                   label="Add new "
-                  onClick={showModal}
+                  onClick={showcreateModal}
                 />
               )}
             </TableMenu>

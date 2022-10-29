@@ -1,38 +1,46 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 
 import DataTable from "react-data-table-component";
 
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
 import InfiniteScroll from "react-infinite-scroll-component";
 import DatePicker from "react-datepicker";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
-import {ProductEntryCreate} from "./ProductEntry";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import { ProductEntryCreate } from "./ProductEntry";
 
 import "react-datepicker/dist/react-datepicker.css";
-
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import ModalBox from "./ui-components/modal";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import EmptyData from "./ui-components/empty";
-import {InventoryStoreSchema} from "./ui-components/schema";
+import { InventoryStoreSchema } from "./ui-components/schema";
 import styled from "styled-components";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Inventory() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
+  const [createModal, setCreateModal] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
 
   return (
     <section className="section remPadTop">
@@ -41,7 +49,7 @@ export default function Inventory() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <InventoryList />
+          <InventoryList showcreateModal={handleCreateModal} />
         </div>
         <div className="column is-4 ">
           {state.InventoryModule.show === "create" && <InventoryCreate />}
@@ -55,9 +63,10 @@ export default function Inventory() {
           {state.InventoryModule.show === "batch" && (
             <InventoryBatches Inventory={selectedInventory} />
           )}
-          {state.InventoryModule.show === "audit" && (
-            <ProductEntryCreate Inventory={selectedInventory} />
-          )}
+
+          <ModalBox open={createModal} onClose={handleHideCreateModal}>
+            <ProductEntryCreate />
+          </ModalBox>
         </div>
       </div>
     </section>
@@ -65,7 +74,7 @@ export default function Inventory() {
 }
 
 export function InventoryCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -73,11 +82,11 @@ export function InventoryCreate() {
   const [facility, setFacility] = useState();
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -113,7 +122,7 @@ export function InventoryCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     InventoryServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Inventory successfully") */
@@ -126,7 +135,7 @@ export function InventoryCreate() {
         });
         setSuccess(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating Inventory " + err,
           type: "is-danger",
@@ -164,7 +173,7 @@ export function InventoryCreate() {
                 {/* Audit/initialization/Purchase Invoice */}
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="type"
                   type="text"
                   placeholder="Type of Product Entry"
@@ -178,7 +187,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="supplier"
                   type="text"
                   placeholder="Supplier"
@@ -192,7 +201,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="date"
                   type="text"
                   placeholder="Date"
@@ -207,7 +216,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="totalamount"
                   type="text"
                   placeholder=" Total Amount"
@@ -231,10 +240,13 @@ export function InventoryCreate() {
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <p
+                className="control has-icons-left "
+                style={{ display: "none" }}
+              >
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   /* add array no */ name="productId"
                   type="text"
                   placeholder="Product Id"
@@ -249,7 +261,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="quantity"
                   type="text"
                   placeholder="Quantity"
@@ -264,7 +276,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="costprice"
                   type="text"
                   placeholder="Cost Price"
@@ -331,12 +343,12 @@ export function InventoryCreate() {
 }
 
 const CustomLoader = () => (
-  <div style={{padding: "24px"}}>
+  <div style={{ padding: "24px" }}>
     <img src="/loading.gif" width={400} />
   </div>
 );
 
-export function InventoryList() {
+export function InventoryList({ showcreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -352,9 +364,9 @@ export function InventoryList() {
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(20);
   const [total, setTotal] = useState(0);
@@ -366,14 +378,14 @@ export function InventoryList() {
       selectedInventory: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
   };
 
-  const handleRow = async Inventory => {
+  const handleRow = async (Inventory) => {
     //console.log("b4",state)
 
     //console.log("handlerow",Inventory)
@@ -384,14 +396,14 @@ export function InventoryList() {
       selectedInventory: Inventory,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     //console.log(val)
     InventoryServ.find({
@@ -408,14 +420,14 @@ export function InventoryList() {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         //console.log(res)
         setFacilities(res.data);
         setTotal(res.total);
         setMessage(" Inventory  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Inventory, probable network issues " + err);
         setError(true);
@@ -444,7 +456,7 @@ export function InventoryList() {
       await setTotal(allInventory.total);
 
       if (allInventory.total > facilities.length) {
-        await setPage(page => page++);
+        await setPage((page) => page++);
       }
 
       updatelist(allInventory.data);
@@ -489,7 +501,7 @@ export function InventoryList() {
 
       if (allInventory.total > allInventory.data.length) {
         // setNext(true)
-        setPage(page => page + 1);
+        setPage((page) => page + 1);
       } else {
         //setNext(fals
       }
@@ -516,10 +528,10 @@ export function InventoryList() {
   };
 
   useEffect(() => {
-    InventoryServ.on("created", obj => rest());
-    InventoryServ.on("updated", obj => rest());
-    InventoryServ.on("patched", obj => rest());
-    InventoryServ.on("removed", obj => rest());
+    InventoryServ.on("created", (obj) => rest());
+    InventoryServ.on("updated", (obj) => rest());
+    InventoryServ.on("patched", (obj) => rest());
+    InventoryServ.on("removed", (obj) => rest());
     return () => {};
   }, []);
 
@@ -531,8 +543,8 @@ export function InventoryList() {
     //await  setPage(0)
   };
 
-  const updatelist = async data => {
-    await setFacilities(prevdata => prevdata.concat(data));
+  const updatelist = async (data) => {
+    await setFacilities((prevdata) => prevdata.concat(data));
   };
 
   useEffect(() => {
@@ -552,7 +564,7 @@ export function InventoryList() {
   //*******************CONDITION THAT SHOWS DIFFERENT ROW BACKGROUND COLOR BASED ON  A CERTAIN CONDITION MET************
   const conditionalRowStyles = [
     {
-      when: row => row.buy,
+      when: (row) => row.buy,
       style: {
         backgroundColor: "pink",
         color: "white",
@@ -618,36 +630,36 @@ export function InventoryList() {
       {user ? (
         <>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   Inventory Store
                 </h2>
               </div>
 
-              {handleCreate && (
+              {handleCreateNew && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreate}
+                  onClick={showcreateModal}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
               <DataTable
                 title={""}
                 columns={InventoryStoreSchema.filter(
-                  obj => obj.selector && obj.inputType
+                  (obj) => obj.selector && obj.inputType
                 )}
-                data={facilities.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
+                data={facilities.map((obj, i) => ({ ...obj, sn: i + 1 }))} //TODO: only add sn if it's in the schema, to improve performance here
                 pointerOnHover={true}
                 highlightOnHover={true}
                 striped={true}
@@ -688,8 +700,8 @@ export function InventoryDetail() {
   //const InventoryServ=client.service('/Inventory')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext); //,setUser
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext); //,setUser
 
   const Inventory = state.InventoryModule.selectedInventory;
   //console.log("selected",Inventory)
@@ -720,7 +732,7 @@ export function InventoryDetail() {
       selectedInventory: Inventory,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -731,7 +743,7 @@ export function InventoryDetail() {
       selectedInventory: Inventory,
       show: "reorder",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -742,7 +754,7 @@ export function InventoryDetail() {
       selectedInventory: Inventory,
       show: "batch",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -753,7 +765,7 @@ export function InventoryDetail() {
       selectedInventory: Inventory,
       show: "audit",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -831,7 +843,7 @@ export function InventoryDetail() {
 }
 
 export function InventoryModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -843,15 +855,15 @@ export function InventoryModify() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const billServ = client.service("billing");
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
   const handleSetPrice = async () => {
     const service = await billServ.get(Inventory.billingId); // get the service
     const contractSel = service.contracts.filter(
-      element =>
+      (element) =>
         element.source_org === Inventory.facility &&
         element.dest_org === Inventory.facility
     );
@@ -879,7 +891,7 @@ export function InventoryModify() {
       selectedInventory: {},
       show: "details",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -891,7 +903,7 @@ export function InventoryModify() {
       selectedInventory: {},
       show: "detail",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -903,7 +915,7 @@ export function InventoryModify() {
     const dleteId = Inventory._id;
     if (conf) {
       InventoryServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           ////console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Inventory successfully")
@@ -920,7 +932,7 @@ export function InventoryModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Inventory, probable network issues "+ err )
           // setError(true)
           toast({
@@ -946,14 +958,14 @@ export function InventoryModify() {
     // data.facility=Inventory.facility
     //console.log(data);
     const contractSel = billservice.contracts.filter(
-      element =>
+      (element) =>
         element.source_org === Inventory.facility &&
         element.dest_org === Inventory.facility
     );
     contractSel[0].price = data.price;
     billServ
       .patch(billservice._id, billservice)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Inventory successfully")
@@ -966,7 +978,7 @@ export function InventoryModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Inventory, probable network issues "+ err )
         // setError(true)
         toast({
@@ -995,7 +1007,7 @@ export function InventoryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="price"
                     type="text"
                     placeholder="Name"
@@ -1012,7 +1024,7 @@ export function InventoryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     disabled
                     name="oldprice"
                     type="text"
@@ -1057,7 +1069,7 @@ export function InventoryModify() {
 }
 
 export function InventoryReorder() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1069,8 +1081,8 @@ export function InventoryReorder() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const billServ = client.service("billing");
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
@@ -1094,7 +1106,7 @@ export function InventoryReorder() {
       selectedInventory: {},
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -1106,7 +1118,7 @@ export function InventoryReorder() {
       selectedInventory: {},
       show: "detail",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -1119,7 +1131,7 @@ export function InventoryReorder() {
     InventoryServ.patch(Inventory._id, {
       reorder_level: data.reorder_level,
     })
-      .then(res => {
+      .then((res) => {
         toast({
           message: "Reorder level updated succesfully",
           type: "is-success",
@@ -1129,7 +1141,7 @@ export function InventoryReorder() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message:
             "Error updating Reorder level, probable network issues or " + err,
@@ -1158,7 +1170,7 @@ export function InventoryReorder() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="reorder_level"
                     type="text"
                     placeholder="New Reorder Level"
@@ -1220,7 +1232,7 @@ export function InventoryReorder() {
 }
 
 export function InventoryBatches() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1232,8 +1244,8 @@ export function InventoryBatches() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const billServ = client.service("billing");
   const [batchNo, setBatchNo] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -1268,7 +1280,7 @@ export function InventoryBatches() {
       quantity,
     };
     //  await setSuccess(false)
-    setProductItem(prevProd => prevProd.concat(productItemI));
+    setProductItem((prevProd) => prevProd.concat(productItemI));
     setBatchNo("");
     setQuantity("");
     setExpiryDate("");
@@ -1283,7 +1295,7 @@ export function InventoryBatches() {
       selectedInventory: {},
       show: "details",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -1295,7 +1307,7 @@ export function InventoryBatches() {
       selectedInventory: {},
       show: "details",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -1308,7 +1320,7 @@ export function InventoryBatches() {
     InventoryServ.patch(Inventory._id, {
       batches: productItem,
     })
-      .then(res => {
+      .then((res) => {
         toast({
           message: "Batch updated succesfully",
           type: "is-success",
@@ -1318,7 +1330,7 @@ export function InventoryBatches() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error updating Batch, probable network issues or " + err,
           type: "is-danger",
@@ -1332,7 +1344,7 @@ export function InventoryBatches() {
     let confirm = window.confirm("Are you sure you want to delete this batch?");
     if (confirm) {
       // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-      setProductItem(obj => obj.filter((el, index) => index !== i));
+      setProductItem((obj) => obj.filter((el, index) => index !== i));
     }
   };
 
@@ -1354,7 +1366,7 @@ export function InventoryBatches() {
                     /* {...register("x",{required: true})} */ name="batchNo"
                     value={batchNo}
                     type="text"
-                    onChange={e => setBatchNo(e.target.value)}
+                    onChange={(e) => setBatchNo(e.target.value)}
                     placeholder="Batch Number"
                   />
                   {/* <span className="icon is-small is-left">
@@ -1365,7 +1377,7 @@ export function InventoryBatches() {
               <div className="field">
                 <DatePicker
                   selected={expirydate}
-                  onChange={date => setExpiryDate(date)}
+                  onChange={(date) => setExpiryDate(date)}
                   dateFormat="MM/yyyy"
                   placeholderText="Expiry Date"
                   /*  isClearable */
@@ -1378,7 +1390,7 @@ export function InventoryBatches() {
                     /* {...register("x",{required: true})} */ name="quantity"
                     value={quantity}
                     type="text"
-                    onChange={e => setQuantity(e.target.value)}
+                    onChange={(e) => setQuantity(e.target.value)}
                     placeholder="Quantity"
                   />
                   {/* <span className="icon is-small is-left">
@@ -1427,7 +1439,9 @@ export function InventoryBatches() {
                 {productItem.map((ProductEntry, i) => (
                   <tr
                     key={i}
-                    style={{backgroundColor: ProductEntry.expiry ? "red" : ""}}
+                    style={{
+                      backgroundColor: ProductEntry.expiry ? "red" : "",
+                    }}
                   >
                     <th>{i + 1}</th>
                     <td>{ProductEntry.batchNo}</td>
@@ -1483,7 +1497,7 @@ export function InventoryBatches() {
   );
 }
 
-export function ProductSearch({getSearchfacility, clear}) {
+export function ProductSearch({ getSearchfacility, clear }) {
   const facilityServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1500,7 +1514,7 @@ export function ProductSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1517,7 +1531,7 @@ export function ProductSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     /*  if (count===2){
             // console.log("stuff was chosen")
          } */
@@ -1534,7 +1548,7 @@ export function ProductSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "name"; //field variable
 
     if (val.length >= 3) {
@@ -1552,13 +1566,13 @@ export function ProductSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           //console.log("facility  fetched successfully")
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1592,8 +1606,8 @@ export function ProductSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
