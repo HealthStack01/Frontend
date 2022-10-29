@@ -7,22 +7,27 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
-import BillRadiologyCreate from "./BillRadiologyCreate";
+import BillPrescriptionCreate from "./BillPrescriptionCreate";
 import PatientProfile from "../Client/PatientProfile";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import AccordionBox from "./ui-components/accordion";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
+// import {TableMenu} from "../../ui/styled/global";
+// import FilterMenu from "../../components/utilities/FilterMenu";
+// import Button from "../../components/buttons/Button";
+// import CustomTable from "../../components/customtable";
+import ModalBox from "./ui-components/modal";
 
 // Demo styles, see 'Styles' section below for some notes on use.
+import ClientBilledPrescription from "./ClientPrescription";
 
-import ClientBilledRadiology from "./ClientRadiology";
-
-export default function BillRadiology() {
+export default function RadiologyBillOrder() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -42,6 +47,7 @@ export default function BillRadiology() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [createModal, setCreateModal] = useState(false);
 
   /*  useEffect(() => {
         const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
@@ -53,28 +59,35 @@ export default function BillRadiology() {
          }
      }, []) */
 
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
+
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-5 ">
-          <BillRadiologyList />
-        </div>
 
-        <div className="column is-4 ">
-          {state.medicationModule.show === "detail" && <BillRadiologyCreate />}
-        </div>
-        <div className="column is-3 ">
-          {state.medicationModule.show === "detail" && <PatientProfile />}
-        </div>
-      </div>
+      <BillPrescriptionList showCreateModal={handleOpenCreateModal} />
+
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        style={{display: "flex"}}
+      >
+        <BillPrescriptionCreate />
+        <PatientProfile />
+      </ModalBox>
     </section>
   );
 }
 
-export function BillRadiologyList() {
+export function BillPrescriptionList({showCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -86,7 +99,6 @@ export function BillRadiologyList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   // eslint-disable-next-line
@@ -94,6 +106,7 @@ export function BillRadiologyList() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -126,6 +139,7 @@ export function BillRadiologyList() {
     }));
     //console.log(state)
     // ProductEntry.show=!ProductEntry.show
+    showCreateModal();
   };
 
   const handleCreateNew = async () => {
@@ -137,7 +151,6 @@ export function BillRadiologyList() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
   };
 
   const handleSearch = async val => {
@@ -165,7 +178,7 @@ export function BillRadiologyList() {
             },
           },
         ],
-        order_category: "Radiology Order",
+        order_category: "Prescription",
         fulfilled: false,
         destination: user.currentEmployee.facilityDetail._id,
         order_status: "Pending",
@@ -192,6 +205,7 @@ export function BillRadiologyList() {
         setError(true);
       });
   };
+
   const getFacilities = async () => {
     console.log("here b4 server");
     const findProductEntry = await OrderServ.find({
@@ -242,129 +256,190 @@ export function BillRadiologyList() {
     //console.log(state)
   };
 
-  // ######### DEFINE FUNCTIONS AND SCHEMA HERE
-  const onRowClicked = () => {};
-  const handleCreate = () => {};
+  const selectedClient = false;
+
+  const billPrescriptionSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.clientname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Number of Prescriptions",
+      key: "order",
+      description: "Enter number of prescription",
+      selector: row =>
+        `${row.orders.length} pending prescription${
+          row.orders.length > 1 ? "s" : ""
+        }`,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
+
+  const selectedDispenseSchema = [
+    {
+      name: "S/NO",
+      width: "80px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      width: "100px",
+      key: "date",
+      description: "Enter Date",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Medication",
+      width: "50%",
+      key: "medication",
+      description: "Enter Name",
+      selector: row => row.order,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Fullfilled",
+      width: "100px",
+      key: "fullfilled",
+      description: "Enter Name",
+      selector: row => (row.fulfilled === "True" ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      width: "100px",
+      key: "medication",
+      description: "Enter Name",
+      selector: row => row.order_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Requesting Physician",
+      headerStyle: (selector, id) => {
+        return {textAlign: "center"};
+      },
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.requestingdoctor_Name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
-      <>
-          <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-          >
-          <TableMenu>
-          <div style={{ display: "flex", alignItems: "center" }}>
+    <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px",
+          width: "100%",
+          flex: "1",
+        }}
+      >
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
               <div className="inner-table">
                 <FilterMenu onSearch={handleSearch} />
               </div>
             )}
-            <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-              Bills To Be Paid
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+              Pending Prescription
             </h2>
           </div>
-
-          {handleCreate && (
+          {/* 
+          {handleCreateNew && (
             <Button
-              style={{ fontSize: "14px", fontWeight: "600" }}
+              style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
-              onClick={handleCreate}
+              onClick={handleCreateNew}
             />
-          )}
+          )} */}
         </TableMenu>
+        <div
+          //className="columns"
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              height: "calc(100% - 70px)",
+              transition: "width 0.5s ease-in",
+              width: selectedDispense ? "30%" : "100%",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={billPrescriptionSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={row => handleRow(row)}
+              progressPending={false}
+            />
+          </div>
 
-        <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
-          <CustomTable
-            title={""}
-            columns={BandSchema}
-            data={facilities}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={onRowClicked}
-            progressPending={loading}
-          />
+          {selectedDispense && (
+            <>
+              <div
+                style={{
+                  height: "calc(100% - 70px)",
+                  width: "69.5%",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={selectedDispenseSchema}
+                  data={selectedDispense.orders}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={row => handleMedicationRow(row)}
+                  progressPending={false}
+                />
+              </div>
+            </>
+          )}
         </div>
-        </PageWrapper>
-      </>
+      </div>
+    </>
   );
 }
-// {/* <div className=" pullup">
-//   <div className=" is-fullwidth vscrollable pr-1">
-//     <div>
-//       {facilities.map((Clinic, i) => (
-//         <div key={Clinic.client_id}>
-//           <div>
-//             <div>
-//               <strong>
-//                 {" "}
-//                 {i + 1} {Clinic.clientname} with {Clinic.orders.length}{" "}
-//                 Pending Investgation(s){" "}
-//               </strong>
-//             </div>
-//           </div>
-//           <div>
-//             <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-//               <thead>
-//                 <tr>
-//                   <th>
-//                     <abbr title="Serial No">S/No</abbr>
-//                   </th>
-//                   <th>
-//                     <abbr title="Date">Date</abbr>
-//                   </th>
-//                   <th>
-//                     <abbr title="Order">Medication</abbr>
-//                   </th>
-//                   <th>Fulfilled</th>
-//                   <th>
-//                     <abbr title="Status">Status</abbr>
-//                   </th>
-//                   <th>
-//                     <abbr title="Requesting Physician">
-//                       Requesting Physician
-//                     </abbr>
-//                   </th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {Clinic.orders.map((order, i) => (
-//                   <tr
-//                     key={order._id}
-//                     onClick={() => handleMedicationRow(order)}
-//                     className={
-//                       order._id === (selectedMedication?._id || null)
-//                         ? "is-selected"
-//                         : ""
-//                     }
-//                   >
-//                     <th>{i + 1}</th>
-//                     <td>
-//                       <span>
-//                         {format(new Date(order.createdAt), "dd-MM-yy")}
-//                       </span>
-//                     </td>{" "}
-//                     {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-//                     <th>{order.order}</th>
-//                     <td>{order.fulfilled === "True" ? "Yes" : "No"}</td>
-//                     <td>{order.order_status}</td>
-//                     <td>{order.requestingdoctor_Name}</td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//             {/*   */}
-//             <ClientBilledRadiology selectedClient={Clinic.client_id} />
-//             {/*  } */}
-//           </div>
-//         </div>
-//       ))}
-//       {/* <!-- Add Ref to Load More div --> */}
-//       {/*  <div className="loading" ref={loader}>
-//                               <h2>Load More</h2>
-//                   </div> */}
-//     </div>
-//   </div>
-// </div> */}
 
 export function DispenseDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,

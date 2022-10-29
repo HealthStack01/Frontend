@@ -313,11 +313,50 @@ export function DispenseList({openCreateModal}) {
     },
   ];
 
-  const dispensarySchema = [];
+  const dispensarySchema = [
+    {
+      name: "S/NO",
+      headerStyle: (selector, id) => {
+        return {textAlign: "center"}; // removed partial line here
+      },
+
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Client Name",
+      key: "clientname",
+      description: "Enter client name",
+      selector: row => row.clientname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Bill Items",
+      key: "bills",
+      description: "Enter bills",
+      selector: row => row.bills.map(obj => obj.order).flat().length,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
-      <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px",
+          flex: "1",
+        }}
+      >
         <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
@@ -326,11 +365,11 @@ export function DispenseList({openCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Inventory Store
+              Paid Prescription
             </h2>
           </div>
 
-          {handleCreate && (
+          {handleCreateNew && (
             <Button
               style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
@@ -339,19 +378,58 @@ export function DispenseList({openCreateModal}) {
           )}
         </TableMenu>
 
-        <div style={{width: "100%", height: "600px", overflow: "auto"}}>
-          <CustomTable
-            title={""}
-            columns={DispensorySummary}
-            data={facilities}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={onRowClicked}
-            progressPending={loading}
-          />
+        <div
+          className="columns"
+          style={{
+            display: "flex",
+            width: "100%",
+            //flex: "1",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              height: "calc(100% - 70px)",
+              transition: "width 0.5s ease-in",
+              width: "100%", //selectedClient ? "49.5%" : "100%",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={dispensarySchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={row => onRowClicked(row)}
+              progressPending={loading}
+            />
+          </div>
+          {/* 
+          {selectedClient && (
+            <>
+              <div
+                style={{
+                  height: "calc(100% - 70px)",
+                  width: "49.5%",
+                  transition: "width 0.5s ease-in",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={selectedClientSchema}
+                  data={clientBills}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={row => onRowClicked(row)}
+                  progressPending={loading}
+                />
+              </div>
+            </>
+          )} */}
         </div>
-      </PageWrapper>
+      </div>
     </>
   );
 }

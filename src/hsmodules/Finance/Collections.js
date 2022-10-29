@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -12,6 +13,7 @@ import {TableMenu} from "../../ui/styled/global";
 import Button from "./ui-components/buttons/Button";
 import FilterMenu from "./ui-components/utilities/FilterMenu";
 import FacilityAccount from "./FacilityAccount";
+import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -20,22 +22,29 @@ export default function Collections() {
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [accountModal, setAccountModal] = useState(false);
+
+  const handleOpenAccountModal = () => {
+    setAccountModal(true);
+  };
+
+  const handleCloseAccountModal = () => {
+    setAccountModal(false);
+  };
 
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Inventory  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-5 ">
-          <CollectionList />
-        </div>
-        <div className="column is-7 ">
-          {state.SelectedClient.show === "detail" && <ClientAccount />}
-          {/*  {(state.InventoryModule.show ==='detail')&&<InventoryDetail  />}
+
+      <CollectionList openAccountModal={handleOpenAccountModal} />
+      <ModalBox open={accountModal} onClose={handleCloseAccountModal}>
+        <ClientAccount />
+      </ModalBox>
+
+      {/*  {(state.InventoryModule.show ==='detail')&&<InventoryDetail  />}
                 {(state.InventoryModule.show ==='modify')&&<InventoryModify Inventory={selectedInventory} />}*/}
-        </div>
-      </div>
     </section>
   );
 }
@@ -163,6 +172,91 @@ export function ClientAccount() {
     }
   };
 
+  const creditSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "Enter Date",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Date",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Mode",
+      key: "paymentmode",
+      description: "Enter Date",
+      selector: row => row.paymentmode,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+  ];
+
+  const debitSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "Enter Date",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Description",
+      key: "description",
+      description: "Enter Date",
+      selector: row => row.description,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Date",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Mode",
+      key: "paymentmode",
+      description: "Enter Date",
+      selector: row => row.paymentmode,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+  ];
+
   return (
     <>
       <div className="card cardheight">
@@ -178,133 +272,54 @@ export function ClientAccount() {
           {/*  <div className="level"> vscrollable
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Inventory  Module</span></div>
             </div> */}
-          <div className="columns ">
-            <div className="column is-6 ">
-              <div className="card cardht80">
-                <div className="card-header">
-                  <p className="card-header-title">Credit</p>
-                </div>
-                <div className="card-content vscrollable mx-0.5">
-                  <div className="table-container pullup ">
-                    <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable mx-0.5">
-                      <thead>
-                        <tr>
-                          <th>
-                            <abbr title="Serial No">S/No</abbr>
-                          </th>
-                          <th>
-                            <abbr title="Cost Price">Date</abbr>
-                          </th>
-                          <th>
-                            <abbr title="Quantity">Amount</abbr>
-                          </th>
-                          <th>
-                            <abbr title="Base Unit">Mode</abbr>
-                          </th>
-                          {/*  <th><abbr title="Stock Value">Stock Value</abbr></th>
-                                         
-                                        <th><abbr title="Selling Price">Selling Price</abbr></th>
-                                        <th><abbr title="Re-Order Level">Re-Order Level</abbr></th>
-                                        <th><abbr title="Expiry">Expiry</abbr></th> 
-                                        <th><abbr title="Actions">Actions</abbr></th> */}
-                        </tr>
-                      </thead>
-                      <tfoot></tfoot>
-                      <tbody>
-                        {facility.map((Inventory, i) => (
-                          <>
-                            {Inventory.category === "credit" && (
-                              <tr key={Inventory._id}>
-                                <th>{i + 1}</th>
-                                <td>
-                                  {new Date(Inventory.createdAt).toLocaleString(
-                                    "en-GB"
-                                  )}
-                                </td>{" "}
-                                {/*add time  */}
-                                <td>{Inventory.amount}</td>
-                                <td>{Inventory.paymentmode}</td>
-                                {/* <td>{Inventory.stockvalue}</td>
-                                            <td>{Inventory.costprice}</td>
-                                            <td>{Inventory.sellingprice}</td>
-                                            <td>{Inventory.reorder_level}</td> 
-                                            <td>{Inventory.expiry}</td>
-                                            <td><span   className="showAction"  >...</span></td> */}
-                              </tr>
-                            )}
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="column is-6 ">
-              <div className="card cardht80">
-                <div className="card-header">
-                  <p className="card-header-title">Debit</p>
-                </div>
-                <div className="card-content vscrollable mx-0.5">
-                  <div className="table-container pullup ">
-                    <table className="table is-striped is-narrow is-hoverable  is-scrollable mx-0.5">
-                      <thead>
-                        <tr>
-                          <th>
-                            <abbr title="Serial No">S/No</abbr>
-                          </th>
-                          <th>
-                            <abbr title="Cost Price">Date</abbr>
-                          </th>
-                          <th>
-                            <abbr title="Description">Description</abbr>
-                          </th>
 
-                          <th>
-                            <abbr title="Quantity">Amount</abbr>
-                          </th>
-                          <th>
-                            <abbr title="Base Unit">Mode</abbr>
-                          </th>
-                          {/*  <th><abbr title="Stock Value">Stock Value</abbr></th>
-                                         
-                                        <th><abbr title="Selling Price">Selling Price</abbr></th>
-                                        <th><abbr title="Re-Order Level">Re-Order Level</abbr></th>
-                                        <th><abbr title="Expiry">Expiry</abbr></th> 
-                                        <th><abbr title="Actions">Actions</abbr></th> */}
-                        </tr>
-                      </thead>
-                      <tfoot></tfoot>
-                      <tbody>
-                        {facility.map((Inventory, i) => (
-                          <>
-                            {Inventory.category === "debit" && (
-                              <tr key={Inventory._id}>
-                                <th>{i + 1}</th>
-                                <td>
-                                  {new Date(Inventory.createdAt).toLocaleString(
-                                    "en-GB"
-                                  )}
-                                </td>{" "}
-                                {/*add time  */}
-                                <th>{Inventory.description}</th>
-                                <td>{Inventory.amount}</td>
-                                <td>{Inventory.paymentmode}</td>
-                                {/* <td>{Inventory.stockvalue}</td>
-                                            <td>{Inventory.costprice}</td>
-                                            <td>{Inventory.sellingprice}</td>
-                                            <td>{Inventory.reorder_level}</td> 
-                                            <td>{Inventory.expiry}</td>
-                                            <td><span   className="showAction"  >...</span></td> */}
-                              </tr>
-                            )}
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                width: "40%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <p>Credit Account</p>
+              <CustomTable
+                title={""}
+                columns={creditSchema}
+                data={facility.filter(i => i.category === "credit")}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //onRowClicked={handleRow}
+                progressPending={false}
+              />
+            </div>
+
+            <div
+              style={{
+                width: "59%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <p>Debit Account</p>
+              <CustomTable
+                title={""}
+                columns={debitSchema}
+                data={facility.filter(i => i.category === "debit")}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //onRowClicked={handleRow}
+                progressPending={false}
+              />
             </div>
           </div>
         </div>
@@ -313,7 +328,7 @@ export function ClientAccount() {
   );
 }
 
-export function CollectionList() {
+export function CollectionList({openAccountModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -361,6 +376,7 @@ export function CollectionList() {
       SelectedClient: newInventoryModule,
     }));
     //console.log(state)
+    openAccountModal();
   };
 
   const handleSearch = val => {
@@ -487,10 +503,10 @@ export function CollectionList() {
       name: "Date",
       key: "createdAt",
       description: "Enter Date",
-      selector: row => row.createdAt,
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: "DATE",
     },
 
     {

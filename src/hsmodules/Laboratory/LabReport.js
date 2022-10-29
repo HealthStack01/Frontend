@@ -16,6 +16,7 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import ModalBox from "./ui-components/modal";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -45,30 +46,40 @@ export default function LabReport() {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
 
+  const [reportFormModal, setReportFormModal] = useState(false);
+
+  const handleOpenReportFormModal = () => {
+    setReportFormModal(true);
+  };
+
+  const handleCloseReportFormModal = () => {
+    setReportFormModal(false);
+  };
+
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <LabOrderList />
-        </div>
 
-        <div className="column is-6 ">
-          {state.financeModule.show === "detail" && <LaboratoryReportForm />}
-          {/*   {(state.financeModule.show ==='detail')&& <LabNoteCreate /> } */}
-        </div>
-        {/*  <div className="column is-3 "> <LabNoteCreate /> <ReportCreate />
+      <LabOrderList openReportFormModal={handleOpenReportFormModal} />
+
+      <ModalBox open={reportFormModal} onClose={handleCloseReportFormModal}>
+        <LaboratoryReportForm />
+      </ModalBox>
+
+      {/* {state.financeModule.show === "detail" && <LaboratoryReportForm />} */}
+      {/*   {(state.financeModule.show ==='detail')&& <LabNoteCreate /> } */}
+
+      {/*  <div className="column is-3 "> <LabNoteCreate /> <ReportCreate />
                 
                 {(state.financeModule.show ==='detail')&&<PatientProfile />}
                 </div> */}
-      </div>
     </section>
   );
 }
 
-export function LabOrderList() {
+export function LabOrderList({openReportFormModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -157,6 +168,7 @@ export function LabOrderList() {
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
+    openReportFormModal();
   };
 
   const handleSearch = val => {
@@ -281,6 +293,7 @@ export function LabOrderList() {
 
   // ######### DEFINE FUNCTIONS AND SCHEMA HERE
   const handleCreate = () => {};
+
   const labReportSchema = [
     {
       name: "S/No",
