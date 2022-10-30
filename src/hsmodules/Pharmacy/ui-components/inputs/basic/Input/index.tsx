@@ -1,7 +1,7 @@
-import { FormHelperText } from '@mui/material';
-import React from 'react';
+import {FormHelperText} from "@mui/material";
+import React from "react";
 
-import { InputBox, InputField, InputLabel } from './styles';
+import {InputBox, InputField, InputLabel} from "./styles";
 
 interface InputProps {
   label?: string;
@@ -16,7 +16,7 @@ interface InputProps {
   defaultValue?: string;
   value?: any;
   placeholder?: string;
-  size?: 'small' | 'medium';
+  size?: "small" | "medium";
   disabled?: boolean;
   inputRef?: any;
 }
@@ -28,9 +28,9 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   label,
   errorText,
-  type = 'text',
+  type = "text",
   name,
-  defaultValue = '',
+  defaultValue = "",
   onChange,
   onKeyDown,
   placeholder,

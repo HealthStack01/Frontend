@@ -11,10 +11,23 @@ import Encounter from "../Documentation/Documentation";
 import {ClientSearch} from "../helpers/ClientSearch";
 import ServiceSearch from "../helpers/ServiceSearch";
 var random = require("random-string-generator");
+import {Box, Collapse, Grid} from "@mui/material";
+import CustomSelect from "./ui-components/inputs/basic/Select";
+import BasicDatePicker from "./ui-components/inputs/Date";
+
+import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import Divider from "@mui/material/Divider";
+import Input from "./ui-components/inputs/basic/Input";
+import Button from "@mui/material/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Typography from "@mui/material/Typography";
+import CustomTable from "../../components/customtable";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function BillServiceCreate() {
+export default function BillServiceCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const {register, handleSubmit, setValue} = useForm();
   //const [error, setError] =useState(false)
@@ -748,317 +761,371 @@ export default function BillServiceCreate() {
     setProductItem(prev => prev.filter((el, i) => i !== index));
   };
 
-  // console.log("simpa")
+  const dummyData = [
+    {
+      category: "Treatment",
+      name: "Dummy data",
+      quantity: "1",
+      baseunit: "test",
+      sellingprice: "1000",
+      amount: "1000",
+      billMode: {
+        type: "Cash",
+      },
+    },
+    {
+      category: "Accessment",
+      name: "Test Table",
+      quantity: "2",
+      baseunit: "test-test",
+      sellingprice: "1500",
+      amount: "3000",
+      billMode: {
+        type: "Cash",
+      },
+    },
+    {
+      category: "Check-up",
+      name: "John Doe",
+      quantity: "4",
+      baseunit: "test-joe",
+      sellingprice: "300",
+      amount: "1200",
+      billMode: {
+        type: "Transfer",
+      },
+    },
+  ];
+
+  const productSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter Category",
+      selector: row => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quantity",
+      key: "quantity",
+      description: "Enter Quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Unit",
+      key: "baseunit",
+      description: "Enter Unit",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Selling Price",
+      key: "sellingprice",
+      description: "Enter selling price",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Mode",
+      key: "billMode",
+      description: "Enter Bill mode",
+      selector: row => row.billMode.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Action",
+      key: "name",
+      description: "Enter Name",
+      selector: row => (
+        <Button
+          color="error"
+          className="button is-info is-small"
+          sx={{
+            background: "none",
+            //color: "red",
+            fontSize: "0.75rem",
+            borderRadius: "2px",
+            padding: "0.27rem 1rem",
+            border: "none",
+            cursor: "pointer",
+            textTransform: "capitalize",
+          }}
+          onClick={() => {
+            handleRemoveBill(row);
+          }}
+        >
+          Delete
+        </Button>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  console.log(paymentOptions);
+
   return (
     <>
       <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">Bill Service</p>
-          {/*  <button className="button is-success is-small btnheight mt-2" onClick={showDocumentation}>Documentation</button> */}
-        </div>
         <div className="card-content ">
           <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                {/*  <div className="field">    
-                 <div className="control">
-                     <div className="select is-small">
-                         <select name="type" value={type} onChange={handleChangeType} className="selectadd">
-                            <option value="">Choose Type </option>
-                             <option value="Dispense">Dispense</option>
-                             <option value="Bill">Bill </option> */}
-                {/* <option value="Dispense">Dispense</option>
-                             <option value="Audit">Audit</option> */}
-                {/*         </select>
-                     </div>
-                 </div>
-             </div>
- */}
-                {state.ClientModule.selectedClient.firstname !== undefined ? (
-                  <div className="field">
-                    <label className="label is-size-7">
-                      {" "}
-                      {state.ClientModule.selectedClient.firstname}{" "}
-                      {state.ClientModule.selectedClient.lastname}
-                    </label>
-                  </div>
-                ) : (
-                  <div className="field">
-                    <ClientSearch
-                      getSearchfacility={getSearchfacility1}
-                      clear={success1}
-                    />
-                    {/* <p className="control has-icons-left has-icons-right">
-                         <input className="input is-small"  {...register("x",{required: true})}  value={source} name="client" type="text" onChange={e=>setSource(e.target.value)} placeholder="Client" />
-                         <span className="icon is-small is-left">
-                             <i className="fas fa-hospital"></i>
-                         </span>                    
-                     </p> */}
-                  </div>
-                )}
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="paymentmode"
-                        value={paymentmode}
-                        onChange={e => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value="">Billing Mode </option>
-                        {paymentOptions.map((option, i) => (
-                          <option key={i} value={option.details}>
-                            {" "}
-                            {option.name}
-                          </option>
-                        ))}
+            <Box
+              sx={{
+                display: "flex",
+                alignItem: "center",
+                justifyContent: "space-between",
+                marginBottom: "25px",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "600",
+                  fontSize: "20px",
+                  lineHeight: "27.32px",
+                }}
+              >
+                Bill Service
+              </p>
+            </Box>
 
-                        {/*  <option value="Cash">Cash</option>
-                             <option value="Family">Family </option>
-                            <option value="Company Cover">Company Cover</option>
-                             <option value="HMO">HMO</option> */}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>{" "}
-            {/* horizontal end */}
-            {/*  <div className="field">
-                 <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
-                     <span className="icon is-small is-left">
-                     <i className=" fas fa-user-md "></i>
-                     </span>
-                 </p>
-             </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      {...register("x", {required: true})}
-                      value={date}
-                      name="date"
-                      type="text"
-                      onChange={e => setDate(e.target.value)}
-                      placeholder="Date"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "25px",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  mr: 2,
+                  flexGrow: 2,
+                }}
+              >
+                {state.ClientModule.selectedClient.firstname !== undefined ? (
+                  <p>
+                    {state.ClientModule.selectedClient.firstname}
+                    {state.ClientModule.selectedClient.lastname}
                   </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x", {required: true})}
-                      name="documentNo"
-                      value={documentNo}
-                      type="text"
-                      onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x", {required: true})}
-                      value={totalamount}
-                      name="totalamount"
-                      type="text"
-                      onChange={e => setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+                ) : (
+                  <ClientSearch
+                    getSearchfacility={getSearchfacility1}
+                    clear={success1}
+                  />
+                )}
+              </Box>
+
+              <Box
+                sx={{
+                  display: "inline-flex",
+                }}
+              >
+                <CustomSelect
+                  options={paymentOptions}
+                  defaultValue={"select mode"}
+                  value={paymentmode}
+                  onChange={handleChangeMode}
+                />
+              </Box>
+            </Box>
+
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                marginBottom: "25px",
+              }}
+            >
+              <Grid item xs={4}>
+                <Input
+                  {...register("x", {required: true})}
+                  value={date}
+                  name="date"
+                  type="date"
+                  onChange={e => setDate(e.target.value)}
+                  placeholder="Date"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  {...register("documentNo", {required: true})}
+                  name="documentNo"
+                  value={`#${documentNo}`}
+                  type="text"
+                  onChange={e => setDocumentNo(e.target.value)}
+                  placeholder=" Invoice Number"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  {...register("totalamount", {required: true})}
+                  value={totalamount}
+                  name="totalamount"
+                  type="text"
+                  onChange={e => setTotalamount(e.target.value)}
+                  placeholder=" Total Amount"
+                />
+              </Grid>
+            </Grid>
           </form>
 
-          <label className="label is-small">Choose Service Item:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
+          <Divider
+            sx={{
+              marginBottom: "25px",
+            }}
+          />
+
+          <Box>
+            <Typography color="text.primary" mb="25px">
+              Choose Service Item:
+            </Typography>
+
+            <Grid container spacing={2} mb="25px">
+              <Grid item xs={8}>
                 <ServiceSearch
                   getSearchfacility={getSearchfacility}
                   clear={success}
                   mode={billMode}
                 />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    value={productId}
-                    name="productId"
-                    type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
+              </Grid>
 
-                {/* {sellingprice}  {sellingprice &&   "N"}{sellingprice} {sellingprice &&   "per"}  {baseunit} {invquantity} {sellingprice &&   "remaining"}  */}
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={e => handleQtty(e)}
-                    placeholder="Quantity"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                </p>
-                {/*  <label >{baseunit}</label> */}
-              </div>
-              <div className="field">
-                <label>Amount:</label>
-                {/* <p>{quantity*sellingprice}</p> */}
-              </div>
-              <div className="field" style={{width: "40%"}}>
-                <p
-                  className="control has-icons-left " /* style={{display:"none"}} */
+              <Grid item xs={2}>
+                <Input
+                  {...register("quantity", {required: true})}
+                  name="quantity"
+                  value={quantity}
+                  type="number"
+                  onChange={e => handleQtty(e)}
+                  placeholder="Quantity"
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
-                  <input
-                    className="input is-small"
+                  <Input
+                    {...register("qamount", {required: true})}
+                    value={totalamount}
                     name="qamount"
-                    disabled={changeAmount}
-                    value={calcamount}
                     type="text"
                     onChange={async e => await setCalcAmount(e.target.value)}
-                    placeholder="Amount"
+                    placeholder=" Amount"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                </p>
-                {(user.currentEmployee?.roles.includes("Adjust Price") ||
-                  user.currentEmployee?.roles.length === 0 ||
-                  user.stacker) && (
-                  <button
-                    className="button is-small is-success btnheight"
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      marginTop: "10px",
+                      //textTransform: "capitalize",
+                    }}
+                    // disabled={
+                    //   user.currentEmployee?.roles.includes("Adjust Price") ||
+                    //   user.currentEmployee?.roles.length === 0 ||
+                    //   user.stacker
+                    // }
                     onClick={handleChangeAmount}
                   >
                     Adjust
-                  </button>
-                )}
-              </div>
-              <div className="field">
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
 
-          {productItem.length > 0 && (
+          <Box mb="15px">
+            <Button
+              variant="outlined"
+              startIcon={<AddCircleOutlineIcon />}
+              onClick={handleClickProd}
+            >
+              Add
+            </Button>
+          </Box>
+
+          <Collapse in={dummyData.length > 0}>
             <div>
-              <label>Service Items:</label>
-              <div class="table-container">
-                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                  <thead>
-                    <tr>
-                      <th>
-                        <abbr title="Serial No">S/No</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Category">Category</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Name">Name</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Quantity">Quanitity</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Unit">Unit</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Selling Price">Selling Price</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Amount">Amount</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Billing Mode">Mode</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Actions">Actions</abbr>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tfoot></tfoot>
-                  <tbody>
-                    {productItem.map((ProductEntry, i) => (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{ProductEntry.category}</td>
-                        <td>{ProductEntry.name}</td>
-                        <th>{ProductEntry.quantity}</th>
-                        <td>{ProductEntry.baseunit}</td>
-                        <td>{ProductEntry.sellingprice}</td>
-                        <td>{ProductEntry.amount}</td>
-                        <td>{ProductEntry.billMode.type}</td>
-                        <td onClick={() => handleRemoveBill(ProductEntry, i)}>
-                          <span className="showAction">x</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="field mt-2 is-grouped">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={handleCreateBill}
-                  >
-                    Done
-                  </button>
-                </p>
-                {/*  <p className="control">
-                     <button className="button is-warning is-small" disabled={!productItem.length>0} onClick={onSubmit} >
-                         Clear
-                     </button>
-                 </p> */}
-              </div>
+              <CustomTable
+                title={""}
+                columns={productSchema}
+                data={dummyData}
+                //data={productItem}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={row => onRowClicked(row)}
+                progressPending={false}
+              />
             </div>
-          )}
+
+            <Box
+              sx={{
+                display: "flex",
+                marginTop: "15px",
+              }}
+            >
+              <Button
+                variant="outlined"
+                //disabled={!productItem.length > 0}
+                onClick={handleCreateBill}
+                sx={{
+                  marginRight: "20px",
+                }}
+              >
+                Done
+              </Button>
+
+              <Button
+                variant="contained"
+                color="error"
+                //disabled={!productItem.length > 0}
+                onClick={onSubmit}
+              >
+                Clear
+              </Button>
+            </Box>
+          </Collapse>
         </div>
       </div>
     </>

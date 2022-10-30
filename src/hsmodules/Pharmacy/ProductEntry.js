@@ -846,11 +846,11 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       key: "action",
       description: "Enter Action",
       selector: row => (
-        <button
+        <Button
           className="button is-info is-small"
-          style={{
-            backgroundColor: "orange",
-            color: "#fff",
+          sx={{
+            background: "none",
+            color: "red",
             fontSize: "0.75rem",
             borderRadius: "2px",
             padding: "0.27rem 1rem",
@@ -862,7 +862,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
           }}
         >
           Delete
-        </button>
+        </Button>
       ),
       sortable: true,
       required: true,
