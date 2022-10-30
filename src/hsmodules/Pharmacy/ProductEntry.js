@@ -15,10 +15,11 @@ import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
+import CustomTable from "./ui-components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "./ui-components/modal";
+import {Box} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -891,14 +892,21 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
 
               {handleCreateNew && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  sx={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
                   onClick={handleCreateNew}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <Box
+              sx={{
+                width: "100%",
+                height: "calc(100vh - 100px)",
+                overflowY: "auto",
+                background: "red",
+              }}
+            >
               <CustomTable
                 title={""}
                 columns={productEntrySchema}
@@ -909,7 +917,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
                 onRowClicked={handleRow}
                 progressPending={loading}
               />
-            </div>
+            </Box>
           </PageWrapper>
         </>
       ) : (
