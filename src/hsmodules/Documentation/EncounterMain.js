@@ -18,6 +18,14 @@ import AdmitOrders from "./AdmitOrders";
 import DischargeOrders from "./DischargeOrders";
 import RadiologyOrders from "./RadiologyOrders";
 import {useReactToPrint} from "react-to-print";
+import {Box, Grid} from "@mui/material";
+import Input from "./ui-components/inputs/basic/Input";
+
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import CustomSelect from "./ui-components/inputs/basic/Select";
 
 export default function EncounterMain({nopresc}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -318,8 +326,43 @@ export default function EncounterMain({nopresc}) {
   };
 
   return (
-    <div>
-      <VideoConference />
+    <Box
+      container
+      sx={{
+        padding: "20px",
+      }}
+    >
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          marginBottom: "25px",
+        }}
+      >
+        <Grid item xs={6}>
+          <Input label="Search Documentation" />
+        </Grid>
+
+        <Grid item xs={4}>
+          <VideoConference />
+        </Grid>
+
+        <Grid item xs={2}>
+          <CustomSelect
+            defaultValue="Chart"
+            options={[
+              "Chart",
+              "Radiology",
+              "Lab",
+              "Prescription",
+              "End Encounter",
+            ]}
+          />
+        </Grid>
+      </Grid>
+
+      <Box></Box>
+      {/* <VideoConference /> */}
       <div className="level is-mobile warp ">
         <div className="level-left mt-2">
           <div className="level-item">
@@ -1354,6 +1397,6 @@ export default function EncounterMain({nopresc}) {
                         </footer> */}
         </div>
       </div>
-    </div>
+    </Box>
   );
 }

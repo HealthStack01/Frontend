@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 //import {Route, Switch,   Link, NavLink, } from 'react-router-dom'
 import client from "../../feathers";
-//import {DebounceInput} from "react-debounce-input";
+import {DebounceInput} from "react-debounce-input";
 import DebouncedInput from "./ui-components/inputs/DebouncedInput";
 //import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
@@ -36,8 +36,10 @@ export function ClientSearch({getSearchfacility, clear}) {
   const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
+  console.log(simpa);
+
   const handleRow = async obj => {
-    console.log(obj);
+    // console.log(obj);
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -262,9 +264,12 @@ export function ClientSearch({getSearchfacility, clear}) {
               label="Search for Client"
               variant="outlined"
               minLength={3}
-              onBlur={handleBlur}
+              onBlur={e => handleBlur(e)}
+              value={simpa}
               onChangeValue={handleSearch}
               inputRef={inputEl}
+              defaultValue={simpa}
+              disabled={simpa !== ""}
             />
           </div>
 
@@ -277,7 +282,7 @@ export function ClientSearch({getSearchfacility, clear}) {
               </p>
             </Collapse>
 
-            <Collapse in={val !== "" && facilities.length > 0}>
+            <Collapse in={showPanel}>
               <CustomTable
                 title={""}
                 columns={tableSchema}
