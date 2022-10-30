@@ -14,6 +14,8 @@ import Button from "./ui-components/buttons/Button";
 import FilterMenu from "./ui-components/utilities/FilterMenu";
 import FacilityAccount from "./FacilityAccount";
 import ModalBox from "./ui-components/modal";
+import CloseIcon from "@mui/icons-material/Close";
+import {IconButton} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -40,7 +42,13 @@ export default function Collections() {
 
       <CollectionList openAccountModal={handleOpenAccountModal} />
       <ModalBox open={accountModal} onClose={handleCloseAccountModal}>
-        <ClientAccount />
+        <div
+          style={{
+            width: "90vw",
+          }}
+        >
+          <ClientAccount closeModal={handleCloseAccountModal} />
+        </div>
       </ModalBox>
 
       {/*  {(state.InventoryModule.show ==='detail')&&<InventoryDetail  />}
@@ -49,7 +57,7 @@ export default function Collections() {
   );
 }
 
-export function ClientAccount() {
+export function ClientAccount({closeModal}) {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -191,6 +199,16 @@ export function ClientAccount() {
       inputType: "DATE",
     },
     {
+      name: "Description",
+      style: {color: "#0364FF"},
+      key: "description",
+      description: "Enter Date",
+      selector: row => row.description,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
       name: "Amount",
       key: "amount",
       description: "Enter Date",
@@ -230,6 +248,7 @@ export function ClientAccount() {
     },
     {
       name: "Description",
+      style: {color: "#0364FF"},
       key: "description",
       description: "Enter Date",
       selector: row => row.description,
@@ -260,13 +279,63 @@ export function ClientAccount() {
   return (
     <>
       <div className="card cardheight">
-        <div className="card-header">
-          <p className="card-header-title">
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "2rem",
+          }}
+        >
+          <div
+            className="card-header"
+            style={{
+              width: "346px",
+              height: "100px",
+              border: "1px solid #E5E5E5",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              paddingLeft: "31px",
+            }}
+          >
+            {/* <p className="card-header-title">
             Account Details: {facility[0]?.fromName}
-          </p>
-          <button className="button is-success is-small btnheight mt-2">
-            Current Balance: N {balance}
-          </button>
+          </p> */}
+            <span
+              style={{
+                color: "#979DAC",
+                fontSize: "16px",
+                lineHeight: "21.86px",
+              }}
+            >
+              Current Balance
+            </span>
+            <span
+              style={{
+                fontWeight: "700",
+                fontSize: "24px",
+                color: "#414D55",
+              }}
+            >
+              <span>&#8358;</span>
+              {balance}
+            </span>
+          </div>
+
+          <IconButton
+            sx={{
+              backgroundColor: "#0364FF",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#0364FF",
+              },
+            }}
+            onClick={closeModal}
+          >
+            <CloseIcon />
+          </IconButton>
         </div>
         <div className="card-content ">
           {/*  <div className="level"> vscrollable
@@ -282,13 +351,22 @@ export function ClientAccount() {
           >
             <div
               style={{
-                width: "40%",
+                width: "49.5%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                overflowY: "scroll",
               }}
             >
-              <p>Credit Account</p>
+              <p
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  textTransform: "uppercase",
+                }}
+              >
+                Credit Account
+              </p>
               <CustomTable
                 title={""}
                 columns={creditSchema}
@@ -303,13 +381,22 @@ export function ClientAccount() {
 
             <div
               style={{
-                width: "59%",
+                width: "49.5%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                overflowY: "scroll",
               }}
             >
-              <p>Debit Account</p>
+              <p
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  textTransform: "uppercase",
+                }}
+              >
+                Debit Account
+              </p>
               <CustomTable
                 title={""}
                 columns={debitSchema}

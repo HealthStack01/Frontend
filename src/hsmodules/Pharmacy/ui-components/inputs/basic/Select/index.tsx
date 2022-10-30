@@ -58,18 +58,14 @@ const CustomSelect: React.FC<SelectProps> = ({
         name={name}
         defaultValue={defaultValue || ""}
         onChange={onChange}
-        sx={{background: "white"}}
+        sx={{background: "white", height: 48}}
       >
         <MenuItem value="" sx={{width: "100%"}}>
           <em>None</em>
         </MenuItem>
-        {optionsList.map((option, index) => (
-          <MenuItem
-            value={option.value ? option.value : option}
-            key={index}
-            sx={{width: "100%"}}
-          >
-            {option.label ? option.label : option}
+        {options.map((option, index) => (
+          <MenuItem value={option.detail} key={index} sx={{width: "100%"}}>
+            {option.name}
           </MenuItem>
         ))}
       </Select>
