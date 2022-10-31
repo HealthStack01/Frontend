@@ -904,7 +904,6 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
                 width: "100%",
                 height: "calc(100vh - 100px)",
                 overflowY: "auto",
-                background: "red",
               }}
             >
               <CustomTable

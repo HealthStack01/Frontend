@@ -4,6 +4,8 @@ import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 
 import {ChartClassList} from "./DocumentClass";
 import EndEncounter, {EndEncounterList} from "./EndEncounter";
@@ -18,7 +20,7 @@ import AdmitOrders from "./AdmitOrders";
 import DischargeOrders from "./DischargeOrders";
 import RadiologyOrders from "./RadiologyOrders";
 import {useReactToPrint} from "react-to-print";
-import {Box, Grid} from "@mui/material";
+import {Box, Collapse, Grid, IconButton} from "@mui/material";
 import Input from "./ui-components/inputs/basic/Input";
 
 import InputLabel from "@mui/material/InputLabel";
@@ -26,6 +28,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CustomSelect from "./ui-components/inputs/basic/Select";
+import Button from "../../components/buttons/Button";
 
 export default function EncounterMain({nopresc}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -330,42 +333,151 @@ export default function EncounterMain({nopresc}) {
       container
       sx={{
         padding: "20px",
+        flexGrow: "1",
       }}
     >
-      <Grid
-        container
-        spacing={3}
-        sx={{
-          marginBottom: "25px",
-        }}
-      >
-        <Grid item xs={6}>
-          <Input label="Search Documentation" />
-        </Grid>
+      <Box sx={{flexGrow: 1}}>
+        <Grid
+          container
+          spacing={1}
+          columns={14}
+          sx={{
+            marginBottom: "25px",
+          }}
+        >
+          <Grid item xs={2}>
+            <Button
+              style={{
+                fontSize: "0.8rem",
+                width: "100%",
+                backgroundColor: "#363636",
+                variant: "outlined",
+              }}
+            >
+              Charts
+            </Button>
+          </Grid>
 
-        <Grid item xs={4}>
-          <VideoConference />
-        </Grid>
+          <Grid item xs={2}>
+            <Button
+              style={{
+                fontSize: "0.8rem",
+                width: "100%",
+                backgroundColor: "#17935C",
+              }}
+            >
+              Radiology
+            </Button>
+          </Grid>
 
-        <Grid item xs={2}>
-          <CustomSelect
-            defaultValue="Chart"
-            options={[
-              "Chart",
-              "Radiology",
-              "Lab",
-              "Prescription",
-              "End Encounter",
-            ]}
+          <Grid item xs={2}>
+            <Button
+              style={{
+                fontSize: "0.8rem",
+                width: "100%",
+                backgroundColor: "#B6CCFE",
+              }}
+            >
+              Laboratory
+            </Button>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Button
+              style={{
+                fontSize: "0.8rem",
+                width: "100%",
+                background: "none",
+                color: "#0364FF",
+                border: "1px solid #0364FF",
+              }}
+            >
+              End Encouter
+            </Button>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Button
+              style={{
+                fontSize: "0.8rem",
+                width: "100%",
+                backgroundColor: "#EF9645",
+              }}
+            >
+              Prescription
+            </Button>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Button
+              style={{
+                fontSize: "0.8rem",
+                width: "100%",
+                backgroundColor: "#4F772D",
+              }}
+            >
+              New Document
+            </Button>
+          </Grid>
+
+          <Grid item xs={2}>
+            <VideoConference />
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box sx={{flexGrow: 1, width: "100%"}}>
+        <Box sx={{flex: 1}}>
+          <Input
+            label="Search Documentation"
+            className="input is-small "
+            type="text"
+            minLength={3}
+            debounceTimeout={400}
+            onChange={e => handleSearch(e.target.value)}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
-      <Box></Box>
+      <Box sx={{flexGrow: 1, width: "100%"}}>
+        {facilities.map((Clinic, i) => (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              flexGrow: 1,
+              width: "100%",
+            }}
+          >
+            <Grid>
+              <Grid></Grid>
+              <Grid></Grid>
+              <Grid>
+                <Box>
+                  <IconButton
+                    sx={{
+                      color: "#0364FF",
+                    }}
+                  >
+                    <PrintOutlinedIcon />
+                  </IconButton>
+
+                  <IconButton color="error">
+                    <DeleteOutlineIcon />
+                  </IconButton>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Collapse></Collapse>
+          </Box>
+        ))}
+      </Box>
+
       {/* <VideoConference /> */}
       <div className="level is-mobile warp ">
         <div className="level-left mt-2">
-          <div className="level-item">
+          {/* <div className="level-item">
             <div className="field">
               <p className="control has-icons-left  ">
                 <DebounceInput
@@ -381,7 +493,7 @@ export default function EncounterMain({nopresc}) {
                 </span>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
         {/*  <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Clinics</span></div> */}
         <div className="level-right my-2">

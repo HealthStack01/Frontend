@@ -1,8 +1,9 @@
 /* eslint-disable */
-import {Button} from "@mui/material";
+// import {Button} from "@mui/material";
 import React, {useState, useContext, useEffect, useRef} from "react";
 import Draggable from "react-draggable";
 import {Jutsu} from "react-jutsu";
+import Button from "../../components/buttons/Button";
 //import { useJitsi } from 'react-jutsu' // Custom hook
 import {UserContext, ObjectContext} from "../../context";
 
@@ -53,15 +54,14 @@ const VideoConference = () => {
       {/*  <input id='password' type='text' placeholder='Password (optional)' value={password} onChange={(e) => setPassword(e.target.value)} /> */}
       <Button
         variant="contained"
-        sx={{
-          textTransform: "capitalize",
-          height: "48px",
-          width: "100%",
-        }}
         onClick={e => handleClick(e)}
         type="submit"
+        style={{
+          fontSize: "0.8rem",
+          width: "100%",
+        }}
       >
-        Start / Join Teleconsultation
+        Join Teleconsultation
       </Button>
     </form>
   );
