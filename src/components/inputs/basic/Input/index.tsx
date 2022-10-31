@@ -19,6 +19,7 @@ interface InputProps {
   size?: 'small' | 'medium';
   disabled?: boolean;
   inputRef?: any;
+  register?: any;
 }
 
 // Reset Input MUI
@@ -36,19 +37,21 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   // size = 'medium',
   disabled = false,
+  register,
 }) => (
   <div>
     <InputBox>
       <InputField
-        className="form__input"
+        className='form__input'
         onChange={onChange}
         type={type}
         defaultValue={defaultValue}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
+        {...register}
       />
-      <InputLabel className="form__label" htmlFor={name}>
+      <InputLabel className='form__label' htmlFor={name}>
         {label}
       </InputLabel>
     </InputBox>

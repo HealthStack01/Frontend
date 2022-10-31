@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react';
+import Spinner from '../../../spinner';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
@@ -7,6 +8,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullwidth?: string;
   showicon?: boolean;
   icon?: string;
+  loading?: boolean;
 }
 
 const BaseButton: React.FC<ButtonProps> = ({
@@ -14,12 +16,19 @@ const BaseButton: React.FC<ButtonProps> = ({
   showicon,
   icon,
   children,
+  loading,
   ...props
 }) => (
-  <button {...props}>
+  <button {...props} disabled={loading}>
     {showicon ? <i className={icon} /> : null}
-    {label}
-    {children}
+    {loading ? (
+      <Spinner />
+    ) : (
+      <>
+        {label}
+        {children}
+      </>
+    )}
   </button>
 );
 
