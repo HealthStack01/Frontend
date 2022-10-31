@@ -159,6 +159,10 @@ export const GrayWrapper = styled.div`
   -webkit-animation-fill-mode: forwards;
   transition: width 2s, height 4s;
 
+  &.height-auto {
+    height: auto;
+  }
+
   &.grid {
     display: flex;
     grid-template-columns: 1fr 2fr;
@@ -259,7 +263,7 @@ export const BottomWrapper = styled.div`
   }
 `;
 
-export const autoSuggestStyles = (defaultTheme) => {
+export const autoSuggestStyles = defaultTheme => {
   const classes: any = makeStyles(() => {
     return {
       container: {
