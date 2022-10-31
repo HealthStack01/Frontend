@@ -9,7 +9,7 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
-import {syptomSchema} from './schema'
+import {clinicalSignSchema, syptomSchema, labSchema} from './schema'
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -318,23 +318,29 @@ export function CaseDefinitionCreate() {
     //console.log(comp,i)
     setLabs(prevstate => prevstate.filter((el, index) => index !== i));
   };
-  const data=[]
+  const labData = [{sn:1, test:"positive", value:"Acute", action:"take drug"}]
+  const data=[{sn:1, symptom:"cholera", duration:"3 months", required:"yes", action:"take drug"}]
+  const clinicalSigns=[{sn:1, finding:"Stomach Ache", required:"yes", action:"take drug"}]
   return (
     <>
     
       <Box>
-        <GridWrapper>
-          <Input className="input is-small is-hidden"
+        <GridWrapper className="four-columns">
+          <Input 
                 {...register("Symptoms")}
                 label="Symptoms"
                 type="text"
                 placeholder="Specify" />
           <Input label="Duration" />
           <Input 
-          type="checkbox"
+          type="checkbox" 
+          style={{width:"20px"}}
            label="Required" />
+           <Button
+                  style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+                  label="Add" />
         </GridWrapper>
-
+      
         <CustomTable
                   title={"Syptom"}
                   columns={syptomSchema}
@@ -343,6 +349,61 @@ export function CaseDefinitionCreate() {
                   highlightOnHover
                   striped
                 />
+        <GridWrapper>
+        <Input 
+                {...register("Signs")}
+                label="Signs"
+                type="text"
+                placeholder="Specify" />
+                <Input 
+          type="checkbox"
+           label="Required" />
+           <Button
+                  style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+                  label="Add "/>
+        </GridWrapper>
+
+        <CustomTable
+                  title={"Clinical Signs"}
+                  columns={clinicalSignSchema}
+                  data={clinicalSigns}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                />
+
+<GridWrapper>
+        <Input 
+                {...register("Lab")}
+                label="Lab"
+                type="text"
+                placeholder="Specify" />
+
+<Input 
+                {...register("Value")}
+                label="Value"
+                type="text"
+                placeholder="Specify" />
+
+<Button
+                  style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+                  label="Add "/>
+                
+        </GridWrapper>
+
+        <CustomTable
+                  title={"Lab Confirmation"}
+                  columns={labSchema}
+                  data={labData}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                />
+
+
+             
+
+
 
           
 
