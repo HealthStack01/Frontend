@@ -30,7 +30,7 @@ import { MdCancel } from 'react-icons/md';
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function LabourAppointments() {
+export default function GeneralAppointments() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
