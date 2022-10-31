@@ -19,6 +19,7 @@ const ClientForm = () => {
   const ClientServ = client.service('client');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isFullRegistration, setFullRegistration] = useState(false);
   const { register, handleSubmit } = useForm({
     defaultValues: {
       firstname: '',
@@ -68,13 +69,81 @@ const ClientForm = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      {/* <GridWrapper>
-        <Input label='First Name' register={register('firstname')} />
-        <Input label='Middle Name' register={register('middlename')} />
-        <Input label='Last Name' register={register('lastname')} />
-        <Input label='Phone' register={register('phone')} />
-        <BasicDatePicker label='dob' register={register('dob')} />
-      </GridWrapper> */}
+      {/* Start form */}
+      <PageWrapper>
+        <GrayWrapper>
+          <HeadWrapper>
+            <div>
+              <h2>Quick Register Client</h2>
+              <span>
+                Create a New client by filling out the form below to get
+                started.
+              </span>
+            </div>
+            <Button
+              label='Full Registration'
+              background='#ECF3FF'
+              color='#0364FF'
+              showicon
+              icon='bi bi-pen-fill'
+              onClick={() => setFullRegistration(true)}
+            />
+          </HeadWrapper>
+
+          <form onSubmit={handleSubmit(submit)}>
+            <DetailsWrapper title='Create Client' defaultExpanded={true}>
+              <GridWrapper className='height-auto'>
+                <Input label='First Name' register={register('firstname')} />
+                <Input label='Middle Name' register={register('middlename')} />
+                <Input label='Last Name' register={register('lastname')} />
+                <Input label='Phone' register={register('phone')} type='tel' />
+                <Input
+                  label='Email'
+                  register={register('email')}
+                  type='email'
+                />
+                <BasicDatePicker label='dob' register={register('dob')} />
+                <CustomSelect
+                  label='Gender'
+                  register={register('gender', { required: true })}
+                  options={[
+                    { label: 'Male', value: 'Male' },
+                    { label: 'Female', value: 'Memale' },
+                  ]}
+                />
+                <CustomSelect
+                  label='Gender'
+                  register={register('maritalstatus', { required: true })}
+                  options={[
+                    { label: 'Single', value: 'Single' },
+                    { label: 'Married', value: 'Married' },
+                  ]}
+                />
+                <Input
+                  label='Residential Address'
+                  register={register('residentialaddress')}
+                />
+                <Input label='Town' register={register('town')} />
+                <Input label='State' register={register('state')} />
+                <Input label='Country' register={register('country')} />
+                <Input label='Next of Kin' register={register('nextofkin')} />
+                <Input
+                  label='Next of Kin Phone'
+                  register={register('nextofkinphone')}
+                  type='tel'
+                />
+              </GridWrapper>
+            </DetailsWrapper>
+
+            <BottomWrapper>
+              <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
+              <Button label='Save Form' type='submit' />
+            </BottomWrapper>
+          </form>
+        </GrayWrapper>
+      </PageWrapper>
+
+      {/* End Quick form */}
 
       <PageWrapper>
         <GrayWrapper className='height-auto'>
@@ -85,7 +154,7 @@ const ClientForm = () => {
               color='#0364FF'
               showicon
               icon='bi bi-pen-fill'
-              // onClick={() => setFullRegistration(false)}
+              onClick={() => setFullRegistration(false)}
             />
           </HeadWrapper>
 
