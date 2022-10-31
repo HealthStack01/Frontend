@@ -18,11 +18,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import { ClientMiniSchema } from "./schema";
-import ModalBox from "./ui-components/modal";
 import { useForm } from "react-hook-form";
 import {
   BottomWrapper,
@@ -32,7 +30,9 @@ import {
   HeadWrapper,
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
-import { Portal } from "@mui/material";
+import { Box, Portal } from "@mui/material";
+import CustomTable from "./ui-components/customtable";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -86,9 +86,15 @@ export default function Client() {
 }
 
 export function ClientCreate() {
-  const [showRegisteredModel, setShowRegisteredModal] = useState(true);
+  const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
-  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, getValues, reset } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      middleName: "",
+    },
+  }); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -108,6 +114,36 @@ export function ClientCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
+
+  const submit = (data, e) => {
+    e.preventDefault();
+
+    setSuccess(false);
+
+    ClientServ.create(data)
+      .then((res) => {
+        toast({
+          message: "Client created succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+
+        changeState();
+      })
+      .catch((err) => {
+        //setMessage("Error creating Client, probable network issues "+ err )
+        // setError(true)
+        toast({
+          message: "Error creating Client, probable network issues or " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+  };
+
+  const showRegister = (data) => console.log(">>>>>>", data);
 
   // eslint-disable-next-line
   const getSearchfacility = (obj) => {
@@ -383,6 +419,82 @@ export function ClientCreate() {
     }
   };
 
+  const users = [{ sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24 }];
+  const ClientRegisteredSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+    },
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: (row) => row.lastname,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Age",
+      key: "age",
+      description: "age",
+      selector: (row) => row.age,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Gender",
+      key: "gender",
+      description: "Gender",
+      selector: (row) => row.gender,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Phome",
+      key: "phone",
+      description: "phone",
+      selector: (row) => row.phone,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Email",
+      key: "email",
+      description: "Enter your name",
+      selector: (row) => row.email,
+      sortable: true,
+      required: true,
+    },
+    {
+      name: "Action",
+      cell: (row) => {
+        return (
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button label="Duplicate" />
+            <Button label="Register" />
+            <Button label="Dependent" />
+          </Box>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       <Portal>
@@ -413,6 +525,12 @@ export function ClientCreate() {
                   reg={reg}
                   depen={depen}
                 /> */}
+
+                <CustomTable
+                  title="Clients"
+                  columns={ClientRegisteredSchema}
+                  data={users}
+                />
               </section>
               {/* <footer className="modal-card-foot">
                     <button className="button is-success">Save changes</button>
@@ -430,7 +548,14 @@ export function ClientCreate() {
           {/*  <p className=" is-small">
                     Kindly search Client list before creating new Clients!
                 </p> */}
-          <form onSubmit={handleSubmit(onSubmit)} style={{}}>
+          <form onSubmit={handleSubmit(showRegister)}>
+            <Input label="First Name" register={register("firstName")} />
+            <Input label="Middle Name" register={register("middleName")} />
+            <Input label="Last Name" register={register("lastName")} />
+            <Button label="Save" onClick={handleSubmit(showRegister)} />
+          </form>
+
+          <form onSubmit={handleSubmit(submit)}>
             {/* <p className=" is-small">Names</p> */}
             <PageWrapper>
               <GrayWrapper>

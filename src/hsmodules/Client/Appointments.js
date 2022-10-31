@@ -19,10 +19,10 @@ import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
 import Switch from "../../components/switch";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
+import ModalBox from "../../components/modal";
 
 const searchfacility = {};
 

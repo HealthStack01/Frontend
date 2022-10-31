@@ -1,10 +1,10 @@
-import { Portal } from '@mui/material';
-import React from 'react';
+import { Portal } from "@mui/material";
+import React from "react";
+import { GridWrapper } from "../../hsmodules/app/styles";
 
-import { GridWrapper } from '../../pages/app/styles';
-import { FlexBox } from '../../ui/styled/global';
-import ModalBox from '../modal';
-import LocationCard from './LocationCard';
+import { FlexBox } from "../../ui/styled/global";
+import ModalBox from "../modal";
+import LocationCard from "./LocationCard";
 
 const LocationModal = ({ locations, onSelectLocation, open, setOpen }) => {
   const closeModal = () => setOpen(false);

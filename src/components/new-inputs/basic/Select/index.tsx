@@ -1,12 +1,12 @@
-import { FormHelperText } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import React, { SelectHTMLAttributes, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { FormHelperText } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import React, { SelectHTMLAttributes, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import client from "../../../../feathers";
 
-import client from '../../../../context/feathers';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
@@ -49,25 +49,25 @@ const CustomSelect: React.FC<SelectProps> = ({
   }, [options]);
 
   return (
-    <FormControl disabled={readonly} style={{ width: '100%' }}>
+    <FormControl disabled={readonly} style={{ width: "100%" }}>
       <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
       <Select
         labelId="demo-simple-select-autowidth-label"
         id="demo-simple-select-autowidth"
         label={label}
         name={name}
-        defaultValue={defaultValue || ''}
+        defaultValue={defaultValue || ""}
         onChange={onChange}
-        sx={{ background: 'white' }}
+        sx={{ background: "white" }}
       >
-        <MenuItem value="" sx={{ width: '100%' }}>
+        <MenuItem value="" sx={{ width: "100%" }}>
           <em>None</em>
         </MenuItem>
         {optionsList.map((option, index) => (
           <MenuItem
             value={option.value ? option.value : option}
             key={index}
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
           >
             {option.label ? option.label : option}
           </MenuItem>
