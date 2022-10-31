@@ -14,6 +14,7 @@ interface RadioProps {
   onChange?: (e: any) => void;
   defaultValue?: string;
   disabled?: boolean;
+  register?: any;
 }
 
 const RadioButton: React.FC<RadioProps> = ({
@@ -23,14 +24,21 @@ const RadioButton: React.FC<RadioProps> = ({
   options,
   onChange,
   defaultValue = '',
+  register,
 }) => (
   <FormControl
     disabled={disabled}
-    component="fieldset"
+    component='fieldset'
     sx={{ width: '100%', mt: 1, mb: 1 }}
   >
-    <FormLabel component="legend">{title}</FormLabel>
-    <RadioGroup row aria-label={name} name={name} onChange={onChange}>
+    <FormLabel component='legend'>{title}</FormLabel>
+    <RadioGroup
+      row
+      aria-label={name}
+      name={name}
+      onChange={onChange}
+      {...register}
+    >
       {options.map((option, i) => (
         <FormControlLabel
           key={i}
