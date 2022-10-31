@@ -16,7 +16,7 @@ import Payment from "./PharmacyPayment";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
+import CustomTable from "./ui-components/customtable";
 import ModalBox from "./ui-components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -46,7 +46,7 @@ export default function PharmacyBillService() {
       <BillsList openCreateModal={handleOpenCreateModal} />
 
       <ModalBox open={createModal} onClose={handleCloseCreateModal}>
-        <BillServiceCreate />
+        <BillServiceCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
       {/* <BillServiceCreate /> */}

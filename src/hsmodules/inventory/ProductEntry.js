@@ -1,18 +1,18 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {ProductCreate} from "./Products";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { ProductCreate } from "./Products";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 import DatePicker from "react-datepicker";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -23,7 +23,7 @@ import ModalBox from "./ui-components/modal";
 const searchfacility = {};
 
 export default function ProductEntry() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
   const [createModal, setCreateModal] = useState(false);
@@ -87,7 +87,7 @@ export function ProductEntryCreate() {
   const [facility, setFacility] = useState();
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Purchase Invoice");
@@ -101,7 +101,7 @@ export function ProductEntryCreate() {
   const [quantity, setQuantity] = useState("");
   const [costprice, setCostprice] = useState("");
   const [productItem, setProductItem] = useState([]);
-  const {state} = useContext(ObjectContext);
+  const { state } = useContext(ObjectContext);
 
   /*  const [productEntry,setProductEntry]=useState({
         productitems:[],
@@ -123,7 +123,7 @@ export function ProductEntryCreate() {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setProductId(obj._id);
     setName(obj.name);
     setBaseunit(obj.baseunit);
@@ -140,7 +140,7 @@ export function ProductEntryCreate() {
     return () => {};
   }, [user]);
 
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     await setType(e.target.value);
   };
   const handleClickProd = async () => {
@@ -154,7 +154,7 @@ export function ProductEntryCreate() {
       return;
     }
     await setSuccess(false);
-    setProductItem(prevProd => prevProd.concat(productItemI));
+    setProductItem((prevProd) => prevProd.concat(productItemI));
     setName("");
     setBaseunit("");
     setQuantity("");
@@ -163,7 +163,7 @@ export function ProductEntryCreate() {
     // console.log(success)
     //  console.log(productItem)
   };
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setDate(date);
   };
 
@@ -180,7 +180,7 @@ export function ProductEntryCreate() {
     setProductItem([]);
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     let confirm = window.confirm(`Are you sure you want to save this entry ?`);
     if (confirm) {
       e.preventDefault();
@@ -233,7 +233,7 @@ export function ProductEntryCreate() {
       }
       //console.log("b4 create",productEntry);
       ProductEntryServ.create(productEntry)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           resetform();
           /*  setMessage("Created ProductEntry successfully") */
@@ -247,7 +247,7 @@ export function ProductEntryCreate() {
           setSuccess(false);
           setProductItem([]);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -259,7 +259,7 @@ export function ProductEntryCreate() {
   };
   const removeEntity = (entity, i) => {
     //console.log(entity)
-    setProductItem(prev => prev.filter((obj, index) => index !== i));
+    setProductItem((prev) => prev.filter((obj, index) => index !== i));
   };
 
   return (
@@ -301,7 +301,7 @@ export function ProductEntryCreate() {
                       /* {...register("x",{required: true})} */ value={source}
                       name="supplier"
                       type="text"
-                      onChange={e => setSource(e.target.value)}
+                      onChange={(e) => setSource(e.target.value)}
                       placeholder="Supplier"
                     />
                     <span className="icon is-small is-left">
@@ -318,7 +318,7 @@ export function ProductEntryCreate() {
                   <div className="control has-icons-left has-icons-right">
                     <DatePicker
                       selected={date}
-                      onChange={date => handleDate(date)}
+                      onChange={(date) => handleDate(date)}
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Pick Date"
 
@@ -337,7 +337,7 @@ export function ProductEntryCreate() {
                       /* ref={register} */ name="documentNo"
                       value={documentNo}
                       type="text"
-                      onChange={e => setDocumentNo(e.target.value)}
+                      onChange={(e) => setDocumentNo(e.target.value)}
                       placeholder=" Invoice Number"
                     />
                     <span className="icon is-small is-left">
@@ -354,7 +354,9 @@ export function ProductEntryCreate() {
                       }
                       name="totalamount"
                       type="text"
-                      onChange={async e => await setTotalamount(e.target.value)}
+                      onChange={async (e) =>
+                        await setTotalamount(e.target.value)
+                      }
                       placeholder=" Total Amount"
                     />
                     <span className="icon is-small is-left">
@@ -380,7 +382,7 @@ export function ProductEntryCreate() {
                 />
                 <p
                   className="control has-icons-left "
-                  style={{display: "none"}}
+                  style={{ display: "none" }}
                 >
                   <input
                     className="input is-small"
@@ -389,7 +391,7 @@ export function ProductEntryCreate() {
                     }
                     name="productId"
                     type="text"
-                    onChange={e => setProductId(e.target.value)}
+                    onChange={(e) => setProductId(e.target.value)}
                     placeholder="Product Id"
                   />
                   <span className="icon is-small is-left">
@@ -408,7 +410,7 @@ export function ProductEntryCreate() {
                     /* {...register("x",{required: true})} */ name="quantity"
                     value={quantity}
                     type="text"
-                    onChange={e => setQuantity(e.target.value)}
+                    onChange={(e) => setQuantity(e.target.value)}
                     placeholder="Quantity"
                   />
                   <span className="icon is-small is-left">
@@ -424,7 +426,7 @@ export function ProductEntryCreate() {
                     /* {...register("x",{required: true})} */ name="costprice"
                     value={costprice}
                     type="text"
-                    onChange={e => setCostprice(e.target.value)}
+                    onChange={(e) => setCostprice(e.target.value)}
                     placeholder="Cost Price"
                   />
                   <span className="icon is-small is-left">
@@ -512,7 +514,7 @@ export function ProductEntryCreate() {
   );
 }
 
-export function ProductEntryList({openCreateModal, openDetailModal}) {
+export function ProductEntryList({ openCreateModal, openDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -528,9 +530,9 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(20); //LIMITATIONS FOR THE NUMBER OF FACILITIES FOR SERVER TO RETURN PER PAGE
   const [total, setTotal] = useState(0); //TOTAL NUMBER OF FACILITIES AVAILABLE IN THE SERVER
@@ -542,14 +544,14 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       selectedProductEntry: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
     openCreateModal();
   };
-  const handleRow = async ProductEntry => {
+  const handleRow = async (ProductEntry) => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -560,7 +562,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       selectedProductEntry: ProductEntry,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -568,7 +570,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
     openDetailModal();
   };
 
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "source";
     //console.log(val)
     ProductEntryServ.find({
@@ -596,14 +598,14 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         //console.log(res)
         setFacilities(res.data);
         setTotal(res.total);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         //  console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -628,11 +630,13 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       });
 
       await setTotal(findProductEntry.total);
-      await setFacilities(prevstate => prevstate.concat(findProductEntry.data));
+      await setFacilities((prevstate) =>
+        prevstate.concat(findProductEntry.data)
+      );
       if (findProductEntry.total > findProductEntry.skip) {
         setNext(true);
 
-        setPage(page => page + 1);
+        setPage((page) => page + 1);
       } else {
         setNext(false);
       }
@@ -666,18 +670,18 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
           },
         },
       })
-        .then(resp => {
+        .then((resp) => {
           setTotal(resp.total);
           setFacilities(resp.data);
           if (resp.total > resp.data.length) {
             setNext(true);
 
-            setPage(page => page + 1);
+            setPage((page) => page + 1);
           } else {
             setNext(false);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     } else {
@@ -708,18 +712,18 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
         },
       },
     })
-      .then(resp => {
+      .then((resp) => {
         setTotal(resp.total);
         updatelist(resp.data);
         //setFacilities(resp.data)
         if (resp.total > resp.data.length) {
           setNext(true);
-          setPage(page => page + 1);
+          setPage((page) => page + 1);
         } else {
           setNext(false);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -735,14 +739,14 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       return;
       //  getFacilities()
     }
-    ProductEntryServ.on("created", obj => getUpdatedFacilities());
-    ProductEntryServ.on("updated", obj => getUpdatedFacilities());
-    ProductEntryServ.on("patched", obj => getUpdatedFacilities());
-    ProductEntryServ.on("removed", obj => getUpdatedFacilities());
+    ProductEntryServ.on("created", (obj) => getUpdatedFacilities());
+    ProductEntryServ.on("updated", (obj) => getUpdatedFacilities());
+    ProductEntryServ.on("patched", (obj) => getUpdatedFacilities());
+    ProductEntryServ.on("removed", (obj) => getUpdatedFacilities());
     return () => {};
   }, []);
 
-  const updatelist = async data => {
+  const updatelist = async (data) => {
     await setFacilities(data);
   };
   const updates = () => {
@@ -761,13 +765,13 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
     setTotal(0);
     getNewFacilities();
   };
-  const handleDelete = async obj => {
+  const handleDelete = async (obj) => {
     let confirm = window.confirm(
       `Are you sure you want to delete this entry with Document No: ${obj.documentNo} ?`
     );
     if (confirm) {
       await ProductEntryServ.remove(obj._id)
-        .then(resp => {
+        .then((resp) => {
           toast({
             message: "Sucessfuly deleted ProductEntry ",
             type: "is-success",
@@ -775,7 +779,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
             pauseOnHover: true,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error deleting ProductEntry " + err,
             type: "is-danger",
@@ -791,7 +795,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "S/NO",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -800,7 +804,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Date",
       key: "createdAt",
       description: "Enter Created date",
-      selector: row => row.createdAt,
+      selector: (row) => row.createdAt,
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -809,7 +813,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Type",
       key: "type",
       description: "Enter Type",
-      selector: row => row.type,
+      selector: (row) => row.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -818,7 +822,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Source",
       key: "source",
       description: "Enter Source",
-      selector: row => row.source,
+      selector: (row) => row.source,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -827,7 +831,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Document No",
       key: "documentNo",
       description: "Enter Document Number",
-      selector: row => row.documentNo,
+      selector: (row) => row.documentNo,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -836,7 +840,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Total Amount",
       key: "totalamount",
       description: "Enter Total Amount",
-      selector: row => row.totalamount,
+      selector: (row) => row.totalamount,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -845,12 +849,12 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Actions",
       key: "action",
       description: "Enter Action",
-      selector: row => (
-        <button
+      selector: (row) => (
+        <Button
           className="button is-info is-small"
-          style={{
-            backgroundColor: "orange",
-            color: "#fff",
+          sx={{
+            background: "none",
+            color: "red",
             fontSize: "0.75rem",
             borderRadius: "2px",
             padding: "0.27rem 1rem",
@@ -862,7 +866,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
           }}
         >
           Delete
-        </button>
+        </Button>
       ),
       sortable: true,
       required: true,
@@ -875,30 +879,30 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       {state.StoreModule.selectedStore ? (
         <>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   Notifications
                 </h2>
               </div>
 
               {handleCreateNew && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
-                  onClick={handleCreateNew}
+                  onClick={openCreateModal}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
               <CustomTable
                 title={""}
                 columns={productEntrySchema}
@@ -919,7 +923,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   );
 }
 
-export function ProductEntryDetail({openModifyModal}) {
+export function ProductEntryDetail({ openModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -929,7 +933,7 @@ export function ProductEntryDetail({openModifyModal}) {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const ProductEntry = state.ProductEntryModule.selectedProductEntry;
 
@@ -938,14 +942,70 @@ export function ProductEntryDetail({openModifyModal}) {
       selectedProductEntry: ProductEntry,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
     //console.log(state)
     openModifyModal();
   };
-
+  const ProductDetailSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "Serial Number",
+      sortable: true,
+      selector: (row) => row.sn,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: (ProductEntry) => ProductEntry.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quantity",
+      key: "quantity",
+      description: "Enter quantity",
+      selector: (ProductEntry) => ProductEntry.quantity,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+      options: ["Front Desk", "Clinic", "Store", "Laboratory", "Finance"],
+    },
+    {
+      name: "Unit",
+      key: "baseunit",
+      description: "Enter unit",
+      selector: (ProductEntry) => ProductEntry.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Cost Price",
+      key: "costprice",
+      description: "Enter cost price",
+      selector: (ProductEntry) => ProductEntry.costprice,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: (ProductEntry) => ProductEntry.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
+  const handleRow = () => {};
   return (
     <>
       <div className="card ">
@@ -1037,44 +1097,27 @@ export function ProductEntryDetail({openModifyModal}) {
               </tr>
             </tbody>
           </table>
-          <label className="label is-size-7 mt-2">Product Items:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Quanitity</abbr>
-                </th>
-                <th>
-                  <abbr title="Document No">Unit</abbr>
-                </th>
-                <th>
-                  <abbr title="Cost Price">Cost Price</abbr>
-                </th>
-                <th>
-                  <abbr title="Cost Price">Amount</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {ProductEntry.productitems.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{ProductEntry.name}</td>
-                  <th>{ProductEntry.quantity}</th>
-                  <td>{ProductEntry.baseunit}</td>
-                  <td>{ProductEntry.costprice}</td>
-                  <td>{ProductEntry.amount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p>Product Items</p>
+            <CustomTable
+              title={""}
+              columns={ProductDetailSchema}
+              data={ProductEntry.productitems}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              // progressPending={loading}
+            />
+          </div>
         </div>
       </div>
     </>
@@ -1082,7 +1125,7 @@ export function ProductEntryDetail({openModifyModal}) {
 }
 
 export function ProductEntryModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1093,8 +1136,8 @@ export function ProductEntryModify() {
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const ProductEntry = state.ProductEntryModule.selectedProductEntry;
 
@@ -1116,7 +1159,7 @@ export function ProductEntryModify() {
       selectedProductEntry: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -1128,7 +1171,7 @@ export function ProductEntryModify() {
       selectedProductEntry: {},
       show: "create",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       ProductEntryModule: newProductEntryModule,
     }));
@@ -1139,7 +1182,7 @@ export function ProductEntryModify() {
     const dleteId = ProductEntry._id;
     if (conf) {
       ProductEntryServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted ProductEntry successfully")
@@ -1156,7 +1199,7 @@ export function ProductEntryModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting ProductEntry, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1179,7 +1222,7 @@ export function ProductEntryModify() {
     //console.log(data);
 
     ProductEntryServ.patch(ProductEntry._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated ProductEntry successfully")
@@ -1192,7 +1235,7 @@ export function ProductEntryModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating ProductEntry, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1220,7 +1263,7 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1237,7 +1280,7 @@ export function ProductEntryModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     disabled
                     name="ProductEntryType"
                     type="text"
@@ -1285,7 +1328,7 @@ export function ProductEntryModify() {
   );
 }
 
-export function ProductSearch({getSearchfacility, clear}) {
+export function ProductSearch({ getSearchfacility, clear }) {
   const productServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1304,7 +1347,7 @@ export function ProductSearch({getSearchfacility, clear}) {
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1321,8 +1364,8 @@ export function ProductSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {};
-  const handleSearch = async value => {
+  const handleBlur = async (e) => {};
+  const handleSearch = async (value) => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -1345,14 +1388,14 @@ export function ProductSearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           // console.log("product  fetched successfully")
           // console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -1396,8 +1439,8 @@ export function ProductSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">

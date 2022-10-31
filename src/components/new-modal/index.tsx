@@ -6,7 +6,7 @@ import React from 'react';
 interface ModalProps {
   open: boolean;
   onClose?: () => void;
-  children?: React.ReactNode | undefined;
+  children: React.ReactNode;
 }
 const style = {
   width: '68%',
@@ -23,8 +23,8 @@ const style = {
 const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
   <>
     <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
+      aria-labelledby='transition-modal-title'
+      aria-describedby='transition-modal-description'
       open={open}
       onClose={onClose}
       closeAfterTransition

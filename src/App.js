@@ -181,23 +181,23 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>  */}
-        {/*  <ObjectProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          {/*  <ObjectProvider>
           <UserProvider> */}
-        <ObjectContext.Provider value={{state, setState}}>
-          <MyUserProvider>
-            <GlobalStyle />
-            <AnimatePresence initial exitBeforeEnter>
-              <Router>
-                <AppRoutes />
-              </Router>
-            </AnimatePresence>
-            {/* </UserProvider>
+          <ObjectContext.Provider value={{state, setState}}>
+            <MyUserProvider>
+              <GlobalStyle />
+              <AnimatePresence initial exitBeforeEnter>
+                <Router>
+                  <AppRoutes />
+                </Router>
+              </AnimatePresence>
+              {/* </UserProvider>
         </ObjectProvider> */}
-          </MyUserProvider>
-        </ObjectContext.Provider>
-        <ToastContainer limit={1} />
-        {/* </LocalizationProvider> */}
+            </MyUserProvider>
+          </ObjectContext.Provider>
+          <ToastContainer limit={1} />
+        </LocalizationProvider>
       </ThemeProvider>
     </>
   );

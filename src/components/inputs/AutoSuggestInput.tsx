@@ -1,15 +1,15 @@
-import { FormHelperText } from '@mui/material';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import Autosuggest from 'react-autosuggest';
-import { defaultTheme } from 'react-autosuggest/dist/theme';
-import { toast } from 'react-toastify';
+import { FormHelperText } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Autosuggest from "react-autosuggest";
+import { defaultTheme } from "react-autosuggest/dist/theme";
+import { toast } from "react-toastify";
 
-import client from '../../feathers';
-import { InputType } from '../../hsmodules/app/schema/util';
-import { autoSuggestStyles } from '../../hsmodules/app/styles';
-import Input from './basic/Input';
-import { autoSuggestQuery } from './query';
+import client from "../../feathers";
+import { InputType } from "../../hsmodules/app/schema/util";
+import { autoSuggestStyles } from "../../hsmodules/app/styles";
+import Input from "./basic/Input";
+import { autoSuggestQuery } from "./query";
 
 /* eslint-disable */
 const searchProvidedOptions = (options, value) => {
@@ -21,12 +21,12 @@ const searchProvidedOptions = (options, value) => {
     : options.filter(
         (option) =>
           (option.label || option).toLowerCase().slice(0, inputLength) ===
-          inputValue,
+          inputValue
       );
 };
 /* eslint-enable */
 
-const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
+const getSuggestionValue = (suggestion) => suggestion.value || suggestion || "";
 
 const snomedUrl = (term) =>
   `https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/2022-03-31/descriptions?&limit=100&term=${term}&active=true&conceptActive=true&lang=english&groupByConcept=true`;
@@ -41,7 +41,7 @@ const AutoSuggestInput = ({
   inputType,
 }) => {
   let Service = options.model && client.service(options.model);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const classes: any = autoSuggestStyles(defaultTheme);
 
@@ -98,9 +98,9 @@ const AutoSuggestInput = ({
     Service.get(defaultValue)
       .then((data) => {
         const label =
-          (options.labelSelector && options.labelSelector(data)) || '';
+          (options.labelSelector && options.labelSelector(data)) || "";
         const value =
-          (options.valueSelector && options.valueSelector(data)) || '';
+          (options.valueSelector && options.valueSelector(data)) || "";
         onChange(value);
         setValue(label);
       })
@@ -125,7 +125,7 @@ const AutoSuggestInput = ({
             onChange(
               options.valueSelector
                 ? options.valueSelector(suggestion)
-                : suggestion._id,
+                : suggestion._id
             )
           }
           renderSuggestion={renderSuggestion}
