@@ -30,6 +30,7 @@ export const menuItems = [
     subMenus: [
       { name: 'Appointment', to: '/app/clinic/appointments' },
       { name: 'checkin', to: '/app/clinic/checkin' },
+      { name: 'Clinic List', to: '/app/clinic/clinics' },
     ],
   },
   {

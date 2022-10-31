@@ -738,6 +738,8 @@ export function ClientList({ showModal, setShowModal }) {
     padding: '0 .8rem',
   };
 
+  console.log(facilities);
+
   return (
     <>
       {user ? (
