@@ -39,7 +39,7 @@ export default function ClientsAppointments() {
     setCreateModal(true);
   };
 
-  const gitCreateModal = () => {
+  const handleHideCreateModal = () => {
     setCreateModal(false);
   };
 

@@ -1,13 +1,13 @@
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import React from 'react';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import React from "react";
 
-import Input from '../basic/Input';
+import Input from "../basic/Input";
 
 interface Props {
   label: string;
   value?: Date;
-  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: () => void;
 }
 
 const BasicDatePicker: React.FC<Props> = ({ label, onChange, value }) => {

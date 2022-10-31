@@ -1,14 +1,14 @@
-import { FormHelperText } from '@mui/material';
-import React from 'react';
+import { FormHelperText } from "@mui/material";
+import React, { useState } from "react";
 
-import { InputBox, InputField, InputLabel } from './styles';
+import { InputBox, InputField, InputLabel } from "./styles";
 
 interface InputProps {
   label?: string;
   inputId?: string;
   errors?: boolean;
   errorText?: string;
-  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: () => void;
   onKeyDown?: (_) => void;
   helperText?: string;
   name?: string;
@@ -16,9 +16,10 @@ interface InputProps {
   defaultValue?: string;
   value?: any;
   placeholder?: string;
-  size?: 'small' | 'medium';
+  size?: "small" | "medium";
   disabled?: boolean;
   inputRef?: any;
+  register?: any;
 }
 
 // Reset Input MUI
@@ -28,14 +29,15 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   label,
   errorText,
-  type = 'text',
+  type = "text",
   name,
-  defaultValue = '',
+  defaultValue = "",
   onChange,
   onKeyDown,
   placeholder,
   // size = 'medium',
   disabled = false,
+  register,
 }) => (
   <div>
     <InputBox>
@@ -47,6 +49,7 @@ const Input: React.FC<InputProps> = ({
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
+        {...register}
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}
