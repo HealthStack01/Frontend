@@ -9,6 +9,8 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import ReportCreate from "./ReportCreate";
 import PatientProfile from "../Client/PatientProfile";
+import {syptomSchema} from './schema'
+
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -18,6 +20,11 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
+import { Box } from "@mui/material";
+import { GrayWrapper, GridWrapper } from "../app/styles";
+import Input from "../../components/inputs/basic/Input";
+import DataTable from "react-data-table-component";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -43,30 +50,39 @@ export default function CaseDefinition() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [modal, setModal] = useState(false)
+
+    const handleCloseCreateModal  = () => {
+      setModal(false)
+    }
+    const handleOpenCreateModal= () => {
+      setModal(true)
+    }
 
   return (
+
+    
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <CaseDefinitionList />
-        </div>
 
-        <div className="column is-6 ">
-          {state.EpidemiologyModule.show === "create" && (
-            <CaseDefinitionCreate />
-          )}
+          
+          <CaseDefinitionList openCreateModal={handleOpenCreateModal}/>
+          <ModalBox open={modal} onClose={handleCloseCreateModal}>
+          <CaseDefinitionCreate  />
+          </ModalBox>
+        
+          
           {state.EpidemiologyModule.show === "detail" && (
             <CaseDefinitionDetail />
           )}
-        </div>
+        
         {/*  <div className="column is-3 ">  <ReportCreate />
                 
                 {(state.financeModule.show ==='detail')&&<PatientProfile />}
                 </div> */}
-      </div>
+      
     </section>
   );
 }
@@ -302,406 +318,44 @@ export function CaseDefinitionCreate() {
     //console.log(comp,i)
     setLabs(prevstate => prevstate.filter((el, index) => index !== i));
   };
+  const data=[]
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Case Definition</p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-            <div className="field">
-              <div className="control">
-                <div className="select is-small ">
-                  <select
-                    name="notificationtype"
-                    {...register("x", {required: true})}
-                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
-                  >
-                    <option value="">Choose Notification Type </option>
-                    {bandTypeOptions.map((option, i) => (
-                      <option key={i} value={option}>
-                        {" "}
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x", {required: true})}
-                  name="disease"
-                  type="text"
-                  placeholder="Name of Disease"
+    
+      <Box>
+        <GridWrapper>
+          <Input className="input is-small is-hidden"
+                {...register("Symptoms")}
+                label="Symptoms"
+                type="text"
+                placeholder="Specify" />
+          <Input label="Duration" />
+          <Input 
+          type="checkbox"
+           label="Required" />
+        </GridWrapper>
+
+        <CustomTable
+                  title={"Syptom"}
+                  columns={syptomSchema}
+                  data={data}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            {/* Symptoms */}
-            <>
-              <h3 className=" mt-2">
-                <b>Symptoms</b>
-              </h3>
-              <input
-                className="input is-small is-hidden"
-                ref={register}
-                name="Symptoms"
-                type="text"
-                placeholder="Specify"
-              />
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  {/*  <div className="field">
-                                <label className="is-small"> Symptom</label>
-                            </div> */}
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input is-small"
-                        value={symptom}
-                        /* ref={register} */ onChange={e => {
-                          setSymptom(e.target.value);
-                        }}
-                        name="symptom"
-                        type="text"
-                        placeholder="Symptom"
-                      />
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input is-small"
-                        value={duration}
-                        /* ref={register} */ onChange={e => {
-                          setDuration(e.target.value);
-                        }}
-                        name="durationn"
-                        type="text"
-                        placeholder="Duration"
-                      />
-                    </p>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="checkbox"
-                        value={sympreq}
-                        name="sympreq"
-                        onChange={e => {
-                          handleChecked(e);
-                        }} /* ref={register} */
-                      />
-                      Required
-                    </label>
-                  </div>
-                  <div className="field">
-                    <div className="control">
-                      <div
-                        className="button is-success is-small selectadd"
-                        onClick={handleAddSymptoms}
-                      >
-                        Add
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
+          
 
-                    <th>
-                      <abbr title="Type"> Symptom</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Destination">Duration</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Destination">Required</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Action"> Action</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {symptoms.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.symptom}</td>
-                      <td>{ProductEntry.duration}</td>
-                      <td>{ProductEntry.sympreq.toString()}</td>
-                      <td onClick={() => onDelete(ProductEntry, i)}>x</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </>
-            {/* findings */}
-            <>
-              <h3 className=" mt-2">
-                <b>Clinical Signs</b>
-              </h3>
-              <input
-                className="input is-small is-hidden"
-                ref={register}
-                name="ClinicalFindings"
-                type="text"
-                placeholder="Specify"
-              />
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  {/*  <div className="field">
-                                            <label className="is-small"> Symptom</label>
-                                        </div> */}
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input is-small"
-                        value={finding}
-                        /* ref={register} */ onChange={e => {
-                          setFinding(e.target.value);
-                        }}
-                        name="finding"
-                        type="text"
-                        placeholder="Finding"
-                      />
-                    </p>
-                  </div>
-
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="checkbox"
-                        value={findingreq}
-                        name="sympreq"
-                        onChange={e => {
-                          handleChecked2(e);
-                        }} /* ref={register} */
-                      />
-                      Required
-                    </label>
-                  </div>
-                  <div className="field">
-                    <div className="control">
-                      <div
-                        className="button is-success is-small selectadd"
-                        onClick={handleAddFindings}
-                      >
-                        Add
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-
-                    <th>
-                      <abbr title="Type"> Finding</abbr>
-                    </th>
-
-                    <th>
-                      <abbr title="Destination">Required</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Action"> Action</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {findings.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.finding}</td>
-
-                      <td>{ProductEntry.findingreq.toString()}</td>
-                      <td onClick={() => onDeleteFinding(ProductEntry, i)}>
-                        x
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </>
-            {/* lab confirm */}
-            <>
-              <h3 className=" mt-2">
-                <b>Laboratory Confirmation</b>
-              </h3>
-              <input
-                className="input is-small is-hidden"
-                ref={register}
-                name="LaboratoryConfirmation"
-                type="text"
-                placeholder="Specify"
-              />
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  {/*  <div className="field">
-                                            <label className="is-small"> Symptom</label>
-                                        </div> */}
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input is-small"
-                        value={lab}
-                        /* ref={register} */ onChange={e => {
-                          setLab(e.target.value);
-                        }}
-                        name="lab"
-                        type="text"
-                        placeholder="Lab"
-                      />
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control ">
-                      <input
-                        className="input is-small"
-                        value={labvalue}
-                        /* ref={register} */ onChange={e => {
-                          setLabvalue(e.target.value);
-                        }}
-                        name="lab value"
-                        type="text"
-                        placeholder=" Value"
-                      />
-                    </p>
-                  </div>
-                  {/*  <div className="field">
-                                        <label  className=" is-small" >
-                                                <input type="checkbox" value={sympreq} name="sympreq"  onChange={(e)=>{handleChecked(e)}}/* ref={register} */
-                  /* />Required */
-                  /* </label>
-                                            </div> */}
-                  <div className="field">
-                    <div className="control">
-                      <div
-                        className="button is-success is-small selectadd"
-                        onClick={handleAddLabs}
-                      >
-                        Add
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-
-                    <th>
-                      <abbr title="Type"> Test</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Destination">Value</abbr>
-                    </th>
-                    {/*   <th><abbr title="Destination">Required</abbr></th> */}
-                    <th>
-                      <abbr title="Action"> Action</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {labs.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.lab}</td>
-                      <td>{ProductEntry.labvalue}</td>
-                      <td onClick={() => onDeleteLab(ProductEntry, i)}>x</td>
-                      {/* <td>{ProductEntry.sympreq.toString()}</td>   */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </>
-            {/* Management Protocol */}
-            <>
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Management Protocol</label>
-                  {/* </div>  */}
-                  {/*  <div className="field"> */}
-                  <p className="control mt-1 mb-2">
-                    <textarea
-                      className="textarea is-small"
-                      value={mgtProtocol}
-                      /* ref={register} */ onChange={e => {
-                        setMgtProtocol(e.target.value);
-                      }}
-                      name="mgtProtocol"
-                      type="text"
-                      placeholder="Mangement Protocol"
-                    />
-                  </p>
-                </div>
-              </div>
-            </>
-
-            <div className="field  ml-3 mt-2">
-              <div className="control">
-                <div className="select is-small ">
-                  <select
-                    name="notifiedPerson"
-                    {...register("x", {required: true})}
-                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
-                  >
-                    <option value="">Choose Person to Notify </option>
-                    {notifierOptions.map((option, i) => (
-                      <option key={i} value={option}>
-                        {" "}
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control">
-                <button className="button is-success is-small">Create</button>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
+          
+          
+      </Box>
+    
+      
     </>
   );
 }
 
-export function CaseDefinitionList() {
+export function CaseDefinitionList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -730,6 +384,7 @@ export function CaseDefinitionList() {
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
+    openCreateModal()
     //console.log(state)
   };
   const handleRow = async Band => {
@@ -1294,7 +949,7 @@ export function CaseDefinitionModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("name", {required: true})}
                     name="name"
                     type="text"
                     placeholder="Name"
