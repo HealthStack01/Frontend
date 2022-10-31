@@ -5,9 +5,9 @@ import Autosuggest from 'react-autosuggest';
 import { defaultTheme } from 'react-autosuggest/dist/theme';
 import { toast } from 'react-toastify';
 
-import client from '../../context/feathers';
-import { InputType } from '../../pages/app/schema/util';
-import { autoSuggestStyles } from '../../pages/app/styles';
+import client from '../../feathers';
+import { InputType } from '../../hsmodules/app/schema/util';
+import { autoSuggestStyles } from '../../hsmodules/app/styles';
 import Input from './basic/Input';
 import { autoSuggestQuery } from './query';
 
@@ -21,7 +21,7 @@ const searchProvidedOptions = (options, value) => {
     : options.filter(
         (option) =>
           (option.label || option).toLowerCase().slice(0, inputLength) ===
-          inputValue,
+          inputValue
       );
 };
 /* eslint-enable */
@@ -125,7 +125,7 @@ const AutoSuggestInput = ({
             onChange(
               options.valueSelector
                 ? options.valueSelector(suggestion)
-                : suggestion._id,
+                : suggestion._id
             )
           }
           renderSuggestion={renderSuggestion}

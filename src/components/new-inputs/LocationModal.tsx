@@ -1,7 +1,7 @@
 import { Portal } from '@mui/material';
 import React from 'react';
 
-import { GridWrapper } from '../../pages/app/styles';
+import { GridWrapper } from '../../hsmodules/app/styles';
 import { FlexBox } from '../../ui/styled/global';
 import ModalBox from '../modal';
 import LocationCard from './LocationCard';

@@ -17,14 +17,15 @@ import Input from '../../components/inputs/basic/Input';
 import RadioButton from '../../components/inputs/basic/Radio';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
-import { DateFormats } from '../../pages/app/Constants';
-import { toAPIDate } from '../../pages/app/DateUtils';
-import ItemsInput from '../../pages/app/generic/ItemsInput';
-import { InputType } from '../../pages/app/schema/util';
+import { DateFormats } from '../../hsmodules/app/Constants';
+
+import { toAPIDate } from '../../hsmodules/app/DateUtils';
+import ItemsInput from '../../hsmodules/app/generic/ItemsInput';
+import { InputType } from '../../hsmodules/app/schema/util';
 import AutoSuggestInput from './AutoSuggestInput';
 
 // TODO: Anstract intp seperate components - the controller warapping
-const DynamicInput = props => {
+const DynamicInput = (props) => {
   const {
     inputType,
     label,
@@ -37,7 +38,7 @@ const DynamicInput = props => {
     defaultValue,
   } = props;
   if (inputType === InputType.HIDDEN && data[name]) {
-    return <input type='hidden' defaultValue={defaultValue} />;
+    return <input type="hidden" defaultValue={defaultValue} />;
   } else if (inputType === InputType.HIDDEN) {
     return <></>;
   }
@@ -71,7 +72,7 @@ const DynamicInput = props => {
             label={label}
             disabled={readonly}
             errorText={errors[name]?.message}
-            type='number'
+            type="number"
             defaultValue={data[name]}
           />
         )}
@@ -90,7 +91,7 @@ const DynamicInput = props => {
             label={label}
             disabled={readonly}
             errorText={errors[name]?.message}
-            type='email'
+            type="email"
             defaultValue={data[name]}
           />
         )}
@@ -225,11 +226,11 @@ const DynamicInput = props => {
               <DateTimePicker
                 {...field}
                 label={label}
-                onChange={value =>
+                onChange={(value) =>
                   field.onChange({ target: { value: toAPIDate(value) } })
                 }
                 inputFormat={DateFormats.CONTROL_DATE_TIME}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
                     disabled={readonly}
@@ -257,11 +258,11 @@ const DynamicInput = props => {
             <DatePicker
               {...field}
               label={label}
-              onChange={value =>
+              onChange={(value) =>
                 field.onChange({ target: { value: toAPIDate(value) } })
               }
               inputFormat={DateFormats.CONTROL_DATE}
-              renderInput={params => (
+              renderInput={(params) => (
                 <TextField
                   {...params}
                   disabled={readonly}

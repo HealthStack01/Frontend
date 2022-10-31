@@ -1,28 +1,28 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
-import DatePicker from "react-datepicker";
-import LocationSearch from "../helpers/LocationSearch";
-import EmployeeSearch from "../helpers/EmployeeSearch";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import "react-datepicker/dist/react-datepicker.css";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import LocationSearch from '../helpers/LocationSearch';
+import EmployeeSearch from '../helpers/EmployeeSearch';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import 'react-datepicker/dist/react-datepicker.css';
 // eslint-disable-next-line
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
-import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
-import CalendarGrid from "../../components/calender";
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import ModalBox from './ui-components/modal';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
 
 const searchfacility = {};
 
@@ -51,8 +51,8 @@ export default function ClientsAppointments() {
           <ClientList showModal={handleShowModal} />
         </div>
         <div className="column is-4 ">
-          {state.AppointmentModule.show === "detail" && <ClientDetail />}
-          {state.AppointmentModule.show === "modify" && (
+          {state.AppointmentModule.show === 'detail' && <ClientDetail />}
+          {state.AppointmentModule.show === 'modify' && (
             <ClientModify Client={selectedClient} />
           )}
 
@@ -72,14 +72,14 @@ export function AppointmentCreate() {
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -87,14 +87,14 @@ export function AppointmentCreate() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -167,7 +167,7 @@ export function AppointmentCreate() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     // data.createdby=user._id
@@ -188,7 +188,7 @@ export function AppointmentCreate() {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -205,18 +205,18 @@ export function AppointmentCreate() {
       .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type("");
-        setAppointment_status("");
-        setClientId("");
-        setLocationId("");
+        setAppointment_type('');
+        setAppointment_status('');
+        setClientId('');
+        setLocationId('');
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast({
           message:
-            "Appointment created succesfully, Kindly bill patient if required",
-          type: "is-success",
+            'Appointment created succesfully, Kindly bill patient if required',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -227,8 +227,8 @@ export function AppointmentCreate() {
       })
       .catch((err) => {
         toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
+          message: 'Error creating Appointment ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -276,8 +276,8 @@ export function AppointmentCreate() {
                 {state.ClientModule.selectedClient.firstname !== undefined ? (
                   <>
                     <label className="label is-size-7">
-                      {" "}
-                      {state.ClientModule.selectedClient.firstname}{" "}
+                      {' '}
+                      {state.ClientModule.selectedClient.firstname}{' '}
                       {state.ClientModule.selectedClient.lastname}
                     </label>
                   </>
@@ -291,11 +291,11 @@ export function AppointmentCreate() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     >
                       <input
                         className="input is-small"
-                        {...register("ClientId", { required: true })}
+                        {...register('ClientId', { required: true })}
                         /* add array no */ value={clientId}
                         name="ClientId"
                         type="text"
@@ -322,11 +322,11 @@ export function AppointmentCreate() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   >
                     <input
                       className="input is-small"
-                      {...register("locationId", { required: true })}
+                      {...register('locationId', { required: true })}
                       /* add array no */ value={locationId}
                       name="locationId"
                       type="text"
@@ -351,11 +351,11 @@ export function AppointmentCreate() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   >
                     <input
                       className="input is-small"
-                      {...register("practionerId", { required: true })}
+                      {...register('practionerId', { required: true })}
                       /* add array no */ value={practionerId}
                       name="practionerId"
                       type="text"
@@ -378,9 +378,9 @@ export function AppointmentCreate() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
+                      {...register('appointmentClass', { required: true })}
                     />
-                    {c + " "}
+                    {c + ' '}
                   </label>
                 ))}
               </div>
@@ -388,7 +388,7 @@ export function AppointmentCreate() {
             <div className="field">
               <input
                 name="start_time"
-                {...register("start_time", { required: true })}
+                {...register('start_time', { required: true })}
                 type="datetime-local"
               />
             </div>
@@ -439,11 +439,11 @@ export function AppointmentCreate() {
                 </span>
               </p>
             </div>
-            <div className="field " style={{ display: "none" }}>
+            <div className="field " style={{ display: 'none' }}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("billingservice")}
+                  {...register('billingservice')}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -502,8 +502,8 @@ export function ClientList({ showModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("appointments");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -516,12 +516,12 @@ export function ClientList({ showModal }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("list");
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -530,7 +530,7 @@ export function ClientList({ showModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
   };
@@ -539,7 +539,7 @@ export function ClientList({ showModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -549,7 +549,7 @@ export function ClientList({ showModal }) {
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = "firstname";
+    const field = 'firstname';
     //  console.log(val)
 
     let query = {
@@ -557,73 +557,73 @@ export function ClientList({ showModal }) {
         {
           firstname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           phone: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
@@ -633,7 +633,7 @@ export function ClientList({ showModal }) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (state.employeeLocation.locationType !== 'Front Desk') {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -641,12 +641,12 @@ export function ClientList({ showModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -698,13 +698,13 @@ export function ClientList({ showModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
@@ -749,8 +749,8 @@ export function ClientList({ showModal }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + " " + facility?.lastname,
-        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
         end: facility?.end_time,
         id: i,
       });
@@ -758,109 +758,109 @@ export function ClientList({ showModal }) {
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0.4rem .8rem",
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0.4rem .8rem',
   };
   //todo: pagination and vertical scroll bar
 
   const ClientAppointmentSchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row) => row.sn,
       sortable: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "Date/Time",
-      key: "createdAt",
-      description: "Enter Date and Time",
+      name: 'Date/Time',
+      key: 'createdAt',
+      description: 'Enter Date and Time',
       selector: (row) => row.createdAt,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: 'DATE',
     },
 
     {
-      name: "First Name",
-      key: "firstname",
-      description: "Enter First Name",
+      name: 'First Name',
+      key: 'firstname',
+      description: 'Enter First Name',
       selector: (row) => row.firstname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
+      name: 'Last Name',
+      key: 'lastname',
+      description: 'Last Name',
       selector: (row) => row.lastname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Classification",
-      key: "dob",
-      description: "Date of Birth",
+      name: 'Classification',
+      key: 'dob',
+      description: 'Date of Birth',
       selector: (row) => row.dob,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Location",
-      key: "loaction_name",
-      description: "Enter Location",
+      name: 'Location',
+      key: 'loaction_name',
+      description: 'Enter Location',
       selector: (row) => row.location_name,
       sortable: true,
       required: true,
-      inputType: "SELECT_LIST",
+      inputType: 'SELECT_LIST',
     },
 
     {
-      name: "Type",
-      key: "location_type",
-      description: "Enter Location Type",
+      name: 'Type',
+      key: 'location_type',
+      description: 'Enter Location Type',
       selector: (row) => row.location_type,
       sortable: true,
       required: true,
-      inputType: "SELECT_LIST",
+      inputType: 'SELECT_LIST',
     },
 
     {
-      name: "Status",
-      key: "appointment_status",
-      description: "Enter appointment status",
+      name: 'Status',
+      key: 'appointment_status',
+      description: 'Enter appointment status',
       selector: (row) => row.appointment_status,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Reason",
-      key: "appointment_reason",
-      description: "Enter appointment reason",
+      name: 'Reason',
+      key: 'appointment_reason',
+      description: 'Enter appointment reason',
       selector: (row) => row.appointment_reason,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Practitioner",
-      key: "practitioner_name",
-      description: "Enter Practitioner Name",
+      name: 'Practitioner',
+      key: 'practitioner_name',
+      description: 'Enter Practitioner Name',
       selector: (row) => row.practitioner_name,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
@@ -869,16 +869,16 @@ export function ClientList({ showModal }) {
       {user ? (
         <>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                   Appointment
                 </h2>
                 <DatePicker
@@ -892,16 +892,16 @@ export function ClientList({ showModal }) {
 
               {handleCreateNew && (
                 <Button
-                  style={{ fontSize: "0.75rem", fontWeight: "600" }}
+                  style={{ fontSize: '0.75rem', fontWeight: '600' }}
                   label="Add new "
                   onClick={showModal}
                 />
               )}
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
               <CustomTable
-                title={""}
+                title={''}
                 columns={ClientAppointmentSchema}
                 data={facilities}
                 pointerOnHover
@@ -928,7 +928,7 @@ export function ClientDetail() {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
@@ -941,7 +941,7 @@ export function ClientDetail() {
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -950,18 +950,18 @@ export function ClientDetail() {
     //console.log(state)
   };
   const handleAttend = async () => {
-    const patient = await client.service("client").get(Client.clientId);
+    const patient = await client.service('client').get(Client.clientId);
     await setSelectedClient(patient);
     const newClientModule = {
       selectedClient: patient,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate("/app/clinic/encounter");
+    navigate('/app/clinic/encounter');
   };
 
   return (
@@ -981,7 +981,7 @@ export function ClientDetail() {
                       name="firstname"
                       type="text"
                     >
-                      First Name{" "}
+                      First Name{' '}
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -1001,8 +1001,8 @@ export function ClientDetail() {
                       name="middlename"
                       type="text"
                     >
-                      {" "}
-                      Middle Name{" "}
+                      {' '}
+                      Middle Name{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -1042,10 +1042,10 @@ export function ClientDetail() {
                       name="dob"
                       type="text"
                     >
-                      Date of Birth{" "}
+                      Date of Birth{' '}
                     </label>
                     <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
+                      {new Date(Client.dob).toLocaleDateString('en-GB')}
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -1061,7 +1061,7 @@ export function ClientDetail() {
                       name="gender"
                       type="text"
                     >
-                      Gender{" "}
+                      Gender{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
@@ -1078,7 +1078,7 @@ export function ClientDetail() {
                       name="maritalstatus"
                       type="text"
                     >
-                      Marital Status{" "}
+                      Marital Status{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.maritalstatus}
@@ -1097,7 +1097,7 @@ export function ClientDetail() {
                       name="mrn"
                       type="text"
                     >
-                      Medical Records Number{" "}
+                      Medical Records Number{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.mrn}</label>
                     <span className="icon is-small is-left">
@@ -1118,7 +1118,7 @@ export function ClientDetail() {
                       name="religion"
                       type="text"
                     >
-                      Religion{" "}
+                      Religion{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1135,7 +1135,7 @@ export function ClientDetail() {
                       name="profession"
                       type="text"
                     >
-                      Profession{" "}
+                      Profession{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1154,7 +1154,7 @@ export function ClientDetail() {
                       name="phone"
                       type="text"
                     >
-                      {" "}
+                      {' '}
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1173,7 +1173,7 @@ export function ClientDetail() {
                       name="email"
                       type="email"
                     >
-                      Email{" "}
+                      Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1193,7 +1193,7 @@ export function ClientDetail() {
                   name="address"
                   type="text"
                 >
-                  Residential Address{" "}
+                  Residential Address{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1212,7 +1212,7 @@ export function ClientDetail() {
                       name="city"
                       type="text"
                     >
-                      Town/City{" "}
+                      Town/City{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1229,7 +1229,7 @@ export function ClientDetail() {
                       name="lga"
                       type="text"
                     >
-                      Local Govt Area{" "}
+                      Local Govt Area{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1246,7 +1246,7 @@ export function ClientDetail() {
                       name="state"
                       type="text"
                     >
-                      State{" "}
+                      State{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1263,7 +1263,7 @@ export function ClientDetail() {
                       name="country"
                       type="text"
                     >
-                      Country{" "}
+                      Country{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1284,7 +1284,7 @@ export function ClientDetail() {
                       name="bloodgroup"
                       type="text"
                     >
-                      Blood Group{" "}
+                      Blood Group{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1304,7 +1304,7 @@ export function ClientDetail() {
                       name="genotype"
                       type="text"
                     >
-                      Genotype{" "}
+                      Genotype{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.genotype}</label>
                     <span className="icon is-small is-left">
@@ -1321,7 +1321,7 @@ export function ClientDetail() {
                       name="disabilities"
                       type="text"
                     >
-                      Disabilities{" "}
+                      Disabilities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -1345,7 +1345,7 @@ export function ClientDetail() {
                       name="allergies"
                       type="text"
                     >
-                      Allergies{" "}
+                      Allergies{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -1362,7 +1362,7 @@ export function ClientDetail() {
                       name="comorbidities"
                       type="text"
                     >
-                      Co-mobidities{" "}
+                      Co-mobidities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -1383,7 +1383,7 @@ export function ClientDetail() {
                   name="clientTags"
                   type="text"
                 >
-                  Tags{" "}
+                  Tags{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -1400,7 +1400,7 @@ export function ClientDetail() {
                   name="specificDetails"
                   type="text"
                 >
-                  Specific Details about Client{" "}
+                  Specific Details about Client{' '}
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -1457,7 +1457,7 @@ export function ClientDetail() {
                       name="nok_email"
                       type="email"
                     >
-                      Next of Kin Email{" "}
+                      Next of Kin Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -1474,7 +1474,7 @@ export function ClientDetail() {
                       name="nok_relationship"
                       type="text"
                     >
-                      Next of Kin Relationship"{" "}
+                      Next of Kin Relationship"{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -1519,18 +1519,18 @@ export function ClientModify() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
-  const appClass = ["On-site", "Teleconsultation"];
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
+  const appClass = ['On-site', 'Teleconsultation'];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1564,59 +1564,59 @@ export function ClientModify() {
   };
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("ClientId", Client.clientId, {
+    setValue('ClientId', Client.clientId, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_reason", Client.appointment_reason, {
+    setValue('appointment_reason', Client.appointment_reason, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_status", Client.appointment_status, {
+    setValue('appointment_status', Client.appointment_status, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("appointment_type", Client.appointment_type, {
+    setValue('appointment_type', Client.appointment_type, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
-      "start_time",
+      'start_time',
       format(new Date(Client.start_time), "yyyy-MM-dd'T'HH:mm:ss"),
       {
         shouldValidate: true,
         shouldDirty: true,
       }
     );
-    setValue("appointmentClass", Client.appointmentClass, {
+    setValue('appointmentClass', Client.appointmentClass, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1625,7 +1625,7 @@ export function ClientModify() {
   });
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
-    setValue("appointment_type", e.target.value, {
+    setValue('appointment_type', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1633,7 +1633,7 @@ export function ClientModify() {
 
   const handleChangeStatus = async (e) => {
     // await setAppointment_status(e.target.value)
-    setValue("appointment_status", e.target.value, {
+    setValue('appointment_status', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1642,7 +1642,7 @@ export function ClientModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -1654,7 +1654,7 @@ export function ClientModify() {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -1662,7 +1662,7 @@ export function ClientModify() {
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
@@ -1677,8 +1677,8 @@ export function ClientModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
+            message: 'Client deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1688,8 +1688,8 @@ export function ClientModify() {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
+            message: 'Error deleting Client, probable network issues or ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1704,7 +1704,7 @@ export function ClientModify() {
     // console.log(data)
     //  data.facility=Client.facility
     //console.log(data);
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1726,8 +1726,8 @@ export function ClientModify() {
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: "Client updated succesfully",
-          type: "is-success",
+          message: 'Client updated succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -1738,8 +1738,8 @@ export function ClientModify() {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
+          message: 'Error updating Client, probable network issues or ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -1759,7 +1759,7 @@ export function ClientModify() {
 
             <div className="field">
               <label className="label is-size-7">
-                {" "}
+                {' '}
                 {Client.firstname} {Client.lastname}
               </label>
             </div>
@@ -1775,7 +1775,7 @@ export function ClientModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   >
                     <input
                       className="input is-small"
@@ -1806,7 +1806,7 @@ export function ClientModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   >
                     <input
                       className="input is-small"
@@ -1836,7 +1836,7 @@ export function ClientModify() {
                       name="appointmentClass"
                       // ref={register}
                     />
-                    {c + " "}
+                    {c + ' '}
                   </label>
                 ))}
               </div>
@@ -1844,7 +1844,7 @@ export function ClientModify() {
             <div className="field">
               <input
                 name="start_time"
-                {...register("x", { required: true })}
+                {...register('x', { required: true })}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1858,7 +1858,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     /* name="type" */ /* value={appointment_type} */ name="appointment_type"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -1878,7 +1878,7 @@ export function ClientModify() {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -1901,7 +1901,7 @@ export function ClientModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  {...register('x')}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -1911,11 +1911,11 @@ export function ClientModify() {
                 </span>
               </p>
             </div>
-            <div className="field " style={{ display: "none" }}>
+            <div className="field " style={{ display: 'none' }}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x")}
+                  {...register('x')}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -1963,22 +1963,22 @@ export function ClientModify() {
 }
 
 export function ClientSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
@@ -1990,13 +1990,13 @@ export function ClientSearch({ getSearchfacility, clear }) {
 
     await setSimpa(
       obj.firstname +
-        " " +
+        ' ' +
         obj.middlename +
-        " " +
+        ' ' +
         obj.lastname +
-        " " +
+        ' ' +
         obj.gender +
-        " " +
+        ' ' +
         obj.phone
     );
 
@@ -2012,7 +2012,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -2030,12 +2030,12 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   const handleSearch = async (val) => {
     setVal(val);
-    if (val === "") {
+    if (val === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -2044,43 +2044,43 @@ export function ClientSearch({ getSearchfacility, clear }) {
             {
               firstname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               middlename: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               phone: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               clientTags: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               mrn: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
             {
               specificDetails: {
                 $regex: val,
-                $options: "i",
+                $options: 'i',
               },
             },
           ],
@@ -2094,22 +2094,22 @@ export function ClientSearch({ getSearchfacility, clear }) {
         },
       })
         .then((res) => {
-          console.log("product  fetched successfully");
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
         .catch((err) => {
           toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
+            message: 'Error creating ProductEntry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -2126,8 +2126,8 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
-      setSimpa("");
+      console.log('success has changed', clear);
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -2136,10 +2136,10 @@ export function ClientSearch({ getSearchfacility, clear }) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
@@ -2155,16 +2155,16 @@ export function ClientSearch({ getSearchfacility, clear }) {
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ""
+                  ''
                 ) : (
                   <div
                     className="dropdown-item" /* onClick={handleAddproduct} */
                   >
-                    {" "}
-                    <span> {val} is not yet your client</span>{" "}
+                    {' '}
+                    <span> {val} is not yet your client</span>{' '}
                   </div>
                 )}
 
@@ -2179,7 +2179,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                       <span className="padleft">{facility.middlename}</span>
                       <span className="padleft">{facility.lastname}</span>
                       <span className="padleft">
-                        {" "}
+                        {' '}
                         {formatDistanceToNowStrict(new Date(facility.dob))}
                       </span>
                       <span className="padleft">{facility.gender}</span>
@@ -2194,7 +2194,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
           </div>
         </div>
       </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
+      <div className={`modal ${productModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
