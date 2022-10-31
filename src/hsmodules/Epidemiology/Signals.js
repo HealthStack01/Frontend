@@ -1,159 +1,159 @@
 /* eslint-disable */
-import React, {useState,useContext, useEffect,useRef} from 'react'
-import client from '../../feathers'
-import {DebounceInput} from 'react-debounce-input';
-import { useForm } from "react-hook-form";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {format, formatDistanceToNowStrict } from 'date-fns'
-import {UserContext,ObjectContext} from '../../context'
-import {toast} from 'bulma-toast'
+import {format, formatDistanceToNowStrict} from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
 // eslint-disable-next-line
-const searchfacility={};
 
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 
-export default function Signals() {
-    const {state}=useContext(ObjectContext) //,setState
-    // eslint-disable-next-line
-    const [selectedStore,setSelectedStore]=useState()
-    //const [showState,setShowState]=useState() //create|modify|detail
-    
-    return(
-        <section className= "section remPadTop">
-           {/*  <div className="level">
+const searchfacility = {};
+
+export default function EpidemiologySignals() {
+  const {state} = useContext(ObjectContext); //,setState
+  // eslint-disable-next-line
+  const [selectedStore, setSelectedStore] = useState();
+  //const [showState,setShowState]=useState() //create|modify|detail
+
+  return (
+    <section className="section remPadTop">
+      {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Store  Module</span></div>
             </div> */}
-            <div className="columns ">
-            <div className="column is-1 ">
-                </div>  
-            <div className="column is-10 ">
-                <SignalsList />
-                </div>
-                <div className="column is-1 ">
-                </div>  
-{/*             <div className="column is-4 ">
+      <div className="columns ">
+        <div className="column is-1 "></div>
+        <div className="column is-10 ">
+          <SignalsList />
+        </div>
+        <div className="column is-1 "></div>
+        {/*             <div className="column is-4 ">
                 {(state.StoreModule.show ==='create')&&<StoreCreate />}
                 {(state.StoreModule.show ==='detail')&&<StoreDetail  />}
                 {(state.StoreModule.show ==='modify')&&<StoreModify Store={selectedStore} />}
                
             </div>
  */}
-            </div>                            
-            </section>
-       
-    )
-    
+      </div>
+    </section>
+  );
 }
 
-export function StoreCreate(){
-    const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset 
-    const [error, setError] =useState(false)
-    const [success, setSuccess] =useState(false)
-    const [message,setMessage] = useState("")
-    // eslint-disable-next-line
-    const [facility,setFacility] = useState()
-    const StoreServ=client.service('location')
-    //const navigate=useNavigate()
-    const {user} = useContext(UserContext) //,setUser
-    // eslint-disable-next-line
-    const [currentUser,setCurrentUser] = useState()
+export function StoreCreate() {
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const StoreServ = client.service("location");
+  //const navigate=useNavigate()
+  const {user} = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
 
+  const getSearchfacility = obj => {
+    // buble-up from inputsearch for creating resource
 
+    setValue("facility", obj._id, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
-    const getSearchfacility=(obj)=>{ // buble-up from inputsearch for creating resource
-        
-        setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeStore.FacilityId)//
+    if (!user.stacker) {
+      console.log(currentUser);
+      setValue("facility", user.currentEmployee.facilityDetail._id, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
     }
-    
-    useEffect(() => {
-        setCurrentUser(user)
-        //console.log(currentUser)
-        return () => {
-        
-        }
-    }, [user])
+  });
 
-  //check user for facility or get list of facility  
-    useEffect(()=>{
-        //setFacility(user.activeStore.FacilityId)//
-      if (!user.stacker){
-          console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) 
-      }
-    })
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    // data.createdby=user._id
+    console.log(data);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+    }
+    data.locationType = "Laboratory";
+    StoreServ.create(data)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        e.target.reset();
+        /*  setMessage("Created Store successfully") */
+        setSuccess(true);
+        toast({
+          message: "Laboratory created succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        setSuccess(false);
+      })
+      .catch(err => {
+        toast({
+          message: "Error creating Laboratory " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+  };
 
-    const onSubmit = (data,e) =>{
-        e.preventDefault();
-        setMessage("")
-        setError(false)
-        setSuccess(false)
-         // data.createdby=user._id
-          console.log(data);
-          if (user.currentEmployee){
-         data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
-          }
-          data.locationType="Laboratory"
-        StoreServ.create(data)
-        .then((res)=>{
-                //console.log(JSON.stringify(res))
-                e.target.reset();
-               /*  setMessage("Created Store successfully") */
-                setSuccess(true)
-                toast({
-                    message: 'Laboratory created succesfully',
-                    type: 'is-success',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-                  setSuccess(false)
-            })
-            .catch((err)=>{
-                toast({
-                    message: 'Error creating Laboratory ' + err,
-                    type: 'is-danger',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-            })
-
-      } 
-
-    return (
-        <>
-            <div className="card ">
-            <div className="card-header">
-                <p className="card-header-title">
-                    Create Laboratory
-                </p>
-            </div>
-            <div className="card-content vscrollable">
-   
-            <form onSubmit={handleSubmit(onSubmit)}>
-               {/*  <div className="field">
+  return (
+    <>
+      <div className="card ">
+        <div className="card-header">
+          <p className="card-header-title">Create Laboratory</p>
+        </div>
+        <div className="card-content vscrollable">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small" ref={register({ required: true })}  name="StoreType" type="text" placeholder="Type of Store" />
+                        <input className="input is-small" {...register("x",{required: true})}  name="StoreType" type="text" placeholder="Type of Store" />
                         <span className="icon is-small is-left">
                             <i className="fas fa-hospital"></i>
                         </span>                    
                     </p>
                 </div> */}
-                <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                    <input className="input is-small" ref={register({ required: true })}  name="name" type="text" placeholder="Name of Laboratory" />
-                    <span className="icon is-small is-left">
-                        <i className="fas fa-map-signs"></i>
-                    </span>
-                    
-                </p>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <input
+                  className="input is-small"
+                  {...register("x", {required: true})}
+                  name="name"
+                  type="text"
+                  placeholder="Name of Laboratory"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-map-signs"></i>
+                </span>
+              </p>
             </div>
-           {/*  <div className="field">
+            {/*  <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className=" fas fa-user-md "></i>
                     </span>
@@ -161,7 +161,7 @@ export function StoreCreate(){
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder=" Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -171,26 +171,38 @@ export function StoreCreate(){
             <div className="field">
                 <p className="control has-icons-left">
                 
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Email"  />
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
                 </p>
             </div> */}
-           <div className="field"  style={ !user.stacker?{display:"none"}:{}} >
-                <InputSearch  getSearchfacility={getSearchfacility} clear={success} /> 
-                <p className="control has-icons-left " style={{display:"none"}}>
-                    <input className="input is-small" ref={register ({ required: true }) } name="facility" type="text" placeholder="Facility" />
-                    <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                </p>
+            <div
+              className="field"
+              style={!user.stacker ? {display: "none"} : {}}
+            >
+              <InputSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+              <p className="control has-icons-left " style={{display: "none"}}>
+                <input
+                  className="input is-small"
+                  {...register("x", {required: true})}
+                  name="facility"
+                  type="text"
+                  placeholder="Facility"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas  fa-map-marker-alt"></i>
+                </span>
+              </p>
             </div>
-           {/*  <div className="field">
+            {/*  <div className="field">
                 <div className="control has-icons-left">
                     <div className="dropdown ">
                         <div className="dropdown-trigger">
-                            <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                             <span className="icon is-small is-left">
                             <i className="fas fa-hospital-symbol"></i>
                             </span>
@@ -216,7 +228,7 @@ export function StoreCreate(){
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Department Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
@@ -224,135 +236,128 @@ export function StoreCreate(){
             </div>
             <div className="field">
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="password" type="text" placeholder="password"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
                 </p>
             </div> */}
             <div className="field">
-                <p className="control">
-                    <button className="button is-success is-small">
-                        Create
-                    </button>
-                </p>
+              <p className="control">
+                <button className="button is-success is-small">Create</button>
+              </p>
             </div>
-            
-            </form>
-            </div>
-            </div>
-        </>
-    )
-   
+          </form>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export function SignalsList({standalone,closeModal}){
-   // const { register, handleSubmit, watch, errors } = useForm();
-    // eslint-disable-next-line
-    const [error, setError] =useState(false)
-     // eslint-disable-next-line
-    const [success, setSuccess] =useState(false)
-     // eslint-disable-next-line
-   const [message, setMessage] = useState("") 
-    const StoreServ=client.service('epidalerts')
-    //const navigate=useNavigate()
-   // const {user,setUser} = useContext(UserContext)
-    const [facilities,setFacilities]=useState([])
-     // eslint-disable-next-line
-   const [selectedStore, setSelectedStore]=useState() //
-    // eslint-disable-next-line
-    const {state,setState}=useContext(ObjectContext)
-    // eslint-disable-next-line
-    const {user,setUser}=useContext(UserContext)
+export function SignalsList({standalone, closeModal}) {
+  // const { register, handleSubmit, watch, errors } = useForm();
+  // eslint-disable-next-line
+  const [error, setError] = useState(false);
+  // eslint-disable-next-line
+  const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState("");
+  const StoreServ = client.service("epidalerts");
+  //const navigate=useNavigate()
+  // const {user,setUser} = useContext(UserContext)
+  const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
+  const [selectedStore, setSelectedStore] = useState(); //
+  // eslint-disable-next-line
+  const {state, setState} = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const {user, setUser} = useContext(UserContext);
 
+  const handleCreateNew = async () => {
+    const newStoreModule = {
+      selectedStore: {},
+      show: "create",
+    };
+    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    //console.log(state)
+  };
+  const handleRow = async Store => {
+    //console.log("b4",state)
 
+    //console.log("handlerow",Store)
 
-    const handleCreateNew = async()=>{
-        const    newStoreModule={
-            selectedStore:{},
-            show :'create'
-            }
-       await setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
-       //console.log(state)
-        
+    await setSelectedStore(Store);
 
-    }
-    const handleRow= async(Store)=>{
-        //console.log("b4",state)
+    const newStoreModule = {
+      selectedStore: Store,
+      show: "detail",
+    };
+    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    //console.log(state)
+    //closeModal()
+  };
 
-        //console.log("handlerow",Store)
-
-        await setSelectedStore(Store)
-
-        const    newStoreModule={
-            selectedStore:Store,
-            show :'detail'
-        }
-       await setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
-       //console.log(state)
-       //closeModal()
-
-    }
-
-   const handleSearch=(val)=>{
-       const field='disease'
-       console.log(val)
-       StoreServ.find({query: {
-                [field]: {
-                    $regex:val,
-                    $options:'i'
-                   
-                },
-            /*    facility:user.currentEmployee.facilityDetail._id || "",
+  const handleSearch = val => {
+    const field = "disease";
+    console.log(val);
+    StoreServ.find({
+      query: {
+        [field]: {
+          $regex: val,
+          $options: "i",
+        },
+        /*    facility:user.currentEmployee.facilityDetail._id || "",
                 locationType:"Laboratory", */
-              /*  $limit:10, */
-                $sort: {
-                   createdAt: -1
-                  }
-                    }}).then((res)=>{
-                console.log(res)
-               setFacilities(res.data)
-                setMessage(" Store  fetched successfully")
-                setSuccess(true) 
-            })
-            .catch((err)=>{
-                console.log(err)
-                setMessage("Error fetching Store, probable network issues "+ err )
-                setError(true)
-            })
-        }
-   
-        const getFacilities= async()=>{
-            if (user.currentEmployee){
-            
-        const findStore= await StoreServ.find(
-                {query: {
-                    /* locationType:"Laboratory", */
-                   /*  facility:user.currentEmployee.facilityDetail._id, */
-                   /*  $limit:20, */
-                    $sort: {
-                        createdAt: -1
-                    }
-                    }})
-                 
-         await setFacilities(findStore.data)
-                }
-                else {
-                    if (user.stacker){
-                        const findStore= await StoreServ.find(
-                            {query: {
-                              /*   locationType:"Laboratory", */
-                                $limit:20,
-                                $sort: {
-                                    name: -1
-                                }
-                                }})
-            
-                    await setFacilities(findStore.data)
+        /*  $limit:10, */
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then(res => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(" Store  fetched successfully");
+        setSuccess(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setMessage("Error fetching Store, probable network issues " + err);
+        setError(true);
+      });
+  };
 
-                    }
-                }
-          /*   .then((res)=>{
+  const getFacilities = async () => {
+    if (user.currentEmployee) {
+      const findStore = await StoreServ.find({
+        query: {
+          /* locationType:"Laboratory", */
+          /*  facility:user.currentEmployee.facilityDetail._id, */
+          /*  $limit:20, */
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      });
+
+      await setFacilities(findStore.data);
+    } else {
+      if (user.stacker) {
+        const findStore = await StoreServ.find({
+          query: {
+            /*   locationType:"Laboratory", */
+            $limit: 20,
+            $sort: {
+              name: -1,
+            },
+          },
+        });
+
+        await setFacilities(findStore.data);
+      }
+    }
+    /*   .then((res)=>{
                 console.log(res)
                     setFacilities(res.data)
                     setMessage(" Store  fetched successfully")
@@ -362,218 +367,282 @@ export function SignalsList({standalone,closeModal}){
                     setMessage("Error creating Store, probable network issues "+ err )
                     setError(true)
                 }) */
-            }
-            
-           
-            useEffect(() => {
-               
-                if (user){
-                    getFacilities()
-                }else{
-                    /* const localUser= localStorage.getItem("user")
+  };
+
+  useEffect(() => {
+    if (user) {
+      getFacilities();
+    } else {
+      /* const localUser= localStorage.getItem("user")
                     const user1=JSON.parse(localUser)
                     console.log(localUser)
                     console.log(user1)
                     fetchUser(user1)
                     console.log(user)
                     getFacilities(user) */
-                }
-                StoreServ.on('created', (obj)=>getFacilities())
-                StoreServ.on('updated', (obj)=>getFacilities())
-                StoreServ.on('patched', (obj)=>getFacilities())
-                StoreServ.on('removed', (obj)=>getFacilities())
-                return () => {
-                
-                }
-            },[])
-
-
-    //todo: pagination and vertical scroll bar
-
-    return(
-        <>
-           {user?( <>  
-                <div className="level">
-                    <div className="level-left">
-                        <div className="level-item">
-                            <div className="field">
-                                <p className="control has-icons-left  ">
-                                    <DebounceInput className="input is-small " 
-                                        type="text" placeholder="Search Stores"
-                                        minLength={3}
-                                        debounceTimeout={400}
-                                        onChange={(e)=>handleSearch(e.target.value)} />
-                                    <span className="icon is-small is-left">
-                                        <i className="fas fa-search"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Notifications </span></div>
-                    <div className="level-right">
-                { !standalone &&   <div className="level-item"> 
-                            {/* <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div> */}
-                        </div>}
-                    </div>
-
-                </div>
-                <div className="table-container pullup ">
-                                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                                    <thead>
-                                        <tr>
-                                        <th><abbr title="Serial No">S/No</abbr></th>
-                                        <th><abbr title="Date and Time">Date and Time</abbr></th>
-                                        <th>Disease</th>
-                                        <th><abbr title="Location">Location</abbr></th>
-                                        <th><abbr title="Facility">Facility</abbr></th>
-                                         <th><abbr title="Notified By">Notified By</abbr></th>
-                                        <th><abbr title="Notification Type">Notification Type</abbr></th>
-                                        <th><abbr title="Status">Status</abbr></th>
-                                        <th><abbr title="Action">Action</abbr></th> 
-                                        <th><abbr title="Person Notified"> Person Notified"</abbr></th>
-                                       {/* { !standalone &&  <th><abbr title="Actions">Actions</abbr></th>} */}
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        
-                                    </tfoot>
-                                    <tbody>
-                                        {facilities.map((Store, i)=>(
-
-                                            <tr key={Store._id} onClick={()=>handleRow(Store)} className={Store._id===(selectedStore?._id||null)?"is-selected":""}>
-                                            <th>{i+1}</th>
-                                            <th><div className="docdate">{formatDistanceToNowStrict(new Date(Store.createdAt),{addSuffix: true})} <br/><span>{format(new Date(Store.createdAt),'dd-MM-yy hh:mm:ss')}</span></div></th>
-                                            <td>{Store.disease}</td>
-                                            < td>{Store.location}</td>
-                                            <td>{Store.facility}</td>
-                                            <td>{Store.notified_by_name}</td>
-                                            <td>{Store.notification_type}</td>
-                                            <td>{Store.status}</td> 
-                                            <td>{Store.action}</td>
-                                            <td>{Store.person_notified}</td>
-                                         {/*  { !standalone &&   <td><span   className="showAction"  >...</span></td>} */}
-                                           
-                                            </tr>
-
-                                        ))}
-                                    </tbody>
-                                    </table>
-                                    
-                </div>              
-            </>):<div>loading</div>}
-            </>
-              
-    )
     }
+    StoreServ.on("created", obj => getFacilities());
+    StoreServ.on("updated", obj => getFacilities());
+    StoreServ.on("patched", obj => getFacilities());
+    StoreServ.on("removed", obj => getFacilities());
+    return () => {};
+  }, []);
 
-    export function StoreListStandalone({standalone,closeModal}){
-        // const { register, handleSubmit, watch, errors } = useForm();
-         // eslint-disable-next-line
-         const [error, setError] =useState(false)
-          // eslint-disable-next-line
-         const [success, setSuccess] =useState(false)
-          // eslint-disable-next-line
-        const [message, setMessage] = useState("") 
-         const StoreServ=client.service('location')
-         //const navigate=useNavigate()
-        // const {user,setUser} = useContext(UserContext)
-         const [facilities,setFacilities]=useState([])
-          // eslint-disable-next-line
-        const [selectedStore, setSelectedStore]=useState() //
-         // eslint-disable-next-line
-         const {state,setState}=useContext(ObjectContext)
-         // eslint-disable-next-line
-         const {user,setUser}=useContext(UserContext)
-     
-     
-     
-         const handleCreateNew = async()=>{
-             const    newStoreModule={
-                 selectedStore:{},
-                 show :'create'
-                 }
-            await setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
-            //console.log(state)
-             
-     
-         }
-         const handleRow= async(Store)=>{
-             //console.log("b4",state)
-     
-             //console.log("handlerow",Store)
-     
-             await setSelectedStore(Store)
-     
-             const    newStoreModule={
-                 selectedStore:Store,
-                 show :'detail'
-             }
-            await setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
-            //console.log(state)
-            closeModal()
-     
-         }
-     
-        const handleSearch=(val)=>{
-            const field='name'
-            console.log(val)
-            StoreServ.find({query: {
-                     [field]: {
-                         $regex:val,
-                         $options:'i'
-                        
-                     },
-                    facility:user.currentEmployee.facilityDetail._id || "",
-                     locationType:"Laboratory",
-                    $limit:10,
-                     $sort: {
-                         name: 1
-                       }
-                         }}).then((res)=>{
-                     console.log(res)
-                    setFacilities(res.data)
-                     setMessage(" Store  fetched successfully")
-                     setSuccess(true) 
-                 })
-                 .catch((err)=>{
-                     console.log(err)
-                     setMessage("Error fetching Store, probable network issues "+ err )
-                     setError(true)
-                 })
-             }
-        
-             const getFacilities= async()=>{
-                 if (user.currentEmployee){
-                 
-             const findStore= await StoreServ.find(
-                     {query: {
-                         locationType:"Laboratory",
-                         facility:user.currentEmployee.facilityDetail._id,
-                         $limit:20,
-                         $sort: {
-                             name: 1
-                         }
-                         }})
-     
-              await setFacilities(findStore.data)
-                     }
-                     else {
-                         if (user.stacker){
-                             const findStore= await StoreServ.find(
-                                 {query: {
-                                     locationType:"Laboratory",
-                                     $limit:20,
-                                     $sort: {
-                                         name: 1
-                                     }
-                                     }})
-                 
-                         await setFacilities(findStore.data)
-     
-                         }
-                     }
-               /*   .then((res)=>{
+  //todo: pagination and vertical scroll bar
+
+  const signalsSchema = [
+    {
+      name: "S/NO",
+      width: "80px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date and Time",
+      width: "120px",
+      key: "createdAt",
+      description: "Enter Date and Time",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy HH:mm"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Disease",
+      width: "150px",
+      key: "disease",
+      description: "Enter Disease",
+      selector: row => row.disease,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Location",
+      width: "150px",
+      key: "location",
+      description: "Enter Location",
+      selector: row => row.location,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Facility",
+      key: "facility",
+      description: "Enter Facility",
+      selector: row => (row.facility ? row.facility : "----------------------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Notified By",
+      width: "120px",
+      key: "notified_by",
+      description: "Enter Notified by",
+      selector: row => row.notified_by,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Notification Type",
+      width: "150px",
+      key: "notification_type",
+      description: "Enter Notification Type",
+      selector: row => row.notification_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      width: "100px",
+      key: "status",
+      description: "Enter Status",
+      selector: row => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Action",
+      key: "action",
+      width: "100px",
+      description: "Enter Action",
+      selector: row => row.action,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Person Notified",
+      key: "person_notified",
+      description: "Enter Person Notified",
+      selector: row => row.person_notified,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  return (
+    <>
+      {user ? (
+        <>
+          <PageWrapper
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+          >
+            <TableMenu>
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
+                )}
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  Notifications
+                </h2>
+              </div>
+
+              {!standalone && (
+                <Button
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                  label="Add new "
+                  onClick={handleCreateNew}
+                />
+              )}
+            </TableMenu>
+
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <CustomTable
+                title={""}
+                columns={signalsSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={loading}
+              />
+            </div>
+          </PageWrapper>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
+    </>
+  );
+}
+
+export function StoreListStandalone({standalone, closeModal}) {
+  // const { register, handleSubmit, watch, errors } = useForm();
+  // eslint-disable-next-line
+  const [error, setError] = useState(false);
+  // eslint-disable-next-line
+  const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState("");
+  const StoreServ = client.service("location");
+  //const navigate=useNavigate()
+  // const {user,setUser} = useContext(UserContext)
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [selectedStore, setSelectedStore] = useState(); //
+  // eslint-disable-next-line
+  const {state, setState} = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const {user, setUser} = useContext(UserContext);
+
+  const handleCreateNew = async () => {
+    const newStoreModule = {
+      selectedStore: {},
+      show: "create",
+    };
+    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    //console.log(state)
+  };
+  const handleRow = async Store => {
+    //console.log("b4",state)
+
+    //console.log("handlerow",Store)
+
+    await setSelectedStore(Store);
+
+    const newStoreModule = {
+      selectedStore: Store,
+      show: "detail",
+    };
+    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    //console.log(state)
+    closeModal();
+  };
+
+  const handleSearch = val => {
+    const field = "name";
+    console.log(val);
+    StoreServ.find({
+      query: {
+        [field]: {
+          $regex: val,
+          $options: "i",
+        },
+        facility: user.currentEmployee.facilityDetail._id || "",
+        locationType: "Laboratory",
+        $limit: 10,
+        $sort: {
+          name: 1,
+        },
+      },
+    })
+      .then(res => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(" Store  fetched successfully");
+        setSuccess(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setMessage("Error fetching Store, probable network issues " + err);
+        setError(true);
+      });
+  };
+
+  const getFacilities = async () => {
+    if (user.currentEmployee) {
+      const findStore = await StoreServ.find({
+        query: {
+          locationType: "Laboratory",
+          facility: user.currentEmployee.facilityDetail._id,
+          $limit: 20,
+          $sort: {
+            name: 1,
+          },
+        },
+      });
+
+      await setFacilities(findStore.data);
+    } else {
+      if (user.stacker) {
+        const findStore = await StoreServ.find({
+          query: {
+            locationType: "Laboratory",
+            $limit: 20,
+            $sort: {
+              name: 1,
+            },
+          },
+        });
+
+        await setFacilities(findStore.data);
+      }
+    }
+    /*   .then((res)=>{
                      console.log(res)
                          setFacilities(res.data)
                          setMessage(" Store  fetched successfully")
@@ -583,171 +652,199 @@ export function SignalsList({standalone,closeModal}){
                          setMessage("Error creating Store, probable network issues "+ err )
                          setError(true)
                      }) */
-                 }
-                 
-           
-     
-                 useEffect(() => {
-                    
-                     if (user){
-                         getFacilities()
-                     }else{
-                         /* const localUser= localStorage.getItem("user")
+  };
+
+  useEffect(() => {
+    if (user) {
+      getFacilities();
+    } else {
+      /* const localUser= localStorage.getItem("user")
                          const user1=JSON.parse(localUser)
                          console.log(localUser)
                          console.log(user1)
                          fetchUser(user1)
                          console.log(user)
                          getFacilities(user) */
-                     }
-                     StoreServ.on('created', (obj)=>getFacilities())
-                     StoreServ.on('updated', (obj)=>getFacilities())
-                     StoreServ.on('patched', (obj)=>getFacilities())
-                     StoreServ.on('removed', (obj)=>getFacilities())
-                     return () => {
-                     
-                     }
-                 },[])
-     
-     
-         //todo: pagination and vertical scroll bar
-     
-         return(
-             <>
-                {user?( <>  
-                     <div className="level">
-                         <div className="level-left">
-                             <div className="level-item">
-                                 <div className="field">
-                                     <p className="control has-icons-left  ">
-                                         <DebounceInput className="input is-small " 
-                                             type="text" placeholder="Search Stores"
-                                             minLength={3}
-                                             debounceTimeout={400}
-                                             onChange={(e)=>handleSearch(e.target.value)} />
-                                         <span className="icon is-small is-left">
-                                             <i className="fas fa-search"></i>
-                                         </span>
-                                     </p>
-                                 </div>
-                             </div>
-                         </div>
-                         <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Laboratory </span></div>
-                         <div className="level-right">
-                     { !standalone &&   <div className="level-item"> 
-                                 <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                             </div>}
-                         </div>
-     
-                     </div>
-                     <div className="table-container pullup ">
-                                     <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                                         <thead>
-                                             <tr>
-                                             <th><abbr title="Serial No">S/No</abbr></th>
-                                             <th>Name</th>
-                                             {/* <th><abbr title="Last Name">Store Type</abbr></th>
+    }
+    StoreServ.on("created", obj => getFacilities());
+    StoreServ.on("updated", obj => getFacilities());
+    StoreServ.on("patched", obj => getFacilities());
+    StoreServ.on("removed", obj => getFacilities());
+    return () => {};
+  }, []);
+
+  //todo: pagination and vertical scroll bar
+
+  return (
+    <>
+      {user ? (
+        <>
+          <div className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <div className="field">
+                  <p className="control has-icons-left  ">
+                    <DebounceInput
+                      className="input is-small "
+                      type="text"
+                      placeholder="Search Stores"
+                      minLength={3}
+                      debounceTimeout={400}
+                      onChange={e => handleSearch(e.target.value)}
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-search"></i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="level-item">
+              {" "}
+              <span className="is-size-6 has-text-weight-medium">
+                List of Laboratory{" "}
+              </span>
+            </div>
+            <div className="level-right">
+              {!standalone && (
+                <div className="level-item">
+                  <div className="level-item">
+                    <div
+                      className="button is-success is-small"
+                      onClick={handleCreateNew}
+                    >
+                      New
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="table-container pullup ">
+            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
+              <thead>
+                <tr>
+                  <th>
+                    <abbr title="Serial No">S/No</abbr>
+                  </th>
+                  <th>Name</th>
+                  {/* <th><abbr title="Last Name">Store Type</abbr></th>
                                             <th><abbr title="Profession">Profession</abbr></th>
                                               <th><abbr title="Phone">Phone</abbr></th>
                                              <th><abbr title="Email">Email</abbr></th>
                                              <th><abbr title="Department">Department</abbr></th>
                                              <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> 
                                              <th><abbr title="Facility">Facility</abbr></th>*/}
-                                            { !standalone &&  <th><abbr title="Actions">Actions</abbr></th>}
-                                             </tr>
-                                         </thead>
-                                         <tfoot>
-                                             
-                                         </tfoot>
-                                         <tbody>
-                                             {facilities.map((Store, i)=>(
-     
-                                                 <tr key={Store._id} onClick={()=>handleRow(Store)} className={Store._id===(selectedStore?._id||null)?"is-selected":""}>
-                                                 <th>{i+1}</th>
-                                                 <th>{Store.name}</th>
-                                                 {/*<td>{Store.StoreType}</td>
+                  {!standalone && (
+                    <th>
+                      <abbr title="Actions">Actions</abbr>
+                    </th>
+                  )}
+                </tr>
+              </thead>
+              <tfoot></tfoot>
+              <tbody>
+                {facilities.map((Store, i) => (
+                  <tr
+                    key={Store._id}
+                    onClick={() => handleRow(Store)}
+                    className={
+                      Store._id === (selectedStore?._id || null)
+                        ? "is-selected"
+                        : ""
+                    }
+                  >
+                    <th>{i + 1}</th>
+                    <th>{Store.name}</th>
+                    {/*<td>{Store.StoreType}</td>
                                                  < td>{Store.profession}</td>
                                                  <td>{Store.phone}</td>
                                                  <td>{Store.email}</td>
                                                  <td>{Store.department}</td>
                                                  <td>{Store.deptunit}</td> 
                                                  <td>{Store.facility}</td>*/}
-                                               { !standalone &&   <td><span   className="showAction"  >...</span></td>}
-                                                
-                                                 </tr>
-     
-                                             ))}
-                                         </tbody>
-                                         </table>
-                                         
-                     </div>              
-                 </>):<div>loading</div>}
-                 </>
-                   
-         )
-         }
-export function StoreDetail(){
-    //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
-     // eslint-disable-next-line
-    const [error, setError] =useState(false) //, 
-    //const [success, setSuccess] =useState(false)
-     // eslint-disable-next-line
-    const [message, setMessage] = useState("") //,
-    //const StoreServ=client.service('/Store')
-    //const navigate=useNavigate()
-    //const {user,setUser} = useContext(UserContext)
-    const {state,setState} = useContext(ObjectContext)
+                    {!standalone && (
+                      <td>
+                        <span className="showAction">...</span>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
+    </>
+  );
+}
+export function StoreDetail() {
+  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+  // eslint-disable-next-line
+  const [error, setError] = useState(false); //,
+  //const [success, setSuccess] =useState(false)
+  // eslint-disable-next-line
+  const [message, setMessage] = useState(""); //,
+  //const StoreServ=client.service('/Store')
+  //const navigate=useNavigate()
+  //const {user,setUser} = useContext(UserContext)
+  const {state, setState} = useContext(ObjectContext);
 
-   
+  const Store = state.StoreModule.selectedStore;
 
-   const Store =state.StoreModule.selectedStore 
+  const handleEdit = async () => {
+    const newStoreModule = {
+      selectedStore: Store,
+      show: "modify",
+    };
+    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    //console.log(state)
+  };
 
-    const handleEdit= async()=>{
-        const    newStoreModule={
-            selectedStore:Store,
-            show :'modify'
-        }
-       await setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
-       //console.log(state)
-       
-    }
- 
-    return (
-        <>
-        <div className="card ">
-            <div className="card-header">
-                <p className="card-header-title">
-                   Laboratory Details
-                </p>
-            </div>
-            <div className="card-content vscrollable">
-           
-                <table> 
-                <tbody>         
-                <tr>
-                    <td>
-                
-                    <label className="label is-small"> <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                        Name: 
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft"   name="name"> {Store.name} </span>
-                        </td>
-                    </tr>
-                    <tr>
-                    <td>
-                <label className="label is-small"><span className="icon is-small is-left">
-                        <i className="fas fa-map-signs"></i>
-                    </span>Location Type:
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft"   name="StoreType">{Store.locationType} </span> 
-                    </td>
-                </tr>
-                  {/*   <tr>
+  return (
+    <>
+      <div className="card ">
+        <div className="card-header">
+          <p className="card-header-title">Laboratory Details</p>
+        </div>
+        <div className="card-content vscrollable">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label className="label is-small">
+                    {" "}
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-hospital"></i>
+                    </span>
+                    Name:
+                  </label>
+                </td>
+                <td>
+                  <span className="is-size-7 padleft" name="name">
+                    {" "}
+                    {Store.name}{" "}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label className="label is-small">
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-map-signs"></i>
+                    </span>
+                    Location Type:
+                  </label>
+                </td>
+                <td>
+                  <span className="is-size-7 padleft" name="StoreType">
+                    {Store.locationType}{" "}
+                  </span>
+                </td>
+              </tr>
+              {/*   <tr>
                     <td>
             <label className="label is-small"><span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
@@ -806,62 +903,61 @@ export function StoreDetail(){
                 </td>
               
                 </tr> */}
-                    
-          {/*   <div className="field">
+
+              {/*   <div className="field">
              <label className="label is-small"><span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>Category:              
                     <span className="is-size-7 padleft "  name= "StoreCategory">{Store.StoreCategory}</span>
                 </label>
                  </div> */}
+            </tbody>
+          </table>
 
-            </tbody> 
-            </table> 
-           
-            <div className="field mt-2">
-                <p className="control">
-                    <button className="button is-success is-small" onClick={handleEdit}>
-                        Edit
-                    </button>
-                </p>
-            </div>
-            { error && <div className="message"> {message}</div>}
-           
+          <div className="field mt-2">
+            <p className="control">
+              <button
+                className="button is-success is-small"
+                onClick={handleEdit}
+              >
+                Edit
+              </button>
+            </p>
+          </div>
+          {error && <div className="message"> {message}</div>}
         </div>
-        </div>
-        </>
-    )
-   
-   
+      </div>
+    </>
+  );
 }
 
-export function StoreModify(){
-    const { register, handleSubmit, setValue,reset, errors } = useForm(); //watch, errors,
-    // eslint-disable-next-line 
-    const [error, setError] =useState(false)
-    // eslint-disable-next-line 
-    const [success, setSuccess] =useState(false)
-    // eslint-disable-next-line 
-    const [message,setMessage] = useState("")
-    // eslint-disable-next-line 
-    const StoreServ=client.service('location')
-    //const navigate=useNavigate()
-     // eslint-disable-next-line
-    const {user} = useContext(UserContext)
-    const {state,setState} = useContext(ObjectContext)
+export function StoreModify() {
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  // eslint-disable-next-line
+  const [error, setError] = useState(false);
+  // eslint-disable-next-line
+  const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState("");
+  // eslint-disable-next-line
+  const StoreServ = client.service("location");
+  //const navigate=useNavigate()
+  // eslint-disable-next-line
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
-    const Store =state.StoreModule.selectedStore 
+  const Store = state.StoreModule.selectedStore;
 
-        useEffect(() => {
-            setValue("name", Store.name,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("locationType", Store.locationType,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-           /*  setValue("profession", Store.profession,  {
+  useEffect(() => {
+    setValue("name", Store.name, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("locationType", Store.locationType, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    /*  setValue("profession", Store.profession,  {
                 shouldValidate: true,
                 shouldDirty: true
             })
@@ -881,150 +977,152 @@ export function StoreModify(){
                 shouldValidate: true,
                 shouldDirty: true
             }) */
-          /*   setValue("StoreCategory", Store.StoreCategory,  {
+    /*   setValue("StoreCategory", Store.StoreCategory,  {
                 shouldValidate: true,
                 shouldDirty: true
             }) */
-            
-            return () => {
-                
-            }
-        })
 
-   const handleCancel=async()=>{
-    const    newStoreModule={
-        selectedStore:{},
-        show :'create'
-      }
-   await setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
-   //console.log(state)
-           }
+    return () => {};
+  });
 
+  const handleCancel = async () => {
+    const newStoreModule = {
+      selectedStore: {},
+      show: "create",
+    };
+    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    //console.log(state)
+  };
 
-        const changeState =()=>{
-        const    newStoreModule={
-            selectedStore:{},
-            show :'create'
-        }
-        setState((prevstate)=>({...prevstate, StoreModule:newStoreModule}))
+  const changeState = () => {
+    const newStoreModule = {
+      selectedStore: {},
+      show: "create",
+    };
+    setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+  };
+  const handleDelete = async () => {
+    let conf = window.confirm("Are you sure you want to delete this data?");
 
-        }
-    const handleDelete=async()=>{
-        let conf=window.confirm("Are you sure you want to delete this data?")
-        
-        const dleteId=Store._id
-        if (conf){
-             
-        StoreServ.remove(dleteId)
-        .then((res)=>{
-                //console.log(JSON.stringify(res))
-                reset();
-               /*  setMessage("Deleted Store successfully")
+    const dleteId = Store._id;
+    if (conf) {
+      StoreServ.remove(dleteId)
+        .then(res => {
+          //console.log(JSON.stringify(res))
+          reset();
+          /*  setMessage("Deleted Store successfully")
                 setSuccess(true)
                 changeState()
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-                toast({
-                    message: 'Store deleted succesfully',
-                    type: 'is-success',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-                changeState()
-            })
-            .catch((err)=>{
-               // setMessage("Error deleting Store, probable network issues "+ err )
-               // setError(true)
-                toast({
-                    message: "Error deleting Store, probable network issues or "+ err,
-                    type: 'is-danger',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-            })
-        }
+          toast({
+            message: "Store deleted succesfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          changeState();
+        })
+        .catch(err => {
+          // setMessage("Error deleting Store, probable network issues "+ err )
+          // setError(true)
+          toast({
+            message: "Error deleting Store, probable network issues or " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
     }
-        
+  };
 
-   /* ()=> setValue("firstName", "Bill", , {
+  /* ()=> setValue("firstName", "Bill", , {
             shouldValidate: true,
             shouldDirty: true
           })) */
-    const onSubmit = (data,e) =>{
-        e.preventDefault();
-        
-        setSuccess(false)
-        console.log(data)
-        data.facility=Store.facility
-          //console.log(data);
-          
-        StoreServ.patch(Store._id,data)
-        .then((res)=>{
-                //console.log(JSON.stringify(res))
-               // e.target.reset();
-               // setMessage("updated Store successfully")
-                 toast({
-                    message: 'Store updated succesfully',
-                    type: 'is-success',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-                  
-                changeState()
+  const onSubmit = (data, e) => {
+    e.preventDefault();
 
-            })
-            .catch((err)=>{
-                //setMessage("Error creating Store, probable network issues "+ err )
-               // setError(true)
-                toast({
-                    message: "Error updating Store, probable network issues or "+ err,
-                    type: 'is-danger',
-                    dismissible: true,
-                    pauseOnHover: true,
-                  })
-            })
+    setSuccess(false);
+    console.log(data);
+    data.facility = Store.facility;
+    //console.log(data);
 
-      } 
-     
-      
-    return (
-        
-        <>
-        <div className="card ">
-            <div className="card-header">
-                <p className="card-header-title">
-                    Store Details-Modify
+    StoreServ.patch(Store._id, data)
+      .then(res => {
+        //console.log(JSON.stringify(res))
+        // e.target.reset();
+        // setMessage("updated Store successfully")
+        toast({
+          message: "Store updated succesfully",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+
+        changeState();
+      })
+      .catch(err => {
+        //setMessage("Error creating Store, probable network issues "+ err )
+        // setError(true)
+        toast({
+          message: "Error updating Store, probable network issues or " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+  };
+
+  return (
+    <>
+      <div className="card ">
+        <div className="card-header">
+          <p className="card-header-title">Store Details-Modify</p>
+        </div>
+        <div className="card-content vscrollable">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="field">
+              <label className="label is-small">
+                {" "}
+                Name
+                <p className="control has-icons-left has-icons-right">
+                  <input
+                    className="input  is-small"
+                    {...register("x", {required: true})}
+                    name="name"
+                    type="text"
+                    placeholder="Name"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-hospital"></i>
+                  </span>
                 </p>
+              </label>
             </div>
-            <div className="card-content vscrollable">
-           
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="field">
-                    <label className="label is-small"> Name
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input  is-small" ref={register({ required: true })}  name="name" type="text" placeholder="Name" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                    </label>
-                    </div>
-                <div className="field">
-                <label className="label is-small">Location Type
-                    <p className="control has-icons-left has-icons-right">
-                    <input className="input is-small " ref={register({ required: true })} disabled name="StoreType" type="text" placeholder="Store Type" />
-                    <span className="icon is-small is-left">
-                        <i className="fas fa-map-signs"></i>
-                    </span>
-                    
+            <div className="field">
+              <label className="label is-small">
+                Location Type
+                <p className="control has-icons-left has-icons-right">
+                  <input
+                    className="input is-small "
+                    {...register("x", {required: true})}
+                    disabled
+                    name="StoreType"
+                    type="text"
+                    placeholder="Store Type"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-map-signs"></i>
+                  </span>
                 </p>
-                </label>
-                </div>
+              </label>
+            </div>
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="profession" type="text" placeholder="Profession"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-map-marker-alt"></i>
                     </span>
@@ -1034,7 +1132,7 @@ export function StoreModify(){
             <div className="field">
             <label className="label is-small">Phone
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="phone" type="text" placeholder="Phone No"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-phone-alt"></i>
                     </span>
@@ -1044,7 +1142,7 @@ export function StoreModify(){
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="email" type="email" placeholder="Store Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Store Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -1054,7 +1152,7 @@ export function StoreModify(){
             <div className="field">
             <label className="label is-small">Department
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="department" type="text" placeholder="Department"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-user-md"></i>
                     </span>
@@ -1065,95 +1163,95 @@ export function StoreModify(){
             <div className="field">
             <label className="label is-small">Departmental Unit
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="deptunit" type="text" placeholder="Departmental Unit"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-hospital-symbol"></i>
                     </span>
                 </p>
                 </label>
                 </div> */}
-           {/*  <div className="field">
+            {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" ref={register({ required: true })} name="StoreCategory" type="text" placeholder="Store Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="StoreCategory" type="text" placeholder="Store Category"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-clinic-medical"></i>
                     </span>
                 </p>
                 </label>
             </div> */}
-           
-           
-            </form>
-            
-            <div className="field  is-grouped mt-2" >
-                <p className="control">
-                    <button type="submit" className="button is-success is-small" onClick={handleSubmit(onSubmit)}>
-                        Save
-                    </button>
-                </p>
-                <p className="control">
-                    <button className="button is-warning is-small" onClick={handleCancel}>
-                        Cancel
-                    </button>
-                </p>
-                {/* <p className="control">
+          </form>
+
+          <div className="field  is-grouped mt-2">
+            <p className="control">
+              <button
+                type="submit"
+                className="button is-success is-small"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </button>
+            </p>
+            <p className="control">
+              <button
+                className="button is-warning is-small"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </p>
+            {/* <p className="control">
                     <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
                        Delete
                     </button>
                 </p> */}
-            </div>
+          </div>
         </div>
-        </div>
-        </>
-    )
-   
-   
-                
-}   
+      </div>
+    </>
+  );
+}
 
-export  function InputSearch({getSearchfacility,clear}) {
-    
-    const facilityServ=client.service('facility')
-    const [facilities,setFacilities]=useState([])
-     // eslint-disable-next-line
-     const [searchError, setSearchError] =useState(false)
-     // eslint-disable-next-line
-    const [showPanel, setShowPanel] =useState(false)
-     // eslint-disable-next-line
-   const [searchMessage, setSearchMessage] = useState("") 
-   // eslint-disable-next-line 
-   const [simpa,setSimpa]=useState("")
-   // eslint-disable-next-line 
-   const [chosen,setChosen]=useState(false)
-   // eslint-disable-next-line 
-   const [count,setCount]=useState(0)
-   const inputEl=useRef(null)
+export function InputSearch({getSearchfacility, clear}) {
+  const facilityServ = client.service("facility");
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [searchError, setSearchError] = useState(false);
+  // eslint-disable-next-line
+  const [showPanel, setShowPanel] = useState(false);
+  // eslint-disable-next-line
+  const [searchMessage, setSearchMessage] = useState("");
+  // eslint-disable-next-line
+  const [simpa, setSimpa] = useState("");
+  // eslint-disable-next-line
+  const [chosen, setChosen] = useState(false);
+  // eslint-disable-next-line
+  const [count, setCount] = useState(0);
+  const inputEl = useRef(null);
 
+  const handleRow = async obj => {
+    await setChosen(true);
+    //alert("something is chaning")
+    getSearchfacility(obj);
 
-   const handleRow= async(obj)=>{
-        await setChosen(true)
-        //alert("something is chaning")
-       getSearchfacility(obj)
-       
-       await setSimpa(obj.facilityName)
-       
-        // setSelectedFacility(obj)
-        setShowPanel(false)
-        await setCount(2)
-        /* const    newfacilityModule={
+    await setSimpa(obj.facilityName);
+
+    // setSelectedFacility(obj)
+    setShowPanel(false);
+    await setCount(2);
+    /* const    newfacilityModule={
             selectedFacility:facility,
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-   //console.log(state)
-}
-    const handleBlur=async(e)=>{
-         if (count===2){
-             console.log("stuff was chosen")
-         }
-       
-       /*  console.log("blur")
+    //console.log(state)
+  };
+  const handleBlur = async e => {
+    if (count === 2) {
+      console.log("stuff was chosen");
+    }
+
+    /*  console.log("blur")
          setShowPanel(false)
         console.log(JSON.stringify(simpa))
         if (simpa===""){
@@ -1165,87 +1263,90 @@ export  function InputSearch({getSearchfacility,clear}) {
         }
         console.log(facilities.length)
         console.log(inputEl.current) */
+  };
+  const handleSearch = async val => {
+    const field = "facilityName"; //field variable
+
+    if (val.length >= 3) {
+      facilityServ
+        .find({
+          query: {
+            //service
+            [field]: {
+              $regex: val,
+              $options: "i",
+            },
+            $limit: 10,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        })
+        .then(res => {
+          console.log("facility  fetched successfully");
+          setFacilities(res.data);
+          setSearchMessage(" facility  fetched successfully");
+          setShowPanel(true);
+        })
+        .catch(err => {
+          console.log(err);
+          setSearchMessage(
+            "Error searching facility, probable network issues " + err
+          );
+          setSearchError(true);
+        });
+    } else {
+      console.log("less than 3 ");
+      console.log(val);
+      setShowPanel(false);
+      await setFacilities([]);
+      console.log(facilities);
     }
-    const handleSearch=async(val)=>{
-        
-        const field='facilityName' //field variable
-       
-        if (val.length>=3){
-            facilityServ.find({query: {     //service
-                 [field]: {
-                     $regex:val,
-                     $options:'i'
-                    
-                 },
-                 $limit:10,
-                 $sort: {
-                     createdAt: -1
-                   }
-                     }}).then((res)=>{
-              console.log("facility  fetched successfully") 
-                setFacilities(res.data)
-                 setSearchMessage(" facility  fetched successfully")
-                 setShowPanel(true)
-             })
-             .catch((err)=>{
-                 console.log(err)
-                 setSearchMessage("Error searching facility, probable network issues "+ err )
-                 setSearchError(true)
-             })
-         }
-        else{
-            console.log("less than 3 ")
-            console.log(val)
-            setShowPanel(false)
-            await setFacilities([])
-            console.log(facilities)
-        }
+  };
+  useEffect(() => {
+    if (clear) {
+      setSimpa("");
     }
-    useEffect(() => {
-       if (clear){
-           setSimpa("")
-       }
-        return () => {
-            
-        }
-    }, [clear] )
-    return (
-        <div>
-            <div className="field">
-                <div className="control has-icons-left  ">
-                    <div className={`dropdown ${showPanel?"is-active":""}`}>
-                        <div className="dropdown-trigger">
-                            <DebounceInput className="input is-small " 
-                                type="text" placeholder="Search Facilities"
-                                value={simpa}
-                                minLength={1}
-                                debounceTimeout={400}
-                                onBlur={(e)=>handleBlur(e)}
-                                onChange={(e)=>handleSearch(e.target.value)}
-                                inputRef={inputEl}
-                                  />
-                            <span className="icon is-small is-left">
-                                <i className="fas fa-search"></i>
-                            </span>
-                        </div>
-                        {searchError&&<div>{searchMessage}</div>}
-                        <div className="dropdown-menu" >
-                            <div className="dropdown-content">
-                            {facilities.map((facility, i)=>(
-                                    
-                                    <div className="dropdown-item" key={facility._id} onClick={()=>handleRow(facility)} >
-                                        
-                                        <span>{facility.facilityName}</span>
-                                        
-                                    </div>
-                                    
-                                    ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    return () => {};
+  }, [clear]);
+  return (
+    <div>
+      <div className="field">
+        <div className="control has-icons-left  ">
+          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
+            <div className="dropdown-trigger">
+              <DebounceInput
+                className="input is-small "
+                type="text"
+                placeholder="Search Facilities"
+                value={simpa}
+                minLength={1}
+                debounceTimeout={400}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
+                inputRef={inputEl}
+              />
+              <span className="icon is-small is-left">
+                <i className="fas fa-search"></i>
+              </span>
             </div>
-          
+            {searchError && <div>{searchMessage}</div>}
+            <div className="dropdown-menu">
+              <div className="dropdown-content">
+                {facilities.map((facility, i) => (
+                  <div
+                    className="dropdown-item"
+                    key={facility._id}
+                    onClick={() => handleRow(facility)}
+                  >
+                    <span>{facility.facilityName}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

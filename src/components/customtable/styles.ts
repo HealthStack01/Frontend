@@ -1,47 +1,38 @@
 export const customStyles = {
-  header: {
+  rows: {
     style: {
-      minHeight: '40px',
+      minHeight: "64px", // override the row height
+      "&:not(:last-of-type)": {
+        borderBottomWidth: "0px",
+      },
+      padding: "0.75rem",
+      backgroundColor: "##F8F8F8",
     },
   },
   headRow: {
     style: {
-      background: '#F8F8F8',
-      color: '#03045E',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      border: 'none',
-      boxShadow: '0 3px 3px 0 rgba(3,4,94,0.2)',
+      borderBottomWidth: "0px",
+      padding: "24px",
+      backgroundColor: "#F8F8F8",
+      fontSize: "0.75rem",
     },
   },
   headCells: {
     style: {
-      '&:not(:last-of-type)': {
-        border: 'none',
-      },
-      background: '#F8F8F8',
-      fontWeight: 'bold',
-      fontSize: '0.75rem',
-      border: 'none',
+      paddingLeft: "8px", // override the cell padding for head cells
+      paddingRight: "8px",
+      fontSize: "0.75rem",
+      fontWeight: "bold",
+      color: "#33415C",
     },
   },
   cells: {
     style: {
-      border: 'none',
-    },
-  },
-  rows: {
-    style: {
-      border: 'none',
-      background: '#F8F8F8',
-      padding: '16px',
-      fontSize: '14px',
-      fontWeight: '500',
-      fontFamily: 'Manrope, sans-serif',
-    },
-    stripedStyle: {
-      background: '#fff',
-      border: 'none',
+      paddingLeft: "8px", // override the cell padding for data cells
+      paddingRight: "8px",
+      fontSize: "o.75rem",
+      color: "#2d2d2d",
+      fontWeight: "400",
     },
   },
 };

@@ -1,8 +1,8 @@
-import React from 'react';
-import DataTable from 'react-data-table-component';
+import React from "react";
+import DataTable from "react-data-table-component";
 
-import EmptyData from '../empty';
-import { customStyles } from './styles';
+import EmptyData from "../empty";
+import {customStyles} from "./styles";
 
 interface Props {
   title?: string;
@@ -16,13 +16,27 @@ interface Props {
   dense?: boolean;
   progressPending?: any;
   onSelectedRowsChange?: any;
+  noHeader?: boolean;
 }
 
 const CustomLoader = () => (
-  <div style={{ padding: '24px' }}>
+  <div style={{padding: "24px"}}>
     <img src="/loading.gif" width={400} />
   </div>
 );
+
+const conditionalRowStyles = [
+  {
+    when: row => row.quantity > 100,
+    style: {
+      backgroundColor: "green",
+      color: "white",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+  },
+];
 
 const CustomTable: React.FC<Props> = ({
   title,
@@ -36,12 +50,13 @@ const CustomTable: React.FC<Props> = ({
   progressPending,
   selectable = false,
   onSelectedRowsChange,
+  noHeader = true,
 }) => {
   return (
     <DataTable
       title={title}
-      columns={columns.filter((obj) => obj.selector && obj.inputType)}
-      data={data.map((obj, i) => ({ ...obj, sn: i + 1 }))} //TODO: only add sn if it's in the schema, to improve performance here
+      columns={columns.filter(obj => obj.selector && obj.inputType)}
+      data={data.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
       pointerOnHover={pointerOnHover}
       highlightOnHover={highlightOnHover}
       striped={striped}
@@ -54,11 +69,13 @@ const CustomTable: React.FC<Props> = ({
       responsive
       dense={dense}
       style={{
-        width: '100%',
+        width: "100%",
       }}
       progressComponent={<CustomLoader />}
       progressPending={progressPending}
       noDataComponent={<EmptyData />}
+      conditionalRowStyles={conditionalRowStyles}
+      noHeader={true}
     />
   );
 };

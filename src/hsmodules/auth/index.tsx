@@ -49,13 +49,13 @@ function Login() {
         navigate('/app');
       })
       .catch((err) => {
-        toast.error(`Error loggin in User, probable network issues ${err}`);
+        toast.error(`Error loggin in User, probable network issues  ${err}`);
       });
   };
 
   return (
     <>
-      {console.error('hello there')}
+     {/*  {console.error('hello there')} */}
       {loaderTimer ? (
         <Preloader />
       ) : (

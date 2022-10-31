@@ -1,4 +1,5 @@
 import React from 'react'
+import LocationModal from '../../components/inputs/LocationModal';
 
 export default function AccountHome() {
     return (
@@ -15,6 +16,14 @@ export default function AccountHome() {
                     </div>
                 </div>
             </section>
+            {
+            <LocationModal
+              locations={locationOptions}
+              onSelectLocation={handleSelectLocation}
+              open={open}
+              setOpen={setOpen}
+            />
+          }
         </>
     )
 }
