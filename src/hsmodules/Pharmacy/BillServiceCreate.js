@@ -937,7 +937,6 @@ export default function BillServiceCreate({closeModal}) {
               <Box
                 sx={{
                   display: "inline-flex",
-                  mr: 2,
                   flexGrow: 2,
                 }}
               >
@@ -954,18 +953,21 @@ export default function BillServiceCreate({closeModal}) {
                 )}
               </Box>
 
-              <Box
-                sx={{
-                  display: "inline-flex",
-                }}
-              >
-                <CustomSelect
-                  options={paymentOptions}
-                  defaultValue={"select mode"}
-                  value={paymentmode}
-                  onChange={handleChangeMode}
-                />
-              </Box>
+              {paymentOptions.length > 0 && (
+                <Box
+                  ml={2}
+                  sx={{
+                    display: "inline-flex",
+                  }}
+                >
+                  <CustomSelect
+                    options={paymentOptions}
+                    defaultValue={"select mode"}
+                    value={paymentmode}
+                    onChange={handleChangeMode}
+                  />
+                </Box>
+              )}
             </Box>
 
             <Grid
@@ -1060,11 +1062,11 @@ export default function BillServiceCreate({closeModal}) {
                       marginTop: "10px",
                       //textTransform: "capitalize",
                     }}
-                    // disabled={
-                    //   user.currentEmployee?.roles.includes("Adjust Price") ||
-                    //   user.currentEmployee?.roles.length === 0 ||
-                    //   user.stacker
-                    // }
+                    disabled={
+                      user.currentEmployee?.roles.includes("Adjust Price") ||
+                      user.currentEmployee?.roles.length === 0 ||
+                      user.stacker
+                    }
                     onClick={handleChangeAmount}
                   >
                     Adjust
@@ -1107,7 +1109,7 @@ export default function BillServiceCreate({closeModal}) {
             >
               <Button
                 variant="outlined"
-                //disabled={!productItem.length > 0}
+                disabled={!productItem.length > 0}
                 onClick={handleCreateBill}
                 sx={{
                   marginRight: "20px",
@@ -1119,7 +1121,7 @@ export default function BillServiceCreate({closeModal}) {
               <Button
                 variant="contained"
                 color="error"
-                //disabled={!productItem.length > 0}
+                disabled={!productItem.length > 0}
                 onClick={onSubmit}
               >
                 Clear

@@ -89,13 +89,13 @@ export default function Documentation({ standalone }) {
                 : "column is-12 "
             }
           >
-            <EncounterMain client={selectedClient} nopresc={standalone} />
+            {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
           </div>
         )}
         <div className="column is-4 ">
-          {state.DocumentClassModule.show === "detail" && (
+          {/* {state.DocumentClassModule.show === "detail" && (
             <EncounterRight client={selectedClient} />
-          )}
+          )} */}
           {/*  <DocumentClassCreate /> */}
         </div>
       </div>
