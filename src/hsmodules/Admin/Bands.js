@@ -539,7 +539,14 @@ export function BandList({ showCreateModal, showDetailModal }) {
                 )}
               </TableMenu>
 
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div
+                style={{
+                  width: "100%",
+                  justifyContent: "space-between",
+                  display: "flex",
+                }}
+              >
+                <div></div>
                 <CustomTable
                   title={""}
                   columns={BandSchema}

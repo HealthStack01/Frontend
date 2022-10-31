@@ -19,10 +19,12 @@ import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+// import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
+import DebouncedInput from "../../components/inputs/DebouncedInput";
 import Switch from "../../components/switch";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
 
 const searchfacility = {};
 
@@ -32,7 +34,6 @@ export default function ClientsAppointments() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [createModal, setCreateModal] = useState(false);
-  const [detailModal, setDetailModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
 
   const handleCreateModal = () => {
@@ -43,24 +44,14 @@ export default function ClientsAppointments() {
     setCreateModal(false);
   };
 
-  const handleShowDetailModal = () => {
-    setDetailModal(true);
-  };
-
-  const handleHideDetailModal = () => {
-    setDetailModal(false);
-  };
-
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-8 ">
-          <ClientList
-            showcreateModal={handleCreateModal}
-            showDetailModal={handleShowDetailModal}
-          />
+          <ClientList showCreateModal={handleCreateModal} />
         </div>
         <div className="column is-4 ">
+          {state.AppointmentModule.show === "detail" && <ClientDetail />}
           {state.AppointmentModule.show === "modify" && (
             <ClientModify Client={selectedClient} />
           )}
@@ -69,9 +60,9 @@ export default function ClientsAppointments() {
             <AppointmentCreate />
           </ModalBox>
 
-          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <ClientDetail />
-          </ModalBox>
+          {/* <ModalBox open={showModal} onClose={handleHideModal}>
+            <AppointmentCreate />
+          </ModalBox> */}
         </div>
       </div>
     </section>
@@ -508,7 +499,7 @@ export function AppointmentCreate() {
   );
 }
 
-export function ClientList({ showcreateModal, showDetailModal }) {
+export function ClientList({ showCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -541,7 +532,6 @@ export function ClientList({ showcreateModal, showDetailModal }) {
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
-    showDetailModal();
     const newClient = {
       selectedClient: {},
       show: "create",
@@ -560,7 +550,6 @@ export function ClientList({ showcreateModal, showDetailModal }) {
       AppointmentModule: newClientModule,
     }));
   };
-  showDetailModal();
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
@@ -883,6 +872,14 @@ export function ClientList({ showcreateModal, showDetailModal }) {
     <>
       {user ? (
         <>
+          {/* <DebounceInput
+            className="input is-small "
+            type="text"
+            placeholder="Search Appointments"
+            minLength={3}
+            debounceTimeout={400}
+            onChange={(e) => handleSearch(e.target.value)}
+          /> */}
           <PageWrapper
             style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
@@ -909,7 +906,7 @@ export function ClientList({ showcreateModal, showDetailModal }) {
                 <Button
                   style={{ fontSize: "0.75rem", fontWeight: "600" }}
                   label="Add new "
-                  onClick={showcreateModal}
+                  onClick={showCreateModal}
                 />
               )}
             </TableMenu>
