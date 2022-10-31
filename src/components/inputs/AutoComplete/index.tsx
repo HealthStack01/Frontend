@@ -8,6 +8,7 @@ interface Props {
   name?: string;
   value: any;
   onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  register?: any;
 }
 const AutoCompleteBox: React.FC<Props> = ({
   options,
@@ -15,6 +16,7 @@ const AutoCompleteBox: React.FC<Props> = ({
   value,
   onChange,
   name,
+  register,
 }) => {
   return (
     <Autocomplete
@@ -24,8 +26,8 @@ const AutoCompleteBox: React.FC<Props> = ({
       value={value}
       onChange={onChange}
       sx={{ width: '100%' }}
-      renderInput={(params) => (
-        <TextField {...params} label={label} name={name} />
+      renderInput={params => (
+        <TextField {...params} label={label} name={name} {...register} />
       )}
     />
   );

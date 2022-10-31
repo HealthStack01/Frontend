@@ -55,6 +55,7 @@
     "react-json-editor-ajrm": "^2.5.13",
     "react-jutsu": "^3.0.3",
     "react-leaflet": "^4.1.0",
+    "react-loader-spinner": "^5.3.4",
     "react-preloaders": "^3.0.3",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
