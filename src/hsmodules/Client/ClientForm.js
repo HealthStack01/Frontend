@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
@@ -38,29 +38,14 @@ const ClientForm = () => {
 
     await ClientServ.create(data)
       .then(res => {
-        toast({
-          message: 'Client created succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Client successfully created`);
 
         setLoading(false);
-        alert('Client successfully created');
       })
       .catch(err => {
-        //setMessage("Error creating Client, probable network issues "+ err )
-        // setError(true)
-        toast({
-          message: 'Error creating Client, probable network issues or ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Sorry, You weren't able to create an client.`);
         setLoading(false);
         console.log('>>>>>>', data);
-
-        alert('Errr creating client' + err);
       });
 
     setLoading(false);
@@ -69,6 +54,8 @@ const ClientForm = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
+      <ToastContainer theme='colored' />
+
       {/* Start form */}
       <PageWrapper>
         <GrayWrapper>
@@ -93,6 +80,8 @@ const ClientForm = () => {
           </HeadWrapper>
 
           <form onSubmit={handleSubmit(submit)}>
+            <ToastContainer theme='colored' />
+
             {!isFullRegistration ? (
               <>
                 <DetailsWrapper title='Create Client' defaultExpanded={true}>
@@ -299,16 +288,12 @@ const ClientForm = () => {
                     />
                   </GridWrapper>
                 </DetailsWrapper>
-                <BottomWrapper>
-                  <Button
-                    label='Clear Form'
-                    background='#FFE9E9'
-                    color='#ED0423'
-                  />
-                  <Button label='Save Form' type='submit' loading={loading} />
-                </BottomWrapper>
               </>
             )}
+            <BottomWrapper>
+              <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
+              <Button label='Save Form' type='submit' loading={loading} />
+            </BottomWrapper>
           </form>
         </GrayWrapper>
       </PageWrapper>
