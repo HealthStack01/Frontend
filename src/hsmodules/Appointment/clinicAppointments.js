@@ -27,10 +27,6 @@ import ModalHeader from './ui-components/Heading/modalHeader';
 import { Box, Grid } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
-<<<<<<< HEAD
-import AutoCompleteBox from '../../components/inputs/AutoComplete';
-=======
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -55,11 +51,6 @@ export default function ClinicAppointments() {
           />
         </ModalBox>
       )}
-<<<<<<< HEAD
-      {state.AppointmentModule.show === 'detail' && <ClientDetail />}
-      {state.AppointmentModule.show === 'modify' && (
-        <ClientModify Client={selectedClient} />
-=======
       {showModal && (
         <ModalBox open={state.AppointmentModule.show === 'detail'}>
           <ClientDetail showModal={showModal} setShowModal={setShowModal} />
@@ -69,7 +60,6 @@ export default function ClinicAppointments() {
         <ModalBox open={state.AppointmentModule.show === 'modify'}>
           <ClientModify showModal={showModal} setShowModal={setShowModal} />
         </ModalBox>
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
       )}
     </section>
   );
@@ -517,10 +507,7 @@ export function ClientList({ showModal, setShowModal }) {
   };
 
   const handleRow = async (Client) => {
-<<<<<<< HEAD
-=======
     setShowModal(true);
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
@@ -748,11 +735,7 @@ export function ClientList({ showModal, setShowModal }) {
   const activeStyle = {
     backgroundColor: '#0064CC29',
     border: 'none',
-<<<<<<< HEAD
-    padding: '0.4rem .8rem',
-=======
     padding: '0 .8rem',
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
   };
 
   return (
@@ -789,11 +772,7 @@ export function ClientList({ showModal, setShowModal }) {
                       }}
                       style={value === 'list' ? activeStyle : {}}
                     >
-<<<<<<< HEAD
-                      <BsList style={{ fontSize: '2rem' }} />
-=======
                       <BsList style={{ fontSize: '1rem' }} />
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
                     </button>
                     <button
                       value={value}
@@ -802,11 +781,7 @@ export function ClientList({ showModal, setShowModal }) {
                       }}
                       style={value === 'grid' ? activeStyle : {}}
                     >
-<<<<<<< HEAD
-                      <BsFillGridFill style={{ fontSize: '2rem' }} />
-=======
                       <BsFillGridFill style={{ fontSize: '1rem' }} />
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
                     </button>
                   </Switch>
                 </div>
@@ -1595,11 +1570,7 @@ export function ClientDetail({ showModal, setShowModal }) {
   );
 }
 
-<<<<<<< HEAD
-export function ClientModify() {
-=======
 export function ClientModify({ showModal, setShowModal }) {
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
   const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1741,11 +1712,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-<<<<<<< HEAD
-      show: 'create',
-=======
       show: 'list',
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -1791,12 +1758,6 @@ export function ClientModify({ showModal, setShowModal }) {
   const onSubmit = (data, e) => {
     e.preventDefault();
     setSuccess(false);
-<<<<<<< HEAD
-    // console.log(data)
-    //  data.facility=Client.facility
-    //console.log(data);
-    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
-=======
     setShowModal(false),
       // setState(() => ({
       //   AppointmentModule: {
@@ -1809,7 +1770,6 @@ export function ClientModify({ showModal, setShowModal }) {
       //  data.facility=Client.facility
       //console.log(data);
       (data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname);
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1854,85 +1814,6 @@ export function ClientModify({ showModal, setShowModal }) {
   return (
     <>
       <div className="card ">
-<<<<<<< HEAD
-        <div className="card-header">
-          <p className="card-header-title">Client Details-Modify</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* ===================================================== */}
-            {/*  <label className="label is-small">Client:</label> */}
-
-            <div className="field">
-              <label className="label is-size-7">
-                {' '}
-                {Client.firstname} {Client.lastname}
-              </label>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <LocationSearch
-                    id={Client.locationId}
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{ display: 'none' }}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        locationId
-                      }
-                      name="locationId"
-                      type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <EmployeeSearch
-                    id={Client.practitionerId}
-                    getSearchfacility={getSearchfacility2}
-                    clear={success2}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{ display: 'none' }}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
-                      name="practionerId"
-                      type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-=======
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -1987,7 +1868,6 @@ export function ClientModify({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
               <div className="field ml-3 ">
                 {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
                 {appClass.map((c, i) => (
@@ -2012,87 +1892,11 @@ export function ClientModify({ showModal, setShowModal }) {
                   </label>
                 ))}
               </div>
-<<<<<<< HEAD
-            </div>
-            <div className="field">
-              <input
-                name="start_time"
-                ref={register({ required: true })}
-                type="datetime-local"
-                defaultValue={format(
-                  new Date(Client.start_time),
-                  "yyyy-MM-dd'T'HH:mm:ss"
-                )}
-              />
-            </div>
-
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    /* name="type" */ /* value={appointment_type} */ name="appointment_type"
-                    ref={register({ required: true })}
-                    onChange={handleChangeType}
-                  >
-                    <option value="">Choose Appointment Type </option>
-                    <option value="New">New</option>
-                    <option value="Followup">Followup</option>
-                    <option value="Readmission with 24hrs">
-                      Readmission with 24hrs
-                    </option>
-                    <option value="Annual Checkup">Annual Checkup</option>
-                    <option value="Walk in">Walk-in</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    name="appointment_status"
-                    ref={register({ required: true })}
-                    /* value={appointment_status} */ onChange={
-                      handleChangeStatus
-                    }
-                  >
-                    <option value="">Appointment Status </option>
-                    <option value="Scheduled">Scheduled</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Vitals Taken">Vitals Taken</option>
-                    <option value="With Nurse">With Nurse</option>
-                    <option value="With Doctor">With Doctor</option>
-                    <option value="No Show">No Show</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Billed">Billed</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="appointment_reason"
-                  type="text"
-                  placeholder="Reason For Appointment"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field " style={{ display: 'none' }}>
-              <p className="control has-icons-left has-icons-right">
-=======
             </Grid>
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <div className="field">
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
                 <input
                   name="start_time"
                   {...register('start_time', { required: true })}
@@ -2417,13 +2221,9 @@ export function ClientSearch({ getSearchfacility, clear }) {
                 {facilities.length > 0 ? (
                   ''
                 ) : (
-<<<<<<< HEAD
-                  <div className="dropdown-item" onClick={handleAddproduct}>
-=======
                   <div
                     className="dropdown-item" /* onClick={handleAddproduct} */
                   >
->>>>>>> af701ddfcaa1f0d9ebbeacd6b48a42ff6cadd711
                     {' '}
                     <span> {val} is not yet your client</span>{' '}
                   </div>
