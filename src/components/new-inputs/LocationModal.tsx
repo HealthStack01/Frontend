@@ -3,8 +3,8 @@ import React from 'react';
 
 import { GridWrapper } from '../../hsmodules/app/styles';
 import { FlexBox } from '../../ui/styled/global';
+import LocationCard from '../inputs/LocationCard';
 import ModalBox from '../modal';
-import LocationCard from './LocationCard';
 
 const LocationModal = ({ locations, onSelectLocation, open, setOpen }) => {
   const closeModal = () => setOpen(false);

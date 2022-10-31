@@ -14,27 +14,15 @@ import EmployeeSearch from '../helpers/EmployeeSearch';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
 // eslint-disable-next-line
-<<<<<<< HEAD
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
-import ModalBox from './ui-components/modal';
 import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
-=======
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
-import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
->>>>>>> 3c47a8644324380bebb0c329faedc66731884d8e
+import ModalBox from '../../components/modal';
 
 const searchfacility = {};
 
@@ -73,12 +61,7 @@ export default function ClientsAppointments() {
           />
         </div>
         <div className="column is-4 ">
-<<<<<<< HEAD
-          {state.AppointmentModule.show === 'detail' && <ClientDetail />}
           {state.AppointmentModule.show === 'modify' && (
-=======
-          {state.AppointmentModule.show === "modify" && (
->>>>>>> 3c47a8644324380bebb0c329faedc66731884d8e
             <ClientModify Client={selectedClient} />
           )}
 

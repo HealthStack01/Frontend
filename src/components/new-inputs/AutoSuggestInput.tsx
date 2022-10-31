@@ -8,8 +8,8 @@ import { toast } from 'react-toastify';
 import client from '../../feathers';
 import { InputType } from '../../hsmodules/app/schema/util';
 import { autoSuggestStyles } from '../../hsmodules/app/styles';
-import Input from './basic/Input';
-import { autoSuggestQuery } from './query';
+import Input from '../inputs/basic/Input/index';
+import { autoSuggestQuery } from '../inputs/query';
 
 /* eslint-disable */
 const searchProvidedOptions = (options, value) => {
