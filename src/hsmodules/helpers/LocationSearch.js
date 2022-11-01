@@ -1,45 +1,45 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, {useState, useContext, useEffect, useRef} from "react";
 //import {Route, Switch,   Link, NavLink, } from 'react-router-dom'
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
 //import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format } from 'date-fns';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format} from "date-fns";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 // eslint-disable-next-line
 //const searchfacility={};
 
-export default function LocationSearch({ id, getSearchfacility, clear }) {
-  const ClientServ = client.service('location');
+export default function LocationSearch({id, getSearchfacility, clear}) {
+  const ClientServ = client.service("location");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState('');
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
   const [closeDropdown, setCloseDropdown] = useState(false);
 
-  const getInitial = async (id) => {
+  const getInitial = async id => {
     if (!!id) {
       await ClientServ.get(id)
-        .then((resp) => {
+        .then(resp => {
           handleRow(resp);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   };
 
@@ -48,12 +48,12 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
     return () => {};
   }, []);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
-    await setSimpa(obj.name + ' ' + obj.locationType);
+    await setSimpa(obj.name + " " + obj.locationType);
 
     // setSelectedFacility(obj)
     setShowPanel(false);
@@ -67,7 +67,7 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
     setCloseDropdown(true);
   };
 
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     /*   if (count===2){
              console.log("stuff was chosen")
          } */
@@ -84,14 +84,14 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     setVal(val);
-    if (val === '') {
+    if (val === "") {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = 'name'; //field variable
+    const field = "name"; //field variable
     /* name: { type: String, required: true },
         locationType: { type: String }, */
 
@@ -102,13 +102,13 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
             {
               name: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               locationType: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             /*    { middlename: {
@@ -141,23 +141,23 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
-          console.log('product  fetched successfully');
+        .then(res => {
+          console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(' product  fetched successfully');
+          setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
+            message: "Error creating ProductEntry " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -174,8 +174,8 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log('success has changed', clear);
-      setSimpa('');
+      console.log("success has changed", clear);
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
@@ -184,10 +184,10 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? 'is-active' : ''}`}
-            style={{ width: '100%' }}
+            className={`dropdown ${showPanel ? "is-active" : ""}`}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebouncedInput
                 label="Search for location"
                 value={simpa}
@@ -200,16 +200,16 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ''
+                  ""
                 ) : (
                   <div
                     className="dropdown-item selectadd" /* onClick={handleAddproduct} */
                   >
-                    {' '}
-                    <span> {val} is not a location in your facility</span>{' '}
+                    {" "}
+                    <span> {val} is not a location in your facility</span>{" "}
                   </div>
                 )}
 
@@ -217,11 +217,9 @@ export default function LocationSearch({ id, getSearchfacility, clear }) {
                   <div
                     className="dropdown-item selectadd "
                     key={facility._id}
-                    onClick={() => {
-                      handleRow(facility);
-                    }}
+                    onClick={() => handleRow(facility)}
                   >
-                    <div style={{ cursor: 'pointer' }}>
+                    <div style={{cursor: "pointer"}}>
                       {closeDropdown ? (
                         <></>
                       ) : (

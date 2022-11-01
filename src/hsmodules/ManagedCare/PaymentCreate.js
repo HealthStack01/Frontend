@@ -868,7 +868,7 @@ export default function PaymentCreate() {
                  </div>
                  <div className="field">
                  <p className="control has-icons-left">
-                     <input className="input is-small"  ref={register}  name="documentNo" value={documentNo} type="text" onChange={e=>setDocumentNo(e.target.value)} placeholder=" Invoice Number"/>
+                     <input className="input is-small"  {...register}  name="documentNo" value={documentNo} type="text" onChange={e=>setDocumentNo(e.target.value)} placeholder=" Invoice Number"/>
                      <span className="icon is-small is-left">
                      <i className="fas fa-phone-alt"></i>
                      </span>

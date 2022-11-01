@@ -358,7 +358,7 @@ export function CaseDefinitionCreate() {
               </h3>
               <input
                 className="input is-small is-hidden"
-                ref={register}
+                {...register}
                 name="Symptoms"
                 type="text"
                 placeholder="Specify"
@@ -373,7 +373,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={symptom}
-                        /* ref={register} */ onChange={e => {
+                        /* {...register} */ onChange={e => {
                           setSymptom(e.target.value);
                         }}
                         name="symptom"
@@ -387,7 +387,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={duration}
-                        /* ref={register} */ onChange={e => {
+                        /* {...register} */ onChange={e => {
                           setDuration(e.target.value);
                         }}
                         name="durationn"
@@ -404,7 +404,7 @@ export function CaseDefinitionCreate() {
                         name="sympreq"
                         onChange={e => {
                           handleChecked(e);
-                        }} /* ref={register} */
+                        }} /* {...register} */
                       />
                       Required
                     </label>
@@ -464,7 +464,7 @@ export function CaseDefinitionCreate() {
               </h3>
               <input
                 className="input is-small is-hidden"
-                ref={register}
+                {...register}
                 name="ClinicalFindings"
                 type="text"
                 placeholder="Specify"
@@ -479,7 +479,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={finding}
-                        /* ref={register} */ onChange={e => {
+                        /* {...register} */ onChange={e => {
                           setFinding(e.target.value);
                         }}
                         name="finding"
@@ -497,7 +497,7 @@ export function CaseDefinitionCreate() {
                         name="sympreq"
                         onChange={e => {
                           handleChecked2(e);
-                        }} /* ref={register} */
+                        }} /* {...register} */
                       />
                       Required
                     </label>
@@ -557,7 +557,7 @@ export function CaseDefinitionCreate() {
               </h3>
               <input
                 className="input is-small is-hidden"
-                ref={register}
+                {...register}
                 name="LaboratoryConfirmation"
                 type="text"
                 placeholder="Specify"
@@ -572,7 +572,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={lab}
-                        /* ref={register} */ onChange={e => {
+                        /* {...register} */ onChange={e => {
                           setLab(e.target.value);
                         }}
                         name="lab"
@@ -586,7 +586,7 @@ export function CaseDefinitionCreate() {
                       <input
                         className="input is-small"
                         value={labvalue}
-                        /* ref={register} */ onChange={e => {
+                        /* {...register} */ onChange={e => {
                           setLabvalue(e.target.value);
                         }}
                         name="lab value"
@@ -597,7 +597,7 @@ export function CaseDefinitionCreate() {
                   </div>
                   {/*  <div className="field">
                                         <label  className=" is-small" >
-                                                <input type="checkbox" value={sympreq} name="sympreq"  onChange={(e)=>{handleChecked(e)}}/* ref={register} */
+                                                <input type="checkbox" value={sympreq} name="sympreq"  onChange={(e)=>{handleChecked(e)}}/* {...register} */
                   /* />Required */
                   /* </label>
                                             </div> */}
@@ -658,7 +658,7 @@ export function CaseDefinitionCreate() {
                     <textarea
                       className="textarea is-small"
                       value={mgtProtocol}
-                      /* ref={register} */ onChange={e => {
+                      /* {...register} */ onChange={e => {
                         setMgtProtocol(e.target.value);
                       }}
                       name="mgtProtocol"

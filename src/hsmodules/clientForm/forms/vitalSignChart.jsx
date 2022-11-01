@@ -422,7 +422,7 @@ const VitalSignChart = () => {
               <label className="label is-small">Comments</label>
               <div className="control">
                 <input
-                  ref={register}
+                  {...register}
                   name="comments"
                   className="input is-small"
                   type="text"
