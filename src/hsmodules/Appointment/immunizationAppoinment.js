@@ -466,357 +466,317 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function ClientList({ showModal, setShowModal }) {
-  // const { register, handleSubmit, watch, errors } = useForm();
+export function ClientDetail({ showModal, setShowModal }) {
+  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const [error, setError] = useState(false);
-  // eslint-disable-next-line
-  const [success, setSuccess] = useState(false);
-  // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
-  //const navigate=useNavigate()
-  // const {user,setUser} = useContext(UserContext)
-  const [facilities, setFacilities] = useState([]);
-  // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState(); //
-  // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
-  // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
-  const [startDate, setStartDate] = useState(new Date());
-  const [selectedAppointment, setSelectedAppointment] = useState();
-  const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('list');
+  const navigate = useNavigate();
 
-  const handleCreateNew = async () => {
+  const [error, setError] = useState(false); //,
+  //const [success, setSuccess] =useState(false)
+  // eslint-disable-next-line
+  const [message, setMessage] = useState(''); //,
+  //const ClientServ=client.service('/Client')
+  //const navigate=useNavigate()
+  //const {user,setUser} = useContext(UserContext)
+  const { state, setState } = useContext(ObjectContext);
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+
+  const Client = state.AppointmentModule.selectedAppointment;
+  //const client=Client
+  const handleEdit = async () => {
     const newClientModule = {
-      selectedAppointment: {},
-      show: 'create',
+      selectedAppointment: Client,
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
-    const newClient = {
-      selectedClient: {},
-      show: 'create',
-    };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
   };
 
-  const handleRow = async (Client) => {
-    setShowModal(true);
-    await setSelectedAppointment(Client);
+  const handleAttend = async () => {
+    const patient = await client.service('client').get(Client.clientId);
+    await setSelectedClient(patient);
     const newClientModule = {
-      selectedAppointment: Client,
+      selectedClient: patient,
       show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      ClientModule: newClientModule,
     }));
-  };
-  //console.log(state.employeeLocation)
-
-  const handleSearch = (val) => {
-    const field = 'firstname';
-    //  console.log(val)
-
-    let query = {
-      $or: [
-        {
-          firstname: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          lastname: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          middlename: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          phone: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          appointment_type: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          appointment_status: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          appointment_reason: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          location_type: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          location_name: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          practitioner_department: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          practitioner_profession: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-        {
-          practitioner_name: {
-            $regex: val,
-            $options: 'i',
-          },
-        },
-      ],
-      facility: user.currentEmployee.facilityDetail._id, // || "",
-      $limit: 20,
-      $sort: {
-        createdAt: -1,
-      },
-    };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
-      query.locationId = state.employeeLocation.locationId;
-    }
-
-    ClientServ.find({ query: query })
-      .then((res) => {
-        console.log(res);
-        setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
-        setError(true);
-      });
-  };
-
-  const getFacilities = async () => {
-    console.log(user);
-    if (user.currentEmployee) {
-      let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
-        // locationId:state.employeeLocation.locationId,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
-
-      const findClient = await ClientServ.find({ query: stuff });
-
-      await setFacilities(findClient.data);
-      console.log(findClient.data);
-    } else {
-      if (user.stacker) {
-        const findClient = await ClientServ.find({
-          query: {
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        });
-
-        await setFacilities(findClient.data);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      handleCalendarClose();
-    } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
-    }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
-    const newClient = {
-      selectedClient: {},
-      show: 'create',
-    };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    return () => {};
-  }, []);
-  const handleCalendarClose = async () => {
-    let query = {
-      start_time: {
-        $gt: subDays(startDate, 1),
-        $lt: addDays(startDate, 1),
-      },
-      facility: user.currentEmployee.facilityDetail._id,
-
-      $limit: 100,
-      $sort: {
-        createdAt: -1,
-      },
-    };
-    // if (state.employeeLocation.locationType !== "Front Desk") {
-    //   query.locationId = state.employeeLocation.locationId;
-    // }
-
-    const findClient = await ClientServ.find({ query: query });
-
-    await setFacilities(findClient.data);
-  };
-
-  const handleDate = async (date) => {
-    setStartDate(date);
-  };
-
-  useEffect(() => {
-    if (!!startDate) {
-      handleCalendarClose();
-    } else {
-      getFacilities();
-    }
-
-    return () => {};
-  }, [startDate]);
-  //todo: pagination and vertical scroll bar
-
-  const onRowClicked = () => {};
-
-  const mapFacilities = () => {
-    let mapped = [];
-    facilities.map((facility, i) => {
-      mapped.push({
-        title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
-        end: facility?.end_time,
-        id: i,
-      });
-    });
-    return mapped;
-  };
-  const activeStyle = {
-    backgroundColor: '#0064CC29',
-    border: 'none',
-    padding: '0 .8rem',
+    //modify appointment
+    navigate('/app/clinic/encounter');
   };
 
   return (
     <>
-      {user ? (
-        <>
-          <div className="level">
-            <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
-            >
-              <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  {handleSearch && (
-                    <div className="inner-table">
-                      <FilterMenu onSearch={handleSearch} />
-                    </div>
-                  )}
-                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
-                    Appointments
-                  </h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  />
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('list');
-                      }}
-                      style={value === 'list' ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: '1rem' }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('grid');
-                      }}
-                      style={value === 'grid' ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: '1rem' }} />
-                    </button>
-                  </Switch>
-                </div>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <ModalHeader text={'Client Details'} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MdCancel
+            onClick={() => {
+              setShowModal(false),
+                setState((prevstate) => ({
+                  ...prevstate,
+                  AppointmentModule: {
+                    selectedAppointment: {},
+                    show: 'list',
+                  },
+                }));
+            }}
+            style={{
+              fontSize: '2rem',
+              color: 'crimson',
+              cursor: 'pointer',
+              float: 'right',
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={1}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            First Name:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client?.firstname}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Middle Name:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client?.middlename}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Last Name:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client?.lastname}
+          </span>
+        </Grid>
+      </Grid>
 
-                {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label="Add new "
-                    onClick={handleCreateNew}
-                  />
-                )}
-              </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                {value === 'list' ? (
-                  <CustomTable
-                    title={''}
-                    columns={AppointmentSchema}
-                    data={facilities}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                  />
-                ) : (
-                  <CalendarGrid appointments={mapFacilities()} />
-                )}
-              </div>
-            </PageWrapper>
-          </div>
-        </>
-      ) : (
-        <div>loading</div>
-      )}
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Age:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {formatDistanceToNowStrict(new Date(Client.dob))}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Gender:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.gender}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Phone No:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.phone}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2} mb={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Email:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.email}
+          </span>
+        </Grid>
+      </Grid>
+      <hr />
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Start Time:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Location:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {`${Client.location_name} (${Client.location_type})`}
+          </span>
+        </Grid>
+
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Professional:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Status:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_status}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Class:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointmentClass}
+          </span>
+        </Grid>
+
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Type:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_type}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={12}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Reason for Appointment:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_reason}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={4}>
+        <Grid item xs={12} sm={3} md={4}>
+          <Button
+            onClick={handleEdit}
+            style={{
+              width: '100%',
+              backgroundColor: '#17935C',
+              fontSize: '18px',
+            }}
+          >
+            Edit Appointment Details
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={3} md={3}>
+          <Button
+            text={'Attend'}
+            onClick={handleAttend}
+            style={{
+              width: '100%',
+              backgroundColor: '#0364FF',
+              fontSize: '18px',
+            }}
+          >
+            Attend Appointment
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 }

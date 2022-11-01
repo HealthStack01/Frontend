@@ -1,22 +1,22 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict} from "date-fns";
-import VideoConference from "../utils/VideoConference";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict } from 'date-fns';
+import VideoConference from '../utils/VideoConference';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
-import {DrugAdminList} from "../Documentation/Prescription";
-import BillServiceCreate from "../Finance/BillServiceCreate";
+import { DrugAdminList } from '../Documentation/Prescription';
+import BillServiceCreate from '../Finance/BillServiceCreate';
 
 export default function PatientProfile() {
-  const {state} = useContext(ObjectContext); //,setState
-  const {user, setUser} = useContext(UserContext);
+  const { state } = useContext(ObjectContext); //,setState
+  const { user, setUser } = useContext(UserContext);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [billingModal, setBillingModal] = useState(false);
@@ -128,7 +128,7 @@ export default function PatientProfile() {
                 {paymentinfo &&
                   paymentinfo.map((pay, i) => (
                     <>
-                      {pay.paymentmode} {pay.paymentmode === "Cash" ? "" : ":"}{" "}
+                      {pay.paymentmode} {pay.paymentmode === 'Cash' ? '' : ':'}{' '}
                       {pay.organizationName}
                       <br></br>
                     </>
@@ -138,7 +138,7 @@ export default function PatientProfile() {
                                 {companycover && "Company Cover"}
                                 {hmocover && "HMO Cover"} */}
               </p>
-              {(user.currentEmployee?.roles.includes("Bill Client") ||
+              {(user.currentEmployee?.roles.includes('Bill Client') ||
                 user.currentEmployee?.roles.length === 0 ||
                 user.stacker) && (
                 <button
@@ -153,9 +153,9 @@ export default function PatientProfile() {
 
           <div className="content">
             <time dateTime="2016-1-1">
-              {" "}
-              {formatDistanceToNowStrict(new Date(dob))}
-            </time>{" "}
+              {' '}
+              {/* {formatDistanceToNowStrict(new Date(dob))} */}
+            </time>{' '}
             {gender} {maritalstatus} {religion} {profession}
             <br />
             {bloodgroup} {genotype} <br />
@@ -193,40 +193,40 @@ export default function PatientProfile() {
           <div className=" is-fullwidth vscrollable-acc pr-1">
             <div>
               <button className="button is-small is-success is-inverted">
-                {" "}
-                <strong> Last Visit </strong>{" "}
+                {' '}
+                <strong> Last Visit </strong>{' '}
               </button>
             </div>
             <div>
               <button className="button is-small is-success is-inverted">
-                {" "}
+                {' '}
                 <strong> Drug Intolerance </strong>
               </button>
             </div>
             <div onClick={() => setMedicationModal(true)}>
               <button className="button is-small is-success is-inverted">
-                {" "}
-                <strong>Medications</strong>{" "}
+                {' '}
+                <strong>Medications</strong>{' '}
               </button>
             </div>
             <div>
               <button className="button is-small is-success is-inverted">
-                {" "}
-                <strong> History </strong>{" "}
+                {' '}
+                <strong> History </strong>{' '}
               </button>
             </div>
             <div>
-              {" "}
+              {' '}
               <button className="button is-small is-success is-inverted">
-                {" "}
-                <strong> Problem List </strong>{" "}
+                {' '}
+                <strong> Problem List </strong>{' '}
               </button>
             </div>
             <div>
-              {" "}
+              {' '}
               <button className="button is-small is-success is-inverted">
-                {" "}
-                <strong> Task </strong>{" "}
+                {' '}
+                <strong> Task </strong>{' '}
               </button>
             </div>
 
@@ -298,7 +298,7 @@ export default function PatientProfile() {
       </div>
       <div></div>
       {/* <VideoConference /> */}
-      <div className={`modal ${billingModal ? "is-active" : ""}`}>
+      <div className={`modal ${billingModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -319,9 +319,9 @@ export default function PatientProfile() {
                             </footer> */}
         </div>
       </div>
-      <div className={`modal ${medicationModal ? "is-active" : ""}`}>
+      <div className={`modal ${medicationModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
-        <div className="modal-card " style={{width: "70%"}}>
+        <div className="modal-card " style={{ width: '70%' }}>
           <header className="modal-card-head">
             <p className="modal-card-title">Client Medications</p>
             <button
@@ -340,7 +340,7 @@ export default function PatientProfile() {
                             </footer> */}
         </div>
       </div>
-      <div className={`modal ${taskModal ? "is-active" : ""}`}>
+      <div className={`modal ${taskModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -361,7 +361,7 @@ export default function PatientProfile() {
                             </footer> */}
         </div>
       </div>
-      <div className={`modal ${problemModal ? "is-active" : ""}`}>
+      <div className={`modal ${problemModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -382,9 +382,9 @@ export default function PatientProfile() {
                             </footer> */}
         </div>
       </div>
-      <div className={`modal ${historyModal ? "is-active" : ""}`}>
+      <div className={`modal ${historyModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
-        <div className="modal-card" style={{width: "100%"}}>
+        <div className="modal-card" style={{ width: '100%' }}>
           <header className="modal-card-head">
             <p className="modal-card-title">Bill Client</p>
             <button
@@ -403,7 +403,7 @@ export default function PatientProfile() {
                             </footer> */}
         </div>
       </div>
-      <div className={`modal ${intoleranceModal ? "is-active" : ""}`}>
+      <div className={`modal ${intoleranceModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">
@@ -424,7 +424,7 @@ export default function PatientProfile() {
                             </footer> */}
         </div>
       </div>
-      <div className={`modal ${visitModal ? "is-active" : ""}`}>
+      <div className={`modal ${visitModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">

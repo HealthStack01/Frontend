@@ -15,6 +15,11 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { WardAppointmentSchema } from './schema';
+import ModalBox from '../../components/modal';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import { MdCancel } from 'react-icons/md';
+import { Box, Grid } from '@mui/material';
+
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -39,6 +44,7 @@ export default function Admission() {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [showModal, setShowModal] = useState(false);
 
   /*  useEffect(() => {
         const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
@@ -49,29 +55,45 @@ export default function Admission() {
              
          }
      }, []) */
-
+  console.log(showModal);
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-5 ">
-          <AdmissionList />
-        </div>
-
-        <div className="column is-4 ">
-          {state.AdmissionModule.show === 'detail' && <AdmissionCreate />}
-        </div>
-        <div className="column is-3 ">
-          {state.AdmissionModule.show === 'detail' && <PatientProfile />}
-        </div>
-      </div>
+      <AdmissionList showModal={showModal} setShowModal={setShowModal} />
+      {showModal && (
+        <ModalBox open={state.DispenseModule.show === 'detail'}>
+          <Grid container>
+            <Grid item xs={6}>
+              <AdmissionCreate />
+            </Grid>
+            <Grid item xs={6}>
+              <PatientProfile />
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState((prevstate) => ({
+                      ...prevstate,
+                      DispenseModule: {
+                        selectedDispense: {},
+                        show: 'list',
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: '2rem',
+                  color: 'crimson',
+                  cursor: 'pointer',
+                  float: 'right',
+                }}
+              />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
     </section>
   );
 }
 
-export function AdmissionList() {
+export function AdmissionList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -228,6 +250,7 @@ export function AdmissionList() {
   }, []);
 
   const handleRow = async (ProductEntry) => {
+    setShowModal(true);
     await setSelectedDispense(ProductEntry);
 
     const newProductEntryModule = {
@@ -382,7 +405,7 @@ export function AdmissionList() {
   );
 }
 
-export function DispenseDetail() {
+export function DispenseDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
