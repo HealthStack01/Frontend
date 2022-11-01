@@ -13,6 +13,7 @@ import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import Input from "./ui-components/inputs/basic/Input";
 
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
@@ -162,77 +163,52 @@ export function EmployeeCreate() {
           {success && <div className="message"> {message}</div>}
           {error && <div className="is-danger"> {message}</div>}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("firstname", { required: true })}
-                  name="firstname"
-                  type="text"
-                  placeholder="First Name"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("lastname", { required: true })}
-                  name="lastname"
-                  type="text"
-                  placeholder="Last Name"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("profession", { required: true })}
-                  name="profession"
-                  type="text"
-                  placeholder="Profession"
-                />
-                <span className="icon is-small is-left">
-                  <i className=" fas fa-user-md "></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("phone", { required: true })}
-                  name="phone"
-                  type="text"
-                  placeholder=" Phone No"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-phone-alt"></i>
-                </span>
-              </p>
-            </div>
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("firstname", { required: true })}
+              name="firstname"
+              type="text"
+              placeholder="First Name"
+            />
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("lastname", { required: true })}
+              name="lastname"
+              type="text"
+              placeholder="Last Name"
+            />
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("profession", { required: true })}
+              name="profession"
+              type="text"
+              placeholder="Profession"
+            />
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("phone", { required: true })}
+              name="phone"
+              type="text"
+              placeholder="Phone No"
+            />
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("email", { required: true })}
+              name="email"
+              type="text"
+              placeholder="Email"
+            />
 
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("email", { required: true })}
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
             <div
               className="field"
               style={!user.stacker ? { display: "none" } : {}}
@@ -245,72 +221,45 @@ export function EmployeeCreate() {
                 className="control has-icons-left "
                 style={{ display: "none" }}
               >
-                <input
-                  className="input is-small"
+                <Input
+                  style={{
+                    width: "70px",
+                  }}
                   {...register("facility", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
               </p>
             </div>
-            <div className="field">
-              <div className="control has-icons-left">
-                <div className="dropdown ">
-                  <div className="dropdown-trigger">
-                    <input
-                      className="input is-small"
-                      {...register("text", { required: true })}
-                      name="department"
-                      type="text"
-                      placeholder="Department"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital-symbol"></i>
-                    </span>
-                  </div>
-                  <div className="dropdown-menu">
-                    <div className="dropdown-content">
-                      <div className="dropdown-item">simpa</div>
-                      <div className="dropdown-item is-active">simpa 2</div>
-                      <div className="dropdown-item">simpa 3</div>
-                      <div className="dropdown-item">simpa 4</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("depunit", { required: true })}
-                  name="deptunit"
-                  type="text"
-                  placeholder="Department Unit"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-clinic-medical"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("password", { required: true })}
-                  name="password"
-                  type="text"
-                  placeholder="password"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-clinic-medical"></i>
-                </span>
-              </p>
-            </div>
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("department", { required: true })}
+              name="department"
+              type="text"
+              placeholder="Department"
+            />
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("depunit", { required: true })}
+              name="depunit"
+              type="text"
+              placeholder="Department Unit"
+            />
+            <Input
+              style={{
+                width: "70px",
+              }}
+              {...register("password", { required: true })}
+              name="password"
+              type="text"
+              placeholder="Password"
+            />
+
             <div className="field">
               <p className="control">
                 <button className="button is-success is-small">Create</button>
