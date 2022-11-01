@@ -56,9 +56,9 @@ const Input: React.FC<InputProps> = ({
       </InputLabel>
     </InputBox>
     {errorText && (
-      <p style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
+      <label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
         {errorText}
-      </p>
+      </label>
     )}
   </div>
 );
