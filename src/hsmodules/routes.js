@@ -243,9 +243,16 @@ const AppRoutes = () => {
             />
             <Route path="/app/clients/frontdesk" element={<FrontDesk />} />
             <Route path="/app/clients/payment" element={<ClientPayment />} />
+            {/* <Route
+              path="/app/clients/appointments"
+              element={<ClientsAppointments />}
+            />{' '} */}
             <Route
               path="/app/clients/appointments"
               element={<ClientsAppointments />}
+
+            />
+            {""}
             />{" "}
             <Route path="/app/clients/clients" element={<Patients />} />
             <Route
