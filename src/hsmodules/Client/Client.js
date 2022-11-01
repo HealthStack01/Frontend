@@ -778,7 +778,13 @@ export function ClientList({ showModal }) {
                 )}
               </TableMenu>
 
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div
+                style={{
+                  width: '100%',
+                  height: 'calc(100vh - 90px)',
+                  overflow: 'auto',
+                }}
+              >
                 <CustomTable
                   title={''}
                   columns={ClientMiniSchema}

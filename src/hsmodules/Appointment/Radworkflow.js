@@ -329,10 +329,10 @@ export function CheckIn({pageView, setPageView}) {
                   </h2>
                   <CustomButton
                     style={{
-                      backgroundColor: "#00d1b2",
+                      backgroundColor: "#0364FF",
                       color: "#fff",
-                      textAlign: "right",
                       marginLeft: "auto",
+                      width: "163px",
                     }}
                     onClick={() => setPageView("checkout")}
                   >
@@ -761,9 +761,10 @@ export function CheckOut({pageView, setPageView}) {
                   </h2>
                   <CustomButton
                     style={{
-                      backgroundColor: "#00d1b2",
+                      backgroundColor: "#0364FF",
                       color: "#fff",
                       marginLeft: "auto",
+                      width: "163px",
                     }}
                     onClick={() => setPageView("checkin")}
                   >

@@ -51,9 +51,15 @@ export default function ClinicAppointments() {
           />
         </ModalBox>
       )}
-      {state.AppointmentModule.show === "detail" && <ClientDetail />}
-      {state.AppointmentModule.show === "modify" && (
-        <ClientModify Client={selectedClient} />
+      {showModal && (
+        <ModalBox open={state.AppointmentModule.show === "detail"}>
+          <ClientDetail showModal={showModal} setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+      {showModal && (
+        <ModalBox open={state.AppointmentModule.show === "modify"}>
+          <ClientModify showModal={showModal} setShowModal={setShowModal} />
+        </ModalBox>
       )}
     </section>
   );
@@ -301,6 +307,14 @@ export function AppointmentCreate({showModal, setShowModal}) {
                 clear={success}
               />
             </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <LocationSearch
                 getSearchfacility={getSearchfacility1}
@@ -310,16 +324,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              <EmployeeSearch
-                getSearchfacility={getSearchfacility2}
-                clear={success2}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
                 {appClass.map((c, i) => (
                   <label
                     className=" is-small"
@@ -502,6 +507,7 @@ export function ClientList({showModal, setShowModal}) {
   };
 
   const handleRow = async Client => {
+    setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
@@ -729,7 +735,7 @@ export function ClientList({showModal, setShowModal}) {
   const activeStyle = {
     backgroundColor: "#0064CC29",
     border: "none",
-    padding: "0.4rem .8rem",
+    padding: "0 .8rem",
   };
 
   return (
@@ -766,7 +772,7 @@ export function ClientList({showModal, setShowModal}) {
                       }}
                       style={value === "list" ? activeStyle : {}}
                     >
-                      <BsList style={{fontSize: "2rem"}} />
+                      <BsList style={{fontSize: "1rem"}} />
                     </button>
                     <button
                       value={value}
@@ -775,7 +781,7 @@ export function ClientList({showModal, setShowModal}) {
                       }}
                       style={value === "grid" ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{fontSize: "2rem"}} />
+                      <BsFillGridFill style={{fontSize: "1rem"}} />
                     </button>
                   </Switch>
                 </div>
@@ -814,7 +820,7 @@ export function ClientList({showModal, setShowModal}) {
   );
 }
 
-export function ClientDetail() {
+export function ClientDetail({showModal, setShowModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -843,6 +849,7 @@ export function ClientDetail() {
     }));
     //console.log(state)
   };
+
   const handleAttend = async () => {
     const patient = await client.service("client").get(Client.clientId);
     await setSelectedClient(patient);
@@ -860,7 +867,164 @@ export function ClientDetail() {
 
   return (
     <>
-      <div className="card ">
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <ModalHeader text={"Client Details"} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MdCancel
+            onClick={() => {
+              setShowModal(false),
+                setState(prevstate => ({
+                  ...prevstate,
+                  AppointmentModule: {
+                    selectedAppointment: {},
+                    show: "list",
+                  },
+                }));
+            }}
+            style={{
+              fontSize: "2rem",
+              color: "crimson",
+              cursor: "pointer",
+              float: "right",
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={4}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            First Name:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Client?.firstname}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Middle Name:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Client?.middlename}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Last Name:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Client?.lastname}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Date of Birth:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {new Date(Client.dob).toLocaleDateString("en-GB")}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Gender:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Client.gender}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Email:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Client.email}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Phone No:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Client.phone}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={4}>
+        <Grid item xs={12} sm={3} md={4}>
+          <Button
+            onClick={handleEdit}
+            style={{
+              width: "100%",
+              backgroundColor: "#17935C",
+              fontSize: "18px",
+            }}
+          >
+            Edit Appointment Details
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={3} md={3}>
+          <Button
+            text={"Attend"}
+            onClick={handleAttend}
+            style={{
+              width: "100%",
+              backgroundColor: "#0364FF",
+              fontSize: "18px",
+            }}
+          >
+            Attend Appointment
+          </Button>
+        </Grid>
+      </Grid>
+
+      {/* <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Client Details</p>
         </div>
@@ -875,7 +1039,7 @@ export function ClientDetail() {
                       name="firstname"
                       type="text"
                     >
-                      First Name{" "}
+                      First Name{' '}
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -895,8 +1059,8 @@ export function ClientDetail() {
                       name="middlename"
                       type="text"
                     >
-                      {" "}
-                      Middle Name{" "}
+                      {' '}
+                      Middle Name{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -936,10 +1100,10 @@ export function ClientDetail() {
                       name="dob"
                       type="text"
                     >
-                      Date of Birth{" "}
+                      Date of Birth{' '}
                     </label>
                     <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
+                      {new Date(Client.dob).toLocaleDateString('en-GB')}
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -955,7 +1119,7 @@ export function ClientDetail() {
                       name="gender"
                       type="text"
                     >
-                      Gender{" "}
+                      Gender{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
@@ -972,7 +1136,7 @@ export function ClientDetail() {
                       name="maritalstatus"
                       type="text"
                     >
-                      Marital Status{" "}
+                      Marital Status{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.maritalstatus}
@@ -991,7 +1155,7 @@ export function ClientDetail() {
                       name="mrn"
                       type="text"
                     >
-                      Medical Records Number{" "}
+                      Medical Records Number{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.mrn}</label>
                     <span className="icon is-small is-left">
@@ -1012,7 +1176,7 @@ export function ClientDetail() {
                       name="religion"
                       type="text"
                     >
-                      Religion{" "}
+                      Religion{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1029,7 +1193,7 @@ export function ClientDetail() {
                       name="profession"
                       type="text"
                     >
-                      Profession{" "}
+                      Profession{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1048,7 +1212,7 @@ export function ClientDetail() {
                       name="phone"
                       type="text"
                     >
-                      {" "}
+                      {' '}
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1067,7 +1231,7 @@ export function ClientDetail() {
                       name="email"
                       type="email"
                     >
-                      Email{" "}
+                      Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1087,7 +1251,7 @@ export function ClientDetail() {
                   name="address"
                   type="text"
                 >
-                  Residential Address{" "}
+                  Residential Address{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1106,7 +1270,7 @@ export function ClientDetail() {
                       name="city"
                       type="text"
                     >
-                      Town/City{" "}
+                      Town/City{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1123,7 +1287,7 @@ export function ClientDetail() {
                       name="lga"
                       type="text"
                     >
-                      Local Govt Area{" "}
+                      Local Govt Area{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1140,7 +1304,7 @@ export function ClientDetail() {
                       name="state"
                       type="text"
                     >
-                      State{" "}
+                      State{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1157,7 +1321,7 @@ export function ClientDetail() {
                       name="country"
                       type="text"
                     >
-                      Country{" "}
+                      Country{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1178,7 +1342,7 @@ export function ClientDetail() {
                       name="bloodgroup"
                       type="text"
                     >
-                      Blood Group{" "}
+                      Blood Group{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1198,7 +1362,7 @@ export function ClientDetail() {
                       name="genotype"
                       type="text"
                     >
-                      Genotype{" "}
+                      Genotype{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.genotype}</label>
                     <span className="icon is-small is-left">
@@ -1215,7 +1379,7 @@ export function ClientDetail() {
                       name="disabilities"
                       type="text"
                     >
-                      Disabilities{" "}
+                      Disabilities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -1239,7 +1403,7 @@ export function ClientDetail() {
                       name="allergies"
                       type="text"
                     >
-                      Allergies{" "}
+                      Allergies{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -1256,7 +1420,7 @@ export function ClientDetail() {
                       name="comorbidities"
                       type="text"
                     >
-                      Co-mobidities{" "}
+                      Co-mobidities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -1277,7 +1441,7 @@ export function ClientDetail() {
                   name="clientTags"
                   type="text"
                 >
-                  Tags{" "}
+                  Tags{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -1294,7 +1458,7 @@ export function ClientDetail() {
                   name="specificDetails"
                   type="text"
                 >
-                  Specific Details about Client{" "}
+                  Specific Details about Client{' '}
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -1351,7 +1515,7 @@ export function ClientDetail() {
                       name="nok_email"
                       type="email"
                     >
-                      Next of Kin Email{" "}
+                      Next of Kin Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -1368,7 +1532,7 @@ export function ClientDetail() {
                       name="nok_relationship"
                       type="text"
                     >
-                      Next of Kin Relationship"{" "}
+                      Next of Kin Relationship"{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -1401,12 +1565,12 @@ export function ClientDetail() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
 
-export function ClientModify() {
+export function ClientModify({showModal, setShowModal}) {
   const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1548,7 +1712,7 @@ export function ClientModify() {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: "list",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -1593,12 +1757,19 @@ export function ClientModify() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-
     setSuccess(false);
-    // console.log(data)
-    //  data.facility=Client.facility
-    //console.log(data);
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    setShowModal(false),
+      // setState(() => ({
+      //   AppointmentModule: {
+      //     selectedAppointment: {},
+      //     show: 'list',
+      //   },
+      // }));
+
+      // console.log(data)
+      //  data.facility=Client.facility
+      //console.log(data);
+      (data.practitioner_name = chosen2.firstname + " " + chosen2.lastname);
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1643,214 +1814,202 @@ export function ClientModify() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details-Modify</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* ===================================================== */}
-            {/*  <label className="label is-small">Client:</label> */}
-
-            <div className="field">
-              <label className="label is-size-7">
-                {" "}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={"Client Detals-Modify"} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState(prevstate => ({
+                      ...prevstate,
+                      AppointmentModule: {
+                        selectedAppointment: {},
+                        show: "list",
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: "2rem",
+                  color: "crimson",
+                  cursor: "pointer",
+                  float: "right",
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <p>
                 {Client.firstname} {Client.lastname}
-              </label>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <LocationSearch
-                    id={Client.locationId}
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{display: "none"}}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        locationId
-                      }
-                      name="locationId"
-                      type="text"
-                      onChange={e => setLocationId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div
-                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                >
-                  <EmployeeSearch
-                    id={Client.practitionerId}
-                    getSearchfacility={getSearchfacility2}
-                    clear={success2}
-                  />
-                  <p
-                    className="control has-icons-left "
-                    style={{display: "none"}}
-                  >
-                    <input
-                      className="input is-small"
-                      /* ref={register ({ required: true }) } */ /* add array no */ value={
-                        practionerId
-                      }
-                      name="practionerId"
-                      type="text"
-                      onChange={e => setPractionerId(e.target.value)}
-                      placeholder="Product Id"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas  fa-map-marker-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
+              </p>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <LocationSearch
+                id={Client.locationId}
+                getSearchfacility={getSearchfacility1}
+                clear={success1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                id={Client.practitionerId}
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="field ml-3 ">
                 {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
                 {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
+                  <label
+                    className=" is-small"
+                    key={c}
+                    style={{fontSize: "16px", fontWeight: "bold"}}
+                  >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register}
+                      {...register("appointmentClass", {required: true})}
+                      style={{
+                        border: "1px solid #0364FF",
+                        transform: "scale(1.5)",
+                        color: "#0364FF",
+                        margin: ".5rem",
+                      }}
                     />
                     {c + " "}
                   </label>
                 ))}
               </div>
-            </div>
-            <div className="field">
-              <input
-                name="start_time"
-                ref={register({required: true})}
-                type="datetime-local"
-                defaultValue={format(
-                  new Date(Client.start_time),
-                  "yyyy-MM-dd'T'HH:mm:ss"
-                )}
-              />
-            </div>
-
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    /* name="type" */ /* value={appointment_type} */ name="appointment_type"
-                    ref={register({required: true})}
-                    onChange={handleChangeType}
-                  >
-                    <option value="">Choose Appointment Type </option>
-                    <option value="New">New</option>
-                    <option value="Followup">Followup</option>
-                    <option value="Readmission with 24hrs">
-                      Readmission with 24hrs
-                    </option>
-                    <option value="Annual Checkup">Annual Checkup</option>
-                    <option value="Walk in">Walk-in</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div className="select is-small">
-                  <select
-                    name="appointment_status"
-                    ref={register({required: true})}
-                    /* value={appointment_status} */ onChange={
-                      handleChangeStatus
-                    }
-                  >
-                    <option value="">Appointment Status </option>
-                    <option value="Scheduled">Scheduled</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Vitals Taken">Vitals Taken</option>
-                    <option value="With Nurse">With Nurse</option>
-                    <option value="With Doctor">With Doctor</option>
-                    <option value="No Show">No Show</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Billed">Billed</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <div className="field">
                 <input
-                  className="input is-small"
-                  ref={register()}
-                  name="appointment_reason"
-                  type="text"
-                  placeholder="Reason For Appointment"
+                  name="start_time"
+                  {...register("start_time", {required: true})}
+                  type="datetime-local"
+                  defaultValue={format(
+                    new Date(Client.start_time),
+                    "yyyy-MM-dd'T'HH:mm:ss"
+                  )}
+                  style={{
+                    border: "1px solid #0364FF",
+                    padding: "1rem",
+                    color: " #979DAC",
+                  }}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field " style={{display: "none"}}>
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="billingservice"
-                  type="text"
-                  placeholder="Billing service"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            {/* ======================================= */}
-          </form>
-
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="type"
+                onChange={handleChangeType}
+                defaultValue={Client?.appointment_type}
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                }}
+              >
+                <option defaultChecked>Choose Appointment Type </option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
+              </select>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="appointment_status"
+                onChange={handleChangeStatus}
+                defaultValue={Client?.appointment_status}
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                }}
+              >
+                <option defaultChecked>Appointment Status </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Checked In">Checked In</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
+                <option value="No Show">No Show</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                {...register("appointment_reason", {required: true})}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="10"
+                cols="50"
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                  width: "100%",
+                }}
+              >
+                {" "}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
                 type="submit"
-                className="button is-success is-small"
+                style={{
+                  backgroundColor: "#0364FF",
+                  width: "100%",
+                  cursor: "pointer",
+                }}
                 onClick={handleSubmit(onSubmit)}
               >
                 Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-danger is-small"
-                onClick={() => handleDelete()}
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
                 type="delete"
+                onClick={() => handleDelete()}
+                style={{
+                  backgroundColor: "#ffffff",
+                  width: "100%",
+                  color: "#0364FF",
+                  border: "1px solid #0364FF",
+                  cursor: "pointer",
+                }}
               >
                 Delete
-              </button>
-            </p>
-          </div>
-        </div>
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </div>
     </>
   );
@@ -2026,6 +2185,15 @@ export function ClientSearch({getSearchfacility, clear}) {
     }
     return () => {};
   }, [clear]);
+  // map faclilities and return the firstname and lastname
+  const mapFacilities = () => {
+    const allFacilities = facilities.map(facility => {
+      return {
+        value: facility._id,
+        label: facility.firstname + " " + facility.lastname,
+      };
+    });
+  };
 
   return (
     <div>

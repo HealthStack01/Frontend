@@ -47,7 +47,7 @@ const Switch: React.FC<SwitchProps> = ({ children }) => {
       direction="row"
       alignItems="center"
       sx={{
-        p: 0.9,
+        p: 0.5,
         px: 0.9,
         background: '#f8f8f8',
         border: '1px solid #0364FF',
