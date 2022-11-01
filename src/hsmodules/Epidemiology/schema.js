@@ -7,6 +7,7 @@ export const syptomSchema = [
       sortable: true,
       inputType: "HIDDEN",
     },
+    
     {
       name: "Symptom",
       key: "symptom",
@@ -29,12 +30,12 @@ export const syptomSchema = [
   
     {
       name: "Required",
-      key: "required",
-      description: "required",
-      selector: row => row.required,
+      key: "sympreq",
+      description: "sympreq",
+      selector: row => row.sympreq ? "False" : "True",
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "checkbox",
     },
     {
         name: "Action",
@@ -68,9 +69,9 @@ export const clinicalSignSchema = [
   
     {
       name: "Required",
-      key: "required",
+      key: "sympreq",
       description: "required",
-      selector: row => row.required,
+      selector: row => row.sympreq ? "False" : "True",
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -98,19 +99,19 @@ export const labSchema = [
       inputType: "HIDDEN",
     },
     {
-      name: "Test",
-      key: "test",
+      name: "lab",
+      key: "lab",
       description: "test",
-      selector: row => row.test,
+      selector: row => row.lab,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
         name: "Value",
-        key: "value",
-        description: "value",
-        selector: row => row.value,
+        key: "labvalue",
+        description: "labvalue",
+        selector: row => row.labvalue,
         sortable: true,
         required: true,
         inputType: "TEXT",

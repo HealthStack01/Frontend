@@ -175,7 +175,7 @@ export const GridWrapper = styled.div`
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
   grid-gap: 2rem;
-  margin-top: 3.2rem;
+  margin-top: 2px;
   overflow-y: auto;
   animation: divanimation 0.6s;
   -webkit-animation: divanimation 0.6s;

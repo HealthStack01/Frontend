@@ -15,16 +15,19 @@ import {clinicalSignSchema, syptomSchema, labSchema} from './schema'
 // eslint-disable-next-line
 //const searchfacility={};
 
-import {PageWrapper} from "../../ui/styled/styles";
+
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import CustomSelect from "../../components/inputs/basic/Select"
 import ModalBox from "../../components/modal";
 import { Box } from "@mui/material";
-import { GrayWrapper, GridWrapper } from "../app/styles";
+import {GrayWrapper, DetailsWrapper,GridWrapper, BottomWrapper,PageWrapper } from "./styles"
 import Input from "../../components/inputs/basic/Input";
 import DataTable from "react-data-table-component";
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
+
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -318,98 +321,168 @@ export function CaseDefinitionCreate() {
     //console.log(comp,i)
     setLabs(prevstate => prevstate.filter((el, index) => index !== i));
   };
-  const labData = [{sn:1, test:"positive", value:"Acute", action:"take drug"}]
-  const data=[{sn:1, symptom:"cholera", duration:"3 months", required:"yes", action:"take drug"}]
-  const clinicalSigns=[{sn:1, finding:"Stomach Ache", required:"yes", action:"take drug"}]
+  const notificationOption=["Immediate Notification", "Weekly", "Monthly", "Whatsapp"]
+  // const labData = [{sn:1, test:"positive", value:"Acute", action:"take drug"}]
+  // const data=[{sn:1, symptom:"cholera", duration:"3 months", sympreq:true, action:"take drug"}]
+  // const clinicalSigns=[{sn:1, finding:"Stomach Ache", sympreq:false, action:"take drug"}]
   return (
     <>
+    <form onSubmit={handleSubmit(onSubmit)}>
+
+      <PageWrapper>
     
+    <GrayWrapper>
       <Box>
+        
+        <DetailsWrapper title='Notification Type and Name of Disease '>
+            <CustomSelect
+                  label="choose notification type"
+                  name="notification type"           
+                  options={notificationOption}
+                  register={register("notificationType", {required:true})}
+                  onChange={(e)=>handleChangeMode(e.target.value)}
+            />
+            <Input label="name of disease"
+             {...register("disease", {required: true})}
+             />
+        </DetailsWrapper>
+        <DetailsWrapper title='Symptoms'>
         <GridWrapper className="four-columns">
           <Input 
-                {...register("Symptoms")}
                 label="Symptoms"
                 type="text"
-                placeholder="Specify" />
-          <Input label="Duration" />
-          <Input 
-          type="checkbox" 
-          style={{width:"20px"}}
-           label="Required" />
+                value={symptom}
+                {...register("symptom", {required: true})} onChange={e => {
+                  setSymptom(e.target.value);
+                }}
+                placeholder="Specify"
+                 />
+          <Input label="Duration"
+          value={duration}
+          {...register("duration", {required: true})} onChange={e => {
+            setDuration(e.target.value);
+          }}
+          name="duration" />
+          <Box sx={{jusifyContent:"space-between"}}><input type ="checkbox"
+  
+                        value={sympreq}
+                        name="sympreq"
+                        onChange={e => {
+                          handleChecked(e);
+                        }} {...register("sympreq", {required: true})}
+            />required
+            </Box>
+          
            <Button
                   style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                  label="Add" />
+                  label="Add" onClick={handleAddSymptoms} />
+
         </GridWrapper>
       
         <CustomTable
                   title={"Syptom"}
                   columns={syptomSchema}
-                  data={data}
+                  data={symptoms}
                   pointerOnHover
                   highlightOnHover
                   striped
                 />
+          </DetailsWrapper>
+          <DetailsWrapper title='Clinical Signs'>
         <GridWrapper>
         <Input 
-                {...register("Signs")}
-                label="Signs"
+                label="Clinical Signs"
+                value={finding}
+                        {...register("finding", {required: true})} onChange={e => {
+                          setFinding(e.target.value);
+                        }}
                 type="text"
-                placeholder="Specify" />
-                <Input 
-          type="checkbox"
-           label="Required" />
+                placeholder="Finding" />
+                <Box sx={{jusifyContent:"space-between"}}><input type="checkbox"
+                        value={findingreq}
+                        
+                        name="sympreq"
+                        onChange={e => {
+                          handleChecked2(e);
+                        }} {...register("sympreq", {required: true})}/>required</Box>
            <Button
                   style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                  label="Add "/>
+                  label="Add " onClick={handleAddFindings}/>
         </GridWrapper>
 
         <CustomTable
                   title={"Clinical Signs"}
                   columns={clinicalSignSchema}
-                  data={clinicalSigns}
+                  data={findings}
                   pointerOnHover
                   highlightOnHover
                   striped
                 />
+          </DetailsWrapper>
+
+          <DetailsWrapper title='Lab Confirmation'>
 
 <GridWrapper>
         <Input 
-                {...register("Lab")}
+                value={lab}
+                {...register("lab", {required: true})} onChange={e => {
+                  setLab(e.target.value);
+                }}
                 label="Lab"
                 type="text"
-                placeholder="Specify" />
+                placeholder="Specify"
+                 />
 
 <Input 
-                {...register("Value")}
+                value={labvalue}
+                {...register("labvalue", {required: true})} onChange={e => {
+                  setLabvalue(e.target.value);
+                }}
                 label="Value"
                 type="text"
                 placeholder="Specify" />
 
 <Button
                   style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                  label="Add "/>
+                  label="Add " onClick={handleAddLabs}/>
                 
         </GridWrapper>
 
         <CustomTable
                   title={"Lab Confirmation"}
                   columns={labSchema}
-                  data={labData}
+                  data={labs}
                   pointerOnHover
                   highlightOnHover
                   striped
                 />
+</DetailsWrapper>
 
+        <DetailsWrapper title='Management Protocol'>
+            <Input label="Management protocol"
+            value={mgtProtocol}
+            {...register("mgtProtocol", {required: true})} onChange={e => {
+              setMgtProtocol(e.target.value);
+            }}/>
 
-             
+        </DetailsWrapper>
 
+                    
+        <BottomWrapper>
+        <Button
+                  style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+                  label="Save "
+                  />
+        </BottomWrapper>
 
-
-          
+       
 
           
           
       </Box>
+      </GrayWrapper>
+      </PageWrapper>
+      </form>
     
       
     </>
