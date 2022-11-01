@@ -1,44 +1,44 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, Switch, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, Switch, Link, NavLink} from "react-router-dom";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Clinic/schema';
-import { CustomButton } from '../../components/buttons/Button/base/styles';
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import {AppointmentSchema} from "../Clinic/schema";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function RadCheckedin() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [checkinpage, setCheckinpage] = useState('checkin');
+  const [checkinpage, setCheckinpage] = useState("checkin");
 
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6">
-          {checkinpage === 'checkin' && (
+          {checkinpage === "checkin" && (
             <CheckIn pageView={checkinpage} setPageView={setCheckinpage} />
           )}
-          {checkinpage === 'checkout' && (
+          {checkinpage === "checkout" && (
             <CheckOut pageView={checkinpage} setPageView={setCheckinpage} />
           )}
         </div>
@@ -53,24 +53,24 @@ export default function RadCheckedin() {
     </section>
   );
 }
-export function CheckIn({ pageView, setPageView }) {
+export function CheckIn({pageView, setPageView}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -78,35 +78,35 @@ export function CheckIn({ pageView, setPageView }) {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
-    const field = 'firstname';
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -114,97 +114,97 @@ export function CheckIn({ pageView, setPageView }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked In',
+      appointment_status: "Checked In",
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -213,7 +213,7 @@ export function CheckIn({ pageView, setPageView }) {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked In',
+        appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -224,7 +224,7 @@ export function CheckIn({ pageView, setPageView }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -255,15 +255,15 @@ export function CheckIn({ pageView, setPageView }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -283,12 +283,12 @@ export function CheckIn({ pageView, setPageView }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -309,14 +309,14 @@ export function CheckIn({ pageView, setPageView }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
                   }}
                 >
                   {handleSearch && (
@@ -324,25 +324,25 @@ export function CheckIn({ pageView, setPageView }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked In Clients
                   </h2>
                   <CustomButton
                     style={{
-                      backgroundColor: '#00d1b2',
-                      color: '#fff',
-                      textAlign: 'right',
-                      marginLeft: 'auto',
+                      backgroundColor: "#0364FF",
+                      color: "#fff",
+                      marginLeft: "auto",
+                      width: "163px",
                     }}
-                    onClick={() => setPageView('checkout')}
+                    onClick={() => setPageView("checkout")}
                   >
-                    {pageView === 'checkin' ? 'Check Out' : 'Check In'}
+                    {pageView === "checkin" ? "Check Out" : "Check In"}
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={AppointmentSchema}
                   data={facilities}
                   pointerOnHover
@@ -482,59 +482,59 @@ export function CheckIn({ pageView, setPageView }) {
     </>
   );
 }
-export function CheckOut({ pageView, setPageView }) {
+export function CheckOut({pageView, setPageView}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
-    const field = 'firstname';
+  const handleSearch = val => {
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -542,98 +542,98 @@ export function CheckOut({ pageView, setPageView }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked Out',
+      appointment_status: "Checked Out",
 
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -642,7 +642,7 @@ export function CheckOut({ pageView, setPageView }) {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked Out',
+        appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -653,7 +653,7 @@ export function CheckOut({ pageView, setPageView }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -684,15 +684,15 @@ export function CheckOut({ pageView, setPageView }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -712,12 +712,12 @@ export function CheckOut({ pageView, setPageView }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -739,16 +739,16 @@ export function CheckOut({ pageView, setPageView }) {
           <div className="level">
             <PageWrapper
               style={{
-                flexDirection: 'column',
-                padding: '0.6rem 1rem',
+                flexDirection: "column",
+                padding: "0.6rem 1rem",
               }}
             >
               <TableMenu>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
                   }}
                 >
                   {handleSearch && (
@@ -756,24 +756,25 @@ export function CheckOut({ pageView, setPageView }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked Out Clients
                   </h2>
                   <CustomButton
                     style={{
-                      backgroundColor: '#00d1b2',
-                      color: '#fff',
-                      marginLeft: 'auto',
+                      backgroundColor: "#0364FF",
+                      color: "#fff",
+                      marginLeft: "auto",
+                      width: "163px",
                     }}
-                    onClick={() => setPageView('checkin')}
+                    onClick={() => setPageView("checkin")}
                   >
-                    {pageView === 'checkin' ? 'Check In' : 'Check In'}
+                    {pageView === "checkin" ? "Check In" : "Check In"}
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={AppointmentSchema}
                   data={facilities}
                   pointerOnHover
@@ -801,11 +802,11 @@ export function RadAppointmentDetail() {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -814,27 +815,27 @@ export function RadAppointmentDetail() {
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'modify',
+      show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
   };
   const handleAttend = async () => {
-    const patient = await client.service('client').get(Client.clientId);
+    const patient = await client.service("client").get(Client.clientId);
     await setSelectedClient(patient);
     const newClientModule = {
       selectedClient: patient,
-      show: 'detail',
+      show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate('/app/clinic/encounter');
+    navigate("/app/clinic/encounter");
   };
 
   return (
@@ -854,7 +855,7 @@ export function RadAppointmentDetail() {
                       name="firstname"
                       type="text"
                     >
-                      First Name{' '}
+                      First Name{" "}
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -874,8 +875,8 @@ export function RadAppointmentDetail() {
                       name="middlename"
                       type="text"
                     >
-                      {' '}
-                      Middle Name{' '}
+                      {" "}
+                      Middle Name{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -915,10 +916,10 @@ export function RadAppointmentDetail() {
                       name="dob"
                       type="text"
                     >
-                      Date of Birth{' '}
+                      Date of Birth{" "}
                     </label>
                     <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString('en-GB')}
+                      {new Date(Client.dob).toLocaleDateString("en-GB")}
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -934,7 +935,7 @@ export function RadAppointmentDetail() {
                       name="gender"
                       type="text"
                     >
-                      Gender{' '}
+                      Gender{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
@@ -951,7 +952,7 @@ export function RadAppointmentDetail() {
                       name="maritalstatus"
                       type="text"
                     >
-                      Marital Status{' '}
+                      Marital Status{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.maritalstatus}
@@ -970,7 +971,7 @@ export function RadAppointmentDetail() {
                       name="mrn"
                       type="text"
                     >
-                      Medical Records Number{' '}
+                      Medical Records Number{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.mrn}</label>
                     <span className="icon is-small is-left">
@@ -991,7 +992,7 @@ export function RadAppointmentDetail() {
                       name="religion"
                       type="text"
                     >
-                      Religion{' '}
+                      Religion{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1008,7 +1009,7 @@ export function RadAppointmentDetail() {
                       name="profession"
                       type="text"
                     >
-                      Profession{' '}
+                      Profession{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1027,7 +1028,7 @@ export function RadAppointmentDetail() {
                       name="phone"
                       type="text"
                     >
-                      {' '}
+                      {" "}
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1046,7 +1047,7 @@ export function RadAppointmentDetail() {
                       name="email"
                       type="email"
                     >
-                      Email{' '}
+                      Email{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1066,7 +1067,7 @@ export function RadAppointmentDetail() {
                   name="address"
                   type="text"
                 >
-                  Residential Address{' '}
+                  Residential Address{" "}
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1085,7 +1086,7 @@ export function RadAppointmentDetail() {
                       name="city"
                       type="text"
                     >
-                      Town/City{' '}
+                      Town/City{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1102,7 +1103,7 @@ export function RadAppointmentDetail() {
                       name="lga"
                       type="text"
                     >
-                      Local Govt Area{' '}
+                      Local Govt Area{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1119,7 +1120,7 @@ export function RadAppointmentDetail() {
                       name="state"
                       type="text"
                     >
-                      State{' '}
+                      State{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1136,7 +1137,7 @@ export function RadAppointmentDetail() {
                       name="country"
                       type="text"
                     >
-                      Country{' '}
+                      Country{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1157,7 +1158,7 @@ export function RadAppointmentDetail() {
                       name="bloodgroup"
                       type="text"
                     >
-                      Blood Group{' '}
+                      Blood Group{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1177,7 +1178,7 @@ export function RadAppointmentDetail() {
                       name="genotype"
                       type="text"
                     >
-                      Genotype{' '}
+                      Genotype{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.genotype}</label>
                     <span className="icon is-small is-left">
@@ -1194,7 +1195,7 @@ export function RadAppointmentDetail() {
                       name="disabilities"
                       type="text"
                     >
-                      Disabilities{' '}
+                      Disabilities{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -1218,7 +1219,7 @@ export function RadAppointmentDetail() {
                       name="allergies"
                       type="text"
                     >
-                      Allergies{' '}
+                      Allergies{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -1235,7 +1236,7 @@ export function RadAppointmentDetail() {
                       name="comorbidities"
                       type="text"
                     >
-                      Co-mobidities{' '}
+                      Co-mobidities{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -1256,7 +1257,7 @@ export function RadAppointmentDetail() {
                   name="clientTags"
                   type="text"
                 >
-                  Tags{' '}
+                  Tags{" "}
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -1273,7 +1274,7 @@ export function RadAppointmentDetail() {
                   name="specificDetails"
                   type="text"
                 >
-                  Specific Details about Client{' '}
+                  Specific Details about Client{" "}
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -1330,7 +1331,7 @@ export function RadAppointmentDetail() {
                       name="nok_email"
                       type="email"
                     >
-                      Next of Kin Email{' '}
+                      Next of Kin Email{" "}
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -1347,7 +1348,7 @@ export function RadAppointmentDetail() {
                       name="nok_relationship"
                       type="text"
                     >
-                      Next of Kin Relationship"{' '}
+                      Next of Kin Relationship"{" "}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -1386,24 +1387,24 @@ export function RadAppointmentDetail() {
 }
 
 export function RadAppointmentModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   // eslint-disable-next-line
-  const ClientServ = client.service('appointments');
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
-  const [appointment_status, setAppointment_status] = useState('');
-  const [appointment_type, setAppointment_type] = useState('');
-  const appClass = ['On-site', 'Teleconsultation'];
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
+  const appClass = ["On-site", "Teleconsultation"];
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [success1, setSuccess1] = useState(false);
@@ -1414,7 +1415,7 @@ export function RadAppointmentModify() {
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
 
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -1425,7 +1426,7 @@ export function RadAppointmentModify() {
     }
   };
 
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -1437,76 +1438,76 @@ export function RadAppointmentModify() {
   };
 
   useEffect(() => {
-    setValue('firstname', Client.firstname, {
+    setValue("firstname", Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('middlename', Client.middlename, {
+    setValue("middlename", Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('lastname', Client.lastname, {
+    setValue("lastname", Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('phone', Client.phone, {
+    setValue("phone", Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('email', Client.email, {
+    setValue("email", Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('dob', Client.dob, {
+    setValue("dob", Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('gender', Client.gender, {
+    setValue("gender", Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('ClientId', Client.clientId, {
+    setValue("ClientId", Client.clientId, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('appointment_reason', Client.appointment_reason, {
+    setValue("appointment_reason", Client.appointment_reason, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('appointment_status', Client.appointment_status, {
+    setValue("appointment_status", Client.appointment_status, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue('appointment_type', Client.appointment_type, {
+    setValue("appointment_type", Client.appointment_type, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
-      'start_time',
+      "start_time",
       format(new Date(Client.start_time), "yyyy-MM-dd'T'HH:mm:ss"),
       {
         shouldValidate: true,
         shouldDirty: true,
       }
     );
-    setValue('appointmentClass', Client.appointmentClass, {
+    setValue("appointmentClass", Client.appointmentClass, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
     return () => {};
   });
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     // await setAppointment_type(e.target.value)
-    setValue('appointment_type', e.target.value, {
+    setValue("appointment_type", e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     // await setAppointment_status(e.target.value)
-    setValue('appointment_status', e.target.value, {
+    setValue("appointment_status", e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1515,9 +1516,9 @@ export function RadAppointmentModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1527,20 +1528,20 @@ export function RadAppointmentModify() {
   const changeState = () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm('Are you sure you want to delete this data?');
+    let conf = window.confirm("Are you sure you want to delete this data?");
 
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -1550,19 +1551,19 @@ export function RadAppointmentModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: 'Client deleted succesfully',
-            type: 'is-success',
+            message: "Client deleted succesfully",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: 'Error deleting Client, probable network issues or ' + err,
-            type: 'is-danger',
+            message: "Error deleting Client, probable network issues or " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1577,7 +1578,7 @@ export function RadAppointmentModify() {
     // console.log(data)
     //  data.facility=Client.facility
     //console.log(data);
-    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.practitionerId = chosen2._id;
@@ -1594,25 +1595,25 @@ export function RadAppointmentModify() {
     }
     data.actions = Client.actions;
     ClientServ.patch(Client._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: 'Client updated succesfully',
-          type: 'is-success',
+          message: "Client updated succesfully",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: 'Error updating Client, probable network issues or ' + err,
-          type: 'is-danger',
+          message: "Error updating Client, probable network issues or " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -1632,7 +1633,7 @@ export function RadAppointmentModify() {
 
             <div className="field">
               <label className="label is-size-7">
-                {' '}
+                {" "}
                 {Client.firstname} {Client.lastname}
               </label>
             </div>
@@ -1648,7 +1649,7 @@ export function RadAppointmentModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: 'none' }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -1657,7 +1658,7 @@ export function RadAppointmentModify() {
                       }
                       name="locationId"
                       type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
+                      onChange={e => setLocationId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -1679,7 +1680,7 @@ export function RadAppointmentModify() {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: 'none' }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -1688,7 +1689,7 @@ export function RadAppointmentModify() {
                       }
                       name="practionerId"
                       type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
+                      onChange={e => setPractionerId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -1707,9 +1708,9 @@ export function RadAppointmentModify() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      ref={register}
+                      {...register}
                     />
-                    {c + ' '}
+                    {c + " "}
                   </label>
                 ))}
               </div>
@@ -1717,7 +1718,7 @@ export function RadAppointmentModify() {
             <div className="field">
               <input
                 name="start_time"
-                {...register('x', { required: true })}
+                {...register("x", {required: true})}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -1732,7 +1733,7 @@ export function RadAppointmentModify() {
                   <select
                     name="type"
                     // /* value={appointment_type} */ name="appointment_type"
-                    {...register('x', { required: true })}
+                    {...register("x", {required: true})}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -1752,7 +1753,7 @@ export function RadAppointmentModify() {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    {...register('x', { required: true })}
+                    {...register("x", {required: true})}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -1775,7 +1776,7 @@ export function RadAppointmentModify() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register('x')}
+                  {...register("x")}
                   name="appointment_reason"
                   type="text"
                   placeholder="Reason For Appointment"
@@ -1785,11 +1786,11 @@ export function RadAppointmentModify() {
                 </span>
               </p>
             </div>
-            <div className="field " style={{ display: 'none' }}>
+            <div className="field " style={{display: "none"}}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register('x')}
+                  {...register("x")}
                   name="billingservice"
                   type="text"
                   placeholder="Billing service"
@@ -1836,41 +1837,41 @@ export function RadAppointmentModify() {
   );
 }
 
-export function ClientSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service('client');
+export function ClientSearch({getSearchfacility, clear}) {
+  const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState('');
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
 
     await setSimpa(
       obj.firstname +
-        ' ' +
+        " " +
         obj.middlename +
-        ' ' +
+        " " +
         obj.lastname +
-        ' ' +
+        " " +
         obj.gender +
-        ' ' +
+        " " +
         obj.phone
     );
 
@@ -1884,9 +1885,9 @@ export function ClientSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
-      console.log('stuff was chosen');
+      console.log("stuff was chosen");
     }
 
     /*  console.log("blur")
@@ -1902,14 +1903,14 @@ export function ClientSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     setVal(val);
-    if (val === '') {
+    if (val === "") {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = 'name'; //field variable
+    const field = "name"; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -1918,43 +1919,43 @@ export function ClientSearch({ getSearchfacility, clear }) {
             {
               firstname: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               middlename: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               phone: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               clientTags: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               mrn: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               specificDetails: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
           ],
@@ -1967,23 +1968,23 @@ export function ClientSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
-          console.log('product  fetched successfully');
+        .then(res => {
+          console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(' product  fetched successfully');
+          setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
+            message: "Error creating ProductEntry " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -2000,8 +2001,8 @@ export function ClientSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log('success has changed', clear);
-      setSimpa('');
+      console.log("success has changed", clear);
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
@@ -2010,10 +2011,10 @@ export function ClientSearch({ getSearchfacility, clear }) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? 'is-active' : ''}`}
-            style={{ width: '100%' }}
+            className={`dropdown ${showPanel ? "is-active" : ""}`}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
@@ -2021,24 +2022,24 @@ export function ClientSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ''
+                  ""
                 ) : (
                   <div
                     className="dropdown-item" /* onClick={handleAddproduct} */
                   >
-                    {' '}
-                    <span> {val} is not yet your client</span>{' '}
+                    {" "}
+                    <span> {val} is not yet your client</span>{" "}
                   </div>
                 )}
 
@@ -2053,7 +2054,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                       <span className="padleft">{facility.middlename}</span>
                       <span className="padleft">{facility.lastname}</span>
                       <span className="padleft">
-                        {' '}
+                        {" "}
                         {formatDistanceToNowStrict(new Date(facility.dob))}
                       </span>
                       <span className="padleft">{facility.gender}</span>
@@ -2068,7 +2069,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
           </div>
         </div>
       </div>
-      <div className={`modal ${productModal ? 'is-active' : ''}`}>
+      <div className={`modal ${productModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">

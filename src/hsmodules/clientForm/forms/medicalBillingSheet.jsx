@@ -1,8 +1,7 @@
-   import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 
 const MedicalBillingSheet = ({onSubmit}) => {
-
-  const { register, handleSubmit } = useForm();
+  const {register, handleSubmit} = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -14,7 +13,12 @@ const MedicalBillingSheet = ({onSubmit}) => {
             <div className="field">
               <label className="label is-small">Name</label>
               <p className="control is-expanded">
-                <input ref={register} name="name" className="input is-small" type="text" />
+                <input
+                  {...register}
+                  name="name"
+                  className="input is-small"
+                  type="text"
+                />
               </p>
             </div>
           </div>
@@ -24,7 +28,12 @@ const MedicalBillingSheet = ({onSubmit}) => {
                 <div className="field">
                   <label className="label is-small">Hospital No</label>
                   <p className="control is-expanded">
-                    <input ref={register} name="hospNumber" className="input is-small" type="number" />
+                    <input
+                      {...register}
+                      name="hospNumber"
+                      className="input is-small"
+                      type="number"
+                    />
                   </p>
                 </div>
               </div>
@@ -34,7 +43,12 @@ const MedicalBillingSheet = ({onSubmit}) => {
                 <div className="field">
                   <label className="label is-small">Room No</label>
                   <p className="control is-expanded">
-                    <input ref={register} name="roomNum" className="input is-small" type="number" />
+                    <input
+                      {...register}
+                      name="roomNum"
+                      className="input is-small"
+                      type="number"
+                    />
                   </p>
                 </div>
               </div>
@@ -44,7 +58,12 @@ const MedicalBillingSheet = ({onSubmit}) => {
                 <div className="field">
                   <label className="label is-small">Date</label>
                   <div className="control">
-                    <input ref={register} name="date" className="input is-small" type="date" />
+                    <input
+                      {...register}
+                      name="date"
+                      className="input is-small"
+                      type="date"
+                    />
                   </div>
                 </div>
               </div>
@@ -56,7 +75,12 @@ const MedicalBillingSheet = ({onSubmit}) => {
                 Registration & Consultation
               </label>
               <p className="control is-expanded">
-                <input ref={register} name="regAndCosultation" className="input is-small" type="text" />
+                <input
+                  {...register}
+                  name="regAndCosultation"
+                  className="input is-small"
+                  type="text"
+                />
               </p>
             </div>
           </div>
@@ -65,7 +89,7 @@ const MedicalBillingSheet = ({onSubmit}) => {
               Paid
             </label>
             <label class="checkbox me-3">
-              <input ref={register} name="tick" type="checkbox" />
+              <input {...register} name="tick" type="checkbox" />
               <span className="ms-2 is-small">(please tick)</span>
             </label>
           </div>
@@ -74,7 +98,11 @@ const MedicalBillingSheet = ({onSubmit}) => {
               Laboratory (specify which one or each group of test)
             </label>
             <div className="control">
-              <textarea ref={register} name="lab" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="lab"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
@@ -82,7 +110,11 @@ const MedicalBillingSheet = ({onSubmit}) => {
               Cardiac Procedures etc (ECG/Echo/Holtar/Amb up/etc)
             </label>
             <div className="control">
-              <textarea ref={register} name="cardiacPro" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="cardiacPro"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
@@ -90,7 +122,11 @@ const MedicalBillingSheet = ({onSubmit}) => {
               Other Procedures: (spiro/Audio/VA/VF/etc)
             </label>
             <div className="control">
-              <textarea ref={register} name="otherProcedures" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="otherProcedures"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
@@ -98,19 +134,31 @@ const MedicalBillingSheet = ({onSubmit}) => {
               Radiology Procedures: <br /> X-ray/USS/Doppler/etc
             </label>
             <div className="control">
-              <textarea ref={register} name="radioProcedures" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="radioProcedures"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Nursing</label>
             <div className="control">
-              <textarea ref={register} name="nursing" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="nursing"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Feeding</label>
             <div className="control">
-              <textarea ref={register} name="feeding" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="feeding"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
@@ -118,19 +166,31 @@ const MedicalBillingSheet = ({onSubmit}) => {
               Pharmacy: <br /> Drugs/Injection/Vaccine
             </label>
             <div className="control">
-              <textarea ref={register} name="pharmacy" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="pharmacy"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Specialist Consultation</label>
             <div className="control">
-              <textarea ref={register} name="specialistConsultation" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="specialistConsultation"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Signature of Requester</label>
             <div className="control">
-              <textarea ref={register} name="requesterSign" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="requesterSign"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field mt-4">
