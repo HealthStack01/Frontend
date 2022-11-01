@@ -29,7 +29,7 @@ export default function LabReport() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
+  const [showState,setShowState]=useState() /* create|modify|detail */
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
@@ -292,7 +292,18 @@ export function LabOrderList({openReportFormModal}) {
   }, [state.financeModule.show]);
 
   // ######### DEFINE FUNCTIONS AND SCHEMA HERE
-  const handleCreate = () => {};
+  const handleCreate = async () => {
+    const newProductEntryModule = {
+      selectedDispense: {},
+      show: "create",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DispenseModule: newProductEntryModule,
+    }));
+
+    await openReportFormModal(true);
+  };
 
   const labReportSchema = [
     {

@@ -72,6 +72,7 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
+    setCloseDropdown(true)
   };
 
   const handleBlur = async (e) => {
@@ -229,7 +230,7 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
                     className="dropdown-item selectadd "
                     key={facility._id}
                     onClick={() => {
-                      handleRow(facility), setCloseDropdown(true);
+                      handleRow(facility);
                     }}
                   >
                     <div style={{ cursor: 'pointer' }}>
