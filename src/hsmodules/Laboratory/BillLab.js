@@ -375,7 +375,7 @@ export function BillPrescriptionList({showCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Pending Prescription
+              Pending Bills
             </h2>
           </div>
           {/* 
