@@ -134,6 +134,16 @@ import GeneralAppointments from "./Appointment/generalAppointment";
 // import ClientsAppointments from "./Clients/Appointments";
 //import ClientsAppointments from "./Client/Appointments";
 
+//importing dashboardModules
+import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
+import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
+import LandingPageDashboard from "./dashBoardUiComponent/@modules/LandingPageDashboard";
+import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
+import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
+import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
+import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
+import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
+
 const moduleLocationTypes = {
   clinic: "Clinic",
   clients: "Front Desk",
@@ -155,7 +165,7 @@ const AppRoutes = () => {
     const newModule = paths.length > 2 && paths[2];
     setCurrentModule(newModule);
     if (
-      newModule != currentModule &&
+      newModule !== currentModule &&
       Object.keys(moduleLocationTypes).includes(newModule)
     ) {
       /* setLocationType(moduleLocationTypes[newModule]); */
@@ -170,6 +180,10 @@ const AppRoutes = () => {
         <Route path="/signupindividual" element={<IndividualSignup />} />
         <Route path="/app" element={<PrivateOutlet />}>
           <Route index element={<Overview />} />
+          <Route
+            path="/app/overview/dashboard"
+            element={<LandingPageDashboard />}
+          />
 
           {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
@@ -214,6 +228,7 @@ const AppRoutes = () => {
           <Route path="/app/clinic/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clinic/clinics" element={<Clinic />} />
           <Route path="/app/clinic/checkin" element={<ClinicCheckin />} />
+          <Route path="/app/clinic/dashboard" element={<ClinicDashboard />} />
 
           {/* ***************************** CLIENTS ROUTES ************************************* */}
           <Route path="/app/clients/" element={<ClientHome />}>
@@ -235,9 +250,15 @@ const AppRoutes = () => {
             <Route
               path="/app/clients/appointments"
               element={<ClientsAppointments />}
+
             />
             {""}
+            />{" "}
             <Route path="/app/clients/clients" element={<Patients />} />
+            <Route
+              path="/app/clients/dashboard"
+              element={<ClientDashboard />}
+            />
           </Route>
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 
@@ -289,6 +310,10 @@ const AppRoutes = () => {
             <Route path="/app/finance/hmoauthorization" element={<HMOauth />} />
             <Route path="/app/finance/revenue" element={<FacilityAccount />} />
             <Route path="/app/finance/location" element={<Store />} />
+            <Route
+              path="/app/finance/dashboard"
+              element={<FinanceDashboard />}
+            />
           </Route>
 
           {/* ***************************** INVENTORY ROUTES ************************************* */}
@@ -331,6 +356,10 @@ const AppRoutes = () => {
 
           <Route path="/app/inventory/inv-stores" element={<Store />} />
           <Route path="/app/inventory/payment" element={<InventoryPayment />} />
+          <Route
+            path="/app/inventory/dashboard"
+            element={<InventoryDashboard />}
+          />
 
           {/* ***************************** LABS ROUTES ************************************* */}
 
@@ -345,6 +374,10 @@ const AppRoutes = () => {
           <Route
             path="/app/laboratory/payment"
             element={<LaboratoryPayment />}
+          />
+          <Route
+            path="/app/laboratory/dashboard"
+            element={<LaboratoryDashboard />}
           />
 
           {/* ***************************** PHARMACY ROUTES ************************************* */}
@@ -380,6 +413,10 @@ const AppRoutes = () => {
             element={<PharmacyInventoryReport />}
           />
           <Route path="/app/pharmacy/transfer" element={<PharmacyTransfer />} />
+          <Route
+            path="/app/pharmacy/dashboard"
+            element={<PharmacyDashboard />}
+          />
           {/* 
           <Route
             path="/app/pharmacy/inv-payment"
@@ -450,6 +487,7 @@ const AppRoutes = () => {
           <Route path="/app/ward/admissions" element={<Admissions />} />
           <Route path="/app/ward/documentation" element={<Documentation />} />
           <Route path="/app/ward/discharge" element={<Discharge />} />
+          <Route path="/app/ward/dashboard" element={<WardDashboard />} />
         </Route>
       </Routes>
     </>
