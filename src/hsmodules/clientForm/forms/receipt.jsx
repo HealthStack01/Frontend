@@ -1,9 +1,8 @@
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 
 const Receipt = ({onSubmit}) => {
+  const {register, handleSubmit} = useForm();
 
-  const { register, handleSubmit } = useForm();
-  
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -14,13 +13,23 @@ const Receipt = ({onSubmit}) => {
           <div className="field">
             <label className="label is-small">Date</label>
             <div className="control">
-              <input ref={register} name="receiptDate" className="input is-small" type="date" />
+              <input
+                {...register}
+                name="receiptDate"
+                className="input is-small"
+                type="date"
+              />
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Received From</label>
             <div className="control">
-              <input ref={register} name="receivedFrom" className="input is-small" type="text" />
+              <input
+                {...register}
+                name="receivedFrom"
+                className="input is-small"
+                type="text"
+              />
             </div>
           </div>
           <div className="columns mt-3">
@@ -28,7 +37,12 @@ const Receipt = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Cheque Number</label>
                 <div className="control">
-                  <input ref={register} name="chequeNumber" className="input is-small" type="number" />
+                  <input
+                    {...register}
+                    name="chequeNumber"
+                    className="input is-small"
+                    type="number"
+                  />
                 </div>
               </div>
             </div>
@@ -36,7 +50,12 @@ const Receipt = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">chequeDated</label>
                 <div className="control">
-                  <input ref={register} name="dated" className="input is-small" type="date" />
+                  <input
+                    {...register}
+                    name="dated"
+                    className="input is-small"
+                    type="date"
+                  />
                 </div>
               </div>
             </div>
@@ -45,7 +64,11 @@ const Receipt = ({onSubmit}) => {
             <div className="field">
               <label className="label is-small">The Sum of</label>
               <div className="control">
-                <textarea ref={register} name="sumOf" className="textarea is-small"></textarea>
+                <textarea
+                  {...register}
+                  name="sumOf"
+                  className="textarea is-small"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -53,14 +76,23 @@ const Receipt = ({onSubmit}) => {
             <div className="field">
               <label className="label is-small">Being paid for</label>
               <div className="control">
-                <textarea ref={register} name="paidFor" className="textarea is-small"></textarea>
+                <textarea
+                  {...register}
+                  name="paidFor"
+                  className="textarea is-small"
+                ></textarea>
               </div>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">For and on behalf of</label>
             <div className="control">
-              <input ref={register} name="onBehalf" className="input is-small" type="text" />
+              <input
+                {...register}
+                name="onBehalf"
+                className="input is-small"
+                type="text"
+              />
             </div>
           </div>
           <div className="field mt-4">
@@ -68,7 +100,6 @@ const Receipt = ({onSubmit}) => {
           </div>
         </div>
       </div>
-
     </form>
   );
 };

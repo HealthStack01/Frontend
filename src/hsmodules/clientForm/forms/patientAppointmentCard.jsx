@@ -1,8 +1,7 @@
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 
 const PatientAppointmentCard = ({onSubmit}) => {
-
-  const { register, handleSubmit } = useForm();
+  const {register, handleSubmit} = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -13,7 +12,12 @@ const PatientAppointmentCard = ({onSubmit}) => {
           <div className="field">
             <label className="label is-small">Surname</label>
             <p className="control is-expanded">
-              <input ref={register} name="surname" className="input is-small" type="text" />
+              <input
+                {...register}
+                name="surname"
+                className="input is-small"
+                type="text"
+              />
             </p>
           </div>
           <div className="columns mt-3">
@@ -21,7 +25,12 @@ const PatientAppointmentCard = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">First Name</label>
                 <p className="control is-expanded">
-                  <input ref={register} name="firstName" className="input is-small" type="text" />
+                  <input
+                    {...register}
+                    name="firstName"
+                    className="input is-small"
+                    type="text"
+                  />
                 </p>
               </div>
             </div>
@@ -29,7 +38,12 @@ const PatientAppointmentCard = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Registration Number</label>
                 <p className="control is-expanded">
-                  <input ref={register} name="registrationNum" className="input is-small" type="number" />
+                  <input
+                    {...register}
+                    name="registrationNum"
+                    className="input is-small"
+                    type="number"
+                  />
                 </p>
               </div>
             </div>
@@ -39,7 +53,12 @@ const PatientAppointmentCard = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Other Names</label>
                 <p className="control is-expanded">
-                  <input ref={register} name="otherNames" className="input is-small" type="text" />
+                  <input
+                    {...register}
+                    name="otherNames"
+                    className="input is-small"
+                    type="text"
+                  />
                 </p>
               </div>
             </div>
@@ -47,7 +66,12 @@ const PatientAppointmentCard = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Date of Registration</label>
                 <p className="control is-expanded">
-                  <input ref={register} name="registrationDate" className="input is-small" type="date" />
+                  <input
+                    {...register}
+                    name="registrationDate"
+                    className="input is-small"
+                    type="date"
+                  />
                 </p>
               </div>
             </div>
@@ -56,13 +80,22 @@ const PatientAppointmentCard = ({onSubmit}) => {
           <div className="field">
             <label className="label is-small">Date</label>
             <div className="control">
-              <input ref={register} name="nextAppointmentDate" className="input is-small" type="date" />
+              <input
+                {...register}
+                name="nextAppointmentDate"
+                className="input is-small"
+                type="date"
+              />
             </div>
           </div>
           <div className="field">
             <div className="control">
               <label className="label is-small">Consultation</label>
-              <textarea ref={register} name="consultation" className="textarea is-small"></textarea>
+              <textarea
+                {...register}
+                name="consultation"
+                className="textarea is-small"
+              ></textarea>
             </div>
           </div>
           <div className="field mt-4">
