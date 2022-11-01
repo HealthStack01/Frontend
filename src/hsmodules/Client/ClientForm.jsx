@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import BasicDatePicker from '../../components/inputs/Date';
+import { UserContext } from '../../context';
+import { yupResolver } from '@hookform/resolvers/yup';
 import client from '../../feathers';
 import {
   BottomWrapper,
@@ -14,13 +16,22 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../app/styles';
+import { createClientSchema } from './schema';
 
 const ClientForm = () => {
   const ClientServ = client.service('client');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
-  const { register, handleSubmit } = useForm({
+  const { user, setUser } = useContext(UserContext);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm({
+    resolver: yupResolver(createClientSchema),
+
     defaultValues: {
       firstname: '',
       lastname: '',
@@ -28,7 +39,7 @@ const ClientForm = () => {
       dob: '',
       phone: '',
       email: '',
-      facility: '',
+      facility: user.currentEmployee.facility,
     },
   });
   const submit = async (data, e) => {
@@ -61,7 +72,11 @@ const ClientForm = () => {
         <GrayWrapper>
           <HeadWrapper>
             <div>
-              <h2>Quick Register Client</h2>
+              <h2>{`${
+                isFullRegistration
+                  ? 'Full Register Client'
+                  : 'Quick Register Client'
+              }`}</h2>
               <span>
                 Create a New client by filling out the form below to get
                 started.
@@ -85,23 +100,38 @@ const ClientForm = () => {
             <>
               <DetailsWrapper title='Create Client' defaultExpanded={true}>
                 <GridWrapper className='height-auto'>
-                  <Input label='First Name' register={register('firstname')} />
+                  <Input
+                    label='First Name'
+                    register={register('firstname')}
+                    errorText={errors?.firstname?.message}
+                  />
                   <Input
                     label='Middle Name'
                     register={register('middlename')}
+                    errorText={errors?.middlename?.message}
                   />
-                  <Input label='Last Name' register={register('lastname')} />
+                  <Input
+                    label='Last Name'
+                    register={register('lastname')}
+                    errorText={errors?.lastname?.message}
+                  />
                   <Input
                     label='Phone'
                     register={register('phone')}
                     type='tel'
+                    errorText={errors?.phone?.message}
                   />
                   <Input
                     label='Email'
                     register={register('email')}
                     type='email'
+                    errorText={errors?.email?.message}
                   />
-                  <BasicDatePicker label='dob' register={register('dob')} />
+                  <BasicDatePicker
+                    label='dob'
+                    register={register('dob')}
+                    errorText={errors?.dob?.message}
+                  />
                   <CustomSelect
                     label='Gender'
                     register={register('gender', { required: true })}
@@ -109,10 +139,11 @@ const ClientForm = () => {
                       { label: 'Male', value: 'Male' },
                       { label: 'Female', value: 'Memale' },
                     ]}
+                    errorText={errors?.gender?.message}
                   />
                   <CustomSelect
-                    label='Gender'
-                    register={register('maritalstatus', { required: true })}
+                    label='Marital Status'
+                    register={register('maritalstatus')}
                     options={[
                       { label: 'Single', value: 'Single' },
                       { label: 'Married', value: 'Married' },
@@ -140,17 +171,16 @@ const ClientForm = () => {
 
               <DetailsWrapper title='Names'>
                 <GridWrapper>
-                  <Input
-                    label='First Name'
-                    register={register('firstname', { required: true })}
-                  />
+                  <Input label='First Name' register={register('firstname')} />
                   <Input
                     label='Middle Name'
-                    register={register('middlename', { required: true })}
+                    register={register('middlename')}
                   />
-                  <Input
-                    label='Last Name'
-                    register={register('lastname', { required: true })}
+                  <Input label='Last Name' register={register('lastname')} />
+                  <BasicDatePicker
+                    label='dob'
+                    register={register('dob')}
+                    errorText={errors?.dob?.message}
                   />
                 </GridWrapper>
               </DetailsWrapper>
@@ -160,40 +190,29 @@ const ClientForm = () => {
                 <GridWrapper>
                   <CustomSelect
                     label='Gender'
-                    register={register('gender', { required: true })}
+                    register={register('gender')}
                     options={[
                       { label: 'Male', value: 'male' },
                       { label: 'Female', value: 'female' },
                     ]}
                   />
-                  <Input
+                  <CustomSelect
                     label='Marital Status'
-                    register={register('maritalstatus', { required: true })}
+                    register={register('maritalstatus')}
+                    options={[
+                      { label: 'Single', value: 'Single' },
+                      { label: 'Married', value: 'Married' },
+                    ]}
                   />
                   <Input
                     label='Medical record Number'
-                    register={register('mrn', { required: true })}
+                    register={register('mrn')}
                   />
-                  <Input
-                    label='Religion'
-                    register={register('religion', { required: true })}
-                  />
-                  <Input
-                    label='Profession'
-                    register={register('profession', { required: true })}
-                  />
-                  <Input
-                    label='Phone No'
-                    register={register('phone', { required: true })}
-                  />
-                  <Input
-                    label='Email'
-                    register={register('email', { required: true })}
-                  />
-                  <Input
-                    label='Tags'
-                    register={register('clientTags', { required: true })}
-                  />
+                  <Input label='Religion' register={register('religion')} />
+                  <Input label='Profession' register={register('profession')} />
+                  <Input label='Phone No' register={register('phone')} />
+                  <Input label='Email' register={register('email')} />
+                  <Input label='Tags' register={register('clientTags')} />
                 </GridWrapper>
               </DetailsWrapper>
               {/* Address */}
@@ -201,24 +220,12 @@ const ClientForm = () => {
                 <GridWrapper>
                   <Input
                     label='Residential Address'
-                    register={register('address', { required: true })}
+                    register={register('address')}
                   />
-                  <Input
-                    label='Town/City'
-                    register={register('city', { required: true })}
-                  />
-                  <Input
-                    label='Local Govt Area'
-                    register={register('lga', { required: true })}
-                  />
-                  <Input
-                    label='State'
-                    register={register('state', { required: true })}
-                  />
-                  <Input
-                    label='Country'
-                    register={register('country', { required: true })}
-                  />
+                  <Input label='Town/City' register={register('city')} />
+                  <Input label='Local Govt Area' register={register('lga')} />
+                  <Input label='State' register={register('state')} />
+                  <Input label='Country' register={register('country')} />
                 </GridWrapper>
               </DetailsWrapper>
               {/* Medical Data */}
@@ -226,27 +233,21 @@ const ClientForm = () => {
                 <GridWrapper>
                   <Input
                     label='Blood Group'
-                    register={register('bloodgroup', { required: true })}
+                    register={register('bloodgroup')}
                   />
-                  <Input
-                    label='Genotype'
-                    register={register('genotype', { required: true })}
-                  />
+                  <Input label='Genotype' register={register('genotype')} />
                   <Input
                     label='Disabilities'
-                    register={register('disabilities', { required: true })}
+                    register={register('disabilities')}
                   />
-                  <Input
-                    label='Allergies'
-                    register={register('allergies', { required: true })}
-                  />
+                  <Input label='Allergies' register={register('allergies')} />
                   <Input
                     label='Co-mobidities'
-                    register={register('comorbidities', { required: true })}
+                    register={register('comorbidities')}
                   />
                   <Input
                     label='Specific Details about patient'
-                    register={register('specificDetails', { required: true })}
+                    register={register('specificDetails')}
                   />
                 </GridWrapper>
               </DetailsWrapper>
@@ -255,29 +256,27 @@ const ClientForm = () => {
                 <GridWrapper>
                   <Input
                     label='Next of Kin Full Name'
-                    register={register('nok_name', { required: true })}
+                    register={register('nok_name')}
                   />
                   <Input
                     label='Next of Kin Phone Number'
-                    register={register('nok_phoneno', { required: true })}
+                    register={register('nok_phoneno')}
                   />
                   <Input
                     label='Next of Kin Email'
-                    register={register('nok_email', { required: true })}
+                    register={register('nok_email')}
                   />
                   <Input
                     label='Next of Kin Relationship'
-                    register={register('nok_relationship', {
-                      required: true,
-                    })}
+                    register={register('nok_relationship')}
                   />
                   <Input
                     label='Co-mobidities'
-                    register={register('comorbidities', { required: true })}
+                    register={register('comorbidities')}
                   />
                   <Input
                     label='Specific Details about patient'
-                    register={register('specificDetails', { required: true })}
+                    register={register('specificDetails')}
                   />
                 </GridWrapper>
               </DetailsWrapper>
