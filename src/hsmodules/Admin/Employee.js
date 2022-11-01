@@ -14,7 +14,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import Input from "./ui-components/inputs/basic/Input";
-
+import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
 // eslint-disable-next-line
@@ -259,12 +259,17 @@ export function EmployeeCreate() {
               type="text"
               placeholder="Password"
             />
-
-            <div className="field">
-              <p className="control">
-                <button className="button is-success is-small">Create</button>
-              </p>
-            </div>
+            <Button
+              text={"Attend"}
+              onClick={handleSubmit(onSubmit)}
+              style={{
+                width: "100px",
+                backgroundColor: "#0364FF",
+                fontSize: "18px",
+              }}
+            >
+              Create
+            </Button>
           </form>
         </div>
       </div>
@@ -589,172 +594,157 @@ export function EmployeeDetail({ showModifyModal }) {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Employee Details</p>
+          <p className="card-header-title" style={{ fontWeight: "bold" }}>
+            Employee Details
+          </p>
         </div>
+
         <div className="card-content vscrollable">
-          <fieldset>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  {" "}
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                  First Name:
-                </label>
-              </td>
-              <td>
-                <span className="is-medium " name="EmployeeName">
-                  {" "}
-                  {Employee?.firstname}{" "}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                  Last Name:
-                </label>
-              </td>
-              <td>
-                <span className="is-small " name="EmployeeAddress">
-                  {Employee?.lastname}{" "}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                  </span>
-                  Profession:
-                </label>
-              </td>
-              <td>
-                <span className="is-small " name="EmployeeCity">
-                  {Employee?.profession}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                  </span>
-                  Phone:
-                </label>
-              </td>
-              <td>
-                <span className="is-small " name="EmployeeContactPhone">
-                  {Employee?.phone}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                  Email:
-                </label>
-              </td>
-              <td>
-                <span className="is-small " name="EmployeeEmail">
-                  {Employee?.email}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  {" "}
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                  </span>
-                  Department:
-                </label>
-              </td>
-              <td>
-                <span className="is-small " name="EmployeeOwner">
-                  {Employee?.department}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="label is-small">
-                  {" "}
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                  </span>
-                  Departmental Unit:
-                </label>
-              </td>
-              <td>
-                <span className="is-small " name="EmployeeType">
-                  {Employee?.deptunit}
-                </span>
-              </td>
-            </tr>
-
-            {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-small "  name= "EmployeeCategory">{Employee.EmployeeCategory}</span>
-                </label>
-                 </div> */}
-
-            <div className="field mt-2 is-grouped">
-              <p className="control">
-                <button
-                  className="button is-success is-small"
-                  onClick={handleEdit}
-                >
-                  Edit
-                </button>
-              </p>
-
-              <p className="control">
-                <button
-                  className="button is-info is-small"
-                  onClick={handleRoles}
-                >
-                  Set Roles
-                </button>
-              </p>
-            </div>
-            {error && <div className="message"> {message}</div>}
-          </fieldset>
+          <Grid container spacing={2} mt={4}>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Name:
+              </span>
+              <span
+                className="is-size-7 padleft"
+                name="name"
+                style={{ fontWeight: "lighter", fontSize: "20px" }}
+              >
+                {" "}
+                {Employee?.firstname}{" "}
+              </span>
+            </Grid>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Last Name:
+              </span>
+              <span style={{ color: " #000000", fontSize: "20px" }}>
+                {Employee?.lastname}
+              </span>
+            </Grid>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Profession:
+              </span>
+              <span style={{ color: " #000000", fontSize: "20px" }}>
+                {Employee?.profession}
+              </span>
+            </Grid>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Phone:
+              </span>
+              <span style={{ color: " #000000", fontSize: "20px" }}>
+                {Employee?.phone}
+              </span>
+            </Grid>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Email:
+              </span>
+              <span style={{ color: " #000000", fontSize: "20px" }}>
+                {Employee?.email}
+              </span>
+            </Grid>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Department:
+              </span>
+              <span style={{ color: " #000000", fontSize: "20px" }}>
+                {Employee?.department}
+              </span>
+            </Grid>
+            <Grid item xs={12} sm={3} md={4}>
+              <span
+                style={{
+                  color: " #0364FF",
+                  fontSize: "20px",
+                  marginRight: ".8rem",
+                }}
+              >
+                Department Unit:
+              </span>
+              <span style={{ color: " #000000", fontSize: "20px" }}>
+                {Employee?.deptunit}
+              </span>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={4}>
+            <Grid item xs={12} sm={3} md={4}>
+              <Button
+                type="submit"
+                onClick={handleEdit}
+                style={{
+                  backgroundColor: "#17935C",
+                  width: "100px",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                }}
+              >
+                Edit
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+              <Button
+                type="submit"
+                onClick={handleRoles}
+                style={{
+                  backgroundColor: "#0364FF",
+                  width: "100px",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                }}
+              >
+                Set Roles
+              </Button>
+            </Grid>
+          </Grid>
+          {error && <div className="message"> {message}</div>}
         </div>
       </div>
-      <div className={`modal ${showRoles ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head minHt">
-            <p className="modal-card-title">Employee Roles</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ModuleList handlecloseModal={handlecloseModal} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
+      <ModalBox
+        open={showRoles}
+        onClose={handlecloseModal}
+        header="Employee Roles"
+      >
+        <ModuleList handlecloseModal={handlecloseModal} />
+      </ModalBox>
     </>
   );
 }
@@ -918,167 +908,105 @@ export function EmployeeModify() {
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                First Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("firstname", { required: true })}
-                    name="firstname"
-                    type="text"
-                    placeholder="First Name"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Last Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register("lastname", { required: true })}
-                    name="lastname"
-                    type="text"
-                    placeholder="Last Name"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Profession
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("profession", { required: true })}
-                    name="profession"
-                    type="text"
-                    placeholder="Profession"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Phone
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("phone", { required: true })}
-                    name="phone"
-                    type="text"
-                    placeholder="Phone No"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Email
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("email", { required: true })}
-                    name="email"
-                    type="email"
-                    placeholder="Employee Email"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Department
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("department", { required: true })}
-                    name="department"
-                    type="text"
-                    placeholder="Department"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                  </span>
-                </p>
-              </label>
-              {errors && errors.department && (
-                <span>This field is required</span>
-              )}
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Departmental Unit
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("deptunit", { required: true })}
-                    name="deptunit"
-                    type="text"
-                    placeholder="Departmental Unit"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            {/*  <div className="field">
-            <label className="label is-small">Category
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="EmployeeCategory" type="text" placeholder="Employee Category"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-                </label>
-            </div> */}
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("firstname", { required: true })}
+              name="firstname"
+              type="text"
+              placeholder="First Name"
+            />
+
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("lastname", { required: true })}
+              name="lastname"
+              type="text"
+              placeholder="Last Name"
+            />
+
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("profession", { required: true })}
+              name="profession"
+              type="text"
+              placeholder="Profession"
+            />
+
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("phone", { required: true })}
+              name="phone"
+              type="text"
+              placeholder="Phone No"
+            />
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("email", { required: true })}
+              name="email"
+              type="text"
+              placeholder="Email"
+            />
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("department", { required: true })}
+              name="department"
+              type="text"
+              placeholder="Department"
+            />
+            {errors && errors.department && <span>This field is required</span>}
+            <Input
+              style={{
+                width: "50px",
+              }}
+              {...register("depunit", { required: true })}
+              name="depunit"
+              type="text"
+              placeholder="Department"
+            />
           </form>
           <div className="block">
-            <div className="field  is-grouped">
-              <p className="control">
-                <button
-                  type="submit"
-                  className="button is-success is-small"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-warning is-small"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-danger is-small"
-                  onClick={() => handleDelete()}
-                  type="delete"
-                >
-                  Delete
-                </button>
-              </p>
+            <div style={{ display: "flex" }}>
+              <Button
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+                style={{
+                  backgroundColor: "#48c774",
+                  width: "100px",
+                  position: "relative",
+                  cursor: "pointer",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Save
+              </Button>
+
+              <Button
+                type="submit"
+                onClick={handleDelete}
+                style={{
+                  backgroundColor: "#f14668",
+                  width: "100px",
+                  position: "relative",
+                  cursor: "pointer",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         </div>
