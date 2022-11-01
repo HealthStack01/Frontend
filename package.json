@@ -24,6 +24,7 @@
     "@mui/styles": "^5.4.2",
     "@mui/system": "^5.10.8",
     "@mui/x-date-pickers": "^5.0.4",
+    "apexcharts": "^3.36.0",
     "autoprefixer": "10.0.2",
     "axios": "^0.26.1",
     "bulma": "^0.9.4",
