@@ -86,22 +86,19 @@ export default function Client() {
           />
         </div>
         <div className="column is-6 ">
-          <ModalBox open={showModal} onClose={handleHideModal}>
-            <ClientCreate />
-          </ModalBox>
-          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <ClientDetail showModifyModal={handleModifyModal} />
-          </ModalBox>
-          <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-            <ClientModify />
-          </ModalBox>
+          {state.ClientModule.show === "detail" && <ClientDetail />}
+          {state.ClientModule.show === "modify" && (
+            <ClientModify Client={selectedClient} />
+          )}
+
+          <ClientCreate open={showModal} setOpen={handleHideModal} />
         </div>
       </div>
     </section>
   );
 }
 
-export function ClientCreate() {
+export function ClientCreate({ open, setOpen }) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
   const { register, handleSubmit } = useForm({
@@ -556,7 +553,7 @@ export function ClientCreate() {
           {/*  <p className=" is-small">
                     Kindly search Client list before creating new Clients!
                 </p> */}
-          <ClientForm />
+          <ClientForm open={open} setOpen={setOpen} />
         </div>
       </div>
     </>
