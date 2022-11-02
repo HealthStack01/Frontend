@@ -26,9 +26,8 @@ const ClientView = ({ user }) => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
-  const { user: data, setUser } = useContext(UserContext);
-
-  console.log('User', user);
+  const result = localStorage.getItem('user');
+  const data = JSON.parse(result);
 
   const {
     register,
@@ -89,18 +88,20 @@ const ClientView = ({ user }) => {
               Client detail of {user.firstname} {user.lastname}
             </span>
           </div>
-          <Button
-            label={`${!editing ? 'Edit Client' : 'Cancel Editing'}`}
-            background='#ECF3FF'
-            color='#0364FF'
-            showicon
-            icon='bi bi-pen-fill'
-            disabled={editing}
-            onClick={() => {
-              setEditing(!editing);
-            }}
-          />
-          <Button>Bill Client</Button>
+          <BottomWrapper>
+            <Button
+              label={`${!editing ? 'Edit Client' : 'Cancel Editing'}`}
+              background='#ECF3FF'
+              color='#0364FF'
+              showicon
+              icon='bi bi-pen-fill'
+              disabled={editing}
+              onClick={() => {
+                setEditing(!editing);
+              }}
+            />
+            <Button>Bill Client</Button>
+          </BottomWrapper>
         </HeadWrapper>
         <form onSubmit={handleSubmit(submit)}>
           <ToastContainer theme='colored' />
