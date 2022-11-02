@@ -21,7 +21,7 @@ export default function ModuleList({ handlecloseModal }) {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
 
-  const { state } = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   let draftDoc = {};
   draftDoc = state.EmployeeModule.selectedEmployee;
@@ -112,7 +112,7 @@ export default function ModuleList({ handlecloseModal }) {
       ...prevstate,
       ModuleList: newModuleList,
     }));
-    //console.log(state)
+    console.log(state);
   };
   return (
     <>
