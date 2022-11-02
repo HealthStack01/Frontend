@@ -104,7 +104,13 @@ export function ClientCreate() {
   const [facility, setFacility] = useState();
   const ClientServ = client.service('client');
   const mpiServ = client.service('mpi');
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
+
+  // use local storage
+
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
+
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
@@ -567,7 +573,12 @@ export function ClientList({ showModal }) {
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
+
+  // end
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);

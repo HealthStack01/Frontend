@@ -73,13 +73,16 @@ const ClientView = ({ user }) => {
               </span>
             </div>
             <Button
-              label='Edit Client'
+              label={`${editing ? 'Edit Client' : 'Cancel Editing'}`}
               background='#ECF3FF'
               color='#0364FF'
               showicon
               icon='bi bi-pen-fill'
               disabled={editing}
-              onClick={() => setEditing(true)}
+              onClick={() => {
+                setEditing(!editing);
+                reset();
+              }}
             />
           </HeadWrapper>
 
