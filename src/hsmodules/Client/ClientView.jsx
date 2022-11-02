@@ -383,9 +383,11 @@ const ClientView = ({ open, setOpen, user }) => {
               )}
             </GridWrapper>
           </DetailsWrapper>
-          <BottomWrapper>
-            <Button label='Save Form' type='submit' loading={loading} />
-          </BottomWrapper>
+          {editing && (
+            <BottomWrapper>
+              <Button label='Save Form' type='submit' loading={loading} />
+            </BottomWrapper>
+          )}
         </form>
       </GrayWrapper>
     </PageWrapper>
