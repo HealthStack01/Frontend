@@ -100,6 +100,21 @@ function Login() {
                 />
               </FormGroup>
             </FormControl>
+            <p>
+              Forgot password?
+              <Link
+                className='nav-link'
+                style={{
+                  padding: '0',
+                  background: 'transparent',
+                  color: 'blue',
+                  marginLeft: '0.6rem',
+                }}
+                to='/forgot-password'
+              >
+                Click here
+              </Link>
+            </p>
             <Button
               type='submit'
               label='Login'

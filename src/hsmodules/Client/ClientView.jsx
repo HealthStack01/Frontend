@@ -59,6 +59,21 @@ const ClientView = ({ open, setOpen, user }) => {
       facility: data.currentEmployee.facility,
     });
   }, []);
+
+  const handleDelete = async () => {
+    let conf = window.confirm('Are you sure you want to delete this data?');
+    const dleteId = user._id;
+    if (conf) {
+      ClientServ.remove(dleteId)
+        .then(res => {
+          toast.success(`Client successfully deleted!`);
+        })
+        .catch(err => {
+          toast.error(`Sorry, Unable to delete client. ${err}`);
+        });
+    }
+  };
+
   const submit = async (data, e) => {
     setLoading(true);
     e.preventDefault();
@@ -66,7 +81,7 @@ const ClientView = ({ open, setOpen, user }) => {
 
     await ClientServ.patch(user._id, data)
       .then(res => {
-        toast.success(`Client successfully updated`);
+        toast.success(`Client successfully updated!`);
 
         setLoading(false);
       })
@@ -89,7 +104,12 @@ const ClientView = ({ open, setOpen, user }) => {
             </span>
           </div>
           <BottomWrapper>
-            <Button label='Delete User' background='#FFE9E9' color='#ED0423' />
+            <Button
+              label='Delete User'
+              background='#FFE9E9'
+              color='#ED0423'
+              onClick={() => handleDelete()}
+            />
 
             <Button
               label={`${!editing ? 'Edit Client' : 'Cancel Editing'}`}
