@@ -67,7 +67,9 @@ export default function Location() {
           </ModalBox>
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <LocationDetail showModifyModal={handleModifyModal} />
+            <div style={{ width: "50vw" }}>
+              <LocationDetail showModifyModal={handleModifyModal} />
+            </div>
           </ModalBox>
           <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
             <LocationModify />
@@ -228,7 +230,7 @@ export function LocationCreate() {
             </div>
             <Button
               type="submit"
-              onClick={handleSubmit(onSubmit)}
+              onClick={onSubmit}
               style={{
                 backgroundColor: "#0364FF",
                 width: "100px",
@@ -552,6 +554,34 @@ export function LocationDetail({ showModifyModal }) {
         });
       });
   };
+  const LocationDetailSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "sn",
+      sortable: true,
+      selector: (row) => row.sn,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Type",
+      key: "typeName",
+      description: " Enter typeName",
+      selector: (row) => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Name",
+      key: "key",
+      description: "Enter name ",
+      selector: (row) => row.typeName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
@@ -661,31 +691,15 @@ export function LocationDetail({ showModifyModal }) {
               </div>
               {Location.sublocations?.length > 0 && (
                 <div>
-                  <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                    <thead>
-                      <tr>
-                        <th>
-                          <abbr title="Serial No">S/No</abbr>
-                        </th>
-                        <th>
-                          <abbr title="Type">Type</abbr>
-                        </th>
-                        <th>
-                          <abbr title="Name">Name</abbr>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tfoot></tfoot>
-                    <tbody>
-                      {Location.sublocations?.map((ProductEntry, i) => (
-                        <tr key={i}>
-                          <th>{i + 1}</th>
-                          <td>{ProductEntry.type}</td>
-                          <td>{ProductEntry.typeName}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <CustomTable
+                    title={""}
+                    columns={LocationDetailSchema}
+                    data={Location.sublocations}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    progressPending={false}
+                  />
                 </div>
               )}
             </>
