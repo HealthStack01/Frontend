@@ -125,7 +125,7 @@ function Login() {
 
           <div className='bottom-center'>
             <p>or continue with</p>
-            <a href=''>
+            <a href='#'>
               <i className='bi bi-google' />
             </a>
             <a href=''>

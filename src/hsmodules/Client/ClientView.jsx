@@ -18,8 +18,9 @@ import {
   HeadWrapper,
   PageWrapper,
 } from '../app/styles';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { createClientSchema } from './schema';
+import ModalBox from '../../components/new-modal';
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service('client');
@@ -38,15 +39,17 @@ const ClientView = ({ open, setOpen, user }) => {
     resolver: yupResolver(createClientSchema),
 
     defaultValues: {
-      firstname: user.firstname,
-      lastname: user.lastname,
-      middlename: user.middlename,
-      dob: dayjs(user.dob).format('YYYY-MM-DD'),
-      phone: user.phone,
-      email: user.email,
-      facility: data.currentEmployee.facility,
+      firstname: user?.firstname,
+      lastname: user?.lastname,
+      middlename: user?.middlename,
+      dob: dayjs(user?.dob).format('YYYY-MM-DD'),
+      phone: user?.phone,
+      email: user?.email,
+      facility: data?.currentEmployee.facility,
     },
   });
+
+  console.log('Selected User>>>>>>', user);
 
   useEffect(() => {
     reset({
@@ -90,6 +93,7 @@ const ClientView = ({ open, setOpen, user }) => {
         setLoading(false);
       });
 
+    setOpen(false);
     setLoading(false);
   };
 
@@ -100,7 +104,7 @@ const ClientView = ({ open, setOpen, user }) => {
           <div>
             <h2>Client Detail</h2>
             <span>
-              Client detail of {user.firstname} {user.lastname}
+              Client detail of {user?.firstname} {user?.lastname}
             </span>
           </div>
           <BottomWrapper>
@@ -133,7 +137,7 @@ const ClientView = ({ open, setOpen, user }) => {
           <DetailsWrapper title='Names'>
             <GridWrapper>
               {!editing ? (
-                <ViewText label='First Name' text={user.firstname} />
+                <ViewText label='First Name' text={user?.firstname} />
               ) : (
                 <Input
                   label='First Name'
@@ -142,7 +146,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Middle Name' text={user.middlename} />
+                <ViewText label='Middle Name' text={user?.middlename} />
               ) : (
                 <Input
                   label='Midle Name'
@@ -151,7 +155,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Last Name' text={user.lastname} />
+                <ViewText label='Last Name' text={user?.lastname} />
               ) : (
                 <Input
                   label='Last Name'
@@ -162,13 +166,13 @@ const ClientView = ({ open, setOpen, user }) => {
               {!editing ? (
                 <ViewText
                   label='Date of Birth'
-                  text={dayjs(user.dob).format('YYYY/MM/DD')}
+                  text={dayjs(user?.dob).format('YYYY/MM/DD')}
                 />
               ) : (
                 <BasicDatePicker
                   label='dob'
                   register={register('dob')}
-                  defaultValue={dayjs(user.dob).format('YYYY/MM/DD')}
+                  defaultValue={dayjs(user?.dob).format('YYYY/MM/DD')}
                   // errorText={errors?.dob?.message}
                 />
               )}
@@ -179,7 +183,7 @@ const ClientView = ({ open, setOpen, user }) => {
           <DetailsWrapper title='Biodata'>
             <GridWrapper>
               {!editing ? (
-                <ViewText label='Gender' text={user.gender} />
+                <ViewText label='Gender' text={user?.gender} />
               ) : (
                 <CustomSelect
                   label='Gender'
@@ -192,7 +196,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Marital Status' text={user.maritalstatus} />
+                <ViewText label='Marital Status' text={user?.maritalstatus} />
               ) : (
                 <CustomSelect
                   label='Marital Status'
@@ -205,7 +209,7 @@ const ClientView = ({ open, setOpen, user }) => {
               )}
 
               {!editing ? (
-                <ViewText label='Medical record Number' text={user.mrn} />
+                <ViewText label='Medical record Number' text={user?.mrn} />
               ) : (
                 <Input
                   label='Medical record Number'
@@ -213,18 +217,18 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Religion' text={user.religion} />
+                <ViewText label='Religion' text={user?.religion} />
               ) : (
                 <Input label='Religion' register={register('religion')} />
               )}
 
               {!editing ? (
-                <ViewText label='Profession' text={user.profession} />
+                <ViewText label='Profession' text={user?.profession} />
               ) : (
                 <Input label='Profession' register={register('profession')} />
               )}
               {!editing ? (
-                <ViewText label='Phone Number' text={user.phone} />
+                <ViewText label='Phone Number' text={user?.phone} />
               ) : (
                 <Input
                   label='Phone Number'
@@ -233,7 +237,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Email' text={user.email} />
+                <ViewText label='Email' text={user?.email} />
               ) : (
                 <Input
                   label='Email'
@@ -242,7 +246,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Tags' text={user.clientTags} />
+                <ViewText label='Tags' text={user?.clientTags} />
               ) : (
                 <Input
                   label='Tags'
@@ -256,7 +260,7 @@ const ClientView = ({ open, setOpen, user }) => {
           <DetailsWrapper title='Address'>
             <GridWrapper>
               {!editing ? (
-                <ViewText label='Residential Address' text={user.address} />
+                <ViewText label='Residential Address' text={user?.address} />
               ) : (
                 <Input
                   label='Residential Address'
@@ -264,13 +268,13 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Town/City' text={user.city} />
+                <ViewText label='Town/City' text={user?.city} />
               ) : (
                 <Input label='Town/City' register={register('city')} />
               )}
 
               {!editing ? (
-                <ViewText label='Local Government Area' text={user.lga} />
+                <ViewText label='Local Government Area' text={user?.lga} />
               ) : (
                 <Input
                   label='Local Government Area'
@@ -279,13 +283,13 @@ const ClientView = ({ open, setOpen, user }) => {
               )}
 
               {!editing ? (
-                <ViewText label='State' text={user.state} />
+                <ViewText label='State' text={user?.state} />
               ) : (
                 <Input label='State' register={register('state')} />
               )}
 
               {!editing ? (
-                <ViewText label='Country' text={user.country} />
+                <ViewText label='Country' text={user?.country} />
               ) : (
                 <Input label='Country' register={register('country')} />
               )}
@@ -295,18 +299,18 @@ const ClientView = ({ open, setOpen, user }) => {
           <DetailsWrapper title='Medical Data'>
             <GridWrapper>
               {!editing ? (
-                <ViewText label='Blood Group' text={user.bloodgroup} />
+                <ViewText label='Blood Group' text={user?.bloodgroup} />
               ) : (
                 <Input label='Blood Group' register={register('bloodgroup')} />
               )}
 
               {!editing ? (
-                <ViewText label='Genotype' text={user.genotype} />
+                <ViewText label='Genotype' text={user?.genotype} />
               ) : (
                 <Input label='Genotype' register={register('genotype')} />
               )}
               {!editing ? (
-                <ViewText label='Disabilities' text={user.disabilities} />
+                <ViewText label='Disabilities' text={user?.disabilities} />
               ) : (
                 <Input
                   label='Disabilities'
@@ -314,12 +318,12 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Allergies' text={user.allergies} />
+                <ViewText label='Allergies' text={user?.allergies} />
               ) : (
                 <Input label='Allergies' register={register('allergies')} />
               )}
               {!editing ? (
-                <ViewText label='Co-mobidities' text={user.comorbidities} />
+                <ViewText label='Co-mobidities' text={user?.comorbidities} />
               ) : (
                 <Input
                   label='Co-mobidities'
@@ -329,7 +333,7 @@ const ClientView = ({ open, setOpen, user }) => {
               {!editing ? (
                 <ViewText
                   label='Specific Details about patient'
-                  text={user.specificDetails}
+                  text={user?.specificDetails}
                 />
               ) : (
                 <Input
@@ -343,7 +347,7 @@ const ClientView = ({ open, setOpen, user }) => {
           <DetailsWrapper title='Next of Kin Information'>
             <GridWrapper>
               {!editing ? (
-                <ViewText label='Next of Kin Full Name' text={user.nok_name} />
+                <ViewText label='Next of Kin Full Name' text={user?.nok_name} />
               ) : (
                 <Input
                   label='Next of Kin Full Name'
@@ -354,7 +358,7 @@ const ClientView = ({ open, setOpen, user }) => {
               {!editing ? (
                 <ViewText
                   label='Next of Kin Phone Number'
-                  text={user.nok_phoneno}
+                  text={user?.nok_phoneno}
                 />
               ) : (
                 <Input
@@ -364,7 +368,7 @@ const ClientView = ({ open, setOpen, user }) => {
               )}
 
               {!editing ? (
-                <ViewText label='Next of Kin Email' text={user.email} />
+                <ViewText label='Next of Kin Email' text={user?.email} />
               ) : (
                 <Input
                   label='Next of Kin Email'
@@ -374,7 +378,7 @@ const ClientView = ({ open, setOpen, user }) => {
               {!editing ? (
                 <ViewText
                   label='Next of Kin Relationship'
-                  text={user.nok_relationship}
+                  text={user?.nok_relationship}
                 />
               ) : (
                 <Input
@@ -383,7 +387,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 />
               )}
               {!editing ? (
-                <ViewText label='Co-mobidities' text={user.comorbidities} />
+                <ViewText label='Co-mobidities' text={user?.comorbidities} />
               ) : (
                 <Input
                   label='Co-mobidities'
@@ -393,7 +397,7 @@ const ClientView = ({ open, setOpen, user }) => {
               {!editing ? (
                 <ViewText
                   label='Specific Details about patient'
-                  text={user.specificDetails}
+                  text={user?.specificDetails}
                 />
               ) : (
                 <Input

@@ -773,11 +773,13 @@ export function ClientList({ showModal }) {
     <>
       {user ? (
         <>
-          <Portal>
-            <ModalBox open={open} onClose={handleCloseModal}>
-              <ClientView user={selectedUser} />
-            </ModalBox>
-          </Portal>
+          <ModalBox open={open} onClose={handleCloseModal}>
+            <ClientView
+              user={selectedUser}
+              open={open}
+              setOpen={handleCloseModal}
+            />
+          </ModalBox>
           <PageWrapper
             style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
