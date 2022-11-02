@@ -9,11 +9,20 @@ import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 var random = require("random-string-generator");
+
+import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import Divider from "@mui/material/Divider";
+import Input from "./ui-components/inputs/basic/Input";
+import Button from "@mui/material/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Typography from "@mui/material/Typography";
+import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function ReportCreate() {
-  // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit,setValue} = useForm(); /* watch, errors, reset */
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -827,6 +836,119 @@ export default function ReportCreate() {
 
     //2.4 mark bills as paid
   };
+
+  // const createReportSchema = [
+  //   {
+  //     name: "S/NO",
+  //     key: "sn",
+  //     description: "SN",
+  //     selector: row => row.sn,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "HIDDEN",
+  //   },
+  //   {
+  //     name: "Date",
+  //     key: "date",
+  //     description: "Enter Date",
+  //     selector: row => row.createdAt,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Category",
+  //     key: "category",
+  //     description: "Enter Category",
+  //     selector: row => row.category,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Name",
+  //     key: "name",
+  //     description: "Enter Name",
+  //     selector: row => row.name,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Quantity",
+  //     key: "quantity",
+  //     description: "Enter Quantity",
+  //     selector: row => row.quantity,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Unit",
+  //     key: "baseunit",
+  //     description: "Enter Unit",
+  //     selector: row => row.baseunit,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Selling Price",
+  //     key: "sellingprice",
+  //     description: "Enter selling price",
+  //     selector: row => row.sellingprice,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Amount",
+  //     key: "amount",
+  //     description: "Enter Amount",
+  //     selector: row => row.amount,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Mode",
+  //     key: "billMode",
+  //     description: "Enter Bill mode",
+  //     selector: row => row.billMode.type,
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  //   {
+  //     name: "Action",
+  //     key: "name",
+  //     description: "Enter Name",
+  //     selector: row => (
+  //       <Button
+  //         color="error"
+  //         className="button is-info is-small"
+  //         sx={{
+  //           background: "none",
+  //           //color: "red",
+  //           fontSize: "0.75rem",
+  //           borderRadius: "2px",
+  //           padding: "0.27rem 1rem",
+  //           border: "none",
+  //           cursor: "pointer",
+  //           textTransform: "capitalize",
+  //         }}
+  //         onClick={() => {
+  //           handleRemoveBill(row);
+  //         }}
+  //       >
+  //         Delete
+  //       </Button>
+  //     ),
+  //     sortable: true,
+  //     required: true,
+  //     inputType: "TEXT",
+  //   },
+  // ];
   // console.log("simpa")
   return (
     <>
