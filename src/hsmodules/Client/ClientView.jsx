@@ -21,7 +21,7 @@ import {
 import dayjs, { Dayjs } from 'dayjs';
 import { createClientSchema } from './schema';
 
-const ClientView = ({ user }) => {
+const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service('client');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -89,6 +89,8 @@ const ClientView = ({ user }) => {
             </span>
           </div>
           <BottomWrapper>
+            <Button label='Delete User' background='#FFE9E9' color='#ED0423' />
+
             <Button
               label={`${!editing ? 'Edit Client' : 'Cancel Editing'}`}
               background='#ECF3FF'
@@ -382,12 +384,6 @@ const ClientView = ({ user }) => {
             </GridWrapper>
           </DetailsWrapper>
           <BottomWrapper>
-            <Button
-              label='Clear Form'
-              background='#FFE9E9'
-              color='#ED0423'
-              onClick={() => reset()}
-            />
             <Button label='Save Form' type='submit' loading={loading} />
           </BottomWrapper>
         </form>
