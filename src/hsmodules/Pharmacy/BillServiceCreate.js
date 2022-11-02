@@ -962,7 +962,7 @@ export default function BillServiceCreate({closeModal}) {
                 >
                   <CustomSelect
                     options={paymentOptions}
-                    defaultValue={"select mode"}
+                    defaultValue={paymentmode}
                     value={paymentmode}
                     onChange={handleChangeMode}
                   />

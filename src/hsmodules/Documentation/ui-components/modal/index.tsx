@@ -13,14 +13,13 @@ interface ModalProps {
 }
 const style = {
   minWidth: "400px",
-  maxWidth: "95vw",
   minHeight: "400px",
+  maxWidth: "90vw",
   maxHeight: "100%",
   bgcolor: "#FAFAFA",
   boxShadow: 24,
   p: 4,
   borderRadius: "6px",
-  overflow: "hidden",
   //minWidth: "100px !important",
 };
 
@@ -64,7 +63,6 @@ const ModalBox: React.FC<ModalProps> = ({
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
-              mb={2}
             >
               <h1
                 style={{

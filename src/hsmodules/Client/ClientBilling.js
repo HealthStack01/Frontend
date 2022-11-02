@@ -5,59 +5,98 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import {toast} from "bulma-toast";
-// eslint-disable-next-line
-const searchfacility = {};
-
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
-import {Box, Checkbox} from "@mui/material";
-import {TableMenu} from "../../ui/styled/global";
+import ModalBox from "./ui-components/modal";
+// eslint-disable-next-line
+const searchfacility = {};
 
-export default function EndEncounter() {
+export default function Bands() {
+  console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
   // eslint-disable-next-line
-  const [selectedDocumentClass, setSelectedDocumentClass] = useState();
+  const [selectedBand, setSelectedBand] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
 
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
+  };
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">DocumentClass  Module</span></div>
+            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        {/*  <div className="column is-8 "> */}
-        <EndEncounterList />
-        {/* </div> */}
-        {/*  <div className="column is-4 ">
-                {(state.DocumentClassModule.show ==='create')&&<EndEncounterCreate />}
-                {(state.DocumentClassModule.show ==='detail')&&<EndEncounterDetail  />}
-                {(state.DocumentClassModule.show ==='modify')&&<EndEncounterModify DocumentClass={selectedDocumentClass} />}
-               
-            </div> */}
+        <BandList
+          showCreateModal={handleCreateModal}
+          showDetailModal={handleShowDetailModal}
+        />
+        <ModalBox open={createModal} onClose={handleHideCreateModal}>
+          <BandCreate />
+        </ModalBox>
+
+        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+          <BandDetail showModifyModal={handleModifyModal} />
+        </ModalBox>
+
+        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+          <BandModify />
+        </ModalBox>
       </div>
     </section>
   );
 }
 
-export function EndEncounterCreate() {
+export function BandCreate() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const DocumentClassServ = client.service("documentclass");
+  const BandServ = client.service("bands");
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
+  const bandTypeOptions = [
+    "Provider",
+    "Company",
+    "Patient",
+    "Plan",
+    "Corporate Sponsor",
+  ];
+
+  //corporate sponsors pay premium and not claims
+  //company pays claims and not premium
 
   const getSearchfacility = obj => {
-    // buble-up from inputsearch for creating resource
-
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -72,9 +111,9 @@ export function EndEncounterCreate() {
 
   //check user for facility or get list of facility
   useEffect(() => {
-    //setFacility(user.activeDocumentClass.FacilityId)//
+    //setFacility(user.activeBand.FacilityId)//
     if (!user.stacker) {
-      // console.log(currentUser)
+      console.log(currentUser);
       setValue("facility", user.currentEmployee.facilityDetail._id, {
         shouldValidate: true,
         shouldDirty: true,
@@ -84,6 +123,10 @@ export function EndEncounterCreate() {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
+    if (data.bandType === "") {
+      alert("Kindly choose band type");
+      return;
+    }
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -92,15 +135,14 @@ export function EndEncounterCreate() {
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
-    data.locationType = "DocumentClass";
-    DocumentClassServ.create(data)
+    BandServ.create(data)
       .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        /*  setMessage("Created DocumentClass successfully") */
+        /*  setMessage("Created Band successfully") */
         setSuccess(true);
         toast({
-          message: "DocumentClass created succesfully",
+          message: "Band created succesfully",
           type: "is-success",
           dismissible: true,
           pauseOnHover: true,
@@ -109,7 +151,7 @@ export function EndEncounterCreate() {
       })
       .catch(err => {
         toast({
-          message: "Error creating DocumentClass " + err,
+          message: "Error creating Band " + err,
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
@@ -121,25 +163,91 @@ export function EndEncounterCreate() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create DocumentClass</p>
+          <p className="card-header-title">Create Band</p>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
+            {/*  <div className="field">
+                    <p className="control has-icons-left has-icons-right">
+                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-hospital"></i>
+                        </span>                    
+                    </p>
+                </div> */}
+            <div className="field">
+              <div className="control">
+                <div className="select is-small ">
+                  <select
+                    name="bandType"
+                    {...register("bandtype", {required: true})}
+                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
+                  >
+                    <option value="">Choose Band Type </option>
+                    {bandTypeOptions.map((option, i) => (
+                      <option key={i} value={option}>
+                        {" "}
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("name", {required: true})}
                   name="name"
                   type="text"
-                  placeholder="Name of DocumentClass"
+                  placeholder="Name of Band"
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-map-signs"></i>
                 </span>
               </p>
             </div>
-
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <input
+                  className="input is-small"
+                  {...register("description", {required: true})}
+                  name="description"
+                  type="text"
+                  placeholder="Description of Band"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-map-signs"></i>
+                </span>
+              </p>
+            </div>
+            {/*  <div className="field">
+                <p className="control has-icons-left">
+                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
+                    <span className="icon is-small is-left">
+                    <i className=" fas fa-user-md "></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field">
+                <p className="control has-icons-left">
+                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>
+                </p>
+            </div>
+           
+            <div className="field">
+                <p className="control has-icons-left">
+                
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>
+                </p>
+            </div> */}
             <div
               className="field"
               style={!user.stacker ? {display: "none"} : {}}
@@ -151,7 +259,7 @@ export function EndEncounterCreate() {
               <p className="control has-icons-left " style={{display: "none"}}>
                 <input
                   className="input is-small"
-                  ref={register({required: true})}
+                  {...register("facility", {required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -161,7 +269,50 @@ export function EndEncounterCreate() {
                 </span>
               </p>
             </div>
-
+            {/*  <div className="field">
+                <div className="control has-icons-left">
+                    <div className="dropdown ">
+                        <div className="dropdown-trigger">
+                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
+                            <span className="icon is-small is-left">
+                            <i className="fas fa-hospital-symbol"></i>
+                            </span>
+                        </div>
+                        <div className="dropdown-menu">
+                            <div className="dropdown-content">
+                                <div className="dropdown-item">
+                                    simpa
+                                </div>
+                                <div className="dropdown-item is-active">
+                                    simpa 2
+                                </div>
+                                <div className="dropdown-item">
+                                    simpa 3
+                                </div>
+                                <div className="dropdown-item">
+                                    simpa 4
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                </div>
+            </div>
+            <div className="field">
+                <p className="control has-icons-left">
+                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>
+                </p>
+            </div>
+            <div className="field">
+                <p className="control has-icons-left">
+                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
+                    <span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>
+                </p>
+            </div> */}
             <div className="field">
               <p className="control">
                 <button className="button is-success is-small">Create</button>
@@ -174,7 +325,7 @@ export function EndEncounterCreate() {
   );
 }
 
-export function EndEncounterList({standalone, closeModal}) {
+export function BandList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -182,246 +333,223 @@ export function EndEncounterList({standalone, closeModal}) {
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
-  // const DocumentClassServ=client.service('documentclass')
+  const BandServ = client.service("bands");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+
+  const [loading, setLoading] = useState([]);
   // eslint-disable-next-line
-  const [selectedEndEncounter, setSelectedEndEncounter] = useState(); //
+  const [selectedBand, setSelectedBand] = useState(); //
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
-  const endEncounterOptions = [
-    "Continue Management",
-    "Set Next Appointment",
-    "Discharge",
-    "Admit to Ward",
-    "Refer",
-    "Dead",
-  ];
 
   const handleCreateNew = async () => {
-    const newDocumentClassModule = {
-      selectedDocumentClass: {},
+    const newBandModule = {
+      selectedBand: {},
       show: "create",
     };
     await setState(prevstate => ({
       ...prevstate,
-      DocumentClassModule: newDocumentClassModule,
+      BandModule: newBandModule,
     }));
     //console.log(state)
   };
-  const handleRow = async item => {
+  const handleRow = async Band => {
     //console.log("b4",state)
 
-    //console.log("handlerow",DocumentClass)
-    const DocumentClass = item.item;
+    //console.log("handlerow",Band)
 
-    await setSelectedEndEncounter(DocumentClass);
+    await setSelectedBand(Band);
 
-    const newDocumentClassModule = {
-      selectedEndEncounter: DocumentClass,
+    const newBandModule = {
+      selectedBand: Band,
       show: "detail",
     };
     await setState(prevstate => ({
       ...prevstate,
-      EndEncounterModule: newDocumentClassModule,
+      BandModule: newBandModule,
     }));
     //console.log(state)
-
-    // const expr = 'Papayas';
-
-    closeModal();
+    showDetailModal();
   };
 
   const handleSearch = val => {
     const field = "name";
     console.log(val);
-    DocumentClassServ.find({
+    BandServ.find({
       query: {
         [field]: {
           $regex: val,
           $options: "i",
         },
-        facility: user.currentEmployee.facilityDetail._id,
-        /* locationType:"DocumentClass", */
-        $limit: 10,
+        facility: user.currentEmployee.facilityDetail._id || "",
+        $limit: 100,
         $sort: {
-          name: 1,
+          createdAt: -1,
         },
       },
     })
       .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" DocumentClass  fetched successfully");
+        setMessage(" Band  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
         console.log(err);
-        setMessage(
-          "Error fetching DocumentClass, probable network issues " + err
-        );
+        setMessage("Error fetching Band, probable network issues " + err);
         setError(true);
       });
   };
 
   const getFacilities = async () => {
+    console.log(user);
+    setLoading(true);
     if (user.currentEmployee) {
-      const findDocumentClass = await DocumentClassServ.find({
+      console.log(user);
+
+      const findBand = await BandServ.find({
         query: {
-          /* locationType:"DocumentClass",*/
           facility: user.currentEmployee.facilityDetail._id,
-          $limit: 20,
+          $limit: 200,
           $sort: {
-            name: 1,
+            createdAt: -1,
           },
         },
       });
 
-      await setFacilities(findDocumentClass.data);
+      await setFacilities(findBand.data);
+      setLoading(false);
     } else {
       if (user.stacker) {
-        const findDocumentClass = await DocumentClassServ.find({
+        const findBand = await BandServ.find({
           query: {
-            /*  locationType:"DocumentClass", */
-            $limit: 20,
+            $limit: 200,
             $sort: {
-              name: 1,
+              facility: -1,
             },
           },
         });
 
-        await setFacilities(findDocumentClass.data);
+        await setFacilities(findBand.data);
       }
     }
     /*   .then((res)=>{
                 console.log(res)
                     setFacilities(res.data)
-                    setMessage(" DocumentClass  fetched successfully")
+                    setMessage(" Band  fetched successfully")
                     setSuccess(true)
                 })
                 .catch((err)=>{
-                    setMessage("Error creating DocumentClass, probable network issues "+ err )
+                    setMessage("Error creating Band, probable network issues "+ err )
                     setError(true)
                 }) */
   };
 
   useEffect(() => {
-    switch (selectedEndEncounter) {
-      case "Continue Present Management":
-        console.log("Oranges are $0.59 a pound.");
-        break;
-      case "Set Next Appointment":
-        break;
-      case "Discharge":
-        console.log("Mangoes and papayas are $2.79 a pound.");
-        // expected output: "Mangoes and papayas are $2.79 a pound."
-        break;
-      case "Admit to Ward":
-        //alert("Admit now!")
-        /*  await setSelectedEndEncounter(DocumentClass)
-
-                const    newDocumentClassModule={
-                    selectedEndEncounter:DocumentClass,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, EndEncounterModule:newDocumentClassModule}))
-               //console.log(state) */
-
-        break;
-      case "Refer":
-        break;
-      case "Patient Died":
-        console.log("Mangoes and papayas are $2.79 a pound.");
-        // expected output: "Mangoes and papayas are $2.79 a pound."
-        break;
-      default:
-        console.log(`Sorry, we are out of `);
+    if (user) {
+      getFacilities();
+    } else {
+      /* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
     }
-    /*  getFacilities()
-            
-            DocumentClassServ.on('created', (obj)=>getFacilities())
-            DocumentClassServ.on('updated', (obj)=>getFacilities())
-            DocumentClassServ.on('patched', (obj)=>getFacilities())
-            DocumentClassServ.on('removed', (obj)=>getFacilities()) */
+    BandServ.on("created", obj => getFacilities());
+    BandServ.on("updated", obj => getFacilities());
+    BandServ.on("patched", obj => getFacilities());
+    BandServ.on("removed", obj => getFacilities());
     return () => {};
-  }, [selectedEndEncounter]);
+  }, []);
 
   //todo: pagination and vertical scroll bar
-
-  const classListSchema = [
+  const BandSchema = [
     {
       name: "S/N",
       key: "_id",
-      selector: row => row.sn,
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Options",
+      name: "Name of Band",
       key: "name",
       description: "Enter name of band",
-      selector: row => row.item,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
+    {
+      name: "Band Type",
+      key: "bandType",
+      description: "Enter name of band",
+      selector: row => row.bandType,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+      options: ["Provider", "Company", "Patient", "Plan"],
+    },
+    {
+      name: "Description of Band",
+      key: "description",
+      description: "Enter description of band",
+      selector: row => row.description,
+      sortable: true,
+      required: false,
+      inputType: "TEXT",
+    },
   ];
-
-  const newEncounterOptions = endEncounterOptions.map((item, i) => {
-    return {
-      item: item,
-      sn: i + 1,
-    };
-  });
 
   return (
     <>
-      {user ? (
+      {facilities ? (
         <>
-          <Box
-            sx={{
-              width: "40vw",
-            }}
-          >
-            {/* <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
-                {handleSearch && (
-                  <div className="inner-table">
-                    <FilterMenu onSearch={e => handleSearch(e.target.value)} />
-                  </div>
+          <div className="level">
+            <PageWrapper
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            >
+              <TableMenu>
+                <div style={{display: "flex", alignItems: "center"}}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                    List of Bands
+                  </h2>
+                </div>
+
+                {handleCreateNew && (
+                  <Button
+                    style={{fontSize: "14px", fontWeight: "600"}}
+                    label="Add new "
+                    onClick={showCreateModal}
+                  />
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                  List of Charts
-                </h2>
-              </div>
+              </TableMenu>
 
-              {!standalone && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={handleCreateNew}
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+                <CustomTable
+                  title={""}
+                  columns={BandSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
                 />
-              )}
-            </TableMenu> */}
-
-            <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
-              <CustomTable
-                title={""}
-                columns={classListSchema}
-                data={newEncounterOptions}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={handleRow}
-                progressPending={false}
-                //selectableRowsComponent={Checkbox}
-              />
-            </div>
-          </Box>
+              </div>
+            </PageWrapper>
+          </div>
         </>
       ) : (
         <div>loading</div>
@@ -430,39 +558,38 @@ export function EndEncounterList({standalone, closeModal}) {
   );
 }
 
-export function EndEncounterDetail() {
+export function BandDetail({showModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
   const [message, setMessage] = useState(""); //,
-  //const DocumentClassServ=client.service('/DocumentClass')
+  //const BandServ=client.service('/Band')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
   const {state, setState} = useContext(ObjectContext);
 
-  const DocumentClass = state.DocumentClassModule.selectedDocumentClass;
+  const Band = state.BandModule.selectedBand;
 
   const handleEdit = async () => {
-    const newDocumentClassModule = {
-      selectedDocumentClass: DocumentClass,
+    const newBandModule = {
+      selectedBand: Band,
       show: "modify",
     };
     await setState(prevstate => ({
       ...prevstate,
-      DocumentClassModule: newDocumentClassModule,
+      BandModule: newBandModule,
     }));
     //console.log(state)
+    showModifyModal();
   };
-
-  const handleCreateForm = async () => {};
 
   return (
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">DocumentClass Details</p>
+          <p className="card-header-title">Band Details</p>
         </div>
         <div className="card-content vscrollable">
           <table>
@@ -480,15 +607,96 @@ export function EndEncounterDetail() {
                 <td>
                   <span className="is-size-7 padleft" name="name">
                     {" "}
-                    {DocumentClass.name}{" "}
+                    {Band.name}{" "}
                   </span>
                 </td>
               </tr>
-              <tr></tr>
+              <tr>
+                <td>
+                  <label className="label is-small">
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-map-signs"></i>
+                    </span>
+                    Band Type:
+                  </label>
+                </td>
+                <td>
+                  <span className="is-size-7 padleft" name="BandType">
+                    {Band.bandType}{" "}
+                  </span>
+                </td>
+              </tr>
+              {/*   <tr>
+                    <td>
+            <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-map-marker-alt"></i>
+                    </span>Profession: 
+                
+                    
+                    </label>
+                    </td>
+                <td>
+                <span className="is-size-7 padleft "  name="BandCity">{Band.profession}</span> 
+                </td>
+                </tr>
+                    <tr>
+            <td>
+            <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-phone-alt"></i>
+                    </span>Phone:           
+                    
+                        </label>
+                        </td>
+                        <td>
+                        <span className="is-size-7 padleft "  name="BandContactPhone" >{Band.phone}</span>
+                        </td>
+                  </tr>
+                    <tr><td>
+            
+            <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                    </span>Email:                     
+                    
+                         </label></td><td>
+                         <span className="is-size-7 padleft "  name="BandEmail" >{Band.email}</span>
+                         </td>
+             
+                </tr>
+                    <tr>
+            <td>
+            <label className="label is-small"> <span className="icon is-small is-left">
+                    <i className="fas fa-user-md"></i></span>Department:
+                    
+                    </label></td>
+                    <td>
+                    <span className="is-size-7 padleft "  name="BandOwner">{Band.department}</span>
+                    </td>
+               
+                </tr>
+                    <tr>
+            <td>
+            <label className="label is-small"> <span className="icon is-small is-left">
+                    <i className="fas fa-hospital-symbol"></i>
+                    </span>Departmental Unit:              
+                    
+                </label></td>
+                <td>
+                <span className="is-size-7 padleft "  name="BandType">{Band.deptunit}</span>
+                </td>
+              
+                </tr> */}
+
+              {/*   <div className="field">
+             <label className="label is-small"><span className="icon is-small is-left">
+                    <i className="fas fa-clinic-medical"></i>
+                    </span>Category:              
+                    <span className="is-size-7 padleft "  name= "BandCategory">{Band.BandCategory}</span>
+                </label>
+                 </div> */}
             </tbody>
           </table>
 
-          <div className="field is-grouped mt-2">
+          <div className="field mt-2">
             <p className="control">
               <button
                 className="button is-success is-small"
@@ -497,11 +705,6 @@ export function EndEncounterDetail() {
                 Edit
               </button>
             </p>
-            {/* <p className="control">
-                    <button className="button is-info is-small" onClick={handleCreateForm}>
-                        Create Form
-                    </button>
-                </p> */}
           </div>
           {error && <div className="message"> {message}</div>}
         </div>
@@ -510,7 +713,7 @@ export function EndEncounterDetail() {
   );
 }
 
-export function EndEncounterModify() {
+export function BandModify() {
   const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -519,44 +722,44 @@ export function EndEncounterModify() {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
-  const DocumentClassServ = client.service("documentclass");
+  const BandServ = client.service("bands");
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const {user} = useContext(UserContext);
   const {state, setState} = useContext(ObjectContext);
 
-  const DocumentClass = state.DocumentClassModule.selectedDocumentClass;
+  const Band = state.BandModule.selectedBand;
 
   useEffect(() => {
-    setValue("name", DocumentClass.name, {
+    setValue("name", Band.name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("locationType", DocumentClass.locationType, {
+    setValue("bandType", Band.bandType, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    /*  setValue("profession", DocumentClass.profession,  {
+    /*  setValue("profession", Band.profession,  {
                 shouldValidate: true,
                 shouldDirty: true
             })
-            setValue("phone", DocumentClass.phone,  {
+            setValue("phone", Band.phone,  {
                 shouldValidate: true,
                 shouldDirty: true
             })
-            setValue("email", DocumentClass.email,  {
+            setValue("email", Band.email,  {
                 shouldValidate: true,
                 shouldDirty: true
             })
-            setValue("department", DocumentClass.department,  {
+            setValue("department", Band.department,  {
                 shouldValidate: true,
                 shouldDirty: true
             })
-            setValue("deptunit", DocumentClass.deptunit,  {
+            setValue("deptunit", Band.deptunit,  {
                 shouldValidate: true,
                 shouldDirty: true
             }) */
-    /*   setValue("DocumentClassCategory", DocumentClass.DocumentClassCategory,  {
+    /*   setValue("BandCategory", Band.BandCategory,  {
                 shouldValidate: true,
                 shouldDirty: true
             }) */
@@ -565,44 +768,41 @@ export function EndEncounterModify() {
   });
 
   const handleCancel = async () => {
-    const newDocumentClassModule = {
-      selectedDocumentClass: {},
-      show: "create",
+    const newBandModule = {
+      selectedBand: {},
+      show: "list",
     };
     await setState(prevstate => ({
       ...prevstate,
-      DocumentClassModule: newDocumentClassModule,
+      BandModule: newBandModule,
     }));
     //console.log(state)
   };
 
   const changeState = () => {
-    const newDocumentClassModule = {
-      selectedDocumentClass: {},
+    const newBandModule = {
+      selectedBand: {},
       show: "create",
     };
-    setState(prevstate => ({
-      ...prevstate,
-      DocumentClassModule: newDocumentClassModule,
-    }));
+    setState(prevstate => ({...prevstate, BandModule: newBandModule}));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
 
-    const dleteId = DocumentClass._id;
+    const dleteId = Band._id;
     if (conf) {
-      DocumentClassServ.remove(dleteId)
+      BandServ.remove(dleteId)
         .then(res => {
           //console.log(JSON.stringify(res))
           reset();
-          /*  setMessage("Deleted DocumentClass successfully")
+          /*  setMessage("Deleted Band successfully")
                 setSuccess(true)
                 changeState()
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: "DocumentClass deleted succesfully",
+            message: "Band deleted succesfully",
             type: "is-success",
             dismissible: true,
             pauseOnHover: true,
@@ -610,11 +810,10 @@ export function EndEncounterModify() {
           changeState();
         })
         .catch(err => {
-          // setMessage("Error deleting DocumentClass, probable network issues "+ err )
+          // setMessage("Error deleting Band, probable network issues "+ err )
           // setError(true)
           toast({
-            message:
-              "Error deleting DocumentClass, probable network issues or " + err,
+            message: "Error deleting Band, probable network issues or " + err,
             type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
@@ -632,16 +831,16 @@ export function EndEncounterModify() {
 
     setSuccess(false);
     console.log(data);
-    data.facility = DocumentClass.facility;
+    data.facility = Band.facility;
     //console.log(data);
 
-    DocumentClassServ.patch(DocumentClass._id, data)
+    BandServ.patch(Band._id, data)
       .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
-        // setMessage("updated DocumentClass successfully")
+        // setMessage("updated Band successfully")
         toast({
-          message: "DocumentClass updated succesfully",
+          message: "Band updated succesfully",
           type: "is-success",
           dismissible: true,
           pauseOnHover: true,
@@ -650,11 +849,10 @@ export function EndEncounterModify() {
         changeState();
       })
       .catch(err => {
-        //setMessage("Error creating DocumentClass, probable network issues "+ err )
+        //setMessage("Error creating Band, probable network issues "+ err )
         // setError(true)
         toast({
-          message:
-            "Error updating DocumentClass, probable network issues or " + err,
+          message: "Error updating Band, probable network issues or " + err,
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
@@ -666,7 +864,7 @@ export function EndEncounterModify() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">DocumentClass Details-Modify</p>
+          <p className="card-header-title">Band Details-Modify</p>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -688,17 +886,24 @@ export function EndEncounterModify() {
                 </p>
               </label>
             </div>
-            {/* <div className="field">
-                <label className="label is-small">Location Type
-                    <p className="control has-icons-left has-icons-right">
-                    <input className="input is-small " {...register("x",{required: true})} disabled name="DocumentClassType" type="text" placeholder="DocumentClass Type" />
-                    <span className="icon is-small is-left">
-                        <i className="fas fa-map-signs"></i>
-                    </span>
-                    
+            <div className="field">
+              <label className="label is-small">
+                Band Type
+                <p className="control has-icons-left has-icons-right">
+                  <input
+                    className="input is-small "
+                    {...register("x", {required: true})}
+                    disabled
+                    name="bandType"
+                    type="text"
+                    placeholder="Band Type"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-map-signs"></i>
+                  </span>
                 </p>
-                </label>
-                </div> */}
+              </label>
+            </div>
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
@@ -722,7 +927,7 @@ export function EndEncounterModify() {
             <div className="field">
             <label className="label is-small">Email
                 <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="DocumentClass Email"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Band Email"/>
                     <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                     </span>
@@ -753,9 +958,9 @@ export function EndEncounterModify() {
             {/*  <div className="field">
             <label className="label is-small">Category
                 <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="DocumentClassCategory" type="text" placeholder="DocumentClass Category"/>
+                    <input className="input is-small" {...register("x",{required: true})} name="BandCategory" type="text" placeholder="Band Category"/>
                     <span className="icon is-small is-left">
-                    <i className="fas fa-DocumentClass-medical"></i>
+                    <i className="fas fa-clinic-medical"></i>
                     </span>
                 </p>
                 </label>
@@ -780,11 +985,15 @@ export function EndEncounterModify() {
                 Cancel
               </button>
             </p>
-            {/* <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
+            <p className="control">
+              <button
+                className="button is-danger is-small"
+                onClick={() => handleDelete()}
+                type="delete"
+              >
+                Delete
+              </button>
+            </p>
           </div>
         </div>
       </div>
