@@ -56,7 +56,6 @@ const ClientForm = () => {
       .catch(err => {
         toast.error(`Sorry, You weren't able to create an client. ${err}`);
         setLoading(false);
-        console.log('>>>>>>', data);
       });
 
     setLoading(false);
