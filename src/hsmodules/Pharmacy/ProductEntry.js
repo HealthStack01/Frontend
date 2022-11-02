@@ -10,13 +10,13 @@ import {ProductCreate} from "./Products";
 import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import Input from "../../components/inputs/basic/Input";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "./ui-components/customtable";
-
+import CustomSelect from "../../components/inputs/basic/Select"
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "./ui-components/modal";
 import {Box} from "@mui/material";
@@ -26,6 +26,7 @@ const searchfacility = {};
 export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
+  
   const [selectedProductEntry, setSelectedProductEntry] = useState();
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
@@ -80,7 +81,7 @@ export default function ProductEntry() {
 }
 
 export function ProductEntryCreate() {
-  // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -101,6 +102,7 @@ export function ProductEntryCreate() {
   const [baseunit, setBaseunit] = useState("");
   const [quantity, setQuantity] = useState("");
   const [costprice, setCostprice] = useState("");
+  const [storeId , setStoreId]= useState("")
   const [productItem, setProductItem] = useState([]);
   const {state} = useContext(ObjectContext);
 
@@ -115,12 +117,18 @@ export function ProductEntryCreate() {
     })
   */
   const productItemI = {
+    type,
     productId,
     name,
     quantity,
     costprice,
-    amount: quantity * costprice,
+    source,
+    totalamount: quantity * costprice,
     baseunit,
+    date,
+    documentNo,
+    storeId
+
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
@@ -156,10 +164,20 @@ export function ProductEntryCreate() {
     }
     await setSuccess(false);
     setProductItem(prevProd => prevProd.concat(productItemI));
+    setType("")
+    setProductId("")
     setName("");
-    setBaseunit("");
     setQuantity("");
+    setBaseunit("");
     setCostprice("");
+    setSource("");
+    setTotalamount("");
+    setDate("");
+    setDocumentNo("");
+    setStoreId("")
+
+    
+   
     await setSuccess(true);
     // console.log(success)
     //  console.log(productItem)
@@ -169,15 +187,17 @@ export function ProductEntryCreate() {
   };
 
   const resetform = () => {
-    setType("Purchase Invoice");
-    setDocumentNo("");
-    setTotalamount("");
-    setProductId("");
-    setSource("");
-    setDate("");
+    setType("")
+    setProductId("")
     setName("");
+    setQuantity("");
     setBaseunit("");
     setCostprice("");
+    setSource("");
+    setTotalamount("");
+    setDate("");
+    setDocumentNo("");
+    setStoreId("")
     setProductItem([]);
   };
 
@@ -205,13 +225,13 @@ export function ProductEntryCreate() {
         totalamount,
         source,
       };
-      productEntry.productitems = productItem;
-      productEntry.createdby = user._id;
-      productEntry.transactioncategory = "credit";
+      productItemI.productitems = productItem;
+      productItemI.createdby = user._id;
+      productItemI.transactioncategory = "credit";
 
       //console.log("b4 facility",productEntry);
       if (user.currentEmployee) {
-        productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+        productItemI.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
       } else {
         toast({
           message: "You can not add inventory to any organization",
@@ -222,7 +242,7 @@ export function ProductEntryCreate() {
         return;
       }
       if (state.StoreModule.selectedStore._id) {
-        productEntry.storeId = state.StoreModule.selectedStore._id;
+        productItemI.storeId = state.StoreModule.selectedStore._id;
       } else {
         toast({
           message: "You need to select a store before adding inventory",
@@ -233,7 +253,7 @@ export function ProductEntryCreate() {
         return;
       }
       //console.log("b4 create",productEntry);
-      ProductEntryServ.create(productEntry)
+      ProductEntryServ.create(productItemI)
         .then(res => {
           //console.log(JSON.stringify(res))
           resetform();
@@ -262,49 +282,223 @@ export function ProductEntryCreate() {
     //console.log(entity)
     setProductItem(prev => prev.filter((obj, index) => index !== i));
   };
+  const billDescriptionSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Type",
+      key: "type",
+      description: "Enter Type",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+
+    { name: "Product Id",
+    key: "productId",
+    description: "productId",
+    selector: row => row.productId,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+ 
+  
+  
+
+    
+    {
+      name: "Name",
+      key: "name",
+      description: "name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Quantity",
+      key: "quantity",
+      description: "quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Selling price",
+      key: "costprice",
+      description: "costprice",
+      selector: row => row.costprice,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Supplier",
+      key: "supplier",
+      description: "supplier",
+      selector: row => row.source,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Total Amount",
+      key: "totalamount",
+      description: "totalamount",
+      selector: row => row.totalamount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    
+  
+    {
+      name: "Baseunit",
+      key: "baseunit",
+      description: "baseunit",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter Created date",
+      selector: row => row.date,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Document No",
+      key: "documentno",
+      description: "documentno",
+      selector: row => row.documentNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Supplier",
+      key: "source",
+      description: "source",
+      selector: row => row.source,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+      
+      
+]  
 
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">
-            Create ProductEntry: Initialization, Purchase Invoice, Audit
-          </p>
+      <div>
+        <div >
         </div>
-        <div className="card-content ">
+        <div className="card-content">
           <form onSubmit={onSubmit}>
             {" "}
-            {/* handleSubmit(onSubmit) */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small">
-                      <select
-                        name="type"
-                        value={type}
-                        onChange={handleChangeType}
-                      >
-                        <option value="">Choose Type </option>
-                        <option value="Purchase Invoice">
-                          Purchase Invoice{" "}
-                        </option>
-                        <option value="Initialization">Initialization</option>
-                        <option value="Audit">Audit</option>
-                      </select>
+            
+            <div >
+              <div >
+                <div >
+                  <div >
+                    <div>
+                    <CustomSelect
+                name="type" value={type} 
+                onChange={handleChangeType}
+                options={["Choose Type", "Initialization","Purchase Invoice" ,"Audit"]}/>
+
                     </div>
                   </div>
                 </div>
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={source}
-                      name="supplier"
+                <div >
+                  <p >
+
+                  <Input
+
+register={register("productId", {required:true})} 
+value={
+        productId
+      }
+      name="productId"
+      type="text"
+      onChange={e => setProductId(e.target.value)}
+      placeholder="Product Id"
+/>
+
+
+                  <Input
+                    register={register("name", {required:true})}
+                    value={name}
+                     name="name"
+                      type="text"
+                      onChange={e => setName(e.target.value)}
+                      placeholder="name"/>
+
+<Input
+                 register={register("quantity", {required:true})} 
+                 name="quantity"
+                    value={quantity}
+                    type="text"
+                    onChange={e => setQuantity(e.target.value)}
+                    placeholder="Quantity"
+             />
+                    <Input
+                 register={register("costprice", {required:true})} 
+                 name="Selling Price"
+                    value={costprice}
+                    type="text"
+                    onChange={e => setCostprice(e.target.value)}
+                    placeholder="Cost Price"
+             />
+
+                  <Input
+                    register={register("supplier", {required:true})}
+                    value={source}
+                     name="supplier"
                       type="text"
                       onChange={e => setSource(e.target.value)}
                       placeholder="Supplier"
-                    />
+                  />
+                  <Input
+                     register={register("amount", {required:true})}
+                      value={
+                        totalamount
+                      }
+                      name="Amount"
+                      type="text"
+                      onChange={async e => await setTotalamount(e.target.value)}
+                      placeholder="  Amount"/>
+
+<Input
+                     register={register("baseunit", {required:true})}
+                      value={
+                        baseunit
+                      }
+                      name="BaseUnit"
+                      type="text"
+                      onChange={async e => await setBaseunit(e.target.value)}
+                      placeholder="  Base Unit"/>
                     <span className="icon is-small is-left">
                       <i className="fas fa-hospital"></i>
                     </span>
@@ -313,10 +507,10 @@ export function ProductEntryCreate() {
               </div>
             </div>{" "}
             {/* horizontal end */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
+            <div >
+              <div >
+                <div >
+                  <div >
                     <DatePicker
                       selected={date}
                       onChange={date => handleDate(date)}
@@ -325,39 +519,28 @@ export function ProductEntryCreate() {
 
                       //isClearable
                     />
-                    {/*   <input className="input is-small"   {...register("x",{required: true})}  value={date}  name="date" type="text" onChange={e=>setDate(e.target.value)} placeholder="Date" />
-                    <span className="icon is-small is-left">
-                        <i className="fas fa-map-signs"></i>
-                    </span> */}
+                    
                   </div>
                 </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register} */ name="documentNo"
-                      value={documentNo}
+                <div >
+                  <p>
+                  
+
+                  <Input
+                     register={register("documentNo", {required:true})}
+                     value={documentNo}
                       type="text"
                       onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
+                      placeholder=" Invoice Number"/>
                     <span className="icon is-small is-left">
                       <i className="fas fa-phone-alt"></i>
                     </span>
                   </p>
                 </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={
-                        totalamount
-                      }
-                      name="totalamount"
-                      type="text"
-                      onChange={async e => await setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
+                <div >
+                  <p>
+                  
+                      
                     <span className="icon is-small is-left">
                       <i className="fas fa-coins"></i>
                     </span>
@@ -383,16 +566,7 @@ export function ProductEntryCreate() {
                   className="control has-icons-left "
                   style={{display: "none"}}
                 >
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                      productId
-                    }
-                    name="productId"
-                    type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
-                  />
+                  
                   <span className="icon is-small is-left">
                     <i className="fas  fa-map-marker-alt"></i>
                   </span>
@@ -404,14 +578,7 @@ export function ProductEntryCreate() {
             <div className="field-body">
               <div className="field">
                 <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={e => setQuantity(e.target.value)}
-                    placeholder="Quantity"
-                  />
+               
                   <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
                   </span>
@@ -420,14 +587,7 @@ export function ProductEntryCreate() {
               </div>
               <div className="field">
                 <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="costprice"
-                    value={costprice}
-                    type="text"
-                    onChange={e => setCostprice(e.target.value)}
-                    placeholder="Cost Price"
-                  />
+                
                   <span className="icon is-small is-left">
                     <i className="fas fa-dollar-sign"></i>
                   </span>
@@ -435,78 +595,43 @@ export function ProductEntryCreate() {
               </div>
               <div className="field">
                 <p className="control">
-                  <button className="button is-info is-small  is-pulled-right minHt">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
+                  
                 </p>
               </div>
             </div>
           </div>
 
-          {productItem.length > 0 && (
+          
             <div>
               <label>Product Items:</label>
               <div className="table-container  vscrol" id="scrollableDiv">
-                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                  <thead>
-                    <tr>
-                      <th>
-                        <abbr title="Serial No">S/No</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Type">Name</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Type">Quanitity</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Document No">Unit</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Cost Price">Cost Price</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Cost Price">Amount</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Actions">Actions</abbr>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tfoot></tfoot>
-                  <tbody>
-                    {productItem.map((ProductEntry, i) => (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{ProductEntry.name}</td>
-                        <th>{ProductEntry.quantity}</th>
-                        <td>{ProductEntry.baseunit}</td>
-                        <td>{ProductEntry.costprice}</td>
-                        <td>{ProductEntry.amount}</td>
-                        <td onClick={() => removeEntity(ProductEntry, i)}>
-                          <span className="showAction">x</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                </div>
               <div className="field mt-2">
                 <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
+                <CustomTable
+                       title={"Product Table"}
+                       columns={billDescriptionSchema}
+                       data={productItem}
+                       pointerOnHover
+                       highlightOnHover
+                       striped
+               />
+                  <Button >
+                    <span className="is-small" onClick={handleClickProd}>
+                      {" "}
+                      +
+                    </span>
+                  </Button>
+                  <Button
+                    type="submit"
                     onClick={onSubmit}
                   >
                     Create
-                  </button>
+                  </Button>
                 </p>
               </div>
             </div>
-          )}
+          
         </div>
       </div>
     </>
@@ -1002,7 +1127,7 @@ export function ProductEntryDetail({openModifyModal}) {
       name: "Amount",
       key: "amount",
       description: "Enter amount",
-      selector: ProductEntry => ProductEntry.amount,
+      selector: ProductEntry => ProductEntry.totalamount,
       sortable: true,
       required: true,
       inputType: "NUMBER",

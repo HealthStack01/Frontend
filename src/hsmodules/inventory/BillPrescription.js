@@ -26,6 +26,7 @@ import ModalBox from "./ui-components/modal";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
+import { Box } from "@mui/system";
 
 export default function InventoryBillPrescription() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -80,8 +81,11 @@ export default function InventoryBillPrescription() {
         onClose={handleCloseCreateModal}
         style={{display: "flex"}}
       >
-        <BillPrescriptionCreate />
-        <PatientProfile />
+        <Box style={{display: "flex", width:"100px"}}>
+        <BillPrescriptionCreate style={{width:"30px", marginRight: "10px"}} />
+        <PatientProfile style={{width:"30px"}}/>
+        </Box>
+        
       </ModalBox>
     </section>
   );
@@ -404,7 +408,7 @@ export function BillPrescriptionList({showCreateModal}) {
           >
             <CustomTable
               title={""}
-              columns={billPrescriptionSchema}
+              columns={selectedDispenseSchema}
               data={facilities}
               pointerOnHover
               highlightOnHover
