@@ -2,10 +2,13 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import ViewCard from "./@sections/ViewCard";
+import ViewCardWithFilter from "./@sections/ViewCardWithFilter";
 import AreaChart from "../charts/AreaChart";
 import BarChart from "../charts/BarChart";
 import BubbleChart from "../charts/BubbleChart";
 import CircleChart from "../charts/CircleChart";
+
+import client from "../../../feathers";
 
 import {
   DashboardContainer,
@@ -14,9 +17,39 @@ import {
 } from "../core-ui/styles";
 import { userDetails } from "../utils/fetchUserDetails";
 
+import { TotalModeltDataForPresent } from "../utils/chartData/queryHandler";
+
+import {
+  FetchTotalRevenue,
+  FetchTotalBalance,
+  FetchTotalMoneyCollectedWithInPresentRange,
+  ModelResult,
+} from "../utils/chartData/chartDataHandler";
+
 const FinanceDashboard = () => {
   const [userName, setUserName] = useState("");
   const [facilityName, setFacilityName] = useState("");
+  const billsService = client.service("/bills");
+  const inventoryService = client.service("inventory");
+
+  //query function
+
+  const { fetchTotalRevenue } = FetchTotalRevenue(billsService);
+  const { fetchTotalBalance } = FetchTotalBalance(billsService);
+
+  const {
+    totalPresentDataObject: fetchTotalMoneyCollectedPresentDataObject,
+    isLoading,
+  } = TotalModeltDataForPresent(
+    billsService,
+    FetchTotalMoneyCollectedWithInPresentRange
+  );
+
+  const { modelResult } = ModelResult(billsService);
+
+  console.log("model data ===>", {
+    modelResult: modelResult,
+  });
 
   useEffect(() => {
     const { userFullName, facilityFullName } = userDetails();
@@ -32,15 +65,21 @@ const FinanceDashboard = () => {
             Hello <span>{userName}</span>👋
           </Typography>
           <Typography variant="body1">
-            Welcome to your Client Module{" "}
+            Welcome to your Finance Module{" "}
             <span>@Front Desk {facilityName}</span>
           </Typography>
         </Box>
 
         <StartCardWapper>
-          <ViewCard count={40} title="Total Clients" />
-          {/* <ViewCard count={16} title="Upcoming Appointments" hasFilter={true} /> */}
-          <ViewCard count={56} title="Total New Clients" />
+          <ViewCard count={`${fetchTotalRevenue}K`} title="Total Revenue" />
+          <ViewCard count={56} title="Pending Bills" />
+          <ViewCardWithFilter
+            count={0}
+            title="Total Money collected"
+            hasFilter={true}
+            dataSource={fetchTotalMoneyCollectedPresentDataObject}
+            isLoading={isLoading}
+          />
         </StartCardWapper>
 
         <DashboardContainer>
@@ -53,19 +92,18 @@ const FinanceDashboard = () => {
             }}
           >
             <Box sx={{ width: "100%", p: 0, pt: 2, pb: 2 }}>
-              <AreaChart height={200} title="Trends" />
-              <AreaChart height={200} title="New Clients" />
+              <ViewCard
+                count={fetchTotalBalance}
+                title="Total Pending Balance"
+              />
+              {/* <AreaChart height={200} title="Trends" />
+              <AreaChart height={200} title="New Clients" /> */}
             </Box>
             <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
-              <BarChart title="Payment Mode" />
-              <BubbleChart />
+              {/* <BarChart title="Payment Mode" />
+              <BubbleChart /> */}
             </Box>
             <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
-                Gender
-              </Typography>
-              <Typography variant="body2">Total Client by Gender</Typography>
-
               {/* <Stack
                 direction='row'
                 spacing={0.4}
@@ -76,7 +114,7 @@ const FinanceDashboard = () => {
                 <Button>Female</Button>
                 <Button>Others</Button>
               </Stack> */}
-              <CircleChart />
+              {/* <CircleChart /> */}
             </Box>
           </Box>
         </DashboardContainer>
