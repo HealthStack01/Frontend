@@ -191,6 +191,41 @@ const AppRoutes = () => {
             element={<GeneralAppointments />}
           />
 
+          {/* ***************************** Documetation ROUTES ************************************* */}
+          <Route
+            path="/app/blood-bank/documentation"
+            element={<Documentation />}
+          />
+          <Route path="/app/crm/documentation" element={<Documentation />} />
+          <Route
+            path="/app/general/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/immunization/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/labour-ward/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/pharmacy/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/radiology/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/referral/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/theatre/documentation"
+            element={<Documentation />}
+          />
+
           {/* ***************************** CLINICS ROUTES ************************************* */}
 
           <Route path="/app/clinic" element={<ClinicHome />} />
@@ -208,6 +243,7 @@ const AppRoutes = () => {
             path="/app/clinic/appointments"
             element={<ClinicAppointments />}
           />
+          <Route path="/app/clinic/documentation" element={<Documentation />} />
           <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
           <Route path="/app/clinic/documentation" element={<Documentation />} />
           <Route path="/app/clinic/patients" element={<Patients />} />

@@ -60,20 +60,16 @@ export default function Admission() {
     <section className="section remPadTop">
       <AdmissionList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
-        <ModalBox open={state.DispenseModule.show === 'detail'}>
+        <ModalBox open={state.AdmissionModule.show === 'detail'}>
           <Grid container>
-            <Grid item xs={6}>
-              <AdmissionCreate />
-            </Grid>
-            <Grid item xs={6}>
-              <PatientProfile />
+            <Grid item xs={12}>
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
                     setState((prevstate) => ({
                       ...prevstate,
-                      DispenseModule: {
-                        selectedDispense: {},
+                      AdmissionModule: {
+                        selectedAdmission: {},
                         show: 'list',
                       },
                     }));
@@ -85,6 +81,14 @@ export default function Admission() {
                   float: 'right',
                 }}
               />
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={6}>
+              <AdmissionCreate />
+            </Grid>
+            <Grid item xs={6}>
+              <PatientProfile />
             </Grid>
           </Grid>
         </ModalBox>
@@ -126,6 +130,8 @@ export function AdmissionList({ showModal, setShowModal }) {
   };
 
   const handleMedicationRow = async (ProductEntry) => {
+    setShowModal(true);
+
     //handle selected single order
     //console.log("b4",state)
 
@@ -292,7 +298,7 @@ export function AdmissionList({ showModal, setShowModal }) {
                       width: '300px',
                     }}
                   >
-                    List of Appointments
+                    Admissions
                   </h2>
                 </div>
               </TableMenu>
@@ -304,7 +310,7 @@ export function AdmissionList({ showModal, setShowModal }) {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={handleRow}
+                  onRowClicked={handleMedicationRow}
                   progressPending={loading}
                 />
               </div>

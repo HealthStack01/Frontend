@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from 'react';
+import './styles/index.scss';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
@@ -13,6 +14,9 @@ import VideoConference from '../utils/VideoConference';
 
 import { DrugAdminList } from '../Documentation/Prescription';
 import BillServiceCreate from '../Finance/BillServiceCreate';
+import ModalBox from '../../components/modal';
+import Button from '../../components/buttons/Button';
+import { Box } from '@mui/system';
 
 export default function PatientProfile() {
   const { state } = useContext(ObjectContext); //,setState
@@ -107,344 +111,182 @@ export default function PatientProfile() {
     setBillingModal(true);
     //navigate('/app/finance/billservice')
   };
+
+  const profileButtons = [
+    {
+      title: 'Last Visit',
+      action: () => console.log('Action Fired'),
+    },
+    {
+      title: 'Drug Intolerance',
+      action: () => console.log('Action Fired'),
+    },
+    {
+      title: 'Medications',
+      action: () => setMedicationModal(true),
+    },
+    {
+      title: 'History',
+      action: () => console.log('Action Fired'),
+    },
+    {
+      title: 'Problem List',
+      action: () => console.log('Action Fired'),
+    },
+    {
+      title: 'Task',
+      action: () => console.log('Action Fired'),
+    },
+  ];
   return (
     <div>
-      <div className="card">
-        <div className="card-content p-1">
-          <div className="media p-0 m-0 ">
-            <div className="media-left">
-              <figure className="image is-48x48">
+      <div className="patient-profile-container">
+        <div className="patient-profile-card">
+          <div className="user-information-top-section">
+            <div className="user-profile-information">
+              <div className="user-image-container">
                 <img
-                  src="https://bulma.io/images/placeholders/96x96.png"
-                  alt="Placeholder image"
+                  src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+                  alt=""
                 />
-              </figure>
+              </div>
+
+              <div className="user-infromation-container">
+                <h1>
+                  {firstname} {middlename} {lastname}
+                </h1>
+                <div className="user-outline">
+                  <span>
+                    <time dateTime="2016-1-1">
+                      {dob && formatDistanceToNowStrict(new Date(dob))}
+                    </time>{' '}
+                    {gender} {maritalstatus} {religion} {profession}
+                    <br />
+                    {bloodgroup} {genotype} <br />
+                    <strong> {clientTags}</strong>
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="media-content">
-              <p className="title is-7 is-uppercase">
-                {firstname} {middlename} {lastname}
-              </p>
-              <p className="subtitle is-7 ">
-                {paymentinfo &&
-                  paymentinfo.map((pay, i) => (
-                    <>
-                      {pay.paymentmode} {pay.paymentmode === 'Cash' ? '' : ':'}{' '}
-                      {pay.organizationName}
-                      <br></br>
-                    </>
-                  ))}
-                {/* {cash && "Cash"}
-                                {familycover && "Family Cover"}
-                                {companycover && "Company Cover"}
-                                {hmocover && "HMO Cover"} */}
-              </p>
-              {(user.currentEmployee?.roles.includes('Bill Client') ||
-                user.currentEmployee?.roles.length === 0 ||
-                user.stacker) && (
-                <button
-                  className="button is-success is-small btnheight upt"
+
+            {user.currentEmployee?.roles.includes('Bill Client') ||
+              user.currentEmployee?.roles.length === 0 ||
+              (user.stacker && (
+                <Button
+                  style={{
+                    backgroundColor: '#4F772D',
+                    color: '#ffffff',
+                    fontSize: '0.8rem',
+                    width: '30%',
+                  }}
                   onClick={showBilling}
                 >
                   Bill Client
-                </button>
-              )}
-            </div>
+                </Button>
+              ))}
+
+            <Button
+              style={{
+                backgroundColor: '#4F772D',
+                color: '#ffffff',
+                fontSize: '0.8rem',
+                width: '30%',
+              }}
+              onClick={showBilling}
+            >
+              Bill Client
+            </Button>
           </div>
 
-          <div className="content">
-            <time dateTime="2016-1-1">
-              {' '}
-              {/* {formatDistanceToNowStrict(new Date(dob))} */}
-            </time>{' '}
-            {gender} {maritalstatus} {religion} {profession}
-            <br />
-            {bloodgroup} {genotype} <br />
-            <strong> {clientTags}</strong>
-            {/*  {phone} {email} */}
-          </div>
-        </div>
-      </div>
-      <div className="card mt-1">
-        <div className="card-content p-1">
-          {/*<div >
-                             <label className="label is-size-7">Tags:</label> 
-                           <strong> {clientTags}</strong>
-                            </div>*/}
-          <div>
-            <label className="label is-size-7">Specific Instructions:</label>
-            {specificDetails}
-          </div>
-          <div>
-            <label className="label is-size-7">Allergies:</label>
-            {allergies}
-          </div>
-          <div>
-            <label className="label is-size-7">Co-morbidities:</label>
-            {comorbidities}
-          </div>
-          <div>
-            <label className="label is-size-7">Disabilities:</label>
-            {disabilities}
-          </div>
-        </div>
-      </div>
-      <div className="card mt-1">
-        <div className="card-content p-1">
-          <div className=" is-fullwidth vscrollable-acc pr-1">
-            <div>
-              <button className="button is-small is-success is-inverted">
-                {' '}
-                <strong> Last Visit </strong>{' '}
-              </button>
-            </div>
-            <div>
-              <button className="button is-small is-success is-inverted">
-                {' '}
-                <strong> Drug Intolerance </strong>
-              </button>
-            </div>
-            <div onClick={() => setMedicationModal(true)}>
-              <button className="button is-small is-success is-inverted">
-                {' '}
-                <strong>Medications</strong>{' '}
-              </button>
-            </div>
-            <div>
-              <button className="button is-small is-success is-inverted">
-                {' '}
-                <strong> History </strong>{' '}
-              </button>
-            </div>
-            <div>
-              {' '}
-              <button className="button is-small is-success is-inverted">
-                {' '}
-                <strong> Problem List </strong>{' '}
-              </button>
-            </div>
-            <div>
-              {' '}
-              <button className="button is-small is-success is-inverted">
-                {' '}
-                <strong> Task </strong>{' '}
-              </button>
+          <div className="horizontal-dotted-line" />
+
+          <div className="user-information-bottom-container">
+            <div className="each-bottom-section">
+              <span style={{ fontWeight: '600' }}>Specific Instructions:</span>
+              <span>{specificDetails}</span>
             </div>
 
-            {/*  <div>
-                                    <div   >
-                                            <div >
-                                                <div  >
-                                                    <strong>  Last Visit </strong>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <><label className="label is-size-7"></label> </>    
-                                            </div>                                          
-                                        </div>
-                                    <div   >
-                                            <div >
-                                                <div  >
-                                                    <strong>  Drug Intolerance  </strong>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <></>    
-                                            </div>                                          
-                                        </div>
-                                        <div   >
-                                            <div >
-                                                <div  >
-                                                    <strong>  Medications  </strong>
-                                                </div>
-                                            </div>
-                                            <div className="mt-1">
-                                                <PrescriptionList standalone="true"/>     
-                                            </div>                                          
-                                        </div>
-                                        <div   >
-                                            <div >
-                                                <div  >
-                                                    <strong>  History  </strong>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <></>    
-                                            </div>                                          
-                                        </div>
-                                        <div   >
-                                            <div >
-                                                <div  >
-                                                    <strong>  Problem List  </strong>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <></>    
-                                            </div>                                          
-                                        </div>
-                                        <div   >
-                                            <div >
-                                                <div  >
-                                                    <strong>  Task  </strong>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <></>    
-                                            </div>                                          
-                                        </div>
-                                        
-                                    </div> */}
+            <div className="each-bottom-section">
+              <span style={{ fontWeight: '600' }}>Allergies:</span>
+              <span>{allergies}</span>
+            </div>
+
+            <div className="each-bottom-section">
+              <span style={{ fontWeight: '600' }}>Co-morbidities:</span>
+              <span>{comorbidities}</span>
+            </div>
+
+            <div className="each-bottom-section">
+              <span style={{ fontWeight: '600' }}>Disabilities:</span>
+              <span>{disabilities}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div></div>
-      {/* <VideoConference /> */}
-      <div className={`modal ${billingModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
+
+        <div className="action-buttons-container">
+          {profileButtons.map((item, i) => (
+            <div onClick={item.action}>
+              <span>{item.title}</span>
+            </div>
+          ))}
         </div>
       </div>
-      <div className={`modal ${medicationModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card " style={{ width: '70%' }}>
-          <header className="modal-card-head">
-            <p className="modal-card-title">Client Medications</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal2}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <DrugAdminList standalone="true" />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${taskModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${problemModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${historyModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card" style={{ width: '100%' }}>
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${intoleranceModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${visitModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
-      </div>
+
+      <ModalBox
+        open={billingModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
+
+      <ModalBox
+        open={medicationModal}
+        onClose={handlecloseModal2}
+        header="Client Medications"
+      >
+        <DrugAdminList standalone="true" />
+      </ModalBox>
+
+      <ModalBox
+        open={taskModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
+
+      <ModalBox
+        open={problemModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
+
+      <ModalBox
+        open={historyModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
+
+      <ModalBox
+        open={intoleranceModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
+
+      <ModalBox
+        open={visitModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
     </div>
   );
 }

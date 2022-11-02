@@ -1,75 +1,76 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
-import {ClientSearch} from "../helpers/ClientSearch";
-import ServiceSearch from "../helpers/ServiceSearch";
-var random = require("random-string-generator");
-import {Box, Collapse, Grid} from "@mui/material";
-import CustomSelect from "./ui-components/inputs/basic/Select";
-import BasicDatePicker from "./ui-components/inputs/Date";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { ProductCreate } from './Products';
+import Encounter from '../Documentation/Documentation';
+import { ClientSearch } from '../helpers/ClientSearch';
+import ServiceSearch from '../helpers/ServiceSearch';
+var random = require('random-string-generator');
+import { Box, Collapse, Grid } from '@mui/material';
+import CustomSelect from './ui-components/inputs/basic/Select';
+import BasicDatePicker from './ui-components/inputs/Date';
 
-import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import Divider from "@mui/material/Divider";
-import Input from "./ui-components/inputs/basic/Input";
-import Button from "@mui/material/Button";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Typography from "@mui/material/Typography";
-import CustomTable from "../../components/customtable";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import Divider from '@mui/material/Divider';
+import Input from './ui-components/inputs/basic/Input';
+import Button from '@mui/material/Button';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Typography from '@mui/material/Typography';
+import CustomTable from '../../components/customtable';
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function BillServiceCreate() {
-  const { register, handleSubmit,setValue} = useForm(); /* watch, errors, reset */
+  const { register, handleSubmit, setValue } =
+    useForm(); /* watch, errors, reset */
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
   //const ProductEntryServ=client.service('productentry')
-  const OrderServ = client.service("order");
-  const BillCreateServ = client.service("createbilldirect");
+  const OrderServ = client.service('order');
+  const BillCreateServ = client.service('createbilldirect');
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [type, setType] = useState("Bill");
-  const [documentNo, setDocumentNo] = useState("");
+  const [type, setType] = useState('Bill');
+  const [documentNo, setDocumentNo] = useState('');
   const [totalamount, setTotalamount] = useState(0);
   const [qamount, setQAmount] = useState(null);
-  const [productId, setProductId] = useState("");
-  const [source, setSource] = useState("");
-  const [date, setDate] = useState("");
-  const [name, setName] = useState("");
-  const [inventoryId, setInventoryId] = useState("");
-  const [baseunit, setBaseunit] = useState("");
+  const [productId, setProductId] = useState('');
+  const [source, setSource] = useState('');
+  const [date, setDate] = useState('');
+  const [name, setName] = useState('');
+  const [inventoryId, setInventoryId] = useState('');
+  const [baseunit, setBaseunit] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const [sellingprice, setSellingPrice] = useState("");
+  const [sellingprice, setSellingPrice] = useState('');
   const [costprice, setCostprice] = useState(0);
-  const [invquantity, setInvQuantity] = useState("");
+  const [invquantity, setInvQuantity] = useState('');
   const [calcamount, setCalcAmount] = useState(0);
   const [productItem, setProductItem] = useState([]);
-  const [billingId, setBilllingId] = useState("");
+  const [billingId, setBilllingId] = useState('');
   const [changeAmount, setChangeAmount] = useState(true);
-  const [paymentmode, setPaymentMode] = useState("");
-  const [category, setCategory] = useState("");
+  const [paymentmode, setPaymentMode] = useState('');
+  const [category, setCategory] = useState('');
   const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billMode, setBillMode] = useState("");
-  const [obj, setObj] = useState("");
+  const [billMode, setBillMode] = useState('');
+  const [obj, setObj] = useState('');
   const [productModal, setProductModal] = useState(false);
-  const [patient, setPatient] = useState("");
-  const [contracts, setContracts] = useState("");
+  const [patient, setPatient] = useState('');
+  const [contracts, setContracts] = useState('');
 
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
@@ -81,11 +82,11 @@ export default function BillServiceCreate() {
     // handleSearch(val)
   };
 
-  const handleChangeMode = async value => {
-    console.log("value", value);
+  const handleChangeMode = async (value) => {
+    console.log('value', value);
     await setPaymentMode(value);
     console.log(value);
-    let billm = paymentOptions.filter(el => el.name === value);
+    let billm = paymentOptions.filter((el) => el.name === value);
     await setBillMode(billm[0]);
     console.log(billm);
     // at startup
@@ -99,7 +100,7 @@ export default function BillServiceCreate() {
     // pricing
   };
 
-  const handleRow = async ProductEntry => {
+  const handleRow = async (ProductEntry) => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -108,9 +109,9 @@ export default function BillServiceCreate() {
 
     const newProductEntryModule = {
       selectedMedication: ProductEntry,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -135,14 +136,14 @@ export default function BillServiceCreate() {
     amount: calcamount, //||qamount
     baseunit,
     costprice,
-    category: category === "Inventory" ? "Prescription" : category,
+    category: category === 'Inventory' ? 'Prescription' : category,
     billingId,
     billingContract: contracts,
     billMode,
   };
 
   const checkPrice = async (contracts, billMode) => {
-    if (billMode.type === "HMO Cover") {
+    if (billMode.type === 'HMO Cover') {
       //paymentmode
       /*  if (billMode.detail.plan==="NHIS"){
                 //find contract for NHIS
@@ -163,7 +164,7 @@ export default function BillServiceCreate() {
             }else{ */
 
       let contract = contracts.filter(
-        el => el.source_org === billMode.detail.organizationId
+        (el) => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
         //  console.log(contract[0].price)
@@ -171,8 +172,8 @@ export default function BillServiceCreate() {
       } else {
         toast({
           message:
-            "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ",
-          type: "is-danger",
+            'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ',
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -180,10 +181,10 @@ export default function BillServiceCreate() {
       }
     }
     /*  } */
-    if (billMode.type === "Company Cover") {
+    if (billMode.type === 'Company Cover') {
       //paymentmode
       let contract = contracts.filter(
-        el => el.source_org === billMode.detail.organizationId
+        (el) => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
         // console.log(contract[0].price)
@@ -191,25 +192,25 @@ export default function BillServiceCreate() {
       } else {
         toast({
           message:
-            "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash",
-          type: "is-danger",
+            'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash',
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
         await setSellingPrice(0);
       }
     }
-    if (billMode.type === "Cash" || billMode.type === "Family Cover") {
+    if (billMode.type === 'Cash' || billMode.type === 'Family Cover') {
       //paymentmode
-      let contract = contracts.filter(el => el.source_org === el.dest_org);
+      let contract = contracts.filter((el) => el.source_org === el.dest_org);
       if (contract.length) {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast({
           message:
-            "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ",
-          type: "is-danger",
+            'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ',
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -218,22 +219,22 @@ export default function BillServiceCreate() {
     }
   };
 
-  const getSearchfacility = async service => {
+  const getSearchfacility = async (service) => {
     //  console.log(JSON.stringify(service))
     if (!service) {
       //"clear stuff"
-      setProductId("");
-      setName("");
-      setBaseunit("");
-      setInventoryId("");
+      setProductId('');
+      setName('');
+      setBaseunit('');
+      setInventoryId('');
       setSellingPrice(0);
-      setInvQuantity("");
+      setInvQuantity('');
       setQAmount(null);
-      setCostprice("");
-      setContracts("");
-      setCategory("");
-      setInventoryId("");
-      setBilllingId("");
+      setCostprice('');
+      setContracts('');
+      setCategory('');
+      setInventoryId('');
+      setBilllingId('');
 
       //setCalcAmount(null)
       return;
@@ -249,7 +250,7 @@ export default function BillServiceCreate() {
     console.log(service.contracts);
   };
 
-  const getSearchfacility1 = async person => {
+  const getSearchfacility1 = async (person) => {
     if (!person) {
       //"clear stuff"
       /*   setProductId("")
@@ -260,12 +261,12 @@ export default function BillServiceCreate() {
              setInvQuantity("")
              setQAmount(null)
              setCostprice("") */
-      setPatient("");
-      setSource("");
+      setPatient('');
+      setSource('');
       return;
     }
     await setPatient(person);
-    setSource(person.firstname + " " + person.lastname);
+    setSource(person.firstname + ' ' + person.lastname);
   };
 
   useEffect(() => {
@@ -275,10 +276,10 @@ export default function BillServiceCreate() {
   }, [user]);
 
   const handleUpdateTotal = async () => {
-    await setTotalamount(prevtotal => Number(prevtotal) + Number(calcamount));
+    await setTotalamount((prevtotal) => Number(prevtotal) + Number(calcamount));
   };
 
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     // console.log(e.target.value)
     await setType(e.target.value);
   };
@@ -293,16 +294,16 @@ export default function BillServiceCreate() {
          console.log("qamount: ",qamount)
          console.log("calcamount: ",calcamount) */
     if (
-      source === "" ||
-      quantity === "" ||
-      obj === "" ||
+      source === '' ||
+      quantity === '' ||
+      obj === '' ||
       quantity === 0 ||
-      paymentmode === ""
+      paymentmode === ''
     ) {
       toast({
         message:
-          "You need to choose a service, billing mode and quantity to proceed",
-        type: "is-danger",
+          'You need to choose a service, billing mode and quantity to proceed',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -310,7 +311,7 @@ export default function BillServiceCreate() {
     }
 
     await setSuccess(false);
-    await setProductItem(prevProd => prevProd.concat(productItemI));
+    await setProductItem((prevProd) => prevProd.concat(productItemI));
     handleUpdateTotal();
     // generate billing info
 
@@ -334,26 +335,26 @@ export default function BillServiceCreate() {
     //?attached chosen product to medication
     //dispense helper?
 
-    setName("");
-    setBaseunit("");
+    setName('');
+    setBaseunit('');
     setQuantity(1);
-    setInventoryId("");
+    setInventoryId('');
     setSellingPrice(0);
-    setInvQuantity("");
+    setInvQuantity('');
     // handleAmount()
     setCalcAmount(0);
     await setSuccess(true);
     getSearchfacility(false);
-    setObj("");
+    setObj('');
     console.log(sellingprice);
     /* console.log(qamount)
         console.log(productItem) */
     setChangeAmount(true);
-    setContracts("");
+    setContracts('');
     // alert("finished")
   };
 
-  const handleQtty = async e => {
+  const handleQtty = async (e) => {
     /*  if (invquantity<e.target.value){
              toast({
                  message: 'You can not sell more quantity than exist in inventory ' ,
@@ -364,7 +365,7 @@ export default function BillServiceCreate() {
              return
          } */
     setQuantity(e.target.value);
-    if (e.target.vlue === "") {
+    if (e.target.vlue === '') {
       setQuantity(1);
     }
     /* calcamount1=quantity*sellingprice
@@ -385,17 +386,17 @@ export default function BillServiceCreate() {
   }, [date]);
 
   const resetform = () => {
-    setType("Sales");
-    setDocumentNo("");
-    setTotalamount("");
-    setProductId("");
-    setSource("");
-    setDate("");
-    setName("");
+    setType('Sales');
+    setDocumentNo('');
+    setTotalamount('');
+    setProductId('');
+    setSource('');
+    setDate('');
+    setName('');
     setBaseunit();
     setCostprice();
     setProductItem([]);
-    setContracts("");
+    setContracts('');
   };
 
   const handleCreateBill = async () => {
@@ -411,33 +412,33 @@ export default function BillServiceCreate() {
     }
     document.documentdetail = productItem;
     console.log(document.documentdetail);
-    document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
+    document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = patient._id;
     document.clientname =
-      patient.firstname + " " + patient.middlename + " " + patient.lastname;
+      patient.firstname + ' ' + patient.middlename + ' ' + patient.lastname;
     document.clientobj = patient;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
     console.log(document);
 
     //order
-    document.documentdetail.forEach(async element => {
+    document.documentdetail.forEach(async (element) => {
       let orderinfo = {
         //for reach document
-        documentationId: "", //tbf
+        documentationId: '', //tbf
         order_category: element.category, //category
         order: element.name, //name
-        instruction: "",
+        instruction: '',
         destination_name: document.facilityname, //facilityname
         destination: document.facility, //facility id
-        order_status: "Billed",
+        order_status: 'Billed',
         payer: element.billMode.organizationName,
         paymentmode: element.billMode.paymentmode,
 
@@ -459,7 +460,7 @@ export default function BillServiceCreate() {
 
       let billInfo = {
         orderInfo: {
-          orderId: "", //tbf
+          orderId: '', //tbf
           orderObj: orderinfo,
         },
         serviceInfo: {
@@ -488,7 +489,7 @@ export default function BillServiceCreate() {
           paymentmode: element.billMode,
         },
         createdBy: user._id,
-        billing_status: "Unpaid",
+        billing_status: 'Unpaid',
       };
       let items = {
         orderinfo,
@@ -498,7 +499,7 @@ export default function BillServiceCreate() {
       serviceList.push(items);
     });
 
-    console.log("==================");
+    console.log('==================');
     console.log(document, serviceList);
 
     let confirm = window.confirm(
@@ -509,11 +510,11 @@ export default function BillServiceCreate() {
         document,
         serviceList,
       })
-        .then(res => {
+        .then((res) => {
           setSuccess(true);
           toast({
-            message: "Billed Orders created succesfully",
-            type: "is-success",
+            message: 'Billed Orders created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -523,13 +524,13 @@ export default function BillServiceCreate() {
           const today = new Date().toLocaleString();
           //console.log(today)
           setDate(today);
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = random(6, 'uppernumeric');
           setDocumentNo(invoiceNo);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error creating Billed Orders " + err,
-            type: "is-danger",
+            message: 'Error creating Billed Orders ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -545,9 +546,9 @@ export default function BillServiceCreate() {
     // ProductEntry.show=!ProductEntry.show
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     //setError(false)
     setSuccess(false);
     await setProductEntry({
@@ -559,15 +560,15 @@ export default function BillServiceCreate() {
     });
     productEntry.productitems = productItem;
     productEntry.createdby = user._id;
-    productEntry.transactioncategory = "debit";
+    productEntry.transactioncategory = 'debit';
 
     // console.log("b4 facility",productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
       toast({
-        message: "You can not remove inventory from any organization",
-        type: "is-danger",
+        message: 'You can not remove inventory from any organization',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -578,8 +579,8 @@ export default function BillServiceCreate() {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
       toast({
-        message: "You need to select a store before removing inventory",
-        type: "is-danger",
+        message: 'You need to select a store before removing inventory',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -588,7 +589,7 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeAmount = () => {
-    setChangeAmount(rev => !rev);
+    setChangeAmount((rev) => !rev);
   };
 
   const newclient = async () => {
@@ -597,7 +598,7 @@ export default function BillServiceCreate() {
 
   const createObj = (pay, name, cover, type) => {
     let details = {};
-    details = {...pay};
+    details = { ...pay };
     details.type = type;
 
     return {
@@ -631,50 +632,50 @@ export default function BillServiceCreate() {
       patient.paymentinfo.forEach((pay, i) => {
         if (pay.active) {
           switch (pay.paymentmode) {
-            case "Cash":
+            case 'Cash':
               // code block
-              obj = createObj(pay, "Cash", "Cash", "Cash");
+              obj = createObj(pay, 'Cash', 'Cash', 'Cash');
 
               paymentoptions.push(obj);
-              setPaymentMode("Cash");
+              setPaymentMode('Cash');
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "Family":
+            case 'Family':
               // code block
               obj = createObj(
                 pay,
-                "Family Cover",
-                "familyCover",
-                "Family Cover"
+                'Family Cover',
+                'familyCover',
+                'Family Cover'
               );
               paymentoptions.push(obj);
-              setPaymentMode("Family Cover");
+              setPaymentMode('Family Cover');
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "Company":
+            case 'Company':
               // code block
               let name =
-                "Company: " + pay.organizationName + "(" + pay.plan + ")";
+                'Company: ' + pay.organizationName + '(' + pay.plan + ')';
 
-              obj = createObj(pay, name, "CompanyCover", "Company Cover");
+              obj = createObj(pay, name, 'CompanyCover', 'Company Cover');
               paymentoptions.push(obj);
               setPaymentMode(
-                "Company: " + pay.organizationName + "(" + pay.plan + ")"
+                'Company: ' + pay.organizationName + '(' + pay.plan + ')'
               );
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "HMO":
+            case 'HMO':
               // code block
               console.log(pay);
-              let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
+              let sname = 'HMO: ' + pay.organizationName + '(' + pay.plan + ')';
 
-              obj = createObj(pay, sname, "HMOCover", "HMO Cover");
+              obj = createObj(pay, sname, 'HMOCover', 'HMO Cover');
               paymentoptions.push(obj);
               setPaymentMode(
-                "HMO: " + pay.organizationName + "(" + pay.plan + ")"
+                'HMO: ' + pay.organizationName + '(' + pay.plan + ')'
               );
               billme = obj;
               //  console.log("billme",billme)
@@ -694,19 +695,19 @@ export default function BillServiceCreate() {
   }, [source]);
 
   useEffect(() => {
-    console.log("startup");
+    console.log('startup');
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = random(6, 'uppernumeric');
     setDocumentNo(invoiceNo);
     return () => {
-      console.log("closeup");
+      console.log('closeup');
       const today = new Date().toLocaleString();
       //console.log(today)
       setDate(today);
-      const invoiceNo = random(6, "uppernumeric");
+      const invoiceNo = random(6, 'uppernumeric');
       setDocumentNo(invoiceNo);
       setCalcAmount(0);
     };
@@ -757,135 +758,135 @@ export default function BillServiceCreate() {
   }, [state.ClientModule.selectedClient]);
 
   const handleRemoveBill = (item, index) => {
-    setProductItem(prev => prev.filter((el, i) => i !== index));
+    setProductItem((prev) => prev.filter((el, i) => i !== index));
   };
 
   const dummyData = [
     {
-      category: "Treatment",
-      name: "Dummy data",
-      quantity: "1",
-      baseunit: "test",
-      sellingprice: "1000",
-      amount: "1000",
+      category: 'Treatment',
+      name: 'Dummy data',
+      quantity: '1',
+      baseunit: 'test',
+      sellingprice: '1000',
+      amount: '1000',
       billMode: {
-        type: "Cash",
+        type: 'Cash',
       },
     },
     {
-      category: "Accessment",
-      name: "Test Table",
-      quantity: "2",
-      baseunit: "test-test",
-      sellingprice: "1500",
-      amount: "3000",
+      category: 'Accessment',
+      name: 'Test Table',
+      quantity: '2',
+      baseunit: 'test-test',
+      sellingprice: '1500',
+      amount: '3000',
       billMode: {
-        type: "Cash",
+        type: 'Cash',
       },
     },
     {
-      category: "Check-up",
-      name: "John Doe",
-      quantity: "4",
-      baseunit: "test-joe",
-      sellingprice: "300",
-      amount: "1200",
+      category: 'Check-up',
+      name: 'John Doe',
+      quantity: '4',
+      baseunit: 'test-joe',
+      sellingprice: '300',
+      amount: '1200',
       billMode: {
-        type: "Transfer",
+        type: 'Transfer',
       },
     },
   ];
 
   const productSchema = [
     {
-      name: "S/NO",
-      key: "sn",
-      description: "SN",
-      selector: row => row.sn,
+      name: 'S/NO',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "Category",
-      key: "category",
-      description: "Enter Category",
-      selector: row => row.category,
+      name: 'Category',
+      key: 'category',
+      description: 'Enter Category',
+      selector: (row) => row.category,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Name",
-      key: "name",
-      description: "Enter Name",
-      selector: row => row.name,
+      name: 'Name',
+      key: 'name',
+      description: 'Enter Name',
+      selector: (row) => row.name,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Quantity",
-      key: "quantity",
-      description: "Enter Quantity",
-      selector: row => row.quantity,
+      name: 'Quantity',
+      key: 'quantity',
+      description: 'Enter Quantity',
+      selector: (row) => row.quantity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Unit",
-      key: "baseunit",
-      description: "Enter Unit",
-      selector: row => row.baseunit,
+      name: 'Unit',
+      key: 'baseunit',
+      description: 'Enter Unit',
+      selector: (row) => row.baseunit,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Selling Price",
-      key: "sellingprice",
-      description: "Enter selling price",
-      selector: row => row.sellingprice,
+      name: 'Selling Price',
+      key: 'sellingprice',
+      description: 'Enter selling price',
+      selector: (row) => row.sellingprice,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Amount",
-      key: "amount",
-      description: "Enter Amount",
-      selector: row => row.amount,
+      name: 'Amount',
+      key: 'amount',
+      description: 'Enter Amount',
+      selector: (row) => row.amount,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Mode",
-      key: "billMode",
-      description: "Enter Bill mode",
-      selector: row => row.billMode.type,
+      name: 'Mode',
+      key: 'billMode',
+      description: 'Enter Bill mode',
+      selector: (row) => row.billMode.type,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Action",
-      key: "name",
-      description: "Enter Name",
-      selector: row => (
+      name: 'Action',
+      key: 'name',
+      description: 'Enter Name',
+      selector: (row) => (
         <Button
           color="error"
           className="button is-info is-small"
           sx={{
-            background: "none",
+            background: 'none',
             //color: "red",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.27rem 1rem",
-            border: "none",
-            cursor: "pointer",
-            textTransform: "capitalize",
+            fontSize: '0.75rem',
+            borderRadius: '2px',
+            padding: '0.27rem 1rem',
+            border: 'none',
+            cursor: 'pointer',
+            textTransform: 'capitalize',
           }}
           onClick={() => {
             handleRemoveBill(row);
@@ -896,10 +897,9 @@ export default function BillServiceCreate() {
       ),
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
-
 
   // console.log("simpa")
   return (
@@ -912,17 +912,17 @@ export default function BillServiceCreate() {
           <form onSubmit={onSubmit}>
             <Box
               sx={{
-                display: "flex",
-                alignItem: "center",
-                justifyContent: "space-between",
-                marginBottom: "25px",
+                display: 'flex',
+                alignItem: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '25px',
               }}
             >
               <p
                 style={{
-                  fontWeight: "600",
-                  fontSize: "20px",
-                  lineHeight: "27.32px",
+                  fontWeight: '600',
+                  fontSize: '20px',
+                  lineHeight: '27.32px',
                 }}
               >
                 Bill Service
@@ -931,14 +931,14 @@ export default function BillServiceCreate() {
 
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "25px",
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '25px',
               }}
             >
               <Box
                 sx={{
-                  display: "inline-flex",
+                  display: 'inline-flex',
                   flexGrow: 2,
                 }}
               >
@@ -953,107 +953,18 @@ export default function BillServiceCreate() {
                     clear={success1}
                   />
                 )}
-<<<<<<< HEAD
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="paymentmode"
-                        value={paymentmode}
-                        onChange={e => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value="">Billing Mode </option>
-                        {paymentOptions.map((option, i) => (
-                          <option key={i} value={option.details}>
-                            {" "}
-                            {option.name}
-                          </option>
-                        ))}
-
-                        {/*  <option value="Cash">Cash</option>
-                             <option value="Family">Family </option>
-                            <option value="Company Cover">Company Cover</option>
-                             <option value="HMO">HMO</option> */}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>{" "}
-            {/* horizontal end */}
-            {/*  <div className="field">
-                 <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
-                     <span className="icon is-small is-left">
-                     <i className=" fas fa-user-md "></i>
-                     </span>
-                 </p>
-             </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={date}
-                      name="date"
-                      type="text"
-                      onChange={e => setDate(e.target.value)}
-                      placeholder="Date"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* ref={register} */ name="documentNo"
-                      value={documentNo}
-                      type="text"
-                      onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={
-                        totalamount
-                      }
-                      name="totalamount"
-                      type="text"
-                      onChange={e => setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-=======
               </Box>
 
               {paymentOptions.length > 0 && (
                 <Box
                   ml={2}
                   sx={{
-                    display: "inline-flex",
+                    display: 'inline-flex',
                   }}
                 >
                   <CustomSelect
                     options={paymentOptions}
-                    defaultValue={"select mode"}
+                    defaultValue={'select mode'}
                     value={paymentmode}
                     onChange={handleChangeMode}
                   />
@@ -1065,50 +976,49 @@ export default function BillServiceCreate() {
               container
               spacing={2}
               sx={{
-                marginBottom: "25px",
+                marginBottom: '25px',
               }}
             >
               <Grid item xs={4}>
                 <Input
-                  {...register("x", {required: true})}
+                  {...register('x', { required: true })}
                   value={date}
                   name="date"
                   type="date"
-                  onChange={e => setDate(e.target.value)}
+                  onChange={(e) => setDate(e.target.value)}
                   placeholder="Date"
                 />
               </Grid>
               <Grid item xs={4}>
                 <Input
-                  {...register("documentNo", {required: true})}
+                  {...register('documentNo', { required: true })}
                   name="documentNo"
                   value={`#${documentNo}`}
                   type="text"
-                  onChange={e => setDocumentNo(e.target.value)}
+                  onChange={(e) => setDocumentNo(e.target.value)}
                   placeholder=" Invoice Number"
                 />
               </Grid>
               <Grid item xs={4}>
                 <Input
-                  {...register("totalamount", {required: true})}
+                  {...register('totalamount', { required: true })}
                   value={totalamount}
                   name="totalamount"
                   type="text"
-                  onChange={e => setTotalamount(e.target.value)}
+                  onChange={(e) => setTotalamount(e.target.value)}
                   placeholder=" Total Amount"
                 />
               </Grid>
             </Grid>
->>>>>>> 6dc470e94a91a7e6bce2f43f212e01bea8e8d889
           </form>
 
           <Divider
             sx={{
-              marginBottom: "25px",
+              marginBottom: '25px',
             }}
           />
 
-         <Box>
+          <Box>
             <Typography color="text.primary" mb="25px">
               Choose Service Item:
             </Typography>
@@ -1124,38 +1034,38 @@ export default function BillServiceCreate() {
 
               <Grid item xs={2}>
                 <Input
-                  {...register("quantity", {required: true})}
+                  {...register('quantity', { required: true })}
                   name="quantity"
                   value={quantity}
                   type="number"
-                  onChange={e => handleQtty(e)}
+                  onChange={(e) => handleQtty(e)}
                   placeholder="Quantity"
                 />
               </Grid>
               <Grid item xs={2}>
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}
                 >
                   <Input
-                    {...register("qamount", {required: true})}
+                    {...register('qamount', { required: true })}
                     value={totalamount}
                     name="qamount"
                     type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
+                    onChange={async (e) => await setCalcAmount(e.target.value)}
                     placeholder=" Amount"
                   />
                   <Button
                     variant="contained"
                     size="small"
                     sx={{
-                      marginTop: "10px",
+                      marginTop: '10px',
                       //textTransform: "capitalize",
                     }}
                     disabled={
-                      user.currentEmployee?.roles.includes("Adjust Price") ||
+                      user.currentEmployee?.roles.includes('Adjust Price') ||
                       user.currentEmployee?.roles.length === 0 ||
                       user.stacker
                     }
@@ -1167,7 +1077,7 @@ export default function BillServiceCreate() {
               </Grid>
             </Grid>
           </Box>
-        <Box mb="15px">
+          <Box mb="15px">
             <Button
               variant="outlined"
               startIcon={<AddCircleOutlineIcon />}
@@ -1180,22 +1090,22 @@ export default function BillServiceCreate() {
           <Collapse in={dummyData.length > 0}>
             <div>
               <CustomTable
-                title={""}
+                title={''}
                 columns={productSchema}
                 data={dummyData}
                 //data={productItem}
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={row => onRowClicked(row)}
+                onRowClicked={(row) => onRowClicked(row)}
                 progressPending={false}
               />
             </div>
 
             <Box
               sx={{
-                display: "flex",
-                marginTop: "15px",
+                display: 'flex',
+                marginTop: '15px',
               }}
             >
               <Button
@@ -1203,7 +1113,7 @@ export default function BillServiceCreate() {
                 disabled={!productItem.length > 0}
                 onClick={handleCreateBill}
                 sx={{
-                  marginRight: "20px",
+                  marginRight: '20px',
                 }}
               >
                 Done
@@ -1225,28 +1135,28 @@ export default function BillServiceCreate() {
   );
 }
 
-export function ServiceSearch2({getSearchfacility, clear}) {
-  const productServ = client.service("billing");
+export function ServiceSearch2({ getSearchfacility, clear }) {
+  const productServ = client.service('billing');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
+  const [val, setVal] = useState('');
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     await setSimpa(obj.name);
@@ -1261,7 +1171,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     /* if (count===2){
              console.log("stuff was chosen")
          } */
@@ -1278,14 +1188,14 @@ export function ServiceSearch2({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async value => {
+  const handleSearch = async (value) => {
     setVal(value);
-    if (value === "") {
+    if (value === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (value.length >= 3) {
       productServ
@@ -1294,7 +1204,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
             //service
             [field]: {
               $regex: value,
-              $options: "i",
+              $options: 'i',
             },
             facility: user.currentEmployee.facilityDetail._id,
             //storeId: state.StoreModule.selectedStore._id,
@@ -1304,17 +1214,17 @@ export function ServiceSearch2({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           //console.log("product  fetched successfully")
           //console.log(res.data)
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
+            message: 'Error creating ProductEntry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1338,7 +1248,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
   useEffect(() => {
     if (clear) {
       // console.log("success has changed",clear)
-      setSimpa("");
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -1347,10 +1257,10 @@ export function ServiceSearch2({getSearchfacility, clear}) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -1358,8 +1268,8 @@ export function ServiceSearch2({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -1367,16 +1277,16 @@ export function ServiceSearch2({getSearchfacility, clear}) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
+            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ""
+                  ''
                 ) : (
                   <div
                     className="dropdown-item selectadd" /* onClick={handleAddproduct} */
                   >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
+                    {' '}
+                    <span> {val} is not in your inventory</span>{' '}
                   </div>
                 )}
 

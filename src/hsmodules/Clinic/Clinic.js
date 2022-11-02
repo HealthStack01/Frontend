@@ -446,7 +446,7 @@ export function ClinicList({ standalone, closeModal }) {
                     </div>
                   )}
                   <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                    List of Clients
+                    List of Clinics
                   </h2>
                 </div>
                 {handleCreate && (

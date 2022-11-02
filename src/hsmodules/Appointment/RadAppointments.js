@@ -40,9 +40,7 @@ export default function RadAppointments() {
 
   return (
     <section className="section remPadTop">
-      {state.AppointmentModule.show === 'list' && (
-        <ClientList showModal={showModal} setShowModal={setShowModal} />
-      )}
+      <ClientList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
         <ModalBox open={state.AppointmentModule.show === 'create'}>
           <AppointmentCreate
@@ -863,7 +861,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate('/app/clinic/encounter');
+    navigate('/app/radiology/documentation');
   };
 
   return (

@@ -834,21 +834,6 @@ export function CheckDetails({ showModal, setShowModal }) {
     //console.log(state)
   };
 
-  const handleAttend = async () => {
-    const patient = await client.service('client').get(Client.clientId);
-    await setSelectedClient(patient);
-    const newClientModule = {
-      selectedClient: patient,
-      show: 'detail',
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      ClientModule: newClientModule,
-    }));
-    //modify appointment
-    navigate('/app/clinic/encounter');
-  };
-
   return (
     <>
       <Grid container spacing={2}>
@@ -1099,19 +1084,6 @@ export function CheckDetails({ showModal, setShowModal }) {
             }}
           >
             Edit Appointment Details
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={3} md={3}>
-          <Button
-            text={'Attend'}
-            onClick={handleAttend}
-            style={{
-              width: '100%',
-              backgroundColor: '#0364FF',
-              fontSize: '18px',
-            }}
-          >
-            Attend Appointment
           </Button>
         </Grid>
       </Grid>

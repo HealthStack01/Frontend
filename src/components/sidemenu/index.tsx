@@ -29,7 +29,7 @@ export const menuItems = [
     iconClassName: 'bi bi-file-medical',
     subMenus: [
       { name: 'Appointment', to: '/app/clinic/appointments' },
-      { name: 'checkin', to: '/app/clinic/checkin' },
+      { name: 'Check-In', to: '/app/clinic/checkin' },
       { name: 'Clinic List', to: '/app/clinic/clinics' },
     ],
   },

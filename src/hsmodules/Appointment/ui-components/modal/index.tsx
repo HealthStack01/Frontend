@@ -11,8 +11,7 @@ interface ModalProps {
 const style = {
   width: '68%',
   maxWidth: '90%',
-  height: '80%',
-  maxHeight: '100%',
+  height: 'auto',
   bgcolor: '#fff',
   boxShadow: 24,
   p: 4,
@@ -32,7 +31,11 @@ const ModalBox: React.FC<ModalProps> = ({ open, onClose, children }) => (
       BackdropProps={{
         timeout: 500,
       }}
-      sx={{ width: '100%', display: 'grid', placeItems: 'center ' }}
+      sx={{
+        width: '100%',
+        display: 'grid',
+        placeItems: 'center ',
+      }}
     >
       <Fade in={open}>
         <Box sx={style}>
