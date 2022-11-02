@@ -557,7 +557,12 @@ export function LocationDetail({ showModifyModal }) {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Location Details</p>
+          <p
+            className="card-header-title"
+            style={{ fontWeight: "bold", fontSize: "20px" }}
+          >
+            Location Details
+          </p>
         </div>
         <div className="card-content vscrollable">
           <Grid item xs={12} sm={3} md={4}>
@@ -713,7 +718,7 @@ export function LocationDetail({ showModifyModal }) {
                   onClick={handleSublocation}
                   style={{
                     backgroundColor: "#0364FF",
-                    width: "20%",
+                    width: "50%",
                     position: "relative",
                     cursor: "pointer",
                     justifyContent: "center",
