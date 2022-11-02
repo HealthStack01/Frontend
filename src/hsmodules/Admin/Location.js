@@ -170,7 +170,12 @@ export function LocationCreate() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create Location</p>
+          <p
+            className="card-header-title"
+            style={{ fontSize: "300", fontWeight: "bold" }}
+          >
+            Create Location
+          </p>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -185,36 +190,26 @@ export function LocationCreate() {
             <div className="field">
               <div className="control">
                 <div className="select is-small ">
-                  <select
-                    name="locationType"
-                    {...register("locationType", { required: true })}
-                    className="selectadd"
-                  >
-                    <option value="">Choose Location Type </option>
-                    {locationTypeOptions.map((option, i) => (
-                      <option key={i} value={option}>
-                        {" "}
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                  <CustomSelect
+                    style={{ width: "100px" }}
+                    label="Choose Location Type "
+                    name="type"
+                    options={locationTypeOptions}
+                    register={register("locationType", {
+                      required: true,
+                    })}
+                  />
                 </div>
               </div>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("name", { required: true })}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Location"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
+
+            <Input
+              {...register("name", { required: true })}
+              name="typename"
+              type="text"
+              placeholder="Name of Location"
+            />
+
             <div
               className="field"
               style={!user.stacker ? { display: "none" } : {}}
@@ -223,28 +218,28 @@ export function LocationCreate() {
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
-              >
-                <input
-                  className="input is-small"
-                  {...register("facility", { required: true })}
-                  name="facility"
-                  type="text"
-                  placeholder="Facility"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
 
-            <div className="field">
-              <p className="control">
-                <button className="button is-success is-small">Create</button>
-              </p>
+              <Input
+                {...register("facility", { required: true })}
+                name="typename"
+                type="text"
+                placeholder="Facility"
+              />
             </div>
+            <Button
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+              style={{
+                backgroundColor: "#0364FF",
+                width: "100px",
+                position: "relative",
+                cursor: "pointer",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Create
+            </Button>
           </form>
         </div>
       </div>
@@ -655,36 +650,13 @@ export function LocationDetail({ showModifyModal }) {
                           </span>
                         </p>
                       </div> */}
-                      <Button
-                        type="submit"
-                        style={{
-                          backgroundColor: "#0364FF",
-                          // width: "100%",
-                          position: "relative",
-                          cursor: "pointer",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        Add
-                      </Button>
                     </div>
                   </div>
                 </form>
               </div>
               {Location.sublocations?.length > 0 && (
                 <div>
-                  <CustomTable
-                    title={""}
-                    // columns={LocationSchema}
-                    data={Location.sublocations}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                  />
-                  {/* <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
+                  <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
                     <thead>
                       <tr>
                         <th>
@@ -708,20 +680,26 @@ export function LocationDetail({ showModifyModal }) {
                         </tr>
                       ))}
                     </tbody>
-                  </table> */}
+                  </table>
                 </div>
               )}
             </>
           )}
           <div className="field mt-2  is-grouped">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit
-              </button>
-            </p>
+            <Button
+              type="submit"
+              onClick={handleEdit}
+              style={{
+                backgroundColor: "#0364FF",
+                width: "100px",
+                position: "relative",
+                cursor: "pointer",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Edit
+            </Button>
             {!showSub && (
               <p
                 className={
@@ -730,12 +708,20 @@ export function LocationDetail({ showModifyModal }) {
                     : " control"
                 }
               >
-                <button
-                  className="button is-info is-small"
+                <Button
+                  type="submit"
                   onClick={handleSublocation}
+                  style={{
+                    backgroundColor: "#0364FF",
+                    width: "20%",
+                    position: "relative",
+                    cursor: "pointer",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
                   Create Sublocation
-                </button>
+                </Button>
               </p>
             )}
             {showUpdate && (
@@ -910,136 +896,75 @@ export function LocationModify() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Location Details-Modify</p>
+          <p
+            className="card-header-title"
+            style={{ fontSize: "20px", fontWeight: "bold" }}
+          >
+            Location Details-Modify
+          </p>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", { required: true })}
-                    name="name"
-                    type="text"
-                    placeholder="Name"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Location Type
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small "
-                    {...register("x", { required: true })}
-                    disabled
-                    name="locationType"
-                    type="text"
-                    placeholder="Location Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            {/* <div className="field">
-            <label className="label is-small">Profession
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Phone
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-                </label>
-                 </div>
-            <div className="field">
-            <label className="label is-small">Email
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Location Email"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Department
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                    </span>
-                </p>
-                </label>
-                {errors.department && <span>This field is required</span>}
-                </div>
-            <div className="field">
-            <label className="label is-small">Departmental Unit
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>
-                </p>
-                </label>
-                </div> */}
-            {/*  <div className="field">
-            <label className="label is-small">Category
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="LocationCategory" type="text" placeholder="Location Category"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-                </label>
-            </div> */}
-          </form>
+            <Input
+              {...register("name", { required: true })}
+              name="name"
+              type="text"
+              label="Name"
+              placeholder="Name"
+            />
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-danger is-small"
-                onClick={() => handleDelete()}
-                type="delete"
-              >
-                Delete
-              </button>
-            </p>
+            <Input
+              {...register("locationType", { required: true })}
+              name="locationType"
+              type="text"
+              label="Location Type"
+              placeholder="Location Type"
+            />
+          </form>
+          <div style={{ display: "flex" }}>
+            <Button
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+              style={{
+                backgroundColor: "#48c774",
+                width: "100px",
+                position: "relative",
+                cursor: "pointer",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Save
+            </Button>
+
+            <Button
+              type="submit"
+              onClick={handleCancel}
+              style={{
+                backgroundColor: "#ffdd57",
+                width: "100px",
+                position: "relative",
+                cursor: "pointer",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              onClick={handleDelete}
+              style={{
+                backgroundColor: "#f14668",
+                width: "100px",
+                position: "relative",
+                cursor: "pointer",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Delete
+            </Button>
           </div>
         </div>
       </div>
