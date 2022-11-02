@@ -1,21 +1,40 @@
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import React from 'react';
+import { Box, FormControl, FormHelperText } from '@mui/material';
 
-import Input from '../basic/Input';
+import React from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
   label: string;
-  value?: Date;
-  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  // value?: Date;
+  onChange?: (_?: React.ChangeEvent<HTMLInputElement>) => void;
+  register?: any;
+  errors?: any;
+  name: any;
 }
 
-const BasicDatePicker: React.FC<Props> = ({ label, onChange, value }) => {
+const BasicDatePicker: React.FC<Props> = ({
+  label,
+  onChange,
+  // value,
+  register,
+  name,
+  errors = {},
+}) => {
+  const [value, setValue] = React.useState<Dayjs | null>(
+    dayjs('2014-08-18T21:11:54')
+  );
+  const handleChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+  };
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Input type="date" label={label} value={value} onChange={onChange} />
-      {/* <DatePicker label={label} value={value} onChange={onChange} renderInput={(params) => <Input {...params} />} /> */}
-    </LocalizationProvider>
+    <Box sx={{ my: 2 }}>
+      <FormControl style={{ width: '100%' }}>
+        <input {...register} type='date' className='date-picker' />
+        {errors[name] && (
+          <FormHelperText error>{errors[name].message}</FormHelperText>
+        )}
+      </FormControl>
+    </Box>
   );
 };
 

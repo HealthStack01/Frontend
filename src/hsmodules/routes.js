@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Route, Routes, useLocation} from "react-router-dom";
 
-import { UserContext, ObjectContext } from "../context";
+import {UserContext, ObjectContext} from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import { Models } from "./app/Constants";
+import {Models} from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -133,6 +133,16 @@ import TheatreCheckIn from "./Appointment/TheatreWorkflow";
 import GeneralAppointments from "./Appointment/generalAppointment";
 // import ClientsAppointments from "./Clients/Appointments";
 //import ClientsAppointments from "./Client/Appointments";
+
+//importing dashboardModules
+import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
+import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
+import LandingPageDashboard from "./dashBoardUiComponent/@modules/LandingPageDashboard";
+import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
+import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
+import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
+import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
+import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -146,7 +156,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const { setLocationType } = useRepository(Models.LOCATION);
+  const {setLocationType} = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -155,7 +165,7 @@ const AppRoutes = () => {
     const newModule = paths.length > 2 && paths[2];
     setCurrentModule(newModule);
     if (
-      newModule != currentModule &&
+      newModule !== currentModule &&
       Object.keys(moduleLocationTypes).includes(newModule)
     ) {
       /* setLocationType(moduleLocationTypes[newModule]); */
@@ -170,6 +180,10 @@ const AppRoutes = () => {
         <Route path="/signupindividual" element={<IndividualSignup />} />
         <Route path="/app" element={<PrivateOutlet />}>
           <Route index element={<Overview />} />
+          <Route
+            path="/app/overview/dashboard"
+            element={<LandingPageDashboard />}
+          />
 
           {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
@@ -214,6 +228,7 @@ const AppRoutes = () => {
           <Route path="/app/clinic/clinicreports" element={<ClinicReport />} />
           <Route path="/app/clinic/clinics" element={<Clinic />} />
           <Route path="/app/clinic/checkin" element={<ClinicCheckin />} />
+          <Route path="/app/clinic/dashboard" element={<ClinicDashboard />} />
 
           {/* ***************************** CLIENTS ROUTES ************************************* */}
           <Route path="/app/clients/" element={<ClientHome />}>
@@ -236,8 +251,11 @@ const AppRoutes = () => {
               path="/app/clients/appointments"
               element={<ClientsAppointments />}
             />
-            {""}
-            <Route path="/app/clients/clients" element={<Patients />} />
+            {""} <Route path="/app/clients/clients" element={<Patients />} />
+            <Route
+              path="/app/clients/dashboard"
+              element={<ClientDashboard />}
+            />
           </Route>
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 
@@ -289,6 +307,10 @@ const AppRoutes = () => {
             <Route path="/app/finance/hmoauthorization" element={<HMOauth />} />
             <Route path="/app/finance/revenue" element={<FacilityAccount />} />
             <Route path="/app/finance/location" element={<Store />} />
+            <Route
+              path="/app/finance/dashboard"
+              element={<FinanceDashboard />}
+            />
           </Route>
 
           {/* ***************************** INVENTORY ROUTES ************************************* */}
@@ -331,6 +353,10 @@ const AppRoutes = () => {
 
           <Route path="/app/inventory/inv-stores" element={<Store />} />
           <Route path="/app/inventory/payment" element={<InventoryPayment />} />
+          <Route
+            path="/app/inventory/dashboard"
+            element={<InventoryDashboard />}
+          />
 
           {/* ***************************** LABS ROUTES ************************************* */}
 
@@ -345,6 +371,10 @@ const AppRoutes = () => {
           <Route
             path="/app/laboratory/payment"
             element={<LaboratoryPayment />}
+          />
+          <Route
+            path="/app/laboratory/dashboard"
+            element={<LaboratoryDashboard />}
           />
 
           {/* ***************************** PHARMACY ROUTES ************************************* */}
@@ -380,6 +410,10 @@ const AppRoutes = () => {
             element={<PharmacyInventoryReport />}
           />
           <Route path="/app/pharmacy/transfer" element={<PharmacyTransfer />} />
+          <Route
+            path="/app/pharmacy/dashboard"
+            element={<PharmacyDashboard />}
+          />
           {/* 
           <Route
             path="/app/pharmacy/inv-payment"
@@ -450,6 +484,7 @@ const AppRoutes = () => {
           <Route path="/app/ward/admissions" element={<Admissions />} />
           <Route path="/app/ward/documentation" element={<Documentation />} />
           <Route path="/app/ward/discharge" element={<Discharge />} />
+          <Route path="/app/ward/dashboard" element={<WardDashboard />} />
         </Route>
       </Routes>
     </>

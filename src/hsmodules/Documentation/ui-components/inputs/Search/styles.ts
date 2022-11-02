@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SearchBox = styled.div`
   position: relative;
@@ -55,7 +55,7 @@ export const SearchBox = styled.div`
 
 export const SearchField = styled.input`
   width: 42px;
-  height: 42px;
+  height: 20px;
   background: none;
   border-radius: 50px;
   box-sizing: border-box;
@@ -63,7 +63,6 @@ export const SearchField = styled.input`
   outline: none;
   transition: 0.5s;
   padding: 0.9rem;
-  height: 42px;
   border-radius: 4px;
   background: #fff;
   border: 1.5px solid ${({ theme }) => theme.grayTwo};
