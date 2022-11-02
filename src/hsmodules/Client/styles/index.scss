@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.patient-profile-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .patient-profile-card {
+    width: 100%;
+    min-height: 100px;
+    background-color: #f8f8f8;
+    border-radius: 10.67px;
+    padding: 15px;
+
+    .user-information-top-section {
+      width: 100%;
+      display: flex;
+      min-height: 100px;
+      justify-content: space-between;
+
+      .user-profile-information {
+        width: 65%;
+        display: flex;
+
+        .user-image-container {
+          width: 71px;
+          height: 71px;
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .user-infromation-container {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          margin-left: 12px;
+          h1 {
+            font-size: 18px;
+            font-weight: 600;
+            //line-height: 24.59px;
+            color: #000000;
+            word-wrap: break-word;
+          }
+
+          .user-outline {
+            display: flex;
+            flex-direction: column;
+
+            span {
+              font-weight: 500;
+              font-size: 12px;
+              //line-height: 16.39px;
+              color: #909090;
+            }
+          }
+        }
+      }
+    }
+
+    .horizontal-dotted-line {
+      min-width: 250px;
+      min-height: 1px;
+      margin: 25px 0;
+      border-bottom: 1px dotted gray;
+    }
+
+    .user-information-bottom-container {
+      width: 100%;
+      .each-bottom-section {
+        width: 100%;
+        margin-bottom: 10px;
+
+        span {
+          font-size: 14px;
+          line-height: 19.12px;
+          color: "#505050";
+          word-wrap: break-word;
+        }
+      }
+    }
+  }
+
+  .action-buttons-container {
+    width: 100%;
+    min-height: 100px;
+    margin-top: 25px;
+    background-color: #f8f8f8;
+    border-radius: 10.67px;
+
+    div {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border-top: 1px solid #33415c;
+      padding: 15px;
+
+      span {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #33415c;
+      }
+    }
+    :nth-child(1) {
+      border: none;
+    }
+  }
+}
