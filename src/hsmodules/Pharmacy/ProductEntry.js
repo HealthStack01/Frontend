@@ -102,7 +102,7 @@ export function ProductEntryCreate() {
   const [baseunit, setBaseunit] = useState("");
   const [quantity, setQuantity] = useState("");
   const [costprice, setCostprice] = useState("");
-  // const [storeId , setStoreId]= useState("")
+  const [storeId , setStoreId]= useState("")
   const [productItem, setProductItem] = useState([]);
   const {state} = useContext(ObjectContext);
 
@@ -127,7 +127,7 @@ export function ProductEntryCreate() {
     baseunit,
     date,
     documentNo,
-    
+    storeId
 
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
@@ -174,7 +174,7 @@ export function ProductEntryCreate() {
     setTotalamount("");
     setDate("");
     setDocumentNo("");
-    
+    setStoreId("")
 
     
    
@@ -197,7 +197,7 @@ export function ProductEntryCreate() {
     setTotalamount("");
     setDate("");
     setDocumentNo("");
-    
+    setStoreId("")
     setProductItem([]);
   };
 
@@ -241,17 +241,17 @@ export function ProductEntryCreate() {
         });
         return;
       }
-      // if (state.StoreModule.selectedStore._id) {
-      //   productItemI.storeId = state.StoreModule.selectedStore._id;
-      // } else {
-      //   toast({
-      //     message: "You need to select a store before adding inventory",
-      //     type: "is-danger",
-      //     dismissible: true,
-      //     pauseOnHover: true,
-      //   });
-      //   return;
-      // }
+      if (state.StoreModule.selectedStore._id) {
+        productItemI.storeId = state.StoreModule.selectedStore._id;
+      } else {
+        toast({
+          message: "You need to select a store before adding inventory",
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        return;
+      }
       //console.log("b4 create",productEntry);
       ProductEntryServ.create(productItemI)
         .then(res => {
@@ -310,14 +310,7 @@ export function ProductEntryCreate() {
     required: true,
     inputType: "TEXT",
   },
-  // { name: "Store Id",
-  //   key: "storeId",
-  //   description: "storeId",
-  //   selector: row => row.storeId,
-  //   sortable: true,
-  //   required: true,
-  //   inputType: "TEXT",
-  // },
+ 
   
   
 
@@ -453,17 +446,7 @@ value={
       placeholder="Product Id"
 />
 
-{/* <Input
 
-register={register("storeId", {required:true})} 
-value={
-        storeId
-      }
-      name="storeId"
-      type="text"
-      onChange={e => setStoreId(e.target.value)}
-      placeholder="Store Id"
-/> */}
                   <Input
                     register={register("name", {required:true})}
                     value={name}
@@ -575,10 +558,10 @@ value={
               <div
                 className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
               >
-                {/* <ProductSearch
+                <ProductSearch
                   getSearchfacility={getSearchfacility}
                   clear={success}
-                /> */}
+                />
                 <p
                   className="control has-icons-left "
                   style={{display: "none"}}
