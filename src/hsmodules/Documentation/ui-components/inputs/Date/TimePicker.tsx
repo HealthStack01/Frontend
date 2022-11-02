@@ -12,7 +12,7 @@ interface Props {
   name: any;
 }
 
-const BasicDatePicker: React.FC<Props> = ({
+const BasicTimePicker: React.FC<Props> = ({
   label,
   onChange,
   // value,
@@ -29,7 +29,7 @@ const BasicDatePicker: React.FC<Props> = ({
   return (
     <Box sx={{ my: 2 }}>
       <FormControl style={{ width: '100%' }}>
-        <input {...register} type='date' className='date-picker' />
+        <input {...register} type='time' className='date-picker' />
         {errors[name] && (
           <FormHelperText error>{errors[name].message}</FormHelperText>
         )}
@@ -38,4 +38,4 @@ const BasicDatePicker: React.FC<Props> = ({
   );
 };
 
-export default BasicDatePicker;
+export default BasicTimePicker;

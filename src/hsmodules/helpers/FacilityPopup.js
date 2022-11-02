@@ -5,6 +5,13 @@ import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import Slide from "@mui/material/Slide";
+import {Box} from "@mui/material";
+import {TableMenu} from "../../ui/styled/global";
+
 export function Facility() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -322,106 +329,132 @@ export default function FacilityPopup({facilityType, closeModal}) {
 
   //todo: pagination and vertical scroll bar
 
+  const facilitySchema = [
+    {
+      name: "S/N",
+      key: "_id",
+      selector: row => row.sn,
+      description: "Enter name of band",
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "facilityName",
+      description: "Enter name of facility",
+      selector: row => row.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Address",
+      key: "facilityAddress",
+      description: "Enter facility address",
+      selector: row => row.facilityAddress,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "City",
+      key: "facilityCity",
+      description: "Enter facility city",
+      selector: row => row.facilityCity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Phone",
+      key: "facilityContactPhone",
+      description: "Enter facility phone number",
+      selector: row => row.facilityContactPhone,
+      sortable: true,
+      required: true,
+      inputType: "TEL",
+    },
+    {
+      name: "Email",
+      key: "facilityEmail",
+      description: "Enter facility email",
+      selector: row => row.facilityEmail,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Type",
+      key: "facilityType",
+      description: "Enter facility type",
+      selector: row => row.facilityType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Category",
+      key: "facilityCategory",
+      description: "Enter facility category",
+      selector: row => row.facilityCategory,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Action",
+      key: "facility",
+      description: "Enter facility action",
+      selector: row => "----",
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
-      <section className="section remPadTop">
-        <div /* className="columns " */>
-          <div /* className="column is-4 " */>
-            <div className="level">
-              <div className="level-left">
-                <div className="level-item">
-                  <div className="field">
-                    <p className="control has-icons-left  ">
-                      <DebounceInput
-                        className="input is-small "
-                        type="text"
-                        placeholder="Search Facilities"
-                        minLength={3}
-                        debounceTimeout={400}
-                        onChange={e => handleSearch(e.target.value)}
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-search"></i>
-                      </span>
-                    </p>
-                  </div>
+      <Slide in={true} direction="left">
+        <Box
+          sx={{
+            width: "60vw",
+          }}
+        >
+          <TableMenu>
+            <div style={{display: "flex", alignItems: "center"}}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
                 </div>
-              </div>
-              <div className="level-item">
-                {" "}
-                <span className="is-size-6 has-text-weight-medium">
-                  List of Facilities{" "}
-                </span>
-              </div>
-              {/* <div className="level-right">
-                        <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>
-                    </div> */}
+              )}
+              <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+                List of Facilities
+              </h2>
             </div>
-            <div className="table-container pullup ">
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="S/No">S/No</abbr>
-                    </th>
-                    <th>Facility Name</th>
-                    <th>
-                      <abbr title="Address"> Address</abbr>
-                    </th>
-                    <th>
-                      <abbr title="City">City</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Type</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Category">Category</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {facilities.map((facility, i) => (
-                    <tr
-                      key={facility._id}
-                      onClick={() => handleRow(facility)}
-                      className={
-                        facility._id === (selectedFacility?._id || null)
-                          ? "is-selected"
-                          : ""
-                      }
-                    >
-                      <th>{i + 1}</th>
-                      <th>{facility.facilityName}</th>
-                      <td>{facility.facilityAddress}</td>
-                      <td>{facility.facilityCity}</td>
-                      <td>{facility.facilityContactPhone}</td>
-                      <td>{facility.facilityEmail}</td>
-                      <td>{facility.facilityType}</td>
-                      <td>{facility.facilityCategory}</td>
 
-                      <td>
-                        <span className="showAction">...</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {/*            
+              <Button
+                style={{fontSize: "14px", fontWeight: "600"}}
+                label="Add new "
+                onClick={handleCreateNew}
+              /> */}
+          </TableMenu>
+
+          <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+            <CustomTable
+              title={""}
+              columns={facilitySchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={false}
+              //selectableRowsComponent={Checkbox}
+            />
           </div>
-        </div>
-      </section>
+        </Box>
+      </Slide>
     </>
   );
 }

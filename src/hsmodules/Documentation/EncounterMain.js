@@ -73,6 +73,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [showLabModal, setShowLabModal] = useState(false);
   const [showRadModal, setShowRadModal] = useState(false);
   const [showChartModal, setShowChartModal] = useState(false);
+  const [showRight, setShowRight] = useState(false);
 
   const componentRef = useRef();
   const myRefs = useRef([]);
@@ -161,6 +162,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
+      //await setShowRight(true);
     }
   };
 
@@ -284,6 +286,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+    setShowRight(false);
     if (user) {
     } else {
     }
@@ -313,6 +316,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
+      setShowRight(false);
     };
   }, []);
 
@@ -372,7 +376,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
   };
 
   const DocumentToRender = ({Clinic}) => {
-    console.log("Clinic wahala wahala wha", Clinic);
     switch (Clinic.documentname.toLowerCase()) {
       case "admission order": {
         return Clinic.status.toLowerCase() !== "draft" ? (
@@ -399,6 +402,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
       default:
         return null;
     }
+  };
+
+  const [isTrue, setIsTrue] = useState(false);
+
+  const toggleIsTrue = () => {
+    setIsTrue(prev => !prev);
   };
 
   return (
@@ -518,7 +527,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
       </Box>
 
       <Grid container spacing={1}>
-        <Grid item xs={state.DocumentClassModule.show === "detail" ? 7 : 12}>
+        <Grid item xs={showRight ? 7 : 12}>
           <Box
             sx={{
               flexGrow: 1,
@@ -638,6 +647,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         sx={{
                           color: "#0364FF",
                         }}
+                        onClick={toggleIsTrue}
                       >
                         <PrintOutlinedIcon />
                       </IconButton>
@@ -707,12 +717,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
           </Box>
         </Grid>
 
-        <Slide
-          mountOnEnter
-          unmountOnExit
-          direction="left"
-          in={state.DocumentClassModule.show === "detail"}
-        >
+        <Slide mountOnEnter unmountOnExit direction="left" in={showRight}>
           <Grid item xs={5}>
             <Box
               mt={3}
@@ -730,83 +735,93 @@ export default function EncounterMain({nopresc, chosenClient}) {
         </Slide>
       </Grid>
 
-      <ModalBox
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        header="Choose Document Class"
-      >
-        <DocumentClassList
-          standalone="true"
-          closeModal={() => setShowModal(false)}
-        />
-      </ModalBox>
+      <>
+        <ModalBox
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          header="Choose Document Class"
+        >
+          <DocumentClassList
+            standalone="true"
+            closeModal={() => setShowModal(false)}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={showChartModal}
-        onClose={() => setShowChartModal(false)}
-        header="Choose Chart"
-      >
-        <ChartClassList
-          standalone="true"
-          closeModal={() => setShowChartModal(false)}
-        />
-      </ModalBox>
+        <ModalBox
+          open={showChartModal}
+          onClose={() => setShowChartModal(false)}
+          header="Choose Chart"
+        >
+          <ChartClassList
+            standalone="true"
+            closeModal={() => setShowChartModal(false)}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={showPrescriptionModal}
-        onClose={() => setShowPrescriptionModal(false)}
-        header="Prescription"
-      >
-        <Prescription standalone="true" />
-      </ModalBox>
+        <ModalBox
+          open={showPrescriptionModal}
+          onClose={() => setShowPrescriptionModal(false)}
+          header="Prescription"
+        >
+          <Prescription standalone="true" />
+        </ModalBox>
 
-      <ModalBox open={showLabModal} onClose={() => setShowLabModal(false)}>
-        <LabOrders
-          standalone="true"
-          closeModal={() => setShowLabModal(false)}
+        <ModalBox
+          open={showLabModal}
+          onClose={() => setShowLabModal(false)}
           header="Laboratory Orders"
-        />
-      </ModalBox>
+        >
+          <LabOrders
+            standalone="true"
+            closeModal={() => setShowLabModal(false)}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={showEncounterModal}
-        onClose={() => setShowEncounterModal(false)}
-      >
-        <EndEncounterList
-          standalone="true"
-          closeModal={() => setShowEncounterModal(false)}
+        <ModalBox
+          open={showEncounterModal}
+          onClose={() => setShowEncounterModal(false)}
           header="End Encounter"
-        />
-      </ModalBox>
+        >
+          <EndEncounterList
+            standalone="true"
+            closeModal={() => setShowEncounterModal(false)}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={state.EndEncounterModule.selectedEndEncounter === "Admit to Ward"}
-        onClose={() => handleCancel()}
-        header="Admit Orders"
-      >
-        <section className="modal-card-body card-overflow">
-          <AdmitOrders standalone="true" closeModal={() => handleCancel()} />
-        </section>
-      </ModalBox>
+        <ModalBox
+          open={
+            state.EndEncounterModule.selectedEndEncounter === "Admit to Ward"
+          }
+          onClose={() => handleCancel()}
+          header="Admit Orders"
+        >
+          <section className="modal-card-body card-overflow">
+            <AdmitOrders standalone="true" closeModal={() => handleCancel()} />
+          </section>
+        </ModalBox>
 
-      <ModalBox
-        open={state.EndEncounterModule.selectedEndEncounter === "Discharge"}
-        onClose={() => handleCancel()}
-        header="Discharge Orders"
-      >
-        <DischargeOrders standalone="true" closeModal={() => handleCancel()} />
-      </ModalBox>
+        <ModalBox
+          open={state.EndEncounterModule.selectedEndEncounter === "Discharge"}
+          onClose={() => handleCancel()}
+          header="Discharge Orders"
+        >
+          <DischargeOrders
+            standalone="true"
+            closeModal={() => handleCancel()}
+          />
+        </ModalBox>
 
-      <ModalBox
-        open={showRadModal}
-        onClose={() => setShowRadModal(false)}
-        header="Radiology Orders"
-      >
-        <RadiologyOrders
-          standalone="true"
-          closeModal={() => setShowRadModal(false)}
-        />
-      </ModalBox>
+        <ModalBox
+          open={showRadModal}
+          onClose={() => setShowRadModal(false)}
+          header="Radiology Orders"
+        >
+          <RadiologyOrders
+            standalone="true"
+            closeModal={() => setShowRadModal(false)}
+          />
+        </ModalBox>
+      </>
     </Box>
   );
 }
