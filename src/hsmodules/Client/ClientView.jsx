@@ -70,6 +70,7 @@ const ClientView = ({ open, setOpen, user }) => {
       ClientServ.remove(dleteId)
         .then(res => {
           toast.success(`Client successfully deleted!`);
+          setOpen(false);
         })
         .catch(err => {
           toast.error(`Sorry, Unable to delete client. ${err}`);
