@@ -585,6 +585,8 @@ export function ClientList({ showModal, showDetailModal }) {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [selectedUser, setSelectedUser] = useState();
+  const [open, setOpen] = useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {

@@ -48,7 +48,7 @@ function Login() {
         };
         setLoading(false);
         setUser(user);
-        if (keepMeIn) localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
         setLoading(false);
         toast.success('You successfully logged in');
 
