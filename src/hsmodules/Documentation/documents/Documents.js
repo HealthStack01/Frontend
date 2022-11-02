@@ -279,7 +279,7 @@ export const AdultAthsmaQuestionaire = ({Clinic, ref}) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={el => (myRefs.current[i] = el)}
+      ref={ref}
     >
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>

@@ -2,6 +2,10 @@ import React from 'react'
 import LocationModal from '../../components/inputs/LocationModal';
 
 export default function AccountHome() {
+    const locationOptions = []
+    const open = false
+    const setOpen = () => console.log('open')
+    const handleSelectLocation = () => console.log('open')
     return (
         <>
         <section className="hero is-info is-fullheight">

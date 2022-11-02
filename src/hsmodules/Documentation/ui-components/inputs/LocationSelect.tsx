@@ -7,6 +7,7 @@ import {
 import {styled} from "@mui/material";
 // import { styled } from '@mui/system';
 import React, {useEffect, useState} from "react";
+
 import {LocationWrapper} from "../../../../ui/styled/global";
 
 const blue = {

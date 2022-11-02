@@ -11,9 +11,11 @@ import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-
+import CustomSelect from "./ui-components/inputs/basic/Select";
+import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
+import Input from "./ui-components/inputs/basic/Input";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -185,8 +187,8 @@ export function LocationCreate() {
                 <div className="select is-small ">
                   <select
                     name="locationType"
-                    {...register("x", { required: true })}
-                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
+                    {...register("locationType", { required: true })}
+                    className="selectadd"
                   >
                     <option value="">Choose Location Type </option>
                     {locationTypeOptions.map((option, i) => (
@@ -203,7 +205,7 @@ export function LocationCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("name", { required: true })}
                   name="name"
                   type="text"
                   placeholder="Name of Location"
@@ -213,32 +215,6 @@ export function LocationCreate() {
                 </span>
               </p>
             </div>
-            {/*  <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                    </span>
-                </p>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-            </div>
-           
-            <div className="field">
-                <p className="control has-icons-left">
-                
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-            </div> */}
             <div
               className="field"
               style={!user.stacker ? { display: "none" } : {}}
@@ -253,7 +229,7 @@ export function LocationCreate() {
               >
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("facility", { required: true })}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -263,50 +239,7 @@ export function LocationCreate() {
                 </span>
               </p>
             </div>
-            {/*  <div className="field">
-                <div className="control has-icons-left">
-                    <div className="dropdown ">
-                        <div className="dropdown-trigger">
-                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                            <span className="icon is-small is-left">
-                            <i className="fas fa-hospital-symbol"></i>
-                            </span>
-                        </div>
-                        <div className="dropdown-menu">
-                            <div className="dropdown-content">
-                                <div className="dropdown-item">
-                                    simpa
-                                </div>
-                                <div className="dropdown-item is-active">
-                                    simpa 2
-                                </div>
-                                <div className="dropdown-item">
-                                    simpa 3
-                                </div>
-                                <div className="dropdown-item">
-                                    simpa 4
-                                </div>
-                            </div>
-                        </div>   
-                    </div>
-                </div>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-            </div> */}
+
             <div className="field">
               <p className="control">
                 <button className="button is-success is-small">Create</button>
@@ -632,45 +565,58 @@ export function LocationDetail({ showModifyModal }) {
           <p className="card-header-title">Location Details</p>
         </div>
         <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Name:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {Location.name}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Location Type:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="LocationType">
-                    {Location.locationType}{" "}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Grid item xs={12} sm={3} md={4}>
+            <span
+              style={{
+                color: " #0364FF",
+                fontSize: "20px",
+                marginRight: ".8rem",
+              }}
+            >
+              Name:
+            </span>
+            <span
+              className="is-size-7 padleft"
+              name="name"
+              style={{ fontWeight: "lighter", fontSize: "20px" }}
+            >
+              {" "}
+              {Location.name}{" "}
+            </span>
+          </Grid>
+
+          <Grid item xs={12} sm={3} md={4}>
+            <span
+              style={{
+                color: " #0364FF",
+                fontSize: "20px",
+                marginRight: ".8rem",
+              }}
+            >
+              Location Type:
+            </span>
+            <span
+              className="is-size-7 padleft"
+              name="name"
+              style={{ fontWeight: "lighter", fontSize: "20px" }}
+            >
+              {" "}
+              {Location.locationType}{" "}
+            </span>
+          </Grid>
+          <Grid item xs={12} sm={3} md={4}>
+            <span
+              style={{
+                color: " #0364FF",
+                fontSize: "20px",
+                marginRight: ".8rem",
+              }}
+            >
+              Sublocations:
+            </span>
+          </Grid>
           {(Location.sublocations?.length > 0 || showSub) && (
             <>
-              <label className="label is-size-7 mt-2">Sublocations:</label>
               <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div class="field is-horizontal">
@@ -678,25 +624,24 @@ export function LocationDetail({ showModifyModal }) {
                       <div className="field">
                         <div className="control">
                           <div className="select is-small ">
-                            <select
+                            <CustomSelect
+                              label="Choose Sub-location Type"
                               name="type"
-                              {...register("x", { required: true })}
-                              /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
-                            >
-                              <option value="">
-                                Choose Sub-location Type{" "}
-                              </option>
-                              {sublocationTypeOptions.map((option, i) => (
-                                <option key={i} value={option}>
-                                  {" "}
-                                  {option}
-                                </option>
-                              ))}
-                            </select>
+                              options={sublocationTypeOptions}
+                              register={register("type", {
+                                required: true,
+                              })}
+                            />
                           </div>
                         </div>
                       </div>
-                      <div className="field">
+                      <Input
+                        {...register("typename", { required: true })}
+                        name="typename"
+                        type="text"
+                        placeholder="Name of Sub-location"
+                      />
+                      {/* <div className="field">
                         <p className="control has-icons-left has-icons-right">
                           <input
                             className="input is-small"
@@ -709,21 +654,37 @@ export function LocationDetail({ showModifyModal }) {
                             <i className="fas fa-map-signs"></i>
                           </span>
                         </p>
-                      </div>
-                      <div className="field">
-                        <p className="control">
-                          <button className="button is-success is-small selectadd">
-                            Add
-                          </button>
-                        </p>
-                      </div>
+                      </div> */}
+                      <Button
+                        type="submit"
+                        style={{
+                          backgroundColor: "#0364FF",
+                          // width: "100%",
+                          position: "relative",
+                          cursor: "pointer",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        Add
+                      </Button>
                     </div>
                   </div>
                 </form>
               </div>
               {Location.sublocations?.length > 0 && (
                 <div>
-                  <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
+                  <CustomTable
+                    title={""}
+                    // columns={LocationSchema}
+                    data={Location.sublocations}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={handleRow}
+                    progressPending={loading}
+                  />
+                  {/* <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
                     <thead>
                       <tr>
                         <th>
@@ -747,7 +708,7 @@ export function LocationDetail({ showModifyModal }) {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               )}
             </>

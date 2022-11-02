@@ -6,11 +6,20 @@ import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {format, formatDistanceToNowStrict} from "date-fns";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
+import {Box} from "@mui/material";
+import ModalBox from "../../components/modal";
+import Card from "@mui/material/Card";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import {TableMenu} from "../../ui/styled/global";
+import Input from "../../components/inputs/basic/Input";
+import Grow from "@mui/material/Grow";
 
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
@@ -23,16 +32,41 @@ export default function Prescription() {
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <PrescriptionList />
-        </div>
-        <div className="column is-6 ">
-          {state.OrderModule.show === "create" && <PrescriptionCreate />}
-          {/*  {(state.OrderModule.show ==='detail')&&<ProductEntryDetail  />}
+
+      {/*  {(state.OrderModule.show ==='detail')&&<ProductEntryDetail  />}
                 {(state.OrderModule.show ==='modify')&&<ProductEntryModify ProductEntry={selectedProductEntry} />} */}
-        </div>
-      </div>
+
+      <Box
+        container
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "90vw",
+          height: "600px",
+          justifyContent: "space-between",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          item
+          sx={{
+            display: "flex-inline",
+            width: "60%",
+          }}
+        >
+          <PrescriptionList />
+        </Box>
+
+        <Box
+          item
+          sx={{
+            display: "flex-inline",
+            width: "35%",
+          }}
+        >
+          <PrescriptionCreate />
+        </Box>
+      </Box>
     </section>
   );
 }
@@ -136,14 +170,10 @@ export function PrescriptionCreate() {
   const handleClickProd = async () => {
     await setSuccess(false);
     if (!(productItemI.medication && productItemI.medication.length > 0)) {
-      toast({
-        message: "medication can not be empty ",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("medication can not be empty ");
       return;
     }
+    console.log(productItemI);
     await setProductItem(prevProd => prevProd.concat(productItemI));
     setHidePanel(false);
     setName("");
@@ -233,24 +263,14 @@ export function PrescriptionCreate() {
         // e.target.reset();
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
-        toast({
-          message: "Presciption created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Presciption created succesfully");
         setDestination(user.currentEmployee.facilityDetail.facilityName);
         setDestinationId(user.currentEmployee.facilityDetail._id);
         setSuccess(false);
         setProductItem([]);
       })
       .catch(err => {
-        toast({
-          message: "Error creating Prescription " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Error creating Prescription  ${err}`);
       });
   };
 
@@ -260,206 +280,237 @@ export function PrescriptionCreate() {
     return () => {};
   }, []);
 
+  const productItemSchema = [
+    {
+      name: "S/N",
+      key: "_id",
+      selector: row => row.sn,
+      description: "Enter",
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Test",
+      key: "test",
+      description: "Enter Test name",
+      selector: row => row.medication,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Instruction",
+      key: "action",
+      description: "Enter Action",
+      selector: row => (row.instruction ? row.instruction : "-------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Destination",
+      key: "destination",
+      description: "Enter Destination",
+      selector: row => row.destination,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Action",
+      key: "destination",
+      description: "Enter Destination",
+      selector: row => <p style={{fontSize: "0.7rem", color: "red"}}>Remove</p>,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
-    <div>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">Create Prescription</p>
-        </div>
-        <div className="card-content ">
-          {/*  <form onSubmit={onSubmit}> {/* handleSubmit(onSubmit)  </form>  */}
+    <Card>
+      <Box
+        sx={{
+          padding: "15px",
+          minHeight: "400px",
+          maxHeight: "600px",
+        }}
+      >
+        <div className="card card-overflow">
+          <Box
+            container
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p className="card-header-title">Create Prescription</p>
+          </Box>
+          <div className="card-content ">
+            {/*  <form onSubmit={onSubmit}> {/* handleSubmit(onSubmit)  </form>  */}
 
-          {/* array of ProductEntry items */}
+            {/* array of ProductEntry items */}
 
-          <label className="label is-small">Add Medication:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <MedicationHelperSearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                  hidePanel={hidePanel}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div
+                  className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
                 >
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ value={
-                      medication
-                    }
-                    name="medication"
-                    type="text"
-                    onChange={e => setMedication(e.target.value)}
-                    placeholder="medication"
+                  <MedicationHelperSearch
+                    getSearchfacility={getSearchfacility}
+                    clear={success}
+                    hidePanel={hidePanel}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </div>
-              {/*  <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="medication" value={medication} type="text" onChange={e=>setMedication(e.target.value)} placeholder="medication"  />
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-       
-            </div>  */}
 
-              <div className="field" onClick={() => setHidePanel(true)}>
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="instruction"
+                  <Input
                     value={instruction}
                     type="text"
                     onChange={e => setInstruction(e.target.value)}
                     placeholder="Instructions/Note"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small "
-                    disabled
-                    /* {...register("x",{required: true})} */ name="destination"
-                    value={
-                      destination ===
-                      user.currentEmployee.facilityDetail.facilityName
-                        ? "In-house"
-                        : destination
+                    name="instruction"
+                    disabled={
+                      !(
+                        productItemI.medication &&
+                        productItemI.medication.length > 0
+                      )
                     }
-                    type="text"
-                    onChange={e => setDestination(e.target.value)}
-                    placeholder="Destination Pharmacy"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-                <button
-                  className="button is-small is-success btnheight"
-                  onClick={handleChangeDestination}
-                >
-                  Change
-                </button>
-              </div>
-            </div>
-          </div>
 
-          {productItem.length > 0 && (
-            <div>
-              <label className="label is-size-7">Medications:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    {/*  <th><abbr title="Type">Name</abbr></th> */}
-                    <th>
-                      <abbr title="Medication">Medication</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Destination">Destination</abbr>
-                    </th>
-                    {/*<th><abbr title="Cost Price">Cost Price</abbr></th>
-                    <th><abbr title="Cost Price">Amount</abbr></th> */}
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      {/* <td>{ProductEntry.name}</td> */}
-                      <td>
-                        {ProductEntry.medication}
-                        <br />
-                        <span className="help">{ProductEntry.instruction}</span>
-                      </td>
-                      <td>
-                        {ProductEntry.destination ===
-                        user.currentEmployee.facilityDetail.facilityName
-                          ? "In-house"
-                          : ProductEntry.destination}
-                      </td>
-                      {/* <td>{ProductEntry.costprice}</td>
-                        <td>{ProductEntry.amount}</td> */}
-                      <td>
-                        <span className="showAction">x</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="field mt-2">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
+                  <input
+                    className="input is-small"
+                    value={medication}
+                    name="medication"
+                    type="text"
+                    onChange={e => setMedication(e.target.value)}
+                    placeholder="medication"
+                    style={{display: "none"}}
+                  />
+
+                  <Box
+                    container
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    Create
-                  </button>
-                </p>
+                    <Box
+                      item
+                      sx={{
+                        width: "calc(100% - 100px)",
+                      }}
+                    >
+                      <Input
+                        value={
+                          destination ===
+                          user.currentEmployee.facilityDetail.facilityName
+                            ? "In-house"
+                            : destination
+                        }
+                        disabled={true}
+                        type="text"
+                        onChange={e => setDestination(e.target.value)}
+                        placeholder="Destination Pharmacy"
+                        name="destination"
+                      />
+                    </Box>
+
+                    <Box item>
+                      <Button
+                        onClick={handleChangeDestination}
+                        sx={{
+                          fontSize: "0.75rem",
+                          width: "85px",
+                        }}
+                      >
+                        Change
+                      </Button>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    container
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                    }}
+                    mb={2}
+                  >
+                    <Button
+                      onClick={() => {
+                        handleClickProd();
+                        () => setHidePanel(true);
+                      }}
+                      sx={{
+                        width: "40%",
+                        fontSize: "0.75rem",
+                      }}
+                    >
+                      Add Product
+                    </Button>
+                  </Box>
+                </div>
               </div>
             </div>
-          )}
+
+            {productItem.length > 0 && (
+              <Box
+                sx={{
+                  height: "200px",
+                  overflowY: "scroll",
+                }}
+              >
+                <CustomTable
+                  title={"Lab Orders"}
+                  columns={productItemSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={handleRow}
+                  progressPending={false}
+                  //selectableRowsComponent={Checkbox}
+                />
+              </Box>
+            )}
+
+            {productItem.length > 0 && (
+              <Box
+                container
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  onClick={onSubmit}
+                  sx={{
+                    width: "150px",
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  Create
+                </Button>
+              </Box>
+            )}
+          </div>
         </div>
-      </div>
-      <div className={`modal ${destinationModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Destination</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <FacilityPopup
-              facilityType="Pharmacy"
-              closeModal={handlecloseModal}
-            />
-            {/* <StoreList standalone="true" /> */}
-            {/*  <ProductCreate /> */}
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
-    </div>
+
+        <ModalBox open={destinationModal} onClose={handlecloseModal}>
+          <FacilityPopup
+            facilityType="Pharmacy"
+            closeModal={handlecloseModal}
+          />
+        </ModalBox>
+      </Box>
+    </Card>
   );
 }
 
@@ -606,120 +657,125 @@ export function PrescriptionList({standalone}) {
     return () => {};
   }, []);
 
+  const ordersListSchema = [
+    {
+      name: "S/N",
+      key: "_id",
+      selector: row => row.sn,
+      description: "Enter name of band",
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "name",
+      description: "Enter name of band",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Test",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: row => row.order,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Note",
+      key: "action",
+      description: "Enter Action",
+      selector: row => (row.instruction ? row.instruction : "-----------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Fulfilled",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: row => (row.fulfilled === "true" ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      key: "action",
+      description: "Enter Action",
+      selector: row => row.order_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Requesting Physician",
+      key: "facility",
+      description: "Enter name of Facility",
+      selector: row => row.requestingdoctor_Name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Action",
+      key: "destination",
+      description: "Enter Destination",
+      selector: row => (
+        <p
+          style={{fontSize: "0.7rem", color: "red"}}
+          onClick={() => handleDelete(row)}
+        >
+          Delete
+        </p>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Medications"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        {!standalone && (
-          <>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Prescriptions{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
+      <Box>
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
               </div>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="table-container pullup ">
-        <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-          <thead>
-            <tr>
-              <th>
-                <abbr title="Serial No">S/No</abbr>
-              </th>
-              <th>
-                <abbr title="Date">Date</abbr>
-              </th>
-              <th>
-                <abbr title="Order">Medication</abbr>
-              </th>
-              <th>Fulfilled</th>
-              <th>
-                <abbr title="Status">Status</abbr>
-              </th>
-              <th>
-                <abbr title="Requesting Physician">Requesting Physician</abbr>
-              </th>
-              {/* <th><abbr title="Client Name">Client Name</abbr></th> */}
-              {!standalone && (
-                <th>
-                  <abbr title="Actions">Actions</abbr>
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tfoot></tfoot>
-          <tbody>
-            {facilities.map((ProductEntry, i) => (
-              <tr
-                key={ProductEntry._id}
-                /* onClick={()=>handleRow(ProductEntry)} */ className={
-                  ProductEntry._id === (selectedOrder?._id || null)
-                    ? "is-selected"
-                    : ""
-                }
-              >
-                <th>{i + 1}</th>
-                <td>
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                  <span>
-                    {format(new Date(ProductEntry.createdAt), "dd-MM-yy")}
-                  </span>
-                </td>
-                <th>{ProductEntry.order}</th>
-                <td>{ProductEntry.fulfilled === "True" ? "Yes" : "No"}</td>
-                <td>{ProductEntry.order_status}</td>
-                <td>{ProductEntry.requestingdoctor_Name}</td>
-                {/* <td>{ProductEntry.clientId}</td> */}
-                {!standalone && (
-                  <td>
-                    {" "}
-                    <button
-                      className="button  sbut"
-                      aria-label="more options"
-                      onClick={() => handleDelete(ProductEntry)}
-                    >
-                      <span>x</span>
-                    </button>{" "}
-                    {/* <span className="showAction"  >...</span> */}{" "}
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+              List of Presciption
+            </h2>
+          </div>
+
+          {!standalone && (
+            <Button
+              style={{fontSize: "14px", fontWeight: "600"}}
+              label="Add new "
+              onClick={handleCreateNew}
+            />
+          )}
+        </TableMenu>
+
+        <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+          <CustomTable
+            title={""}
+            columns={ordersListSchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            progressPending={false}
+            //selectableRowsComponent={Checkbox}
+          />
+        </div>
+      </Box>
     </>
   );
 }
@@ -2001,6 +2057,33 @@ export function ProductEntryModify() {
   );
 }
 
+const useOnClickOutside = (ref, handler) => {
+  useEffect(
+    () => {
+      const listener = event => {
+        // Do nothing if clicking ref's element or descendent elements
+        if (!ref.current || ref.current.contains(event.target)) {
+          return;
+        }
+        handler(event);
+      };
+      document.addEventListener("mousedown", listener);
+      document.addEventListener("touchstart", listener);
+      return () => {
+        document.removeEventListener("mousedown", listener);
+        document.removeEventListener("touchstart", listener);
+      };
+    },
+    // Add ref and handler to effect dependencies
+    // It's worth noting that because passed in handler is a new ...
+    // ... function on every render that will cause this effect ...
+    // ... callback/cleanup to run every render. It's not a big deal ...
+    // ... but to optimize you can wrap handler in useCallback before ...
+    // ... passing it into this hook.
+    [ref, handler]
+  );
+};
+
 export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
   const productServ = client.service("medicationhelper");
   const [facilities, setFacilities] = useState([]);
@@ -2021,6 +2104,8 @@ export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
   const [productModal, setProductModal] = useState(false);
   const ref = useRef(null);
   let value;
+
+  const dropDownRef = useRef(null);
 
   const handleRow = async obj => {
     await setChosen(true);
@@ -2125,54 +2210,80 @@ export function MedicationHelperSearch({getSearchfacility, clear, hidePanel}) {
     return () => {};
   }, [hidePanel]);
 
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
   return (
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
-          >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+          <div className="control has-icons-left  ">
+            <div
+              className="dropdown-trigger"
+              style={{width: "100%", position: "relative"}}
+            >
               <DebounceInput
                 className="input is-small "
                 type="text"
-                placeholder="Search Order"
+                placeholder="Search Product"
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
                 onBlur={e => handleBlur(e.target.value)}
                 onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
+                element={Input}
               />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div
-              className="dropdown-menu"
-              style={{width: "100%"}}
-              onBlur={handleBlur2}
-            >
-              <div
-                className="dropdown-content"
-                onMouseOver={() => setShowPanel(true)}
-                onMouseOut={() => setShowPanel(false)}
-              >
-                {/*  { facilities.length>0?"":<div className="dropdown-item" onClick={handleAddproduct}> <span>Add {val} to product list</span> </div>} */}
 
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <span>{facility.medication}</span> //{" "}
-                    <span>{facility.instruction}</span>
-                  </div>
-                ))}
-              </div>
+              <Grow in={showPanel}>
+                <Box
+                  ref={dropDownRef}
+                  container
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxHeight: "250px",
+                    overflowY: "scroll",
+                    zIndex: "5",
+                    position: "absolute",
+                    background: "#ffffff",
+                    width: "100%",
+                    boxShadow: "3",
+                    border: "1px solid lightgray",
+                  }}
+                >
+                  {facilities.map((facility, i) => (
+                    <Box
+                      item
+                      key={i}
+                      onClick={() => handleRow(facility)}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0 8px",
+                        width: "100%",
+                        minHeight: "50px",
+                        borderTop: i !== 0 ? "1px solid gray" : "",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "0.75rem",
+                        }}
+                      >
+                        {facility.medication}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "0.75rem",
+                        }}
+                      >
+                        {facility.instruction}
+                      </span>
+                    </Box>
+                  ))}
+                </Box>
+              </Grow>
             </div>
           </div>
         </div>
