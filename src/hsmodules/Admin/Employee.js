@@ -21,6 +21,7 @@ import { BottomWrapper, GridWrapper } from '../app/styles';
 import PasswordInput from '../../components/inputs/basic/Password';
 import { createEmployeeSchema } from './ui-components/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { EmployeeForm } from './EmployeeForm';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -59,9 +60,11 @@ export default function Employee() {
 
   return (
     <>
-      <ModalBox open={createModal} onClose={handleHideCreateModal} width='100%'>
+      {/* <ModalBox open={createModal} onClose={handleHideCreateModal} width='100%'>
         <EmployeeCreate />
-      </ModalBox>
+      </ModalBox> */}
+
+      <EmployeeForm open={createModal} setOpen={handleHideCreateModal} />
 
       <ModalBox open={detailModal} onClose={handleHideDetailModal}>
         <div style={{ width: '60vw' }}>
@@ -139,13 +142,11 @@ export function EmployeeCreate() {
     setError(false);
     setSuccess(false);
     data.createdby = user._id;
+    data.facility = user.currentEmployee.facilityDetail._id;
+
     if (user.currentEmployee) {
     }
 
-    // {
-    //   ...data,
-    //   facility: user.currentEmployee.facilityDetail._id,
-    // }
     setLoading(true);
     await EmployeeServ.create(data)
       .then(res => {
@@ -174,6 +175,14 @@ export function EmployeeCreate() {
           label='First Name'
           placeholder='First Name'
           errorText={errors?.firstname?.message}
+        />
+        <Input
+          register={register('middlename')}
+          name='middlename'
+          type='text'
+          label='Middle Name'
+          placeholder='Middle Name'
+          errorText={errors?.middlename?.message}
         />
         <Input
           register={register('lastname')}
