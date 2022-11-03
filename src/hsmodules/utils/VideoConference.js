@@ -57,8 +57,9 @@ const VideoConference = () => {
         onClick={e => handleClick(e)}
         type="submit"
         style={{
-          fontSize: "0.8rem",
+          fontSize: "0.9rem",
           width: "100%",
+          minHeight: "48px",
         }}
       >
         Join Teleconsultation

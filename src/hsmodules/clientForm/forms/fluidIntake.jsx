@@ -243,7 +243,7 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Date & Time</label>
                 <p className="control is-expanded">
                   <input
-                    ref={register({required: true})}
+                    {...register("fluid_time", {required: true})}
                     name="fluid_time"
                     className="input is-small"
                     type="datetime-local"
@@ -258,7 +258,7 @@ const FluidIntakeOutput = () => {
                   <div className="select is-small ">
                     <select
                       name="fluidType"
-                      {...register("x", {required: true})}
+                      {...register("fluidType", {required: true})}
                       /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
                     >
                       <option value="">Choose Type </option>
@@ -281,7 +281,7 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Route</label>
                 <p className="control is-expanded">
                   <input
-                    {...register}
+                    {...register("route")}
                     name="route"
                     className="input is-small"
                     type="text"
@@ -294,7 +294,7 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Fluid </label>
                 <p className="control is-expanded">
                   <input
-                    {...register}
+                    {...register("fluid")}
                     name="fluid"
                     className="input is-small"
                     type="text"
@@ -307,7 +307,7 @@ const FluidIntakeOutput = () => {
                 <label className="label is-small">Volume (mls)</label>
                 <p className="control is-expanded">
                   <input
-                    {...register}
+                    {...register("volume")}
                     name="volume"
                     className="input is-small"
                     type="number"
@@ -321,7 +321,7 @@ const FluidIntakeOutput = () => {
               <label className="label is-small">Comments</label>
               <div className="control">
                 <input
-                  {...register}
+                  {...register("comments")}
                   name="comments"
                   className="input is-small"
                   type="text"

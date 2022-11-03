@@ -79,6 +79,12 @@ export default function Documentation({standalone}) {
           </Grid> */}
         </Grid>
       )}
+
+      {standalone && (
+        <div>
+          <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
+        </div>
+      )}
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
             </div> */}

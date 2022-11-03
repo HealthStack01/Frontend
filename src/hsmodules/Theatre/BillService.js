@@ -17,7 +17,7 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 
 // Demo styles, see 'Styles' section below for some notes on use.
@@ -45,7 +45,11 @@ export default function TheatreBillService() {
 
       <BillsList openCreateModal={handleOpenCreateModal} />
 
-      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Bill Service"
+      >
         <BillServiceCreate />
       </ModalBox>
 
