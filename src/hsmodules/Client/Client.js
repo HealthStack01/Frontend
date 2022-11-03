@@ -34,6 +34,7 @@ import { Box, Portal } from "@mui/material";
 import CustomTable from "./ui-components/customtable";
 import ModalBox from "../../components/modal";
 import ClientForm from "./ClientForm";
+import ClientView from "./ClientView";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -42,31 +43,20 @@ export default function Client() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [detailModal, setDetailModal] = useState(false);
-  const [modifyModal, setModifyModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
-
   const handleShowModal = () => {
-    setShowModal(true);
+    {
+      setShowModal(true);
+    }
   };
 
   const handleHideModal = () => {
-    setShowModal(false);
+    {
+      setShowModal(false);
+    }
   };
-
-  const handleShowDetailModal = () => {
-    setDetailModal(true);
-  };
-  const handleHideDetailModal = () => {
-    setDetailModal(false);
-  };
-
-  const handleModifyModal = () => {
-    setModifyModal(true);
-  };
-  const handleHideModifyModal = () => {
-    setModifyModal(false);
-  };
+  const handleShowRegisteredModal = () => {};
+  const handleHideRegisteredModal = () => {};
 
   // const createClientSchema = yup.object().shape({
   //   firstName: yup.string().required("Enter a first name"),
@@ -80,10 +70,7 @@ export default function Client() {
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6 ">
-          <ClientList
-            showModal={handleShowModal}
-            showDetailModal={handleShowDetailModal}
-          />
+          <ClientList showModal={handleShowModal} />
         </div>
         <div className="column is-6 ">
           {state.ClientModule.show === "detail" && <ClientDetail />}
@@ -115,7 +102,13 @@ export function ClientCreate({ open, setOpen }) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("client");
   const mpiServ = client.service("mpi");
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
+
+  // use local storage
+
+  const data = localStorage.getItem("user");
+  const user = JSON.parse(data);
+
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
@@ -560,7 +553,7 @@ export function ClientCreate({ open, setOpen }) {
   );
 }
 
-export function ClientList({ showModal, showDetailModal }) {
+export function ClientList({ showModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -578,13 +571,19 @@ export function ClientList({ showModal, showDetailModal }) {
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+
+  const data = localStorage.getItem("user");
+  const user = JSON.parse(data);
+
+  // end
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
 
+  console.log("Users", user);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
@@ -597,6 +596,14 @@ export function ClientList({ showModal, showDetailModal }) {
     //console.log(state)
   };
 
+  const handleRowClicked = (row) => {
+    setSelectedUser(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
   const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
@@ -607,7 +614,6 @@ export function ClientList({ showModal, showDetailModal }) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
-    showDetailModal();
   };
 
   const handleSearch = (val) => {
@@ -767,52 +773,55 @@ export function ClientList({ showModal, showDetailModal }) {
     <>
       {user ? (
         <>
-          <div className="level">
-            <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-            >
-              <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  {handleSearch && (
-                    <div className="inner-table">
-                      <FilterMenu onSearch={handleSearch} />
-                    </div>
-                  )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-                    List of Clients
-                  </h2>
-                </div>
-
-                {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new "
-                    onClick={showModal}
-                    showicon={true}
-                  />
+          <Portal>
+            <ModalBox open={open} onClose={handleCloseModal}>
+              <ClientView user={selectedUser} />
+            </ModalBox>
+          </Portal>
+          <PageWrapper
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          >
+            <TableMenu>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
                 )}
-              </TableMenu>
-
-              <div
-                style={{
-                  width: "100%",
-                  height: "calc(100vh - 90px)",
-                  overflow: "auto",
-                }}
-              >
-                <CustomTable
-                  title={""}
-                  columns={ClientMiniSchema}
-                  data={facilities}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                />
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  List of Clients
+                </h2>
               </div>
-            </PageWrapper>
-          </div>
+
+              {handleCreateNew && (
+                <Button
+                  style={{ fontSize: "14px", fontWeight: "600" }}
+                  label="Add new "
+                  onClick={showModal}
+                  showicon={true}
+                />
+              )}
+            </TableMenu>
+
+            <div
+              style={{
+                width: "100%",
+                height: "calc(100vh - 90px)",
+                overflow: "auto",
+              }}
+            >
+              <CustomTable
+                title={""}
+                columns={ClientMiniSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRowClicked}
+                progressPending={loading}
+              />
+            </div>
+          </PageWrapper>
         </>
       ) : (
         <div>loading</div>
@@ -821,7 +830,7 @@ export function ClientList({ showModal, showDetailModal }) {
   );
 }
 
-export function ClientDetail({ showModifyModal }) {
+export function ClientDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -853,7 +862,6 @@ export function ClientDetail({ showModifyModal }) {
       ClientModule: newClientModule,
     }));
     //console.log(state)
-    showModifyModal();
   };
 
   const handleFinancialInfo = () => {
@@ -896,32 +904,19 @@ export function ClientDetail({ showModifyModal }) {
     <>
       <div className="card ">
         <div className="card-header">
-          <p
-            className="card-header-title"
-            style={{ fontWeight: "bold", fontSize: "20px" }}
-          >
-            Client Details
-          </p>
+          <p className="card-header-title">Client Details</p>
           {(user.currentEmployee?.roles.includes("Bill Client") ||
             user.currentEmployee?.roles.length === 0 ||
             user.stacker) && (
-            <Button
-              type="submit"
+            <button
+              className="button is-success is-small btnheight mt-2"
               onClick={showBilling}
-              style={{
-                backgroundColor: "#0364FF",
-                width: "100px",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
             >
               Bill Client
-            </Button>
+            </button>
           )}
         </div>
-        <div className="card-content vscrollable" style={{ display: "flex" }}>
+        <div className="card-content vscrollable">
           <div className="field is-horizontal">
             <div className="field-body">
               {Client.firstname && (

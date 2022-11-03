@@ -20,6 +20,9 @@ import { width } from "@mui/system";
 import BadgeIcon from "@mui/icons-material/Badge";
 import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
 import { fontWeight } from "@mui/system";
+import { BottomWrapper, GridWrapper, HeadWrapper } from "../app/styles";
+import { GrayWrapper } from "../app/styles";
+import ViewText from "../../components/viewtext";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -510,155 +513,40 @@ export function BandDetail({ showModifyModal }) {
   };
 
   return (
-    <>
-      <div className="card">
-        <div className="card-header">
-          <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            fontSize="bold"
-          >
-            <p className="card-header-title">Band Details</p>
-          </Grid>
+    <GrayWrapper>
+      <HeadWrapper>
+        <div>
+          <h2>Band Detail</h2>
+          <span>Band detail of {Band.name}</span>
         </div>
+        <BottomWrapper>
+          <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <h1
-            style={{
-              alignItems: "center",
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginRight: "10px",
-            }}
-          >
-            Name :
-            <span className="is-size-7 padleft" name="name">
-              {" "}
-              {Band.name}{" "}
-            </span>
-          </h1>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <h1
-            style={{
-              alignItems: "center",
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginRight: "10px",
-            }}
-          >
-            Band Type :
-            <span
-              className="is-size-7 padleft"
-              name="BandType"
-              style={{ fontWeight: "light", fontSize: "20px" }}
-            >
-              {Band.bandType}{" "}
-            </span>
-          </h1>
-        </div>
-        {/*   <tr>
-                    <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>Profession: 
-                
-                    
-                    </label>
-                    </td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandCity">{Band.profession}</span> 
-                </td>
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>Phone:           
-                    
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft "  name="BandContactPhone" >{Band.phone}</span>
-                        </td>
-                  </tr>
-                    <tr><td>
-            
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>Email:                     
-                    
-                         </label></td><td>
-                         <span className="is-size-7 padleft "  name="BandEmail" >{Band.email}</span>
-                         </td>
-             
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i></span>Department:
-                    
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft "  name="BandOwner">{Band.department}</span>
-                    </td>
-               
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>Departmental Unit:              
-                    
-                </label></td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandType">{Band.deptunit}</span>
-                </td>
-              
-                </tr> */}
+          <Button
+            label={`Edit Client`}
+            background="#ECF3FF"
+            color="#0364FF"
+            showicon
+            icon="bi bi-pen-fill"
+            onClick={handleEdit}
+          />
+        </BottomWrapper>
+      </HeadWrapper>
 
-        {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-size-7 padleft "  name= "BandCategory">{Band.BandCategory}</span>
-                </label>
-                 </div> */}
-        <Button
-          type="submit"
-          onClick={handleEdit}
-          style={{
-            backgroundColor: "#0364FF",
-            width: "100px",
-            cursor: "pointer",
-          }}
-        >
-          Edit
-        </Button>
+      <GridWrapper className="two-columns">
+        <ViewText label="Name" text={Band.name} />
+        <ViewText label="Band Type" text={Band.bandType} />
+      </GridWrapper>
 
-        {/* <div className="field mt-2">
+      {/* <div className="field mt-2">
           <p className="control">
             <button className="button is-success is-small" onClick={handleEdit}>
               Edit
             </button>
           </p>
         </div> */}
-        {error && <div className="message"> {message}</div>}
-      </div>
-    </>
+      {error && <div className="message"> {message}</div>}
+    </GrayWrapper>
   );
 }
 

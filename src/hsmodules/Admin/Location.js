@@ -67,7 +67,7 @@ export default function Location() {
           </ModalBox>
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <div style={{ width: "50vw" }}>
+            <div style={{ width: "30vw" }}>
               <LocationDetail showModifyModal={handleModifyModal} />
             </div>
           </ModalBox>
