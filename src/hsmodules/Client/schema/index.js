@@ -165,3 +165,10 @@ export const createClientSchema = yup.object().shape({
     .email('Must be a valid email!')
     .required('Email is required!'),
 });
+
+export const resetPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Must be a valid email!')
+    .required('Email is required!'),
+});
