@@ -65,7 +65,7 @@
     "react-scripts": "^5.0.0",
     "react-semantic-ui-datepickers": "^2.17.1",
     "react-to-print": "^2.14.7",
-    "react-toastify": "^8.1.0",
+    "react-toastify": "^9.1.0",
     "rsuite": "^5.8.1",
     "semantic-ui-react": "^2.1.2",
     "serve": "^13.0.2",

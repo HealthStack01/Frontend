@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
+import { Checkbox } from "../../components/switch/styles";
+import Button from "./ui-components/buttons/Button";
 
 export default function ModuleList({ handlecloseModal }) {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
@@ -19,7 +21,7 @@ export default function ModuleList({ handlecloseModal }) {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
 
-  const { state } = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   let draftDoc = {};
   draftDoc = state.EmployeeModule.selectedEmployee;
@@ -101,7 +103,17 @@ export default function ModuleList({ handlecloseModal }) {
         });
     }
   };
-
+  const handleCancel = async () => {
+    const newModuleList = {
+      selectedBand: {},
+      show: "list",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ModuleList: newModuleList,
+    }));
+    console.log(state);
+  };
   return (
     <>
       <div className="card ">
@@ -129,18 +141,36 @@ export default function ModuleList({ handlecloseModal }) {
                 ))}
               </div>
             </div>
+            <div style={{ display: "flex" }}>
+              <Button
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+                style={{
+                  backgroundColor: "#48c774",
+                  width: "100px",
+                  position: "relative",
+                  cursor: "pointer",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Save
+              </Button>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button type="reset" className="button is-warning is-small">
-                  Cancel
-                </button>
-              </p>
+              <Button
+                type="submit"
+                onClick={handleCancel}
+                style={{
+                  backgroundColor: "#ffdd57",
+                  width: "100px",
+                  position: "relative",
+                  cursor: "pointer",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Cancel
+              </Button>
             </div>
           </form>
         </div>

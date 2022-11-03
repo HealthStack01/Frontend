@@ -47,14 +47,11 @@ const PharmacyDashboard = () => {
     orderService,
     FetchTotalPrescriptionOrderWithInPresentRange
   );
-  const {
-    totalPresentDataObject: prescriptionBilledPresentDataObject,
-    isLoading,
-  } = TotalModeltDataForPresent(
-    orderService,
-    FetchTotalPrescriptionBilledWithInPresentRange
-  );
-
+  const { totalPresentDataObject: prescriptionBilledPresentDataObject } =
+    TotalModeltDataForPresent(
+      orderService,
+      FetchTotalPrescriptionBilledWithInPresentRange
+    );
   const { totalPresentDataObject: prescriptionPendingPresentDataObject } =
     TotalModeltDataForPresent(
       orderService,
@@ -83,13 +80,13 @@ const PharmacyDashboard = () => {
   /**
    * test
    */
-  // const { modelResult } = ModelResult(billsService);
+  const { modelResult } = ModelResult(billsService);
 
-  // console.log("model data ===>", {
-  //   modelResult: modelResult,
-  //   monthNameForCurrentYear: monthNameForCurrentYear,
-  //   pharmacySaleValueSeriesData: pharmacyLineSeriesData,
-  // });
+  console.log("model data ===>", {
+    modelResult: modelResult,
+    monthNameForCurrentYear: monthNameForCurrentYear,
+    pharmacySaleValueSeriesData: pharmacyLineSeriesData,
+  });
 
   useEffect(() => {
     const { userFullName, facilityFullName } = userDetails();
@@ -115,14 +112,14 @@ const PharmacyDashboard = () => {
             title="No Of Prescription Sent"
             hasFilter={true}
             dataSource={prescriptionOrderPresentDataObject}
-            isLoading={isLoading}
+            isLoading={isSentLoading}
           />
           <ViewCardWithFilter
             count={0}
             title="No Of Prescription Billed"
             hasFilter={true}
             dataSource={prescriptionBilledPresentDataObject}
-            isLoading={isLoading}
+            isLoading={isSentLoading}
           />
           <ViewCard count={`${fetchTotalStockQuantity}K`} title="Total Stock" />
         </StartCardWapper>
@@ -149,7 +146,7 @@ const PharmacyDashboard = () => {
                   title="Total Stock Value"
                   hasFilter={true}
                   dataSource={pharmacyStockValuePresentDataObject}
-                  isLoading={isLoading}
+                  isLoading={isSentLoading}
                 />
                 {/* <ViewCard count={"80K"} title="Total Purchases" /> */}
               </StartCardWapper>
@@ -173,7 +170,7 @@ const PharmacyDashboard = () => {
                   title="Total Sale Value"
                   hasFilter={true}
                   dataSource={pharmacySaleValuePresentDataObject}
-                  isLoading={isLoading}
+                  isLoading={isSentLoading}
                 />
               </StartCardWapper>
             </Box>
@@ -191,7 +188,7 @@ const PharmacyDashboard = () => {
                     title="No Of Prescription Pending"
                     hasFilter={true}
                     dataSource={prescriptionPendingPresentDataObject}
-                    isLoading={isLoading}
+                    isLoading={isSentLoading}
                   />
                 </Box>
               </StartCardWapper>

@@ -8,12 +8,19 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
+import Input from "../../components/inputs/basic/Input";
+import Button from "./ui-components/buttons/Button";
+import { Box } from "@mui/material";
+import { GridWrapper } from "../app/styles";
+import CustomTable from "../../components/customtable";
+import CustomSelect from "../../components/inputs/basic/Select"
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
+
 export default function BillPrescriptionCreate() {
-  // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -793,12 +800,74 @@ export default function BillPrescriptionCreate() {
     return () => {};
   }, [billMode]);
 
+  const billDescriptionSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    
+    {
+      name: "Name",
+      key: "name",
+      description: "name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Quantity",
+      key: "quantity",
+      description: "quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Baseunit",
+      key: "baseunit",
+      description: "baseunit",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "checkbox",
+    },
+    
+
+      {
+        name: "Selling gprice",
+        key: "sellingprice",
+        description: "sellingprice",
+        selector: row => row.sellingprice,
+        sortable: true,
+        required: true,
+        inputType: "TEXT",
+      },
+      {
+        name: "Amount",
+        key: "amount",
+        description: "amount",
+        selector: row => row.amount,
+        sortable: true,
+        required: true,
+        inputType: "TEXT",
+      },
+]  
+
+const proddata=[{sn:1, name:"Helen", quantity:"2", baseunit:"4", sellingprice:"200", amount:"3"}]
+
   // console.log("simpa")
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">Bill Product</p>
+      <div >
+        <div >
           <button
             className="button is-success is-small btnheight mt-2"
             onClick={showDocumentation}
@@ -808,337 +877,155 @@ export default function BillPrescriptionCreate() {
         </div>
         <div className="card-content ">
           <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                {/*  <div className="field">    
-                 <div className="control">
-                     <div className="select is-small">
-                         <select name="type" value={type} onChange={handleChangeType} className="selectadd">
-                            <option value="">Choose Type </option>
-                             <option value="Dispense">Dispense</option>
-                             <option value="Bill">Bill </option> */}
-                {/* <option value="Dispense">Dispense</option>
-                             <option value="Audit">Audit</option> */}
-                {/*         </select>
-                     </div>
-                 </div>
-             </div>
- */}
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={source}
-                      name="client"
-                      type="text"
-                      onChange={e => setSource(e.target.value)}
-                      placeholder="Client"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="paymentmode"
-                        value={paymentmode}
-                        onChange={e => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value="">Billing Mode </option>
-                        {paymentOptions.map((option, i) => (
-                          <option key={i} value={option.details}>
-                            {" "}
-                            {option.name}
-                          </option>
-                        ))}
+              {" "}<GridWrapper>
+            <CustomSelect
+                name="type" value={type} 
+                onChange={handleChangeType}
+                options={["Choose Type", "Dispense", "Bill", "Audit"]}/>
 
-                        {/*  <option value="Cash">Cash</option>
-                             <option value="Family">Family </option>
-                            <option value="Company Cover">Company Cover</option>
-                             <option value="HMO">HMO</option> */}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>{" "}
-            {/* horizontal end */}
-            {/*  <div className="field">
-                 <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                     <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
-                     <span className="icon is-small is-left">
-                     <i className=" fas fa-user-md "></i>
-                     </span>
-                 </p>
-             </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={date}
-                      name="date"
-                      type="text"
-                      onChange={e => setDate(e.target.value)}
-                      placeholder="Date"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register} */ name="documentNo"
+                <Input
+                    register={register("client", {required:true})}
+                      value={source}
+                    name="client"
+                    type="text"
+                    onChange={e => setSource(e.target.value)}
+                    placeholder="Client"
+                  />
+                  <CustomSelect
+                       name="paymentmode"
+                       value={paymentmode}
+                       onChange={e => handleChangeMode(e.target.value)}
+                       options={["Cash", "Family", "Cover", "HMO"]}              
+                  /> {""}
+
+                      <Input
+                       register={register("date", {required:true})}
+                       name="date"
+                       type="text"
+                       onChange={e => setDate(e.target.value)}
+                       placeholder="Date"
+                      />
+
+                      <Input
+                     register={register("documentNo", {required:true})}
+                      name="documentNo"
                       value={documentNo}
                       type="text"
                       onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={
-                        totalamount
-                      }
+                      placeholder=" Invoice Number"/>
+
+                      <Input
+                     register={register("totalamount", {required:true})}
+                      value={totalamount}
                       name="totalamount"
                       type="text"
                       onChange={e => setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
+                      placeholder=" Total Amount"/>
+
+
+
+                </GridWrapper>
+
+                    
+                   
+                      </form>
 
           {/* array of ProductEntry items */}
 
-          <label className="label is-small">Medication:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ disabled
-                    name="order"
-                    value={medication.order}
-                    type="text"
-                    onChange={e => handleQtty(e)}
-                    placeholder="Quantity"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                  <span className="helper is-size-7">
-                    <strong>Instruction: </strong>
-                    {medication.instruction}
-                  </span>
-                </p>
-                <span className="helper is-size-7">
-                  <strong>Billing Status: </strong>
-                  {medication.order_status}
-                </span>
-              </div>
-            </div>
-          </div>
-          <label className="label is-small">Choose Product Item:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <InventorySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                      productId
-                    }
-                    name="productId"
-                    type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-                {sellingprice && "N"}
-                {sellingprice} {sellingprice && "per"} {baseunit} {invquantity}{" "}
-                {sellingprice && "remaining"}
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={e => handleQtty(e)}
-                    placeholder="Quantity"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                </p>
-                <label>{baseunit}</label>
-              </div>
-              <div className="field">
-                <label>Amount:</label>
-                {/* <p>{quantity*sellingprice}</p> */}
-              </div>
-              <div className="field" style={{width: "40%"}}>
-                <p
-                  className="control has-icons-left " /* style={{display:"none"}} */
-                >
-                  <input
-                    className="input is-small"
-                    name="qamount"
-                    disabled={changeAmount}
-                    value={calcamount}
-                    type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
-                    placeholder="Amount"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-dollar-sign"></i>
-                  </span>
-                </p>
-                <button
-                  className="button is-small is-success btnheight"
-                  onClick={handleChangeAmount}
-                >
-                  Adjust
-                </button>
-              </div>
-              <div className="field">
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
+         
+  <GridWrapper>
+                 	
+                   <Input
+                   register={register("order", {required:true})}
+                   name="order"
+                   value={medication.order}
+                   type="text"
+                   onChange={e => handleQtty(e)}
+                   placeholder="Quantity"
+                   />
+                   
+                   <Box>
+                   <strong>Instruction: </strong>
+                 {medication.instruction}
+                 </Box>
+                 <Box>
+                 <strong>Billing Status: </strong>
+               {medication.order_status}
+               </Box>
 
-          {productItem.length > 0 && (
-            <div>
-              <label>Product Items:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Quanitity</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Document No">Unit</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Selling Price</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Amount</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.name}</td>
-                      <th>{ProductEntry.quantity}</th>
-                      <td>{ProductEntry.baseunit}</td>
-                      <td>{ProductEntry.sellingprice}</td>
-                      <td>{ProductEntry.amount}</td>
-                      <td>
-                        <span className="showAction">x</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="field mt-2 is-grouped">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={handleMedicationDone}
-                  >
-                    Done
-                  </button>
-                </p>
-                {/*  <p className="control">
-                     <button className="button is-warning is-small" disabled={!productItem.length>0} onClick={onSubmit} >
-                         Clear
-                     </button>
-                 </p> */}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card  modalbkgrnd">
-          <header className="modal-card-head  btnheight">
-            <p className="modal-card-title">Documentation</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body modalcolor">
-            <Encounter standalone="true" />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer>  */}
-        </div>
+               <InventorySearch
+                     getSearchfacility={getSearchfacility}
+                     clear={success}
+                   />
+                 
+
+             <Input
+
+             register={register("productId", {required:true})} 
+             value={productId}
+             name="productId"
+             type="text"
+             onChange={e => setProductId(e.target.value)}
+             placeholder="Product Id"
+             />
+
+             <Input
+                 register={register("quantity", {required:true})} 
+                 name="quantity"
+                 value={quantity}
+                 type="text"
+                 onChange={e => handleQtty(e)}
+                 placeholder="Quantity"
+             />
+
+                 <Input
+                 name="qamount"
+                 disabled={changeAmount}
+                 value={calcamount}
+                 type="text"
+                 onChange={async e => await setCalcAmount(e.target.value)}
+                 placeholder="Amount"
+               />
+
+               <Button
+               style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+               label="Adjust"
+               onClick={handleChangeAmount}
+             />
+
+               {/* <Button
+               style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+                onClick={handleClickProd}/> */}
+
+               
+
+               </GridWrapper>
+
+               <CustomTable
+                       title={"Product Table"}
+                       columns={billDescriptionSchema}
+                       data={proddata}
+                       pointerOnHover
+                       highlightOnHover
+                       striped
+               />
+                <Box style={{display: "flex", marginTop: "30px",  marginBottom:"30px"
+        }}>
+               {/* <Button 
+               style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+                disabled={!productItem.length > 0}
+                 onClick={handleMedicationDone}>Done </Button> */}
+               {/* <Button
+               style={{fontSize: "14px", fontWeight: "600", width:"80px"}} disabled={!productItem.length>0} onClick={onSubmit} >
+                      Clear
+              </Button> */}
+               
+              {/* <Button style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
+           onClick={handlecloseModal}/> */}
+
+           <Button style={{fontSize: "14px", fontWeight: "600", width:"80px"}}>Save</Button>
+           {/* <Button style={{fontSize: "14px", fontWeight: "600", width:"80px"}}>Cancel</Button> */}
+               </Box>  </div>
       </div>
     </>
   );
