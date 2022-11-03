@@ -20,6 +20,8 @@ interface InputProps {
   disabled?: boolean;
   inputRef?: any;
   register?: any;
+  onBlur?: () => void;
+  autoComplete?: boolean;
 }
 
 // Reset Input MUI
@@ -39,6 +41,8 @@ const Input: React.FC<InputProps> = ({
   disabled = false,
   register,
   value,
+  autoComplete = true,
+  onBlur,
 }) => (
   <div>
     <InputBox>
@@ -52,6 +56,8 @@ const Input: React.FC<InputProps> = ({
         disabled={disabled}
         value={value}
         {...register}
+        onBlur={onBlur}
+        autoComplete={autoComplete}
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}

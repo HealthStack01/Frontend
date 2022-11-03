@@ -17,13 +17,14 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
 //import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
+import ModalBox from "../../components/modal";
 
 export default function InventoryBillService() {
   const [createModal, setCreateModal] = useState(false);
@@ -45,7 +46,11 @@ export default function InventoryBillService() {
 
       <BillsList openCreateModal={handleOpenCreateModal} />
 
-      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Bill Service"
+      >
         <BillServiceCreate />
       </ModalBox>
 

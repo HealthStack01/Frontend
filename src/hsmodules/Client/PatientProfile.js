@@ -24,6 +24,7 @@ import ClientHistory from "./ClientHistory";
 import ClientIntolerance from "./ClientIntolerance";
 import ClientBilling from "./ClientBilling";
 import ClientProblems from "./ClientProblems";
+import {Card} from "@mui/material";
 
 export default function PatientProfile() {
   const {state} = useContext(ObjectContext); //,setState
@@ -134,95 +135,99 @@ export default function PatientProfile() {
   return (
     <div>
       <div className="patient-profile-container">
-        <div className="patient-profile-card">
-          <div className="user-information-top-section">
-            <div className="user-profile-information">
-              <div className="user-image-container">
-                <img
-                  src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
-                  alt=""
-                />
-              </div>
+        <Card>
+          <div className="patient-profile-card">
+            <div className="user-information-top-section">
+              <div className="user-profile-information">
+                <div className="user-image-container">
+                  <img
+                    src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+                    alt=""
+                  />
+                </div>
 
-              <div className="user-infromation-container">
-                <h1>
-                  {firstname} {middlename} {lastname}
-                </h1>
-                <div className="user-outline">
-                  <span>
-                    <time dateTime="2016-1-1">
-                      {dob && formatDistanceToNowStrict(new Date(dob))}
-                    </time>{" "}
-                    {gender} {maritalstatus} {religion} {profession}
-                    <br />
-                    {bloodgroup} {genotype} <br />
-                    <strong> {clientTags}</strong>
-                  </span>
+                <div className="user-infromation-container">
+                  <h1>
+                    {firstname} {middlename} {lastname}
+                  </h1>
+                  <div className="user-outline">
+                    <span>
+                      <time dateTime="2016-1-1">
+                        {dob && formatDistanceToNowStrict(new Date(dob))}
+                      </time>{" "}
+                      {gender} {maritalstatus} {religion} {profession}
+                      <br />
+                      {bloodgroup} {genotype} <br />
+                      <strong> {clientTags}</strong>
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              {user.currentEmployee?.roles.includes("Bill Client") ||
+                user.currentEmployee?.roles.length === 0 ||
+                (user.stacker && (
+                  <Button
+                    style={{
+                      backgroundColor: "#4F772D",
+                      color: "#ffffff",
+                      fontSize: "0.8rem",
+                      width: "30%",
+                    }}
+                    onClick={showBilling}
+                  >
+                    Bill Client
+                  </Button>
+                ))}
+
+              <Button
+                style={{
+                  backgroundColor: "#4F772D",
+                  color: "#ffffff",
+                  fontSize: "0.8rem",
+                  width: "30%",
+                }}
+                onClick={showBilling}
+              >
+                Bill Client
+              </Button>
             </div>
 
-            {user.currentEmployee?.roles.includes("Bill Client") ||
-              user.currentEmployee?.roles.length === 0 ||
-              (user.stacker && (
-                <Button
-                  style={{
-                    backgroundColor: "#4F772D",
-                    color: "#ffffff",
-                    fontSize: "0.8rem",
-                    width: "30%",
-                  }}
-                  onClick={showBilling}
-                >
-                  Bill Client
-                </Button>
-              ))}
+            <div className="horizontal-dotted-line" />
 
-            <Button
-              style={{
-                backgroundColor: "#4F772D",
-                color: "#ffffff",
-                fontSize: "0.8rem",
-                width: "30%",
-              }}
-              onClick={showBilling}
-            >
-              Bill Client
-            </Button>
+            <div className="user-information-bottom-container">
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Specific Instructions:</span>
+                <span>{specificDetails}</span>
+              </div>
+
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Allergies:</span>
+                <span>{allergies}</span>
+              </div>
+
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Co-morbidities:</span>
+                <span>{comorbidities}</span>
+              </div>
+
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Disabilities:</span>
+                <span>{disabilities}</span>
+              </div>
+            </div>
           </div>
+        </Card>
 
-          <div className="horizontal-dotted-line" />
-
-          <div className="user-information-bottom-container">
-            <div className="each-bottom-section">
-              <span style={{fontWeight: "600"}}>Specific Instructions:</span>
-              <span>{specificDetails}</span>
-            </div>
-
-            <div className="each-bottom-section">
-              <span style={{fontWeight: "600"}}>Allergies:</span>
-              <span>{allergies}</span>
-            </div>
-
-            <div className="each-bottom-section">
-              <span style={{fontWeight: "600"}}>Co-morbidities:</span>
-              <span>{comorbidities}</span>
-            </div>
-
-            <div className="each-bottom-section">
-              <span style={{fontWeight: "600"}}>Disabilities:</span>
-              <span>{disabilities}</span>
-            </div>
+        <Card>
+          <div className="action-buttons-container">
+            {profileButtons.map((item, i) => (
+              <div onClick={item.action}>
+                <span>{item.title}</span>
+              </div>
+            ))}
           </div>
-        </div>
-
-        <div className="action-buttons-container">
-          {profileButtons.map((item, i) => (
-            <div onClick={item.action}>
-              <span>{item.title}</span>
-            </div>
-          ))}
-        </div>
+        </Card>
       </div>
 
       {/* ******************************************* BILLING ********************************************** */}
