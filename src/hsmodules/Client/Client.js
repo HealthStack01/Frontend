@@ -514,26 +514,12 @@ export function ClientCreate({ open, setOpen }) {
                 ></button>
               </header>
               <section className="modal-card-body">
-                {/* <StoreList standalone="true" /> */}
-                {/* <ClientGroup
-                  list={patList}
-                  closeModal={handlecloseModal3}
-                  choosen={choosen}
-                  dupl={dupl}
-                  reg={reg}
-                  depen={depen}
-                /> */}
-
                 <CustomTable
                   title="Clients"
                   columns={ClientRegisteredSchema}
                   data={users}
                 />
               </section>
-              {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
             </div>
           </div>
         </ModalBox>

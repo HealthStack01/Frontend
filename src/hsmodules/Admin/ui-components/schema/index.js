@@ -20,7 +20,7 @@ export const BandSchema = [
   {
     name: "Band Type",
     key: "bandType",
-    description: "Enter type of band",
+    description: "Enter name of band",
     selector: (row) => row.bandType,
     sortable: true,
     required: true,
@@ -37,10 +37,9 @@ export const BandSchema = [
     inputType: "TEXT",
   },
 ];
-
 // validation schema
 
 export const createBandSchema = yup.object().shape({
   name: yup.string().required("Enter the  name of the band!"),
-  bandtype: yup.string().required("Enter the band type!"),
+  bandType: yup.string().required("Enter the band type!"),
 });
