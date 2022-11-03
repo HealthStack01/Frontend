@@ -34,6 +34,7 @@ import { Box, Portal } from '@mui/material';
 import CustomTable from './ui-components/customtable';
 import ModalBox from '../../components/modal';
 import ClientForm from './ClientForm';
+import ClientView from './ClientView';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -77,16 +78,14 @@ export default function Client() {
             <ClientModify Client={selectedClient} />
           )}
 
-          <ModalBox open={showModal} onClose={handleHideModal}>
-            <ClientCreate />
-          </ModalBox>
+          <ClientCreate open={showModal} setOpen={handleHideModal} />
         </div>
       </div>
     </section>
   );
 }
 
-export function ClientCreate() {
+export function ClientCreate({ open, setOpen }) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
   const { register, handleSubmit } = useForm({
@@ -103,7 +102,13 @@ export function ClientCreate() {
   const [facility, setFacility] = useState();
   const ClientServ = client.service('client');
   const mpiServ = client.service('mpi');
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
+
+  // use local storage
+
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
+
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
@@ -541,7 +546,7 @@ export function ClientCreate() {
           {/*  <p className=" is-small">
                     Kindly search Client list before creating new Clients!
                 </p> */}
-          <ClientForm />
+          <ClientForm open={open} setOpen={setOpen} />
         </div>
       </div>
     </>
@@ -566,11 +571,19 @@ export function ClientList({ showModal }) {
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
+
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
+
+  // end
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [selectedUser, setSelectedUser] = useState();
+  const [open, setOpen] = useState(false);
 
+  console.log('Users', user);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
@@ -583,6 +596,14 @@ export function ClientList({ showModal }) {
     //console.log(state)
   };
 
+  const handleRowClicked = row => {
+    setSelectedUser(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
   const handleRow = async Client => {
     await setSelectedClient(Client);
     const newClientModule = {
@@ -752,52 +773,57 @@ export function ClientList({ showModal }) {
     <>
       {user ? (
         <>
-          <div className='level'>
-            <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
-            >
-              <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  {handleSearch && (
-                    <div className='inner-table'>
-                      <FilterMenu onSearch={handleSearch} />
-                    </div>
-                  )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                    List of Clients
-                  </h2>
-                </div>
-
-                {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label='Add new '
-                    onClick={showModal}
-                    showicon={true}
-                  />
+          <ModalBox open={open} onClose={handleCloseModal}>
+            <ClientView
+              user={selectedUser}
+              open={open}
+              setOpen={handleCloseModal}
+            />
+          </ModalBox>
+          <PageWrapper
+            style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+          >
+            <TableMenu>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {handleSearch && (
+                  <div className='inner-table'>
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
                 )}
-              </TableMenu>
-
-              <div
-                style={{
-                  width: '100%',
-                  height: 'calc(100vh - 90px)',
-                  overflow: 'auto',
-                }}
-              >
-                <CustomTable
-                  title={''}
-                  columns={ClientMiniSchema}
-                  data={facilities}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                />
+                <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                  List of Clients
+                </h2>
               </div>
-            </PageWrapper>
-          </div>
+
+              {handleCreateNew && (
+                <Button
+                  style={{ fontSize: '14px', fontWeight: '600' }}
+                  label='Add new '
+                  onClick={showModal}
+                  showicon={true}
+                />
+              )}
+            </TableMenu>
+
+            <div
+              style={{
+                width: '100%',
+                height: 'calc(100vh - 90px)',
+                overflow: 'auto',
+              }}
+            >
+              <CustomTable
+                title={''}
+                columns={ClientMiniSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRowClicked}
+                progressPending={loading}
+              />
+            </div>
+          </PageWrapper>
         </>
       ) : (
         <div>loading</div>
