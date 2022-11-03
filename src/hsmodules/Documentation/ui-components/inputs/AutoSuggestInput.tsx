@@ -1,14 +1,15 @@
-import { FormHelperText } from '@mui/material';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import Autosuggest from 'react-autosuggest';
-import { defaultTheme } from 'react-autosuggest/dist/theme';
-import { toast } from 'react-toastify';
-import client from '../../../../feathers';
-import { InputType } from '../../../app/schema/util';
-import { autoSuggestStyles } from '../../../app/styles';
-import Input from './basic/Input';
-import { autoSuggestQuery } from './query';
+import {FormHelperText} from "@mui/material";
+import axios from "axios";
+import {useEffect, useState} from "react";
+import Autosuggest from "react-autosuggest";
+import {defaultTheme} from "react-autosuggest/dist/theme";
+import {toast} from "react-toastify";
+
+import client from "../../../../feathers";
+import {InputType} from "../../../../hsmodules/app/schema/util";
+import {autoSuggestStyles} from "../../../../hsmodules/app/styles";
+import Input from "./basic/Input";
+import {autoSuggestQuery} from "./query";
 
 /* eslint-disable */
 const searchProvidedOptions = (options, value) => {
@@ -18,16 +19,16 @@ const searchProvidedOptions = (options, value) => {
   return inputLength === 0
     ? []
     : options.filter(
-        (option) =>
+        option =>
           (option.label || option).toLowerCase().slice(0, inputLength) ===
-          inputValue,
+          inputValue
       );
 };
 /* eslint-enable */
 
-const getSuggestionValue = (suggestion) => suggestion.value || suggestion || '';
+const getSuggestionValue = suggestion => suggestion.value || suggestion || "";
 
-const snomedUrl = (term) =>
+const snomedUrl = term =>
   `https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/2022-03-31/descriptions?&limit=100&term=${term}&active=true&conceptActive=true&lang=english&groupByConcept=true`;
 
 const AutoSuggestInput = ({
@@ -40,12 +41,12 @@ const AutoSuggestInput = ({
   inputType,
 }) => {
   let Service = options.model && client.service(options.model);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const classes: any = autoSuggestStyles(defaultTheme);
 
   // Use your imagination to render suggestions.
-  const renderSuggestion = (suggestion) => (
+  const renderSuggestion = suggestion => (
     <div>
       {options.labelSelector
         ? options.labelSelector(suggestion)
@@ -53,15 +54,15 @@ const AutoSuggestInput = ({
     </div>
   );
 
-  const onSuggestionsFetchRequested = ({ value: searchText }) => {
+  const onSuggestionsFetchRequested = ({value: searchText}) => {
     if (inputType === InputType.SNOMED) {
       axios(snomedUrl(searchText))
-        .then((response) => {
-          const results = response.data.items.map((item) => item.term);
+        .then(response => {
+          const results = response.data.items.map(item => item.term);
           setSuggestions(results);
         })
-        .catch((error) => {
-          console.error({ error });
+        .catch(error => {
+          console.error({error});
           toast(`error fetching SNOMED concepts, Check your network ${error}`);
         });
       return;
@@ -74,10 +75,10 @@ const AutoSuggestInput = ({
 
     const query = autoSuggestQuery(options, searchText);
     Service.find(query)
-      .then((res) => {
+      .then(res => {
         setSuggestions(res.data);
       })
-      .catch((error) => {
+      .catch(error => {
         toast(`error fetching suggestions ${error}`);
       });
   };
@@ -95,11 +96,11 @@ const AutoSuggestInput = ({
 
   const setDefaultValue = () => {
     Service.get(defaultValue)
-      .then((data) => {
+      .then(data => {
         const label =
-          (options.labelSelector && options.labelSelector(data)) || '';
+          (options.labelSelector && options.labelSelector(data)) || "";
         const value =
-          (options.valueSelector && options.valueSelector(data)) || '';
+          (options.valueSelector && options.valueSelector(data)) || "";
         onChange(value);
         setValue(label);
       })
@@ -120,11 +121,11 @@ const AutoSuggestInput = ({
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           getSuggestionValue={options.labelSelector || getSuggestionValue}
-          onSuggestionSelected={(_, { suggestion }) =>
+          onSuggestionSelected={(_, {suggestion}) =>
             onChange(
               options.valueSelector
                 ? options.valueSelector(suggestion)
-                : suggestion._id,
+                : suggestion._id
             )
           }
           renderSuggestion={renderSuggestion}

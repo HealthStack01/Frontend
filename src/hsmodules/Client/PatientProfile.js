@@ -18,6 +18,13 @@ import ModalBox from '../../components/modal';
 import Button from '../../components/buttons/Button';
 import { Box } from '@mui/system';
 
+import ClientLastVisit from './ClientLastVisit';
+import ClientTasks from './ClientTasks';
+import ClientHistory from './ClientHistory';
+import ClientIntolerance from './ClientIntolerance';
+import ClientBilling from './ClientBilling';
+import ClientProblems from './ClientProblems';
+
 export default function PatientProfile() {
   const { state } = useContext(ObjectContext); //,setState
   const { user, setUser } = useContext(UserContext);
@@ -84,30 +91,15 @@ export default function PatientProfile() {
         console.log(selectedClient) */
     return () => {};
   });
+
   const handlecloseModal1 = () => {
     setBillingModal(false);
   };
   const handlecloseModal2 = () => {
     setMedicationModal(false);
   };
-  const showBilling = () => {
-    setBillingModal(true);
-    //navigate('/app/finance/billservice')
-  };
-  const showMedication = () => {
-    setMedicationModal(true);
-    //navigate('/app/finance/billservice')
-  };
-  const showTask = () => {
-    setBillingModal(true);
-    //navigate('/app/finance/billservice')
-  };
 
-  const showIntolerance = () => {
-    setBillingModal(true);
-    //navigate('/app/finance/billservice')
-  };
-  const showProblem = () => {
+  const showBilling = () => {
     setBillingModal(true);
     //navigate('/app/finance/billservice')
   };
@@ -115,11 +107,11 @@ export default function PatientProfile() {
   const profileButtons = [
     {
       title: 'Last Visit',
-      action: () => console.log('Action Fired'),
+      action: () => setVisitModal(true),
     },
     {
       title: 'Drug Intolerance',
-      action: () => console.log('Action Fired'),
+      action: () => setIntoleranceModal(true),
     },
     {
       title: 'Medications',
@@ -127,17 +119,18 @@ export default function PatientProfile() {
     },
     {
       title: 'History',
-      action: () => console.log('Action Fired'),
+      action: () => setHistoryModal(true),
     },
     {
       title: 'Problem List',
-      action: () => console.log('Action Fired'),
+      action: () => setProblemModal(true),
     },
     {
       title: 'Task',
-      action: () => console.log('Action Fired'),
+      action: () => setTaskModal(true),
     },
   ];
+
   return (
     <div>
       <div className="patient-profile-container">
@@ -232,60 +225,76 @@ export default function PatientProfile() {
         </div>
       </div>
 
-      <ModalBox
-        open={billingModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
-      >
-        <BillServiceCreate closeModal={handlecloseModal1} />
-      </ModalBox>
+      {/* ******************************************* BILLING ********************************************** */}
 
       <ModalBox
+        open={billingModal}
+        onClose={() => setBillingModal(false)}
+        header="Client Billing"
+      >
+        <ClientBilling closeModal={() => setBillingModal(false)} />
+      </ModalBox>
+
+      {/* ******************************************* MEDICATION ********************************************** */}
+      <ModalBox
         open={medicationModal}
-        onClose={handlecloseModal2}
+        onClose={() => setMedicationModal(false)}
         header="Client Medications"
       >
-        <DrugAdminList standalone="true" />
+        <DrugAdminList
+          standalone="true"
+          onCloseModal={() => setMedicationModal(false)}
+        />
       </ModalBox>
+
+      {/* ******************************************* TASKS ********************************************** */}
 
       <ModalBox
         open={taskModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
+        onClose={() => setTaskModal(false)}
+        header="Client Tasks"
       >
-        <BillServiceCreate closeModal={handlecloseModal1} />
+        <ClientTasks closeModal={() => setTaskModal(false)} />
       </ModalBox>
+
+      {/* ******************************************* PROBLEM ********************************************** */}
 
       <ModalBox
         open={problemModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
+        onClose={() => setProblemModal(false)}
+        header="Client Problems"
       >
-        <BillServiceCreate closeModal={handlecloseModal1} />
+        <ClientProblems closeModal={() => setProblemModal(false)} />
       </ModalBox>
+
+      {/* ******************************************* HISTORY ********************************************** */}
 
       <ModalBox
         open={historyModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
+        onClose={() => setHistoryModal(false)}
+        header="Clinet History"
       >
-        <BillServiceCreate closeModal={handlecloseModal1} />
+        <ClientHistory closeModal={() => setHistoryModal(false)} />
       </ModalBox>
+
+      {/* ******************************************* INTOLERANCE ********************************************** */}
 
       <ModalBox
         open={intoleranceModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
+        onClose={() => setIntoleranceModal(false)}
+        header="Client Intolerance"
       >
-        <BillServiceCreate closeModal={handlecloseModal1} />
+        <ClientIntolerance closeModal={() => setIntoleranceModal(false)} />
       </ModalBox>
+
+      {/* ******************************************* LAST VIST ********************************************** */}
 
       <ModalBox
         open={visitModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
+        onClose={() => setVisitModal(false)}
+        header="Client Last Visit"
       >
-        <BillServiceCreate closeModal={handlecloseModal1} />
+        <ClientLastVisit closeModal={() => setVisitModal(false)} />
       </ModalBox>
     </div>
   );

@@ -11,6 +11,7 @@ export const menuItems = [
     exact: true,
     to: '/app',
     iconClassName: 'bi bi-house-door',
+    subMenus: [{ name: 'Dashboard', to: '/app/overview/dashboard' }],
   },
   {
     name: 'Client',
@@ -19,7 +20,8 @@ export const menuItems = [
     iconClassName: 'bi bi-people',
     subMenus: [
       { name: 'Appointment', to: '/app/clients/appointments' },
-      { name: 'Clients', to: '/app/clients/clients' },
+      { name: 'Client', to: '/app/clients/clients' },
+      { name: 'Dashboard', to: '/app/clients/dashboard' },
     ],
   },
   {
@@ -31,8 +33,10 @@ export const menuItems = [
       { name: 'Appointment', to: '/app/clinic/appointments' },
       { name: 'Check-In', to: '/app/clinic/checkin' },
       { name: 'Clinic List', to: '/app/clinic/clinics' },
+      { name: 'Dashboard', to: '/app/clinic/dashboard' },
     ],
   },
+
   {
     name: 'Appointments',
     exact: true,
@@ -49,6 +53,7 @@ export const menuItems = [
       { name: 'Bill Lab Orders', to: '/app/laboratory/billlaborders' },
       { name: 'Payment', to: '/app/laboratory/payment' },
       { name: 'Lab Result', to: '/app/laboratory/labresult' },
+      { name: 'Dashboard', to: '/app/laboratory/dashboard' },
     ],
   },
 
@@ -67,6 +72,7 @@ export const menuItems = [
       { name: 'Issue Out', to: '/app/pharmacy/issueout' },
       { name: 'Requisiition', to: '/app/pharmacy/requisition' },
       { name: 'Transfer', to: '/app/pharmacy/transfer' },
+      { name: 'Dashboard', to: '/app/pharmacy/dashboard' },
     ],
   },
   {
@@ -81,6 +87,7 @@ export const menuItems = [
       { name: 'Collections', to: '/app/finance/collections' },
       { name: 'Services', to: '/app/finance/services' },
       { name: 'HMO Authorization', to: '/app/finance/hmoauthorization' },
+      { name: 'Dashboard', to: '/app/finance/dashboard' },
     ],
   },
   {
@@ -118,6 +125,7 @@ export const menuItems = [
       { name: 'Bands', to: '/app/admin/bands' },
       { name: 'Employees', to: '/app/admin/employees' },
       { name: 'Location', to: '/app/admin/location' },
+      { name: 'Dashboard', to: '/app/admin/dashboard' },
     ],
   },
   {
@@ -135,6 +143,7 @@ export const menuItems = [
       { name: 'Issue Out', to: '/app/inventory/issueout' },
       { name: 'Requisiition', to: '/app/inventory/requisition' },
       { name: 'Transfer', to: '/app/inventory/transfer' },
+      { name: 'Dashboard', to: '/app/inventory/dashboard' },
     ],
   },
   {
@@ -159,8 +168,10 @@ export const menuItems = [
       { name: 'Case Definition', to: '/app/epidemiology/casedefinition' },
       { name: 'Signals', to: '/app/epidemiology/signal' },
       { name: 'Map', to: '/app/epidemiology/map' },
+      { name: 'Dashboard', to: '/app/epidemiology/dashboard' },
     ],
   },
+
   {
     name: 'Documentation',
     exact: true,
@@ -176,6 +187,7 @@ export const menuItems = [
       { name: 'Admission', to: '/app/ward/admissions' },
       { name: 'In-Patient', to: '/app/ward/inpatients' },
       { name: 'Discharge', to: '/app/ward/discharge' },
+      { name: 'Dashboard', to: '/app/ward/dashboard' },
     ],
   },
   {

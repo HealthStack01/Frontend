@@ -9,6 +9,13 @@ import {toast} from "bulma-toast";
 // eslint-disable-next-line
 const searchfacility = {};
 
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import {fontSize} from "@mui/system";
+import {Box, Checkbox} from "@mui/material";
+import {TableMenu} from "../../ui/styled/global";
+
 export default function EndEncounter() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -205,10 +212,11 @@ export function EndEncounterList({standalone, closeModal}) {
     }));
     //console.log(state)
   };
-  const handleRow = async DocumentClass => {
+  const handleRow = async item => {
     //console.log("b4",state)
 
     //console.log("handlerow",DocumentClass)
+    const DocumentClass = item.item;
 
     await setSelectedEndEncounter(DocumentClass);
 
@@ -343,79 +351,77 @@ export function EndEncounterList({standalone, closeModal}) {
 
   //todo: pagination and vertical scroll bar
 
+  const classListSchema = [
+    {
+      name: "S/N",
+      key: "_id",
+      selector: row => row.sn,
+      description: "Enter name of band",
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Options",
+      key: "name",
+      description: "Enter name of band",
+      selector: row => row.item,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const newEncounterOptions = endEncounterOptions.map((item, i) => {
+    return {
+      item: item,
+      sn: i + 1,
+    };
+  });
+
   return (
     <>
       {user ? (
         <>
-          <div className="level">
-            {/* <div className="level-left">
-                        <div className="level-item">
-                            <div className="field">
-                                <p className="control has-icons-left  ">
-                                    <DebounceInput className="input is-small " 
-                                        type="text" placeholder="Search DocumentClass"
-                                        minLength={3}
-                                        debounceTimeout={400}
-                                        onChange={(e)=>handleSearch(e.target.value)} />
-                                    <span className="icon is-small is-left">
-                                        <i className="fas fa-search"></i>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div> */}
-            {/*  <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Document Class</span></div> */}
-            {/*   <div className="level-right">
-                { !standalone &&   <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>}
-                    </div> */}
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>Options</th>
-                  {/* <th><abbr title="Last Name">DocumentClass Type</abbr></th>
-                                       <th><abbr title="Profession">Profession</abbr></th>
-                                         <th><abbr title="Phone">Phone</abbr></th>
-                                        <th><abbr title="Email">Email</abbr></th>
-                                        <th><abbr title="Department">Department</abbr></th>
-                                        <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> */}
-                  {/* {user.stacker &&  <th><abbr title="Facility">Facility</abbr></th>}
-                                       { !standalone &&  <th><abbr title="Actions">Actions</abbr></th>} */}
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {endEncounterOptions.map((DocumentClass, i) => (
-                  <tr
-                    key={i}
-                    onClick={() => handleRow(DocumentClass)}
-                    className={
-                      DocumentClass === selectedEndEncounter
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <th>{DocumentClass}</th>
-                    {/*<td>{DocumentClass.DocumentClassType}</td>
-                                            < td>{DocumentClass.profession}</td>
-                                            <td>{DocumentClass.phone}</td>
-                                            <td>{DocumentClass.email}</td>
-                                            <td>{DocumentClass.department}</td>
-                                            <td>{DocumentClass.deptunit}</td>*/}
-                    {/*  {user.stacker &&  <td>{DocumentClass.facility}</td>} */}
-                    {/*  { !standalone &&   <td><span   className="showAction"  >...</span></td>} */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Box
+            sx={{
+              width: "40vw",
+            }}
+          >
+            {/* <TableMenu>
+              <div style={{display: "flex", alignItems: "center"}}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={e => handleSearch(e.target.value)} />
+                  </div>
+                )}
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                  List of Charts
+                </h2>
+              </div>
+
+              {!standalone && (
+                <Button
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                  label="Add new "
+                  onClick={handleCreateNew}
+                />
+              )}
+            </TableMenu> */}
+
+            <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+              <CustomTable
+                title={""}
+                columns={classListSchema}
+                data={newEncounterOptions}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={false}
+                //selectableRowsComponent={Checkbox}
+              />
+            </div>
+          </Box>
         </>
       ) : (
         <div>loading</div>

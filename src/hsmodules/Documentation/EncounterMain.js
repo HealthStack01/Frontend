@@ -1,54 +1,71 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {DocumentClassList} from "./DocumentClass";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { DocumentClassList } from './DocumentClass';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 
-import {ChartClassList} from "./DocumentClass";
-import EndEncounter, {EndEncounterList} from "./EndEncounter";
+import { ChartClassList } from './DocumentClass';
+import EndEncounter, { EndEncounterList } from './EndEncounter';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {format, formatDistanceToNowStrict} from "date-fns";
-import VideoConference from "../utils/VideoConference";
-import Prescription, {PrescriptionCreate} from "./Prescription";
-import LabOrders from "./LabOrders";
-import AdmitOrders from "./AdmitOrders";
-import DischargeOrders from "./DischargeOrders";
-import RadiologyOrders from "./RadiologyOrders";
-import {useReactToPrint} from "react-to-print";
-import {Box, Collapse, Grid, IconButton} from "@mui/material";
-import Input from "./ui-components/inputs/basic/Input";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { format, formatDistanceToNowStrict } from 'date-fns';
+import VideoConference from '../utils/VideoConference';
+import Prescription, { PrescriptionCreate } from './Prescription';
+import LabOrders from './LabOrders';
+import AdmitOrders from './AdmitOrders';
+import DischargeOrders from './DischargeOrders';
+import RadiologyOrders from './RadiologyOrders';
+import { useReactToPrint } from 'react-to-print';
+import { Box, Collapse, Grid, IconButton, Typography } from '@mui/material';
+import Input from './ui-components/inputs/basic/Input';
+import Divider from '@mui/material/Divider';
 
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import CustomSelect from "./ui-components/inputs/basic/Select";
-import Button from "../../components/buttons/Button";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import CustomSelect from './ui-components/inputs/basic/Select';
+import Button from '../../components/buttons/Button';
+import Slide from '@mui/material/Slide';
 
-export default function EncounterMain({nopresc}) {
+import {
+  AdmissionOrderDocument,
+  AdultAthsmaQuestionaire,
+  BilledOrders,
+  DischargeOrderComponent,
+  LabOrdersDocument,
+  MedicationListDocument,
+  PediatricPulmonologyForm,
+  PrescriptionDocument,
+  RadiologyOrdersDocument,
+  BilledOrdersDocument,
+} from './documents/Documents';
+import ModalBox from '../../components/modal';
+import EncounterRight from './EncounterRight';
+
+export default function EncounterMain({ nopresc, chosenClient }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClinicServ = client.service("clinicaldocument");
+  const [message, setMessage] = useState('');
+  const ClinicServ = client.service('clinicaldocument');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedClinic, setSelectedClinic] = useState(); //
+  const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
 
   const [showEncounterModal, setShowEncounterModal] = useState(false);
@@ -56,6 +73,7 @@ export default function EncounterMain({nopresc}) {
   const [showLabModal, setShowLabModal] = useState(false);
   const [showRadModal, setShowRadModal] = useState(false);
   const [showChartModal, setShowChartModal] = useState(false);
+  const [showRight, setShowRight] = useState(false);
 
   const componentRef = useRef();
   const myRefs = useRef([]);
@@ -80,9 +98,9 @@ export default function EncounterMain({nopresc}) {
   const handleCreateNew = async () => {
     const newClinicModule = {
       selectedClinic: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
@@ -91,22 +109,44 @@ export default function EncounterMain({nopresc}) {
   const handleRow = async (Clinic, i) => {
     //console.log("b4",state)
     // alert(i)
-    //console.log("handlerow",Clinic)
-    if (Clinic.status === "completed" || Clinic.status === "Final") {
+    //console.log("handlerow", Clinic);
+    if (Clinic.status === 'completed' || Clinic.status === 'Final') {
       await setSelectedNote(Clinic);
 
       const newClinicModule = {
         selectedNote: Clinic,
         show: true,
       };
-      await setState(prevstate => ({
+      await setState((prevstate) => ({
         ...prevstate,
         NoteModule: newClinicModule,
       }));
       //console.log(state)
-      facilities[i].show = !facilities[i].show;
-      await setFacilities(facilities);
+      const selectedFacilityId = Clinic._id;
+
+      //console.log(Clinic);
+
+      const newFacilities = await facilities.map((facility) => {
+        //CHECK IF CURRENT FACILITY IS SELECTED FACILITY
+        if (facility._id === selectedFacilityId) {
+          //IF CURRENT FACILITY IS CURRENTLY SELECTED, TOGGLE SHOW KEY
+
+          return facility.show
+            ? { ...facility, show: false }
+            : { ...facility, show: true };
+
+          //return ;
+        } else {
+          //IF CURRENT FACILITY IS NOT CURRENTLY SELECTED, RETURN FACILITY AS IT IS
+          return facility;
+        }
+      });
+
+      //SET OLD FACILITIES ARRAY TO NEW ONE WITH UPDATE SHOW STATE
+      await setFacilities(newFacilities);
       // Clinic.show=!Clinic.show
+
+      //
     } else {
       let documentobj = {};
       documentobj.name = Clinic.documentname;
@@ -116,23 +156,28 @@ export default function EncounterMain({nopresc}) {
       const newDocumentClassModule = {
         selectedDocumentClass: documentobj,
         //state.DocumentClassModule.selectedDocumentClass.name
-        show: "detail",
+        show: 'detail',
       };
-      await setState(prevstate => ({
+      await setState((prevstate) => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
+      //await setShowRight(true);
     }
   };
 
-  const handleSearch = val => {
-    const field = "documentname";
+  useEffect(() => {
+    handleRow(selectedClinic);
+  }, [selectedClinic]);
+
+  const handleSearch = (val) => {
+    const field = 'documentname';
     console.log(val);
     ClinicServ.find({
       query: {
         [field]: {
           $regex: val,
-          $options: "i",
+          $options: 'i',
         },
         // facility:user.currentEmployee.facilityDetail._id || "",
         // locationType:"Clinic",
@@ -143,15 +188,15 @@ export default function EncounterMain({nopresc}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Clinic  fetched successfully");
+        setMessage(' Clinic  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Clinic, probable network issues " + err);
+        setMessage('Error fetching Clinic, probable network issues ' + err);
         setError(true);
       });
   };
@@ -216,9 +261,9 @@ export default function EncounterMain({nopresc}) {
     await setShowEncounterModal(true);
   };
 
-  const handlePrint = async i => {
+  const handlePrint = async (i) => {
     var content = document.getElementById(i);
-    var pri = document.getElementById("ifmcontentstoprint").contentWindow;
+    var pri = document.getElementById('ifmcontentstoprint').contentWindow;
     pri.document.open();
     pri.document.write(content.innerHTML);
     pri.document.close();
@@ -235,19 +280,20 @@ export default function EncounterMain({nopresc}) {
     const newDocumentClassModule = {
       selectedDocumentClass: {},
       //state.DocumentClassModule.selectedDocumentClass.name
-      show: "list",
+      show: 'list',
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
+    setShowRight(false);
     if (user) {
     } else {
     }
-    ClinicServ.on("created", obj => getFacilities(page));
-    ClinicServ.on("updated", obj => getFacilities(page));
-    ClinicServ.on("patched", obj => getFacilities(page));
-    ClinicServ.on("removed", obj => getFacilities(page));
+    ClinicServ.on('created', (obj) => getFacilities(page));
+    ClinicServ.on('updated', (obj) => getFacilities(page));
+    ClinicServ.on('patched', (obj) => getFacilities(page));
+    ClinicServ.on('removed', (obj) => getFacilities(page));
 
     /* var options = {
                     root: null,
@@ -264,12 +310,13 @@ export default function EncounterMain({nopresc}) {
       const newDocumentClassModule = {
         selectedDocumentClass: {},
         //state.DocumentClassModule.selectedDocumentClass.name
-        show: "list",
+        show: 'list',
       };
-      setState(prevstate => ({
+      setState((prevstate) => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
+      setShowRight(false);
     };
   }, []);
 
@@ -287,28 +334,28 @@ export default function EncounterMain({nopresc}) {
                         
                     }
                 } */
-  const handleDelete = doc => {
+  const handleDelete = (doc) => {
     // console.log(doc)
     let confirm = window.confirm(
       `You are about to delete a document: ${
         doc.documentname
-      } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
+      } created on ${format(new Date(doc.createdAt), 'dd-MM-yy')} ?`
     );
     if (confirm) {
       ClinicServ.remove(doc._id)
-        .then(res => {
+        .then((res) => {
           toast({
-            message: "Adult Asthma Questionnaire deleted succesfully",
-            type: "is-success",
+            message: 'Adult Asthma Questionnaire deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
           setSuccess(false);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Error deleting Adult Asthma Questionnaire " + err,
-            type: "is-danger",
+            message: 'Error deleting Adult Asthma Questionnaire ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -318,41 +365,76 @@ export default function EncounterMain({nopresc}) {
 
   const handleCancel = async () => {
     const newDocumentClassModule = {
-      selectedEndEncounter: "",
-      show: "",
+      selectedEndEncounter: '',
+      show: '',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EndEncounterModule: newDocumentClassModule,
     }));
     //console.log(state)
   };
 
+  const DocumentToRender = ({ Clinic }) => {
+    switch (Clinic.documentname.toLowerCase()) {
+      case 'admission order': {
+        return Clinic.status.toLowerCase() !== 'draft' ? (
+          <AdmissionOrderDocument Clinic={Clinic} />
+        ) : null;
+      }
+      case 'discharge order':
+        return <DischargeOrderComponent Clinic={Clinic} />;
+      case 'medication list':
+        return <MedicationListDocument Clinic={Clinic} />;
+      case 'pediatric pulmonology form':
+        return <PediatricPulmonologyForm Clinic={Clinic} />;
+      case 'adult asthma questionnaire':
+        return <AdultAthsmaQuestionaire Clinic={Clinic} />;
+      case 'prescription':
+        return <PrescriptionDocument Clinic={Clinic} />;
+      case 'radiology orders':
+        return <RadiologyOrdersDocument Clinic={Clinic} />;
+      case 'lab order':
+        return <LabOrdersDocument Clinic={Clinic} />;
+      case 'billed orders':
+        return <BilledOrdersDocument Clinic={Clinic} />;
+
+      default:
+        return null;
+    }
+  };
+
+  const [isTrue, setIsTrue] = useState(false);
+
+  const toggleIsTrue = () => {
+    setIsTrue((prev) => !prev);
+  };
+
   return (
     <Box
       container
       sx={{
-        padding: "20px",
-        flexGrow: "1",
+        flexGrow: '1',
       }}
     >
-      <Box sx={{flexGrow: 1}}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
           spacing={1}
           columns={14}
           sx={{
-            marginBottom: "25px",
+            marginBottom: '25px',
           }}
         >
           <Grid item xs={2}>
             <Button
               style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#363636",
-                variant: "outlined",
+                fontSize: '0.8rem',
+                width: '100%',
+                backgroundColor: '#363636',
+                variant: 'outlined',
               }}
+              onClick={handleCharts}
             >
               Charts
             </Button>
@@ -361,10 +443,11 @@ export default function EncounterMain({nopresc}) {
           <Grid item xs={2}>
             <Button
               style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#17935C",
+                fontSize: '0.8rem',
+                width: '100%',
+                backgroundColor: '#17935C',
               }}
+              onClick={handleRadOrders}
             >
               Radiology
             </Button>
@@ -373,10 +456,11 @@ export default function EncounterMain({nopresc}) {
           <Grid item xs={2}>
             <Button
               style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#B6CCFE",
+                fontSize: '0.8rem',
+                width: '100%',
+                backgroundColor: '#B6CCFE',
               }}
+              onClick={handleLabOrders}
             >
               Laboratory
             </Button>
@@ -385,12 +469,13 @@ export default function EncounterMain({nopresc}) {
           <Grid item xs={2}>
             <Button
               style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                background: "none",
-                color: "#0364FF",
-                border: "1px solid #0364FF",
+                fontSize: '0.8rem',
+                width: '100%',
+                background: 'none',
+                color: '#0364FF',
+                border: '1px solid #0364FF',
               }}
+              onClick={handleEndEncounter}
             >
               End Encouter
             </Button>
@@ -399,10 +484,11 @@ export default function EncounterMain({nopresc}) {
           <Grid item xs={2}>
             <Button
               style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#EF9645",
+                fontSize: '0.8rem',
+                width: '100%',
+                backgroundColor: '#EF9645',
               }}
+              onClick={handleNewPrescription}
             >
               Prescription
             </Button>
@@ -411,10 +497,11 @@ export default function EncounterMain({nopresc}) {
           <Grid item xs={2}>
             <Button
               style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#4F772D",
+                fontSize: '0.8rem',
+                width: '100%',
+                backgroundColor: '#4F772D',
               }}
+              onClick={handleNewDocument}
             >
               New Document
             </Button>
@@ -426,219 +513,169 @@ export default function EncounterMain({nopresc}) {
         </Grid>
       </Box>
 
-      <Box sx={{flexGrow: 1, width: "100%"}}>
-        <Box sx={{flex: 1}}>
+      <Box sx={{ flexGrow: 1, width: '100%' }}>
+        <Box sx={{ flex: 1 }}>
           <Input
             label="Search Documentation"
             className="input is-small "
             type="text"
             minLength={3}
             debounceTimeout={400}
-            onChange={e => handleSearch(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </Box>
       </Box>
 
-      <Box sx={{flexGrow: 1, width: "100%"}}>
-        {facilities.map((Clinic, i) => (
+      <Grid container spacing={1}>
+        <Grid item xs={showRight ? 7 : 12}>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
               flexGrow: 1,
-              width: "100%",
+              width: '100%',
+              height: 'calc(100vh - 200px)',
+              overflowY: 'scroll',
             }}
           >
-            <Grid>
-              <Grid></Grid>
-              <Grid></Grid>
-              <Grid>
-                <Box>
-                  <IconButton
+            {facilities.map((Clinic, i) => (
+              <>
+                <Box
+                  onClick={() => setSelectedClinic(Clinic)}
+                  mt={3}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    flexGrow: 1,
+                    width: '100%',
+                    cursor: 'pointer',
+                    border: '1px solid rgba(235, 235, 235, 1)',
+                    borderRadius: '5px',
+                    height: 'auto',
+                  }}
+                >
+                  <Box
+                    container
                     sx={{
-                      color: "#0364FF",
+                      width: '100%',
+                      minHeight: '100px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
                     }}
                   >
-                    <PrintOutlinedIcon />
-                  </IconButton>
-
-                  <IconButton color="error">
-                    <DeleteOutlineIcon />
-                  </IconButton>
-                </Box>
-              </Grid>
-            </Grid>
-
-            <Collapse></Collapse>
-          </Box>
-        ))}
-      </Box>
-
-      {/* <VideoConference /> */}
-      <div className="level is-mobile warp ">
-        <div className="level-left mt-2">
-          {/* <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search documentation"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
-          </div> */}
-        </div>
-        {/*  <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Clinics</span></div> */}
-        <div className="level-right my-2">
-          {!standalone && (
-            <div className="level-item">
-              <div className="level-item ">
-                {!nopresc && (
-                  <>
-                    <div
-                      className="button is-dark is-small mr-2"
-                      onClick={handleCharts}
+                    <Box
+                      item
+                      //xs={2}
+                      sx={{
+                        borderRight: '1px solid rgba(235, 235, 235, 1)',
+                        width: '150px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
                     >
-                      Charts
-                    </div>
-                    <div
-                      className="button is-dark is-small mr-2"
-                      onClick={handleEndEncounter}
-                    >
-                      End Encounter
-                    </div>
-                    {/*  <div className="button is-black is-small mr-2" onClick={handleOtherOrders}> Other Orders</div> */}
-                    <div
-                      className="button is-primary is-small mr-2"
-                      onClick={handleRadOrders}
-                    >
-                      Radiology
-                    </div>
-                    <div
-                      className="button is-warning is-small mr-2"
-                      onClick={handleLabOrders}
-                    >
-                      Lab
-                    </div>
-                    <div
-                      className="button is-danger is-small mr-2"
-                      onClick={handleNewPrescription}
-                    >
-                      Prescription
-                    </div>
-                  </>
-                )}
-                <div
-                  className="button is-success is-small"
-                  onClick={handleNewDocument}
-                >
-                  New Document
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className=" pullup mb-2 ">
-        <div className=" is-fullwidth vscrollNote pr-1 ">
-          {facilities.map((Clinic, i) => (
-            <div
-              key={i}
-              className={
-                Clinic._id === (selectedNote?._id || null) ? "is-selected" : ""
-              }
-              id={i}
-            >
-              <div className="card mt-1 hovercard">
-                {/* header */}
-                <header className="card-header">
-                  <div
-                    className="card-header-title"
-                    onClick={() => handleRow(Clinic, i)}
-                  >
-                    <div className="docdate">
-                      {formatDistanceToNowStrict(new Date(Clinic.createdAt), {
-                        addSuffix: true,
-                      })}{" "}
-                      <br />
-                      <span>
+                      <span
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          lineHeight: '19.12px',
+                          color: '#33415C',
+                        }}
+                      >
+                        {formatDistanceToNowStrict(new Date(Clinic.createdAt), {
+                          addSuffix: true,
+                        })}
+                      </span>
+                      <span
+                        style={{
+                          color: '#979797',
+                          fontSize: '12px',
+                          fontWeight: '400',
+                          lineHeight: '16.39px',
+                        }}
+                      >
                         {format(
                           new Date(Clinic.createdAt),
-                          "dd-MM-yy HH:mm:ss"
+                          'dd-MM-yy HH:mm:ss'
                         )}
                       </span>
-                    </div>{" "}
-                    {Clinic.documentname} by {Clinic.createdByname} at{" "}
-                    {Clinic.location},{Clinic.facilityname}
-                    <p className="right ml-2 mr-0">{Clinic.status} </p>
-                  </div>
-                  {user.currentEmployee?.roles.includes("Delete Notes") && (
-                    <button
-                      className="button  sbut"
-                      aria-label="more options"
-                      onClick={() => handleDelete(Clinic)}
-                    >
-                      <span>x</span>
-                    </button>
-                  )}
-                  {
-                    <button
-                      className="button  sbut"
-                      aria-label="more options"
-                      onClick={() => handlePrint(i)}
-                    >
-                      <span>Print</span>
-                    </button>
-                  }
-                </header>
 
-                {/* is not prescription,billed orders, or lab order, medication List or asthma docs 
-                                                            change to switch
-                                                        */}
-                {Clinic.documentname !== "Prescription" &&
-                  Clinic.documentname !== "Billed Orders" &&
-                  Clinic.documentname !== "Lab Orders" &&
-                  Clinic.documentname !== "Radiology Orders" &&
-                  Clinic.documentname !== "Adult Asthma Questionnaire" &&
-                  Clinic.documentname !== "Medication List" &&
-                  Clinic.documentname !== "Admission Order" &&
-                  Clinic.documentname !== "Discharge Order" &&
-                  Clinic.documentname !== "Pediatric Pulmonology Form" &&
-                  Clinic.status !== "Draft" && (
-                    <div
-                      className={
-                        Clinic.show
-                          ? "card-content p-1"
-                          : "card-content p-1 is-hidden"
-                      }
-                      ref={el => (myRefs.current[i] = el)}
+                      <span />
+                    </Box>
+
+                    <Box
+                      item
+                      sx={{
+                        display: 'flex',
+                        width: 'calc(100% - 250px)',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                      }}
+                      p={2}
                     >
-                      {Array.isArray(Clinic.documentdetail) ? (
-                        Object.entries(Clinic.documentdetail).map(
-                          ([keys, value], i) => (
-                            <div className="field is-horizontal">
-                              <div className="field-label">
-                                <label className="label is-size-7" key={i}>
-                                  {keys}:
-                                </label>
-                              </div>
-                              <div className="field-body">
-                                <div className="field">{value}</div>
-                              </div>
-                            </div>
-                          )
-                        )
-                      ) : (
-                        <div className="field">
-                          {Object.entries(Clinic.documentdetail).map(
+                      <Typography
+                        mr={0.5}
+                        sx={{
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          lineHeight: '19.12px',
+                          color: '#33415C',
+                        }}
+                      >
+                        {Clinic.documentname} by {Clinic.createdByname} at{' '}
+                        {Clinic.location},{Clinic.facilityname} -{' '}
+                        <Typography
+                          sx={{
+                            fontSize: '14px',
+                            fontWeight: '400',
+                            lineHeight: '19.12px',
+                            color: 'orange',
+                          }}
+                        >
+                          {Clinic.status}
+                        </Typography>
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      item
+                      sx={{
+                        width: '100px',
+                      }}
+                    >
+                      <IconButton
+                        sx={{
+                          color: '#0364FF',
+                        }}
+                        onClick={toggleIsTrue}
+                      >
+                        <PrintOutlinedIcon />
+                      </IconButton>
+
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDelete(Clinic)}
+                      >
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Collapse in={Clinic.show}>
+                  {Clinic.documentname !== 'Prescription' &&
+                    Clinic.documentname !== 'Billed Orders' &&
+                    Clinic.documentname !== 'Lab Orders' &&
+                    Clinic.documentname !== 'Radiology Orders' &&
+                    Clinic.documentname !== 'Adult Asthma Questionnaire' &&
+                    Clinic.documentname !== 'Medication List' &&
+                    Clinic.documentname !== 'Admission Order' &&
+                    Clinic.documentname !== 'Discharge Order' &&
+                    Clinic.documentname !== 'Pediatric Pulmonology Form' &&
+                    Clinic.status !== 'Draft' && (
+                      <div ref={(el) => (myRefs.current[i] = el)}>
+                        {Array.isArray(Clinic.documentdetail) ? (
+                          Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => (
                               <div className="field is-horizontal">
                                 <div className="field-label">
@@ -651,864 +688,140 @@ export default function EncounterMain({nopresc}) {
                                 </div>
                               </div>
                             )
-                          )}
-                          {/*  <div className="field-label">
-                                                                                <label className="label is-size-7" >
-                                                                                    {Object.keys(Clinic.documentdetail)[0]}:
-                                                                                    </label>
-                                                                            </div>
-                                                                            <div className="field-body"> 
-                                                                                <div className="field" >
-                                                                                    {Object.values(Clinic.documentdetail)[0]}   
-                                                                                </div>  
-                                                                            </div> */}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                {Clinic.documentname == "Admission Order" &&
-                  Clinic.status !== "Draft" && (
-                    <div
-                      className={
-                        Clinic.show
-                          ? "card-content p-1"
-                          : "card-content p-1 is-hidden"
-                      }
-                      ref={el => (myRefs.current[i] = el)}
-                    >
-                      <div>
-                        <div className="ml-4">
-                          <p>
-                            Admit to{" "}
-                            {Clinic.documentdetail.ward?.name ||
-                              Clinic.documentdetail.ward}
-                          </p>
-                          {Clinic.documentdetail.instruction && (
-                            <p>
-                              <label className="label is-size-7">
-                                {" "}
-                                Instructions:
-                              </label>
-                              {Clinic.documentdetail.instruction}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                {Clinic.documentname == "Discharge Order" &&
-                  Clinic.status !== "Draft" && (
-                    <div
-                      className={
-                        Clinic.show
-                          ? "card-content p-1"
-                          : "card-content p-1 is-hidden"
-                      }
-                      ref={el => (myRefs.current[i] = el)}
-                    >
-                      <div>
-                        <div className="ml-4">
-                          <p>
-                            Discharge From{" "}
-                            {Clinic.documentdetail.ward?.name ||
-                              Clinic.documentdetail.ward}
-                          </p>
-                          {Clinic.documentdetail.instruction && (
-                            <p>
-                              <label className="label is-size-7">
-                                {" "}
-                                Instructions:
-                              </label>
-                              {Clinic.documentdetail.instruction}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                {/* is  Medication List */}
-                {Clinic.documentname === "Medication List" &&
-                  Clinic.status !== "Draft" && (
-                    <div
-                      className={
-                        Clinic.show
-                          ? "card-content p-1"
-                          : "card-content p-1 is-hidden"
-                      }
-                      ref={el => (myRefs.current[i] = el)}
-                    >
-                      {Object.entries(Clinic.documentdetail).map(
-                        ([keys, value], i) => (
-                          <>
-                            {value.length > 0 && (
-                              <>
-                                {keys !== "Allergies" &&
-                                  keys !== "Medications" && (
-                                    <div className="field is-horizontal">
-                                      <div className="field-label">
-                                        <label
-                                          className="label is-size-7"
-                                          key={i}
-                                        >
-                                          {keys}:
-                                        </label>
-                                      </div>
-                                      <div className="field-body">
-                                        <div className="field">{value}</div>
-                                      </div>
-                                    </div>
-                                  )}
-                                {keys === "Allergies" && (
-                                  <div id="skintest">
-                                    {Clinic.documentdetail.Allergies.length >
-                                      0 && (
-                                      <div>
-                                        <label className="label is-size-7">
-                                          Allergies:
-                                        </label>
-                                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                                          <thead>
-                                            <tr>
-                                              <th>
-                                                <abbr title="Serial No">
-                                                  S/No
-                                                </abbr>
-                                              </th>
-
-                                              <th>
-                                                <abbr title="Type">
-                                                  Allergine
-                                                </abbr>
-                                              </th>
-                                              <th>
-                                                <abbr title="Destination">
-                                                  Reaction
-                                                </abbr>
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tfoot></tfoot>
-                                          <tbody>
-                                            {Clinic.documentdetail.Allergies.map(
-                                              (ProductEntry, i) => (
-                                                <tr key={i}>
-                                                  <th>{i + 1}</th>
-                                                  <td>
-                                                    {ProductEntry.allergine}
-                                                  </td>
-                                                  <td>
-                                                    {ProductEntry.reaction}
-                                                  </td>
-                                                </tr>
-                                              )
-                                            )}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    )}
+                          )
+                        ) : (
+                          <div className="field">
+                            {Object.entries(Clinic.documentdetail).map(
+                              ([keys, value], i) => (
+                                <div className="field is-horizontal">
+                                  <div className="field-label">
+                                    <label className="label is-size-7" key={i}>
+                                      {keys}:
+                                    </label>
                                   </div>
-                                )}
-                                {keys === "Medications" && (
-                                  <div id="Medications">
-                                    {Clinic.documentdetail.Medications.length >
-                                      0 && (
-                                      <div>
-                                        <label className="label is-size-7">
-                                          Medications:
-                                        </label>
-                                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                                          <thead>
-                                            <tr>
-                                              <th>
-                                                <abbr title="Serial No">
-                                                  S/No
-                                                </abbr>
-                                              </th>
-
-                                              <th>
-                                                <abbr title="Drug Name">
-                                                  Drug Name
-                                                </abbr>
-                                              </th>
-                                              <th>
-                                                <abbr title="Strength/Frequency">
-                                                  Strength/Frequency
-                                                </abbr>
-                                              </th>
-                                              <th>
-                                                <abbr title="Notes">Notes</abbr>
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tfoot></tfoot>
-                                          <tbody>
-                                            {Clinic.documentdetail.Medications.map(
-                                              (ProductEntry, i) => (
-                                                <tr key={i}>
-                                                  <th>{i + 1}</th>
-                                                  <td>
-                                                    {ProductEntry.drugname}
-                                                  </td>
-                                                  <td>
-                                                    {ProductEntry.strengthfreq}
-                                                  </td>
-                                                  <td>{ProductEntry.notes}</td>
-                                                </tr>
-                                              )
-                                            )}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    )}
+                                  <div className="field-body">
+                                    <div className="field">{value}</div>
                                   </div>
-                                )}
-                              </>
+                                </div>
+                              )
                             )}
-                          </>
-                        )
-                      )}
-                    </div>
-                  )}
-                {/* is  Pediatric Pulmonology Form  */}
-                {Clinic.documentname === "Pediatric Pulmonology Form" &&
-                  Clinic.status !== "Draft" && (
-                    <div
-                      className={
-                        Clinic.show
-                          ? "card-content p-1"
-                          : "card-content p-1 is-hidden"
-                      }
-                      ref={el => (myRefs.current[i] = el)}
-                    >
-                      {Object.entries(Clinic.documentdetail).map(
-                        ([keys, value], i) => (
-                          <>
-                            {value.length > 0 && (
-                              <>
-                                {keys !== "Allergy_Skin_Test" &&
-                                  keys !== "Presenting_Complaints" && (
-                                    <div className="field is-horizontal">
-                                      <div className="field-label">
-                                        <label
-                                          className="label is-size-7"
-                                          key={i}
-                                        >
-                                          {keys}:
-                                        </label>
-                                      </div>
-                                      <div className="field-body">
-                                        <div className="field">{value}</div>
-                                      </div>
-                                    </div>
-                                  )}
-                                {keys === "Allergy_Skin_Test" && (
-                                  <div id="skintest">
-                                    {Clinic.documentdetail.Allergy_Skin_Test
-                                      .length > 0 && (
-                                      <div>
-                                        <label className="label is-size-7">
-                                          Allergy_Skin_Test:
-                                        </label>
-                                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                                          <thead>
-                                            <tr>
-                                              <th>
-                                                <abbr title="Serial No">
-                                                  S/No
-                                                </abbr>
-                                              </th>
-
-                                              <th>
-                                                <abbr title="Type">
-                                                  Allergine
-                                                </abbr>
-                                              </th>
-                                              <th>
-                                                <abbr title="Destination">
-                                                  Reaction
-                                                </abbr>
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tfoot></tfoot>
-                                          <tbody>
-                                            {Clinic.documentdetail.Allergy_Skin_Test.map(
-                                              (ProductEntry, i) => (
-                                                <tr key={i}>
-                                                  <th>{i + 1}</th>
-                                                  <td>
-                                                    {ProductEntry.allergine}
-                                                  </td>
-                                                  <td>
-                                                    {ProductEntry.reaction}
-                                                  </td>
-                                                </tr>
-                                              )
-                                            )}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                                {keys === "Presenting_Complaints" && (
-                                  <div id="Presenting_Complaints">
-                                    {Clinic.documentdetail.Presenting_Complaints
-                                      .length > 0 && (
-                                      <div>
-                                        <label className="label is-size-7">
-                                          Presenting_Complaints:
-                                        </label>
-                                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                                          <thead>
-                                            <tr>
-                                              <th>
-                                                <abbr title="Serial No">
-                                                  S/No
-                                                </abbr>
-                                              </th>
-
-                                              <th>
-                                                <abbr title="Type">
-                                                  Symptoms
-                                                </abbr>
-                                              </th>
-                                              <th>
-                                                <abbr title="Destination">
-                                                  Duration
-                                                </abbr>
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tfoot></tfoot>
-                                          <tbody>
-                                            {Clinic.documentdetail.Presenting_Complaints.map(
-                                              (ProductEntry, i) => (
-                                                <tr key={i}>
-                                                  <th>{i + 1}</th>
-                                                  <td>
-                                                    {ProductEntry.symptom}
-                                                  </td>
-                                                  <td>
-                                                    {ProductEntry.duration}
-                                                  </td>
-                                                </tr>
-                                              )
-                                            )}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </>
-                            )}
-                          </>
-                        )
-                      )}
-                    </div>
-                  )}
-
-                {/* is  Adult asthma questionaire,  */}
-                {Clinic.documentname === "Adult Asthma Questionnaire" &&
-                  Clinic.status !== "Draft" && (
-                    <div
-                      className={
-                        Clinic.show
-                          ? "card-content p-1"
-                          : "card-content p-1 is-hidden"
-                      }
-                      ref={el => (myRefs.current[i] = el)}
-                    >
-                      {Object.entries(Clinic.documentdetail).map(
-                        ([keys, value], i) => (
-                          <>
-                            {value.length > 0 && (
-                              <>
-                                {keys !== "Allergy_Skin_Test" ? (
-                                  <div className="field is-horizontal">
-                                    <div className="field-label">
-                                      <label
-                                        className="label is-size-7"
-                                        key={i}
-                                      >
-                                        {keys}:
-                                      </label>
-                                    </div>
-                                    <div className="field-body">
-                                      <div className="field">{value}</div>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <div id="skintest">
-                                    {Clinic.documentdetail.Allergy_Skin_Test
-                                      .length > 0 && (
-                                      <div>
-                                        <label className="label is-size-7">
-                                          Allergy_Skin_Test:
-                                        </label>
-                                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-5 ml-5 ">
-                                          <thead>
-                                            <tr>
-                                              <th>
-                                                <abbr title="Serial No">
-                                                  S/No
-                                                </abbr>
-                                              </th>
-
-                                              <th>
-                                                <abbr title="Type">
-                                                  Allergine
-                                                </abbr>
-                                              </th>
-                                              <th>
-                                                <abbr title="Destination">
-                                                  Reaction
-                                                </abbr>
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tfoot></tfoot>
-                                          <tbody>
-                                            {Clinic.documentdetail.Allergy_Skin_Test.map(
-                                              (ProductEntry, i) => (
-                                                <tr key={i}>
-                                                  <th>{i + 1}</th>
-                                                  <td>
-                                                    {ProductEntry.allergine}
-                                                  </td>
-                                                  <td>
-                                                    {ProductEntry.reaction}
-                                                  </td>
-                                                </tr>
-                                              )
-                                            )}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </>
-                            )}
-                          </>
-                        )
-                      )}
-                    </div>
-                  )}
-
-                {/* is  prescription,  */}
-                {Clinic.documentname === "Prescription" && (
-                  <div
-                    className={
-                      Clinic.show
-                        ? "card-content p-1"
-                        : "card-content p-1 is-hidden"
-                    }
-                    ref={el => (myRefs.current[i] = el)}
-                  >
-                    {Clinic.documentdetail.length > 0 && (
-                      <div>
-                        <label>Medications:</label>
-                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                          <thead>
-                            <tr>
-                              <th>
-                                <abbr title="Serial No">S/No</abbr>
-                              </th>
-
-                              <th>
-                                <abbr title="Type">Medication</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Destination">Destination</abbr>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tfoot></tfoot>
-                          <tbody>
-                            {Clinic.documentdetail.map((ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                {/* <td>{ProductEntry.name}</td> */}
-                                <td>
-                                  {ProductEntry.medication}
-                                  <br />
-                                  <span className="help is-size-7">
-                                    {ProductEntry.instruction}
-                                  </span>
-                                </td>
-                                <td>{ProductEntry.destination}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
-                )}
-                {/* is  Radiology orders,  */}
-                {Clinic.documentname === "Radiology Orders" && (
-                  <div
-                    className={
-                      Clinic.show
-                        ? "card-content p-1"
-                        : "card-content p-1 is-hidden"
-                    }
-                    ref={el => (myRefs.current[i] = el)}
-                  >
-                    {Clinic.documentdetail.length > 0 && (
-                      <div>
-                        <label>Tests:</label>
-                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                          <thead>
-                            <tr>
-                              <th>
-                                <abbr title="Serial No">S/No</abbr>
-                              </th>
 
-                              <th>
-                                <abbr title="Test">Test</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Destination">Destination</abbr>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tfoot></tfoot>
-                          <tbody>
-                            {Clinic.documentdetail.map((ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                {/* <td>{ProductEntry.name}</td> */}
-                                <td>
-                                  {ProductEntry.test}
-                                  <br />
-                                  {/* <span className="help is-size-7">{ProductEntry.instruction}</span> */}
-                                </td>
-                                <td>{ProductEntry.destination}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                )}
+                  <DocumentToRender Clinic={Clinic} />
+                </Collapse>
+              </>
+            ))}
+          </Box>
+        </Grid>
 
-                {/* is  lab orders,  */}
-                {Clinic.documentname === "Lab Orders" && (
-                  <div
-                    className={
-                      Clinic.show
-                        ? "card-content p-1"
-                        : "card-content p-1 is-hidden"
-                    }
-                    ref={el => (myRefs.current[i] = el)}
-                  >
-                    {Clinic.documentdetail.length > 0 && (
-                      <div>
-                        <label>Tests:</label>
-                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                          <thead>
-                            <tr>
-                              <th>
-                                <abbr title="Serial No">S/No</abbr>
-                              </th>
+        <Slide mountOnEnter unmountOnExit direction="left" in={showRight}>
+          <Grid item xs={5}>
+            <Box
+              mt={3}
+              sx={{
+                width: '100%',
+                minHeight: '200px',
+                border: '1px solid rgba(235, 235, 235, 1)',
+                maxHeight: 'calc(100vh - 250px)',
+                overflowY: 'scroll',
+              }}
+            >
+              <EncounterRight client={chosenClient} />
+            </Box>
+          </Grid>
+        </Slide>
+      </Grid>
 
-                              <th>
-                                <abbr title="Test">Test</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Destination">Destination</abbr>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tfoot></tfoot>
-                          <tbody>
-                            {Clinic.documentdetail.map((ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                {/* <td>{ProductEntry.name}</td> */}
-                                <td>
-                                  {ProductEntry.test}
-                                  <br />
-                                  {/* <span className="help is-size-7">{ProductEntry.instruction}</span> */}
-                                </td>
-                                <td>{ProductEntry.destination}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                )}
-                {/* is  billed orders,  */}
-                {Clinic.documentname === "Billed Orders" && (
-                  <div
-                    className={
-                      Clinic.show
-                        ? "card-content p-1"
-                        : "card-content p-1 is-hidden"
-                    }
-                    ref={el => (myRefs.current[i] = el)}
-                  >
-                    {Clinic.documentdetail.length > 0 && (
-                      <div>
-                        <label>Billed Orders:</label>
-                        <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                          <thead>
-                            <tr>
-                              <th>
-                                <abbr title="Serial No">S/No</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Category">Category</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Name">Name</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Quantity">Quanitity</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Unit">Unit</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Selling Price">Selling Price</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Amount">Amount</abbr>
-                              </th>
-                              <th>
-                                <abbr title="Billing Mode">Mode</abbr>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tfoot></tfoot>
-                          <tbody>
-                            {Clinic.documentdetail.map((ProductEntry, i) => (
-                              <tr key={i}>
-                                <th>{i + 1}</th>
-                                <td>{ProductEntry.category}</td>
-                                <td>{ProductEntry.name}</td>
-                                <th>{ProductEntry.quantity}</th>
-                                <td>{ProductEntry.baseunit}</td>
-                                <td>{ProductEntry.sellingprice}</td>
-                                <td>{ProductEntry.amount}</td>
-                                <td>{ProductEntry.billMode.type}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+      <>
+        <ModalBox
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          header="Choose Document Class"
+        >
+          <DocumentClassList
+            standalone="true"
+            closeModal={() => setShowModal(false)}
+          />
+        </ModalBox>
 
-          {/* <!-- Add Ref to Load More div --> */}
-          {/*  <div className="loading" ref={loader}>
-                                                <h2>Load More</h2>
-                                    </div> */}
-        </div>
-      </div>
-      <div className={`modal  ${showModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card ">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Document Class</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <DocumentClassList
-              standalone="true"
-              closeModal={() => setShowModal(false)}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
-      <div className={`modal  ${showChartModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card ">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Chart</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowChartModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <ChartClassList
-              standalone="true"
-              closeModal={() => setShowChartModal(false)}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${showPrescriptionModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card larger card-overflow">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Prescription</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowPrescriptionModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body card-overflow">
-            <Prescription standalone="true" />
-          </section>
-          {/* <footer className="modal-card-foot">
-                        <button className="button is-success">Save changes</button>
-                        <button className="button">Cancel</button>
-                        </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${showLabModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card larger card-overflow">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Lab Orders</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowLabModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body card-overflow">
-            <LabOrders
-              standalone="true"
-              closeModal={() => setShowLabModal(false)}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                        <button className="button is-success">Save changes</button>
-                        <button className="button">Cancel</button>
-                        </footer> */}
-        </div>
-      </div>
-      <div className={`modal  ${showEncounterModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card ">
-          <header className="modal-card-head">
-            <p className="modal-card-title">End Encounter</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowEncounterModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <EndEncounterList
-              standalone="true"
-              closeModal={() => setShowEncounterModal(false)}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
-      <div
-        className={`modal ${
-          state.EndEncounterModule.selectedEndEncounter === "Admit to Ward"
-            ? "is-active"
-            : ""
-        }`}
-      >
-        <div className="modal-background"></div>
-        <div className="modal-card larger card-overflow">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Admit Orders</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => handleCancel()}
-            ></button>
-          </header>
+        <ModalBox
+          open={showChartModal}
+          onClose={() => setShowChartModal(false)}
+          header="Choose Chart"
+        >
+          <ChartClassList
+            standalone="true"
+            closeModal={() => setShowChartModal(false)}
+          />
+        </ModalBox>
+
+        <ModalBox
+          open={showPrescriptionModal}
+          onClose={() => setShowPrescriptionModal(false)}
+          header="Prescription"
+        >
+          <Prescription standalone="true" />
+        </ModalBox>
+
+        <ModalBox
+          open={showLabModal}
+          onClose={() => setShowLabModal(false)}
+          header="Laboratory Orders"
+        >
+          <LabOrders
+            standalone="true"
+            closeModal={() => setShowLabModal(false)}
+          />
+        </ModalBox>
+
+        <ModalBox
+          open={showEncounterModal}
+          onClose={() => setShowEncounterModal(false)}
+          header="End Encounter"
+        >
+          <EndEncounterList
+            standalone="true"
+            closeModal={() => setShowEncounterModal(false)}
+          />
+        </ModalBox>
+
+        <ModalBox
+          open={
+            state.EndEncounterModule.selectedEndEncounter === 'Admit to Ward'
+          }
+          onClose={() => handleCancel()}
+          header="Admit Orders"
+        >
           <section className="modal-card-body card-overflow">
             <AdmitOrders standalone="true" closeModal={() => handleCancel()} />
           </section>
-          {/* <footer className="modal-card-foot">
-                        <button className="button is-success">Save changes</button>
-                        <button className="button">Cancel</button>
-                        </footer> */}
-        </div>
-      </div>
-      <div
-        className={`modal ${
-          state.EndEncounterModule.selectedEndEncounter === "Discharge"
-            ? "is-active"
-            : ""
-        }`}
-      >
-        <div className="modal-background"></div>
-        <div className="modal-card larger card-overflow">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Discharge Orders</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => handleCancel()}
-            ></button>
-          </header>
-          <section className="modal-card-body card-overflow">
-            <DischargeOrders
-              standalone="true"
-              closeModal={() => handleCancel()}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                        <button className="button is-success">Save changes</button>
-                        <button className="button">Cancel</button>
-                        </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${showRadModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card larger card-overflow">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Radiology Orders</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowRadModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body card-overflow">
-            <RadiologyOrders
-              standalone="true"
-              closeModal={() => setShowRadModal(false)}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                        <button className="button is-success">Save changes</button>
-                        <button className="button">Cancel</button>
-                        </footer> */}
-        </div>
-      </div>
+        </ModalBox>
+
+        <ModalBox
+          open={state.EndEncounterModule.selectedEndEncounter === 'Discharge'}
+          onClose={() => handleCancel()}
+          header="Discharge Orders"
+        >
+          <DischargeOrders
+            standalone="true"
+            closeModal={() => handleCancel()}
+          />
+        </ModalBox>
+
+        <ModalBox
+          open={showRadModal}
+          onClose={() => setShowRadModal(false)}
+          header="Radiology Orders"
+        >
+          <RadiologyOrders
+            standalone="true"
+            closeModal={() => setShowRadModal(false)}
+          />
+        </ModalBox>
+      </>
     </Box>
   );
 }

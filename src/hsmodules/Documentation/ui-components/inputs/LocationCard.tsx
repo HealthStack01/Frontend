@@ -1,7 +1,8 @@
-import React from 'react';
-import { LocationCardWrapper } from '../styled/global';
+import React from "react";
 
-const LocationCard = ({ location, onClick }) => {
+import {LocationCardWrapper} from "../../../../ui/styled/global";
+
+const LocationCard = ({location, onClick}) => {
   return (
     <LocationCardWrapper onClick={() => onClick(location.value)}>
       {location.label}
