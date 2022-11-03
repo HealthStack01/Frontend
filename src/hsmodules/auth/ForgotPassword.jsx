@@ -6,9 +6,11 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import client from '../../feathers';
 import { toast, ToastContainer } from 'react-toastify';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { forgotPasswordSchema } from './schema';
 
 const ForgotPassword = () => {
-  // const ClientServ = client.service('auth/management');
+  const ClientServ = client.service('auth-management');
 
   const [loading, setLoading] = useState(false);
 
@@ -17,6 +19,7 @@ const ForgotPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
+    resolver: yupResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
     },
@@ -27,12 +30,11 @@ const ForgotPassword = () => {
     event.preventDefault();
     setLoading(true);
 
-    await client
-      .authenticate({
-        strategy: 'local',
-        // email,
-        // password,
-      })
+    await ClientServ.create({
+      action: 'sendResetPwd',
+      value: { email: data.email },
+      notifierOptions: {},
+    })
       .then(res => {
         toast.success(`A recovery email has been sent to you`);
         navigate('/create-password', { replace: true });
@@ -47,7 +49,12 @@ const ForgotPassword = () => {
       <form onSubmit={handleSubmit(submit)}>
         <ToastContainer theme='colored' />
 
-        <Input label='Email' placeholder='Enter your email address' />
+        <Input
+          label='Email'
+          placeholder='Enter your email address'
+          register={register('email')}
+          errorText={errors?.email?.message}
+        />
 
         <Button
           type='submit'
@@ -65,7 +72,7 @@ const ForgotPassword = () => {
               color: 'blue',
               marginLeft: '0.6rem',
             }}
-            to='/login'
+            to='/'
           >
             Login
           </Link>
