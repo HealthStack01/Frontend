@@ -65,7 +65,7 @@ const ClientForm = ({ open, setOpen }) => {
   const showRegister = data => console.log('>>>>>>', data);
 
   return (
-    <ModalBox open={open} onClose={setOpen} width='70%'>
+    <ModalBox open={open} onClose={setOpen}>
       <form onSubmit={handleSubmit(submit)}>
         <ToastContainer theme='colored' />
 
