@@ -118,7 +118,7 @@ export function CaseDefinitionCreate() {
   const [symptoms, setSymptoms] = useState([]);
   const [duration, setDuration] = useState("");
   const [sympreq, setSympreq] = useState(false);
-
+  
   const [lab, setLab] = useState("");
   const [labs, setLabs] = useState([]);
   const [labvalue, setLabvalue] = useState("");
@@ -342,8 +342,13 @@ export function CaseDefinitionCreate() {
                   register={register("notificationType", {required:true})}
                   onChange={(e)=>handleChangeMode(e.target.value)}
             />
-            <Input label="name of disease"
-             {...register("disease", {required: true})}
+
+            <Input 
+            label="name of disease"
+            register={register("disease", {required:true})}
+             name="disease"
+             options={disease}
+             onChange={(e)=>handleChangeMode(e.target.value)}
              />
         </DetailsWrapper>
         <DetailsWrapper title='Symptoms'>
@@ -352,14 +357,14 @@ export function CaseDefinitionCreate() {
                 label="Symptoms"
                 type="text"
                 value={symptom}
-                {...register("symptom", {required: true})} onChange={e => {
+                register={register("symptom", {required:true})} onChange={e => {
                   setSymptom(e.target.value);
                 }}
                 placeholder="Specify"
                  />
           <Input label="Duration"
           value={duration}
-          {...register("duration", {required: true})} onChange={e => {
+          register={register("Duration", {required:true})} onChange={e => {
             setDuration(e.target.value);
           }}
           name="duration" />
@@ -369,7 +374,7 @@ export function CaseDefinitionCreate() {
                         name="sympreq"
                         onChange={e => {
                           handleChecked(e);
-                        }} {...register("sympreq", {required: true})}
+                        }} register={register("sympreq", {required:true})}
             />required
             </Box>
           
@@ -393,7 +398,7 @@ export function CaseDefinitionCreate() {
         <Input 
                 label="Clinical Signs"
                 value={finding}
-                        {...register("finding", {required: true})} onChange={e => {
+                register={register("finding", {required:true})} onChange={e => {
                           setFinding(e.target.value);
                         }}
                 type="text"
@@ -404,7 +409,7 @@ export function CaseDefinitionCreate() {
                         name="sympreq"
                         onChange={e => {
                           handleChecked2(e);
-                        }} {...register("sympreq", {required: true})}/>required</Box>
+                        }} register={register("findingreq", {required:true})}/>required</Box>
            <Button
                   style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
                   label="Add " onClick={handleAddFindings}/>

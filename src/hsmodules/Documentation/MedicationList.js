@@ -384,6 +384,10 @@ export default function MedicationList() {
     //console.log(comp,i)
     setSymptoms(prevstate => prevstate.filter((el, index) => index !== i));
   };
+      
+  
+
+
   return (
     <>
       <div className="card ">

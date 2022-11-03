@@ -241,10 +241,12 @@ export default function PatientProfile() {
         onClose={() => setMedicationModal(false)}
         header="Client Medications"
       >
+        <Box sx={{width: "95vw"}}>
         <DrugAdminList
           standalone="true"
           onCloseModal={() => setMedicationModal(false)}
         />
+        </Box>
       </ModalBox>
 
       {/* ******************************************* TASKS ********************************************** */}

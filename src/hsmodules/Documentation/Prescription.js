@@ -21,6 +21,7 @@ import {TableMenu} from "../../ui/styled/global";
 import Input from "../../components/inputs/basic/Input";
 import Grow from "@mui/material/Grow";
 
+
 export default function Prescription() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -504,6 +505,7 @@ export function PrescriptionCreate() {
         </div>
 
         <ModalBox open={destinationModal} onClose={handlecloseModal}>
+          
           <FacilityPopup
             facilityType="Pharmacy"
             closeModal={handlecloseModal}
@@ -720,6 +722,7 @@ export function PrescriptionList({standalone}) {
       required: true,
       inputType: "TEXT",
     },
+
     {
       name: "Action",
       key: "destination",
@@ -1264,25 +1267,214 @@ export function DrugAdminList({standalone}) {
     return () => {};
   }, []);
 
+  const medicationSchema=[
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    
+
+    {
+      name: "Date",
+      key: "Date",
+      description: "date",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+   
+
+    {
+      name: "Medication",
+      key: "order",
+      description: "order",
+      selector: row => row.order,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Instructions",
+      key: "Instructions",
+      description: "fufiled",
+      selector: row => row.instruction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Status",
+      key: "status",
+      description: "status",
+      selector: row => (row.treatment_status === "Cancelled" ? "cancel" : ""),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Last Administered",
+      key: "lastadministered",
+      description: "lastadministered",
+      selector: row => row.lastadministered,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Lastest Comments",
+      key: "lastest comments",
+      description: "lastest comments",
+      selector: row => row.treatment_action[0]?.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Administered By",
+      key: "AdministeredBy",
+      description: "AdministeredBy",
+      selector: row => row.requestingdoctor_Name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "New comments",
+      key: "comments",
+      description: "comments",
+      selector: row => row.comments,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    
+
+    
+    {
+      name: "Action",
+      key: "action",
+      width:"180px",
+      description: "action",
+      selector: row => ([
+      <Box style={{display:"flex",  flexWrap:"wrap", width:"180px"}}>
+          <Button
+        style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+        onClick={() => handleAdminister(row)}
+      >
+        Administer
+      </Button>,<Button
+          style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+          onClick={() =>  handleHistory(row)}
+        >
+          History
+        </Button>, 
+        <Button
+          style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+          onClick={() => handleDiscontinue(row)}
+        >
+          Discontinue
+        </Button>, 
+        <Button
+        style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+        onClick={() => handleDrop(row)}
+      >
+        Drop
+      </Button>
+
+      </Box>
+    ]
+        
+      ),
+      // omit: !standalone?false: true,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    }
+
+      
+]  
+
+const orderSchema=[
+  {
+    name: "S/N",
+    key: "sn",
+    description: "SN",
+    selector: row => row.sn,
+    sortable: true,
+    inputType: "HIDDEN",
+  },
+  
+
+  {
+    name: "Date/Time",
+    key: "Date",
+    description: "date",
+    selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+ 
+
+  {
+    name: "Action",
+    key: "action",
+    description: "action",
+    selector: row => row.action,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Comments",
+    key: "comments",
+    description: "comments",
+    selector: row => row.comments,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Personel",
+    key: "status",
+    description: "status",
+    selector: row => row.actorname,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+ 
+
+  
+]
+
+
   return (
     <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Medications"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
+      <div >
+        <div >
+          <div >
+            <div style={{display: "flex"}}>
+              {handleSearch && (
+              <div >
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
             </div>
           </div>
         </div>
@@ -1310,128 +1502,63 @@ export function DrugAdminList({standalone}) {
         )}
       </div>
       <div className="table-container pullup ">
-        <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-          <thead>
-            <tr>
-              <th>
-                <abbr title="Serial No">S/No</abbr>
-              </th>
-              <th>
-                <abbr title="Date">Date</abbr>
-              </th>
-              <th>
-                <abbr title="Order">Medication</abbr>
-              </th>
-              <th>Instructions</th>
-
-              <th>
-                <abbr title="Status">Status</abbr>
-              </th>
-              <th>
-                <abbr title="Last Administered">Last Administered</abbr>
-              </th>
-              <th>
-                <abbr title="Latest Comments">Latest Comments</abbr>
-              </th>
-              <th>
-                <abbr title="Administered by">Administered By</abbr>
-              </th>
-              <th>
-                <abbr title="Comments">New Comments</abbr>
-              </th>
-              <th>
-                <abbr title="Actions">Actions</abbr>
-              </th>
-            </tr>
-          </thead>
-          <tfoot></tfoot>
-          <tbody>
-            {facilities.map((ProductEntry, i) => (
-              <tr
-                key={ProductEntry._id}
-                /* onClick={()=>handleRow(ProductEntry)} */ className={
-                  ProductEntry.treatment_status === "Cancelled" ? "cancel" : ""
-                }
-              >
-                <th>{i + 1}</th>
-                <td>
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                  <span>
-                    {format(new Date(ProductEntry.createdAt), "dd-MM-yy")}
-                  </span>
-                </td>
-                <th>{ProductEntry.order}</th>
-                <th>{ProductEntry.instruction}</th>
-                {/* <td>{ProductEntry.requestingdoctor_Name}</td> */}
-                <td>{ProductEntry.treatment_status}</td>
-                <td>
-                  {ProductEntry.treatment_action[0]?.createdat && (
-                    <span>
-                      {format(
-                        new Date(ProductEntry.treatment_action[0].createdat),
-                        "dd-MM-yy hh:mmm:ss"
-                      )}
-                    </span>
-                  )}
-                </td>
-                <td>{ProductEntry.treatment_action[0]?.comments} </td>
-                <td>{ProductEntry.treatment_action[0]?.actorname} </td>
-                {/* <td>{ProductEntry.clientId}</td> */}
-                <td>
-                  {" "}
-                  <input classname="input" type="text" name={i} ref={refs[i]} />
-                </td>
-                <td>
-                  <button
-                    className="button is-small btnheight is-primary"
-                    disabled={ProductEntry.treatment_status === "Cancelled"}
-                    aria-label="more options"
-                    onClick={() => handleAdminister(ProductEntry, i)}
-                  >
-                    <span>Administer</span>
-                  </button>
-                  <button
-                    className="button is-small btnheight is-info"
-                    aria-label="more options"
-                    onClick={() => handleHistory(ProductEntry, i)}
-                  >
-                    <span>History</span>
-                  </button>
-                  <button
-                    className="button is-small btnheight is-warning"
-                    disabled={ProductEntry.treatment_status === "Cancelled"}
-                    aria-label="more options"
-                    onClick={() => handleDiscontinue(ProductEntry, i)}
-                  >
-                    <span>Discountinue</span>
-                  </button>
-                  <button
-                    className="button is-small btnheight  is-danger"
-                    disabled={ProductEntry.treatment_status === "Cancelled"}
-                    aria-label="more options"
-                    onClick={() => handleDrop(ProductEntry, i)}
-                  >
-                    <span>Drop </span>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <Box>   
+      <CustomTable
+       title={""}
+       columns={medicationSchema}
+       data={facilities}
+       onRowClicked={handleRow}
+       pointerOnHover
+       highlightOnHover
+       striped/>
+       </Box>
       </div>
-      <div className={`modal ${hxModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
+      <div>
+       
         <div className="modal-card">
-          <header className="modal-card-head">
+          
             <p className="modal-card-title">Drug Admin History </p>
 
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
+            <ModalBox open={hxModal} onClose={handlecloseModal1}>
+            
+            
+              <Box>
+              <div>
+                <span className="is-medium">
+                  <strong>{currentMed.order}</strong>
+                </span>
+                </div>
+                <div>
+                <span>
+                  <strong>Instruction: </strong>
+                  {currentMed.instruction}
+                </span>
+                </div>
+
+                <div>
+                <span>
+                  <strong>Ordered by:</strong>{" "}
+                  {currentMed.requestingdoctor_Name}
+                </span>
+                </div>
+
+                {currentMed.createdAt && (
+                  <span>
+                    <strong>
+                      {formatDistanceToNowStrict(
+                        new Date(currentMed.createdAt),
+                        {addSuffix: true}
+                      )}
+                    </strong>{" "}
+                    <span>
+                      {format(new Date(currentMed.createdAt), "dd-MM-yy")}
+                    </span>
+                  </span>
+                )}
+
+
+
+                
             <div className="table-container pullup ">
               <div>
                 <span className="is-medium">
@@ -1463,60 +1590,33 @@ export function DrugAdminList({standalone}) {
                 )}
               </div>
               <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Date">Date/Time</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Action">Action</abbr>
-                    </th>
-                    <th>Comments</th>
-                    <th>
-                      <abbr title="Personnel">Personel</abbr>
-                    </th>
-                    {/*  <th><abbr title="Status">Status</abbr></th>
-                                             <th><abbr title="Last Administered">Last Administered</abbr></th>
-                                             <th><abbr title="Administered by">Administered By</abbr></th> 
-                                             <th><abbr title="Comments">Comments</abbr></th> 
-                                             <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
+                
                 <tbody>
-                  {currentMed.hasOwnProperty("treatment_action") &&
-                    currentMed.treatment_action.map((ProductEntry, i) => (
-                      <tr
-                        key={
-                          ProductEntry._id
-                        } /* onClick={()=>handleRow(ProductEntry)}  className={ProductEntry._id!== "Active"?"is-selected":""}*/
-                      >
-                        <th>{i + 1}</th>
-                        <td>
-                          {ProductEntry.createdat && (
-                            <span>
-                              {format(
-                                new Date(ProductEntry.createdat),
-                                "dd-MM-yy hh:mmm:ss"
-                              )}
-                            </span>
-                          )}
-                        </td>
-                        <th>{ProductEntry.action}</th>
-                        <th>{ProductEntry.comments}</th>
-                        <td>{ProductEntry.actorname} </td>
-                      </tr>
-                    ))}
+                  {currentMed.hasOwnProperty("treatment_action")&& 
+                    ( <CustomTable
+                        title={""}
+                        columns={orderSchema}
+                        data={facilities}
+                        onRowClicked={handleRow}
+                        pointerOnHover
+                        highlightOnHover
+                        striped/> )
+                    
+                    }
                 </tbody>
               </table>
             </div>
 
+
+              </Box>
+
+            </ModalBox>
+           
+        
+          
             {/* <StoreList standalone="true" /> */}
             {/* <BillServiceCreate closeModal={handlecloseModal1}/> */}
-          </section>
+          
           {/* <footer className="modal-card-foot">
                             <button className="button is-success">Save changes</button>
                             <button className="button">Cancel</button>

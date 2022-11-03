@@ -8,6 +8,16 @@ import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
+import Button from "../../components/buttons/Button";
+import CustomTable from "./ui-components/customtable";
+import {TableMenu} from "../../ui/styled/global";
+import Card from "@mui/material/Card";
+import {Box} from "@mui/material";
+import Input from "../../components/inputs/basic/Input"
+import FilterMenu from "../../components/utilities/FilterMenu";
+import ModalBox from "../../components/modal";
+import Textarea from "./ui-components/inputs/basic/Textarea";
+
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
@@ -20,27 +30,45 @@ export default function DischargeOrders() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
+     <Box
+        container
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "90vw",
+          height: "600px",
+          justifyContent: "space-between",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          item
+          sx={{
+            display: "flex-inline",
+            width: "50%",
+          }}
+        >
           <DischargeOrdersList />
-        </div>
-        <div className="column is-6 ">
-          {state.EndEncounterModule.selectedEndEncounter === "Discharge" && (
+        </Box>
+
+        <Box
+          item
+          sx={{
+            display: "flex-inline",
+            width: "40%",
+          }}
+        >
+         {state.EndEncounterModule.selectedEndEncounter === "Discharge" && (
             <DischargeOrdersCreate />
           )}
-          {/*   {(state.OrderModule.show ==='detail')&&<ProductEntryDetail  />}
-                {(state.OrderModule.show ==='modify')&&<ProductEntryModify ProductEntry={selectedProductEntry} />} */}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </section>
   );
 }
 
 export function DischargeOrdersCreate() {
-  // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -80,6 +108,7 @@ export function DischargeOrdersCreate() {
     setDestinationModal(false);
     //handleSearch(val)
   };
+ 
   const productItemI = {
     /*   productId,
         name, */
@@ -269,12 +298,35 @@ export function DischargeOrdersCreate() {
     return () => {};
   }, []);
 
+  const scheme=[
+    {
+      name: "instruction",
+      key: "instruction",
+      description: "instruction",
+      selector: row => row.instruction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ]
+
+  
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
+    <Card>
+        <Box
+          sx={{
+            padding: "15px",
+            minHeight: "400px",
+            maxHeight: "600px",
+          }}
+        >
+
+      
+      <div >
+        
           <p className="card-header-title">
-            Create Discharge Orders for{" "}
+            Create Discharge Orders for{"    "}
             {state.ClientModule.selectedClient.firstname +
               " " +
               state.ClientModule.selectedClient.middlename +
@@ -283,24 +335,18 @@ export function DischargeOrdersCreate() {
             on {state.ClientModule.selectedClient.ward + " ward, "} bed:{" "}
             {state.ClientModule.selectedClient.bed}
           </p>
-        </div>
+        
         <div className="card-content ">
-          {/*  <form onSubmit={onSubmit}> {/* handleSubmit(onSubmit)  </form>  */}
-
-          {/* array of ProductEntry items */}
-
-          <div className="field is-horizontal">
-            <div className="field-body"></div>
-          </div>
+          
           <div className="field is-horizontal">
             <div className="field-body">
               <div className="field">
                 <p className="control ">
-                  <textarea
+                  <Textarea
                     class="textarea is-small"
-                    /* {...register("x",{required: true})} */ name="instruction"
+                    register={register("instruction", {required:true})} name="instruction"
                     value={instruction}
-                    type="text"
+                    type="textarea"
                     onChange={e => setInstruction(e.target.value)}
                     placeholder="Instructions/Note"
                   />
@@ -310,42 +356,38 @@ export function DischargeOrdersCreate() {
           </div>
           <div className="field mt-2">
             <p className="control">
-              <button
-                className="button is-success is-small"
+              <Button
+                
                 /* disabled={!productItem.length>0} */ onClick={onSubmit}
               >
                 Create
-              </button>
+              </Button>
             </p>
           </div>
         </div>
       </div>
       {/*  use for documentation instruction helper */}
       <div className={`modal ${destinationModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Destination</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <FacilityPopup
+        
+        <ModalBox open={destinationModal}
+          onClose={() =>  handleChangeDestination(false)} >
+
+        <FacilityPopup
               facilityType="Laboratory"
-              closeModal={handlecloseModal}
+              closeModal={()=>handlecloseModal(false)}
             />
-            {/* <StoreList standalone="true" /> */}
-            {/*  <ProductCreate /> */}
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
+        </ModalBox>
+          
+            
+          
+            
+            
+          
+          
+        
       </div>
+      </Box>
+      </Card>
     </>
   );
 }
@@ -504,120 +546,143 @@ export function DischargeOrdersList({standalone}) {
     return () => {};
   }, []);
 
+
+  const dischargeSchema=[
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    
+
+    {
+      name: "Date",
+      key: "name",
+      description: "Enter name of band",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Order",
+      key: "order",
+      description: "order",
+      selector: row => row.order,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Fufiled",
+      key: "fufiled",
+      description: "fufiled",
+      selector: row => (row.fulfilled === "true" ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Status",
+      key: "status",
+      description: "status",
+      selector: row => row.order_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Requesting Physician",
+      key: "requesting physician",
+      description: "requestingphysician",
+      selector: row => row.requestingdoctor_Name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    
+
+    
+    {
+      name: "Action",
+      key: "destination",
+      description: "Enter Destination",
+      selector: row => (
+        <p
+          style={{fontSize: "0.7rem", color: "red"}}
+          onClick={() => handleDelete(row)}
+        >
+          Delete
+        </p>
+      ),
+      omit: !standalone?false: true,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+      
+      
+]  
+
+
+  
+
   return (
     <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search tests"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
+      <Box>
+
+      <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+              List of Discharge Orders
+            </h2>
+            
           </div>
-        </div>
-        {!standalone && (
-          <>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Discharge Orders{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
+          <Button
+                  style={{fontSize: "14px", fontWeight: "600", marginLeft:""}}
+                  label="Add new "
                     className="button is-success is-small"
                     onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="table-container pullup ">
-        <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-          <thead>
-            <tr>
-              <th>
-                <abbr title="Serial No">S/No</abbr>
-              </th>
-              <th>
-                <abbr title="Date">Date</abbr>
-              </th>
-              <th>
-                <abbr title="Order">Order</abbr>
-              </th>
-              <th>Fulfilled</th>
-              <th>
-                <abbr title="Status">Status</abbr>
-              </th>
-              <th>
-                <abbr title="Requesting Physician">Requesting Physician</abbr>
-              </th>
-              {/* <th><abbr title="Client Name">Client Name</abbr></th> */}
-              {!standalone && (
-                <th>
-                  <abbr title="Actions">Actions</abbr>
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tfoot></tfoot>
-          <tbody>
-            {facilities.map((ProductEntry, i) => (
-              <tr
-                key={ProductEntry._id}
-                /* onClick={()=>handleRow(ProductEntry)} */ className={
-                  ProductEntry._id === (selectedOrder?._id || null)
-                    ? "is-selected"
-                    : ""
-                }
-              >
-                <th>{i + 1}</th>
-                <td>
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                  <span>
-                    {format(new Date(ProductEntry.createdAt), "dd-MM-yy")}
-                  </span>
-                </td>
-                <th>{ProductEntry.order}</th>
-                <td>{ProductEntry.fulfilled === "True" ? "Yes" : "No"}</td>
-                <td>{ProductEntry.order_status}</td>
-                <td>{ProductEntry.requestingdoctor_Name}</td>
-                {/* <td>{ProductEntry.clientId}</td> */}
-                {!standalone && (
-                  <td>
-                    {" "}
-                    <button
-                      className="button  sbut"
-                      aria-label="more options"
-                      onClick={() => handleDelete(ProductEntry)}
-                    >
-                      <span>x</span>
-                    </button>{" "}
-                    {/* <span className="showAction"  >...</span> */}{" "}
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  />
+          
+        </TableMenu>
+                
+        
+        
+            
+                 
+                  
+                 
+      
+      {!standalone && (
+            <button
+              
+              onClick={() => handleDelete(ProductEntry)}
+            />
+          )}
+      <Box style={{height:"400px", overScrollY:"scroll"} }>            
+        
+        <CustomTable
+             title={""}
+             columns={dischargeSchema}
+             data={facilities}
+             pointerOnHover
+             highlightOnHover
+             striped/>
+      </Box>
+
+      </Box>
     </>
   );
 }
