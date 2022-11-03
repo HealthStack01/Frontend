@@ -10,11 +10,30 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ServicesCreate} from "../Finance/Services";
 
-import {Collapse} from "@mui/material";
-import ModalBox from "./ui-components/modal";
+import {Box, Card, Collapse, Grow} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import ModalBox from "../../components/modal";
 
 // eslint-disable-next-line
 const searchfacility = {};
+
+const useOnClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = event => {
+      // Do nothing if clicking ref's element or descendent elements
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, handler]);
+};
 
 export default function ServiceSearch({getSearchfacility, clear, mode}) {
   const {user} = useContext(UserContext);
@@ -35,6 +54,8 @@ export default function ServiceSearch({getSearchfacility, clear, mode}) {
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
+
+  const dropDownRef = useRef(null);
 
   const handleRow = async obj => {
     await setChosen(true);
@@ -213,6 +234,9 @@ export default function ServiceSearch({getSearchfacility, clear, mode}) {
     }
     return () => {};
   }, [clear]);
+
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
   return (
     <div>
       <div className="field">
@@ -221,74 +245,105 @@ export default function ServiceSearch({getSearchfacility, clear, mode}) {
             className={`dropdown ${showPanel ? "is-active" : ""}`}
             style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
-              <DebouncedInput
+            <div
+              className="dropdown-trigger"
+              style={{width: "100%", position: "relative"}}
+            >
+              <DebounceInput
                 className="input is-small "
                 type="text"
-                label="Search Services"
+                placeholder="Search Services"
                 value={simpa}
                 minLength={3}
-                variant="outlined"
                 debounceTimeout={400}
                 onBlur={e => handleBlur(e)}
-                onChangeValue={handleSearch}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
+                element={Input}
               />
-              {/* <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span> */}
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu" style={{width: "100%"}}>
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div className="dropdown-item" onClick={handleAddproduct}>
-                    {" "}
-                    <span>Add {val} to service list</span>{" "}
-                  </div>
-                )}
 
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item selectadd"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
+              <Grow in={showPanel}>
+                <Card>
+                  <Box
+                    ref={dropDownRef}
+                    container
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      maxHeight: "150px",
+                      overflowY: "scroll",
+                      zIndex: "5",
+                      position: "absolute",
+                      background: "#ffffff",
+                      width: "100%",
+                      border: "1px solid lightgray",
+                      zIndex: "500",
+                    }}
                   >
-                    <span>
-                      {facility.name} ({facility.category})
-                    </span>
-                  </div>
-                ))}
-              </div>
+                    {facilities.length > 0 ? (
+                      facilities.map((facility, i) => (
+                        <Box
+                          item
+                          key={i}
+                          onClick={() => handleRow(facility)}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "0 8px",
+                            width: "100%",
+                            minHeight: "50px",
+                            borderTop: i !== 0 ? "1px solid gray" : "",
+                            cursor: "pointer",
+                            zIndex: "100",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: "0.75rem",
+                            }}
+                          >
+                            {facility.name} - {facility.category}
+                          </span>
+                        </Box>
+                      ))
+                    ) : (
+                      <Box
+                        className="dropdown-item"
+                        onClick={handleAddproduct}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "0 8px",
+                          width: "100%",
+                          minHeight: "50px",
+                          borderTop: "1px solid gray",
+                          cursor: "pointer",
+                          zIndex: "100",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "0.75rem",
+                          }}
+                        >
+                          Add {val} to service list
+                        </span>{" "}
+                      </Box>
+                    )}
+                  </Box>
+                </Card>
+              </Grow>
             </div>
           </div>
         </div>
       </div>
 
-      <ModalBox open={productModal}>
-        <div>
-          <div className="modal-background"></div>
-          <div className="modal-card">
-            <header className="modal-card-head">
-              <p className="modal-card-title">Create Service</p>
-              <button
-                className="delete"
-                aria-label="close"
-                onClick={handlecloseModal}
-              ></button>
-            </header>
-            <section className="modal-card-body">
-              {/* <StoreList standalone="true" /> */}
-              <ServicesCreate />
-            </section>
-            {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-          </div>
-        </div>
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Create Service"
+      >
+        <ServicesCreate />
       </ModalBox>
     </div>
   );

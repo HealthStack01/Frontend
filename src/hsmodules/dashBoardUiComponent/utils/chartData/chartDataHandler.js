@@ -1,12 +1,11 @@
-import useFetch from '../usefetch';
-import { paymentTotal } from './queryHandler';
-import useFetchData from '../useFetchData';
-import useFetchOrder from '../usefetchOrder';
-const userDetails = localStorage.getItem('user');
+import useFetch from "../usefetch";
+import { paymentTotal } from "./queryHandler";
+import useFetchData from "../useFetchData";
+import useFetchOrder from "../usefetchOrder";
+const userDetails = localStorage.getItem("user");
+// const facilityId = JSON.parse(userDetails).employeeData[0].facility;
 
-const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
-
-export const TotalNumOfData = service => {
+export const TotalNumOfData = (service) => {
   const query = {
     $sort: { createdAt: -1 },
   };
@@ -20,11 +19,11 @@ export const TotalNumOfData = service => {
   };
 };
 
-export const TotalNumOfMaleClient = service => {
+export const TotalNumOfMaleClient = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['gender'],
-    gender: 'Male',
+    $select: ["gender"],
+    gender: "Male",
   };
   const { data, isPending, error } = useFetch(service, query);
   let totalNumMaleClient = Number(data.total);
@@ -36,11 +35,11 @@ export const TotalNumOfMaleClient = service => {
   };
 };
 
-export const TotalNumOfFemaleClient = service => {
+export const TotalNumOfFemaleClient = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['gender'],
-    gender: 'female',
+    $select: ["gender"],
+    gender: "female",
   };
   const { data, isPending, error } = useFetch(service, query);
   let totalNumFemaleClient = Number(data.total);
@@ -53,11 +52,11 @@ export const TotalNumOfFemaleClient = service => {
   };
 };
 
-export const TotalNumOfOtherGenderClient = service => {
+export const TotalNumOfOtherGenderClient = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['gender'],
-    gender: '',
+    $select: ["gender"],
+    gender: "",
   };
   const { data, isPending, error } = useFetch(service, query);
   let totalNumOtherGenderClient = Number(data.total);
@@ -69,10 +68,10 @@ export const TotalNumOfOtherGenderClient = service => {
   };
 };
 
-export const TotalUpcomingAppointment = service => {
+export const TotalUpcomingAppointment = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    appoint_status: 'pending',
+    appoint_status: "pending",
   };
   const { data, isPending, error } = useFetch(service, query);
 
@@ -85,7 +84,7 @@ export const TotalUpcomingAppointment = service => {
   };
 };
 
-export const TotalNewClientWithinAMonth = service => {
+export const TotalNewClientWithinAMonth = (service) => {
   const getNumDaysInCurrentMonth = new Date().getDate();
   const DAY_MS = 24 * 60 * 60 * 1000 * getNumDaysInCurrentMonth;
   const query = {
@@ -104,13 +103,13 @@ export const TotalNewClientWithinAMonth = service => {
   };
 };
 
-export const TotalNewClientWithinARangeOf30Day = service => {
+export const TotalNewClientWithinARangeOf30Day = (service) => {
   const DAY_MS60 = 24 * 60 * 60 * 1000 * 21;
   // const DAY_MS30 = 24 * 60 * 60 * 1000 * currentState;
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt'],
+    $select: ["createdAt"],
     createdAt: {
       $gt: new Date().getTime() - DAY_MS60,
       $lt: new Date().getTime(),
@@ -129,10 +128,10 @@ export const TotalNewClientWithinARangeOf30Day = service => {
   };
 };
 
-export const ClientPaymentMode = service => {
+export const ClientPaymentMode = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'paymentinfo'],
+    $select: ["createdAt", "paymentinfo"],
   };
   const { data, isPending, error } = useFetchData(service, query);
   let queryResults = data;
@@ -142,7 +141,7 @@ export const ClientPaymentMode = service => {
 
   var paymentModeBarSeries = [
     {
-      name: 'mode of payment',
+      name: "mode of payment",
       data: paymentModeData,
     },
   ];
@@ -153,10 +152,10 @@ export const ClientPaymentMode = service => {
   };
 };
 
-export const TotalDischargedPatient = service => {
+export const TotalDischargedPatient = (service) => {
   const query = {
     $sort: { end_time: -1 },
-    $select: ['end_time'],
+    $select: ["end_time"],
     end_time: {
       $lt: new Date().getTime(),
     },
@@ -172,10 +171,10 @@ export const TotalDischargedPatient = service => {
   };
 };
 
-export const FetchTotalDataForDischargedPatient = service => {
+export const FetchTotalDataForDischargedPatient = (service) => {
   const query = {
     $sort: { end_time: -1 },
-    $select: ['end_time', 'start_time'],
+    $select: ["end_time", "start_time"],
     end_time: {
       $lt: new Date().getTime(),
     },
@@ -191,10 +190,10 @@ export const FetchTotalDataForDischargedPatient = service => {
   };
 };
 
-export const TotalAdmittedPatient = service => {
+export const TotalAdmittedPatient = (service) => {
   const query = {
     $sort: { start_time: -1 },
-    $select: ['createdAt', 'start_time'],
+    $select: ["createdAt", "start_time"],
     start_time: {
       $lt: new Date().getTime(),
     },
@@ -209,10 +208,10 @@ export const TotalAdmittedPatient = service => {
   };
 };
 
-export const TotalPaymentMode = service => {
+export const TotalPaymentMode = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'paymentinfo'],
+    $select: ["createdAt", "paymentinfo"],
   };
   const { data, isPending, error } = useFetchData(service, query);
   let queryResults = data;
@@ -222,7 +221,7 @@ export const TotalPaymentMode = service => {
 
   var paymentModeBarSeries = [
     {
-      name: 'mode of payment',
+      name: "mode of payment",
       data: paymentModeData,
     },
   ];
@@ -248,11 +247,11 @@ export const TotalServiceData = (service, selectQuery) => {
   };
 };
 
-export const TotalBedAvailable = service => {
+export const TotalBedAvailable = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $selete: ['status'],
-    status: 'occupied',
+    $selete: ["status"],
+    status: "occupied",
   };
   const { data, isPending, error } = useFetch(service, query);
   let totalBedAvailable = data.total;
@@ -264,11 +263,11 @@ export const TotalBedAvailable = service => {
   };
 };
 
-export const FetchLocationWard = service => {
+export const FetchLocationWard = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['sublocations', 'locationType'],
-    locationType: 'Ward',
+    $select: ["sublocations", "locationType"],
+    locationType: "Ward",
   };
   const { data, isPending, error } = useFetchData(service, query);
   let fetchLocationWard = data;
@@ -286,7 +285,7 @@ export const FetchDataWithInARange = (service, gt, lt) => {
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'start_time'],
+    $select: ["createdAt", "start_time"],
     start_time: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime() - LT_MS,
@@ -313,7 +312,7 @@ export const FetchTotalAdmittedWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'start_time'],
+    $select: ["createdAt", "start_time"],
     start_time: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -340,7 +339,7 @@ export const FetchTotalDischargedWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'end_time'],
+    $select: ["createdAt", "end_time"],
     end_time: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -363,7 +362,7 @@ export const FetchTotalDataWithInPresentRange = (service, gt_HRs, gt_Days) => {
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'start_time'],
+    $select: ["createdAt", "start_time"],
     start_time: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -386,7 +385,7 @@ export const FetchDataWithInAYear = (
 ) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'start_time'],
+    $select: ["createdAt", "start_time"],
     start_time: {
       $gt: gtPreviousYear_MS,
       $lt: ltCurrentYear_MS,
@@ -406,7 +405,7 @@ export const FetchDataWithInAYear = (
 export const FetchDataWithInPresentYear = (service, gtPreviousYear_MS) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'start_time'],
+    $select: ["createdAt", "start_time"],
     start_time: {
       $gt: gtPreviousYear_MS,
     },
@@ -424,7 +423,7 @@ export const FetchDataWithInPresentYear = (service, gtPreviousYear_MS) => {
 export const FetchAdmittedWithInPresentYear = (service, gtPreviousYear_MS) => {
   const query = {
     $sort: { start_time: -1 },
-    $select: ['start_time'],
+    $select: ["start_time"],
     start_time: {
       $gt: gtPreviousYear_MS,
     },
@@ -446,7 +445,7 @@ export const FetchDischargedWithInPresentYear = (
 ) => {
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'end_time'],
+    $select: ["createdAt", "end_time"],
     createdAt: {
       $gt: gtPreviousYear_MS,
     },
@@ -462,12 +461,12 @@ export const FetchDischargedWithInPresentYear = (
   };
 };
 
-export const FetchOrderByDestination = service => {
+export const FetchOrderByDestination = (service) => {
   const query = {
     $sort: { createdAt: -1 },
     // $select: ["createdAt", "destination"],
-    order_status: 'Fully Paid',
-    $select: ['createdAt', 'order_status'],
+    order_status: "Fully Paid",
+    $select: ["createdAt", "order_status"],
   };
   const {
     data: totalOrderByDestination,
@@ -494,7 +493,7 @@ export const FetchTotalPrescriptionOrderWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt'],
+    $select: ["createdAt"],
     createdAt: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -521,8 +520,8 @@ export const FetchTotalPrescriptionBilledWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'order_status'],
-    order_status: 'Billed',
+    $select: ["createdAt", "order_status"],
+    order_status: "Billed",
     createdAt: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -549,8 +548,8 @@ export const FetchTotalPrescriptionPendingWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'order_status'],
-    order_status: 'Pending',
+    $select: ["createdAt", "order_status"],
+    order_status: "Pending",
     createdAt: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -577,8 +576,8 @@ export const FetchTotalPrescriptionFullyPaidWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt', 'order_status'],
-    order_status: 'Fully Paid',
+    $select: ["createdAt", "order_status"],
+    order_status: "Fully Paid",
     createdAt: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -594,16 +593,16 @@ export const FetchTotalPrescriptionFullyPaidWithInPresentRange = (
   };
 };
 
-export const FetchTotalSalePharmacy = service => {
+export const FetchTotalSalePharmacy = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    'participantInfo.billingFacility': facilityId,
-    'orderInfo.orderObj.order_category': 'Prescription',
+    "participantInfo.billingFacility": facilityId,
+    "orderInfo.orderObj.order_category": "Prescription",
   };
 
   const { data, isPending, error } = useFetchData(service, query, true);
   var total = 0;
-  data.map(dat => {
+  data.map((dat) => {
     return (total += dat.paymentInfo.amountpaid);
   });
   const fetchTotalSalePharmacy = Math.ceil(total);
@@ -616,7 +615,7 @@ export const FetchTotalSalePharmacy = service => {
   };
 };
 
-export const FetchTotalQuantity = service => {
+export const FetchTotalQuantity = (service) => {
   const query = {
     $sort: { createdAt: -1 },
     facility: facilityId,
@@ -655,7 +654,7 @@ export const FetchTotalStockValueWithInPresentRange = (
   };
   const { data, isPending, error } = useFetchData(service, query, true);
   var total = 0;
-  data.map(dat => {
+  data.map((dat) => {
     return (total += dat.stockvalue);
   });
   const totalDataWithInARange = Math.ceil(total);
@@ -713,8 +712,8 @@ export const FetchTotalSaleValueWithInPresentRange = (
 
   const query = {
     $sort: { createdAt: -1 },
-    'participantInfo.billingFacility': facilityId,
-    'orderInfo.orderObj.order_category': 'Prescription',
+    "participantInfo.billingFacility": facilityId,
+    "orderInfo.orderObj.order_category": "Prescription",
     createdAt: {
       $gt: new Date().getTime() - GT_MS,
       $lt: new Date().getTime(),
@@ -722,7 +721,7 @@ export const FetchTotalSaleValueWithInPresentRange = (
   };
   const { data, isPending, error } = useFetchData(service, query, true);
   var total = 0;
-  data.map(dat => {
+  data.map((dat) => {
     return (total += dat.paymentInfo.amountpaid);
   });
   const totalDataWithInARange = Math.ceil(total);
@@ -735,11 +734,11 @@ export const FetchTotalSaleValueWithInPresentRange = (
   };
 };
 
-export const FetchTotalClientAtPharmacy = service => {
+export const FetchTotalClientAtPharmacy = (service) => {
   const query = {
     $sort: { createdAt: -1 },
-    'participantInfo.billingFacility': facilityId,
-    'orderInfo.orderObj.order_category': 'Prescription',
+    "participantInfo.billingFacility": facilityId,
+    "orderInfo.orderObj.order_category": "Prescription",
   };
 
   const { data, isPending, error } = useFetchData(service, query, true);
@@ -772,7 +771,7 @@ export const FetchTotalStockQuantityWithInPresentRange = (
   };
   const { data, isPending, error } = useFetchData(service, query, true);
   var total = 0;
-  data.map(dat => {
+  data.map((dat) => {
     return (total += dat.quantity);
   });
   const totalDataWithInARange = Math.ceil(total);
@@ -787,7 +786,7 @@ export const FetchTotalStockQuantityWithInPresentRange = (
   };
 };
 
-export const FetchTotalSuppiedProduct = service => {
+export const FetchTotalSuppiedProduct = (service) => {
   const query = {
     $sort: { createdAt: -1 },
   };
@@ -795,7 +794,7 @@ export const FetchTotalSuppiedProduct = service => {
   const { data, isPending, error } = useFetchData(service, query);
 
   var total = 0;
-  data.map(dat => {
+  data.map((dat) => {
     return (total += dat.productitems[0].quantity);
   });
   const fetchTotalSuppiedProduct = Math.ceil(total);

@@ -22,10 +22,11 @@ import AccordionBox from "./ui-components/accordion";
 // import FilterMenu from "../../components/utilities/FilterMenu";
 // import Button from "../../components/buttons/Button";
 // import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
+import {Box} from "@mui/material";
 
 export default function PharmacyBillPrescription() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -78,10 +79,36 @@ export default function PharmacyBillPrescription() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        style={{display: "flex"}}
+        //style={{display: "flex"}}
+        header="Bill Product"
       >
-        <BillPrescriptionCreate />
-        <PatientProfile />
+        <Box
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "70vw",
+            height: "60vh",
+          }}
+        >
+          <Box
+            item
+            sx={{
+              width: "calc(100%-350px)",
+            }}
+          >
+            <BillPrescriptionCreate />
+          </Box>
+
+          <Box
+            item
+            sx={{
+              width: "350px",
+            }}
+          >
+            <PatientProfile />
+          </Box>
+        </Box>
       </ModalBox>
     </section>
   );

@@ -5,9 +5,10 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
+import ModalBox from "../../components/modal";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -76,16 +77,6 @@ export default function BillPrescriptionCreate() {
     // console.log(paymentOptions)
     let billm = paymentOptions.filter(el => el.name === value);
     await setBillMode(billm[0]);
-    //console.log(billm)
-    // at startup
-    // check payment mode options from patient financial info
-    // load that to select options
-    // default to HMO-->company-->family-->cash
-    //when chosen
-    //append payment mode to order
-    //check service contract for pricing info
-    // calculate pricing
-    // pricing
   };
 
   const handleRow = async ProductEntry => {
@@ -139,13 +130,9 @@ export default function BillPrescriptionCreate() {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-          toast({
-            message:
-              "Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash",
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            "Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash"
+          );
           await setSellingPrice(0);
         }
       } else {
@@ -156,13 +143,9 @@ export default function BillPrescriptionCreate() {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-          toast({
-            message:
-              "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ",
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount "
+          );
           await setSellingPrice(0);
         }
       }
@@ -176,13 +159,9 @@ export default function BillPrescriptionCreate() {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash"
+        );
         await setSellingPrice(0);
       }
     }
@@ -193,13 +172,9 @@ export default function BillPrescriptionCreate() {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero "
+        );
         await setSellingPrice(0);
       }
     }
@@ -239,50 +214,6 @@ export default function BillPrescriptionCreate() {
     setCategory("Prescription"); //obj1.billingDetails.category
     await setObj(obj1);
     await setObjService(obj.billingDetails);
-    // const contracts=obj.billingDetails.contracts
-    //const billingserv=client.service('billing')
-    //just did this
-    /* if( billMode.type==="HMO Cover"){ //paymentmode
-         let contract=contracts.filter(el=>el.source_org===billMode.detail.hmo)
-         if (contract.length){
-            console.log(contract[0].price)
-            setSellingPrice(contract[0].price)
-            console.log(sellingprice)
-         }else{
-            toast({
-                message: 'Please HMO does not have cover/price for this drug. Either set drug price for HMO or try another drug or bill using cash',
-                type: 'is-danger',
-                dismissible: true,
-                pauseOnHover: true,
-              })
-              setSellingPrice(0)
-         }
-        
-        
-        }
-        if( billMode.type==="Company Cover"){ //paymentmode
-            let contract=contracts.filter(el=>el.source_org===billMode.detail.company)
-            if (contract.length){
-            console.log(contract[0].price)
-            setSellingPrice(contract[0].price)
-            console.log(sellingprice)
-           
-           }else{
-
-            toast({
-                message: 'Please company does not have cover/price for this drug. Either set drug price for Company or try another drug or bill using cash',
-                type: 'is-danger',
-                dismissible: true,
-                pauseOnHover: true,
-              })
-              setSellingPrice(0)   
-         }
-          
-        /*  setValue("facility", obj._id,  {
-             shouldValidate: true,
-             shouldDirty: true
-         }) */
-    /*} */
   };
   useEffect(() => {
     /*  console.log(obj)
@@ -320,21 +251,13 @@ export default function BillPrescriptionCreate() {
   };
 
   const handleClickProd = async () => {
-    /*   console.log("amount: ",productItemI.amount)
-         console.log("qamount: ",qamount)
-         console.log("calcamount: ",calcamount) */
     if (
       quantity === 0 ||
       quantity === "" ||
       productId === "" ||
       paymentmode === ""
     ) {
-      toast({
-        message: "You need to choose a product and quantity to proceed",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You need to choose a product and quantity to proceed");
       return;
     }
 
@@ -405,32 +328,13 @@ export default function BillPrescriptionCreate() {
     await setSuccess(true);
     getSearchfacility(false);
     setObj("");
-    /* console.log(success)
-        console.log(qamount)
-        console.log(productItem) */
+
     setChangeAmount(true);
   };
-  //check user for facility or get list of facility
-  /*  useEffect(()=>{
-         //setFacility(user.activeProductEntry.FacilityId)//
-       if (!user.stacker){
-           console.log(currentUser)
-            /* setValue("facility", user.currentEmployee.facilityDetail._id,  {
-             shouldValidate: true,
-             shouldDirty: true
-         })  
- 
-       }
-     }) */
 
   const handleQtty = async e => {
     if (invquantity < e.target.value) {
-      toast({
-        message: "You can not sell more quantity than exist in inventory ",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You can not sell more quantity than exist in inventory ");
       return;
     }
     setQuantity(e.target.value);
@@ -465,13 +369,6 @@ export default function BillPrescriptionCreate() {
   };
 
   const handleMedicationDone = async () => {
-    //handle selected single order
-    //console.log("b4",state)
-
-    //console.log("handlerow",ProductEntry)
-
-    // await setSelectedMedication("")
-
     const newProductEntryModule = {
       selectedMedication: {},
       show: "create",
@@ -524,47 +421,8 @@ export default function BillPrescriptionCreate() {
       });
       return;
     }
-    //console.log("b4 create",productEntry);
-    // ProductEntryServ.create(productEntry)
-    //.then((res)=>{
-    //console.log(JSON.stringify(res))
-    //      resetform()
-    /*  setMessage("Created ProductEntry successfully") */
-    //    setSuccess(true)
-    //  toast({
-    /*    message: 'ProductExit created succesfully',
-                     type: 'is-success',
-                     dismissible: true,
-                     pauseOnHover: true,
-                   })
-                   setSuccess(false)
-                   setProductItem([])
-                   const today=new Date().toLocaleString()
-       
-                   setDate(today)
-                   const invoiceNo=random(6,'uppernumeric')
-                 setDocumentNo(invoiceNo)
-                 setType("Sales")
-             })
-             .catch((err)=>{
-                 toast({
-                     message: 'Error creating ProductExit ' + err,
-                     type: 'is-danger',
-                     dismissible: true,
-                     pauseOnHover: true,
-                   })
-             }) */
   };
 
-  // console.log("i am rendering")
-  /*   useEffect(() => {
-         setMedication(state.medicationModule.selectedMedication)
-        // console.log(medication)
-         return () => {
-             
-         }
-     }, [state])
-  */
   const handleChangeAmount = () => {
     setChangeAmount(rev => !rev);
   };
@@ -588,80 +446,6 @@ export default function BillPrescriptionCreate() {
       setTotalamount(0);
     }
 
-    /*         const paymentoptions= []
-        const info = medication.client.paymentinfo
-        let billme={}
-       
-        if( medication.client.paymentinfo.cash===true){
-            const details={}
-            details.detail=  info.cashDetails
-            details.type="Cash"
-            const obj={
-                name:"Cash",
-                value:"Cash",
-                detail:details,
-                type:"Cash"
-            }
-            paymentoptions.push(obj)
-            setPaymentMode("Cash")
-            billme=obj
-        }
-        if( medication.client.paymentinfo.familyCover===true){
-            const details={}
-            details.detail=  info.familyDetails
-            details.type="Family Cover"
-            const obj={
-                name:"Family Cover",
-                value:"familyCover",
-                detail:details,
-                type:"Family Cover"
-            }
-            paymentoptions.push(obj)
-            setPaymentMode("Family Cover")
-            billme=obj
-            
-        }
-        if( medication.client.paymentinfo.companyCover===true){
-            const details={}
-            details.type="Company Cover"
-            details.detail=  info.companyDetails.filter(el=>el.active===true)
-            details.detail.forEach(el=>{
-                const obj={
-                    name:"Company: " +el.companyName +"("+el.companyPlan+")",
-                    value:"companyCover",
-                    detail:el,
-                    type:"Company Cover" 
-                }
-                paymentoptions.push(obj)
-                setPaymentMode("Company: " +el.companyName +"("+el.companyPlan+")")
-               // console.log("Company: " +el.companyName +"("+el.companyPlan+")")
-               billme=obj
-            })
-        }
-
-        if( medication.client.paymentinfo.hmoCover===true){
-            
-            const details={}
-            details.type="HMO Cover"
-            details.detail=  info.hmoDetails.filter(el=>el.active===true)
-            details.detail.forEach(el=>{
-                const obj={
-                    name:"HMO: " +el.hmoName +"("+el.hmoPlan+")",
-                    value:"hmoCover",
-                    detail:el,
-                    type:"HMO Cover"
-                }
-                paymentoptions.push(obj)
-                setPaymentMode("HMO: " +el.hmoName +"("+el.hmoPlan+")")
-                //console.log("HMO: " +el.hmoName +"("+el.hmoPlan+")")
-                billme=obj
-            })
-         
-        }
-        setPaymentOptions(paymentoptions)
-        setBillMode(billme)
-       console.log(paymentoptions)
-        console.log(billMode) */
     return () => {};
   }, [medication]);
 
@@ -1120,26 +904,16 @@ export default function BillPrescriptionCreate() {
           )}
         </div>
       </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card  modalbkgrnd">
-          <header className="modal-card-head  btnheight">
-            <p className="modal-card-title">Documentation</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body modalcolor">
-            <Encounter standalone="true" />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer>  */}
-        </div>
-      </div>
+
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Documentation"
+      >
+        <section className="modal-card-body modalcolor">
+          <Encounter standalone={true} />
+        </section>
+      </ModalBox>
     </>
   );
 }

@@ -12,8 +12,36 @@ import TextField from "@mui/material/TextField";
 import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 //const searchfacility={};
-import {Collapse} from "@mui/material";
+import {Box, Card, Collapse, Grow} from "@mui/material";
 import ModalBox from "./ui-components/modal";
+import Input from "../../components/inputs/basic/Input";
+
+const useOnClickOutside = (ref, handler) => {
+  useEffect(
+    () => {
+      const listener = event => {
+        // Do nothing if clicking ref's element or descendent elements
+        if (!ref.current || ref.current.contains(event.target)) {
+          return;
+        }
+        handler(event);
+      };
+      document.addEventListener("mousedown", listener);
+      document.addEventListener("touchstart", listener);
+      return () => {
+        document.removeEventListener("mousedown", listener);
+        document.removeEventListener("touchstart", listener);
+      };
+    },
+    // Add ref and handler to effect dependencies
+    // It's worth noting that because passed in handler is a new ...
+    // ... function on every render that will cause this effect ...
+    // ... callback/cleanup to run every render. It's not a big deal ...
+    // ... but to optimize you can wrap handler in useCallback before ...
+    // ... passing it into this hook.
+    [ref, handler]
+  );
+};
 
 export function ClientSearch({getSearchfacility, clear}) {
   const ClientServ = client.service("client");
@@ -35,6 +63,8 @@ export function ClientSearch({getSearchfacility, clear}) {
   const {user} = useContext(UserContext);
   const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
+
+  const dropDownRef = useRef(null);
 
   console.log(simpa);
 
@@ -188,6 +218,8 @@ export function ClientSearch({getSearchfacility, clear}) {
     return () => {};
   }, [clear]);
 
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
   const tableSchema = [
     {
       name: "S/NO",
@@ -256,46 +288,52 @@ export function ClientSearch({getSearchfacility, clear}) {
           width: "100%",
         }}
       >
-        <div className="control has-icons-left  ">
-          <div className="dropdown-trigger" style={{width: "100%"}}>
-            <DebouncedInput
-              type="text"
-              id="outlined-basic"
-              label="Search for Client"
-              variant="outlined"
-              minLength={3}
-              onBlur={e => handleBlur(e)}
-              value={simpa}
-              onChangeValue={handleSearch}
-              inputRef={inputEl}
-              defaultValue={simpa}
-              disabled={simpa !== ""}
-            />
-          </div>
+        <div style={{width: "100%", position: "relative"}}>
+          <DebounceInput
+            className="input is-small  is-expanded mb-0"
+            type="text"
+            placeholder="Search for Client"
+            value={simpa}
+            minLength={3}
+            debounceTimeout={400}
+            onBlur={e => handleBlur(e)}
+            onChange={e => handleSearch(e.target.value)}
+            inputRef={inputEl}
+            element={Input}
+          />
 
-          <div className="dropdown-menu expanded" style={{width: "100%"}}>
-            <Collapse in={val !== "" && facilities.length < 1}>
-              <p
-              //   onClick={handleAddproduct}
+          <Grow in={showPanel}>
+            <Card>
+              <Box
+                ref={dropDownRef}
+                container
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  maxHeight: "250px",
+                  overflowY: "scroll",
+                  zIndex: "5",
+                  position: "absolute",
+                  background: "#ffffff",
+                  width: "100%",
+                  //boxShadow: "3",
+                  border: "1px solid lightgray",
+                }}
               >
-                Couldn't find client with name {val}
-              </p>
-            </Collapse>
-
-            <Collapse in={showPanel}>
-              <CustomTable
-                title={""}
-                columns={tableSchema}
-                data={facilities}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={handleRow}
-                progressPending={false}
-                noHeader={true}
-              />
-            </Collapse>
-          </div>
+                <CustomTable
+                  title={""}
+                  columns={tableSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={false}
+                  noHeader={true}
+                />
+              </Box>
+            </Card>
+          </Grow>
         </div>
       </div>
 
