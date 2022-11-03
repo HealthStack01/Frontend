@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import ModuleList from './ModuleList';
-import { toast } from 'bulma-toast';
+import { toast, ToastContainer } from 'react-toastify';
 import * as yup from 'yup';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
@@ -18,6 +18,10 @@ import Grid from '@mui/system/Unstable_Grid/Grid';
 import 'react-datepicker/dist/react-datepicker.css';
 import ModalBox from '../../components/modal';
 import { BottomWrapper, GridWrapper } from '../app/styles';
+import PasswordInput from '../../components/inputs/basic/Password';
+import { createEmployeeSchema } from './ui-components/schema';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -86,7 +90,13 @@ export default function Employee() {
 }
 
 export function EmployeeCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm({ resolver: yupResolver(createEmployeeSchema) }); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -132,28 +142,21 @@ export function EmployeeCreate() {
     if (user.currentEmployee) {
     }
 
+    // {
+    //   ...data,
+    //   facility: user.currentEmployee.facilityDetail._id,
+    // }
     setLoading(true);
-    await sEmployeeServ
-      .create(data)
+    await EmployeeServ.create(data)
       .then(res => {
         e.target.reset();
         setSuccess(true);
-        toast({
-          message: 'Employee created succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success(`Employee successfully created`);
 
         setSuccess(false);
       })
       .catch(err => {
-        toast({
-          message: 'Error creating employee ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Sorry, You weren't able to create a employee. ${err}`);
       });
 
     setLoading(false);
@@ -165,36 +168,46 @@ export function EmployeeCreate() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          {...register('firstname', { required: true })}
+          register={register('firstname')}
           name='firstname'
           type='text'
+          label='First Name'
           placeholder='First Name'
+          errorText={errors?.firstname?.message}
         />
         <Input
-          {...register('lastname', { required: true })}
+          register={register('lastname')}
           name='lastname'
           type='text'
+          label='Last Name'
           placeholder='Last Name'
+          errorText={errors?.lastname?.message}
         />
         <Input
-          {...register('profession', { required: true })}
+          register={register('profession')}
           name='profession'
           type='text'
+          label='Profession'
           placeholder='Profession'
+          errorText={errors?.profession?.message}
         />
         <Input
-          {...register('phone', { required: true })}
+          register={register('phone')}
           name='phone'
-          type='text'
+          type='tel'
+          label='Phone No'
           placeholder='Phone No'
+          errorText={errors?.phone?.message}
         />
         <Input
-          {...register('email', { required: true })}
+          register={register('email')}
           name='email'
-          type='text'
+          type='email'
+          label='Email'
           placeholder='Email'
+          errorText={errors?.email?.message}
         />
-        <div className='field' style={user.stacker ? { display: 'none' } : {}}>
+        {/* <div className='field' style={user.stacker ? { display: 'none' } : {}}>
           <InputSearch getSearchfacility={getSearchfacility} clear={success} />
           <p className='control has-icons-left ' style={{ display: 'none' }}>
             <Input
@@ -204,28 +217,36 @@ export function EmployeeCreate() {
               placeholder='Facility'
             />
           </p>
-        </div>
+        </div> */}
         <Input
-          {...register('department', { required: true })}
+          register={register('department')}
           name='department'
           type='text'
+          label='Department'
           placeholder='Department'
+          errorText={errors?.department?.message}
         />
         <Input
-          {...register('depunit', { required: true })}
+          register={register('depunit')}
           name='depunit'
           type='text'
+          label='Department Unit'
           placeholder='Department Unit'
+          errorText={errors?.depunit?.message}
         />
-        <Input
-          {...register('password', { required: true })}
+        <PasswordInput
+          register={register('password')}
           name='password'
           type='text'
+          label='Password'
           placeholder='Password'
+          errorText={errors?.password?.message}
         />
 
         <BottomWrapper>
-          <Button type='submit'>Create</Button>
+          <Button type='submit' loading={loading}>
+            Create
+          </Button>
         </BottomWrapper>
       </form>
     </>
