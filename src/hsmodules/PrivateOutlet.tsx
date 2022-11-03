@@ -5,9 +5,11 @@ import { UserContext } from '../context';
 import Dashboard from './Dashboard/Dashboard';
 
 const PrivateOutlet = () => {
-  const { user } = useContext(UserContext);
-  
-  return user ? <Dashboard /> :  <Navigate to = "/"/>
+  // const { user: data } = useContext(UserContext);
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
+
+  return user ? <Dashboard /> : <Navigate to='/' />;
 };
 
 export default PrivateOutlet;

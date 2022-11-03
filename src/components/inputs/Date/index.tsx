@@ -10,6 +10,7 @@ interface Props {
   register?: any;
   errors?: any;
   name: any;
+  defaultValue?: any;
 }
 
 const BasicDatePicker: React.FC<Props> = ({
@@ -19,17 +20,21 @@ const BasicDatePicker: React.FC<Props> = ({
   register,
   name,
   errors = {},
+  defaultValue,
 }) => {
-  const [value, setValue] = React.useState<Dayjs | null>(
-    dayjs('2014-08-18T21:11:54')
-  );
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs('2014-08-18'));
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
   };
   return (
     <Box sx={{ my: 2 }}>
       <FormControl style={{ width: '100%' }}>
-        <input {...register} type='date' className='date-picker' />
+        <input
+          {...register}
+          type='date'
+          className='date-picker'
+          defaultValue={defaultValue}
+        />
         {errors[name] && (
           <FormHelperText error>{errors[name].message}</FormHelperText>
         )}

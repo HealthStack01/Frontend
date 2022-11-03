@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 export const ClientMiniSchema = [
   {
     name: "S/N",
@@ -151,3 +153,22 @@ export const ClientMiniSchema = [
 ];
 
 // validation schema
+
+export const createClientSchema = yup.object().shape({
+  firstname: yup.string().required("Enter the first name of the client!"),
+  lastname: yup.string().required("Enter the last name of the client!"),
+  middlename: yup.string().required("Enter the middle name of the client!"),
+  dob: yup.string().required("Enter the date of birth of the client!"),
+  phone: yup.string().required("Enter the phone number of the client!"),
+  email: yup
+    .string()
+    .email("Must be a valid email!")
+    .required("Email is required!"),
+});
+
+export const resetPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Must be a valid email!")
+    .required("Email is required!"),
+});

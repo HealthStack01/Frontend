@@ -70,7 +70,9 @@ export default function Employee() {
           </ModalBox>
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <EmployeeDetail showModifyModal={handleModifyModal} />
+            <div style={{ width: "60vw" }}>
+              <EmployeeDetail showModifyModal={handleModifyModal} />
+            </div>
           </ModalBox>
 
           <ModalBox open={modifyModal} onClose={handleHideModifyModal}>

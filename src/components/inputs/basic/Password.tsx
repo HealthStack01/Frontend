@@ -48,7 +48,15 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         </span>
       </InputBox>
 
-      {errors && <p>e{errors}</p>}
+      {errors && (
+        <p>
+          <label
+            style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}
+          >
+            {errors}
+          </label>
+        </p>
+      )}
     </div>
     // <div>
     //   <FormControl sx={{ width: '100%', mt: 1, mb: 1 }} variant="outlined">

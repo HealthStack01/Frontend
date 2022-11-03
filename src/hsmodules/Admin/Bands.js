@@ -20,6 +20,13 @@ import { width } from "@mui/system";
 import BadgeIcon from "@mui/icons-material/Badge";
 import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
 import { fontWeight } from "@mui/system";
+import { Portal } from "@mui/material";
+import { BottomWrapper, GridWrapper, HeadWrapper } from "../app/styles";
+import { GrayWrapper } from "../app/styles";
+import ViewText from "../../components/viewtext";
+import BandView from "../Admin/BandView";
+import { BandForm } from "./BandForm";
+import { BandSchema } from "./ui-components/schema";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -33,13 +40,6 @@ export default function Bands() {
   const [selectedBand, setSelectedBand] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
 
-  const handleShowDetailModal = () => {
-    setDetailModal(true);
-  };
-
-  const handleHideDetailModal = () => {
-    setDetailModal(false);
-  };
   const handleCreateModal = () => {
     setCreateModal(true);
   };
@@ -47,40 +47,29 @@ export default function Bands() {
   const handleHideCreateModal = () => {
     setCreateModal(false);
   };
-  const handleModifyModal = () => {
-    setModifyModal(true);
-  };
 
-  const handleHideModifyModal = () => {
-    setModifyModal(false);
-  };
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
-      <div>
-        <BandList
-          showCreateModal={handleCreateModal}
-          showDetailModal={handleShowDetailModal}
-        />
-        <ModalBox open={createModal} onClose={handleHideCreateModal}>
-          <BandCreate />
-        </ModalBox>
+      <div className="column is-6">
+        <BandList showCreateModal={handleCreateModal} />
+        <div className="column is-6">
+          {state.BandModule.show === "detail" && <BandDetail />}
+          {state.BandModule.show === "modify" && (
+            <BandModify Band={selectedBand} />
+          )}
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-          <BandDetail showModifyModal={handleModifyModal} />
-        </ModalBox>
-
-        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-          <BandModify />
-        </ModalBox>
+          <BandCreate open={createModal} setOpen={handleHideCreateModal} />
+        </div>
       </div>
     </section>
   );
 }
 
-export function BandCreate() {
+export function BandCreate({ open, setOpen }) {
+  const [showRegisteredModal, setShowRegisteredModal] = useState(false);
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -169,11 +158,10 @@ export function BandCreate() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Band</p>
-        </div>
+        <div className="card-header"></div>
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <BandForm open={open} setOpen={setOpen} />
+          {/* <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               style={{
                 width: "70px",
@@ -235,14 +223,14 @@ export function BandCreate() {
                 </span>
               </p>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </>
   );
 }
 
-export function BandList({ showCreateModal, showDetailModal }) {
+export function BandList({ showCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -262,7 +250,10 @@ export function BandList({ showCreateModal, showDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
-
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(50);
+  const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedBand: {},
@@ -274,13 +265,17 @@ export function BandList({ showCreateModal, showDetailModal }) {
     }));
     //console.log(state)
   };
+
+  const handleRowClicked = (row) => {
+    setSelectedBand(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
   const handleRow = async (Band) => {
-    //console.log("b4",state)
-
-    //console.log("handlerow",Band)
-
     await setSelectedBand(Band);
-
     const newBandModule = {
       selectedBand: Band,
       show: "detail",
@@ -290,7 +285,6 @@ export function BandList({ showCreateModal, showDetailModal }) {
       BandModule: newBandModule,
     }));
     //console.log(state)
-    showDetailModal();
   };
 
   const handleSearch = (val) => {
@@ -386,94 +380,62 @@ export function BandList({ showCreateModal, showDetailModal }) {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const BandSchema = [
-    {
-      name: "S/N",
-      key: "_id",
-      description: "Enter name of band",
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Name of Band",
-      key: "name",
-      description: "Enter name of band",
-      selector: (row) => row.name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Band Type",
-      key: "bandType",
-      description: "Enter name of band",
-      selector: (row) => row.bandType,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Provider", "Company", "Patient", "Plan"],
-    },
-    {
-      name: "Description of Band",
-      key: "description",
-      description: "Enter description of band",
-      selector: (row) => row.description,
-      sortable: true,
-      required: false,
-      inputType: "TEXT",
-    },
-  ];
 
   return (
     <>
       {facilities ? (
         <>
-          <div className="level">
-            <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-            >
-              <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  {handleSearch && (
-                    <div className="inner-table">
-                      <FilterMenu onSearch={handleSearch} />
-                    </div>
-                  )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-                    List of Bands
-                  </h2>
-                </div>
-
-                {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new "
-                    onClick={showCreateModal}
-                  />
+          <ModalBox open={open} onClose={handleCloseModal}>
+            <BandView
+              band={selectedBand}
+              open={open}
+              setOpen={handleCloseModal}
+            />
+          </ModalBox>
+          <PageWrapper
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          >
+            <TableMenu>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {handleSearch && (
+                  <div className="inner-table">
+                    <FilterMenu onSearch={handleSearch} />
+                  </div>
                 )}
-              </TableMenu>
-
-              <div
-                style={{
-                  width: "100%",
-                  justifyContent: "space-between",
-                  display: "flex",
-                }}
-              >
-                <div></div>
-                <CustomTable
-                  title={""}
-                  columns={BandSchema}
-                  data={facilities}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                />
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  List of Bands
+                </h2>
               </div>
-            </PageWrapper>
-          </div>
+
+              {handleCreateNew && (
+                <Button
+                  style={{ fontSize: "14px", fontWeight: "600" }}
+                  label="Add new "
+                  onClick={showCreateModal}
+                />
+              )}
+            </TableMenu>
+
+            <div
+              style={{
+                width: "100%",
+                justifyContent: "space-between",
+                display: "flex",
+              }}
+            >
+              <div></div>
+              <CustomTable
+                title={""}
+                columns={BandSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRowClicked}
+                progressPending={loading}
+              />
+            </div>
+          </PageWrapper>
         </>
       ) : (
         <div>loading</div>
@@ -510,155 +472,33 @@ export function BandDetail({ showModifyModal }) {
   };
 
   return (
-    <>
-      <div className="card">
-        <div className="card-header">
-          <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            fontSize="bold"
-          >
-            <p className="card-header-title">Band Details</p>
-          </Grid>
+    <GrayWrapper>
+      <HeadWrapper>
+        <div>
+          <h2>Band Detail</h2>
+          <span>Band detail of {Band.name}</span>
         </div>
+        <BottomWrapper>
+          <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <h1
-            style={{
-              alignItems: "center",
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginRight: "10px",
-            }}
-          >
-            Name :
-            <span className="is-size-7 padleft" name="name">
-              {" "}
-              {Band.name}{" "}
-            </span>
-          </h1>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <h1
-            style={{
-              alignItems: "center",
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginRight: "10px",
-            }}
-          >
-            Band Type :
-            <span
-              className="is-size-7 padleft"
-              name="BandType"
-              style={{ fontWeight: "light", fontSize: "20px" }}
-            >
-              {Band.bandType}{" "}
-            </span>
-          </h1>
-        </div>
-        {/*   <tr>
-                    <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>Profession: 
-                
-                    
-                    </label>
-                    </td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandCity">{Band.profession}</span> 
-                </td>
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>Phone:           
-                    
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft "  name="BandContactPhone" >{Band.phone}</span>
-                        </td>
-                  </tr>
-                    <tr><td>
-            
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>Email:                     
-                    
-                         </label></td><td>
-                         <span className="is-size-7 padleft "  name="BandEmail" >{Band.email}</span>
-                         </td>
-             
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i></span>Department:
-                    
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft "  name="BandOwner">{Band.department}</span>
-                    </td>
-               
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>Departmental Unit:              
-                    
-                </label></td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandType">{Band.deptunit}</span>
-                </td>
-              
-                </tr> */}
+          <Button
+            label={`Edit Client`}
+            background="#ECF3FF"
+            color="#0364FF"
+            showicon
+            icon="bi bi-pen-fill"
+            onClick={handleEdit}
+          />
+        </BottomWrapper>
+      </HeadWrapper>
 
-        {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-size-7 padleft "  name= "BandCategory">{Band.BandCategory}</span>
-                </label>
-                 </div> */}
-        <Button
-          type="submit"
-          onClick={handleEdit}
-          style={{
-            backgroundColor: "#0364FF",
-            width: "100px",
-            cursor: "pointer",
-          }}
-        >
-          Edit
-        </Button>
+      <GridWrapper className="two-columns">
+        <ViewText label="Name" text={Band.name} />
+        <ViewText label="Band Type" text={Band.bandType} />
+      </GridWrapper>
 
-        {/* <div className="field mt-2">
-          <p className="control">
-            <button className="button is-success is-small" onClick={handleEdit}>
-              Edit
-            </button>
-          </p>
-        </div> */}
-        {error && <div className="message"> {message}</div>}
-      </div>
-    </>
+      {error && <div className="message"> {message}</div>}
+    </GrayWrapper>
   );
 }
 
@@ -818,18 +658,12 @@ export function BandModify() {
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-              style={{
-                width: "50px",
-              }}
               {...register("name", { required: true })}
               name="name"
               type="text"
               placeholder="Name"
             />
             <Input
-              style={{
-                width: "50px",
-              }}
               {...register("bandtype", { required: true })}
               name="bandtype"
               type="text"

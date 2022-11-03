@@ -7,6 +7,7 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -38,7 +39,7 @@ export default function ProductEntry() {
 }
 
 export function ProductEntryCreate() {
-  // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");

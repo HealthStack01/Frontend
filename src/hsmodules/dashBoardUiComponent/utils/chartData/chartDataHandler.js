@@ -3,8 +3,7 @@ import { paymentTotal } from "./queryHandler";
 import useFetchData from "../useFetchData";
 import useFetchOrder from "../usefetchOrder";
 const userDetails = localStorage.getItem("user");
-
-const facilityId = JSON.parse(userDetails).employeeData[0].facility;
+// const facilityId = JSON.parse(userDetails).employeeData[0].facility;
 
 export const TotalNumOfData = (service) => {
   const query = {
@@ -669,6 +668,38 @@ export const FetchTotalStockValueWithInPresentRange = (
     err,
   };
 };
+export const FetchTotalMoneyCollectedWithInPresentRange = (
+  service,
+  gt_HRs,
+  gt_Days
+) => {
+  const GT_HR_MS = 60 * 60 * 1000 * gt_HRs;
+  const GT_Days_MS = 24 * 60 * 60 * 1000 * gt_Days;
+  const GT_MS = GT_HR_MS + GT_Days_MS;
+
+  const query = {
+    $sort: { createdAt: -1 },
+    "participantInfo.billingFacility": facilityId,
+    createdAt: {
+      $gt: new Date().getTime() - GT_MS,
+      $lt: new Date().getTime(),
+    },
+  };
+
+  const { data, isPending, error } = useFetchData(service, query, true);
+  var total = 0;
+  data.map((dat) => {
+    return (total += dat.paymentInfo.amountpaid);
+  });
+  const totalDataWithInARange = Math.ceil(total);
+
+  let err = error;
+  return {
+    totalDataWithInARange,
+    isPending,
+    err,
+  };
+};
 
 export const FetchTotalSaleValueWithInPresentRange = (
   service,
@@ -776,11 +807,75 @@ export const FetchTotalSuppiedProduct = (service) => {
   };
 };
 
-export const ModelResult = (service) => {
+export const FetchTotalRevenue = (service) => {
   const query = {
     $sort: { createdAt: -1 },
     "participantInfo.billingFacility": facilityId,
-    "orderInfo.orderObj.order_category": "Prescription",
+  };
+
+  const { data, isPending, error } = useFetchData(service, query, true);
+  var total = 0;
+  data.map((dat) => {
+    return (total += dat.paymentInfo.amountpaid);
+  });
+  const fetchTotalRevenue = Math.ceil(total);
+
+  let err = error;
+  return {
+    fetchTotalRevenue,
+    isPending,
+    err,
+  };
+};
+
+export const FetchTotalBalance = (service) => {
+  const query = {
+    $sort: { createdAt: -1 },
+    "participantInfo.billingFacility": facilityId,
+  };
+
+  const { data, isPending, error } = useFetchData(service, query, true);
+  var total = 0;
+  data.map((dat) => {
+    return (total += dat.paymentInfo.balance);
+  });
+  const fetchTotalBalance = Math.ceil(total);
+
+  let err = error;
+  return {
+    fetchTotalBalance,
+    isPending,
+    err,
+  };
+};
+
+export const FetchDataByQuery = (service, query) => {
+  const {
+    data: modelResult,
+    isPending,
+    error,
+  } = useFetchData(service, query, true);
+
+  let err = error;
+  return {
+    modelResult,
+    isPending,
+    err,
+  };
+};
+
+export const ModelResult = (service) => {
+  //bill
+  // const query = {
+  //   $sort: { createdAt: -1 },
+  //   "participantInfo.billingFacility": facilityId,
+  // };
+
+  const query = {
+    $sort: { createdAt: -1 },
+    // $select: ["createdAt", "order_category"],
+    destination: facilityId,
+    order_category: "Laboratory",
   };
 
   const {
