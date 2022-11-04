@@ -212,7 +212,7 @@ const CaseDefinitionForm = () => {
         setLoading(false);
       })
       .catch(err => {
-        toast.error(`Sorry, Unable  to create a case definition!`);
+        toast.error(`Sorry, Unable  to create a case definition! ${err}`);
         setLoading(false);
       });
 
@@ -273,11 +273,12 @@ const CaseDefinitionForm = () => {
                   required
                 </Box>
 
-                <Button
+                <div
                   style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-                  label='Add'
                   onClick={handleAddSymptoms}
-                />
+                >
+                  +Add
+                </div>
               </GridWrapper>
 
               <DataTable
@@ -313,11 +314,12 @@ const CaseDefinitionForm = () => {
                   />
                   required
                 </Box>
-                <Button
+                <div
                   style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-                  label='Add '
                   onClick={handleAddFindings}
-                />
+                >
+                  +Add
+                </div>
               </GridWrapper>
 
               <DataTable
@@ -355,11 +357,13 @@ const CaseDefinitionForm = () => {
                   placeholder='Specify'
                 />
 
-                <Button
+                <div
                   style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
                   label='Add '
                   onClick={handleAddLabs}
-                />
+                >
+                  +Add
+                </div>
               </GridWrapper>
 
               <DataTable
