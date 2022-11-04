@@ -15,7 +15,7 @@ const style = {
   minWidth: "400px",
   maxWidth: "95vw",
   minHeight: "400px",
-  maxHeight: "100%",
+  maxHeight: "95vh",
   bgcolor: "#FAFAFA",
   boxShadow: 24,
   p: 4,
@@ -54,34 +54,39 @@ const ModalBox: React.FC<ModalProps> = ({
             style={{
               height: "100%",
               width: width,
-              overflowY: "auto",
+              overflowY: "hidden",
             }}
           >
-            <Box
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              mb={2}
-            >
-              <h1
+            {header && header !== "" && (
+              <Box
                 style={{
-                  color: "#33415C",
-                  fontWeight: "500",
-                  lineHeight: "1.5",
-                  fontSize: "24px",
-                  fontStyle: "SemiBold",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}
+                mb={2}
               >
-                {header}
-              </h1>
+                <h1
+                  style={{
+                    color: "#33415C",
+                    fontWeight: "500",
+                    lineHeight: "1.5",
+                    fontSize: "24px",
+                    fontStyle: "SemiBold",
+                  }}
+                >
+                  {header}
+                </h1>
 
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
+                {onClose && (
+                  <IconButton onClick={onClose}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Box>
+            )}
+
             {children}
           </div>
         </Box>

@@ -9,6 +9,13 @@ import {toast} from "bulma-toast";
 // eslint-disable-next-line
 const searchfacility = {};
 
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
+import {Box} from "@mui/material";
+
 export default function Store() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -619,105 +626,87 @@ export function StoreListStandalone({standalone, closeModal}) {
   }, []);
 
   //todo: pagination and vertical scroll bar
+  const storeListSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Serial Number",
+      selector: row => row.sn,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      //width: "200px",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Action",
+      //width: "200px",
+      key: "clientname",
+      description: "Enter Name",
+      selector: row => "--------",
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      omit: standalone ? true : false,
+    },
+  ];
 
   return (
     <>
       {user ? (
         <>
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Stores"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Stores{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              {!standalone && (
-                <div className="level-item">
-                  <div className="level-item">
-                    <div
-                      className="button is-success is-small"
-                      onClick={handleCreateNew}
-                    >
-                      New
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>Name</th>
-                  {/* <th><abbr title="Last Name">Store Type</abbr></th>
-                                            <th><abbr title="Profession">Profession</abbr></th>
-                                              <th><abbr title="Phone">Phone</abbr></th>
-                                             <th><abbr title="Email">Email</abbr></th>
-                                             <th><abbr title="Department">Department</abbr></th>
-                                             <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> 
-                                             <th><abbr title="Facility">Facility</abbr></th>*/}
-                  {!standalone && (
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
+          <Box container sx={{width: "100%", height: "100%"}}>
+            <Box item>
+              <TableMenu>
+                <Box sx={{display: "flex", alignItems: "center"}}>
+                  {handleSearch && (
+                    <Box item>
+                      <FilterMenu onSearch={handleSearch} />
+                    </Box>
                   )}
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Store, i) => (
-                  <tr
-                    key={Store._id}
-                    onClick={() => handleRow(Store)}
-                    className={
-                      Store._id === (selectedStore?._id || null)
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <th>{Store.name}</th>
-                    {/*<td>{Store.StoreType}</td>
-                                                 < td>{Store.profession}</td>
-                                                 <td>{Store.phone}</td>
-                                                 <td>{Store.email}</td>
-                                                 <td>{Store.department}</td>
-                                                 <td>{Store.deptunit}</td> 
-                                                 <td>{Store.facility}</td>*/}
-                    {!standalone && (
-                      <td>
-                        <span className="showAction">...</span>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                    List of Inventory Store
+                  </h2>
+                </Box>
+
+                {!standalone && (
+                  <Button
+                    style={{fontSize: "14px", fontWeight: "600"}}
+                    label="Add new "
+                    onClick={handleCreateNew}
+                  />
+                )}
+              </TableMenu>
+            </Box>
+
+            <Box
+              item
+              sx={{
+                width: "100%",
+                height: "calc(100% - 80px)",
+                overflowY: "scroll",
+              }}
+            >
+              <CustomTable
+                title={""}
+                columns={storeListSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={row => handleRow(row)}
+                progressPending={false}
+              />
+            </Box>
+          </Box>
         </>
       ) : (
         <div>loading</div>

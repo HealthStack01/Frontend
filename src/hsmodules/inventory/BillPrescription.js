@@ -22,13 +22,13 @@ import AccordionBox from "./ui-components/accordion";
 // import FilterMenu from "../../components/utilities/FilterMenu";
 // import Button from "../../components/buttons/Button";
 // import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
-import { Box } from "@mui/system";
+import {Box} from "@mui/material";
 
-export default function InventoryBillPrescription() {
+export default function PharmacyBillPrescription() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -79,13 +79,35 @@ export default function InventoryBillPrescription() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        style={{display: "flex"}}
+        header="Bill Product"
       >
-        <Box style={{display: "flex", width:"100px"}}>
-        <BillPrescriptionCreate style={{width:"30px", marginRight: "10px"}} />
-        <PatientProfile style={{width:"30px"}}/>
+        <Box
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "70vw",
+            height: "60vh",
+          }}
+        >
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 340px)",
+            }}
+          >
+            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
+          </Box>
+
+          <Box
+            item
+            sx={{
+              width: "330px",
+            }}
+          >
+            <PatientProfile />
+          </Box>
         </Box>
-        
       </ModalBox>
     </section>
   );
@@ -408,7 +430,7 @@ export function BillPrescriptionList({showCreateModal}) {
           >
             <CustomTable
               title={""}
-              columns={selectedDispenseSchema}
+              columns={billPrescriptionSchema}
               data={facilities}
               pointerOnHover
               highlightOnHover
