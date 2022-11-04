@@ -18,7 +18,7 @@ import ModalBox from "../../components/modal";
 import Button from "../../components/buttons/Button";
 import {Box} from "@mui/system";
 
-import ClientLastVisit from "./ClientLastVisit";
+import ClientLastVisit from "./ClientVisitationHistory";
 import ClientTasks from "./ClientTasks";
 import ClientHistory from "./ClientHistory";
 import ClientIntolerance from "./ClientIntolerance";
@@ -279,7 +279,7 @@ export default function PatientProfile() {
       <ModalBox
         open={historyModal}
         onClose={() => setHistoryModal(false)}
-        header="Clinet History"
+        header="Clientt History"
       >
         <ClientHistory closeModal={() => setHistoryModal(false)} />
       </ModalBox>

@@ -4,6 +4,7 @@ import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import client from "../../../feathers";
 import {toast} from "bulma-toast";
 import {UserContext, ObjectContext} from "../../../context";
+import CustomTable from "../../../components/customtable"
 
 const FluidIntakeOutput = () => {
   const {register, handleSubmit, setValue} = useForm();
@@ -229,6 +230,73 @@ const FluidIntakeOutput = () => {
         });
     }
   };
+      const inputFluidSchema=[
+
+        {
+          name: "S/N",
+          key: "sn",
+          description: "SN",
+          selector: row => row.sn,
+          sortable: true,
+          inputType: "HIDDEN",
+        },
+        
+    
+        // {
+        //   name: "Date",
+        //   key: "Date",
+        //   description: "date",
+        //   selector: row => format(new Date(row.fluid_time), "HH:mm:ss"),
+        //   sortable: true,
+        //   required: true,
+        //   inputType: "TEXT",   
+        // },
+    
+        
+       
+    
+        {
+          name: "route",
+          key: "route",
+          description: "route",
+          selector: row => row.route,
+          sortable: true,
+          required: true,
+          inputType: "TEXT",
+        },
+    
+        // {
+        //   name: "fluid",
+        //   key: "fluid",
+        //   description: "fluid",
+        //   selector: row => row => (row.fluidType === "Input" ? Client.volume : " "),
+        //   sortable: true,
+        //   required: true,
+        //   inputType: "TEXT",
+        // },
+
+        {
+          name: "comments",
+          key: "comments",
+          description: "comments",
+          selector: row => row.comments,
+          sortable: true,
+          required: true,
+          inputType: "TEXT",
+        },
+
+        {
+          name: 'Fluid Type',
+          key: 'fluidtype',
+          description: 'fluidtype',
+          selector: (row) => row.fluidType,
+          sortable: true,
+          required: true,
+          inputType: 'TEXT',
+        },
+      ]
+
+      const dummydata=[{sn:1, route:"route" , fluid:"fluid", comments:"comments", date:""}]
 
   return (
     <div className="card">
@@ -345,72 +413,14 @@ const FluidIntakeOutput = () => {
       </div>
       <div className="mx-4 ">
         <div className="table-container pullup vscrola">
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Time">Date/Time</abbr>
-                </th>
-                {/* <th>Type</th> */}
-                <th>
-                  <abbr title="Last Name">Route</abbr>
-                </th>
-                <th>
-                  <abbr title="Class">Fluid</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">Input Volume </abbr>
-                </th>
-                <th>
-                  <abbr title="Location">Output Volume </abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Comments</abbr>
-                </th>
-                <th>
-                  <abbr title="Status">Entry Time</abbr>
-                </th>
-                {/* <th><abbr title="Reason">Reason</abbr></th>
-                                        <th><abbr title="Practitioner">Practitioner</abbr></th> */}
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facilities.map((Client, i) => (
-                <tr
-                  key={Client._id}
-                  onClick={() => handleRow(Client)}
-                  className={
-                    Client._id === (selectedFluid?._id || null)
-                      ? "is-selected"
-                      : ""
-                  }
-                >
-                  <th>{i + 1}</th>
-                  <td>
-                    <strong>
-                      {format(new Date(Client.fluid_time), "HH:mm:ss")}
-                    </strong>
-                  </td>
-                  <th>{Client.route}</th>
-                  <td>{Client.fluid}</td>
-                  <td>{Client.fluidType === "Input" && Client.volume}</td>
-                  <td>{Client.fluidType === "Output" && Client.volume}</td>
-
-                  <td>{Client.comments}</td>
-                  {Client.entrytime && (
-                    <td>
-                      {format(new Date(Client.entrytime), "dd-MM HH:mm:ss")}
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <CustomTable
+       title={"Fluid Intake"}
+       columns={inputFluidSchema}
+       data={dummydata}
+       onRowClicked={handleRow}
+       pointerOnHover
+       highlightOnHover
+       striped/>
         </div>
       </div>
     </div>

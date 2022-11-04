@@ -1314,7 +1314,7 @@ export function DrugAdminList({standalone}) {
       name: "Status",
       key: "status",
       description: "status",
-      selector: row => (row.treatment_status === "Cancelled" ? "cancel" : ""),
+      selector: row => row.treatment_status ,
       sortable: true,
       required: true,
       inputType: "TEXT",
