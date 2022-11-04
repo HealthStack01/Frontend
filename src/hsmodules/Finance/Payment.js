@@ -367,7 +367,10 @@ export function BillingList({openModal}) {
           status: order.billing_status,
           description: order.serviceInfo.name,
           category: data.catName,
-          amount: data.catAmount,
+          amount:
+            order.billing_status === "Unpaid"
+              ? order.serviceInfo.amount
+              : order.paymentInfo.balance,
           order: order,
         };
 

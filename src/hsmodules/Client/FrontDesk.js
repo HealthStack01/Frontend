@@ -9,6 +9,13 @@ import {toast} from "bulma-toast";
 // eslint-disable-next-line
 const searchfacility = {};
 
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "./ui-components/customtable";
+import ModalBox from "../../components/modal";
+import {Box} from "@mui/material";
+
 export default function FrontDesk() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -389,107 +396,87 @@ export function FrontDeskList({standalone, closeModal}) {
 
   //todo: pagination and vertical scroll bar
 
+  const frontDeskListSchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Serial Number",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      //width: "200px",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Action",
+      //width: "200px",
+      key: "clientname",
+      description: "Enter Name",
+      selector: row => "--------",
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      omit: standalone ? true : false,
+    },
+  ];
+
   return (
     <>
       {user ? (
         <>
-          <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Front Desks"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-              {/*   <button className="button" onClick={handleLoad}>
-                        load data
-                    </button> */}
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Front Desks
-              </span>
-            </div>
-            <div className="level-right">
-              {!standalone && (
-                <div className="level-item">
-                  <div className="level-item">
-                    <div
-                      className="button is-success is-small"
-                      onClick={handleCreateNew}
-                    >
-                      New
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>Name</th>
-                  {/* <th><abbr title="Last Name">Clinic Type</abbr></th>
-                                       <th><abbr title="Profession">Profession</abbr></th>
-                                         <th><abbr title="Phone">Phone</abbr></th>
-                                        <th><abbr title="Email">Email</abbr></th>
-                                        <th><abbr title="Department">Department</abbr></th>
-                                        <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> 
-                                        <th><abbr title="Facility">Facility</abbr></th>*/}
-                  {!standalone && (
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
+          <Box container sx={{width: "100%", height: "100%"}}>
+            <Box item>
+              <TableMenu>
+                <Box sx={{display: "flex", alignItems: "center"}}>
+                  {handleSearch && (
+                    <Box item>
+                      <FilterMenu onSearch={handleSearch} />
+                    </Box>
                   )}
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Clinic, i) => (
-                  <tr
-                    key={Clinic._id}
-                    onClick={() => handleRow(Clinic)}
-                    className={
-                      Clinic._id === (selectedClinic?._id || null)
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <th>{Clinic.name}</th>
-                    {/*<td>{Clinic.ClinicType}</td>
-                                            < td>{Clinic.profession}</td>
-                                            <td>{Clinic.phone}</td>
-                                            <td>{Clinic.email}</td>
-                                            <td>{Clinic.department}</td>
-                                            <td>{Clinic.deptunit}</td> 
-                                            <td>{Clinic.facility}</td>*/}
-                    {!standalone && (
-                      <td>
-                        <span className="showAction">...</span>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                    List of Front Desk
+                  </h2>
+                </Box>
+
+                {!standalone && (
+                  <Button
+                    style={{fontSize: "14px", fontWeight: "600"}}
+                    label="Add new "
+                    onClick={handleCreateNew}
+                  />
+                )}
+              </TableMenu>
+            </Box>
+
+            <Box
+              item
+              sx={{
+                width: "100%",
+                height: "calc(100% - 80px)",
+                overflowY: "scroll",
+              }}
+            >
+              <CustomTable
+                title={""}
+                columns={frontDeskListSchema}
+                data={facilities}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={row => handleRow(row)}
+                progressPending={false}
+              />
+            </Box>
+          </Box>
         </>
       ) : (
         <div>loading</div>

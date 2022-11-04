@@ -22,24 +22,24 @@ import { createBandSchema } from './ui-components/schema';
 import ModalBox from '../../components/modal';
 
 export const BandForm = ({ open, setOpen }) => {
-  const BandServ = client.service('bands');
+  const LocationServ = client.service('location');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
-  const data = localStorage.getItem('band');
+  const data = localStorage.getItem('users');
   const user = JSON.parse(data);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitSuccessful, errors },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(createBandSchema),
 
     defaultValues: {
       name: '',
-      bandType: '',
+      locationType: '',
       description: '',
     },
   });
@@ -48,14 +48,14 @@ export const BandForm = ({ open, setOpen }) => {
     e.preventDefault();
     setSuccess(false);
 
-    await BandServ.create(data)
+    await LocationServ.create(data)
       .then(res => {
-        toast.success(`Band successfully created`);
+        toast.success(`Location successfully created`);
         setOpen(false);
         reset();
       })
       .catch(err => {
-        toast.error(`Sorry, You weren't able to create a band. ${err}`);
+        toast.error(`Sorry, You weren't able to create a locationS. ${err}`);
       });
     setLoading(false);
   };
@@ -66,25 +66,25 @@ export const BandForm = ({ open, setOpen }) => {
 
         <DetailsWrapper title='Create Band' defaultExpanded={true}>
           <Input
-            label='Name of Band'
+            label='Name of Location'
             register={register('name')}
             errorText={errors?.name?.message}
           />
           <CustomSelect
-            label='Choose Band Type'
-            name='bandType'
+            label='Choose Location Type'
+            name='locationType'
             options={bandTypeOptions}
-            register={register('bandType', { required: true })}
+            register={register('locationType', { required: true })}
           />
           <Input
             {...register('description', { required: true })}
             name='description'
             type='text'
-            placeholder='Description of Band'
+            placeholder='Description of Location'
           />
 
           <BottomWrapper>
-            <Button type='submit' label='Create Band' loading={loading} />
+            <Button type='submit' label='Create Location' loading={loading} />
           </BottomWrapper>
         </DetailsWrapper>
       </form>

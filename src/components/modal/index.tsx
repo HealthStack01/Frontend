@@ -74,14 +74,28 @@ const ModalBox: React.FC<ModalProps> = ({
                   fontSize: '24px',
                   fontStyle: 'SemiBold',
                 }}
+                mb={2}
               >
-                {header}
-              </h1>
+                <h1
+                  style={{
+                    color: "#33415C",
+                    fontWeight: "500",
+                    lineHeight: "1.5",
+                    fontSize: "24px",
+                    fontStyle: "SemiBold",
+                  }}
+                >
+                  {header}
+                </h1>
 
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
+                {onClose && (
+                  <IconButton onClick={onClose}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Box>
+            )}
+
             {children}
           </div>
         </Box>
