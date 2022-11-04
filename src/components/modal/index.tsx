@@ -15,7 +15,7 @@ const style = {
   minWidth: "400px",
   maxWidth: "95vw",
   minHeight: "400px",
-  maxHeight: "100%",
+  maxHeight: "95vh",
   bgcolor: "#FAFAFA",
   boxShadow: 24,
   p: 4,
