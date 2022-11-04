@@ -15,8 +15,13 @@ import {
   PageWrapper,
 } from '../app/styles';
 import { clinicalSignSchema, syptomSchema, labSchema } from './schema';
+import client from '../../feathers';
+import { toast, ToastContainer } from 'react-toastify';
 
 const CaseDefinitionForm = () => {
+  const CaseServ = client.service('casedefinition');
+
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, setValue } = useForm();
   const [finding, setFinding] = useState('');
   const [findings, setFindings] = useState([]);
@@ -34,6 +39,9 @@ const CaseDefinitionForm = () => {
   const [observations, setObservations] = useState([]);
   const [mgtProtocol, setMgtProtocol] = useState('');
   const [notified, setNotified] = useState('');
+
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
 
   const notificationOptions = [
     'Immediate Notification',
@@ -89,10 +97,132 @@ const CaseDefinitionForm = () => {
     /*  setFindingreq(false) */
   };
 
-  const onSubmit = async data => {};
+  const onSubmit = async (data, e) => {
+    setLoading(true);
+
+    data.observations = [];
+    data.disease = {
+      name: data.disease,
+      icdcode: '',
+      icdver: '',
+      snomed: '',
+      snomedver: '',
+    };
+
+    if (data.notificationtype === '') {
+      alert('Kindly choose notification type');
+      return;
+    }
+
+    if (symptoms.length > 0) {
+      let sympcollection = [];
+      symptoms.forEach(el => {
+        let obs = {
+          category: 'symptoms',
+          name: el.symptom,
+          duration: el.duration,
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          required: el.sympreq,
+          /* value:""  */
+        };
+        console.log(obs);
+        sympcollection.push(obs);
+        console.log(sympcollection);
+      });
+      data.observations = [...data.observations, ...sympcollection];
+    }
+
+    if (findings.length > 0) {
+      let findingscollection = [];
+      findings.forEach(el => {
+        let obs = {
+          category: 'Signs',
+          name: el.finding,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          required: el.findingreq,
+          /* value:""  */
+        };
+        findingscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...findingscollection];
+    }
+    if (labs.length > 0) {
+      let labscollection = [];
+      labs.forEach(el => {
+        let obs = {
+          category: 'Laboratory',
+          name: el.lab,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          /*  required:el.findingreq, */
+          value: el.labvalue,
+        };
+        labscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...labscollection];
+    }
+
+    if (findings.length > 0) {
+      let findingscollection = [];
+      findings.forEach(el => {
+        let obs = {
+          category: 'Signs',
+          name: el.finding,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          required: el.findingreq,
+          /* value:""  */
+        };
+        findingscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...findingscollection];
+    }
+    if (labs.length > 0) {
+      let labscollection = [];
+      labs.forEach(el => {
+        let obs = {
+          category: 'Laboratory',
+          name: el.lab,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          /*  required:el.findingreq, */
+          value: el.labvalue,
+        };
+        labscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...labscollection];
+    }
+
+    data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+
+    await CaseServ.create(data)
+      .then(res => {
+        toast.success(`Case Defination successfully created!`);
+        setLoading(false);
+      })
+      .catch(err => {
+        toast.error(`Sorry, Unable  to create a case definition!`);
+        setLoading(false);
+      });
+
+    setLoading(false);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer theme='colored' />
+
       <PageWrapper>
         <GrayWrapper>
           <Box>
@@ -101,12 +231,12 @@ const CaseDefinitionForm = () => {
                 label='choose notification type'
                 name='notification type'
                 options={notificationOptions}
-                register={register('notificationType', { required: true })}
+                register={register('notificationType')}
               />
 
               <Input
                 label='name of disease'
-                register={register('disease', { required: true })}
+                register={register('disease')}
                 name='disease'
               />
             </DetailsWrapper>
@@ -116,7 +246,6 @@ const CaseDefinitionForm = () => {
                   label='Symptoms'
                   type='text'
                   value={symptom}
-                  register={register('symptom', { required: true })}
                   onChange={e => {
                     setSymptom(e.target.value);
                   }}
@@ -125,12 +254,12 @@ const CaseDefinitionForm = () => {
                 <Input
                   label='Duration'
                   value={duration}
-                  register={register('Duration', { required: true })}
                   onChange={e => {
                     setDuration(e.target.value);
                   }}
                   name='duration'
                 />
+
                 <Box sx={{ jusifyContent: 'space-between' }}>
                   <input
                     type='checkbox'
@@ -139,7 +268,7 @@ const CaseDefinitionForm = () => {
                     onChange={e => {
                       handleChecked(e);
                     }}
-                    register={register('sympreq', { required: true })}
+                    register={register('sympreq')}
                   />
                   required
                 </Box>
@@ -166,7 +295,6 @@ const CaseDefinitionForm = () => {
                 <Input
                   label='Clinical Signs'
                   value={finding}
-                  register={register('finding', { required: true })}
                   onChange={e => {
                     setFinding(e.target.value);
                   }}
@@ -181,7 +309,7 @@ const CaseDefinitionForm = () => {
                     onChange={e => {
                       handleChecked2(e);
                     }}
-                    register={register('findingreq', { required: true })}
+                    register={register('findingreq')}
                   />
                   required
                 </Box>
@@ -207,7 +335,7 @@ const CaseDefinitionForm = () => {
               <GridWrapper>
                 <Input
                   value={lab}
-                  {...register('lab', { required: true })}
+                  // {...register('lab')}
                   onChange={e => {
                     setLab(e.target.value);
                   }}
@@ -218,7 +346,7 @@ const CaseDefinitionForm = () => {
 
                 <Input
                   value={labvalue}
-                  {...register('labvalue', { required: true })}
+                  // {...register('labvalue')}
                   onChange={e => {
                     setLabvalue(e.target.value);
                   }}
@@ -249,7 +377,7 @@ const CaseDefinitionForm = () => {
               <Input
                 label='Management protocol'
                 value={mgtProtocol}
-                {...register('mgtProtocol', { required: true })}
+                {...register('mgtProtocol')}
                 onChange={e => {
                   setMgtProtocol(e.target.value);
                 }}
@@ -257,10 +385,7 @@ const CaseDefinitionForm = () => {
             </DetailsWrapper>
 
             <BottomWrapper>
-              <Button
-                style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-                label='Save '
-              />
+              <Button label='Save ' loading={loading} type='submit' />
             </BottomWrapper>
           </Box>
         </GrayWrapper>
