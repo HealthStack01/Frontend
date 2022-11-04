@@ -5,31 +5,25 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 import {ClientSearch} from "../helpers/ClientSearch";
 import ServiceSearch from "../helpers/ServiceSearch";
+import Input from "../../components/inputs/basic/Input";
+import {Box, Card, Collapse, Divider, Grid, Typography} from "@mui/material";
+import BasicDatePicker from "../../components/inputs/Date";
+import CustomSelect from "../../components/inputs/basic/Select";
 var random = require("random-string-generator");
-import {Box, Collapse, Grid} from "@mui/material";
-import CustomSelect from "./ui-components/inputs/basic/Select";
-import BasicDatePicker from "./ui-components/inputs/Date";
-
-import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import Divider from "@mui/material/Divider";
-import Input from "./ui-components/inputs/basic/Input";
-import Button from "@mui/material/Button";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Typography from "@mui/material/Typography";
-import CustomTable from "../../components/customtable";
-
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function BillServiceCreate({closeModal}) {
+import Button from "@mui/material/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CustomTable from "../../components/customtable";
+
+export default function BillServiceCreate() {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
-  const {register, handleSubmit, setValue} = useForm();
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -170,13 +164,9 @@ export default function BillServiceCreate({closeModal}) {
         //  console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount "
+        );
         await setSellingPrice(0);
       }
     }
@@ -190,13 +180,9 @@ export default function BillServiceCreate({closeModal}) {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash"
+        );
         await setSellingPrice(0);
       }
     }
@@ -207,13 +193,9 @@ export default function BillServiceCreate({closeModal}) {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero "
+        );
         await setSellingPrice(0);
       }
     }
@@ -300,13 +282,9 @@ export default function BillServiceCreate({closeModal}) {
       quantity === 0 ||
       paymentmode === ""
     ) {
-      toast({
-        message:
-          "You need to choose a service, billing mode and quantity to proceed",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "You need to choose a service, billing mode and quantity to proceed"
+      );
       return;
     }
 
@@ -512,12 +490,7 @@ export default function BillServiceCreate({closeModal}) {
       })
         .then(res => {
           setSuccess(true);
-          toast({
-            message: "Billed Orders created succesfully",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("Billed Orders created succesfully");
           setSuccess(false);
           setProductItem([]);
           setCalcAmount(0);
@@ -528,12 +501,7 @@ export default function BillServiceCreate({closeModal}) {
           setDocumentNo(invoiceNo);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Billed Orders " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(`Error creating Billed Orders" + ${err}`);
         });
     }
 
@@ -566,24 +534,14 @@ export default function BillServiceCreate({closeModal}) {
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast({
-        message: "You can not remove inventory from any organization",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You can not remove inventory from any organization");
       return;
     }
 
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-      toast({
-        message: "You need to select a store before removing inventory",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You need to select a store before removing inventory");
       return;
     }
   };
@@ -761,42 +719,6 @@ export default function BillServiceCreate({closeModal}) {
     setProductItem(prev => prev.filter((el, i) => i !== index));
   };
 
-  const dummyData = [
-    {
-      category: "Treatment",
-      name: "Dummy data",
-      quantity: "1",
-      baseunit: "test",
-      sellingprice: "1000",
-      amount: "1000",
-      billMode: {
-        type: "Cash",
-      },
-    },
-    {
-      category: "Accessment",
-      name: "Test Table",
-      quantity: "2",
-      baseunit: "test-test",
-      sellingprice: "1500",
-      amount: "3000",
-      billMode: {
-        type: "Cash",
-      },
-    },
-    {
-      category: "Check-up",
-      name: "John Doe",
-      quantity: "4",
-      baseunit: "test-joe",
-      sellingprice: "300",
-      amount: "1200",
-      billMode: {
-        type: "Transfer",
-      },
-    },
-  ];
-
   const productSchema = [
     {
       name: "S/NO",
@@ -900,234 +822,246 @@ export default function BillServiceCreate({closeModal}) {
       inputType: "TEXT",
     },
   ];
-
-  console.log(paymentOptions);
-
   return (
     <>
-      <div className="card card-overflow">
+      <div
+        className="card card-overflow"
+        style={{width: "50vw", maxHeight: "70vh"}}
+      >
         <div className="card-content ">
           <form onSubmit={onSubmit}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItem: "center",
-                justifyContent: "space-between",
-                marginBottom: "25px",
-              }}
-            >
-              <p
-                style={{
-                  fontWeight: "600",
-                  fontSize: "20px",
-                  lineHeight: "27.32px",
-                }}
-              >
-                Bill Service
-              </p>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "25px",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "inline-flex",
-                  flexGrow: 2,
-                }}
-              >
+            {" "}
+            {/* handleSubmit(onSubmit) */}
+            <div className="field is-horizontal">
+              <div className="field-body">
                 {state.ClientModule.selectedClient.firstname !== undefined ? (
-                  <p>
-                    {state.ClientModule.selectedClient.firstname}
-                    {state.ClientModule.selectedClient.lastname}
-                  </p>
+                  <div className="field">
+                    <label className="label is-size-7">
+                      {" "}
+                      {state.ClientModule.selectedClient.firstname}{" "}
+                      {state.ClientModule.selectedClient.lastname}
+                    </label>
+                  </div>
                 ) : (
-                  <ClientSearch
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
+                  <div className="field">
+                    <Box
+                      mb={1}
+                      sx={{
+                        width: "100%",
+                        height: "80px",
+                      }}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                          <ClientSearch
+                            getSearchfacility={getSearchfacility1}
+                            clear={success1}
+                          />
+                        </Grid>
+
+                        <Grid item xs={4} mt={1.5}>
+                          <CustomSelect
+                            name="paymentmode"
+                            defaultValue={paymentmode}
+                            onChange={e => handleChangeMode(e.target.value)}
+                            options={paymentOptions.map(item => item.name)}
+                            initialOption="Payment option"
+                            label="Billing Mode"
+                          />
+                        </Grid>
+                      </Grid>
+                    </Box>
+
+                    <Box
+                      mb={1}
+                      sx={{
+                        width: "100%",
+                        height: "80px",
+                      }}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                          <Input
+                            value={date}
+                            onChange={e => setDate(e.target.value)}
+                            name="date"
+                            label="Date and Time"
+                            disabled
+                          />
+                        </Grid>
+
+                        <Grid item xs={4}>
+                          <Input
+                            value={documentNo}
+                            onChange={e => setDocumentNo(e.target.value)}
+                            label="Invoice Number"
+                            type="text"
+                            disabled
+                          />
+                        </Grid>
+
+                        <Grid item xs={4}>
+                          <Input
+                            value={totalamount}
+                            type="text"
+                            onChange={e => setTotalamount(e.target.value)}
+                            label=" Total Amount"
+                          />
+                        </Grid>
+                      </Grid>
+                    </Box>
+
+                    <Divider
+                      sx={{
+                        marginBottom: "25px",
+                      }}
+                    />
+
+                    <Typography color="text.primary" mb={1}>
+                      Choose Service Item:
+                    </Typography>
+
+                    <Box mb={1}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={7}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <ServiceSearch
+                              getSearchfacility={getSearchfacility}
+                              clear={success}
+                              mode={billMode}
+                            />
+                            <input
+                              className="input is-small"
+                              value={productId}
+                              name="productId"
+                              type="text"
+                              onChange={e => setProductId(e.target.value)}
+                              placeholder="Product Id"
+                              style={{display: "none"}}
+                            />
+                            <Button
+                              variant="outlined"
+                              startIcon={<AddCircleOutlineIcon />}
+                              onClick={handleClickProd}
+                              sx={{
+                                marginTop: "10px",
+                                width: "50%",
+                                //textTransform: "capitalize",
+                              }}
+                            >
+                              Add
+                            </Button>
+                          </Box>
+                        </Grid>
+
+                        <Grid item xs={2}>
+                          <Input
+                            name="quantity"
+                            value={quantity}
+                            type="text"
+                            onChange={e => handleQtty(e)}
+                            label="Quantity"
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <Input
+                              name="qamount"
+                              disabled={changeAmount}
+                              value={calcamount}
+                              type="text"
+                              onChange={async e =>
+                                await setCalcAmount(e.target.value)
+                              }
+                              label="Amount"
+                            />
+
+                            <Button
+                              variant="contained"
+                              size="small"
+                              sx={{
+                                marginTop: "10px",
+                                //textTransform: "capitalize",
+                              }}
+                              disabled={
+                                user.currentEmployee?.roles.includes(
+                                  "Adjust Price"
+                                ) ||
+                                user.currentEmployee?.roles.length === 0 ||
+                                user.stacker
+                              }
+                              onClick={handleChangeAmount}
+                            >
+                              Adjust
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Box>
+
+                    <Collapse in={productItem.length > 0}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          maxHeight: "150px",
+                          overflowY: "auto",
+                        }}
+                      >
+                        <CustomTable
+                          title={""}
+                          columns={productSchema}
+                          //data={dummyData}
+                          data={productItem}
+                          pointerOnHover
+                          highlightOnHover
+                          striped
+                          onRowClicked={row => onRowClicked(row)}
+                          progressPending={false}
+                        />
+                      </Box>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          marginTop: "15px",
+                        }}
+                      >
+                        <Button
+                          variant="outlined"
+                          disabled={!productItem.length > 0}
+                          onClick={handleCreateBill}
+                          sx={{
+                            marginRight: "20px",
+                          }}
+                        >
+                          Done
+                        </Button>
+
+                        <Button
+                          variant="contained"
+                          color="error"
+                          disabled={!productItem.length > 0}
+                          onClick={onSubmit}
+                        >
+                          Clear
+                        </Button>
+                      </Box>
+                    </Collapse>
+                  </div>
                 )}
-              </Box>
-
-              {paymentOptions.length > 0 && (
-                <Box
-                  ml={2}
-                  sx={{
-                    display: "inline-flex",
-                  }}
-                >
-                  <CustomSelect
-                    options={paymentOptions}
-                    defaultValue={paymentmode}
-                    value={paymentmode}
-                    onChange={handleChangeMode}
-                  />
-                </Box>
-              )}
-            </Box>
-
-            <Grid
-              container
-              spacing={2}
-              sx={{
-                marginBottom: "25px",
-              }}
-            >
-              <Grid item xs={4}>
-                <Input
-                  {...register("x", {required: true})}
-                  value={date}
-                  name="date"
-                  type="date"
-                  onChange={e => setDate(e.target.value)}
-                  placeholder="Date"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <Input
-                  {...register("documentNo", {required: true})}
-                  name="documentNo"
-                  value={`#${documentNo}`}
-                  type="text"
-                  onChange={e => setDocumentNo(e.target.value)}
-                  placeholder=" Invoice Number"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <Input
-                  {...register("totalamount", {required: true})}
-                  value={totalamount}
-                  name="totalamount"
-                  type="text"
-                  onChange={e => setTotalamount(e.target.value)}
-                  placeholder=" Total Amount"
-                />
-              </Grid>
-            </Grid>
-          </form>
-
-          <Divider
-            sx={{
-              marginBottom: "25px",
-            }}
-          />
-
-          <Box>
-            <Typography color="text.primary" mb="25px">
-              Choose Service Item:
-            </Typography>
-
-            <Grid container spacing={2} mb="25px">
-              <Grid item xs={8}>
-                <ServiceSearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                  mode={billMode}
-                />
-              </Grid>
-
-              <Grid item xs={2}>
-                <Input
-                  {...register("quantity", {required: true})}
-                  name="quantity"
-                  value={quantity}
-                  type="number"
-                  onChange={e => handleQtty(e)}
-                  placeholder="Quantity"
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Input
-                    {...register("qamount", {required: true})}
-                    value={totalamount}
-                    name="qamount"
-                    type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
-                    placeholder=" Amount"
-                  />
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      marginTop: "10px",
-                      //textTransform: "capitalize",
-                    }}
-                    disabled={
-                      user.currentEmployee?.roles.includes("Adjust Price") ||
-                      user.currentEmployee?.roles.length === 0 ||
-                      user.stacker
-                    }
-                    onClick={handleChangeAmount}
-                  >
-                    Adjust
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-
-          <Box mb="15px">
-            <Button
-              variant="outlined"
-              startIcon={<AddCircleOutlineIcon />}
-              onClick={handleClickProd}
-            >
-              Add
-            </Button>
-          </Box>
-
-          <Collapse in={dummyData.length > 0}>
-            <div>
-              <CustomTable
-                title={""}
-                columns={productSchema}
-                data={dummyData}
-                //data={productItem}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={row => onRowClicked(row)}
-                progressPending={false}
-              />
+              </div>
             </div>
-
-            <Box
-              sx={{
-                display: "flex",
-                marginTop: "15px",
-              }}
-            >
-              <Button
-                variant="outlined"
-                disabled={!productItem.length > 0}
-                onClick={handleCreateBill}
-                sx={{
-                  marginRight: "20px",
-                }}
-              >
-                Done
-              </Button>
-
-              <Button
-                variant="contained"
-                color="error"
-                disabled={!productItem.length > 0}
-                onClick={onSubmit}
-              >
-                Clear
-              </Button>
-            </Box>
-          </Collapse>
+          </form>
         </div>
       </div>
     </>
@@ -1221,12 +1155,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
           setShowPanel(true);
         })
         .catch(err => {
-          toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(`Error creating ProductEntry  ${err}`);
         });
     } else {
       //console.log("less than 3 ")

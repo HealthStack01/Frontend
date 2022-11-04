@@ -6,6 +6,10 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import {ChartClassList} from "./DocumentClass";
 import EndEncounter, {EndEncounterList} from "./EndEncounter";
@@ -30,6 +34,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CustomSelect from "./ui-components/inputs/basic/Select";
 import Button from "../../components/buttons/Button";
+import MuiButton from "@mui/material/Button";
+
 import Slide from "@mui/material/Slide";
 
 import {
@@ -73,7 +79,16 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [showLabModal, setShowLabModal] = useState(false);
   const [showRadModal, setShowRadModal] = useState(false);
   const [showChartModal, setShowChartModal] = useState(false);
-  const [showRight, setShowRight] = useState(false);
+  const [showActions, setShowActions] = useState(null);
+
+  const open = Boolean(showActions);
+
+  const handleShowActions = event => {
+    setShowActions(event.currentTarget);
+  };
+  const handleHideActions = () => {
+    setShowActions(null);
+  };
 
   const componentRef = useRef();
   const myRefs = useRef([]);
@@ -87,12 +102,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
   const handleNewDocument = async () => {
     await setShowModal(true);
-    console.log(showModal);
+    handleHideActions();
   };
 
   const handleNewPrescription = async () => {
     await setShowPrescriptionModal(true);
-    console.log(showPrescriptionModal);
+    handleHideActions();
   };
 
   const handleCreateNew = async () => {
@@ -157,12 +172,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
         selectedDocumentClass: documentobj,
         //state.DocumentClassModule.selectedDocumentClass.name
         show: "detail",
+        encounter_right: true,
       };
       await setState(prevstate => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
-      //await setShowRight(true);
     }
   };
 
@@ -243,10 +258,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
   };
   const handleLabOrders = async () => {
     await setShowLabModal(true);
+    handleHideActions();
   };
 
   const handleCharts = async () => {
     await setShowChartModal(true);
+    handleHideActions();
   };
 
   const handleOtherOrders = async () => {
@@ -255,10 +272,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
   const handleRadOrders = async () => {
     await setShowRadModal(true);
+    handleHideActions();
   };
 
   const handleEndEncounter = async () => {
     await setShowEncounterModal(true);
+    handleHideActions();
   };
 
   const handlePrint = async i => {
@@ -281,12 +300,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
       selectedDocumentClass: {},
       //state.DocumentClassModule.selectedDocumentClass.name
       show: "list",
+      encounter_right: false,
     };
     setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    setShowRight(false);
     if (user) {
     } else {
     }
@@ -311,12 +330,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
         selectedDocumentClass: {},
         //state.DocumentClassModule.selectedDocumentClass.name
         show: "list",
+        encounter_right: false,
       };
       setState(prevstate => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
-      setShowRight(false);
     };
   }, []);
 
@@ -367,6 +386,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
     const newDocumentClassModule = {
       selectedEndEncounter: "",
       show: "",
+      encounter_right: false,
     };
     await setState(prevstate => ({
       ...prevstate,
@@ -406,9 +426,38 @@ export default function EncounterMain({nopresc, chosenClient}) {
 
   const [isTrue, setIsTrue] = useState(false);
 
-  const toggleIsTrue = () => {
-    setIsTrue(prev => !prev);
-  };
+  const actionsList = [
+    {
+      title: "Charts",
+      action: handleCharts,
+      show: true,
+    },
+    {
+      title: "Radiology",
+      action: handleRadOrders,
+      show: true,
+    },
+    {
+      title: "Laboratory",
+      action: handleLabOrders,
+      show: true,
+    },
+    {
+      title: "End Encounter",
+      action: handleEndEncounter,
+      show: true,
+    },
+    {
+      title: "Prescription",
+      action: handleNewPrescription,
+      show: true,
+    },
+    {
+      title: "New Document",
+      action: handleNewDocument,
+      show: true,
+    },
+  ];
 
   return (
     <Box
@@ -417,104 +466,16 @@ export default function EncounterMain({nopresc, chosenClient}) {
         flexGrow: "1",
       }}
     >
-      <Box sx={{flexGrow: 1}}>
-        <Grid
-          container
-          spacing={1}
-          columns={14}
-          sx={{
-            marginBottom: "25px",
-          }}
-        >
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#363636",
-                variant: "outlined",
-              }}
-              onClick={handleCharts}
-            >
-              Charts
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#17935C",
-              }}
-              onClick={handleRadOrders}
-            >
-              Radiology
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#B6CCFE",
-              }}
-              onClick={handleLabOrders}
-            >
-              Laboratory
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                background: "none",
-                color: "#0364FF",
-                border: "1px solid #0364FF",
-              }}
-              onClick={handleEndEncounter}
-            >
-              End Encouter
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#EF9645",
-              }}
-              onClick={handleNewPrescription}
-            >
-              Prescription
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: "0.8rem",
-                width: "100%",
-                backgroundColor: "#4F772D",
-              }}
-              onClick={handleNewDocument}
-            >
-              New Document
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <VideoConference />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box sx={{flexGrow: 1, width: "100%"}}>
-        <Box sx={{flex: 1}}>
+      <Box
+        container
+        sx={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box item sx={{width: "calc(100% - 350px)"}}>
           <Input
             label="Search Documentation"
             className="input is-small "
@@ -524,10 +485,65 @@ export default function EncounterMain({nopresc, chosenClient}) {
             onChange={e => handleSearch(e.target.value)}
           />
         </Box>
+
+        <Box
+          container
+          sx={{
+            width: "180px",
+          }}
+        >
+          <VideoConference />
+        </Box>
+
+        <Box
+          item
+          sx={{
+            width: "140px",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+            }}
+          >
+            <MuiButton
+              onClick={handleShowActions}
+              variant="outlined"
+              sx={{height: "48px", width: "100%"}}
+              aria-controls={showActions ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={showActions ? "true" : undefined}
+            >
+              Actions <ExpandMoreIcon />
+            </MuiButton>
+
+            <Menu
+              id="basic-menu"
+              anchorEl={showActions}
+              open={open}
+              onClose={handleHideActions}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              {actionsList.map((action, i) => {
+                if (action.show) {
+                  return (
+                    <MenuItem key={i} onClick={action.action}>
+                      {action.title}
+                    </MenuItem>
+                  );
+                }
+              })}
+            </Menu>
+          </div>
+        </Box>
       </Box>
 
       <Grid container spacing={1}>
-        <Grid item xs={showRight ? 7 : 12}>
+        <Grid item xs={state.DocumentClassModule.encounter_right ? 7 : 12}>
           <Box
             sx={{
               flexGrow: 1,
@@ -647,7 +663,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         sx={{
                           color: "#0364FF",
                         }}
-                        onClick={toggleIsTrue}
+                        onClick={handlePrint}
                       >
                         <PrintOutlinedIcon />
                       </IconButton>
@@ -717,7 +733,12 @@ export default function EncounterMain({nopresc, chosenClient}) {
           </Box>
         </Grid>
 
-        <Slide mountOnEnter unmountOnExit direction="left" in={showRight}>
+        <Slide
+          mountOnEnter
+          unmountOnExit
+          direction="left"
+          in={state.DocumentClassModule.show === "detail"}
+        >
           <Grid item xs={5}>
             <Box
               mt={3}

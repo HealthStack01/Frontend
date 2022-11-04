@@ -225,6 +225,7 @@ export function DocumentClassList({standalone, closeModal}) {
     const newDocumentClassModule = {
       selectedDocumentClass: DocumentClass,
       show: "detail",
+      encounter_right: true,
     };
     await setState(prevstate => ({
       ...prevstate,
@@ -457,6 +458,7 @@ export function ChartClassList({standalone, closeModal}) {
     const newDocumentClassModule = {
       selectedDocumentClass: DocumentClass,
       show: "detail",
+      encounter_right: true,
     };
     await setState(prevstate => ({
       ...prevstate,

@@ -54,21 +54,12 @@ export default function Employee() {
   };
 
   return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Employee  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <EmployeeList
-            showCreateModal={handleCreateModal}
-            showDetailModal={handleShowDetailModal}
-          />
-        </div>
-        <div className="column is-4 ">
-          <ModalBox open={createModal} onClose={handleHideCreateModal}>
-            <EmployeeCreate />
-          </ModalBox>
+    <>
+      {/* <ModalBox open={createModal} onClose={handleHideCreateModal} width='100%'>
+        <EmployeeCreate />
+      </ModalBox> */}
+
+      <EmployeeForm open={createModal} setOpen={handleHideCreateModal} />
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
             <div>
@@ -86,7 +77,13 @@ export default function Employee() {
 }
 
 export function EmployeeCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm({ resolver: yupResolver(createEmployeeSchema) }); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -122,28 +119,23 @@ export function EmployeeCreate() {
     }
   }, [user]);
 
-  const onSubmit = (data, e) => {
+  const onSubmit = async (data, e) => {
     e.preventDefault();
     setMessage("");
     setError(false);
     setSuccess(false);
     data.createdby = user._id;
-    //console.log(data);
+    data.facility = user.currentEmployee.facilityDetail._id;
+
     if (user.currentEmployee) {
-      // data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
     }
     EmployeeServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        /*  setMessage("Created Employee successfully") */
         setSuccess(true);
-        toast({
-          message: "Employee created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success(`Employee successfully created`);
+
         setSuccess(false);
       })
       .catch((err) => {
@@ -272,6 +264,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
 
   const handleCreateNew = async () => {
     const newEmployeeModule = {
@@ -519,7 +512,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={handleRow}
+                onRowClicked={handleRowClicked}
                 progressPending={loading}
               />
             </div>

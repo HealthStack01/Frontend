@@ -226,7 +226,6 @@ export function BandList({ showCreateModal }) {
 
   const handleSearch = (val) => {
     const field = "name";
-    console.log(val);
     BandServ.find({
       query: {
         [field]: {

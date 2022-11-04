@@ -1480,27 +1480,6 @@ export function TestHelperSearch({getSearchfacility, clear, hidePanel}) {
                 </Box>
               </Grow>
             </div>
-            {showPanel && (
-              <div className="dropdown-menu" style={{width: "100%"}}>
-                <div
-                  className="dropdown-content"
-                  // onMouseOver={() => setShowPanel(true)}
-                  // onMouseOut={() => setShowPanel(false)}
-                >
-                  {/*  { facilities.length>0?"":<div className="dropdown-item" onClick={handleAddproduct}> <span>Add {val} to product list</span> </div>} */}
-
-                  {/* {facilities.map((facility, i) => (
-                    <div
-                      className="dropdown-item"
-                      key={facility._id}
-                      onClick={() => handleRow(facility)}
-                    >
-                      <span>{facility.test}</span>
-                    </div>
-                  ))} */}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

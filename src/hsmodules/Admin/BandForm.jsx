@@ -32,6 +32,7 @@ export const BandForm = ({ open, setOpen }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitSuccessful, errors },
   } = useForm({
     resolver: yupResolver(createBandSchema),
@@ -50,14 +51,12 @@ export const BandForm = ({ open, setOpen }) => {
     await BandServ.create(data)
       .then((res) => {
         toast.success(`Band successfully created`);
-
-        setLoading(false);
+        setOpen(false);
+        reset();
       })
       .catch((err) => {
         toast.error(`Sorry, You weren't able to create a band. ${err}`);
-        setLoading(false);
       });
-    setOpen(false);
     setLoading(false);
   };
   return (
