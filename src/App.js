@@ -85,6 +85,7 @@ function App() {
     DocumentClassModule: {
       show: "list",
       selectedDocumentClass: {},
+      encounter_right: false,
     },
     WardModule: {
       show: "list",

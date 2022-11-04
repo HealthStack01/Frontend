@@ -237,6 +237,7 @@ export default function MedicationList() {
             }
         }, [docStatus]) */
 
+<<<<<<< HEAD
         const handleAllergy=async (e)=>{
             //console.log(e)
             //const (name, value) = e.target
@@ -304,6 +305,79 @@ export default function MedicationList() {
             <div className="card-content vscrollable remPad1">
 
               {/*   <label className="label is-size-7">
+=======
+  const handleAllergy = async e => {
+    //console.log(e)
+    //const (name, value) = e.target
+    const {name, value} = e.target;
+    console.log(name, value);
+    // [name]=value
+    await setAllergy(prev => ({...prev, [name]: value}));
+    console.log(allergy);
+  };
+
+  const handleAdd = () => {
+    let allergy = {
+      allergine: allergine,
+      reaction: reaction,
+    };
+    setAllergies(prev => [...prev, allergy]);
+    setAllergy({});
+    setReaction("");
+    setAllergine("");
+  };
+  const handleAddMedication = () => {
+    let newMedication = {
+      drugname,
+      strengthfreq,
+      notes,
+    };
+    setSymptoms(prev => [...prev, newMedication]);
+    // setAllergy({})
+    setDrugName("");
+    setStrengthFreq("");
+    setNotes("");
+  };
+  const closeForm = async () => {
+    let documentobj = {};
+    documentobj.name = "";
+    documentobj.facility = "";
+    documentobj.document = "";
+    //  alert("I am in draft mode : " + Clinic.documentname)
+    const newDocumentClassModule = {
+      selectedDocumentClass: documentobj,
+      //state.DocumentClassModule.selectedDocumentClass.name
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: newDocumentClassModule,
+    }));
+    console.log("close form");
+  };
+
+  const onDelete = (comp, i) => {
+    //console.log(comp,i)
+    setSymptoms(prevstate => prevstate.filter((el, index) => index !== i));
+  };
+      
+  
+
+
+  return (
+    <>
+      <div className="card ">
+        <div className="card-header">
+          <p className="card-header-title">Medication List</p>
+          <button
+            className="delete pushleft"
+            aria-label="close"
+            onClick={() => closeForm(false)}
+          ></button>
+        </div>
+        <div className="card-content vscrollable remPad1">
+          {/*   <label className="label is-size-7">
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   Client:  {order.orderInfo.orderObj.clientname}
                 </label>
                 <label className="label is-size-7">

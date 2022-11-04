@@ -2,6 +2,8 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
+import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select"
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
@@ -136,7 +138,7 @@ export function BandCreate() {
           <p className="card-header-title">Create Band</p>
         </div>
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
@@ -148,27 +150,23 @@ export function BandCreate() {
             <div className="field">
               <div className="control">
                 <div className="select is-small ">
-                  <select
-                    name="bandType"
-                    //{...register("x", {required: true})}
-                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
-                  >
-                    <option value="">Choose Band Type </option>
-                    {bandTypeOptions.map((option, i) => (
-                      <option key={i} value={option}>
-                        {" "}
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                   
+                <CustomSelect
+                  label="choose band type"
+                  name="bandType"           
+                  options={bandTypeOptions}
+                  register={register("bandtype", {required:true})}
+                  onChange={(e)=>handleChangeMode(e.target.value)}
+            />
                 </div>
               </div>
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
+              <Input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  register={register("name", {required:true})}
+          
                   name="name"
                   type="text"
                   placeholder="Name of Band"
@@ -180,9 +178,10 @@ export function BandCreate() {
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
+              <Input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  register={register("description", {required:true})}
+            
                   name="description"
                   type="text"
                   placeholder="Description of Band"
@@ -227,9 +226,10 @@ export function BandCreate() {
                 clear={success}
               />
               <p className="control has-icons-left " style={{display: "none"}}>
-                <input
+              <Input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  register={register("facility", {required:true})}
+             
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -285,10 +285,11 @@ export function BandCreate() {
             </div> */}
             <div className="field">
               <p className="control">
-                <button className="button is-success is-small">Create</button>
+              <Button>Create</Button>
               </p>
             </div>
           </form>
+
         </div>
       </div>
     </>

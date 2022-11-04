@@ -18,12 +18,22 @@ import ModalBox from '../../components/modal';
 import Button from '../../components/buttons/Button';
 import { Box } from '@mui/system';
 
+<<<<<<< HEAD
 import ClientLastVisit from './ClientLastVisit';
 import ClientTasks from './ClientTasks';
 import ClientHistory from './ClientHistory';
 import ClientIntolerance from './ClientIntolerance';
 import ClientBilling from './ClientBilling';
 import ClientProblems from './ClientProblems';
+=======
+import ClientLastVisit from "./ClientVisitationHistory";
+import ClientTasks from "./ClientTasks";
+import ClientHistory from "./ClientHistory";
+import ClientIntolerance from "./ClientIntolerance";
+import ClientBilling from "./ClientBilling";
+import ClientProblems from "./ClientProblems";
+import {Card} from "@mui/material";
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
 
 export default function PatientProfile() {
   const { state } = useContext(ObjectContext); //,setState
@@ -134,16 +144,18 @@ export default function PatientProfile() {
   return (
     <div>
       <div className="patient-profile-container">
-        <div className="patient-profile-card">
-          <div className="user-information-top-section">
-            <div className="user-profile-information">
-              <div className="user-image-container">
-                <img
-                  src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
-                  alt=""
-                />
-              </div>
+        <Card>
+          <div className="patient-profile-card">
+            <div className="user-information-top-section">
+              <div className="user-profile-information">
+                <div className="user-image-container">
+                  <img
+                    src="https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg"
+                    alt=""
+                  />
+                </div>
 
+<<<<<<< HEAD
               <div className="user-infromation-container">
                 <h1>
                   {firstname} {middlename} {lastname}
@@ -158,10 +170,27 @@ export default function PatientProfile() {
                     {bloodgroup} {genotype} <br />
                     <strong> {clientTags}</strong>
                   </span>
+=======
+                <div className="user-infromation-container">
+                  <h1>
+                    {firstname} {middlename} {lastname}
+                  </h1>
+                  <div className="user-outline">
+                    <span>
+                      <time dateTime="2016-1-1">
+                        {dob && formatDistanceToNowStrict(new Date(dob))}
+                      </time>{" "}
+                      {gender} {maritalstatus} {religion} {profession}
+                      <br />
+                      {bloodgroup} {genotype} <br />
+                      <strong> {clientTags}</strong>
+                    </span>
+                  </div>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                 </div>
               </div>
-            </div>
 
+<<<<<<< HEAD
             {user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
               (user.stacker && (
@@ -190,9 +219,40 @@ export default function PatientProfile() {
               Bill Client
             </Button>
           </div>
+=======
+              {user.currentEmployee?.roles.includes("Bill Client") ||
+                user.currentEmployee?.roles.length === 0 ||
+                (user.stacker && (
+                  <Button
+                    style={{
+                      backgroundColor: "#4F772D",
+                      color: "#ffffff",
+                      fontSize: "0.8rem",
+                      width: "30%",
+                    }}
+                    onClick={showBilling}
+                  >
+                    Bill Client
+                  </Button>
+                ))}
 
-          <div className="horizontal-dotted-line" />
+              <Button
+                style={{
+                  backgroundColor: "#4F772D",
+                  color: "#ffffff",
+                  fontSize: "0.8rem",
+                  width: "30%",
+                }}
+                onClick={showBilling}
+              >
+                Bill Client
+              </Button>
+            </div>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
 
+            <div className="horizontal-dotted-line" />
+
+<<<<<<< HEAD
           <div className="user-information-bottom-container">
             <div className="each-bottom-section">
               <span style={{ fontWeight: '600' }}>Specific Instructions:</span>
@@ -212,17 +272,41 @@ export default function PatientProfile() {
             <div className="each-bottom-section">
               <span style={{ fontWeight: '600' }}>Disabilities:</span>
               <span>{disabilities}</span>
+=======
+            <div className="user-information-bottom-container">
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Specific Instructions:</span>
+                <span>{specificDetails}</span>
+              </div>
+
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Allergies:</span>
+                <span>{allergies}</span>
+              </div>
+
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Co-morbidities:</span>
+                <span>{comorbidities}</span>
+              </div>
+
+              <div className="each-bottom-section">
+                <span style={{fontWeight: "600"}}>Disabilities:</span>
+                <span>{disabilities}</span>
+              </div>
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="action-buttons-container">
-          {profileButtons.map((item, i) => (
-            <div onClick={item.action}>
-              <span>{item.title}</span>
-            </div>
-          ))}
-        </div>
+        <Card>
+          <div className="action-buttons-container">
+            {profileButtons.map((item, i) => (
+              <div onClick={item.action}>
+                <span>{item.title}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
 
       {/* ******************************************* BILLING ********************************************** */}
@@ -241,10 +325,12 @@ export default function PatientProfile() {
         onClose={() => setMedicationModal(false)}
         header="Client Medications"
       >
+        <Box sx={{width: "95vw"}}>
         <DrugAdminList
           standalone="true"
           onCloseModal={() => setMedicationModal(false)}
         />
+        </Box>
       </ModalBox>
 
       {/* ******************************************* TASKS ********************************************** */}
@@ -272,7 +358,7 @@ export default function PatientProfile() {
       <ModalBox
         open={historyModal}
         onClose={() => setHistoryModal(false)}
-        header="Clinet History"
+        header="Clientt History"
       >
         <ClientHistory closeModal={() => setHistoryModal(false)} />
       </ModalBox>

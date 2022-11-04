@@ -21,10 +21,11 @@ import CustomTable from "../../components/customtable";
 // import FilterMenu from "../../components/utilities/FilterMenu";
 // import Button from "../../components/buttons/Button";
 // import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import ClientBilledPrescription from "./ClientPrescription";
+import {Box} from "@mui/material";
 
 export default function TheatreBillOrder() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -68,19 +69,39 @@ export default function TheatreBillOrder() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
       <BillPrescriptionList showCreateModal={handleOpenCreateModal} />
-
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        style={{display: "flex"}}
+        header="Bill Product"
       >
-        <BillPrescriptionCreate />
-        <PatientProfile />
+        <Box
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "70vw",
+            height: "60vh",
+          }}
+        >
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 340px)",
+            }}
+          >
+            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
+          </Box>
+
+          <Box
+            item
+            sx={{
+              width: "330px",
+            }}
+          >
+            <PatientProfile />
+          </Box>
+        </Box>
       </ModalBox>
     </section>
   );

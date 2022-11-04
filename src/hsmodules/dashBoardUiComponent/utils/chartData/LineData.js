@@ -1,9 +1,9 @@
-import { getDayIntheOtherMonth } from '../getNameAndNumOfDaysArray.js';
-import useFetch from '../usefetch';
-import useFetchData from '../useFetchData.js';
-const userDetails = localStorage.getItem('user');
+import { getDayIntheOtherMonth } from "../getNameAndNumOfDaysArray.js";
+import useFetch from "../usefetch";
+import useFetchData from "../useFetchData.js";
+const userDetails = localStorage.getItem("user");
 
-const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
+// const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
 
 const TotalNewClientWithinARangeOf30Day = (service, lt, gt) => {
   var dayGT = 24 * 60 * 60 * 1000 * gt;
@@ -11,7 +11,7 @@ const TotalNewClientWithinARangeOf30Day = (service, lt, gt) => {
 
   var query = {
     $sort: { createdAt: -1 },
-    $select: ['createdAt'],
+    $select: ["createdAt"],
     createdAt: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime() - dayLT,
@@ -33,8 +33,8 @@ const TotalPharmacySaleWithinARangeOf30Day = (service, lt, gt) => {
 
   var query = {
     $sort: { createdAt: -1 },
-    'participantInfo.billingFacility': facilityId,
-    'orderInfo.orderObj.order_category': 'Prescription',
+    "participantInfo.billingFacility": facilityId,
+    "orderInfo.orderObj.order_category": "Prescription",
     createdAt: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime() - dayLT,
@@ -112,7 +112,7 @@ export const clientLineData = (service) => {
 
   var newClientLineSeriesData = [
     {
-      name: '2022',
+      name: "2022",
       data: newClientLineData,
     },
   ];
@@ -168,14 +168,14 @@ export const PharmacyLineSeriesData = (serviceOne, serviceTwo) => {
     pharmacyDataSeriesData: pharmacySaleValueLineData,
   } = PharmacyLineData(
     serviceOne,
-    'Sales',
+    "Sales",
     TotalPharmacySaleWithinARangeOf30Day
   );
 
   const { pharmacyDataSeriesData: pharmacyStockValueLineData } =
     PharmacyLineData(
       serviceTwo,
-      'Stock',
+      "Stock",
       TotalPharmacyStockWithinARangeOf30Day
     );
 
@@ -215,7 +215,7 @@ export const AdmittedPatientLineData = (service) => {
     //Query for the previous months
     let query = {
       $sort: { start_time: -1 },
-      $select: ['start_time'],
+      $select: ["start_time"],
       start_time: {
         $gt: new Date().getTime() - dayGT,
         $lt: new Date().getTime() - dayLT,
@@ -233,7 +233,7 @@ export const AdmittedPatientLineData = (service) => {
   //Query for the current month
   let query = {
     $sort: { start_time: -1 },
-    $select: ['start_time'],
+    $select: ["start_time"],
     start_time: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime(),
@@ -245,7 +245,7 @@ export const AdmittedPatientLineData = (service) => {
   admittedPatientLineData.push(totalAdmittedPatientWithin30Day);
 
   var admittedPatientLineSeriesData = {
-    name: 'Admitted Patient',
+    name: "Admitted Patient",
     data: admittedPatientLineData,
   };
 
@@ -269,7 +269,7 @@ export const DischargedPatientLineData = (service) => {
     //Query for the previous months
     let query = {
       $sort: { end_time: -1 },
-      $select: ['end_time'],
+      $select: ["end_time"],
       end_time: {
         $gt: new Date().getTime() - dayGT,
         $lt: new Date().getTime() - dayLT,
@@ -287,7 +287,7 @@ export const DischargedPatientLineData = (service) => {
   //Query for the current month
   let query = {
     $sort: { end_time: -1 },
-    $select: ['end_time'],
+    $select: ["end_time"],
     end_time: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime(),
@@ -299,7 +299,7 @@ export const DischargedPatientLineData = (service) => {
   dischargedPatientLineData.push(totalDischargedPatientWithin30Day);
 
   var dischargedPatientLineSeriesData = {
-    name: 'Discharged Patient',
+    name: "Discharged Patient",
     data: dischargedPatientLineData,
   };
 

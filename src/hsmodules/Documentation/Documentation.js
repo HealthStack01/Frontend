@@ -60,7 +60,32 @@ export default function Documentation({ standalone }) {
   };
 
   return (
+<<<<<<< HEAD
     <section className="section remPadTop">
+=======
+    <section className="section remPadTop" style={{padding: "15px"}}>
+      {!standalone && (
+        <Grid container spacing={1}>
+          <Grid item xs={3}>
+            <PatientProfile />
+          </Grid>
+
+          <Grid item xs={9}>
+            <EncounterMain chosenClient={selectedClient} />
+          </Grid>
+
+          {/* <Grid item xs={4.5}>
+            <EncounterRight client={selectedClient} />
+          </Grid> */}
+        </Grid>
+      )}
+
+      {standalone && (
+        <div>
+          <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
+        </div>
+      )}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
             </div> */}

@@ -243,7 +243,7 @@ const VitalSignChart = () => {
                 <label className="label is-small">Date & Time</label>
                 <p className="control is-expanded">
                   <input
-                    ref={register({required: true})}
+                    {...register("vitals_time", {required: true})}
                     name="vitals_time"
                     className="input is-small"
                     type="datetime-local"
@@ -260,7 +260,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Temperature")}
                     name="Temperature"
                     type="text"
                     placeholder="Temperature"
@@ -275,7 +275,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Pulse")}
                     name="Pulse"
                     type="text"
                     placeholder="Pulse"
@@ -293,7 +293,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Respiratory_rate")}
                     name="Respiratory_rate"
                     type="text"
                     placeholder="Respiratory rate"
@@ -307,7 +307,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Random_glucose")}
                     name="Random_glucose"
                     type="text"
                     placeholder="Blood Glucose"
@@ -325,7 +325,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Systolic_BP")}
                     name="Systolic_BP"
                     type="text"
                     placeholder="Systolic BP"
@@ -339,7 +339,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Diastolic_BP")}
                     name="Diastolic_BP"
                     type="text"
                     placeholder="Diastolic_BP"
@@ -357,7 +357,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("SPO2")}
                     name="SPO2"
                     type="text"
                     placeholder="SPO2"
@@ -371,7 +371,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x")}
+                    {...register("Pain")}
                     name="Pain"
                     type="text"
                     placeholder="Pain"
@@ -422,7 +422,11 @@ const VitalSignChart = () => {
               <label className="label is-small">Comments</label>
               <div className="control">
                 <input
+<<<<<<< HEAD
                   ref={register}
+=======
+                  {...register("comments")}
+>>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   name="comments"
                   className="input is-small"
                   type="text"

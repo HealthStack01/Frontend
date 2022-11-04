@@ -5,7 +5,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {FacilitySearch} from "../helpers/FacilitySearch";
 import CategorySearch from "../helpers/CategorySearch";
 import CustomTable from "../../components/customtable";
@@ -13,11 +13,14 @@ import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import Button from "./ui-components/buttons/Button";
 import FilterMenu from "./ui-components/utilities/FilterMenu";
+import AddIcon from "@mui/icons-material/Add";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
 import {StoreModify} from "../inventory/Store";
 import ModalBox from "./ui-components/modal";
+import Input from "../../components/inputs/basic/Input";
+import {Box, Divider, Grid} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -113,6 +116,7 @@ export function ServicesCreate() {
   const [successService, setSuccessService] = useState(false);
   const {state} = useContext(ObjectContext);
   const [chosen2, setChosen2] = useState();
+  const [hasError, setHasError] = useState(false);
 
   const [Services, setServices] = useState({
     productitems: [],
@@ -170,24 +174,18 @@ export function ServicesCreate() {
   }, [user]);
 
   const handleClickProd = async () => {
+    const isError = await handleCheck();
+
+    if (isError) return;
+
     if (productItem.length > 0) {
       if (!costprice || !name) {
-        toast({
-          message: "You need to enter organization name and price ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You need to enter organization name and price ");
         return;
       }
     } else {
       if (!costprice || !cash) {
-        toast({
-          message: "You need to enter organization name and price ",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You need to enter organization name and price ");
         return;
       }
     }
@@ -212,7 +210,7 @@ export function ServicesCreate() {
         billing_type: orgType === "HMO" ? "HMO" : "Company",
         plans: benefittingplans,
       };
-      await setCash("");
+      await setCash("Cash");
     }
 
     await setSuccess(false);
@@ -244,12 +242,9 @@ export function ServicesCreate() {
   const onSubmit = async () => {
     // e.preventDefault();
     if (panel && panelList.length === 0) {
-      toast({
-        message: "Please choose services that make up panel or uncheck panel ",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Please choose services that make up panel or uncheck panel "
+      );
       return;
     }
 
@@ -272,24 +267,14 @@ export function ServicesCreate() {
         /*  setMessage("Created Services successfully") */
         setSuccess(true);
         setSuccess2(true);
-        toast({
-          message: "Service created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Service created succesfully");
         setSuccess(false);
         setSuccess2(false);
         setProductItem([]);
         setPanelList([]);
       })
       .catch(err => {
-        toast({
-          message: "Error creating Services " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error creating Services " + err);
       });
   };
 
@@ -333,13 +318,14 @@ export function ServicesCreate() {
     console.log("something added");
   };
   const handleCheck = async () => {
+    // alert();
+    setHasError(false);
+    let error = false;
+
     if (!categoryname) {
-      toast({
-        message: "Enter Category!",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Enter Category!");
+      error = true;
+      setHasError(true);
       return;
     }
     await ServicesServ.find({
@@ -352,67 +338,227 @@ export function ServicesCreate() {
       .then(resp => {
         console.log(resp);
         if (resp.data.length > 0) {
-          toast({
-            message: "Service already exist. Kindly modify it " + resp.data,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          error = true;
+          setHasError(true);
+          toast.error("Service already exist. Kindly modify it " + resp.data);
           return;
         }
       })
       .catch(err => {
-        toast({
-          message: "Error checking services  " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        //error = true;
+        toast.error("Error checking services  " + err);
       });
+
+    return error;
   };
+
+  const productItemSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Organization",
+      key: "row_source_org_name",
+      description: "Enter Organization",
+      selector: row => row.source_org_name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "Price",
+      description: "Enter Price",
+      selector: row => row.price,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Billing Type",
+      key: "billing_type",
+      description: "Enter Billing type",
+      selector: row => row.billing_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plans",
+      key: "fromName",
+      description: "Enter Plans",
+      selector: row => {
+        row.plans.map((plan, i) => (
+          <span key={i} className="ml-1">
+            {plan};
+          </span>
+        ));
+      },
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Actions",
+      key: "fromName",
+      description: "Enter Category name",
+      selector: row => <p style={{color: "red", fontSize: "0.7rem"}}>Remove</p>,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">Create Services</p>
+      <div
+        style={{
+          width: "60vw",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+          }}
+        >
+          <Box
+            container
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Box item mb={2}>
+              <input
+                className="input is-small"
+                value={categoryname}
+                name="categoryname"
+                type="text"
+                onChange={e => setCategoryName(e.target.value)}
+                style={{display: "none"}}
+                placeholder="Category of Service"
+              />
+
+              <Input
+                //onBlur={handleCheck}
+                name="source"
+                type="text"
+                onChange={e => setSource(e.target.value)}
+                label="Name of Service"
+                autoComplete={false}
+              />
+            </Box>
+
+            <Box item mb={2}>
+              <CategorySearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Box>
+          </Box>
+
+          <Divider sx={{marginBottom: "20px"}} />
+
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Input
+                disabled
+                name="cash"
+                value={cash}
+                type="text"
+                onChange={e => setCash(e.target.value)}
+                label="Billing Type"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Input
+                name="costprice"
+                value={costprice}
+                type="text"
+                onChange={e => setCostprice(e.target.value)}
+                label="Price"
+                style={{
+                  margin: "0 !important",
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={4}>
+              <Button
+                style={{
+                  width: "97%",
+                  fontSize: "0.75rem",
+                  marginTop: "12px",
+                }}
+                onClick={handleClickProd}
+              >
+                <AddIcon />
+                Add
+              </Button>
+            </Grid>
+          </Grid>
+
+          {productItem.length > 0 && (
+            <div style={{width: "100%", maxHeight: "250px"}}>
+              <CustomTable
+                title={""}
+                columns={productItemSchema}
+                data={productItem}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //onRowClicked={handleRow}
+                progressPending={false}
+              />
+            </div>
+          )}
+
+          {productItem.length > 0 && (
+            <Box
+              container
+              sx={{
+                display: "flex",
+                aligntItems: "center",
+                justifyContent: "center",
+              }}
+              mt={2}
+            >
+              <Button
+                className="button is-success is-small"
+                disabled={!productItem.length > 0}
+                onClick={onSubmit}
+                style={{
+                  fontSize: "0.75rem",
+                }}
+              >
+                Create Service
+              </Button>
+            </Box>
+          )}
         </div>
-        <div className="card-content ">
-          {/* <form onSubmit={onSubmit}>  */}
-          {/* handleSubmit(onSubmit) */}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {/* 
-             <div className="field" style={{width:"25%"}}>
-                    <p className="control has-icons-left has-icons-right"  >
-                        <input className="input is-small"  {...register("x",{required: true})}  value={categoryname} name="categoryname" type="text" onChange={e=>setCategoryName(e.target.value)} placeholder="Category of Service" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-              <div className="field is-horizontal">
-                <div className="field-body">
+
+        <div className="field is-horizontal">
+          <div className="field-body">
+            {panel && (
+              <>
+                <div className="field">
                   <div
                     className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
                   >
-                    <CategorySearch
-                      getSearchfacility={getSearchfacility2}
-                      clear={success2}
+                    <ServiceSearch
+                      getSearchService={getSearchService}
+                      clearService={successService}
                     />
                     <p
                       className="control has-icons-left "
                       style={{display: "none"}}
                     >
                       <input
-                        className="input is-small"
-                        /* ref={register ({ required: true }) } */ /* add array no */ value={
-                          categoryname
-                        }
-                        name="categoryname"
-                        type="text"
-                        onChange={e => setCategoryName(e.target.value)}
-                        placeholder="Category of Service"
+                        className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
                       />
                       <span className="icon is-small is-left">
                         <i className="fas  fa-map-marker-alt"></i>
@@ -420,213 +566,29 @@ export function ServicesCreate() {
                     </p>
                   </div>
                 </div>
-              </div>
-
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ value={source}
-                    name="source"
-                    type="text"
-                    onChange={e => setSource(e.target.value)}
-                    onBlur={handleCheck}
-                    placeholder="Name of Service"
-                    autoComplete="false"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {/*   <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <label className="label is-small" >
-                        <input className="checkbox is-small"   {...register("x",{required: true})}  checked={panel}  name="panel" type="checkbox" onChange={e=>setPanel(e.target.checked)}  placeholder="Date"  />
-                    
-                        <span>Panel</span></label>
-                    </p>
-                </div> */}
-
-              {panel && (
-                <>
-                  <div className="field">
-                    <div
-                      className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                    >
-                      <ServiceSearch
-                        getSearchService={getSearchService}
-                        clearService={successService}
-                      />
-                      <p
-                        className="control has-icons-left "
-                        style={{display: "none"}}
-                      >
-                        <input
-                          className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
-                        />
-                        <span className="icon is-small is-left">
-                          <i className="fas  fa-map-marker-alt"></i>
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  <p className="control">
-                    <button className="button is-info is-small  is-pulled-right selectadd">
-                      <span
-                        className="is-small"
-                        onClick={() => handleAddPanel()}
-                      >
-                        {" "}
-                        +
-                      </span>
-                    </button>
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          {panelList.length > 0 && (
-            <div>
-              <strong> Panel Items:</strong>{" "}
-              {panelList.map((plan, i) => (
-                <span key={i} className="ml-1">
-                  {plan.service_name};
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/*   </form>    */}
-
-          {/* array of Services items */}
-
-          <label className="label is-small">Add Pricing Info:</label>
-
-          <>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ disabled
-                      name="cash"
-                      value={cash}
-                      type="text"
-                      onChange={e =>
-                        setCash(e.target.value)
-                      } /* placeholder="Cost Price" */
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-dollar-sign"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ name="costprice"
-                      value={costprice}
-                      type="text"
-                      onChange={e => setCostprice(e.target.value)}
-                      placeholder="Price"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-dollar-sign"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control">
-                    <button className="button is-info is-small  is-pulled-right selectadd">
-                      <span className="is-small" onClick={handleClickProd}>
-                        +
-                      </span>
-                    </button>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </>
-
-          {productItem.length > 0 && (
-            <div>
-              <label>Prices:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Source Organization">Organization</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Price">Amount</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Billing Type">Billing Type</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Benefitting Plans">Plans</abbr>
-                    </th>
-                    {/*  <th><abbr title="Cost Price">Amount</abbr></th>*/}
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((Services, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{Services.source_org_name}</td>
-                      <th>{Services.price}</th>
-                      <td>{Services.billing_type}</td>
-                      <td>
-                        {" "}
-                        {Services.plans.map((plan, i) => (
-                          <span key={i} className="ml-1">
-                            {plan};
-                          </span>
-                        ))}
-                      </td>
-                      {/*<td>{Services.amount}</td> */}
-                      <td>
-                        <span
-                          className="showAction"
-                          onClick={() => handleRemove(i, Services)}
-                        >
-                          x
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="field mt-2">
                 <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
-                  >
-                    Create
+                  <button className="button is-info is-small  is-pulled-right selectadd">
+                    <span className="is-small" onClick={() => handleAddPanel()}>
+                      {" "}
+                      +
+                    </span>
                   </button>
                 </p>
-              </div>
-            </div>
-          )}
+              </>
+            )}
+          </div>
         </div>
+
+        {panelList.length > 0 && (
+          <div>
+            <strong> Panel Items:</strong>{" "}
+            {panelList.map((plan, i) => (
+              <span key={i} className="ml-1">
+                {plan.service_name};
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
@@ -728,12 +690,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       })
       .catch(err => {
         console.log(err);
-        toast({
-          message: "Error during search " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Error during search " + err);
       });
   };
 
@@ -755,12 +712,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       //console.log(findServices.groupedOrder);
     } else {
       if (user.stacker) {
-        toast({
-          message: "You do not qualify to view this",
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You do not qualify to view this");
         return;
       }
     }
