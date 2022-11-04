@@ -14,7 +14,7 @@ import EncounterMain from "./EncounterMain";
 import EncounterRight from "./EncounterRight";
 import PatientProfile from "../Client/PatientProfile";
 import ModalBox from "../../components/modal";
-import {Box, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
