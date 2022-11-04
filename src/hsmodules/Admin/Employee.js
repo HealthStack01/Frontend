@@ -17,6 +17,7 @@ import Input from "./ui-components/inputs/basic/Input";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
+import { GridWrapper } from "../app/styles";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -70,7 +71,7 @@ export default function Employee() {
           </ModalBox>
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <div style={{ width: "60vw" }}>
+            <div>
               <EmployeeDetail showModifyModal={handleModifyModal} />
             </div>
           </ModalBox>
@@ -165,113 +166,86 @@ export function EmployeeCreate() {
           {success && <div className="message"> {message}</div>}
           {error && <div className="is-danger"> {message}</div>}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("firstname", { required: true })}
-              name="firstname"
-              type="text"
-              placeholder="First Name"
-            />
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("lastname", { required: true })}
-              name="lastname"
-              type="text"
-              placeholder="Last Name"
-            />
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("profession", { required: true })}
-              name="profession"
-              type="text"
-              placeholder="Profession"
-            />
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("phone", { required: true })}
-              name="phone"
-              type="text"
-              placeholder="Phone No"
-            />
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("email", { required: true })}
-              name="email"
-              type="text"
-              placeholder="Email"
-            />
-
-            <div
-              className="field"
-              style={!user.stacker ? { display: "none" } : {}}
-            >
-              <InputSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
+              <Input
+                {...register("firstname", { required: true })}
+                name="firstname"
+                type="text"
+                placeholder="First Name"
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
+              <Input
+                {...register("lastname", { required: true })}
+                name="lastname"
+                type="text"
+                placeholder="Last Name"
+              />
+              <Input
+                {...register("profession", { required: true })}
+                name="profession"
+                type="text"
+                placeholder="Profession"
+              />
+              <Input
+                {...register("phone", { required: true })}
+                name="phone"
+                type="text"
+                placeholder="Phone No"
+              />
+              <Input
+                {...register("email", { required: true })}
+                name="email"
+                type="text"
+                placeholder="Email"
+              />
+
+              <div
+                className="field"
+                style={!user.stacker ? { display: "none" } : {}}
               >
-                <Input
-                  style={{
-                    width: "70px",
-                  }}
-                  {...register("facility", { required: true })}
-                  name="facility"
-                  type="text"
-                  placeholder="Facility"
+                <InputSearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
                 />
-              </p>
-            </div>
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("department", { required: true })}
-              name="department"
-              type="text"
-              placeholder="Department"
-            />
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("depunit", { required: true })}
-              name="depunit"
-              type="text"
-              placeholder="Department Unit"
-            />
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("password", { required: true })}
-              name="password"
-              type="text"
-              placeholder="Password"
-            />
-            <Button
-              text={"Attend"}
-              onClick={handleSubmit(onSubmit)}
-              style={{
-                width: "100px",
-                backgroundColor: "#0364FF",
-                fontSize: "18px",
-              }}
-            >
-              Create
-            </Button>
+                <p
+                  className="control has-icons-left "
+                  style={{ display: "none" }}
+                >
+                  <Input
+                    {...register("facility", { required: true })}
+                    name="facility"
+                    type="text"
+                    placeholder="Facility"
+                  />
+                </p>
+              </div>
+              <Input
+                {...register("department", { required: true })}
+                name="department"
+                type="text"
+                placeholder="Department"
+              />
+              <Input
+                {...register("depunit", { required: true })}
+                name="depunit"
+                type="text"
+                placeholder="Department Unit"
+              />
+              <Input
+                {...register("password", { required: true })}
+                name="password"
+                type="text"
+                placeholder="Password"
+              />
+              <Button
+                text={"Attend"}
+                onClick={handleSubmit(onSubmit)}
+                style={{
+                  width: "100px",
+                  backgroundColor: "#0364FF",
+                  fontSize: "18px",
+                }}
+              >
+                Create
+              </Button>
           </form>
         </div>
       </div>

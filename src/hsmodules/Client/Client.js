@@ -1486,27 +1486,14 @@ export function ClientDetail() {
         </div>
       </div>
 
-      <div className={`modal ${billingModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
+      <ModalBox
+        open={billingModal}
+        onClose={handlecloseModal1}
+        header="Bill Client"
+      >
+        <BillServiceCreate closeModal={handlecloseModal1} />
+      </ModalBox>
+
       <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">

@@ -161,69 +161,6 @@ export function BandCreate({ open, setOpen }) {
         <div className="card-header"></div>
         <div className="card-content vscrollable">
           <BandForm open={open} setOpen={setOpen} />
-          {/* <form onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              style={{
-                width: "70px",
-              }}
-              {...register("name", { required: true })}
-              name="name"
-              type="text"
-              placeholder="Name of Band"
-            />
-            <CustomSelect
-              label="Choose Band Type"
-              name="bandType"
-              options={bandTypeOptions}
-              register={register("bandtype", { required: true })}
-            />
-
-            <Input
-              {...register("description", { required: true })}
-              name="description"
-              type="text"
-              placeholder="Description of Band"
-            />
-
-            <Button
-              type="submit"
-              style={{
-                backgroundColor: "#0364FF",
-                // width: "100%",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Create Band
-            </Button>
-
-            <div
-              className="field"
-              style={!user.stacker ? { display: "none" } : {}}
-            >
-              <InputSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
-              >
-                <input
-                  className="input is-small"
-                  {...register("facility", { required: true })}
-                  name="facility"
-                  type="text"
-                  placeholder="Facility"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
-          </form> */}
         </div>
       </div>
     </>

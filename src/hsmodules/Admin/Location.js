@@ -16,6 +16,9 @@ import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
 import Input from "./ui-components/inputs/basic/Input";
+import { BottomWrapper, GrayWrapper, GridWrapper } from "../app/styles";
+import { HeadWrapper } from "../app/styles";
+import ViewText from "../../components/viewtext";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -503,6 +506,41 @@ export function LocationDetail({ showModifyModal }) {
     //console.log(state)
     showModifyModal();
   };
+  const handleDelete = async () => {
+    let conf = window.confirm("Are you sure you want to delete this data?");
+
+    const dleteId = Location._id;
+    if (conf) {
+      LocationServ.remove(dleteId)
+        .then((res) => {
+          //console.log(JSON.stringify(res))
+          reset();
+          /*  setMessage("Deleted Band successfully")
+                setSuccess(true)
+                changeState()
+               setTimeout(() => {
+                setSuccess(false)
+                }, 200); */
+          toast({
+            message: "Band deleted succesfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          changeState();
+        })
+        .catch((err) => {
+          // setMessage("Error deleting Band, probable network issues "+ err )
+          // setError(true)
+          toast({
+            message: "Error deleting Band, probable network issues or " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
+  };
   const handleSublocation = () => {
     setShowSub(true);
     // show popup to create new sublocation.
@@ -582,181 +620,124 @@ export function LocationDetail({ showModifyModal }) {
       inputType: "TEXT",
     },
   ];
+  console.log(Location.sublocations);
 
   return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p
-            className="card-header-title"
-            style={{ fontWeight: "bold", fontSize: "20px" }}
-          >
-            Location Details
-          </p>
+    <GrayWrapper>
+      <HeadWrapper>
+        <div>
+          <h2>Location Details</h2>
+          <span>Location Detail of {Location.name}</span>
         </div>
-        <div className="card-content vscrollable">
-          <Grid item xs={12} sm={3} md={4}>
-            <span
-              style={{
-                color: " #0364FF",
-                fontSize: "20px",
-                marginRight: ".8rem",
-              }}
-            >
-              Name:
-            </span>
-            <span
-              className="is-size-7 padleft"
-              name="name"
-              style={{ fontWeight: "lighter", fontSize: "20px" }}
-            >
-              {" "}
-              {Location.name}{" "}
-            </span>
-          </Grid>
 
-          <Grid item xs={12} sm={3} md={4}>
-            <span
-              style={{
-                color: " #0364FF",
-                fontSize: "20px",
-                marginRight: ".8rem",
-              }}
-            >
-              Location Type:
-            </span>
-            <span
-              className="is-size-7 padleft"
-              name="name"
-              style={{ fontWeight: "lighter", fontSize: "20px" }}
-            >
-              {" "}
-              {Location.locationType}{" "}
-            </span>
-          </Grid>
-          <Grid item xs={12} sm={3} md={4}>
-            <span
-              style={{
-                color: " #0364FF",
-                fontSize: "20px",
-                marginRight: ".8rem",
-              }}
-            >
-              Sublocations:
-            </span>
-          </Grid>
-          {(Location.sublocations?.length > 0 || showSub) && (
-            <>
-              <div>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div class="field is-horizontal">
-                    <div class="field-body">
-                      <div className="field">
-                        <div className="control">
-                          <div className="select is-small ">
-                            <CustomSelect
-                              label="Choose Sub-location Type"
-                              name="type"
-                              options={sublocationTypeOptions}
-                              register={register("type", {
-                                required: true,
-                              })}
-                            />
-                          </div>
-                        </div>
+        <BottomWrapper>
+          <Button
+            label="Delete Location"
+            background="#FFE9E9"
+            color="#ED0423"
+            onClick={handleDelete}
+          />
+
+          <Button
+            label={`Edit`}
+            background="#ECF3FF"
+            color="#0364FF"
+            showicon
+            icon="bi bi-pen-fill"
+            onClick={handleEdit}
+          />
+        </BottomWrapper>
+      </HeadWrapper>
+      <GridWrapper className="two-columns">
+        <ViewText label="Name" text={Location.name} />
+        <ViewText label="Location Type" text={Location.locationType} />
+      </GridWrapper>
+
+      {/* <Grid item xs={12} sm={3} md={4}>
+        <span
+          style={{
+            color: " #0364FF",
+            fontSize: "20px",
+            marginRight: ".8rem",
+          }}
+        >
+          Sublocations:
+        </span>
+      </Grid> */}
+      {(Location.sublocations?.length > 0 || showSub) && (
+        <>
+          <div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div class="field is-horizontal">
+                <div class="field-body">
+                  <div className="field">
+                    <div className="control">
+                      <div className="select is-small ">
+                        <CustomSelect
+                          label="Choose Sub-location Type"
+                          name="type"
+                          options={sublocationTypeOptions}
+                          register={register("type", {
+                            required: true,
+                          })}
+                        />
                       </div>
-                      <Input
-                        {...register("typename", { required: true })}
-                        name="typename"
-                        type="text"
-                        placeholder="Name of Sub-location"
-                      />
-                      {/* <div className="field">
-                        <p className="control has-icons-left has-icons-right">
-                          <input
-                            className="input is-small"
-                            {...register("x", { required: true })}
-                            name="typeName"
-                            type="text"
-                            placeholder="Name of Sub-location"
-                          />
-                          <span className="icon is-small is-left">
-                            <i className="fas fa-map-signs"></i>
-                          </span>
-                        </p>
-                      </div> */}
                     </div>
                   </div>
-                </form>
-              </div>
-              {Location.sublocations?.length > 0 && (
-                <div>
-                  <CustomTable
-                    title={""}
-                    columns={LocationDetailSchema}
-                    data={Location.sublocations}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    progressPending={false}
-                  />
                 </div>
-              )}
-            </>
-          )}
-          <div className="field mt-2  is-grouped">
-            <Button
-              type="submit"
-              onClick={handleEdit}
-              style={{
-                backgroundColor: "#0364FF",
-                width: "100px",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Edit
-            </Button>
-            {!showSub && (
-              <p
-                className={
-                  Location.sublocations?.length > 0
-                    ? "is-hidden control"
-                    : " control"
-                }
-              >
-                <Button
-                  type="submit"
-                  onClick={handleSublocation}
-                  style={{
-                    backgroundColor: "#0364FF",
-                    width: "50%",
-                    position: "relative",
-                    cursor: "pointer",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  Create Sublocation
-                </Button>
-              </p>
-            )}
-            {showUpdate && (
-              <p className="control">
-                <button
-                  className="button is-info is-small"
-                  onClick={handleUpdate}
-                >
-                  Update
-                </button>
-              </p>
-            )}
+              </div>
+            </form>
           </div>
-        </div>
-      </div>
-    </>
+          {Location.sublocations?.length > 0 && (
+            <div>
+              <CustomTable
+                title={""}
+                columns={LocationDetailSchema}
+                data={Location.sublocations}
+                pointerOnHover
+                highlightOnHover
+                striped
+                progressPending={false}
+              />
+            </div>
+          )}
+        </>
+      )}
+      {!showSub && (
+        <p
+          className={
+            Location.sublocations?.length > 0 ? "is-hidden control" : " control"
+          }
+        >
+          <Button
+            type="submit"
+            onClick={handleSublocation}
+            style={{
+              backgroundColor: "#0364FF",
+              width: "50%",
+              position: "relative",
+              cursor: "pointer",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            Create Sublocation
+          </Button>
+        </p>
+      )}
+      {showUpdate && (
+        <BottomWrapper>
+          <Button
+            label={`Update`}
+            background="#ECF3FF"
+            color="#0364FF"
+            showicon
+            icon="bi bi-pen-fill"
+            onClick={handleUpdate}
+          />
+        </BottomWrapper>
+      )}
+    </GrayWrapper>
   );
 }
 
@@ -877,7 +858,7 @@ export function LocationModify() {
             shouldValidate: true,
             shouldDirty: true
           })) */
-  const onSubmit = (data, e) => {
+  const onSubmit = (data,e) => {
     e.preventDefault();
 
     setSuccess(false);
@@ -913,80 +894,58 @@ export function LocationModify() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p
-            className="card-header-title"
-            style={{ fontSize: "20px", fontWeight: "bold" }}
-          >
-            Location Details-Modify
-          </p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              {...register("name", { required: true })}
-              name="name"
-              type="text"
-              label="Name"
-              placeholder="Name"
-            />
+      <GrayWrapper>
+        <HeadWrapper>
+          <p className="card-header-title">Location Details-Modify</p>
+        </HeadWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            {...register("name", { required: true })}
+            name="name"
+            type="text"
+            label="Name"
+            placeholder="Name"
+          />
 
-            <Input
-              {...register("locationType", { required: true })}
-              name="locationType"
-              type="text"
-              label="Location Type"
-              placeholder="Location Type"
-            />
-          </form>
-          <div style={{ display: "flex" }}>
-            <Button
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-              style={{
-                backgroundColor: "#48c774",
-                width: "100px",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Save
-            </Button>
+          <Input
+            {...register("locationType", { required: true })}
+            name="locationType"
+            type="text"
+            label="Location Type"
+            placeholder="Location Type"
+          />
+        </form>
+        <BottomWrapper>
+          <Button
+            label={`Save`}
+            type="submit"
+            onClick={handleSubmit}
+            background="#ECF3FF"
+            color="#0364FF"
+            showicon
+            icon="bi bi-pen-fill"
+          ></Button>
 
-            <Button
-              type="submit"
-              onClick={handleCancel}
-              style={{
-                backgroundColor: "#ffdd57",
-                width: "100px",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              onClick={handleDelete}
-              style={{
-                backgroundColor: "#f14668",
-                width: "100px",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Delete
-            </Button>
-          </div>
-        </div>
-      </div>
+          <Button
+            type="submit"
+            onClick={handleCancel}
+            label={`Cancel`}
+            background="FFE9E9"
+            color="#0364FF"
+            showicon
+            icon="bi bi-pen-fill"
+          ></Button>
+          <Button
+            type="submit"
+            onClick={handleDelete}
+            label={`Delete`}
+            background="#FFE9E9"
+            color="#ED0423"
+            showicon
+            icon="bi bi-pen-fill"
+          ></Button>
+        </BottomWrapper>
+      </GrayWrapper>
     </>
   );
 }

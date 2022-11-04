@@ -75,7 +75,7 @@ export const BandForm = ({ open, setOpen }) => {
             label="Choose Band Type"
             name="bandType"
             options={bandTypeOptions}
-            register={register("bandtype", { required: true })}
+            register={register("bandType", { required: true })}
           />
           <Input
             {...register("description", { required: true })}
