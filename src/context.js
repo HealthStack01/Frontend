@@ -3,7 +3,9 @@ import client from './feathers';
 
 export default function MyUserProvider({ children }) {
   //const [data, setData] = useState(null)
-  const [user, setUser] = useState(null);
+  const storeduser = localStorage.getItem('user');
+  const [user, setUser] = useState(storeduser | null);
+
   const [location, setLocation] = useState(null);
   const [locationType, setLocationType] = useState('Front Desk');
 

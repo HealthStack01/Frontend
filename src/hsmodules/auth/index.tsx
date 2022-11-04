@@ -23,6 +23,7 @@ function Login() {
   const { setUser } = useContext(UserContext);
   const [keepMeIn, setKeepMeIn] = useState(false);
   const [loaderTimer, setLoaderTimer] = useState(true);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -45,7 +46,10 @@ function Login() {
           currentEmployee: { ...res.user.employeeData[0] },
         };
         setUser(user);
-        if (keepMeIn) localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
+        setLoading(false);
+        toast.success('You successfully logged in');
+
         navigate('/app');
       })
       .catch((err) => {
@@ -55,7 +59,7 @@ function Login() {
 
   return (
     <>
-     {/*  {console.error('hello there')} */}
+      {/*  {console.error('hello there')} */}
       {loaderTimer ? (
         <Preloader />
       ) : (
@@ -91,12 +95,32 @@ function Login() {
                 />
               </FormGroup>
             </FormControl>
-            <Button type="submit" label="Login" fullwidth="true" />
+            <p>
+              Forgot password?
+              <Link
+                className="nav-link"
+                style={{
+                  padding: '0',
+                  background: 'transparent',
+                  color: 'blue',
+                  marginLeft: '0.6rem',
+                }}
+                to="/forgot-password"
+              >
+                Click here
+              </Link>
+            </p>
+            <Button
+              type="submit"
+              label="Login"
+              fullwidth="true"
+              loading={loading}
+            />
           </form>
 
           <div className="bottom-center">
             <p>or continue with</p>
-            <a href="">
+            <a href="#">
               <i className="bi bi-google" />
             </a>
             <a href="">

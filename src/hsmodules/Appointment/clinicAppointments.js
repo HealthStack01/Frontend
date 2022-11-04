@@ -864,6 +864,7 @@ export function ClientDetail({ showModal, setShowModal }) {
     }));
     //modify appointment
     navigate('/app/clinic/documentation');
+    console.log('test');
   };
 
   return (
@@ -1120,7 +1121,6 @@ export function ClientDetail({ showModal, setShowModal }) {
         </Grid>
         <Grid item xs={12} sm={3} md={3}>
           <Button
-            text={'Attend'}
             onClick={handleAttend}
             style={{
               width: '100%',

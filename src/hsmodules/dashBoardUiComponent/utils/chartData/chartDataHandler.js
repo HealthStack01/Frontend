@@ -4,8 +4,7 @@ import useFetchData from '../useFetchData';
 import useFetchOrder from '../usefetchOrder';
 const userDetails = localStorage.getItem('user');
 
-// const facilityId = JSON.parse(userDetails).employeeData[0].facility;
-const facilityId = '5f9f1b0b9b9b9b0b9b9b9b9b';
+const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
 
 export const TotalNumOfData = (service) => {
   const query = {

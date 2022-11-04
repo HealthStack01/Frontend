@@ -6,7 +6,6 @@ import Select from '@mui/material/Select';
 import React, { SelectHTMLAttributes, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   options: any;
@@ -28,14 +27,12 @@ const CustomSelect: React.FC<SelectProps> = ({
   readonly,
   register,
 }) => {
-
-
   return (
     <FormControl disabled={readonly} style={{ width: '100%' }}>
-      <InputLabel id='demo-simple-select-autowidth-label'>{label}</InputLabel>
+      <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
       <Select
-        labelId='demo-simple-select-autowidth-label'
-        id='demo-simple-select-autowidth'
+        labelId="demo-simple-select-autowidth-label"
+        id="demo-simple-select-autowidth"
         label={label}
         name={name}
         defaultValue={defaultValue || ''}
@@ -43,7 +40,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         sx={{ background: 'white' }}
         {...register}
       >
-        <MenuItem value='' sx={{ width: '100%' }}>
+        <MenuItem value="" sx={{ width: '100%' }}>
           <em>None</em>
         </MenuItem>
         {options.map((option, index) => (

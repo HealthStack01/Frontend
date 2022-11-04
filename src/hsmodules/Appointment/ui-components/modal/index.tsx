@@ -11,7 +11,7 @@ interface ModalProps {
 const style = {
   width: '68%',
   maxWidth: '90%',
-  height: 'auto',
+  height: '70%',
   bgcolor: '#fff',
   boxShadow: 24,
   p: 4,

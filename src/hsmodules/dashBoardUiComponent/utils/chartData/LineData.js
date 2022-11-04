@@ -3,8 +3,7 @@ import useFetch from '../usefetch';
 import useFetchData from '../useFetchData.js';
 const userDetails = localStorage.getItem('user');
 
-// const facilityId = JSON.parse(userDetails).employeeData[0].facility;
-const facilityId = '5f9f1b0b9b9b9b0b9b9b9b9b';
+const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
 
 const TotalNewClientWithinARangeOf30Day = (service, lt, gt) => {
   var dayGT = 24 * 60 * 60 * 1000 * gt;
