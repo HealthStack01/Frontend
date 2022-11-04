@@ -79,7 +79,6 @@ export default function PharmacyBillPrescription() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        //style={{display: "flex"}}
         header="Bill Product"
       >
         <Box
@@ -94,16 +93,16 @@ export default function PharmacyBillPrescription() {
           <Box
             item
             sx={{
-              width: "calc(100%-350px)",
+              width: "calc(100% - 340px)",
             }}
           >
-            <BillPrescriptionCreate />
+            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
           </Box>
 
           <Box
             item
             sx={{
-              width: "350px",
+              width: "330px",
             }}
           >
             <PatientProfile />
