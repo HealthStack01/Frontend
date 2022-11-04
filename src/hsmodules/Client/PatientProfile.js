@@ -279,7 +279,7 @@ export default function PatientProfile() {
       <ModalBox
         open={historyModal}
         onClose={() => setHistoryModal(false)}
-        header="Clientt History"
+        header="Client History"
       >
         <ClientHistory closeModal={() => setHistoryModal(false)} />
       </ModalBox>
@@ -289,7 +289,7 @@ export default function PatientProfile() {
       <ModalBox
         open={intoleranceModal}
         onClose={() => setIntoleranceModal(false)}
-        header="Client Intolerance"
+        header="Drug Intolerance"
       >
         <ClientIntolerance closeModal={() => setIntoleranceModal(false)} />
       </ModalBox>

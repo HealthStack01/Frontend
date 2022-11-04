@@ -11,6 +11,7 @@ import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
+import ModalHeader from "./ui-components/Heading/modalHeader";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
 import {PageWrapper} from "../../ui/styled/styles";

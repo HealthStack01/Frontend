@@ -347,7 +347,7 @@ export function CaseDefinitionCreate() {
             label="name of disease"
             register={register("disease", {required:true})}
              name="disease"
-             options={disease}
+            //  options={disease}
              onChange={(e)=>handleChangeMode(e.target.value)}
              />
         </DetailsWrapper>
