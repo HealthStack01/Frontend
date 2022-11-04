@@ -543,6 +543,7 @@ export function CaseDefinitionList({ openCreateModal }) {
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
 
+  console.log('Case Defination>>>>', selectedUser);
   const handleRowClicked = row => {
     setSelectedUser(row);
     setOpen(true);

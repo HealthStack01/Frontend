@@ -32,7 +32,7 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
   } = useForm({
     defaultValues: {
       notificationType: casedefinition?.notificationType,
-      disease: casedefinition?.disease,
+      disease: casedefinition?.disease?.name,
     },
   });
   const [finding, setFinding] = useState('');
@@ -124,130 +124,129 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
     }
   };
 
-  // const onSubmit = async (data, e) => {
-  //   setLoading(true);
+  const onSubmit = async (data, e) => {
+    setLoading(true);
 
-  //   data.observations = [];
-  //   data.disease = {
-  //     name: data.disease,
-  //     icdcode: '',
-  //     icdver: '',
-  //     snomed: '',
-  //     snomedver: '',
-  //   };
+    data.observations = [];
+    data.disease = {
+      name: data.disease,
+      icdcode: '',
+      icdver: '',
+      snomed: '',
+      snomedver: '',
+    };
 
-  //   if (data.notificationtype === '') {
-  //     alert('Kindly choose notification type');
-  //     return;
-  //   }
+    if (data.notificationtype === '') {
+      alert('Kindly choose notification type');
+      return;
+    }
 
-  //   if (symptoms.length > 0) {
-  //     let sympcollection = [];
-  //     symptoms.forEach(el => {
-  //       let obs = {
-  //         category: 'symptoms',
-  //         name: el.symptom,
-  //         duration: el.duration,
-  //         /* note:"",
-  //                   snomed:"" ,
-  //                   response:"" , */
-  //         required: el.sympreq,
-  //         /* value:""  */
-  //       };
-  //       console.log(obs);
-  //       sympcollection.push(obs);
-  //       console.log(sympcollection);
-  //     });
-  //     data.observations = [...data.observations, ...sympcollection];
-  //   }
+    if (symptoms.length > 0) {
+      let sympcollection = [];
+      symptoms.forEach(el => {
+        let obs = {
+          category: 'symptoms',
+          name: el.symptom,
+          duration: el.duration,
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          required: el.sympreq,
+          /* value:""  */
+        };
+        console.log(obs);
+        sympcollection.push(obs);
+        console.log(sympcollection);
+      });
+      data.observations = [...data.observations, ...sympcollection];
+    }
 
-  //   if (findings.length > 0) {
-  //     let findingscollection = [];
-  //     findings.forEach(el => {
-  //       let obs = {
-  //         category: 'Signs',
-  //         name: el.finding,
-  //         /*  duration:el.duration , */
-  //         /* note:"",
-  //                   snomed:"" ,
-  //                   response:"" , */
-  //         required: el.findingreq,
-  //         /* value:""  */
-  //       };
-  //       findingscollection.push(obs);
-  //     });
-  //     data.observations = [...data.observations, ...findingscollection];
-  //   }
-  //   if (labs.length > 0) {
-  //     let labscollection = [];
-  //     labs.forEach(el => {
-  //       let obs = {
-  //         category: 'Laboratory',
-  //         name: el.lab,
-  //         /*  duration:el.duration , */
-  //         /* note:"",
-  //                   snomed:"" ,
-  //                   response:"" , */
-  //         /*  required:el.findingreq, */
-  //         value: el.labvalue,
-  //       };
-  //       labscollection.push(obs);
-  //     });
-  //     data.observations = [...data.observations, ...labscollection];
-  //   }
+    if (findings.length > 0) {
+      let findingscollection = [];
+      findings.forEach(el => {
+        let obs = {
+          category: 'Signs',
+          name: el.finding,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          required: el.findingreq,
+          /* value:""  */
+        };
+        findingscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...findingscollection];
+    }
+    if (labs.length > 0) {
+      let labscollection = [];
+      labs.forEach(el => {
+        let obs = {
+          category: 'Laboratory',
+          name: el.lab,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          /*  required:el.findingreq, */
+          value: el.labvalue,
+        };
+        labscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...labscollection];
+    }
 
-  //   if (findings.length > 0) {
-  //     let findingscollection = [];
-  //     findings.forEach(el => {
-  //       let obs = {
-  //         category: 'Signs',
-  //         name: el.finding,
-  //         /*  duration:el.duration , */
-  //         /* note:"",
-  //                   snomed:"" ,
-  //                   response:"" , */
-  //         required: el.findingreq,
-  //         /* value:""  */
-  //       };
-  //       findingscollection.push(obs);
-  //     });
-  //     data.observations = [...data.observations, ...findingscollection];
-  //   }
-  //   if (labs.length > 0) {
-  //     let labscollection = [];
-  //     labs.forEach(el => {
-  //       let obs = {
-  //         category: 'Laboratory',
-  //         name: el.lab,
-  //         /*  duration:el.duration , */
-  //         /* note:"",
-  //                   snomed:"" ,
-  //                   response:"" , */
-  //         /*  required:el.findingreq, */
-  //         value: el.labvalue,
-  //       };
-  //       labscollection.push(obs);
-  //     });
-  //     data.observations = [...data.observations, ...labscollection];
-  //   }
+    if (findings.length > 0) {
+      let findingscollection = [];
+      findings.forEach(el => {
+        let obs = {
+          category: 'Signs',
+          name: el.finding,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          required: el.findingreq,
+          /* value:""  */
+        };
+        findingscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...findingscollection];
+    }
+    if (labs.length > 0) {
+      let labscollection = [];
+      labs.forEach(el => {
+        let obs = {
+          category: 'Laboratory',
+          name: el.lab,
+          /*  duration:el.duration , */
+          /* note:"",
+                    snomed:"" ,
+                    response:"" , */
+          /*  required:el.findingreq, */
+          value: el.labvalue,
+        };
+        labscollection.push(obs);
+      });
+      data.observations = [...data.observations, ...labscollection];
+    }
 
-  //   data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+    data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
 
-  //   await CaseServ.patch(casedefinition._id, data)
-  //     .then(res => {
-  //       toast.success(`Case Defination successfully updated!`);
-  //       setLoading(false);
-  //       setOpen(false);
-  //     })
-  //     .catch(err => {
-  //       toast.error(`Sorry, Unable  to updated a case definition! ${err}`);
-  //       setLoading(false);
-  //     });
+    await CaseServ.patch(casedefinition._id, data)
+      .then(res => {
+        toast.success(`Case Defination successfully updated!`);
+        setLoading(false);
+        setOpen(false);
+      })
+      .catch(err => {
+        toast.error(`Sorry, Unable  to updated a case definition! ${err}`);
+        setLoading(false);
+      });
 
-  //   setLoading(false);
-  // };
+    setLoading(false);
+  };
 
-  const onSubmit = async (data, e) => {};
   return (
     <>
       <PageWrapper>
@@ -284,32 +283,35 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
             <GrayWrapper>
               <Box>
                 <DetailsWrapper title='Notification Type and Name of Disease '>
-                  {!editing ? (
-                    <ViewText
-                      label='First Name'
-                      text={casedefinition?.notificationType}
-                    />
-                  ) : (
-                    <CustomSelect
-                      label='Choose notification type'
-                      name='notification type'
-                      options={notificationOptions}
-                      register={register('notificationType')}
-                    />
-                  )}
-                  {!editing ? (
-                    <ViewText
-                      label='First Name'
-                      text={casedefinition?.disease}
-                    />
-                  ) : (
-                    <Input
-                      label='Name of disease'
-                      register={register('disease')}
-                      name='disease'
-                    />
-                  )}
+                  <GridWrapper>
+                    {!editing ? (
+                      <ViewText
+                        label='Notification Type'
+                        text={casedefinition?.notificationtype}
+                      />
+                    ) : (
+                      <CustomSelect
+                        label='Choose notification type'
+                        name='notification type'
+                        options={notificationOptions}
+                        register={register('notificationtype')}
+                      />
+                    )}
+                    {!editing ? (
+                      <ViewText
+                        label='Name of Disease'
+                        text={casedefinition?.disease?.name}
+                      />
+                    ) : (
+                      <Input
+                        label='Name of disease'
+                        register={register('disease')}
+                        name='disease'
+                      />
+                    )}
+                  </GridWrapper>
                 </DetailsWrapper>
+
                 <DetailsWrapper title='Symptoms'>
                   <GridWrapper className='four-columns'>
                     <Input
@@ -355,7 +357,7 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
                     </div>
                   </GridWrapper>
 
-                  {/* <DataTable
+                  <DataTable
                     customStyles={customStyles}
                     title={'Syptom'}
                     columns={syptomSchema}
@@ -363,110 +365,6 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
                     pointerOnHover
                     highlightOnHover
                     striped
-                  /> */}
-                </DetailsWrapper>
-                <DetailsWrapper title='Clinical Signs'>
-                  <GridWrapper>
-                    <Input
-                      label='Clinical Signs'
-                      value={finding}
-                      onChange={e => {
-                        setFinding(e.target.value);
-                      }}
-                      type='text'
-                      placeholder='Finding'
-                    />
-                    <Box sx={{ jusifyContent: 'space-between' }}>
-                      <input
-                        type='checkbox'
-                        value={findingreq}
-                        name='sympreq'
-                        onChange={e => {
-                          handleChecked2(e);
-                        }}
-                        register={register('findingreq')}
-                      />
-                      required
-                    </Box>
-                    <div
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        width: '80px',
-                      }}
-                      onClick={handleAddFindings}
-                    >
-                      +Add
-                    </div>
-                  </GridWrapper>
-
-                  {/* <DataTable
-                    title={'Clinical Signs'}
-                    columns={clinicalSignSchema}
-                    customStyles={customStyles}
-                    data={findings}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                  /> */}
-                </DetailsWrapper>
-
-                <DetailsWrapper title='Lab Confirmation'>
-                  <GridWrapper>
-                    <Input
-                      value={lab}
-                      // {...register('lab')}
-                      onChange={e => {
-                        setLab(e.target.value);
-                      }}
-                      label='Lab'
-                      type='text'
-                      placeholder='Specify'
-                    />
-
-                    <Input
-                      value={labvalue}
-                      // {...register('labvalue')}
-                      onChange={e => {
-                        setLabvalue(e.target.value);
-                      }}
-                      label='Value'
-                      type='text'
-                      placeholder='Specify'
-                    />
-
-                    <div
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        width: '80px',
-                      }}
-                      label='Add '
-                      onClick={handleAddLabs}
-                    >
-                      +Add
-                    </div>
-                  </GridWrapper>
-
-                  {/* <DataTable
-                    title={'Lab Confirmation'}
-                    customStyles={customStyles}
-                    columns={labSchema}
-                    data={labs}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                  /> */}
-                </DetailsWrapper>
-
-                <DetailsWrapper title='Management Protocol'>
-                  <Input
-                    label='Management protocol'
-                    value={mgtProtocol}
-                    {...register('mgtProtocol')}
-                    onChange={e => {
-                      setMgtProtocol(e.target.value);
-                    }}
                   />
                 </DetailsWrapper>
 

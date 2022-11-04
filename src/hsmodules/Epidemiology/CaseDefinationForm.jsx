@@ -219,6 +219,7 @@ const CaseDefinitionForm = () => {
     setLoading(false);
   };
 
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ToastContainer theme='colored' />
@@ -231,7 +232,7 @@ const CaseDefinitionForm = () => {
                 label='choose notification type'
                 name='notification type'
                 options={notificationOptions}
-                register={register('notificationType')}
+                register={register('notificationtype')}
               />
 
               <Input
