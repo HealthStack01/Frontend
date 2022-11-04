@@ -259,7 +259,7 @@ export default function PatientProfile() {
       <ModalBox
         open={taskModal}
         onClose={() => setTaskModal(false)}
-        header="Client Tasks"
+        header="Tasks"
       >
         <ClientTasks closeModal={() => setTaskModal(false)} />
       </ModalBox>
@@ -269,7 +269,7 @@ export default function PatientProfile() {
       <ModalBox
         open={problemModal}
         onClose={() => setProblemModal(false)}
-        header="Client Problems"
+        header="Problem List"
       >
         <ClientProblems closeModal={() => setProblemModal(false)} />
       </ModalBox>
