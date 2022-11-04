@@ -711,7 +711,6 @@ export function CaseDefinitionList({ openCreateModal }) {
           <ModalBox open={open} onClose={handleCloseModal}>
             <CaseDefinitionView
               casedefinition={selectedUser}
-              open={open}
               setOpen={handleCloseModal}
             />
           </ModalBox>

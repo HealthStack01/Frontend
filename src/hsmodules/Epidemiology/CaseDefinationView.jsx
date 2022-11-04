@@ -18,13 +18,23 @@ import { clinicalSignSchema, syptomSchema, labSchema } from './schema';
 import client from '../../feathers';
 import { toast, ToastContainer } from 'react-toastify';
 import { HeadWrapper } from './styles';
+import ViewText from '../../components/viewtext';
 
 const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
   const CaseServ = client.service('casedefinition');
 
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      notificationType: casedefinition?.notificationType,
+      disease: casedefinition?.disease,
+    },
+  });
   const [finding, setFinding] = useState('');
   const [findings, setFindings] = useState([]);
   const [findingreq, setFindingreq] = useState(false);
@@ -114,345 +124,361 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
     }
   };
 
-  const onSubmit = async (data, e) => {
-    setLoading(true);
+  // const onSubmit = async (data, e) => {
+  //   setLoading(true);
 
-    data.observations = [];
-    data.disease = {
-      name: data.disease,
-      icdcode: '',
-      icdver: '',
-      snomed: '',
-      snomedver: '',
-    };
+  //   data.observations = [];
+  //   data.disease = {
+  //     name: data.disease,
+  //     icdcode: '',
+  //     icdver: '',
+  //     snomed: '',
+  //     snomedver: '',
+  //   };
 
-    if (data.notificationtype === '') {
-      alert('Kindly choose notification type');
-      return;
-    }
+  //   if (data.notificationtype === '') {
+  //     alert('Kindly choose notification type');
+  //     return;
+  //   }
 
-    if (symptoms.length > 0) {
-      let sympcollection = [];
-      symptoms.forEach(el => {
-        let obs = {
-          category: 'symptoms',
-          name: el.symptom,
-          duration: el.duration,
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          required: el.sympreq,
-          /* value:""  */
-        };
-        console.log(obs);
-        sympcollection.push(obs);
-        console.log(sympcollection);
-      });
-      data.observations = [...data.observations, ...sympcollection];
-    }
+  //   if (symptoms.length > 0) {
+  //     let sympcollection = [];
+  //     symptoms.forEach(el => {
+  //       let obs = {
+  //         category: 'symptoms',
+  //         name: el.symptom,
+  //         duration: el.duration,
+  //         /* note:"",
+  //                   snomed:"" ,
+  //                   response:"" , */
+  //         required: el.sympreq,
+  //         /* value:""  */
+  //       };
+  //       console.log(obs);
+  //       sympcollection.push(obs);
+  //       console.log(sympcollection);
+  //     });
+  //     data.observations = [...data.observations, ...sympcollection];
+  //   }
 
-    if (findings.length > 0) {
-      let findingscollection = [];
-      findings.forEach(el => {
-        let obs = {
-          category: 'Signs',
-          name: el.finding,
-          /*  duration:el.duration , */
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          required: el.findingreq,
-          /* value:""  */
-        };
-        findingscollection.push(obs);
-      });
-      data.observations = [...data.observations, ...findingscollection];
-    }
-    if (labs.length > 0) {
-      let labscollection = [];
-      labs.forEach(el => {
-        let obs = {
-          category: 'Laboratory',
-          name: el.lab,
-          /*  duration:el.duration , */
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          /*  required:el.findingreq, */
-          value: el.labvalue,
-        };
-        labscollection.push(obs);
-      });
-      data.observations = [...data.observations, ...labscollection];
-    }
+  //   if (findings.length > 0) {
+  //     let findingscollection = [];
+  //     findings.forEach(el => {
+  //       let obs = {
+  //         category: 'Signs',
+  //         name: el.finding,
+  //         /*  duration:el.duration , */
+  //         /* note:"",
+  //                   snomed:"" ,
+  //                   response:"" , */
+  //         required: el.findingreq,
+  //         /* value:""  */
+  //       };
+  //       findingscollection.push(obs);
+  //     });
+  //     data.observations = [...data.observations, ...findingscollection];
+  //   }
+  //   if (labs.length > 0) {
+  //     let labscollection = [];
+  //     labs.forEach(el => {
+  //       let obs = {
+  //         category: 'Laboratory',
+  //         name: el.lab,
+  //         /*  duration:el.duration , */
+  //         /* note:"",
+  //                   snomed:"" ,
+  //                   response:"" , */
+  //         /*  required:el.findingreq, */
+  //         value: el.labvalue,
+  //       };
+  //       labscollection.push(obs);
+  //     });
+  //     data.observations = [...data.observations, ...labscollection];
+  //   }
 
-    if (findings.length > 0) {
-      let findingscollection = [];
-      findings.forEach(el => {
-        let obs = {
-          category: 'Signs',
-          name: el.finding,
-          /*  duration:el.duration , */
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          required: el.findingreq,
-          /* value:""  */
-        };
-        findingscollection.push(obs);
-      });
-      data.observations = [...data.observations, ...findingscollection];
-    }
-    if (labs.length > 0) {
-      let labscollection = [];
-      labs.forEach(el => {
-        let obs = {
-          category: 'Laboratory',
-          name: el.lab,
-          /*  duration:el.duration , */
-          /* note:"",
-                    snomed:"" ,
-                    response:"" , */
-          /*  required:el.findingreq, */
-          value: el.labvalue,
-        };
-        labscollection.push(obs);
-      });
-      data.observations = [...data.observations, ...labscollection];
-    }
+  //   if (findings.length > 0) {
+  //     let findingscollection = [];
+  //     findings.forEach(el => {
+  //       let obs = {
+  //         category: 'Signs',
+  //         name: el.finding,
+  //         /*  duration:el.duration , */
+  //         /* note:"",
+  //                   snomed:"" ,
+  //                   response:"" , */
+  //         required: el.findingreq,
+  //         /* value:""  */
+  //       };
+  //       findingscollection.push(obs);
+  //     });
+  //     data.observations = [...data.observations, ...findingscollection];
+  //   }
+  //   if (labs.length > 0) {
+  //     let labscollection = [];
+  //     labs.forEach(el => {
+  //       let obs = {
+  //         category: 'Laboratory',
+  //         name: el.lab,
+  //         /*  duration:el.duration , */
+  //         /* note:"",
+  //                   snomed:"" ,
+  //                   response:"" , */
+  //         /*  required:el.findingreq, */
+  //         value: el.labvalue,
+  //       };
+  //       labscollection.push(obs);
+  //     });
+  //     data.observations = [...data.observations, ...labscollection];
+  //   }
 
-    data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+  //   data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
 
-    await CaseServ.patch(data)
-      .then(res => {
-        toast.success(`Case Defination successfully updated!`);
-        setLoading(false);
-        setOpen(false);
-      })
-      .catch(err => {
-        toast.error(`Sorry, Unable  to updated a case definition! ${err}`);
-        setLoading(false);
-      });
+  //   await CaseServ.patch(casedefinition._id, data)
+  //     .then(res => {
+  //       toast.success(`Case Defination successfully updated!`);
+  //       setLoading(false);
+  //       setOpen(false);
+  //     })
+  //     .catch(err => {
+  //       toast.error(`Sorry, Unable  to updated a case definition! ${err}`);
+  //       setLoading(false);
+  //     });
 
-    setLoading(false);
-  };
+  //   setLoading(false);
+  // };
 
+  const onSubmit = async (data, e) => {};
   return (
-    <PageWrapper>
-      <HeadWrapper>
-        <div>
-          <h2>Case Definition Detail</h2>
-          <span>Case Definition detail of Case Definition</span>
-        </div>
-        <BottomWrapper>
-          <Button
-            label='Delete Case Definition'
-            background='#FFE9E9'
-            color='#ED0423'
-            onClick={() => handleDelete()}
-          />
+    <>
+      <PageWrapper>
+        <HeadWrapper>
+          <div>
+            <h2>Case Definition Detail</h2>
+            <span>Case Definition detail of Case Definition</span>
+          </div>
+          <BottomWrapper>
+            <Button
+              label='Delete Case Definition'
+              background='#FFE9E9'
+              color='#ED0423'
+              onClick={() => handleDelete()}
+            />
 
-          <Button
-            label={`${!editing ? 'Edit Case Definition' : 'Cancel Editing'}`}
-            background='#ECF3FF'
-            color='#0364FF'
-            showicon
-            icon='bi bi-pen-fill'
-            disabled={editing}
-            onClick={() => {
-              setEditing(!editing);
-            }}
-          />
-        </BottomWrapper>
-      </HeadWrapper>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ToastContainer theme='colored' />
+            <Button
+              label={`${!editing ? 'Edit Case Definition' : 'Cancel Editing'}`}
+              background='#ECF3FF'
+              color='#0364FF'
+              showicon
+              icon='bi bi-pen-fill'
+              disabled={editing}
+              onClick={() => {
+                setEditing(!editing);
+              }}
+            />
+          </BottomWrapper>
+        </HeadWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ToastContainer theme='colored' />
 
-        <PageWrapper>
-          <GrayWrapper>
-            <Box>
-              <DetailsWrapper title='Notification Type and Name of Disease '>
-                <CustomSelect
-                  label='choose notification type'
-                  name='notification type'
-                  options={notificationOptions}
-                  register={register('notificationType')}
-                />
-
-                <Input
-                  label='name of disease'
-                  register={register('disease')}
-                  name='disease'
-                />
-              </DetailsWrapper>
-              <DetailsWrapper title='Symptoms'>
-                <GridWrapper className='four-columns'>
-                  <Input
-                    label='Symptoms'
-                    type='text'
-                    value={symptom}
-                    onChange={e => {
-                      setSymptom(e.target.value);
-                    }}
-                    placeholder='Specify'
-                  />
-                  <Input
-                    label='Duration'
-                    value={duration}
-                    onChange={e => {
-                      setDuration(e.target.value);
-                    }}
-                    name='duration'
-                  />
-
-                  <Box sx={{ jusifyContent: 'space-between' }}>
-                    <input
-                      type='checkbox'
-                      value={sympreq}
-                      name='sympreq'
-                      onChange={e => {
-                        handleChecked(e);
-                      }}
-                      register={register('sympreq')}
+          <PageWrapper>
+            <GrayWrapper>
+              <Box>
+                <DetailsWrapper title='Notification Type and Name of Disease '>
+                  {!editing ? (
+                    <ViewText
+                      label='First Name'
+                      text={casedefinition?.notificationType}
                     />
-                    required
-                  </Box>
-
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '80px',
-                    }}
-                    onClick={handleAddSymptoms}
-                  >
-                    +Add
-                  </div>
-                </GridWrapper>
-
-                <DataTable
-                  customStyles={customStyles}
-                  title={'Syptom'}
-                  columns={syptomSchema}
-                  data={symptoms}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </DetailsWrapper>
-              <DetailsWrapper title='Clinical Signs'>
-                <GridWrapper>
-                  <Input
-                    label='Clinical Signs'
-                    value={finding}
-                    onChange={e => {
-                      setFinding(e.target.value);
-                    }}
-                    type='text'
-                    placeholder='Finding'
-                  />
-                  <Box sx={{ jusifyContent: 'space-between' }}>
-                    <input
-                      type='checkbox'
-                      value={findingreq}
-                      name='sympreq'
-                      onChange={e => {
-                        handleChecked2(e);
-                      }}
-                      register={register('findingreq')}
+                  ) : (
+                    <CustomSelect
+                      label='Choose notification type'
+                      name='notification type'
+                      options={notificationOptions}
+                      register={register('notificationType')}
                     />
-                    required
-                  </Box>
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '80px',
-                    }}
-                    onClick={handleAddFindings}
-                  >
-                    +Add
-                  </div>
-                </GridWrapper>
+                  )}
+                  {!editing ? (
+                    <ViewText
+                      label='First Name'
+                      text={casedefinition?.disease}
+                    />
+                  ) : (
+                    <Input
+                      label='Name of disease'
+                      register={register('disease')}
+                      name='disease'
+                    />
+                  )}
+                </DetailsWrapper>
+                <DetailsWrapper title='Symptoms'>
+                  <GridWrapper className='four-columns'>
+                    <Input
+                      label='Symptoms'
+                      type='text'
+                      value={symptom}
+                      onChange={e => {
+                        setSymptom(e.target.value);
+                      }}
+                      placeholder='Specify'
+                    />
+                    <Input
+                      label='Duration'
+                      value={duration}
+                      onChange={e => {
+                        setDuration(e.target.value);
+                      }}
+                      name='duration'
+                    />
 
-                <DataTable
-                  title={'Clinical Signs'}
-                  columns={clinicalSignSchema}
-                  customStyles={customStyles}
-                  data={findings}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </DetailsWrapper>
+                    <Box sx={{ jusifyContent: 'space-between' }}>
+                      <input
+                        type='checkbox'
+                        value={sympreq}
+                        name='sympreq'
+                        onChange={e => {
+                          handleChecked(e);
+                        }}
+                        register={register('sympreq')}
+                      />
+                      required
+                    </Box>
 
-              <DetailsWrapper title='Lab Confirmation'>
-                <GridWrapper>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        width: '80px',
+                      }}
+                      onClick={handleAddSymptoms}
+                    >
+                      +Add
+                    </div>
+                  </GridWrapper>
+
+                  {/* <DataTable
+                    customStyles={customStyles}
+                    title={'Syptom'}
+                    columns={syptomSchema}
+                    data={symptoms}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  /> */}
+                </DetailsWrapper>
+                <DetailsWrapper title='Clinical Signs'>
+                  <GridWrapper>
+                    <Input
+                      label='Clinical Signs'
+                      value={finding}
+                      onChange={e => {
+                        setFinding(e.target.value);
+                      }}
+                      type='text'
+                      placeholder='Finding'
+                    />
+                    <Box sx={{ jusifyContent: 'space-between' }}>
+                      <input
+                        type='checkbox'
+                        value={findingreq}
+                        name='sympreq'
+                        onChange={e => {
+                          handleChecked2(e);
+                        }}
+                        register={register('findingreq')}
+                      />
+                      required
+                    </Box>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        width: '80px',
+                      }}
+                      onClick={handleAddFindings}
+                    >
+                      +Add
+                    </div>
+                  </GridWrapper>
+
+                  {/* <DataTable
+                    title={'Clinical Signs'}
+                    columns={clinicalSignSchema}
+                    customStyles={customStyles}
+                    data={findings}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  /> */}
+                </DetailsWrapper>
+
+                <DetailsWrapper title='Lab Confirmation'>
+                  <GridWrapper>
+                    <Input
+                      value={lab}
+                      // {...register('lab')}
+                      onChange={e => {
+                        setLab(e.target.value);
+                      }}
+                      label='Lab'
+                      type='text'
+                      placeholder='Specify'
+                    />
+
+                    <Input
+                      value={labvalue}
+                      // {...register('labvalue')}
+                      onChange={e => {
+                        setLabvalue(e.target.value);
+                      }}
+                      label='Value'
+                      type='text'
+                      placeholder='Specify'
+                    />
+
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        width: '80px',
+                      }}
+                      label='Add '
+                      onClick={handleAddLabs}
+                    >
+                      +Add
+                    </div>
+                  </GridWrapper>
+
+                  {/* <DataTable
+                    title={'Lab Confirmation'}
+                    customStyles={customStyles}
+                    columns={labSchema}
+                    data={labs}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  /> */}
+                </DetailsWrapper>
+
+                <DetailsWrapper title='Management Protocol'>
                   <Input
-                    value={lab}
-                    // {...register('lab')}
+                    label='Management protocol'
+                    value={mgtProtocol}
+                    {...register('mgtProtocol')}
                     onChange={e => {
-                      setLab(e.target.value);
+                      setMgtProtocol(e.target.value);
                     }}
-                    label='Lab'
-                    type='text'
-                    placeholder='Specify'
                   />
+                </DetailsWrapper>
 
-                  <Input
-                    value={labvalue}
-                    // {...register('labvalue')}
-                    onChange={e => {
-                      setLabvalue(e.target.value);
-                    }}
-                    label='Value'
-                    type='text'
-                    placeholder='Specify'
-                  />
-
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '80px',
-                    }}
-                    label='Add '
-                    onClick={handleAddLabs}
-                  >
-                    +Add
-                  </div>
-                </GridWrapper>
-
-                <DataTable
-                  title={'Lab Confirmation'}
-                  customStyles={customStyles}
-                  columns={labSchema}
-                  data={labs}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </DetailsWrapper>
-
-              <DetailsWrapper title='Management Protocol'>
-                <Input
-                  label='Management protocol'
-                  value={mgtProtocol}
-                  {...register('mgtProtocol')}
-                  onChange={e => {
-                    setMgtProtocol(e.target.value);
-                  }}
-                />
-              </DetailsWrapper>
-
-              <BottomWrapper>
-                <Button label='Save ' loading={loading} type='submit' />
-              </BottomWrapper>
-            </Box>
-          </GrayWrapper>
-        </PageWrapper>
-      </form>
-    </PageWrapper>
+                <BottomWrapper>
+                  <Button label='Save ' loading={loading} type='submit' />
+                </BottomWrapper>
+              </Box>
+            </GrayWrapper>
+          </PageWrapper>
+        </form>
+      </PageWrapper>
+    </>
   );
 };
 
