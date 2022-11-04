@@ -24,7 +24,7 @@ export default function InventoryHome({children}) {
 
   useEffect(() => {
     console.log("starting up inventory module");
-    if (selectedStore) {
+    if (!selectedStore) {
       handleChangeStore();
     }
     return () => {};

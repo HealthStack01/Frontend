@@ -22,7 +22,7 @@ export default function PharmacyHome({children}) {
   // };
 
   useEffect(() => {
-    if (selectedStore) {
+    if (!selectedStore) {
       handleChangeStore();
     }
     return () => {};

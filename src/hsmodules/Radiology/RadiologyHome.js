@@ -23,7 +23,7 @@ export default function RadiologyHome({children}) {
   // }
 
   useEffect(() => {
-    if (selectedStore) {
+    if (!selectedStore) {
       handleChangeStore();
     }
     return () => {};

@@ -23,7 +23,7 @@ export default function TheatreHome({children}) {
   // };
 
   useEffect(() => {
-    if (selectedStore) {
+    if (!selectedStore) {
       handleChangeStore();
     }
     return () => {};

@@ -22,7 +22,7 @@ export default function FinacneHome({children}) {
 
   useEffect(() => {
     console.log("starting up Finance module");
-    if (selectedStore) {
+    if (!selectedStore) {
       handleChangeStore();
     }
     return () => {};

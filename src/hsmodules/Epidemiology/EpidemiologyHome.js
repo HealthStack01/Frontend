@@ -23,7 +23,7 @@ export default function EpidemiologyHome({children}) {
 
   useEffect(() => {
     console.log("starting up epidemiology module");
-    if (selectedStore) {
+    if (!selectedStore) {
       handleChangeStore();
     }
     return () => {};
