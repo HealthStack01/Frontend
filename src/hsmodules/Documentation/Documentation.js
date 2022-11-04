@@ -14,7 +14,7 @@ import EncounterMain from "./EncounterMain";
 import EncounterRight from "./EncounterRight";
 import PatientProfile from "../Client/PatientProfile";
 import ModalBox from "../../components/modal";
-import {Grid} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -27,6 +27,7 @@ export default function Documentation({standalone}) {
   //const {state,setState}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
+  gi;
   const [showModal, setShowModal] = useState(false);
 
   //let { path, url } = useRouteMatch();
