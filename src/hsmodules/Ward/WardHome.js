@@ -3,14 +3,53 @@ import React, {useState, useEffect, useContext} from "react";
 import Store, {StoreList} from "./Clinic";
 import {UserContext, ObjectContext} from "../../context";
 import {Outlet} from "react-router-dom";
+import ModalBox from "../../components/modal";
+import {Box} from "@mui/material";
+import Ward, {WardList} from "./Ward";
 
 export default function WardHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
-  const handleCloseModal = () => {
-    state.showStoreModal = "modal";
-    setState(state);
-    console.log(state.showStoreModal);
+  const {user, setUser} = useContext(UserContext);
+  // eslint-disable-next-line
+  const [selectedWard, setSelectedWard] = useState(
+    state.WardModule.selectedWard
+  );
+  const [showModal, setShowModal] = useState(false);
+
+  // const handleCloseModal = () => {
+  //   state.showStoreModal = "modal";
+  //   setState(state);
+  //   console.log(state.showStoreModal);
+  // };
+
+  useEffect(() => {
+    // console.log("starting up Client module")
+    if (!selectedWard) {
+      handleChangeClinic();
+    }
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    setSelectedWard(state.WardModule.selectedWard);
+
+    const newEmployeeLocation = {
+      locationName: state.WardModule.selectedWard.name,
+      locationType: "Ward",
+      locationId: state.WardModule.selectedWard._id,
+      facilityId: user.currentEmployee.facilityDetail._id,
+      facilityName: user.currentEmployee.facilityDetail.facilityName,
+    };
+    setState(prevstate => ({
+      ...prevstate,
+      employeeLocation: newEmployeeLocation,
+    }));
+  }, [state.WardModule.selectedWard]);
+
+  const handleChangeClinic = async () => {
+    await setShowModal(true);
+    // console.log( showModal)
   };
 
   return (
@@ -25,6 +64,19 @@ export default function WardHome({children}) {
           </div>
         </div>
         <div className="layout__content-main">
+          <ModalBox open={showModal} onClick={() => setShowModal(false)}>
+            <Box
+              sx={{
+                width: "600px",
+                maxHeight: "450px",
+              }}
+            >
+              <WardList
+                standalone={true}
+                closeModal={() => setShowModal(false)}
+              />
+            </Box>
+          </ModalBox>
           {children}
           <Outlet />
         </div>
