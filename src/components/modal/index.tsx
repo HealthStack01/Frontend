@@ -1,26 +1,26 @@
-import {Box, IconButton} from "@mui/material";
-import Fade from "@mui/material/Fade";
-import Modal from "@mui/material/Modal";
-import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, IconButton } from '@mui/material';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
   header?: string;
-  width?: "string";
+  // width?: "string";
 }
 const style = {
-  minWidth: "400px",
-  maxWidth: "95vw",
-  minHeight: "400px",
-  maxHeight: "95vh",
-  bgcolor: "#FAFAFA",
+  minWidth: '800px',
+  maxWidth: '95vw',
+  minHeight: '400px',
+  maxHeight: '95vh',
+  bgcolor: '#FAFAFA',
   boxShadow: 24,
   p: 4,
-  borderRadius: "6px",
-  overflow: "hidden",
+  borderRadius: '6px',
+  overflow: 'hidden',
   //minWidth: "100px !important",
 };
 
@@ -29,12 +29,12 @@ const ModalBox: React.FC<ModalProps> = ({
   onClose,
   children,
   header,
-  width = "auto",
+  // width = "auto",
 }) => (
   <>
     <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
+      aria-labelledby='transition-modal-title'
+      aria-describedby='transition-modal-description'
       open={open}
       onClose={onClose}
       closeAfterTransition
@@ -43,27 +43,36 @@ const ModalBox: React.FC<ModalProps> = ({
         timeout: 500,
       }}
       sx={{
-        width: "100%",
-        display: "grid",
-        placeItems: "center ",
+        width: '100%',
+        display: 'grid',
+        placeItems: 'center ',
       }}
     >
       <Fade in={open}>
         <Box sx={style}>
           <div
             style={{
-              height: "100%",
-              width: width,
-              overflowY: "hidden",
+              height: '100%',
+              width: '100%',
+              overflowY: 'auto',
             }}
           >
-            {header && header !== "" && (
-              <Box
+            <Box
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+              mb={2}
+            >
+              <h1
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  color: '#33415C',
+                  fontWeight: '500',
+                  lineHeight: '1.5',
+                  fontSize: '24px',
+                  fontStyle: 'SemiBold',
                 }}
                 mb={2}
               >

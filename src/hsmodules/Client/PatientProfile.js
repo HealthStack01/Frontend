@@ -18,7 +18,7 @@ import ModalBox from "../../components/modal";
 import Button from "../../components/buttons/Button";
 import {Box} from "@mui/system";
 
-import ClientLastVisit from "./ClientLastVisit";
+import ClientLastVisit from "./ClientVisitationHistory";
 import ClientTasks from "./ClientTasks";
 import ClientHistory from "./ClientHistory";
 import ClientIntolerance from "./ClientIntolerance";
@@ -246,10 +246,12 @@ export default function PatientProfile() {
         onClose={() => setMedicationModal(false)}
         header="Client Medications"
       >
+        <Box sx={{width: "95vw"}}>
         <DrugAdminList
           standalone="true"
           onCloseModal={() => setMedicationModal(false)}
         />
+        </Box>
       </ModalBox>
 
       {/* ******************************************* TASKS ********************************************** */}
@@ -257,7 +259,7 @@ export default function PatientProfile() {
       <ModalBox
         open={taskModal}
         onClose={() => setTaskModal(false)}
-        header="Client Tasks"
+        header="Tasks"
       >
         <ClientTasks closeModal={() => setTaskModal(false)} />
       </ModalBox>
@@ -267,7 +269,7 @@ export default function PatientProfile() {
       <ModalBox
         open={problemModal}
         onClose={() => setProblemModal(false)}
-        header="Client Problems"
+        header="Problem List"
       >
         <ClientProblems closeModal={() => setProblemModal(false)} />
       </ModalBox>
@@ -277,7 +279,7 @@ export default function PatientProfile() {
       <ModalBox
         open={historyModal}
         onClose={() => setHistoryModal(false)}
-        header="Clinet History"
+        header="Client History"
       >
         <ClientHistory closeModal={() => setHistoryModal(false)} />
       </ModalBox>
@@ -287,7 +289,7 @@ export default function PatientProfile() {
       <ModalBox
         open={intoleranceModal}
         onClose={() => setIntoleranceModal(false)}
-        header="Client Intolerance"
+        header="Drug Intolerance"
       >
         <ClientIntolerance closeModal={() => setIntoleranceModal(false)} />
       </ModalBox>

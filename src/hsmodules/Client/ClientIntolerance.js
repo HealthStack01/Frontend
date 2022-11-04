@@ -3,6 +3,7 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
+import Input from "../../components/inputs/basic/Input";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {PageWrapper} from "../../ui/styled/styles";
@@ -12,6 +13,10 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
+import {MdCancel} from "react-icons/md";
+import {Box, Grid} from "@mui/material";
+import ModalHeader from "./ui-components/modal";
+import CustomSelect from "../../components/inputs/basic/Select"
 import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -166,7 +171,7 @@ export function BandCreate() {
           <p className="card-header-title">Create Band</p>
         </div>
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
@@ -177,28 +182,22 @@ export function BandCreate() {
                 </div> */}
             <div className="field">
               <div className="control">
-                <div className="select is-small ">
-                  <select
-                    name="bandType"
-                    {...register("bandtype", {required: true})}
-                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
-                  >
-                    <option value="">Choose Band Type </option>
-                    {bandTypeOptions.map((option, i) => (
-                      <option key={i} value={option}>
-                        {" "}
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                
+                <CustomSelect
+                  label="choose band type"
+                  name="bandType"           
+                  options={bandTypeOptions}
+                  register={register("bandtype", {required:true})}
+                  onChange={(e)=>handleChangeMode(e.target.value)}
+            />
               </div>
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
+                <Input
                   className="input is-small"
-                  {...register("name", {required: true})}
+                  register={register("name", {required:true})}
+          
                   name="name"
                   type="text"
                   placeholder="Name of Band"
@@ -210,9 +209,10 @@ export function BandCreate() {
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
+                <Input
                   className="input is-small"
-                  {...register("description", {required: true})}
+                  register={register("description", {required:true})}
+            
                   name="description"
                   type="text"
                   placeholder="Description of Band"
@@ -257,9 +257,10 @@ export function BandCreate() {
                 clear={success}
               />
               <p className="control has-icons-left " style={{display: "none"}}>
-                <input
+                <Input
                   className="input is-small"
-                  {...register("facility", {required: true})}
+                  register={register("facility", {required:true})}
+             
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -315,7 +316,7 @@ export function BandCreate() {
             </div> */}
             <div className="field">
               <p className="control">
-                <button className="button is-success is-small">Create</button>
+                <Button>Create</Button>
               </p>
             </div>
           </form>
@@ -523,7 +524,7 @@ export function BandList({showCreateModal, showDetailModal}) {
                     </div>
                   )}
                   <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                    List of Bands
+                    List of Drug Intolerance
                   </h2>
                 </div>
 
@@ -587,128 +588,70 @@ export function BandDetail({showModifyModal}) {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Band Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Name:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {Band.name}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Band Type:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="BandType">
-                    {Band.bandType}{" "}
-                  </span>
-                </td>
-              </tr>
-              {/*   <tr>
-                    <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>Profession: 
-                
-                    
-                    </label>
-                    </td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandCity">{Band.profession}</span> 
-                </td>
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>Phone:           
-                    
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft "  name="BandContactPhone" >{Band.phone}</span>
-                        </td>
-                  </tr>
-                    <tr><td>
-            
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>Email:                     
-                    
-                         </label></td><td>
-                         <span className="is-size-7 padleft "  name="BandEmail" >{Band.email}</span>
-                         </td>
-             
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i></span>Department:
-                    
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft "  name="BandOwner">{Band.department}</span>
-                    </td>
-               
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>Departmental Unit:              
-                    
-                </label></td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandType">{Band.deptunit}</span>
-                </td>
-              
-                </tr> */}
-
-              {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-size-7 padleft "  name= "BandCategory">{Band.BandCategory}</span>
-                </label>
-                 </div> */}
-            </tbody>
-          </table>
-
-          <div className="field mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <ModalHeader text={"Client Details"} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MdCancel
+            onClick={() => {
+              setShowModal(false),
+                setState(prevstate => ({
+                  ...prevstate,
+                  BandModule: {
+                    selectedBand: {},
+                    show: "list",
+                  },
+                }));
+            }}
+            style={{
+              fontSize: "2rem",
+              color: "crimson",
+              cursor: "pointer",
+              float: "right",
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={4}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Name:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Band?.name}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: " #0364FF",
+              fontSize: "20px",
+              marginRight: ".8rem",
+            }}
+          >
+            Band Type:
+          </span>
+          <span style={{color: " #000000", fontSize: "20px"}}>
+            {Band?.bandType}
+          </span>
+        </Grid>
+          
+              <Button
+                sx={{fontSize: "14px", fontWeight: "600", width:"80px"}}
                 onClick={handleEdit}
               >
                 Edit
-              </button>
-            </p>
-          </div>
+              </Button>
+           
           {error && <div className="message"> {message}</div>}
-        </div>
-      </div>
+       </Grid>
     </>
   );
 }
@@ -873,13 +816,13 @@ export function BandModify() {
                 {" "}
                 Name
                 <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", {required: true})}
-                    name="name"
-                    type="text"
-                    placeholder="Name"
-                  />
+                <Input
+                  className="input is-small"
+                  register={register("name", {required:true})}
+                  name="name"
+                  type="text"
+                  placeholder="Name of Band"
+                />
                   <span className="icon is-small is-left">
                     <i className="fas fa-hospital"></i>
                   </span>
@@ -890,9 +833,9 @@ export function BandModify() {
               <label className="label is-small">
                 Band Type
                 <p className="control has-icons-left has-icons-right">
-                  <input
+                  <Input
                     className="input is-small "
-                    {...register("x", {required: true})}
+                    {...register("bandType", {required: true})}
                     disabled
                     name="bandType"
                     type="text"
@@ -904,97 +847,34 @@ export function BandModify() {
                 </p>
               </label>
             </div>
-            {/* <div className="field">
-            <label className="label is-small">Profession
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Phone
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder="Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-                </label>
-                 </div>
-            <div className="field">
-            <label className="label is-small">Email
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Band Email"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-                </label>
-                </div>
-            <div className="field">
-            <label className="label is-small">Department
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                    </span>
-                </p>
-                </label>
-                {errors.department && <span>This field is required</span>}
-                </div>
-            <div className="field">
-            <label className="label is-small">Departmental Unit
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Departmental Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>
-                </p>
-                </label>
-                </div> */}
-            {/*  <div className="field">
-            <label className="label is-small">Category
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="BandCategory" type="text" placeholder="Band Category"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-                </label>
-            </div> */}
+           
           </form>
 
-          <div className="field  is-grouped mt-2">
+          <Box sx={{display:"flex"}}>
             <p className="control">
-              <button
+              <Button
                 type="submit"
-                className="button is-success is-small"
                 onClick={handleSubmit(onSubmit)}
               >
                 Save
-              </button>
+              </Button>
             </p>
             <p className="control">
-              <button
-                className="button is-warning is-small"
+              <Button
                 onClick={handleCancel}
               >
                 Cancel
-              </button>
+              </Button>
             </p>
             <p className="control">
-              <button
-                className="button is-danger is-small"
+              <Button
                 onClick={() => handleDelete()}
                 type="delete"
               >
                 Delete
-              </button>
+              </Button>
             </p>
-          </div>
+          </Box>
         </div>
       </div>
     </>

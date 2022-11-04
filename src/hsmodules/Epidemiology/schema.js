@@ -27,6 +27,17 @@ export const syptomSchema = [
       required: true,
       inputType: "TEXT",
     },
+
+    {
+      name: "Disease",
+      key: "disease",
+      description: "disease",
+      selector: row => row.disease,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
   
     {
       name: "Required",

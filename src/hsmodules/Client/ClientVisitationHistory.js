@@ -11,7 +11,6 @@ import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
-import ModalHeader from "./ui-components/Heading/modalHeader";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
 import {PageWrapper} from "../../ui/styled/styles";
@@ -19,19 +18,19 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {AppointmentSchema} from "./schema";
+import {AppointmentSchema} from "../Appointment/schema";
 import Switch from "../../components/switch";
 import {BsFillGridFill, BsList} from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "./ui-components/modal";
-import ModalHeader from "./ui-components/Heading/modalHeader";
+import ModalHeader from "./ui-components/modal";
 import {Box, Grid} from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import {MdCancel} from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function CrmAppointments() {
+export default function ClientVisitationHistory() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -308,6 +307,14 @@ export function AppointmentCreate({showModal, setShowModal}) {
                 clear={success}
               />
             </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <LocationSearch
                 getSearchfacility={getSearchfacility1}
@@ -317,16 +324,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
-              <EmployeeSearch
-                getSearchfacility={getSearchfacility2}
-                clear={success2}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
                 {appClass.map((c, i) => (
                   <label
                     className=" is-small"
@@ -755,7 +753,7 @@ export function ClientList({showModal, setShowModal}) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+                  {/* <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
                     Appointments
                   </h2>
                   <DatePicker
@@ -766,7 +764,7 @@ export function ClientList({showModal, setShowModal}) {
                     isClearable
                   />
                   {/* <SwitchButton /> */}
-                  <Switch>
+                  {/* <Switch>
                     <button
                       value={value}
                       onClick={() => {
@@ -785,7 +783,7 @@ export function ClientList({showModal, setShowModal}) {
                     >
                       <BsFillGridFill style={{fontSize: "1rem"}} />
                     </button>
-                  </Switch>
+                  </Switch>  */}
                 </div>
 
                 {handleCreateNew && (
@@ -1041,7 +1039,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="firstname"
                       type="text"
                     >
-                      First Name{" "}
+                      First Name{' '}
                     </label>
                     <label className="is-size-7 my-0 ">
                       {Client.firstname}
@@ -1061,8 +1059,8 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="middlename"
                       type="text"
                     >
-                      {" "}
-                      Middle Name{" "}
+                      {' '}
+                      Middle Name{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.middlename}
@@ -1102,10 +1100,10 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="dob"
                       type="text"
                     >
-                      Date of Birth{" "}
+                      Date of Birth{' '}
                     </label>
                     <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
+                      {new Date(Client.dob).toLocaleDateString('en-GB')}
                     </label>
                     <span className="icon is-small is-left">
                       <i className="nop-envelope"></i>
@@ -1121,7 +1119,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="gender"
                       type="text"
                     >
-                      Gender{" "}
+                      Gender{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.gender}</label>
                     <span className="icon is-small is-left">
@@ -1138,7 +1136,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="maritalstatus"
                       type="text"
                     >
-                      Marital Status{" "}
+                      Marital Status{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.maritalstatus}
@@ -1157,7 +1155,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="mrn"
                       type="text"
                     >
-                      Medical Records Number{" "}
+                      Medical Records Number{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.mrn}</label>
                     <span className="icon is-small is-left">
@@ -1178,7 +1176,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="religion"
                       type="text"
                     >
-                      Religion{" "}
+                      Religion{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.religion}</label>
                     <span className="icon is-small is-left">
@@ -1195,7 +1193,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="profession"
                       type="text"
                     >
-                      Profession{" "}
+                      Profession{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.profession}
@@ -1214,7 +1212,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="phone"
                       type="text"
                     >
-                      {" "}
+                      {' '}
                       Phone No
                     </label>
                     <label className="is-size-7 my-0">{Client.phone}</label>
@@ -1233,7 +1231,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="email"
                       type="email"
                     >
-                      Email{" "}
+                      Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.email}</label>
                     <span className="icon is-small is-left">
@@ -1253,7 +1251,7 @@ export function ClientDetail({showModal, setShowModal}) {
                   name="address"
                   type="text"
                 >
-                  Residential Address{" "}
+                  Residential Address{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.address}</label>
                 <span className="icon is-small is-left">
@@ -1272,7 +1270,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="city"
                       type="text"
                     >
-                      Town/City{" "}
+                      Town/City{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.city}</label>
                     <span className="icon is-small is-left">
@@ -1289,7 +1287,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="lga"
                       type="text"
                     >
-                      Local Govt Area{" "}
+                      Local Govt Area{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.lga}</label>
                     <span className="icon is-small is-left">
@@ -1306,7 +1304,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="state"
                       type="text"
                     >
-                      State{" "}
+                      State{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.state}</label>
                     <span className="icon is-small is-left">
@@ -1323,7 +1321,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="country"
                       type="text"
                     >
-                      Country{" "}
+                      Country{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.country}</label>
                     <span className="icon is-small is-left">
@@ -1344,7 +1342,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="bloodgroup"
                       type="text"
                     >
-                      Blood Group{" "}
+                      Blood Group{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.bloodgroup}
@@ -1364,7 +1362,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="genotype"
                       type="text"
                     >
-                      Genotype{" "}
+                      Genotype{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.genotype}</label>
                     <span className="icon is-small is-left">
@@ -1381,7 +1379,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="disabilities"
                       type="text"
                     >
-                      Disabilities{" "}
+                      Disabilities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.disabilities}
@@ -1405,7 +1403,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="allergies"
                       type="text"
                     >
-                      Allergies{" "}
+                      Allergies{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.allergies}</label>
                     <span className="icon is-small is-left">
@@ -1422,7 +1420,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="comorbidities"
                       type="text"
                     >
-                      Co-mobidities{" "}
+                      Co-mobidities{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.comorbidities}
@@ -1443,7 +1441,7 @@ export function ClientDetail({showModal, setShowModal}) {
                   name="clientTags"
                   type="text"
                 >
-                  Tags{" "}
+                  Tags{' '}
                 </label>
                 <label className="is-size-7 my-0">{Client.clientTags}</label>
                 <span className="icon is-small is-left">
@@ -1460,7 +1458,7 @@ export function ClientDetail({showModal, setShowModal}) {
                   name="specificDetails"
                   type="text"
                 >
-                  Specific Details about Client{" "}
+                  Specific Details about Client{' '}
                 </label>
                 <label className="is-size-7 my-0">
                   {Client.specificDetails}
@@ -1517,7 +1515,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="nok_email"
                       type="email"
                     >
-                      Next of Kin Email{" "}
+                      Next of Kin Email{' '}
                     </label>
                     <label className="is-size-7 my-0">{Client.nok_email}</label>
                     <span className="icon is-small is-left">
@@ -1534,7 +1532,7 @@ export function ClientDetail({showModal, setShowModal}) {
                       name="nok_relationship"
                       type="text"
                     >
-                      Next of Kin Relationship"{" "}
+                      Next of Kin Relationship"{' '}
                     </label>
                     <label className="is-size-7 my-0">
                       {Client.nok_relationship}
@@ -2187,6 +2185,15 @@ export function ClientSearch({getSearchfacility, clear}) {
     }
     return () => {};
   }, [clear]);
+  // map faclilities and return the firstname and lastname
+  const mapFacilities = () => {
+    const allFacilities = facilities.map(facility => {
+      return {
+        value: facility._id,
+        label: facility.firstname + " " + facility.lastname,
+      };
+    });
+  };
 
   return (
     <div>

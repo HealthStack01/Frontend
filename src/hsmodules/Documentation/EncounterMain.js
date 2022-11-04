@@ -764,7 +764,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
         >
           <DocumentClassList
             standalone="true"
-            closeModal={() => setShowModal(false)}
           />
         </ModalBox>
 
