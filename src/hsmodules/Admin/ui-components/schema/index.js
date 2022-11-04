@@ -43,15 +43,19 @@ export const createBandSchema = yup.object().shape({
   name: yup.string().required('Enter the  name of the band!'),
   bandType: yup.string().required('Enter the band type!'),
 });
+export const createLocationSchema = yup.object().shape({
+  name: yup.string().required('Enter the  name of the location!'),
+  locationType: yup.string().required('Enter the location type!'),
+});
 
 export const createEmployeeSchema = yup.object().shape({
   firstname: yup.string().required('First Name is required!'),
-  middlename: yup.string().required('Middle Name is required!'),
+  middlename: yup.string(),
   lastname: yup.string().required('Middle Name is required!'),
   profession: yup.string().required('Profession is required!'),
   phone: yup.string().required('Phone Number is required!'),
   email: yup.string().required('Email is required!'),
   department: yup.string().required('Department is required!'),
-  depunit: yup.string().required('Department Unit is required!'),
+  depunit: yup.string(),
   password: yup.string().required('Password is required!'),
 });

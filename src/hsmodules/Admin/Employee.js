@@ -22,6 +22,8 @@ import PasswordInput from '../../components/inputs/basic/Password';
 import { createEmployeeSchema } from './ui-components/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { EmployeeForm } from './EmployeeForm';
+import EmployeeView from './EmployeeView';
+import { Portal } from '@mui/material';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -281,6 +283,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
 
   const handleCreateNew = async () => {
     const newEmployeeModule = {
@@ -310,6 +313,14 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
     }));
     //console.log(state)
     showDetailModal();
+  };
+  const handleRowClicked = row => {
+    setSelectedEmployee(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
   };
 
   const handleSearch = val => {
@@ -496,6 +507,16 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
     <>
       {user ? (
         <>
+          <Portal>
+            <ModalBox open={open} onClose={handleCloseModal} width='100%'>
+              <EmployeeView
+                employee={selectedEmployee}
+                open={open}
+                setOpen={handleCloseModal}
+              />
+            </ModalBox>
+          </Portal>
+
           <PageWrapper
             style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
@@ -528,7 +549,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={handleRow}
+                onRowClicked={handleRowClicked}
                 progressPending={loading}
               />
             </div>

@@ -30,7 +30,9 @@ const EmployeeView = ({ open, setOpen, employee }) => {
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
   const result = localStorage.getItem('user');
-  const data = JSON.parse(result);
+  const user = JSON.parse(result);
+
+  console.log('Employee>>>>>', employee);
 
   const {
     register,
@@ -41,36 +43,40 @@ const EmployeeView = ({ open, setOpen, employee }) => {
     resolver: yupResolver(createEmployeeSchema),
 
     defaultValues: {
-      firstname: employee.firstname,
-      middlename: employee.middlename,
-      lastname: employee.lastname,
-      profession: employee.profession,
-      phone: employee.phone,
-      email: employee.email,
-      department: employee.department,
-      depunit: employee.depunit,
-      password: employee.password,
-      facility: data.currentEmployee.facility,
+      firstname: employee?.firstname,
+      middlename: employee?.middlename,
+      lastname: employee?.lastname,
+      profession: employee?.profession,
+      phone: employee?.phone,
+      email: employee?.email,
+      department: employee?.department,
+      depunit: employee?.depunit,
+      password: employee?.password,
+      facility: employee?.facility,
     },
   });
 
   useEffect(() => {
     reset({
-      firstname: employee.firstname,
-      middlename: employee.middlename,
-      lastname: employee.lastname,
-      profession: employee.profession,
-      phone: employee.phone,
-      email: employee.email,
-      department: employee.department,
-      depunit: employee.depunit,
-      facility: data.currentEmployee.facility,
+      firstname: employee?.firstname,
+      middlename: employee?.middlename,
+      lastname: employee?.lastname,
+      profession: employee?.profession,
+      phone: employee?.phone,
+      email: employee?.email,
+      department: employee?.department,
+      depunit: employee?.depunit,
+      password: employee?.password,
+      facility: employee?.facility,
     });
   }, []);
   const submit = async (data, e) => {
     setLoading(true);
     e.preventDefault();
     setSuccess(false);
+
+    data.createdby = user._id;
+    data.facility = user.currentEmployee.facility;
 
     await EmployeeServ.patch(employee._id, data)
       .then(res => {
@@ -107,7 +113,7 @@ const EmployeeView = ({ open, setOpen, employee }) => {
         <HeadWrapper>
           <div>
             <h2>Employee Detail</h2>
-            <span>Employee detail of {employee.name}</span>
+            <span>Employee detail of {employee?.firstname}</span>
           </div>
           <BottomWrapper>
             <Button
@@ -133,81 +139,79 @@ const EmployeeView = ({ open, setOpen, employee }) => {
         <form onSubmit={handleSubmit(submit)}>
           <ToastContainer theme='colored' />
 
-          <GridWrapper>
-            {!editing ? (
-              <ViewText label='First Name' text={employee.firstname} />
-            ) : (
-              <Input
-                label='First Name'
-                register={register('firstname')}
-                errorText={errors?.firstname?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Middle Name' text={employee.middlename} />
-            ) : (
-              <Input
-                label='Middle Name'
-                register={register('middlename')}
-                errorText={errors?.middlename?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Last Name' text={employee.lastname} />
-            ) : (
-              <Input
-                label='Last Name'
-                register={register('lastname')}
-                errorText={errors?.lastname?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Profession' text={employee.profession} />
-            ) : (
-              <Input
-                label='Profession'
-                register={register('profession')}
-                errorText={errors?.profession?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Phone Number' text={employee.phone} />
-            ) : (
-              <Input
-                label='Phone Number'
-                register={register('phone')}
-                errorText={errors?.phone?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Email' text={employee.email} />
-            ) : (
-              <Input
-                label='Email'
-                register={register('email')}
-                type='email'
-                errorText={errors?.email?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Department' text={employee.department} />
-            ) : (
-              <Input
-                label='Department'
-                register={register('department')}
-                errorText={errors?.department?.message}
-              />
-            )}
-            {!editing ? (
-              <ViewText label='Department Unit' text={employee.depunit} />
-            ) : (
-              <Input
-                label='Department Unit'
-                register={register('depunit')}
-                errorText={errors?.depunit?.message}
-              />
-            )}
-          </GridWrapper>
+          {!editing ? (
+            <ViewText label='First Name' text={employee?.firstname} />
+          ) : (
+            <Input
+              label='First Name'
+              register={register('firstname')}
+              errorText={errors?.firstname?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Middle Name' text={employee?.middlename} />
+          ) : (
+            <Input
+              label='Middle Name'
+              register={register('middlename')}
+              errorText={errors?.middlename?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Last Name' text={employee?.lastname} />
+          ) : (
+            <Input
+              label='Last Name'
+              register={register('lastname')}
+              errorText={errors?.lastname?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Profession' text={employee?.profession} />
+          ) : (
+            <Input
+              label='Profession'
+              register={register('profession')}
+              errorText={errors?.profession?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Phone Number' text={employee?.phone} />
+          ) : (
+            <Input
+              label='Phone Number'
+              register={register('phone')}
+              errorText={errors?.phone?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Email' text={employee?.email} />
+          ) : (
+            <Input
+              label='Email'
+              register={register('email')}
+              type='email'
+              errorText={errors?.email?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Department' text={employee?.department} />
+          ) : (
+            <Input
+              label='Department'
+              register={register('department')}
+              errorText={errors?.department?.message}
+            />
+          )}
+          {!editing ? (
+            <ViewText label='Department Unit' text={employee?.depunit} />
+          ) : (
+            <Input
+              label='Department Unit'
+              register={register('depunit')}
+              errorText={errors?.depunit?.message}
+            />
+          )}
 
           {editing && (
             <BottomWrapper>
