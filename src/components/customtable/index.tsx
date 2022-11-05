@@ -17,6 +17,7 @@ interface Props {
   progressPending?: any;
   onSelectedRowsChange?: any;
   noHeader?: boolean;
+  conditionalRowStyles?: [];
 }
 
 const CustomLoader = () => (
@@ -24,19 +25,6 @@ const CustomLoader = () => (
     <img src="/loading.gif" width={400} />
   </div>
 );
-
-const conditionalRowStyles = [
-  {
-    when: row => row.quantity > 100,
-    style: {
-      backgroundColor: "green",
-      color: "white",
-      "&:hover": {
-        cursor: "pointer",
-      },
-    },
-  },
-];
 
 const CustomTable: React.FC<Props> = ({
   title,
@@ -51,6 +39,7 @@ const CustomTable: React.FC<Props> = ({
   selectable = false,
   onSelectedRowsChange,
   noHeader = true,
+  conditionalRowStyles = [],
 }) => {
   return (
     <DataTable

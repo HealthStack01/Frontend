@@ -317,6 +317,7 @@ export function ClientSearch({getSearchfacility, clear}) {
                   background: "#ffffff",
                   width: "100%",
                   //boxShadow: "3",
+                  zIndex: "100",
                   border: "1px solid lightgray",
                 }}
               >
