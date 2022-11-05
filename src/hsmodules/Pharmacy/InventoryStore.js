@@ -76,7 +76,6 @@ export default function Inventory() {
 
       default:
         null;
-      // code block
     }
   };
 
@@ -107,6 +106,14 @@ export default function Inventory() {
       // code block
     }
   };
+
+  // const handleCloseModal = () => {
+  //   setModifyModal(false)
+  //   setRedorderModal(false)
+  //   setBatchModal(false)
+  //   setAuditModal(false)
+  //   setDetailModal(false)
+  // }
 
   return (
     <section>
@@ -148,7 +155,11 @@ export default function Inventory() {
         />
       </ModalBox>
 
-      <ModalBox open={auditModal}>
+      <ModalBox
+        open={auditModal}
+        onClose={() => handleCloseModals("audit")}
+        header="Create ProductEntry: Initialization, Purchase Invoice, Audit"
+      >
         <ProductEntryCreate Inventory={selectedInventory} />
       </ModalBox>
     </section>
@@ -1443,9 +1454,10 @@ export function InventoryBatches({closeModal}) {
         fontSize: "0.85rem",
         padding: "0 15px",
         color: "#000000",
+        backgroundColor: "#fff",
       }}
     >
-      {value}
+      {value === "" ? "Pick Date" : value}
     </div>
   ));
 
