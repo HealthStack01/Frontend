@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { PageWrapper } from "../../ui/styled/styles";
+import * as yup from "yup";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
@@ -19,6 +20,10 @@ import Input from "./ui-components/inputs/basic/Input";
 import { BottomWrapper, GrayWrapper, GridWrapper } from "../app/styles";
 import { HeadWrapper } from "../app/styles";
 import ViewText from "../../components/viewtext";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Portal } from "@mui/material";
+
+import LocationView from "./LocationView";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -271,6 +276,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
 
   const handleCreateNew = async () => {
     const newLocationModule = {
@@ -300,6 +306,13 @@ export function LocationList({ showCreateModal, showDetailModal }) {
     }));
     showDetailModal();
     //console.log(state)
+  };
+  const handleRowClicked = (row) => {
+    setSelectedLocation(row);
+    setOpen(true);
+  };
+  const handleCloseModal = () => {
+    setOpen(false);
   };
 
   const handleSearch = (val) => {
@@ -412,6 +425,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      validator: yup.string().required("Enter name of Location"),
     },
     {
       name: "Location Type",
@@ -422,6 +436,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
       required: true,
       inputType: "SELECT_LIST",
       options: ["Front Desk", "Clinic", "Store", "Laboratory", "Finance"],
+      validator: yup.string().required("Choose a Location Type"),
     },
   ];
 
@@ -429,6 +444,15 @@ export function LocationList({ showCreateModal, showDetailModal }) {
     <>
       {user ? (
         <>
+          <Portal>
+            <ModalBox open={open} onClose={handleCloseModal} width="100%">
+              <LocationView
+                location={selectedLocation}
+                open={open}
+                setOpen={handleCloseModal}
+              />
+            </ModalBox>
+          </Portal>
           <PageWrapper
             style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
@@ -461,7 +485,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={handleRow}
+                onRowClicked={handleRowClicked}
                 progressPending={loading}
               />
             </div>
@@ -858,7 +882,7 @@ export function LocationModify() {
             shouldValidate: true,
             shouldDirty: true
           })) */
-  const onSubmit = (data,e) => {
+  const onSubmit = (data, e) => {
     e.preventDefault();
 
     setSuccess(false);

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
@@ -284,29 +283,12 @@ export function BandList({ showCreateModal }) {
         await setFacilities(findBand.data);
       }
     }
-    /*   .then((res)=>{
-                console.log(res)
-                    setFacilities(res.data)
-                    setMessage(" Band  fetched successfully")
-                    setSuccess(true)
-                })
-                .catch((err)=>{
-                    setMessage("Error creating Band, probable network issues "+ err )
-                    setError(true)
-                }) */
   };
 
   useEffect(() => {
     if (user) {
       getFacilities();
     } else {
-      /* const localUser= localStorage.getItem("user")
-                    const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
-                    fetchUser(user1)
-                    console.log(user)
-                    getFacilities(user) */
     }
     BandServ.on("created", (obj) => getFacilities());
     BandServ.on("updated", (obj) => getFacilities());

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
 import ModuleList from "./ModuleList";
-import { toast } from "bulma-toast";
+import { toast, ToastContainer } from "react-toastify";
 import * as yup from "yup";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
@@ -17,7 +17,14 @@ import Input from "./ui-components/inputs/basic/Input";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
-import { GridWrapper } from "../app/styles";
+import { BottomWrapper, GridWrapper } from "../app/styles";
+import PasswordInput from "../../components/inputs/basic/Password";
+import { createEmployeeSchema } from "./ui-components/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { EmployeeForm } from "./EmployeeForm";
+import EmployeeView from "./EmployeeView";
+import { Portal } from "@mui/material";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -61,18 +68,27 @@ export default function Employee() {
 
       <EmployeeForm open={createModal} setOpen={handleHideCreateModal} />
 
-          <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <div>
-              <EmployeeDetail showModifyModal={handleModifyModal} />
-            </div>
-          </ModalBox>
+      <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+        <EmployeeDetail showModifyModal={handleModifyModal} />
+      </ModalBox>
 
-          <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-            <EmployeeModify />
-          </ModalBox>
+      <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+        <EmployeeModify />
+      </ModalBox>
+      <section className="section remPadTop">
+        {/*  <div className="level">
+            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Employee  Module</span></div>
+            </div> */}
+        <div className="columns ">
+          <div className="column is-8 ">
+            <EmployeeList
+              showCreateModal={handleCreateModal}
+              showDetailModal={handleShowDetailModal}
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
@@ -86,6 +102,7 @@ export function EmployeeCreate() {
   } = useForm({ resolver: yupResolver(createEmployeeSchema) }); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
@@ -129,9 +146,10 @@ export function EmployeeCreate() {
 
     if (user.currentEmployee) {
     }
-    EmployeeServ.create(data)
+
+    setLoading(true);
+    await EmployeeServ.create(data)
       .then((res) => {
-        //console.log(JSON.stringify(res))
         e.target.reset();
         setSuccess(true);
         toast.success(`Employee successfully created`);
@@ -139,108 +157,107 @@ export function EmployeeCreate() {
         setSuccess(false);
       })
       .catch((err) => {
-        toast({
-          message: "Error creating employee " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Sorry, You weren't able to create a employee. ${err}`);
       });
+
+    setLoading(false);
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Employee</p>
-        </div>
-        <div className="card-content vscrollable">
-          {success && <div className="message"> {message}</div>}
-          {error && <div className="is-danger"> {message}</div>}
-          <form onSubmit={handleSubmit(onSubmit)}>
-              <Input
-                {...register("firstname", { required: true })}
-                name="firstname"
-                type="text"
-                placeholder="First Name"
-              />
-              <Input
-                {...register("lastname", { required: true })}
-                name="lastname"
-                type="text"
-                placeholder="Last Name"
-              />
-              <Input
-                {...register("profession", { required: true })}
-                name="profession"
-                type="text"
-                placeholder="Profession"
-              />
-              <Input
-                {...register("phone", { required: true })}
-                name="phone"
-                type="text"
-                placeholder="Phone No"
-              />
-              <Input
-                {...register("email", { required: true })}
-                name="email"
-                type="text"
-                placeholder="Email"
-              />
+      <p className="card-header-title">Create Employee</p>
 
-              <div
-                className="field"
-                style={!user.stacker ? { display: "none" } : {}}
-              >
-                <InputSearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{ display: "none" }}
-                >
-                  <Input
-                    {...register("facility", { required: true })}
-                    name="facility"
-                    type="text"
-                    placeholder="Facility"
-                  />
-                </p>
-              </div>
-              <Input
-                {...register("department", { required: true })}
-                name="department"
-                type="text"
-                placeholder="Department"
-              />
-              <Input
-                {...register("depunit", { required: true })}
-                name="depunit"
-                type="text"
-                placeholder="Department Unit"
-              />
-              <Input
-                {...register("password", { required: true })}
-                name="password"
-                type="text"
-                placeholder="Password"
-              />
-              <Button
-                text={"Attend"}
-                onClick={handleSubmit(onSubmit)}
-                style={{
-                  width: "100px",
-                  backgroundColor: "#0364FF",
-                  fontSize: "18px",
-                }}
-              >
-                Create
-              </Button>
-          </form>
-        </div>
-      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          register={register("firstname")}
+          name="firstname"
+          type="text"
+          label="First Name"
+          placeholder="First Name"
+          errorText={errors?.firstname?.message}
+        />
+        <Input
+          register={register("middlename")}
+          name="middlename"
+          type="text"
+          label="Middle Name"
+          placeholder="Middle Name"
+          errorText={errors?.middlename?.message}
+        />
+        <Input
+          register={register("lastname")}
+          name="lastname"
+          type="text"
+          label="Last Name"
+          placeholder="Last Name"
+          errorText={errors?.lastname?.message}
+        />
+        <Input
+          register={register("profession")}
+          name="profession"
+          type="text"
+          label="Profession"
+          placeholder="Profession"
+          errorText={errors?.profession?.message}
+        />
+        <Input
+          register={register("phone")}
+          name="phone"
+          type="tel"
+          label="Phone No"
+          placeholder="Phone No"
+          errorText={errors?.phone?.message}
+        />
+        <Input
+          register={register("email")}
+          name="email"
+          type="email"
+          label="Email"
+          placeholder="Email"
+          errorText={errors?.email?.message}
+        />
+        {/* <div className='field' style={user.stacker ? { display: 'none' } : {}}>
+          <InputSearch getSearchfacility={getSearchfacility} clear={success} />
+          <p className='control has-icons-left ' style={{ display: 'none' }}>
+            <Input
+              {...register('facility', { required: true })}
+              name='facility'
+              type='text'
+              placeholder='Facility'
+            />
+          </p>
+        </div> */}
+        <Input
+          register={register("department")}
+          name="department"
+          type="text"
+          label="Department"
+          placeholder="Department"
+          errorText={errors?.department?.message}
+        />
+        <Input
+          register={register("depunit")}
+          name="depunit"
+          type="text"
+          label="Department Unit"
+          placeholder="Department Unit"
+          errorText={errors?.depunit?.message}
+        />
+        <PasswordInput
+          register={register("password")}
+          name="password"
+          type="text"
+          label="Password"
+          placeholder="Password"
+          errorText={errors?.password?.message}
+        />
+
+        <BottomWrapper>
+          <Button type="submit" loading={loading}>
+            Create
+          </Button>
+        </BottomWrapper>
+      </form>
     </>
   );
 }
@@ -294,6 +311,14 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
     }));
     //console.log(state)
     showDetailModal();
+  };
+  const handleRowClicked = (row) => {
+    setSelectedEmployee(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
   };
 
   const handleSearch = (val) => {
@@ -480,6 +505,16 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
     <>
       {user ? (
         <>
+          <Portal>
+            <ModalBox open={open} onClose={handleCloseModal} width="100%">
+              <EmployeeView
+                employee={selectedEmployee}
+                open={open}
+                setOpen={handleCloseModal}
+              />
+            </ModalBox>
+          </Portal>
+
           <PageWrapper
             style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
