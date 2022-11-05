@@ -33,6 +33,7 @@ import Input from '../../components/inputs/basic/Input';
 import DataTable from 'react-data-table-component';
 import CheckboxInput from '../../components/inputs/basic/Checkbox';
 import CaseDefinitionForm from './CaseDefinationForm';
+import CaseDefinitionView from './CaseDefinationView';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -75,7 +76,7 @@ export default function CaseDefinition() {
 
       <CaseDefinitionList openCreateModal={handleOpenCreateModal} />
       <ModalBox open={modal} onClose={handleCloseCreateModal}>
-        <CaseDefinitionForm />
+        <CaseDefinitionForm setOpen={handleCloseCreateModal} />
       </ModalBox>
 
       {state.EpidemiologyModule.show === 'detail' && <CaseDefinitionDetail />}
@@ -539,7 +540,18 @@ export function CaseDefinitionList({ openCreateModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [selectedUser, setSelectedUser] = useState();
+  const [open, setOpen] = useState(false);
 
+  console.log('Case Defination>>>>', selectedUser);
+  const handleRowClicked = row => {
+    setSelectedUser(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedEpid: {},
@@ -697,6 +709,12 @@ export function CaseDefinitionList({ openCreateModal }) {
     <>
       {user ? (
         <>
+          <ModalBox open={open} onClose={handleCloseModal}>
+            <CaseDefinitionView
+              casedefinition={selectedUser}
+              setOpen={handleCloseModal}
+            />
+          </ModalBox>
           <PageWrapper
             style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
@@ -729,7 +747,7 @@ export function CaseDefinitionList({ openCreateModal }) {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={handleRow}
+                onRowClicked={handleRowClicked}
                 progressPending={loading}
               />
             </div>
