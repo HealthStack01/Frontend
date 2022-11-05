@@ -1,38 +1,48 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import DataTable from "react-data-table-component";
 
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import DatePicker from "react-datepicker";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
-import { ProductEntryCreate } from "./ProductEntry";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import {ProductEntryCreate} from "./ProductEntry";
 
 import "react-datepicker/dist/react-datepicker.css";
-import ModalBox from "./ui-components/modal";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import ModalBox from "../../components/modal";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import EmptyData from "./ui-components/empty";
-import { InventoryStoreSchema } from "./ui-components/schema";
+import {InventoryStoreSchema} from "./ui-components/schema";
 import styled from "styled-components";
+import Input from "../../components/inputs/basic/Input";
+import {Box, Grid, Typography} from "@mui/material";
+import MuiButton from "@mui/material/Button";
+import BasicDatePicker from "../../components/inputs/Date";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Inventory() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
-  const [createModal, setCreateModal] = useState();
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+  const [reorderModal, setRedorderModal] = useState(false);
+  const [batchModal, setBatchModal] = useState(false);
+  const [auditModal, setAuditModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
 
   const handleCreateModal = () => {
@@ -42,39 +52,111 @@ export default function Inventory() {
     setCreateModal(false);
   };
 
-  return (
-    <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Inventory  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <InventoryList showcreateModal={handleCreateModal} />
-        </div>
-        <div className="column is-4 ">
-          {state.InventoryModule.show === "create" && <InventoryCreate />}
-          {state.InventoryModule.show === "detail" && <InventoryDetail />}
-          {state.InventoryModule.show === "modify" && (
-            <InventoryModify Inventory={selectedInventory} />
-          )}
-          {state.InventoryModule.show === "reorder" && (
-            <InventoryReorder Inventory={selectedInventory} />
-          )}
-          {state.InventoryModule.show === "batch" && (
-            <InventoryBatches Inventory={selectedInventory} />
-          )}
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+  };
 
-          <ModalBox open={createModal} onClose={handleHideCreateModal}>
-            <ProductEntryCreate />
-          </ModalBox>
-        </div>
-      </div>
+  const handleOpenModals = type => {
+    switch (type) {
+      case "modify":
+        setModifyModal(true);
+        break;
+
+      case "reorder":
+        setRedorderModal(true);
+        break;
+
+      case "batch":
+        setBatchModal(true);
+        break;
+
+      case "audit":
+        setAuditModal(true);
+        break;
+
+      default:
+        null;
+      // code block
+    }
+  };
+
+  const handleCloseModals = type => {
+    switch (type) {
+      case "modify":
+        setModifyModal(false);
+        setDetailModal(false);
+        break;
+
+      case "reorder":
+        setRedorderModal(false);
+        setDetailModal(false);
+        break;
+
+      case "batch":
+        setBatchModal(false);
+        setDetailModal(false);
+        break;
+
+      case "audit":
+        setAuditModal(false);
+        setDetailModal(false);
+        break;
+
+      default:
+        null;
+      // code block
+    }
+  };
+
+  return (
+    <section>
+      <InventoryList
+        showcreateModal={handleCreateModal}
+        openDetailModal={handleOpenDetailModal}
+      />
+
+      <ModalBox open={createModal} onClose={handleHideCreateModal}>
+        <InventoryCreate />
+      </ModalBox>
+
+      <ModalBox
+        open={detailModal}
+        onClose={() => setDetailModal(false)}
+        header="Inventory Detail"
+      >
+        <InventoryDetail openModals={handleOpenModals} />
+      </ModalBox>
+
+      <ModalBox open={modifyModal}>
+        <InventoryModify
+          Inventory={selectedInventory}
+          closeModal={() => handleCloseModals("modify")}
+        />
+      </ModalBox>
+
+      <ModalBox open={reorderModal}>
+        <InventoryReorder
+          Inventory={selectedInventory}
+          closeModal={() => handleCloseModals("reorder")}
+        />
+      </ModalBox>
+
+      <ModalBox open={batchModal}>
+        <InventoryBatches
+          Inventory={selectedInventory}
+          closeModal={() => handleCloseModals("batch")}
+        />
+      </ModalBox>
+
+      <ModalBox open={auditModal}>
+        <ProductEntryCreate Inventory={selectedInventory} />
+      </ModalBox>
     </section>
   );
 }
 
 export function InventoryCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -82,11 +164,11 @@ export function InventoryCreate() {
   const [facility, setFacility] = useState();
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -122,7 +204,7 @@ export function InventoryCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     InventoryServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Inventory successfully") */
@@ -135,7 +217,7 @@ export function InventoryCreate() {
         });
         setSuccess(false);
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Inventory " + err,
           type: "is-danger",
@@ -173,7 +255,7 @@ export function InventoryCreate() {
                 {/* Audit/initialization/Purchase Invoice */}
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   name="type"
                   type="text"
                   placeholder="Type of Product Entry"
@@ -187,7 +269,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   name="supplier"
                   type="text"
                   placeholder="Supplier"
@@ -201,7 +283,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   name="date"
                   type="text"
                   placeholder="Date"
@@ -216,7 +298,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   name="totalamount"
                   type="text"
                   placeholder=" Total Amount"
@@ -240,13 +322,10 @@ export function InventoryCreate() {
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
-              >
+              <p className="control has-icons-left " style={{display: "none"}}>
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   /* add array no */ name="productId"
                   type="text"
                   placeholder="Product Id"
@@ -261,7 +340,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   name="quantity"
                   type="text"
                   placeholder="Quantity"
@@ -276,7 +355,7 @@ export function InventoryCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", { required: true })}
+                  {...register("x", {required: true})}
                   name="costprice"
                   type="text"
                   placeholder="Cost Price"
@@ -343,12 +422,12 @@ export function InventoryCreate() {
 }
 
 const CustomLoader = () => (
-  <div style={{ padding: "24px" }}>
+  <div style={{padding: "24px"}}>
     <img src="/loading.gif" width={400} />
   </div>
 );
 
-export function InventoryList({ showcreateModal }) {
+export function InventoryList({showcreateModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -364,9 +443,9 @@ export function InventoryList({ showcreateModal }) {
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(20);
   const [total, setTotal] = useState(0);
@@ -378,17 +457,18 @@ export function InventoryList({ showcreateModal }) {
       selectedInventory: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
   };
 
-  const handleRow = async (Inventory) => {
+  const handleRow = async Inventory => {
     //console.log("b4",state)
 
     //console.log("handlerow",Inventory)
+    console.log(Inventory);
 
     await setSelectedInventory(Inventory);
 
@@ -396,14 +476,15 @@ export function InventoryList({ showcreateModal }) {
       selectedInventory: Inventory,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
+    openDetailModal();
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "name";
     //console.log(val)
     InventoryServ.find({
@@ -420,14 +501,14 @@ export function InventoryList({ showcreateModal }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         //console.log(res)
         setFacilities(res.data);
         setTotal(res.total);
         setMessage(" Inventory  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Inventory, probable network issues " + err);
         setError(true);
@@ -456,7 +537,7 @@ export function InventoryList({ showcreateModal }) {
       await setTotal(allInventory.total);
 
       if (allInventory.total > facilities.length) {
-        await setPage((page) => page++);
+        await setPage(page => page++);
       }
 
       updatelist(allInventory.data);
@@ -501,7 +582,7 @@ export function InventoryList({ showcreateModal }) {
 
       if (allInventory.total > allInventory.data.length) {
         // setNext(true)
-        setPage((page) => page + 1);
+        setPage(page => page + 1);
       } else {
         //setNext(fals
       }
@@ -528,10 +609,10 @@ export function InventoryList({ showcreateModal }) {
   };
 
   useEffect(() => {
-    InventoryServ.on("created", (obj) => rest());
-    InventoryServ.on("updated", (obj) => rest());
-    InventoryServ.on("patched", (obj) => rest());
-    InventoryServ.on("removed", (obj) => rest());
+    InventoryServ.on("created", obj => rest());
+    InventoryServ.on("updated", obj => rest());
+    InventoryServ.on("patched", obj => rest());
+    InventoryServ.on("removed", obj => rest());
     return () => {};
   }, []);
 
@@ -543,8 +624,8 @@ export function InventoryList({ showcreateModal }) {
     //await  setPage(0)
   };
 
-  const updatelist = async (data) => {
-    await setFacilities((prevdata) => prevdata.concat(data));
+  const updatelist = async data => {
+    await setFacilities(prevdata => prevdata.concat(data));
   };
 
   useEffect(() => {
@@ -564,7 +645,7 @@ export function InventoryList({ showcreateModal }) {
   //*******************CONDITION THAT SHOWS DIFFERENT ROW BACKGROUND COLOR BASED ON  A CERTAIN CONDITION MET************
   const conditionalRowStyles = [
     {
-      when: (row) => row.buy,
+      when: row => row.buy,
       style: {
         backgroundColor: "pink",
         color: "white",
@@ -630,44 +711,44 @@ export function InventoryList({ showcreateModal }) {
       {user ? (
         <>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   Inventory Store
                 </h2>
               </div>
 
               {handleCreateNew && (
                 <Button
-                  style={{ fontSize: "14px", fontWeight: "600" }}
+                  style={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
                   onClick={showcreateModal}
                 />
               )}
             </TableMenu>
 
-            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
               <DataTable
                 title={""}
                 columns={InventoryStoreSchema.filter(
-                  (obj) => obj.selector && obj.inputType
+                  obj => obj.selector && obj.inputType
                 )}
-                data={facilities.map((obj, i) => ({ ...obj, sn: i + 1 }))} //TODO: only add sn if it's in the schema, to improve performance here
+                data={facilities.map((obj, i) => ({...obj, sn: i + 1}))} //TODO: only add sn if it's in the schema, to improve performance here
                 pointerOnHover={true}
                 highlightOnHover={true}
                 striped={true}
                 customStyles={customStyles}
-                onRowClicked={onRowClicked}
+                onRowClicked={handleRow}
                 fixedHeader={true}
                 selectableRows={false}
-                onSelectedRowsChange={handleRow}
+                //onSelectedRowsChange={handleRow}
                 fixedHeaderScrollHeight="100%"
                 responsive
                 dense={false}
@@ -690,7 +771,7 @@ export function InventoryList({ showcreateModal }) {
   );
 }
 
-export function InventoryDetail() {
+export function InventoryDetail({openModals}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -700,8 +781,8 @@ export function InventoryDetail() {
   //const InventoryServ=client.service('/Inventory')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
-  const { user } = useContext(UserContext); //,setUser
+  const {state, setState} = useContext(ObjectContext);
+  const {user} = useContext(UserContext); //,setUser
 
   const Inventory = state.InventoryModule.selectedInventory;
   //console.log("selected",Inventory)
@@ -732,118 +813,141 @@ export function InventoryDetail() {
       selectedInventory: Inventory,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
+    openModals("modify");
   };
+
   const handleReorder = async () => {
     const newInventoryModule = {
       selectedInventory: Inventory,
       show: "reorder",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
+    openModals("reorder");
   };
+
   const handleBatch = async () => {
     const newInventoryModule = {
       selectedInventory: Inventory,
       show: "batch",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
+    openModals("batch");
   };
+
   const handleAudit = async () => {
     const newInventoryModule = {
       selectedInventory: Inventory,
       show: "audit",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     //console.log(state)
+    openModals("audit");
   };
+
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Inventory Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Product Name:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    <strong> {Inventory.name} </strong>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <Box
+        container
+        sx={{
+          width: "550px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box item mb={3}>
+          <Input label="Inventory Name" value={Inventory.name} disabled />
+        </Box>
 
-          <div className="field mt-2 is-grouped">
-            <p className="control">
-              <button
-                className="button is-success is-small"
+        <Box item mb={3}>
+          <Grid container spacing={1}>
+            <Grid item xs={3}>
+              <MuiButton
+                variant="contained"
+                sx={{
+                  textTransform: "capitalize",
+                  width: "100%",
+                  background: "",
+                }}
                 onClick={handleEdit}
               >
                 Set Price
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small"   onClick={handleSetPrice}>
-                        Audit
-                    </button>
-                </p>*/}
-            <p className="control">
-              <button className="button is-info is-small" onClick={handleBatch}>
+              </MuiButton>
+            </Grid>
+
+            <Grid item xs={3}>
+              <MuiButton
+                variant="contained"
+                sx={{
+                  textTransform: "capitalize",
+                  width: "100%",
+                  background: "#17935C",
+                  "&:hover": {
+                    backgroundColor: "#17935C",
+                  },
+                }}
+                onClick={handleBatch}
+              >
                 Batches
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
+              </MuiButton>
+            </Grid>
+
+            <Grid item xs={4}>
+              <MuiButton
+                variant="contained"
+                sx={{
+                  textTransform: "capitalize",
+                  width: "100%",
+                  background: "#B6CCFE",
+                  "&:hover": {
+                    backgroundColor: "#B6CCFE",
+                  },
+                }}
                 onClick={handleReorder}
               >
                 Reorder Level
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-danger is-small"
+              </MuiButton>
+            </Grid>
+
+            <Grid item xs={2}>
+              <MuiButton
+                variant="outlined"
+                sx={{
+                  textTransform: "capitalize",
+                  width: "100%",
+                  background: "",
+                }}
                 onClick={handleAudit}
               >
                 Audit
-              </button>
-            </p>
-          </div>
-          {error && <div className="message"> {message}</div>}
-        </div>
-      </div>
+              </MuiButton>
+            </Grid>
+          </Grid>
+        </Box>
+
+        {error && <Typography sx={{color: "red"}}>{"message"}</Typography>}
+      </Box>
     </>
   );
 }
 
-export function InventoryModify() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+export function InventoryModify({closeModal}) {
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -855,15 +959,15 @@ export function InventoryModify() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const billServ = client.service("billing");
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
   const handleSetPrice = async () => {
     const service = await billServ.get(Inventory.billingId); // get the service
     const contractSel = service.contracts.filter(
-      (element) =>
+      element =>
         element.source_org === Inventory.facility &&
         element.dest_org === Inventory.facility
     );
@@ -891,11 +995,12 @@ export function InventoryModify() {
       selectedInventory: {},
       show: "details",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     ////console.log(state)
+    closeModal();
   };
 
   const changeState = () => {
@@ -903,7 +1008,7 @@ export function InventoryModify() {
       selectedInventory: {},
       show: "detail",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -915,7 +1020,7 @@ export function InventoryModify() {
     const dleteId = Inventory._id;
     if (conf) {
       InventoryServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           ////console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Inventory successfully")
@@ -932,7 +1037,7 @@ export function InventoryModify() {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Inventory, probable network issues "+ err )
           // setError(true)
           toast({
@@ -958,118 +1063,106 @@ export function InventoryModify() {
     // data.facility=Inventory.facility
     //console.log(data);
     const contractSel = billservice.contracts.filter(
-      (element) =>
+      element =>
         element.source_org === Inventory.facility &&
         element.dest_org === Inventory.facility
     );
     contractSel[0].price = data.price;
     billServ
       .patch(billservice._id, billservice)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Inventory successfully")
-        toast({
-          message: "Price updated succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("Price updated succesfully");
 
         changeState();
+        closeModal();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Inventory, probable network issues "+ err )
         // setError(true)
-        toast({
-          message: "Error updating Price, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Error updating Price, probable network issues or ${err}`);
       });
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">
+      <Box
+        container
+        sx={{
+          width: "550px",
+        }}
+      >
+        <Box
+          item
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          mb={3}
+        >
+          <Typography>
             Set Price for {Inventory.name} per {Inventory.baseunit}
-          </p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                New Selling Price
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", { required: true })}
-                    name="price"
-                    type="text"
-                    placeholder="Name"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Old Price
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small "
-                    {...register("x", { required: true })}
-                    disabled
-                    name="oldprice"
-                    type="text"
-                    placeholder="Inventory Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-          </form>
+          </Typography>
+        </Box>
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-          </div>
-        </div>
-      </div>
+        <Box item mb={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Input
+                label="New Selling Price"
+                register={register("price", {required: true})}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <Input
+                label="Old Selling Price"
+                register={register("oldprice", {required: true})}
+                disabled
+              />
+            </Grid>
+          </Grid>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+          }}
+        >
+          <MuiButton
+            variant="contained"
+            sx={{
+              textTransform: "capitalize",
+              width: "163px",
+              marginRight: "15px",
+            }}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Save
+          </MuiButton>
+
+          <MuiButton
+            variant="outlined"
+            sx={{
+              textTransform: "capitalize",
+              width: "163px",
+            }}
+            onClick={handleCancel}
+          >
+            Cancel
+          </MuiButton>
+        </Box>
+      </Box>
     </>
   );
 }
 
-export function InventoryReorder() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+export function InventoryReorder({closeModal}) {
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1081,8 +1174,8 @@ export function InventoryReorder() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const billServ = client.service("billing");
 
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
@@ -1106,10 +1199,11 @@ export function InventoryReorder() {
       selectedInventory: {},
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
+    closeModal();
     ////console.log(state)
   };
 
@@ -1118,7 +1212,7 @@ export function InventoryReorder() {
       selectedInventory: {},
       show: "detail",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -1131,108 +1225,100 @@ export function InventoryReorder() {
     InventoryServ.patch(Inventory._id, {
       reorder_level: data.reorder_level,
     })
-      .then((res) => {
-        toast({
-          message: "Reorder level updated succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+      .then(res => {
+        toast.success("Reorder level updated succesfully");
 
         changeState();
+        closeModal();
       })
-      .catch((err) => {
-        toast({
-          message:
-            "Error updating Reorder level, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+      .catch(err => {
+        toast.error(
+          `Error updating Reorder level, probable network issues or  ${err}`
+        );
       });
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">
-            Set ReOrder Level for {Inventory.name}{" "}
-            {/* per {Inventory.baseunit} */}
-          </p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                New Reorder Level
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", { required: true })}
-                    name="reorder_level"
-                    type="text"
-                    placeholder="New Reorder Level"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Old Reorder Level
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small "
-                    {...register("x")}
-                    disabled
-                    name="oldlevel"
-                    type="text"
-                    placeholder="Old Reorder Level"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-          </form>
+      <Box
+        container
+        sx={{
+          width: "550px",
+        }}
+      >
+        <Box
+          item
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          mb={3}
+        >
+          <Typography>Set ReOrder Level for {Inventory.name}</Typography>
+        </Box>
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-          </div>
-        </div>
-      </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box item mb={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Input
+                  register={register("reorder_level", {required: true})}
+                  name="reorder_level"
+                  type="text"
+                  label="New Reorder Level"
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Input
+                  register={register("oldlevel")}
+                  disabled
+                  name="oldlevel"
+                  type="text"
+                  label="Old Reorder Level"
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </form>
+
+        <Box
+          sx={{
+            display: "flex",
+          }}
+        >
+          <MuiButton
+            variant="contained"
+            sx={{
+              textTransform: "capitalize",
+              width: "163px",
+              marginRight: "15px",
+            }}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Save
+          </MuiButton>
+
+          <MuiButton
+            variant="outlined"
+            sx={{
+              textTransform: "capitalize",
+              width: "163px",
+            }}
+            onClick={handleCancel}
+          >
+            Cancel
+          </MuiButton>
+        </Box>
+      </Box>
     </>
   );
 }
 
-export function InventoryBatches() {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+export function InventoryBatches({closeModal}) {
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1244,8 +1330,8 @@ export function InventoryBatches() {
   const InventoryServ = client.service("inventory");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const billServ = client.service("billing");
   const [batchNo, setBatchNo] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -1256,6 +1342,8 @@ export function InventoryBatches() {
   const Inventory = state.InventoryModule.selectedInventory; // set inventory
   // setProductItem(Inventory.batches)
   // console.log(Inventory)
+
+  //console.log(expirydate);
   //
 
   useEffect(() => {
@@ -1280,7 +1368,7 @@ export function InventoryBatches() {
       quantity,
     };
     //  await setSuccess(false)
-    setProductItem((prevProd) => prevProd.concat(productItemI));
+    setProductItem(prevProd => prevProd.concat(productItemI));
     setBatchNo("");
     setQuantity("");
     setExpiryDate("");
@@ -1295,11 +1383,12 @@ export function InventoryBatches() {
       selectedInventory: {},
       show: "details",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
     ////console.log(state)
+    closeModal();
   };
 
   const changeState = () => {
@@ -1307,7 +1396,7 @@ export function InventoryBatches() {
       selectedInventory: {},
       show: "details",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
@@ -1320,23 +1409,14 @@ export function InventoryBatches() {
     InventoryServ.patch(Inventory._id, {
       batches: productItem,
     })
-      .then((res) => {
-        toast({
-          message: "Batch updated succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+      .then(res => {
+        toast.success("Batch updated succesfully");
 
         changeState();
+        closeModal();
       })
-      .catch((err) => {
-        toast({
-          message: "Error updating Batch, probable network issues or " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+      .catch(err => {
+        toast.error(`Error updating Batch, probable network issues or ${err}`);
       });
   };
 
@@ -1344,160 +1424,219 @@ export function InventoryBatches() {
     let confirm = window.confirm("Are you sure you want to delete this batch?");
     if (confirm) {
       // setProductItem(prev=>prev.filter((obj,index)=>index!==i ))
-      setProductItem((obj) => obj.filter((el, index) => index !== i));
+      setProductItem(obj => obj.filter((el, index) => index !== i));
     }
   };
 
+  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
+    <div
+      onClick={onClick}
+      ref={ref}
+      style={{
+        width: "100%",
+        height: "48px",
+        border: "1.5px solid #BBBBBB",
+        borderRadius: "4px",
+        display: "flex",
+        alignItems: "center",
+        margin: "0.75rem 0",
+        fontSize: "0.85rem",
+        padding: "0 15px",
+        color: "#000000",
+      }}
+    >
+      {value}
+    </div>
+  ));
+
+  const batchesSchema = [
+    {
+      name: "S/NO",
+      width: "70px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Batch",
+      key: "batchNo",
+      description: "Enter Batch",
+      selector: row => row.batchNo,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quantity",
+      key: "quantity",
+      description: "Enter Quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Expiry Date",
+      style: row => ({color: row.expiry && "#ffffff"}),
+      key: "expirydate",
+      description: "Enter Date",
+      selector: row =>
+        row.expirydate
+          ? format(new Date(row.expirydate), "dd-MM-yy")
+          : "--------",
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Actions",
+      key: "category",
+      description: "Enter Category",
+      selector: (row, i) => (
+        <span
+          style={{color: "red", fontSize: "inherit"}}
+          onClick={() => handleBatchdel(row, i)}
+        >
+          delete
+        </span>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "BUTTON",
+    },
+  ];
+
+  const conditionalRowStyles = [
+    {
+      when: row => row.expiry,
+      style: {
+        backgroundColor: "pink",
+        color: "#ffffff !important",
+      },
+    },
+  ];
+
   return (
     <>
-      <div className="card  card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">
-            Batches for {Inventory.name} {/* per {Inventory.baseunit} */}
-          </p>
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="batchNo"
-                    value={batchNo}
-                    type="text"
-                    onChange={(e) => setBatchNo(e.target.value)}
-                    placeholder="Batch Number"
-                  />
-                  {/* <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span> has-icons-left */}
-                </p>
-              </div>
-              <div className="field">
-                <DatePicker
-                  selected={expirydate}
-                  onChange={(date) => setExpiryDate(date)}
-                  dateFormat="MM/yyyy"
-                  placeholderText="Expiry Date"
-                  /*  isClearable */
-                />
-              </div>
-              <div className="field">
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={(e) => setQuantity(e.target.value)}
-                    placeholder="Quantity"
-                  />
-                  {/* <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span> has-icons-left */}
-                </p>
-                <label>{Inventory.baseunit}</label>
-              </div>
+      <Box
+        container
+        sx={{
+          width: "600px",
+        }}
+      >
+        <Box
+          item
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: ".9rem",
+            }}
+          >
+            Batches for {Inventory.name}
+          </Typography>
+          <MuiButton
+            variant="outlined"
+            sx={{width: "100px", textTransform: "capitalize"}}
+            onClick={handleClickProd}
+          >
+            <AddCircleOutlineIcon sx={{marginRight: "5px"}} fontSize="small" />
+            Add
+          </MuiButton>
+        </Box>
 
-              <div className="field">
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right minHt">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Batch">Batch</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Quantity">Quantity</abbr>
-                  </th>
-                  <th>Expiry Date</th>
-                  {/*<th><abbr title="Document No">Document No</abbr></th>
-                                        <th><abbr title="Total Amount">Total Amount</abbr></th>
-                                         <th><abbr title="Enteredby">Entered By</abbr></th> */}
-                  <th>
-                    <abbr title="Actions">Actions</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {productItem.map((ProductEntry, i) => (
-                  <tr
-                    key={i}
-                    style={{
-                      backgroundColor: ProductEntry.expiry ? "red" : "",
-                    }}
-                  >
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.batchNo}</td>
-                    <td>{ProductEntry.quantity}</td>
-                    <th>
-                      {ProductEntry.expirydate ? (
-                        <>
-                          {format(new Date(ProductEntry.expirydate), "MM-yyyy")}
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </th>
-                    {/*<td>{ProductEntry.documentNo}</td>
-                                            <td>{ProductEntry.totalamount}</td>
-                                             <td>{ProductEntry.enteredby}</td> */}
-                    <td onClick={() => handleBatchdel(ProductEntry, i)}>
-                      <span className="showAction">x</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <Box item>
+          <Grid container spacing={1}>
+            <Grid item xs={4}>
+              <Input
+                name="batchNo"
+                value={batchNo}
+                type="text"
+                onChange={e => setBatchNo(e.target.value)}
+                label="Batch Number"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <DatePicker
+                selected={expirydate}
+                onChange={date => setExpiryDate(date)}
+                dateFormat="MM/yyyy"
+                placeholderText="Expiry Date"
+                customInput={<DatePickerCustomInput />}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Input
+                name="quantity"
+                value={quantity}
+                type="text"
+                onChange={e => setQuantity(e.target.value)}
+                placeholder="Quantity"
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-          </div>
-        </div>
-      </div>
+      {productItem.length > 0 && (
+        <Box
+          sx={{
+            width: "100%",
+            maxHeight: "300px",
+            overflowY: "scroll",
+          }}
+          mb={3}
+        >
+          <CustomTable
+            title={""}
+            columns={batchesSchema}
+            data={productItem}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={(row, i) => onRowClicked(row, i)}
+            progressPending={false}
+            conditionalRowStyles={conditionalRowStyles}
+          />
+        </Box>
+      )}
+
+      <Box container>
+        <MuiButton
+          variant="contained"
+          sx={{
+            width: "150px",
+            textTransform: "capitalize",
+            marginRight: "15px",
+          }}
+          onClick={handleSubmit(onSubmit)}
+        >
+          Save
+        </MuiButton>
+
+        <MuiButton
+          variant="outlined"
+          sx={{
+            width: "150px",
+            textTransform: "capitalize",
+          }}
+          onClick={handleCancel}
+        >
+          Cancel
+        </MuiButton>
+      </Box>
     </>
   );
 }
 
-export function ProductSearch({ getSearchfacility, clear }) {
+export function ProductSearch({getSearchfacility, clear}) {
   const facilityServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1514,7 +1653,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1531,7 +1670,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     /*  if (count===2){
             // console.log("stuff was chosen")
          } */
@@ -1548,7 +1687,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "name"; //field variable
 
     if (val.length >= 3) {
@@ -1566,13 +1705,13 @@ export function ProductSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           //console.log("facility  fetched successfully")
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
@@ -1606,8 +1745,8 @@ export function ProductSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
