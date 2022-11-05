@@ -172,12 +172,6 @@ export const menuItems = [
   },
 
   {
-    name: "Documentation",
-    exact: true,
-    to: "/app/documentation",
-    iconClassName: "bi bi-rss",
-  },
-  {
     name: "Ward",
     exact: true,
     to: "/app/ward",

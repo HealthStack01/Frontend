@@ -7,7 +7,12 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "bulma-toast";
+import {Box} from "@mui/material";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import CustomTable from "./ui-components/customtable";
+import {TableMenu} from "../../ui/styled/global";
 import {format, formatDistanceToNowStrict} from "date-fns";
+import Button from "../../components/buttons/Button";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 const searchfacility = {};
@@ -511,121 +516,142 @@ export function AdmitOrdersList({standalone}) {
     return () => {};
   }, []);
 
+  const admitOrderSchema=[
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    
+
+    {
+      name: "Date",
+      key: "name",
+      description: "Enter name of band",
+      selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Order",
+      key: "order",
+      description: "order",
+      selector: row => row.order,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Fufiled",
+      key: "fufiled",
+      description: "fufiled",
+      selector: row => (row.fulfilled === "true" ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Status",
+      key: "status",
+      description: "status",
+      selector: row => row.order_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Requesting Physician",
+      key: "requesting physician",
+      description: "requestingphysician",
+      selector: row => row.requestingdoctor_Name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    
+
+    
+    {
+      name: "Action",
+      key: "destination",
+      description: "Enter Destination",
+      selector: row => (
+        <p
+          style={{fontSize: "0.7rem", color: "red"}}
+          onClick={() => handleDelete(row)}
+        >
+          Delete
+        </p>
+      ),
+      omit: !standalone?false: true,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+      
+      
+]  
+
+
+
   return (
     <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search tests"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
-          </div>
+     <Box>
+
+<TableMenu>
+    <div style={{display: "flex", alignItems: "center"}}>
+      {handleSearch && (
+        <div className="inner-table">
+          <FilterMenu onSearch={handleSearch} />
         </div>
-        {!standalone && (
-          <>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Admission Orders{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="table-container pullup ">
-        <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-          <thead>
-            <tr>
-              <th>
-                <abbr title="Serial No">S/No</abbr>
-              </th>
-              <th>
-                <abbr title="Date">Date</abbr>
-              </th>
-              <th>
-                <abbr title="Order">Ward</abbr>
-              </th>
-              <th>Fulfilled</th>
-              <th>
-                <abbr title="Status">Status</abbr>
-              </th>
-              <th>
-                <abbr title="Requesting Physician">Requesting Physician</abbr>
-              </th>
-              {/* <th><abbr title="Client Name">Client Name</abbr></th> */}
-              {!standalone && (
-                <th>
-                  <abbr title="Actions">Actions</abbr>
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tfoot></tfoot>
-          <tbody>
-            {facilities.map((ProductEntry, i) => (
-              <tr
-                key={ProductEntry._id}
-                /* onClick={()=>handleRow(ProductEntry)} */ className={
-                  ProductEntry._id === (selectedOrder?._id || null)
-                    ? "is-selected"
-                    : ""
-                }
-              >
-                <th>{i + 1}</th>
-                <td>
-                  {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                  <span>
-                    {format(new Date(ProductEntry.createdAt), "dd-MM-yy")}
-                  </span>
-                </td>
-                <th>{ProductEntry.order}</th>
-                <td>{ProductEntry.fulfilled === "True" ? "Yes" : "No"}</td>
-                <td>{ProductEntry.order_status}</td>
-                <td>{ProductEntry.requestingdoctor_Name}</td>
-                {/* <td>{ProductEntry.clientId}</td> */}
-                {!standalone && (
-                  <td>
-                    {" "}
-                    <button
-                      className="button  sbut"
-                      aria-label="more options"
-                      onClick={() => handleDelete(ProductEntry)}
-                    >
-                      <span>x</span>
-                    </button>{" "}
-                    {/* <span className="showAction"  >...</span> */}{" "}
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+      )}
+      <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+        List of Admission Orders
+      </h2>
+      
+    </div>
+    <Button
+            style={{fontSize: "14px", fontWeight: "600", marginLeft:""}}
+            label="Add new "
+              className="button is-success is-small"
+              onClick={handleCreateNew}
+            />
+    
+  </TableMenu>
+          
+  
+  
+      
+           
+            
+           
+
+{!standalone && (
+      <button
+        
+        onClick={() => handleDelete(ProductEntry)}
+      />
+    )}
+<Box style={{height:"400px", overScrollY:"scroll"} }>            
+  
+  <CustomTable
+       title={""}
+       columns={admitOrderSchema}
+       data={facilities}
+       pointerOnHover
+       highlightOnHover
+       striped/>
+</Box>
+
+</Box>
+</>
   );
 }
 

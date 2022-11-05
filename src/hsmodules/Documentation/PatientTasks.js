@@ -12,6 +12,8 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
+import CustomSelect from "../../components/inputs/basic/Select"
+import Input from "../../components/inputs/basic/Input";
 import ModalBox from "../Client/ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -148,27 +150,23 @@ export function BandCreate() {
             <div className="field">
               <div className="control">
                 <div className="select is-small ">
-                  <select
-                    name="bandType"
-                    //{...register("x", {required: true})}
-                    /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
-                  >
-                    <option value="">Choose Band Type </option>
-                    {bandTypeOptions.map((option, i) => (
-                      <option key={i} value={option}>
-                        {" "}
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                   
+                <CustomSelect
+                  label="choose band type"
+                  name="bandType"           
+                  options={bandTypeOptions}
+                  register={register("bandtype", {required:true})}
+                  onChange={(e)=>handleChangeMode(e.target.value)}
+            />
                 </div>
               </div>
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
+              <Input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  register={register("name", {required:true})}
+          
                   name="name"
                   type="text"
                   placeholder="Name of Band"
@@ -180,9 +178,10 @@ export function BandCreate() {
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input
+              <Input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  register={register("description", {required:true})}
+            
                   name="description"
                   type="text"
                   placeholder="Description of Band"
@@ -227,9 +226,10 @@ export function BandCreate() {
                 clear={success}
               />
               <p className="control has-icons-left " style={{display: "none"}}>
-                <input
+              <Input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  register={register("facility", {required:true})}
+             
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -285,7 +285,7 @@ export function BandCreate() {
             </div> */}
             <div className="field">
               <p className="control">
-                <button className="button is-success is-small">Create</button>
+              <Button>Create</Button>
               </p>
             </div>
           </form>
@@ -550,124 +550,74 @@ export function BandDetail() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Band Details</p>
+          <p className="card-header-title">Band Details-Modify</p>
         </div>
         <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Name:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {Band.name}{" "}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="field">
+              <label className="label is-small">
+                {" "}
+                Name
+                <p className="control has-icons-left has-icons-right">
+                <Input
+                  className="input is-small"
+                  register={register("name", {required:true})}
+                  name="name"
+                  type="text"
+                  placeholder="Name of Band"
+                />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-hospital"></i>
                   </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Band Type:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="BandType">
-                    {Band.bandType}{" "}
+                </p>
+              </label>
+            </div>
+            <div className="field">
+              <label className="label is-small">
+                Band Type
+                <p className="control has-icons-left has-icons-right">
+                  <Input
+                    className="input is-small "
+                    {...register("bandType", {required: true})}
+                    disabled
+                    name="bandType"
+                    type="text"
+                    placeholder="Band Type"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-map-signs"></i>
                   </span>
-                </td>
-              </tr>
-              {/*   <tr>
-                    <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>Profession: 
-                
-                    
-                    </label>
-                    </td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandCity">{Band.profession}</span> 
-                </td>
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>Phone:           
-                    
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft "  name="BandContactPhone" >{Band.phone}</span>
-                        </td>
-                  </tr>
-                    <tr><td>
-            
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>Email:                     
-                    
-                         </label></td><td>
-                         <span className="is-size-7 padleft "  name="BandEmail" >{Band.email}</span>
-                         </td>
-             
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i></span>Department:
-                    
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft "  name="BandOwner">{Band.department}</span>
-                    </td>
-               
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>Departmental Unit:              
-                    
-                </label></td>
-                <td>
-                <span className="is-size-7 padleft "  name="BandType">{Band.deptunit}</span>
-                </td>
-              
-                </tr> */}
+                </p>
+              </label>
+            </div>
+           
+          </form>
 
-              {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-size-7 padleft "  name= "BandCategory">{Band.BandCategory}</span>
-                </label>
-                 </div> */}
-            </tbody>
-          </table>
-
-          <div className="field mt-2">
+          <Box sx={{display:"flex"}}>
             <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
+              <Button
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
               >
-                Edit
-              </button>
+                Save
+              </Button>
             </p>
-          </div>
-          {error && <div className="message"> {message}</div>}
+            <p className="control">
+              <Button
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+            </p>
+            <p className="control">
+              <Button
+                onClick={() => handleDelete()}
+                type="delete"
+              >
+                Delete
+              </Button>
+            </p>
+          </Box>
         </div>
       </div>
     </>
