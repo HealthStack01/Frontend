@@ -103,7 +103,6 @@ const ClientView = ({ open, setOpen, user }) => {
       setChosen();
     }
   };
-
   const submit = async (data, e) => {
     setLoading(true);
     e.preventDefault();
@@ -215,6 +214,7 @@ const ClientView = ({ open, setOpen, user }) => {
             title="Clients"
             columns={ClientFinanceSchema}
             customStyles={customStyles}
+          onClick={}
             // data={users}
           />
         </GrayWrapper>
