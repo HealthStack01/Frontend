@@ -1,37 +1,37 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Route, useNavigate, Link, NavLink} from "react-router-dom";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {AppointmentSchema} from "./schema";
+import { AppointmentSchema } from "./schema";
 import Switch from "../../components/switch";
-import {BsFillGridFill, BsList} from "react-icons/bs";
+import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "./ui-components/modal";
 import ModalHeader from "./ui-components/Heading/modalHeader";
-import {Box, Grid} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import {MdCancel} from "react-icons/md";
+import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function BloodBankAppointments() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
@@ -65,9 +65,9 @@ export default function BloodBankAppointments() {
   );
 }
 
-export function AppointmentCreate({showModal, setShowModal}) {
-  const {state, setState} = useContext(ObjectContext);
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+export function AppointmentCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -81,7 +81,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
@@ -103,15 +103,15 @@ export function AppointmentCreate({showModal, setShowModal}) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -120,13 +120,8 @@ export function AppointmentCreate({showModal, setShowModal}) {
       setClientId();
       setChosen();
     }
-
-    /*  setValue("facility", obj._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        }) */
   };
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -136,7 +131,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
       setChosen1();
     }
   };
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -171,7 +166,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState(prevstate => ({
+      setState((prevstate) => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
@@ -211,7 +206,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     console.log(data);
 
     ClientServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
@@ -234,7 +229,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating Appointment " + err,
           type: "is-danger",
@@ -282,7 +277,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
-                    setState(prevstate => ({
+                    setState((prevstate) => ({
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
@@ -330,13 +325,13 @@ export function AppointmentCreate({showModal, setShowModal}) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{fontSize: "16px", fontWeight: "bold"}}
+                    style={{ fontSize: "16px", fontWeight: "bold" }}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", {required: true})}
+                      {...register("appointmentClass", { required: true })}
                       style={{
                         border: "1px solid #0364FF",
                         transform: "scale(1.5)",
@@ -355,7 +350,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", {required: true})}
+                  {...register("start_time", { required: true })}
                   type="datetime-local"
                   style={{
                     border: "1px solid #0364FF",
@@ -415,7 +410,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", {required: true})}
+                {...register("appointment_reason", { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -447,7 +442,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
                 type="button"
-                onClick={e => e.target.reset()}
+                onClick={(e) => e.target.reset()}
                 style={{
                   backgroundColor: "#ffffff",
                   width: "100%",
@@ -466,7 +461,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
   );
 }
 
-export function ClientList({showModal, setShowModal}) {
+export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -481,9 +476,9 @@ export function ClientList({showModal, setShowModal}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -494,7 +489,7 @@ export function ClientList({showModal, setShowModal}) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -503,25 +498,25 @@ export function ClientList({showModal, setShowModal}) {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     setShowModal(true);
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "firstname";
     //  console.log(val)
 
@@ -610,14 +605,14 @@ export function ClientList({showModal, setShowModal}) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -639,7 +634,7 @@ export function ClientList({showModal, setShowModal}) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -671,15 +666,15 @@ export function ClientList({showModal, setShowModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -699,12 +694,12 @@ export function ClientList({showModal, setShowModal}) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({query: query});
+    const findClient = await ClientServ.find({ query: query });
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setStartDate(date);
   };
 
@@ -745,21 +740,21 @@ export function ClientList({showModal, setShowModal}) {
         <>
           <div className="level">
             <PageWrapper
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
                     Appointments
                   </h2>
                   <DatePicker
                     selected={startDate}
-                    onChange={date => handleDate(date)}
+                    onChange={(date) => handleDate(date)}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="Filter By Date"
                     isClearable
@@ -773,7 +768,7 @@ export function ClientList({showModal, setShowModal}) {
                       }}
                       style={value === "list" ? activeStyle : {}}
                     >
-                      <BsList style={{fontSize: "1rem"}} />
+                      <BsList style={{ fontSize: "1rem" }} />
                     </button>
                     <button
                       value={value}
@@ -782,20 +777,20 @@ export function ClientList({showModal, setShowModal}) {
                       }}
                       style={value === "grid" ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{fontSize: "1rem"}} />
+                      <BsFillGridFill style={{ fontSize: "1rem" }} />
                     </button>
                   </Switch>
                 </div>
 
                 {handleCreateNew && (
                   <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
+                    style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
                     onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}
@@ -821,7 +816,7 @@ export function ClientList({showModal, setShowModal}) {
   );
 }
 
-export function ClientDetail({showModal, setShowModal}) {
+export function ClientDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -833,7 +828,7 @@ export function ClientDetail({showModal, setShowModal}) {
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -844,7 +839,7 @@ export function ClientDetail({showModal, setShowModal}) {
       selectedAppointment: Client,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -858,7 +853,7 @@ export function ClientDetail({showModal, setShowModal}) {
       selectedClient: patient,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -876,7 +871,7 @@ export function ClientDetail({showModal, setShowModal}) {
           <MdCancel
             onClick={() => {
               setShowModal(false),
-                setState(prevstate => ({
+                setState((prevstate) => ({
                   ...prevstate,
                   AppointmentModule: {
                     selectedAppointment: {},
@@ -904,7 +899,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             First Name:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {Client?.firstname}
           </span>
         </Grid>
@@ -918,7 +913,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             Middle Name:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {Client?.middlename}
           </span>
         </Grid>
@@ -932,7 +927,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             Last Name:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {Client?.lastname}
           </span>
         </Grid>
@@ -948,7 +943,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             Date of Birth:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {new Date(Client.dob).toLocaleDateString("en-GB")}
           </span>
         </Grid>
@@ -962,7 +957,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             Gender:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {Client.gender}
           </span>
         </Grid>
@@ -978,7 +973,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             Email:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {Client.email}
           </span>
         </Grid>
@@ -992,7 +987,7 @@ export function ClientDetail({showModal, setShowModal}) {
           >
             Phone No:
           </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
+          <span style={{ color: " #000000", fontSize: "20px" }}>
             {Client.phone}
           </span>
         </Grid>
@@ -1571,8 +1566,8 @@ export function ClientDetail({showModal, setShowModal}) {
   );
 }
 
-export function ClientModify({showModal, setShowModal}) {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+export function ClientModify({ showModal, setShowModal }) {
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1583,8 +1578,8 @@ export function ClientModify({showModal, setShowModal}) {
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState("");
@@ -1600,7 +1595,7 @@ export function ClientModify({showModal, setShowModal}) {
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
 
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -1611,7 +1606,7 @@ export function ClientModify({showModal, setShowModal}) {
     }
   };
 
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -1682,7 +1677,7 @@ export function ClientModify({showModal, setShowModal}) {
 
     return () => {};
   });
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
     setValue("appointment_type", e.target.value, {
       shouldValidate: true,
@@ -1690,7 +1685,7 @@ export function ClientModify({showModal, setShowModal}) {
     });
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     // await setAppointment_status(e.target.value)
     setValue("appointment_status", e.target.value, {
       shouldValidate: true,
@@ -1703,7 +1698,7 @@ export function ClientModify({showModal, setShowModal}) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1715,7 +1710,7 @@ export function ClientModify({showModal, setShowModal}) {
       selectedAppointment: {},
       show: "list",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1726,7 +1721,7 @@ export function ClientModify({showModal, setShowModal}) {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -1743,7 +1738,7 @@ export function ClientModify({showModal, setShowModal}) {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1787,7 +1782,7 @@ export function ClientModify({showModal, setShowModal}) {
     }
     data.actions = Client.actions;
     ClientServ.patch(Client._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
@@ -1800,7 +1795,7 @@ export function ClientModify({showModal, setShowModal}) {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1824,7 +1819,7 @@ export function ClientModify({showModal, setShowModal}) {
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
-                    setState(prevstate => ({
+                    setState((prevstate) => ({
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
@@ -1875,13 +1870,13 @@ export function ClientModify({showModal, setShowModal}) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{fontSize: "16px", fontWeight: "bold"}}
+                    style={{ fontSize: "16px", fontWeight: "bold" }}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", {required: true})}
+                      {...register("appointmentClass", { required: true })}
                       style={{
                         border: "1px solid #0364FF",
                         transform: "scale(1.5)",
@@ -1900,7 +1895,7 @@ export function ClientModify({showModal, setShowModal}) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", {required: true})}
+                  {...register("start_time", { required: true })}
                   type="datetime-local"
                   defaultValue={format(
                     new Date(Client.start_time),
@@ -1964,7 +1959,7 @@ export function ClientModify({showModal, setShowModal}) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", {required: true})}
+                {...register("appointment_reason", { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -2016,7 +2011,7 @@ export function ClientModify({showModal, setShowModal}) {
   );
 }
 
-export function ClientSearch({getSearchfacility, clear}) {
+export function ClientSearch({ getSearchfacility, clear }) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2033,12 +2028,12 @@ export function ClientSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
   const [closeDropdown, setCloseDropdown] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2065,7 +2060,7 @@ export function ClientSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -2083,7 +2078,7 @@ export function ClientSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     setVal(val);
     if (val === "") {
       setShowPanel(false);
@@ -2148,14 +2143,14 @@ export function ClientSearch({getSearchfacility, clear}) {
           },
         },
       })
-        .then(res => {
+        .then((res) => {
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -2193,9 +2188,9 @@ export function ClientSearch({getSearchfacility, clear}) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: "100%" }}>
               <DebouncedInput
                 label={"Search for Client"}
                 value={simpa}
@@ -2208,7 +2203,7 @@ export function ClientSearch({getSearchfacility, clear}) {
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
+            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""
@@ -2229,7 +2224,7 @@ export function ClientSearch({getSearchfacility, clear}) {
                       handleRow(facility), setCloseDropdown(true);
                     }}
                   >
-                    <div style={{cursor: "pointer"}}>
+                    <div style={{ cursor: "pointer" }}>
                       {closeDropdown ? (
                         <></>
                       ) : (
