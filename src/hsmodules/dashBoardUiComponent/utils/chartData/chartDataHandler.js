@@ -2,9 +2,12 @@ import useFetch from "../usefetch";
 import {paymentTotal} from "./queryHandler";
 import useFetchData from "../useFetchData";
 import useFetchOrder from "../usefetchOrder";
+import {UserContext} from "../../../../context";
+import {useContext} from "react";
 
-const userDetails = localStorage.getItem("user");
-const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility;
+// const {user, setUser} = useContext(UserContext);
+
+// const facilityId = user?.employeeData[0]?.facility;
 
 export const TotalNumOfData = service => {
   const query = {
@@ -595,6 +598,9 @@ export const FetchTotalPrescriptionFullyPaidWithInPresentRange = (
 };
 
 export const FetchTotalSalePharmacy = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
   const query = {
     $sort: {createdAt: -1},
     "participantInfo.billingFacility": facilityId,
@@ -617,6 +623,9 @@ export const FetchTotalSalePharmacy = service => {
 };
 
 export const FetchTotalQuantity = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
   const query = {
     $sort: {createdAt: -1},
     facility: facilityId,
@@ -641,6 +650,10 @@ export const FetchTotalStockValueWithInPresentRange = (
   gt_HRs,
   gt_Days
 ) => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+
   const GT_HR_MS = 60 * 60 * 1000 * gt_HRs;
   const GT_Days_MS = 24 * 60 * 60 * 1000 * gt_Days;
   const GT_MS = GT_HR_MS + GT_Days_MS;
@@ -674,6 +687,10 @@ export const FetchTotalMoneyCollectedWithInPresentRange = (
   gt_HRs,
   gt_Days
 ) => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+
   const GT_HR_MS = 60 * 60 * 1000 * gt_HRs;
   const GT_Days_MS = 24 * 60 * 60 * 1000 * gt_Days;
   const GT_MS = GT_HR_MS + GT_Days_MS;
@@ -707,6 +724,10 @@ export const FetchTotalSaleValueWithInPresentRange = (
   gt_HRs,
   gt_Days
 ) => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+
   const GT_HR_MS = 60 * 60 * 1000 * gt_HRs;
   const GT_Days_MS = 24 * 60 * 60 * 1000 * gt_Days;
   const GT_MS = GT_HR_MS + GT_Days_MS;
@@ -736,8 +757,12 @@ export const FetchTotalSaleValueWithInPresentRange = (
 };
 
 export const FetchTotalClientAtPharmacy = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
   const query = {
     $sort: {createdAt: -1},
+
     "participantInfo.billingFacility": facilityId,
     "orderInfo.orderObj.order_category": "Prescription",
   };
@@ -758,6 +783,10 @@ export const FetchTotalStockQuantityWithInPresentRange = (
   gt_HRs,
   gt_Days
 ) => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+
   const GT_HR_MS = 60 * 60 * 1000 * gt_HRs;
   const GT_Days_MS = 24 * 60 * 60 * 1000 * gt_Days;
   const GT_MS = GT_HR_MS + GT_Days_MS;
@@ -809,6 +838,9 @@ export const FetchTotalSuppiedProduct = service => {
 };
 
 export const FetchTotalRevenue = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
   const query = {
     $sort: {createdAt: -1},
     "participantInfo.billingFacility": facilityId,
@@ -830,6 +862,9 @@ export const FetchTotalRevenue = service => {
 };
 
 export const FetchTotalBalance = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
   const query = {
     $sort: {createdAt: -1},
     "participantInfo.billingFacility": facilityId,
@@ -871,6 +906,9 @@ export const ModelResult = service => {
   //   $sort: { createdAt: -1 },
   //   "participantInfo.billingFacility": facilityId,
   // };
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
 
   const query = {
     $sort: {createdAt: -1},
