@@ -22,7 +22,6 @@ export default function ClientHome({children}) {
 
   console.log("Stored User", user);
 
-  const selectedLocation = "hello";
   const [selectedClinic, setSelectedClinic] = useState(
     state.FrontDesk.selectedFrontDesk
   );
@@ -37,7 +36,7 @@ export default function ClientHome({children}) {
 
   useEffect(() => {
     // console.log("starting up Client module")
-    if (selectedClinic) {
+    if (!selectedClinic) {
       handleChangeClinic();
     }
     return () => {};

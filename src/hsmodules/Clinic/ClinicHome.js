@@ -10,6 +10,7 @@ export default function ClinicHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const [showModal, setShowModal] = useState(false);
+  const {user, setUser} = useContext(UserContext);
   const [selectedClinic, setSelectedClinic] = useState(
     state.ClinicModule.selectedClinic
   );
