@@ -1,30 +1,36 @@
-import {Box, IconButton} from "@mui/material";
-import Fade from "@mui/material/Fade";
-import Modal from "@mui/material/Modal";
-import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, IconButton } from '@mui/material';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-  header?: "string";
-  width?: "string";
+  header?: 'string';
+  width?: 'string';
 }
 const style = {
+
   minWidth: "400px",
   maxWidth: "95vw",
-  minHeight: "300px",
+  minHeight: "400px",
   maxHeight: "95vh",
   bgcolor: "#FAFAFA",
   boxShadow: 24,
   p: 4,
-  borderRadius: "6px",
-  overflow: "hidden",
+  borderRadius: '6px',
+  overflow: 'hidden',
   //minWidth: "100px !important",
 };
 
-const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
+const ModalBox: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  children,
+  header,
+}) => (
   <>
     <Modal
       aria-labelledby="transition-modal-title"
@@ -37,26 +43,29 @@ const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
         timeout: 500,
       }}
       sx={{
-        width: "100%",
-        display: "grid",
-        placeItems: "center ",
+        width: '100%',
+        display: 'grid',
+        placeItems: 'center ',
       }}
     >
       <Fade in={open}>
         <Box sx={style}>
           <div
             style={{
+
               height: "100%",
+              width: width,
               overflowY: "hidden",
             }}
           >
-            {header && (
+            {header && header !== "" && (
               <Box
                 style={{
                   width: "100%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+
                 }}
                 mb={2}
               >
