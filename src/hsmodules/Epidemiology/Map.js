@@ -85,13 +85,13 @@ const data = require("./nigeriahealthfacilities.json");
 
     function Mapper(){
 
-        const hpdata=data.features.slice(0,1000)
+        const hpdata=data.features.slice(0,100)
 
         const map = useMap()
         
        
 
-        
+    
          
         const hospGeoJson = new L.GeoJSON(hpdata, {
             onEachFeature: (feature = {}, layer) => {
@@ -107,18 +107,18 @@ const data = require("./nigeriahealthfacilities.json");
         
           hospGeoJson.addTo(map);
 
-        // const markersBar = L.markerClusterGroup();   
+        const markersBar = L.markerClusterGroup();   
         
-        // markersBar.addLayer(hospGeoJson);
+        markersBar.addLayer(hospGeoJson);
     
-        // map.addLayer(markersBar);
+        map.addLayer(markersBar);
 
 
     }
 
     
     
-    export default function MapCluster() {
+    export default function Map() {
 
     return <div id="map" style={{ height: "100vh" }}>
         <MapContainer center={[9.0820, 8.6753]} zoom={4} maxZoom={10} >
