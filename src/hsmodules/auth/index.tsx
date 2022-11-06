@@ -46,7 +46,6 @@ function Login() {
           ...res.user,
           currentEmployee: {...res.user.employeeData[0]},
         };
-        console.log(user);
         setLoading(false);
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
@@ -75,7 +74,7 @@ function Login() {
               name="email"
               control={control}
               render={({field: {ref: _re, ...field}}) => (
-                <Input {...field} label="Email" placeholder="Email" />
+                <Input {...field} label="Email" />
               )}
             />
             <Controller
