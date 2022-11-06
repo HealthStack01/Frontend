@@ -107,11 +107,11 @@ const data = require("./nigeriahealthfacilities.json");
         
           hospGeoJson.addTo(map);
 
-        const markersBar = L.markerClusterGroup();   
+        // const markersBar = L.markerClusterGroup();   
         
-        markersBar.addLayer(hospGeoJson);
+        // markersBar.addLayer(hospGeoJson);
     
-        map.addLayer(markersBar);
+        // map.addLayer(markersBar);
 
 
     }
