@@ -38,6 +38,7 @@
     "framer-motion": "^5.5.5",
     "gsap": "^3.9.1",
     "leaflet": "^1.9.2",
+    "leaflet.markercluster": "^1.5.3",
     "moment": "^2.29.4",
     "node-sass": "^7.0.3",
     "postcss": "^8.4.5",
