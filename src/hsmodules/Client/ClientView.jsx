@@ -7,10 +7,10 @@ import CustomSelect from "../../components/inputs/basic/Select";
 import BasicDatePicker from "../../components/inputs/Date";
 import { Box } from "@mui/material";
 import ViewText from "../../components/viewtext";
-import { UserContext } from "../../context";
 import CustomTable from "./ui-components/customtable";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { UserContext, ObjectContext } from "../../context";
 
 import {
   BottomWrapper,
@@ -22,12 +22,13 @@ import {
 } from "../app/styles";
 import dayjs from "dayjs";
 import { createClientSchema } from "./schema";
-import ModalBox from "../../components/new-modal";
+import ModalBox from "../../components/modal";
 import { Checkbox } from "../../components/switch/styles";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import { ClientSearch } from "../helpers/ClientSearch";
 import DataTable from "react-data-table-component";
 import { customStyles } from "../../components/customtable/styles";
+import BillServiceCreate from "../Finance/BillServiceCreate";
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service("client");
@@ -35,8 +36,12 @@ const ClientView = ({ open, setOpen, user }) => {
   const [loading, setLoading] = useState(false);
   const [openFinance, setOpenFinance] = useState(false);
   const [editing, setEditing] = useState(false);
-  const result = localStorage.getItem("user");
   const [active, setActive] = useState("");
+  const [billService, setBillService] = useState(false);
+
+  const { state, setState } = useContext(ObjectContext);
+
+  const result = localStorage.getItem("user");
   const data = JSON.parse(result);
 
   const {
@@ -122,6 +127,20 @@ const ClientView = ({ open, setOpen, user }) => {
     setOpen(false);
     setLoading(false);
   };
+
+  const handleBillClient = async () => {
+    const newProductEntryModule = {
+      selectedDispense: {},
+      show: "create",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      DispenseModule: newProductEntryModule,
+    }));
+
+    await setBillService(true);
+  };
+
   const ClientFinanceSchema = [
     {
       name: "S/N",
@@ -175,11 +194,15 @@ const ClientView = ({ open, setOpen, user }) => {
       required: true,
     },
   ];
+
   return (
     <PageWrapper>
-      <ModalBox open={openFinance} onClose={setOpenFinance}>
+      <ModalBox
+        open={openFinance}
+        onClose={() => setOpenFinance(false)}
+        header="Financial Information"
+      >
         <GrayWrapper>
-          <p>FINANCIAL INFORMATION</p>
           <CustomSelect
             options={[
               "Payment Mode",
@@ -214,6 +237,7 @@ const ClientView = ({ open, setOpen, user }) => {
             title="Clients"
             columns={ClientFinanceSchema}
             customStyles={customStyles}
+
             // data={users}
           />
         </GrayWrapper>
@@ -246,7 +270,10 @@ const ClientView = ({ open, setOpen, user }) => {
                 setEditing(!editing);
               }}
             />
-            <Button>Bill Client</Button>
+
+            {/*********************************** IMPLEMENT BILL CLIENT MODAL************************************** */}
+
+            <Button onClick={handleBillClient}>Bill Client</Button>
             <Button onClick={handleFinance}> Financial Information</Button>
           </BottomWrapper>
         </HeadWrapper>
@@ -535,6 +562,14 @@ const ClientView = ({ open, setOpen, user }) => {
           )}
         </form>
       </GrayWrapper>
+
+      <ModalBox
+        open={billService}
+        onClose={() => setBillService(false)}
+        header="Bill Client/Service"
+      >
+        <BillServiceCreate />
+      </ModalBox>
     </PageWrapper>
   );
 };
