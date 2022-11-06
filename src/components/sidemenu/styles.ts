@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Sidemenu = styled.div`
 &.hide{
@@ -19,13 +19,14 @@ export const Sidemenu = styled.div`
   top:0;
   bottom:0;
   left:0;
-  background: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.btnText};
+  background: ${({theme}) => theme.primary};
+  color: ${({theme}) => theme.btnText};
   width: 300px;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
   padding: 2rem 1.5rem ;
   transition: width 0.2s ease-in;
+  
 
   @media (max-width: 768px) {
     left: -300px;
@@ -45,13 +46,13 @@ export const TopSection = styled.div`
   align-items: center;
   justify-content: space-between;
   & h1 {
-    color: ${({ theme }) => theme.btnText};
+    color: ${({theme}) => theme.btnText};
     font-size: 20px;
   }
 `;
 
 export const TogglemenuBtn = styled.div`
-  color: ${({ theme }) => theme.btnText};
+  color: ${({theme}) => theme.btnText};
   font-size: 20px;
   position: absolute;
   top: 50%;
@@ -65,18 +66,33 @@ export const MainMenu = styled.div`
     margin: 1rem 0;
     position: relative;
     overflow-x: hidden;
-    overflow-y: auto;
     height: 100%;
+    overflow-y: auto;
+  }
+
+  &.main-menu.dark::-webkit-scrollbar {
+    width: 7px;
   }
 
   &.main-menu::-webkit-scrollbar {
-    display: none;
+    width: 7px;
   }
+
+  &.main-menu::-webkit-scrollbar-track {
+    background: ${({theme}) => theme.primary};
+  }
+
+  &.main-menu::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #fff;
+  }
+
    {
   }
 
   &.main-menu .menu-item {
-    color: ${({ theme }) => theme.btnText};
+    color: ${({theme}) => theme.btnText};
     text-decoration: none;
     font-size: 15px;
     display: block;
@@ -84,7 +100,7 @@ export const MainMenu = styled.div`
     cursor: pointer;
   }
   &.main-menu .menu-item.active {
-    background: ${({ theme }) => theme.blueTwo};
+    background: ${({theme}) => theme.blueTwo};
     border-radius: 5px;
     color: #fff;
   }

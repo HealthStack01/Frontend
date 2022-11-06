@@ -204,6 +204,7 @@ export const GridWrapper = styled.div`
 
   &.four-columns {
     grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.8rem;
   }
 
   &.five-columns {

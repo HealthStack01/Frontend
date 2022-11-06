@@ -8,7 +8,7 @@ interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-  header?: string;
+  header?: "string";
   width?: "string";
 }
 const style = {
@@ -24,13 +24,7 @@ const style = {
   //minWidth: "100px !important",
 };
 
-const ModalBox: React.FC<ModalProps> = ({
-  open,
-  onClose,
-  children,
-  header,
-  width = "auto",
-}) => (
+const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
   <>
     <Modal
       aria-labelledby="transition-modal-title"
@@ -53,35 +47,39 @@ const ModalBox: React.FC<ModalProps> = ({
           <div
             style={{
               height: "100%",
-              width: width,
-              overflowY: "auto",
+              overflowY: "hidden",
             }}
           >
-            <Box
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              mb={2}
-            >
-              <h1
+            {header && (
+              <Box
                 style={{
-                  color: "#33415C",
-                  fontWeight: "500",
-                  lineHeight: "1.5",
-                  fontSize: "24px",
-                  fontStyle: "SemiBold",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}
+                mb={2}
               >
-                {header}
-              </h1>
+                <h1
+                  style={{
+                    color: "#33415C",
+                    fontWeight: "500",
+                    lineHeight: "1.5",
+                    fontSize: "24px",
+                    fontStyle: "SemiBold",
+                  }}
+                >
+                  {header}
+                </h1>
 
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
+                {onClose && (
+                  <IconButton onClick={onClose}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Box>
+            )}
+
             {children}
           </div>
         </Box>
