@@ -113,12 +113,6 @@ const data = require("./nigeriahealthfacilities.json");
     
         // map.addLayer(markersBar);
 
-         
-    
-        
-
-        
-    
 
     }
 
