@@ -1,28 +1,32 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict, format } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import {AppointmentCreate} from "../Appointment/Appointments";
+import { AppointmentCreate } from "../Appointment/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import {OrgFacilitySearch, SponsorSearch} from "../helpers/FacilitySearch";
+import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Policy() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -59,9 +63,10 @@ export function PolicyList() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
@@ -71,26 +76,26 @@ export function PolicyList() {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -145,7 +150,7 @@ export function PolicyList() {
               $options: "i",
             },
           },
-          {gender: val},
+          { gender: val },
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -155,13 +160,13 @@ export function PolicyList() {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -191,7 +196,7 @@ export function PolicyList() {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage(page => page + 1);
+      setPage((page) => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -221,10 +226,10 @@ export function PolicyList() {
                      console.log(user)
                      getFacilities(user) */
     }
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -245,29 +250,185 @@ export function PolicyList() {
     return () => {};
   }, [facilities]);
   //todo: pagination and vertical scroll bar
+  const PolicySchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date Created",
+      key: "createdAt",
+      description: "Date Created",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Sponsorship Type",
+      key: "sponsorshipType",
+      description: "Sponsorship Type",
+      selector: (row) => row.sponsorshipType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Plan",
+      key: "plan",
+      description: "Plan",
+      selector: (row) => row.plan,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Premium",
+      key: "premium",
+      description: "Premium",
+      selector: (row) => row.premium,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Paid",
+      key: "isPaid",
+      description: "Paid",
+      selector: (row) => row.isPaid,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Active",
+      key: "active",
+      description: "Active",
+      selector: (row) => row.active,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Pricipal Last Name",
+      key: "principal",
+      description: "Principal Last Name",
+      selector: (row) => row.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Middle Name",
+      key: "middlename",
+      description: "Middle Name",
+      selector: (row) => row.middlename,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Phone",
+      key: "phone",
+      description: "Phone Number",
+      selector: (row) => row.phone,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+
+    {
+      name: "Email",
+      key: "email",
+      description: "simpa@email.com",
+      selector: (row) => row.email,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+
+    {
+      name: "Tags",
+      key: "tags",
+      description: "Tags",
+      selector: (row) => row.clientTags,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
       <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Clients"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
+          <TableMenu>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
+              )}
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                List of Clients
+              </h2>
             </div>
+
+            {handleCreateNew && (
+              <Button
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "600",
+                }}
+                label="Add new"
+                onClick={handleCreateNew}
+                showicon={true}
+              />
+            )}
+          </TableMenu>
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh - 90px)",
+              overflow: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={PolicySchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+            />
           </div>
-        </div>
+        </PageWrapper>
         <div className="level-item">
           {" "}
           <span className="is-size-6 has-text-weight-medium">
@@ -387,9 +548,9 @@ export function PolicyList() {
 }
 
 export function PolicyCreate() {
-  const {register, handleSubmit, setValue, getValues, reset} = useForm();
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { register, handleSubmit, setValue, getValues, reset } = useForm();
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
   const [clientModal, setClientModal] = useState(false);
   const [dependant, setDependant] = useState(false);
   const [selectedClient, setSelectedClient] = useState();
@@ -422,59 +583,59 @@ export function PolicyCreate() {
   const [obj, setObj] = useState("");
   const [paymentmode, setPaymentMode] = useState("");
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setChosen(obj);
     if (!obj) {
     }
   };
 
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setPlanHMO(obj);
     if (!obj) {
     }
   };
 
-  const handleChangeMode = async mode => {
+  const handleChangeMode = async (mode) => {
     setMessage(mode);
     if (mode === "Company") {
       setShowCorp(true);
     } else {
       setShowCorp(false);
     }
-    let billm = paymentOptions.filter(el => el.name === mode);
+    let billm = paymentOptions.filter((el) => el.name === mode);
     await setBillMode(billm[0]);
     console.log(billm);
   };
 
-  const handleChangePlan = async value => {
+  const handleChangePlan = async (value) => {
     console.log(value);
     if (value === "") {
       setPrice("");
       return;
     }
     console.log(benefittingPlans1);
-    let cplan = benefittingPlans1.filter(el => el.name === value);
+    let cplan = benefittingPlans1.filter((el) => el.name === value);
     console.log(cplan);
     setChosenPlan(cplan[0]);
     let contract = cplan[0].contracts.filter(
-      el => el.source_org === el.dest_org
+      (el) => el.source_org === el.dest_org
     );
     setPrice(contract[0]);
   };
 
   const handleClickProd = () => {
-    setState(prevstate => ({...prevstate, currBeneficiary: "principal"}));
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
     setDependant("principal");
     console.log(state.Beneficiary);
     setClientModal(true);
   };
   const handleClickProd2 = () => {
-    setState(prevstate => ({...prevstate, currBeneficiary: "dependent"}));
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
     setDependant("dependent");
     setClientModal(true);
   };
 
-  const handleRow = Client => {
+  const handleRow = (Client) => {
     //domething o
   };
 
@@ -547,7 +708,7 @@ export function PolicyCreate() {
 
       await policyServ
         .create(policy)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           e.target.reset();
           /*  setMessage("Created Client successfully") */
@@ -560,7 +721,7 @@ export function PolicyCreate() {
           });
           setSuccess(false);
         })
-        .then(async res => {
+        .then(async (res) => {
           //await setType("Sales")
           type.current = "Sales";
           const today = new Date().toLocaleString();
@@ -577,7 +738,7 @@ export function PolicyCreate() {
 
           await handleCreateBill();
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -604,11 +765,11 @@ export function PolicyCreate() {
       });
       console.log(findServices);
       if (findServices.total > 0) {
-        findServices.groupedOrder[0].services.forEach(async c => {
+        findServices.groupedOrder[0].services.forEach(async (c) => {
           const newPlan = {
             name: c.name,
           };
-          await setBenefittingPlans1(prev => prev.concat(c));
+          await setBenefittingPlans1((prev) => prev.concat(c));
         });
       }
     }
@@ -705,7 +866,7 @@ export function PolicyCreate() {
 
   const createObj = (pay, name, cover, type) => {
     let details = {};
-    details = {...pay};
+    details = { ...pay };
     details.type = type;
 
     return {
@@ -785,7 +946,7 @@ export function PolicyCreate() {
     console.log(document);
 
     //order
-    document.documentdetail.forEach(async element => {
+    document.documentdetail.forEach(async (element) => {
       let orderinfo = {
         //for reach document
         documentationId: "", //tbf
@@ -866,7 +1027,7 @@ export function PolicyCreate() {
         document,
         serviceList,
       })
-        .then(res => {
+        .then((res) => {
           setSuccess(true);
           toast({
             message: "Billed Orders created succesfully",
@@ -883,7 +1044,7 @@ export function PolicyCreate() {
           const invoiceNo = random(6, "uppernumeric");
           documentNo.current = invoiceNo;
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating Billed Orders " + err,
             type: "is-danger",
@@ -1106,7 +1267,10 @@ export function PolicyCreate() {
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <p
+                className="control has-icons-left "
+                style={{ display: "none" }}
+              >
                 <input
                   className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
                 />
@@ -1129,8 +1293,8 @@ export function PolicyCreate() {
                     <div className="select is-small ">
                       <select
                         name="sponsortype"
-                        {...register("x", {required: true})}
-                        onChange={e => handleChangeMode(e.target.value)}
+                        {...register("x", { required: true })}
+                        onChange={(e) => handleChangeMode(e.target.value)}
                         className="selectadd"
                       >
                         <option value=""> Choose Sponsor </option>
@@ -1142,7 +1306,7 @@ export function PolicyCreate() {
                 </div>
                 <div
                   className="field"
-                  style={!showCorp ? {display: "none"} : {}}
+                  style={!showCorp ? { display: "none" } : {}}
                 >
                   <label
                     className="label is-size-7 my-0"
@@ -1160,7 +1324,7 @@ export function PolicyCreate() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{display: "none"}}
+                      style={{ display: "none" }}
                     >
                       <input
                         className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
@@ -1183,7 +1347,7 @@ export function PolicyCreate() {
                 <div className="select is-small ">
                   <select
                     name="plan"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     onChange={(e, i) => handleChangePlan(e.target.value)}
                     className="selectadd"
                   >
@@ -1261,8 +1425,8 @@ export function PolicyCreate() {
   );
 }
 
-export function ClientCreate({closeModal}) {
-  const {register, handleSubmit, setValue, getValues, reset} = useForm(); //, watch, errors, reset
+export function ClientCreate({ closeModal }) {
+  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1274,24 +1438,24 @@ export function ClientCreate({closeModal}) {
   const ClientServ = client.service("client");
   const mpiServ = client.service("mpi");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   // eslint-disable-next-line
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setDate(date);
   };
   useEffect(() => {
@@ -1386,7 +1550,7 @@ export function ClientCreate({closeModal}) {
     }
   };
 
-  const checkQuery = query => {
+  const checkQuery = (query) => {
     setPatList([]);
     if (
       !(
@@ -1395,8 +1559,8 @@ export function ClientCreate({closeModal}) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({query: query})
-        .then(res => {
+      ClientServ.find({ query: query })
+        .then((res) => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -1405,7 +1569,7 @@ export function ClientCreate({closeModal}) {
             return;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -1418,7 +1582,7 @@ export function ClientCreate({closeModal}) {
     setBillModal(false);
   };
 
-  const choosen = async client => {
+  const choosen = async (client) => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -1437,7 +1601,7 @@ export function ClientCreate({closeModal}) {
     //toast niotification
     //cash payment
   };
-  const dupl = client => {
+  const dupl = (client) => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -1447,10 +1611,10 @@ export function ClientCreate({closeModal}) {
     reset();
     setPatList([]);
   };
-  const reg = async client => {
+  const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
-        el => el.facility === user.currentEmployee.facilityDetail._id
+        (el) => el.facility === user.currentEmployee.facilityDetail._id
       ) === -1
     ) {
       //create mpi record
@@ -1464,7 +1628,7 @@ export function ClientCreate({closeModal}) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then(resp => {
+        .then((resp) => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -1472,7 +1636,7 @@ export function ClientCreate({closeModal}) {
             pauseOnHover: true,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -1486,7 +1650,7 @@ export function ClientCreate({closeModal}) {
     setPatList([]);
     //cash payment
   };
-  const depen = client => {
+  const depen = (client) => {
     setDependant(true);
   };
   const onSubmit = async (data, e) => {
@@ -1526,7 +1690,7 @@ export function ClientCreate({closeModal}) {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           //console.log(JSON.stringify(res))
           e.target.reset();
@@ -1569,13 +1733,13 @@ export function ClientCreate({closeModal}) {
                     others:{},
                     show:'create'
                     }          */
-          setState(prevstate => ({
+          setState((prevstate) => ({
             ...prevstate,
             Beneficiary: newClientModule,
           }));
           closeModal();
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -1606,7 +1770,7 @@ export function ClientCreate({closeModal}) {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", {required: true})}
+                      {...register("x", { required: true })}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -1638,7 +1802,7 @@ export function ClientCreate({closeModal}) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", {required: true})}
+                      {...register("x", { required: true })}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -1663,7 +1827,7 @@ export function ClientCreate({closeModal}) {
                     <DatePicker
                       className="is-danger red-border is-small"
                       selected={date}
-                      onChange={date => handleDate(date)}
+                      onChange={(date) => handleDate(date)}
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Enter date with dd/MM/yyyy format "
                       //isClearable
@@ -1750,7 +1914,7 @@ export function ClientCreate({closeModal}) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", {required: true})}
+                      {...register("x", { required: true })}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
