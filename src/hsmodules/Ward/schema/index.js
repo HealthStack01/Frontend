@@ -64,7 +64,7 @@ export const WardAppointmentSchema = [
     inputType: 'TEXT',
   },
   {
-    name: 'Practitioner',
+    name: 'Requesting Practitioner',
     key: 'requestingdoctor_Name',
     description: 'Practitioner',
     selector: (row) => row.requestingdoctor_Name,

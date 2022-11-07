@@ -4,29 +4,11 @@ import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-<<<<<<< HEAD
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 import { ProductCreate } from './Products';
 import Encounter from '../Documentation/Documentation';
-import Input from '../../components/inputs/basic/Input';
-import Button from './ui-components/buttons/Button';
-import { Box } from '@mui/material';
-import { GridWrapper } from '../app/styles';
-import CustomTable from '../../components/customtable';
-import CustomSelect from '../../components/inputs/basic/Select';
-var random = require('random-string-generator');
-// eslint-disable-next-line
-const searchfacility = {};
-
-export default function BillPrescriptionCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
-=======
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
-import ModalBox from "../../components/modal";
+import ModalBox from '../../components/modal';
 import {
   Box,
   Grid,
@@ -35,18 +17,17 @@ import {
   Collapse,
   Grow,
   Button,
-} from "@mui/material";
+} from '@mui/material';
 //import Button from "../../components/buttons/Button";
-import Input from "../../components/inputs/basic/Input";
-import CustomSelect from "../../components/inputs/basic/Select";
-import CustomTable from "../../components/customtable";
-var random = require("random-string-generator");
+import Input from '../../components/inputs/basic/Input';
+import CustomSelect from '../../components/inputs/basic/Select';
+import CustomTable from '../../components/customtable';
+var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function BillPrescriptionCreate({closeModal}) {
+export default function BillPrescriptionCreate({ closeModal }) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState('');
@@ -162,19 +143,9 @@ export default function BillPrescriptionCreate({closeModal}) {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-<<<<<<< HEAD
-          toast({
-            message:
-              'Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
-=======
           toast.error(
-            "Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash"
+            'Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash'
           );
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
           await setSellingPrice(0);
         }
       } else {
@@ -185,19 +156,9 @@ export default function BillPrescriptionCreate({closeModal}) {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-<<<<<<< HEAD
-          toast({
-            message:
-              'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
-=======
           toast.error(
-            "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount "
+            'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount '
           );
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
           await setSellingPrice(0);
         }
       }
@@ -211,19 +172,9 @@ export default function BillPrescriptionCreate({closeModal}) {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-<<<<<<< HEAD
-        toast({
-          message:
-            'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-=======
         toast.error(
-          "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash"
+          'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash'
         );
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
         await setSellingPrice(0);
       }
     }
@@ -234,19 +185,9 @@ export default function BillPrescriptionCreate({closeModal}) {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-<<<<<<< HEAD
-        toast({
-          message:
-            'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
-=======
         toast.error(
-          "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero "
+          'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero '
         );
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
         await setSellingPrice(0);
       }
     }
@@ -329,16 +270,7 @@ export default function BillPrescriptionCreate({closeModal}) {
       productId === '' ||
       paymentmode === ''
     ) {
-<<<<<<< HEAD
-      toast({
-        message: 'You need to choose a product and quantity to proceed',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
-=======
-      toast.error("You need to choose a product and quantity to proceed");
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+      toast.error('You need to choose a product and quantity to proceed');
       return;
     }
 
@@ -408,30 +340,14 @@ export default function BillPrescriptionCreate({closeModal}) {
     // setCalcAmount(null)
     await setSuccess(true);
     getSearchfacility(false);
-<<<<<<< HEAD
     setObj('');
-    /* console.log(success)
-        console.log(qamount)
-        console.log(productItem) */
-=======
-    setObj("");
 
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
     setChangeAmount(true);
   };
 
   const handleQtty = async (e) => {
     if (invquantity < e.target.value) {
-<<<<<<< HEAD
-      toast({
-        message: 'You can not sell more quantity than exist in inventory ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
-=======
-      toast.error("You can not sell more quantity than exist in inventory ");
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+      toast.error('You can not sell more quantity than exist in inventory ');
       return;
     }
     setQuantity(e.target.value);
@@ -499,32 +415,14 @@ export default function BillPrescriptionCreate({closeModal}) {
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-<<<<<<< HEAD
-      toast({
-        message: 'You can not remove inventory from any organization',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
-=======
-      toast.error("You can not remove inventory from any organization");
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+      toast.error('You can not remove inventory from any organization');
       return;
     }
 
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-<<<<<<< HEAD
-      toast({
-        message: 'You need to select a store before removing inventory',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
-=======
-      toast.error("You need to select a store before removing inventory");
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+      toast.error('You need to select a store before removing inventory');
       return;
     }
   };
@@ -685,307 +583,84 @@ export default function BillPrescriptionCreate({closeModal}) {
 
   const productSchema = [
     {
-<<<<<<< HEAD
-      name: 'S/N',
+      name: 'S/NO',
       key: 'sn',
-      description: 'SN',
+      description: 'Enter name of Disease',
       selector: (row) => row.sn,
       sortable: true,
+      required: true,
       inputType: 'HIDDEN',
     },
-
     {
       name: 'Name',
       key: 'name',
-      description: 'name',
+      description: 'Enter Name',
       selector: (row) => row.name,
-=======
-      name: "S/NO",
-      key: "sn",
-      description: "Enter name of Disease",
-      selector: row => row.sn,
-      sortable: true,
-      required: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Name",
-      key: "name",
-      description: "Enter Name",
-      selector: row => row.name,
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
-<<<<<<< HEAD
-
     {
       name: 'Quantity',
-      key: 'quantity',
-      description: 'quantity',
+      key: 'order',
+      description: 'Enter quantity',
       selector: (row) => row.quantity,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
-    },
-
-    {
-      name: 'Baseunit',
-      key: 'baseunit',
-      description: 'baseunit',
-      selector: (row) => row.baseunit,
-      sortable: true,
-      required: true,
-      inputType: 'checkbox',
-    },
-
-    {
-      name: 'Selling gprice',
-      key: 'sellingprice',
-      description: 'sellingprice',
-      selector: (row) => row.sellingprice,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'Amount',
-      key: 'amount',
-      description: 'amount',
-      selector: (row) => row.amount,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-  ];
-
-  const proddata = [
-    {
-      sn: 1,
-      name: 'Helen',
-      quantity: '2',
-      baseunit: '4',
-      sellingprice: '200',
-      amount: '3',
-    },
-  ];
-
-  // console.log("simpa")
-  return (
-    <>
-      <div>
-        <div>
-          <button
-            className="button is-success is-small btnheight mt-2"
-            onClick={showDocumentation}
-          >
-            Documentation
-          </button>
-        </div>
-        <div className="card-content ">
-          <form onSubmit={onSubmit}>
-            {' '}
-            <GridWrapper>
-              <CustomSelect
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                options={['Choose Type', 'Dispense', 'Bill', 'Audit']}
-              />
-              <Input
-                register={register('client', { required: true })}
-                value={source}
-                name="client"
-                type="text"
-                onChange={(e) => setSource(e.target.value)}
-                placeholder="Client"
-              />
-              <CustomSelect
-                name="paymentmode"
-                value={paymentmode}
-                onChange={(e) => handleChangeMode(e.target.value)}
-                options={['Cash', 'Family', 'Cover', 'HMO']}
-              />{' '}
-              {''}
-              <Input
-                register={register('date', { required: true })}
-                name="date"
-                type="text"
-                onChange={(e) => setDate(e.target.value)}
-                placeholder="Date"
-              />
-              <Input
-                register={register('documentNo', { required: true })}
-                name="documentNo"
-                value={documentNo}
-                type="text"
-                onChange={(e) => setDocumentNo(e.target.value)}
-                placeholder=" Invoice Number"
-              />
-              <Input
-                register={register('totalamount', { required: true })}
-                value={totalamount}
-                name="totalamount"
-                type="text"
-                onChange={(e) => setTotalamount(e.target.value)}
-                placeholder=" Total Amount"
-              />
-            </GridWrapper>
-          </form>
-          {/* array of ProductEntry items */}
-          <GridWrapper>
-            <Input
-              register={register('order', { required: true })}
-              name="order"
-              value={medication.order}
-              type="text"
-              onChange={(e) => handleQtty(e)}
-              placeholder="Quantity"
-            />
-
-            <Box>
-              <strong>Instruction: </strong>
-              {medication.instruction}
-            </Box>
-            <Box>
-              <strong>Billing Status: </strong>
-              {medication.order_status}
-            </Box>
-
-            <InventorySearch
-              getSearchfacility={getSearchfacility}
-              clear={success}
-            />
-
-            <Input
-              register={register('productId', { required: true })}
-              value={productId}
-              name="productId"
-              type="text"
-              onChange={(e) => setProductId(e.target.value)}
-              placeholder="Product Id"
-            />
-
-            <Input
-              register={register('quantity', { required: true })}
-              name="quantity"
-              value={quantity}
-              type="text"
-              onChange={(e) => handleQtty(e)}
-              placeholder="Quantity"
-            />
-
-            <Input
-              name="qamount"
-              disabled={changeAmount}
-              value={calcamount}
-              type="text"
-              onChange={async (e) => await setCalcAmount(e.target.value)}
-              placeholder="Amount"
-            />
-
-            <Button
-              style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-              label="Adjust"
-              onClick={handleChangeAmount}
-            />
-
-            {/* <Button
-               style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                onClick={handleClickProd}/> */}
-          </GridWrapper>
-          <CustomTable
-            title={'Product Table'}
-            columns={billDescriptionSchema}
-            data={proddata}
-            pointerOnHover
-            highlightOnHover
-            striped
-          />
-          <Box
-            style={{ display: 'flex', marginTop: '30px', marginBottom: '30px' }}
-          >
-            {/* <Button 
-               style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                disabled={!productItem.length > 0}
-                 onClick={handleMedicationDone}>Done </Button> */}
-            {/* <Button
-               style={{fontSize: "14px", fontWeight: "600", width:"80px"}} disabled={!productItem.length>0} onClick={onSubmit} >
-                      Clear
-              </Button> */}
-
-            {/* <Button style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-           onClick={handlecloseModal}/> */}
-
-            <Button
-              style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-            >
-              Save
-            </Button>
-            {/* <Button style={{fontSize: "14px", fontWeight: "600", width:"80px"}}>Cancel</Button> */}
-          </Box>{' '}
-        </div>
-=======
-    {
-      name: "Quantity",
-      key: "order",
-      description: "Enter quantity",
-      selector: row => row.quantity,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
+      inputType: 'NUMBER',
     },
     ,
     {
-      name: "Unit",
-      key: "baseunit",
-      description: "Enter Unit",
-      selector: row => row.baseunit,
+      name: 'Unit',
+      key: 'baseunit',
+      description: 'Enter Unit',
+      selector: (row) => row.baseunit,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Selling Price",
-      key: "sellingprice",
-      description: "Enter selling price",
-      selector: row => row.sellingprice,
+      name: 'Selling Price',
+      key: 'sellingprice',
+      description: 'Enter selling price',
+      selector: (row) => row.sellingprice,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: 'NUMBER',
     },
     {
-      name: "Amount",
-      key: "order",
-      description: "Enter amount",
-      selector: row => row.amount,
+      name: 'Amount',
+      key: 'order',
+      description: 'Enter amount',
+      selector: (row) => row.amount,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: 'NUMBER',
     },
     {
-      name: "Actions",
-      key: "actions",
-      description: "Enter action",
-      selector: row => <p style={{color: "red", fontSize: ".75rem"}}>Remove</p>,
+      name: 'Actions',
+      key: 'actions',
+      description: 'Enter action',
+      selector: (row) => (
+        <p style={{ color: 'red', fontSize: '.75rem' }}>Remove</p>
+      ),
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: 'NUMBER',
     },
   ];
   return (
     <>
-      <div className="card card-overflow" style={{width: "100%"}}>
-        <Box container sx={{width: "100%"}}>
-          <Box item sx={{width: "100%", padding: "15px 0"}}>
-            <Button onClick={showDocumentation} style={{fontSize: "0.8rem"}}>
+      <div className="card card-overflow" style={{ width: '100%' }}>
+        <Box container sx={{ width: '100%' }}>
+          <Box item sx={{ width: '100%', padding: '15px 0' }}>
+            <Button onClick={showDocumentation} style={{ fontSize: '0.8rem' }}>
               Documentation
             </Button>
           </Box>
 
-          <form onSubmit={onSubmit} style={{width: "100%"}}>
-            <Box container sx={{width: "100%"}}>
+          <form onSubmit={onSubmit} style={{ width: '100%' }}>
+            <Box container sx={{ width: '100%' }}>
               <Grid container spacing={2}>
                 <Grid item xs={8}>
                   <Input
@@ -993,7 +668,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     value={source}
                     //register={register("client", {required: true})}
                     type="text"
-                    onChange={e => setSource(e.target.value)}
+                    onChange={(e) => setSource(e.target.value)}
                     label="Client"
                     disabled
                   />
@@ -1003,8 +678,8 @@ export default function BillPrescriptionCreate({closeModal}) {
                   <CustomSelect
                     name="paymentmode"
                     defaultValue={paymentmode}
-                    onChange={e => handleChangeMode(e.target.value)}
-                    options={paymentOptions.map(item => item.name)}
+                    onChange={(e) => handleChangeMode(e.target.value)}
+                    options={paymentOptions.map((item) => item.name)}
                     initialOption="Payment option"
                     label="Billing Mode"
                   />
@@ -1020,7 +695,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     value={date}
                     name="date"
                     type="text"
-                    onChange={e => setDate(e.target.value)}
+                    onChange={(e) => setDate(e.target.value)}
                     placeholder="Date"
                     disabled
                   />
@@ -1030,7 +705,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     name="documentNo"
                     value={documentNo}
                     type="text"
-                    onChange={e => setDocumentNo(e.target.value)}
+                    onChange={(e) => setDocumentNo(e.target.value)}
                     label="Invoice Number"
                     disabled
                   />
@@ -1040,7 +715,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     value={totalamount}
                     name="totalamount"
                     type="text"
-                    onChange={e => setTotalamount(e.target.value)}
+                    onChange={(e) => setTotalamount(e.target.value)}
                     label=" Total Amount"
                   />
                 </Grid>
@@ -1055,7 +730,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                   name="order"
                   value={medication.order}
                   type="text"
-                  onChange={e => handleQtty(e)}
+                  onChange={(e) => handleQtty(e)}
                   label="Medication"
                 />
               </Grid>
@@ -1064,15 +739,15 @@ export default function BillPrescriptionCreate({closeModal}) {
                 <Box
                   container
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
                   <Typography
                     sx={{
-                      display: "inline",
-                      fontWeight: "bold",
-                      fontSize: "0.75rem",
+                      display: 'inline',
+                      fontWeight: 'bold',
+                      fontSize: '0.75rem',
                     }}
                     mr={0.5}
                     component="h1"
@@ -1080,7 +755,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     Medication :
                   </Typography>
                   <Typography
-                    sx={{display: "inline", fontSize: "0.75rem"}}
+                    sx={{ display: 'inline', fontSize: '0.75rem' }}
                     component="span"
                   >
                     {medication.instruction}
@@ -1090,15 +765,15 @@ export default function BillPrescriptionCreate({closeModal}) {
                 <Box
                   container
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
                   <Typography
                     sx={{
-                      display: "inline",
-                      fontWeight: "bold",
-                      fontSize: "0.75rem",
+                      display: 'inline',
+                      fontWeight: 'bold',
+                      fontSize: '0.75rem',
                     }}
                     mr={0.5}
                     component="h1"
@@ -1106,7 +781,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     Billing Status :
                   </Typography>
                   <Typography
-                    sx={{display: "inline", fontSize: "0.75rem"}}
+                    sx={{ display: 'inline', fontSize: '0.75rem' }}
                     component="span"
                   >
                     {medication.order_status}
@@ -1118,7 +793,7 @@ export default function BillPrescriptionCreate({closeModal}) {
 
           <Box>
             <Typography
-              sx={{display: "inline", fontWeight: "bold", fontSize: "0.8rem"}}
+              sx={{ display: 'inline', fontWeight: 'bold', fontSize: '0.8rem' }}
               component="h1"
             >
               Choose Product Item:
@@ -1134,22 +809,22 @@ export default function BillPrescriptionCreate({closeModal}) {
 
                   <Typography
                     sx={{
-                      display: "inline",
-                      fontSize: "0.85rem",
+                      display: 'inline',
+                      fontSize: '0.85rem',
                     }}
                     component="span"
                   >
-                    {sellingprice && "N"}
-                    {sellingprice} {sellingprice && "per"} {baseunit}
-                    {invquantity} {sellingprice && "remaining"}
+                    {sellingprice && 'N'}
+                    {sellingprice} {sellingprice && 'per'} {baseunit}
+                    {invquantity} {sellingprice && 'remaining'}
                   </Typography>
                 </Box>
                 <input
-                  style={{display: "none"}}
+                  style={{ display: 'none' }}
                   value={productId}
                   name="productId"
                   type="text"
-                  onChange={e => setProductId(e.target.value)}
+                  onChange={(e) => setProductId(e.target.value)}
                   placeholder="Product Id"
                 />
               </Grid>
@@ -1161,7 +836,7 @@ export default function BillPrescriptionCreate({closeModal}) {
                     name="quantity"
                     value={quantity}
                     type="text"
-                    onChange={e => handleQtty(e)}
+                    onChange={(e) => handleQtty(e)}
                     label="Quantity"
                   />
 
@@ -1169,8 +844,8 @@ export default function BillPrescriptionCreate({closeModal}) {
                     variant="contained"
                     onClick={handleClickProd}
                     style={{
-                      width: "100%",
-                      fontSize: "0.8rem",
+                      width: '100%',
+                      fontSize: '0.8rem',
                     }}
                     // disabled={
                     //   quantity === 0 ||
@@ -1192,19 +867,19 @@ export default function BillPrescriptionCreate({closeModal}) {
                     disabled={changeAmount}
                     value={calcamount}
                     type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
+                    onChange={async (e) => await setCalcAmount(e.target.value)}
                     label="Amount"
                   />
                   <Button
                     variant="contained"
                     onClick={handleChangeAmount}
                     style={{
-                      width: "100%",
-                      fontSize: "0.8rem",
+                      width: '100%',
+                      fontSize: '0.8rem',
                       //background: "#0364FF",
                     }}
                   >
-                    {!changeAmount ? "Done" : "Adjust"}
+                    {!changeAmount ? 'Done' : 'Adjust'}
                   </Button>
                 </Box>
               </Grid>
@@ -1216,13 +891,13 @@ export default function BillPrescriptionCreate({closeModal}) {
           <Box>
             <div
               style={{
-                width: "100%",
-                height: "200px",
-                overflowY: "scroll",
+                width: '100%',
+                height: '200px',
+                overflowY: 'scroll',
               }}
             >
               <CustomTable
-                title={""}
+                title={''}
                 columns={productSchema}
                 data={productItem}
                 pointerOnHover
@@ -1241,7 +916,6 @@ export default function BillPrescriptionCreate({closeModal}) {
             </Button>
           </Box>
         )}
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
       </div>
 
       <ModalBox
@@ -1257,31 +931,26 @@ export default function BillPrescriptionCreate({closeModal}) {
   );
 }
 
-<<<<<<< HEAD
-export function InventorySearch({ getSearchfacility, clear }) {
-  const productServ = client.service('inventory');
-=======
 const useOnClickOutside = (ref, handler) => {
   useEffect(() => {
-    const listener = event => {
+    const listener = (event) => {
       // Do nothing if clicking ref's element or descendent elements
       if (!ref.current || ref.current.contains(event.target)) {
         return;
       }
       handler(event);
     };
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
     return () => {
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
     };
   }, [ref, handler]);
 };
 
-export function InventorySearch({getSearchfacility, clear}) {
-  const productServ = client.service("inventory");
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+export function InventorySearch({ getSearchfacility, clear }) {
+  const productServ = client.service('inventory');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
@@ -1301,13 +970,9 @@ export function InventorySearch({getSearchfacility, clear}) {
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-<<<<<<< HEAD
-  const handleRow = async (obj) => {
-=======
   const dropDownRef = useRef(null);
 
-  const handleRow = async obj => {
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1414,65 +1079,8 @@ export function InventorySearch({getSearchfacility, clear}) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-<<<<<<< HEAD
-            className={`dropdown ${showPanel ? 'is-active' : ''}`}
-            style={{ width: '100%' }}
-          >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
-              <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ''
-                ) : (
-                  <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
-                  >
-                    {' '}
-                    <span> {val} is not in your inventory</span>{' '}
-                  </div>
-                )}
-
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <div>
-                      <span>{facility.name}</span>
-                    </div>
-                    <div>
-                      <span>
-                        <strong>{facility.quantity}</strong>
-                      </span>
-                      <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
-                        <strong>Price:</strong> N{facility.sellingprice}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-=======
             className="dropdown-trigger"
-            style={{width: "100%", position: "relative"}}
+            style={{ width: '100%', position: 'relative' }}
           >
             <DebounceInput
               className="input is-small  is-expanded"
@@ -1481,8 +1089,8 @@ export function InventorySearch({getSearchfacility, clear}) {
               value={simpa}
               minLength={3}
               debounceTimeout={400}
-              onBlur={e => handleBlur(e)}
-              onChange={e => handleSearch(e.target.value)}
+              onBlur={(e) => handleBlur(e)}
+              onChange={(e) => handleSearch(e.target.value)}
               inputRef={inputEl}
               element={Input}
             />
@@ -1493,16 +1101,16 @@ export function InventorySearch({getSearchfacility, clear}) {
                   ref={dropDownRef}
                   container
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxHeight: "150px",
-                    overflowY: "scroll",
-                    zIndex: "5",
-                    position: "absolute",
-                    background: "#ffffff",
-                    width: "100%",
-                    border: "1px solid lightgray",
-                    zIndex: "500",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    maxHeight: '150px',
+                    overflowY: 'scroll',
+                    zIndex: '5',
+                    position: 'absolute',
+                    background: '#ffffff',
+                    width: '100%',
+                    border: '1px solid lightgray',
+                    zIndex: '500',
                   }}
                 >
                   {facilities.length > 0 ? (
@@ -1512,25 +1120,25 @@ export function InventorySearch({getSearchfacility, clear}) {
                         key={i}
                         onClick={() => handleRow(facility)}
                         sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          padding: "0 8px",
-                          width: "100%",
-                          minHeight: "50px",
-                          borderTop: i !== 0 ? "1px solid gray" : "",
-                          cursor: "pointer",
-                          zIndex: "100",
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          padding: '0 8px',
+                          width: '100%',
+                          minHeight: '50px',
+                          borderTop: i !== 0 ? '1px solid gray' : '',
+                          cursor: 'pointer',
+                          zIndex: '100',
                         }}
                       >
                         <span>{facility.name}</span>
                         <div>
                           <span>
-                            <strong>{facility.quantity}</strong>{" "}
+                            <strong>{facility.quantity}</strong>{' '}
                             {facility.baseunit}(s) remaining
                           </span>
 
-                          <span style={{paddingLeft: "5px"}}>
+                          <span style={{ paddingLeft: '5px' }}>
                             <strong>Price:</strong> N{facility.sellingprice}
                           </span>
                         </div>
@@ -1540,29 +1148,28 @@ export function InventorySearch({getSearchfacility, clear}) {
                     <Box
                       className="dropdown-item"
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "0 8px",
-                        width: "100%",
-                        minHeight: "50px",
-                        borderTop: "1px solid gray",
-                        cursor: "pointer",
-                        zIndex: "100",
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '0 8px',
+                        width: '100%',
+                        minHeight: '50px',
+                        borderTop: '1px solid gray',
+                        cursor: 'pointer',
+                        zIndex: '100',
                       }}
                     >
                       <span
                         style={{
-                          fontSize: "0.75rem",
+                          fontSize: '0.75rem',
                         }}
                       >
                         {val} doesn't exist in your inventory
-                      </span>{" "}
+                      </span>{' '}
                     </Box>
                   )}
                 </Box>
               </Card>
             </Grow>
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
           </div>
         </div>
       </div>

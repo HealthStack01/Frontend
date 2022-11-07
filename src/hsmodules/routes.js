@@ -74,50 +74,50 @@ import PharmacyReport from './Pharmacy/InventoryReport';
 import InventorySetup from './inventory/InventorySetup';
 import PharmacyInventoryStore from './Pharmacy/InventoryStore';
 /* import InventorySetup from './Pharmacy/InventorySetup' */
-import PharmacyProductEntry from "./Pharmacy/ProductEntry";
-import PharmacyProductExit from "./Pharmacy/ProductExit";
-import InventoryStore from "./inventory/InventoryStore";
-import Journal from "./Accounts/Journal";
-import LaboratoryHome from "./Laboratory/LaboratoryHome";
-import LaboratoryPayment from "./Laboratory/LaboratoryPayment";
-import LabReport from "./Laboratory/LabReport";
-import Labs from "./Laboratory/Labs"; //, { StoreList, StoreListStandalone }
-import Ledgers from "./Accounts/Ledgers";
-import Map from "./Epidemiology/Map";
-import Patients from "./Client/Client";
-import Payment from "./Finance/Payment";
-import ClientPayment from "./Client/Payment";
+import PharmacyProductEntry from './Pharmacy/ProductEntry';
+import PharmacyProductExit from './Pharmacy/ProductExit';
+import InventoryStore from './inventory/InventoryStore';
+import Journal from './Accounts/Journal';
+import LaboratoryHome from './Laboratory/LaboratoryHome';
+import LaboratoryPayment from './Laboratory/LaboratoryPayment';
+import LabReport from './Laboratory/LabReport';
+import Labs from './Laboratory/Labs'; //, { StoreList, StoreListStandalone }
+import Ledgers from './Accounts/Ledgers';
+import Map from './Epidemiology/Map';
+import Patients from './Client/Client';
+import Payment from './Finance/Payment';
+import ClientPayment from './Client/Payment';
 import Pharmacy, {
   PharamcyList,
   PharmacyListStandalone,
-} from "./Pharmacy/Pharmacy";
-import PharmacyHome from "./Pharmacy/PharmacyHome";
-import PharmacyInventoryReport from "./Pharmacy/InventoryReport";
+} from './Pharmacy/Pharmacy';
+import PharmacyHome from './Pharmacy/PharmacyHome';
+import PharmacyInventoryReport from './Pharmacy/InventoryReport';
 //import InventoryPayment from './inventory/PharmacyPayment'
-import PharmacyPayment from "./Pharmacy/PharmacyPayment";
-import InventoryPayment from "./inventory/InventoryPayment";
-import FinacneProductEntry from "./Finance/Services";
-import InventoryProductEntry from "./inventory/ProductEntry";
-import FinanceProductExit from "./Finance/ProductExit";
-import InventoryProductExit from "./inventory/ProductExit";
-import FinanceProducts from "./Finance/Products";
-import InventoryProducts from "./inventory/Products";
-import PharmacyProducts from "./Pharmacy/Products";
+import PharmacyPayment from './Pharmacy/PharmacyPayment';
+import InventoryPayment from './inventory/InventoryPayment';
+import FinacneProductEntry from './Finance/Services';
+import InventoryProductEntry from './inventory/ProductEntry';
+import FinanceProductExit from './Finance/ProductExit';
+import InventoryProductExit from './inventory/ProductExit';
+import FinanceProducts from './Finance/Products';
+import InventoryProducts from './inventory/Products';
+import PharmacyProducts from './Pharmacy/Products';
 
-import RadAppointments from "./Appointment/RadAppointments";
-import RadCheckedin from "./Appointment/Radworkflow";
-import Radiology from "./Radiology/Radiologys"; //, { StoreList, StoreListStandalone }
-import RadiologyHome from "./Radiology/RadiologyHome";
-import RadiologyPayment from "./Radiology/RadiologyPayment";
-import RadiologyReport from "./Radiology/RadiologyReport";
-import Report from "./Accounts/Report";
-import Services from "./Finance/Services";
-import EpidemiologySignals from "./Epidemiology/Signals"; //, { StoreList, StoreListStandalone }
+import RadAppointments from './Appointment/RadAppointments';
+import RadCheckedin from './Appointment/Radworkflow';
+import Radiology from './Radiology/Radiologys'; //, { StoreList, StoreListStandalone }
+import RadiologyHome from './Radiology/RadiologyHome';
+import RadiologyPayment from './Radiology/RadiologyPayment';
+import RadiologyReport from './Radiology/RadiologyReport';
+import Report from './Accounts/Report';
+import Services from './Finance/Services';
+import EpidemiologySignals from './Epidemiology/Signals'; //, { StoreList, StoreListStandalone }
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store' */
 /* import Store, { StoreList, StoreListStandalone } from './Finance/Store'  */
 
-import Theatre from "./Theatre/Theatres"; //, /* { StoreList, StoreListStandalone } */
-import TheatreAppointments from "./Appointment/TheatreAppointments";
+import Theatre from './Theatre/Theatres'; //, /* { StoreList, StoreListStandalone } */
+import TheatreAppointments from './Appointment/TheatreAppointments';
 //import TheatreCheckedin from './Appointment/TheatreWorkflow';
 import TheatreHome from './Theatre/TheatreHome';
 import TheatrePayment from './Theatre/TheatrePayment';
@@ -128,42 +128,42 @@ import Store, { StoreList, StoreListStandalone } from './inventory/Store';
 import TheatreCheckedin from './Theatre/TheatreCheckedin';
 
 //import ClientPayment from "./Client/Payment";
-import ClientHome from "./Client/ClientHome";
-import TheatreCheckIn from "./Appointment/TheatreWorkflow";
-import GeneralAppointments from "./Appointment/generalAppointment";
+import ClientHome from './Client/ClientHome';
+import TheatreCheckIn from './Appointment/TheatreWorkflow';
+import GeneralAppointments from './Appointment/generalAppointment';
 // import ClientsAppointments from "./Clients/Appointments";
 //import ClientsAppointments from "./Client/Appointments";
 
 //importing dashboardModules
-import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
-import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
-import LandingPageDashboard from "./dashBoardUiComponent/@modules/LandingPageDashboard";
-import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
-import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
-import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
-import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
-import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
-import ForgotPassword from "./auth/ForgotPassword";
-import CreatePassword from "./auth/CreatePassword";
+import ClientDashboard from './dashBoardUiComponent/@modules/ClientDashboard';
+import ClinicDashboard from './dashBoardUiComponent/@modules/ClinicDashboard';
+import LandingPageDashboard from './dashBoardUiComponent/@modules/LandingPageDashboard';
+import WardDashboard from './dashBoardUiComponent/@modules/WardDashboard';
+import PharmacyDashboard from './dashBoardUiComponent/@modules/PharmacyDashboard';
+import InventoryDashboard from './dashBoardUiComponent/@modules/InventoryDashboard';
+import FinanceDashboard from './dashBoardUiComponent/@modules/FinanceDashboard';
+import LaboratoryDashboard from './dashBoardUiComponent/@modules/LaboratoryDashboard';
+import ForgotPassword from './auth/ForgotPassword';
+import CreatePassword from './auth/CreatePassword';
 
 const moduleLocationTypes = {
-  clinic: "Clinic",
-  clients: "Front Desk",
-  admin: "Front Desk",
-  pharmacy: "Pharmacy",
-  finance: "Finance",
-  inventory: "Store",
-  ward: "Ward",
-  laboratory: "Laboratory",
+  clinic: 'Clinic',
+  clients: 'Front Desk',
+  admin: 'Front Desk',
+  pharmacy: 'Pharmacy',
+  finance: 'Finance',
+  inventory: 'Store',
+  ward: 'Ward',
+  laboratory: 'Laboratory',
 };
 
 const AppRoutes = () => {
   const { setLocationType } = useRepository(Models.LOCATION);
 
-  const [currentModule, setCurrentModule] = useState("");
+  const [currentModule, setCurrentModule] = useState('');
   const location = useLocation();
   useEffect(() => {
-    const paths = location.pathname.split("/");
+    const paths = location.pathname.split('/');
     const newModule = paths.length > 2 && paths[2];
     setCurrentModule(newModule);
     if (
@@ -202,11 +202,6 @@ const AppRoutes = () => {
             element={<ChartofAccount />}
           />
 
-<<<<<<< HEAD
-          <Route path="/app/documentation" element={<Documentation />} />
-          {/* Appointmenta */}
-=======
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
           <Route
             path="/app/global-appointment"
             element={<GeneralAppointments />}
@@ -264,10 +259,6 @@ const AppRoutes = () => {
             path="/app/clinic/appointments"
             element={<ClinicAppointments />}
           />
-<<<<<<< HEAD
-          <Route path="/app/clinic/documentation" element={<Documentation />} />
-=======
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
           <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
           <Route path="/app/clinic/documentation" element={<Documentation />} />
           <Route path="/app/clinic/patients" element={<Patients />} />

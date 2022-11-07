@@ -298,7 +298,7 @@ export function AdmissionList({ showModal, setShowModal }) {
                       width: '300px',
                     }}
                   >
-                    Admissions
+                    Pending Admissions
                   </h2>
                 </div>
               </TableMenu>

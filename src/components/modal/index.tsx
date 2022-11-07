@@ -12,19 +12,11 @@ interface ModalProps {
   width?: 'string';
 }
 const style = {
-<<<<<<< HEAD
   minWidth: '400px',
   maxWidth: '95vw',
   minHeight: '400px',
-  maxHeight: '100%',
+  maxHeight: '95vh',
   bgcolor: '#FAFAFA',
-=======
-  minWidth: "400px",
-  maxWidth: "95vw",
-  minHeight: "400px",
-  maxHeight: "95vh",
-  bgcolor: "#FAFAFA",
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
   boxShadow: 24,
   p: 4,
   borderRadius: '6px',

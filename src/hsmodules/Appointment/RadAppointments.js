@@ -375,13 +375,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
+                <option value="New">New Procedure</option>
+                <option value="Repeat">Repeat Procedure</option>
               </select>
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3}>
@@ -395,16 +390,19 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                   color: ' #979DAC',
                 }}
               >
-                <option defaultChecked>Appointment Status </option>
+                <option value="">Appointment Status </option>
                 <option value="Scheduled">Scheduled</option>
                 <option value="Confirmed">Confirmed</option>
+                <option value="Billed">Billed</option>
+                <option value="Paid">Paid</option>
                 <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
+                <option value="Procedure in Progress">
+                  Procedure in Progress
+                </option>
+                <option value="Completed Procedure">Completed Procedure</option>
+                <option value="Checked Out">Checked Out</option>
                 <option value="No Show">No Show</option>
                 <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
               </select>
             </Grid>
           </Grid>

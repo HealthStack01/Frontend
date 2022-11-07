@@ -14,6 +14,10 @@ import ModalBox from '../../../components/modal';
 import CheckboxInput from '../../../components/inputs/basic/Checkbox';
 import CustomSelect from '../../../components/inputs/basic/Select';
 import { Select } from 'semantic-ui-react';
+import {
+  InputBox,
+  InputLabel,
+} from '../../../components/inputs/basic/Input/styles';
 
 export default function LaboratoryReportForm() {
   const { register, handleSubmit } = useForm();
@@ -106,7 +110,7 @@ export default function LaboratoryReportForm() {
                 <div className="select is-small ">
                   <select
                     name="FormType"
-                    {...register('FormType', { required: true })}
+                    {...register('FormType')}
                     onChange={(e) => handleChangeMode(e.target.value)}
                     className="selectadd"
                     style={{
@@ -193,6 +197,21 @@ export function Haematology() {
   const ClientServ = client.service('labresults');
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
+  const [hb, setHb] = useState('');
+  const [pvc, setPvc] = useState('');
+  const [wbc, setWbc] = useState('');
+  const [rectics, setRectics] = useState('');
+  const [esr, setEsr] = useState('');
+  const [platelets, setPlatelets] = useState('');
+  const [rbc, setRbc] = useState('');
+  const [mcv, setMcv] = useState('');
+  const [mchc, setMchc] = useState('');
+  const [mch, setMch] = useState('');
+  const [neutrophils, setNeutrophils] = useState('');
+  const [lymphocytes, setLymphocytes] = useState('');
+  const [monocytes, setMonocytes] = useState('');
+  const [eosinophils, setEosinophils] = useState('');
+  const [basophils, setBasophils] = useState('');
 
   // let draftDoc=state.DocumentClassModule.selectedDocumentClass.document
 
@@ -299,16 +318,11 @@ export function Haematology() {
           e.target.reset();
 
           setSuccess(true);
-          toast({
-            message: 'Lab Result created succesfully',
-            type: 'is-success',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success('Lab Result created succesfully');
           setSuccess(false);
         })
         .catch((err) => {
-          toast('Error creating Lab Result ' + err);
+          toast.error('Error creating Lab Result ' + err);
         });
     }
 
@@ -318,21 +332,11 @@ export function Haematology() {
           e.target.reset();
 
           setSuccess(true);
-          toast({
-            message: 'Lab Result updated succesfully',
-            type: 'is-success',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success('Lab Result updated succesfully');
           setSuccess(false);
         })
         .catch((err) => {
-          toast({
-            message: 'Error updating Lab Result ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error('Error updating Lab Result ' + err);
         });
     }
     const newProductEntryModule = {
@@ -350,6 +354,30 @@ export function Haematology() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+  const inputStyle = {
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    padding: '0.9rem',
+    width: '100%',
+    height: '100%',
+    borderRadius: ' 4px',
+    border: '1.5px solid #BBBBBB',
+    width: '100%',
+    // on focus
+    '&:focus': {
+      border: '2px solid #0364FF',
+    },
+  };
+  const labelStyle = {
+    position: 'absolute',
+    left: '1rem',
+    top: '-0.5rem',
+    padding: '0 0.25rem',
+    backgroundColor: '#fff',
+    transition: '0.4s',
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p style={{ fontWeight: '700' }} className="label is-small">
@@ -357,145 +385,396 @@ export function Haematology() {
       </p>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="Hb"
-            name="hb"
-            type="text"
-            register={register('pcv', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="hb"
+              type="text"
+              {...register('hb')}
+              onChange={(e) => setHb(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="hb"
+              style={
+                hb
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              HB (G/DL)
+            </label>
+          </InputBox>
+          {hb < 12 || hb > 16 ? (
+            <p style={{ color: 'red' }}>
+              {hb < 12 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="PCV"
-            name="pcv"
-            type="text"
-            register={register('pcv', { required: true })}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
-          <Input
-            label="WBC"
-            name="wbc"
-            type="text"
-            register={register('wbc', { required: true })}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Input
-            label="ESR"
-            name="esr"
-            type="text"
-            register={register('esr', { required: true })}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
-          <Input
-            label="Platelets"
-            name="platelets"
-            type="text"
-            register={register('platelets', { required: true })}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Input
-            label="Rectics"
-            name="rectics"
-            type="text"
-            register={register('rectics', { required: true })}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
-          <Input
-            label="RBC"
-            name="rbc"
-            type="text"
-            register={register('rbc', { required: true })}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Input
-            label="MCV"
-            name="mcv"
-            type="text"
-            register={register('mcv', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="pvc"
+              type="text"
+              {...register('pvc')}
+              onChange={(e) => setPvc(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="pvc"
+              style={
+                pvc
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              PVC (%)
+            </label>
+          </InputBox>
+          {pvc < 36 || pvc > 45 ? (
+            <p style={{ color: 'red' }}>
+              {pvc < 36 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="MCHC"
-            name="mchc"
-            type="text"
-            register={register('mchc', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="wbc"
+              type="text"
+              {...register('wbc')}
+              onChange={(e) => setWbc(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="wbc"
+              style={
+                wbc
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              WBC (CMM)
+            </label>
+          </InputBox>
+          {wbc < 3000 || wbc > 11000 ? (
+            <p style={{ color: 'red' }}>
+              {wbc < 3000 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="MCH"
-            name="mch"
-            type="text"
-            register={register('mch', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="esr"
+              type="text"
+              {...register('esr')}
+              onChange={(e) => setEsr(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="esr"
+              style={
+                esr
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              ESR (MM/HR)
+            </label>
+          </InputBox>
+          {esr < 0.07 ? (
+            <p style={{ color: 'red' }}>
+              <span>Low</span>
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="Neutrophils"
-            name="neutrophils"
-            type="text"
-            register={register('neutrophils', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="platelets"
+              type="text"
+              {...register('platelets')}
+              onChange={(e) => setPlatelets(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="platelets"
+              style={
+                platelets
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              PLATELETS
+            </label>
+          </InputBox>
+          {platelets < 150000 || platelets > 400000 ? (
+            <p style={{ color: 'red' }}>
+              {platelets < 150000 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="Lymphocytes"
-            name="lymphocytes"
-            type="text"
-            register={register('lymphocytes', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="rectics"
+              type="text"
+              {...register('rectics')}
+              onChange={(e) => setRectics(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="rectics"
+              style={
+                rectics
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              RECTICS (%)
+            </label>
+          </InputBox>
+          {rectics < 0.3 ? (
+            <p style={{ color: 'red' }}>
+              <span>Low</span>
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="Monocytes"
-            name="monocytes"
-            type="text"
-            register={register('monocytes', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="rbc"
+              type="text"
+              {...register('rbc')}
+              onChange={(e) => setRbc(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="rbc"
+              style={
+                rbc
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              RBC
+            </label>
+          </InputBox>
+          {rbc < 4.6 || rbc > 12 ? (
+            <p style={{ color: 'red' }}>
+              {rbc < 4.6 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="Eosinophils"
-            name="eosinophils"
-            type="text"
-            register={register('eosinophils', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="mcv"
+              type="text"
+              {...register('mcv')}
+              onChange={(e) => setMcv(e.target.value)}
+              style={inputStyle}
+            />
+            <label
+              htmlFor="mcv"
+              style={
+                mcv
+                  ? { ...labelStyle, top: '-1rem', fontSize: '0.8rem' }
+                  : labelStyle
+              }
+            >
+              MCV (FL)
+            </label>
+          </InputBox>
+          {mcv < 34 || mcv > 55 ? (
+            <p style={{ color: 'red' }}>
+              {mcv < 34 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
-          <Input
-            label="Basophils"
-            name="basophils"
-            type="text"
-            register={register('basophils', { required: true })}
-          />
+          <InputBox>
+            <input
+              name="mchc"
+              type="text"
+              {...register('mchc')}
+              onChange={(e) => setMchc(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="mchc" style={labelStyle}>
+              MCHC (G/DL)
+            </label>
+          </InputBox>
+          {mchc < 31 || mchc > 34 ? (
+            <p style={{ color: 'red' }}>
+              {mchc < 31 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <InputBox>
+            <input
+              name="mch"
+              type="text"
+              {...register('mch')}
+              onChange={(e) => setMch(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="mch" style={labelStyle}>
+              MCH
+            </label>
+          </InputBox>
+          {mch < 27 || mch > 32 ? (
+            <p style={{ color: 'red' }}>
+              {mch < 27 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={6}>
+          <InputBox>
+            <input
+              name="neutrophils"
+              type="text"
+              {...register('neutrophils')}
+              onChange={(e) => setNeutrophils(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="neutrophils" style={labelStyle}>
+              NEUTROPHILS (%)
+            </label>
+          </InputBox>
+          {neutrophils < 40 || neutrophils > 70 ? (
+            <p style={{ color: 'red' }}>
+              {neutrophils < 40 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <InputBox>
+            <input
+              name="lymphocytes"
+              type="text"
+              {...register('lymphocytes')}
+              onChange={(e) => setLymphocytes(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="lymphocytes" style={labelStyle}>
+              LYMPHOCYTES (%)
+            </label>
+          </InputBox>
+          {lymphocytes < 20 || lymphocytes > 50 ? (
+            <p style={{ color: 'red' }}>
+              {lymphocytes < 20 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={6}>
+          <InputBox>
+            <input
+              name="monocytes"
+              type="text"
+              {...register('monocytes')}
+              onChange={(e) => setMonocytes(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="monocytes" style={labelStyle}>
+              MONOCYTES (%)
+            </label>
+          </InputBox>
+          {monocytes < 2 || monocytes > 30 ? (
+            <p style={{ color: 'red' }}>
+              {monocytes < 2 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <InputBox>
+            <input
+              name="eosinophils"
+              type="text"
+              {...register('eosinophils')}
+              onChange={(e) => setEosinophils(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="eosinophils" style={labelStyle}>
+              EOSINOPHILS (%)
+            </label>
+          </InputBox>
+          {eosinophils < 1 || eosinophils > 6 ? (
+            <p style={{ color: 'red' }}>
+              {eosinophils < 1 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={6}>
+          <InputBox>
+            <input
+              name="basophils"
+              type="text"
+              {...register('basophils')}
+              onChange={(e) => setBasophils(e.target.value)}
+              style={inputStyle}
+            />
+            <label htmlFor="basophils" style={labelStyle}>
+              BASOPHILS (%)
+            </label>
+          </InputBox>
+          {basophils < 0 || basophils > 1 ? (
+            <p style={{ color: 'red' }}>
+              {basophils < 0 ? <span>Low</span> : <span>High</span>}
+            </p>
+          ) : (
+            <p style={{ color: 'green' }}>Normal</p>
+          )}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Input
             label="Pro-Myelocyte"
             name="proMyelocyte"
             type="text"
-            register={register('proMyelocyte', { required: true })}
+            register={register('proMyelocyte')}
           />
         </Grid>
       </Grid>
@@ -505,7 +784,7 @@ export function Haematology() {
             label="Meta-Myelocyte"
             name="metaMyelocyte"
             type="text"
-            register={register('metaMyelocyte', { required: true })}
+            register={register('metaMyelocyte')}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -513,7 +792,7 @@ export function Haematology() {
             label="Nucleated RBC"
             name="nucleatedRbc"
             type="text"
-            register={register('nucleatedRbc', { required: true })}
+            register={register('nucleatedRbc')}
           />
         </Grid>
       </Grid>
@@ -523,7 +802,7 @@ export function Haematology() {
             label="Genotype"
             name="genotype"
             type="text"
-            register={register('genotype', { required: true })}
+            register={register('genotype')}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -531,7 +810,7 @@ export function Haematology() {
             label="Blood Group"
             name="bloodGroup"
             type="text"
-            register={register('bloodGroup', { required: true })}
+            register={register('bloodGroup')}
           />
         </Grid>
       </Grid>
@@ -541,7 +820,7 @@ export function Haematology() {
             placeholder="Recommendation"
             name="recommendation"
             type="text"
-            register={register('recommendation', { required: true })}
+            register={register('recommendation')}
           />
         </Grid>
       </Grid>
@@ -1122,7 +1401,7 @@ export function Serology() {
           setSuccess(false);
         })
         .catch((err) => {
-          toast.setError('Error creating Lab Result ' + err);
+          toast.error('Error creating Lab Result ' + err);
         });
     }
 
@@ -1171,6 +1450,7 @@ export function Serology() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -1183,7 +1463,7 @@ export function Serology() {
               label="HBsAG"
               name="hbsag"
               type="text"
-              register={register('hbsag', { required: true })}
+              register={register('hbsag')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1191,7 +1471,7 @@ export function Serology() {
               label="HCV"
               name="hcv"
               type="text"
-              register={register('hcv', { required: true })}
+              register={register('hcv')}
             />
           </Grid>
         </Grid>
@@ -1201,7 +1481,7 @@ export function Serology() {
               label="VDRL"
               name="vdrl"
               type="text"
-              register={register('vdrl', { required: true })}
+              register={register('vdrl')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1209,7 +1489,7 @@ export function Serology() {
               label="RPHA"
               name="rpha"
               type="text"
-              register={register('rpha', { required: true })}
+              register={register('rpha')}
             />
           </Grid>
         </Grid>
@@ -1219,7 +1499,7 @@ export function Serology() {
               label="COOMBS"
               name="coombs"
               type="text"
-              register={register('coombs', { required: true })}
+              register={register('coombs')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1227,7 +1507,7 @@ export function Serology() {
               label="A.S.O Titre"
               name="asoTitre"
               type="text"
-              register={register('asoTitre', { required: true })}
+              register={register('asoTitre')}
             />
           </Grid>
         </Grid>
@@ -1237,7 +1517,7 @@ export function Serology() {
               label="SLE"
               name="sle"
               type="text"
-              register={register('sle', { required: true })}
+              register={register('sle')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1245,7 +1525,7 @@ export function Serology() {
               label="R.A Factor"
               name="raFactor"
               type="text"
-              register={register('raFactor', { required: true })}
+              register={register('raFactor')}
             />
           </Grid>
         </Grid>
@@ -1255,7 +1535,7 @@ export function Serology() {
               label="B-HCG"
               name="bHcg"
               type="text"
-              register={register('bHcg', { required: true })}
+              register={register('bHcg')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1263,7 +1543,7 @@ export function Serology() {
               label="MANTOUX"
               name="mantoux"
               type="text"
-              register={register('mantoux', { required: true })}
+              register={register('mantoux')}
             />
           </Grid>
         </Grid>
@@ -1273,7 +1553,7 @@ export function Serology() {
               label="Blood Preg. Test"
               name="bloodPregTest"
               type="text"
-              register={register('bloodPregTest', { required: true })}
+              register={register('bloodPregTest')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1281,7 +1561,7 @@ export function Serology() {
               label="XYZ"
               name="xyz"
               type="text"
-              register={register('xyz', { required: true })}
+              register={register('xyz')}
             />
           </Grid>
         </Grid>
@@ -1291,7 +1571,7 @@ export function Serology() {
               placeholder="Recommendation"
               name="Recommendation"
               type="text"
-              register={register('Recommendation', { required: true })}
+              register={register('Recommendation')}
             />
           </Grid>
         </Grid>
@@ -1771,7 +2051,7 @@ export function Biochemistry() {
               label="Glucose (Fasting)"
               name="glucoseFasting"
               type="text"
-              register={register('glucoseFasting', { required: true })}
+              register={register('glucoseFasting')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1779,7 +2059,7 @@ export function Biochemistry() {
               label="Glucose (Random)"
               name="glucoseRandom"
               type="text"
-              register={register('glucoseRandom', { required: true })}
+              register={register('glucoseRandom')}
             />
           </Grid>
         </Grid>
@@ -1789,7 +2069,7 @@ export function Biochemistry() {
               label="Urea"
               name="urea"
               type="text"
-              register={register('urea', { required: true })}
+              register={register('urea')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1797,7 +2077,7 @@ export function Biochemistry() {
               label="Creatinine"
               name="creatinine"
               type="text"
-              register={register('creatinine', { required: true })}
+              register={register('creatinine')}
             />
           </Grid>
         </Grid>
@@ -1807,7 +2087,7 @@ export function Biochemistry() {
               label="Uric Acid"
               name="uricAcid"
               type="text"
-              register={register('uricAcid', { required: true })}
+              register={register('uricAcid')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1815,7 +2095,7 @@ export function Biochemistry() {
               label="Sodium"
               name="sodium"
               type="text"
-              register={register('sodium', { required: true })}
+              register={register('sodium')}
             />
           </Grid>
         </Grid>
@@ -1825,7 +2105,7 @@ export function Biochemistry() {
               label="Potassium"
               name="potassium"
               type="text"
-              register={register('potassium', { required: true })}
+              register={register('potassium')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1833,7 +2113,7 @@ export function Biochemistry() {
               label="Bicarbonate"
               name="bicarbonate"
               type="text"
-              register={register('bicarbonate', { required: true })}
+              register={register('bicarbonate')}
             />
           </Grid>
         </Grid>
@@ -1843,7 +2123,7 @@ export function Biochemistry() {
               label="Chloride"
               name="chloride"
               type="text"
-              register={register('chloride', { required: true })}
+              register={register('chloride')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1851,7 +2131,7 @@ export function Biochemistry() {
               label="Total Protein"
               name="totalProtein"
               type="text"
-              register={register('totalProtein', { required: true })}
+              register={register('totalProtein')}
             />
           </Grid>
         </Grid>
@@ -1861,7 +2141,7 @@ export function Biochemistry() {
               label="Albumin"
               name="albumin"
               type="text"
-              register={register('albumin', { required: true })}
+              register={register('albumin')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1869,7 +2149,7 @@ export function Biochemistry() {
               label="T. Bilirubin"
               name="tBilirubin"
               type="text"
-              register={register('tBilirubin', { required: true })}
+              register={register('tBilirubin')}
             />
           </Grid>
         </Grid>
@@ -1879,7 +2159,7 @@ export function Biochemistry() {
               label="D.Bilirubin"
               name="dBilirubin"
               type="text"
-              register={register('dBilirubin', { required: true })}
+              register={register('dBilirubin')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1887,7 +2167,7 @@ export function Biochemistry() {
               label="Cholesterol"
               name="cholesterol"
               type="text"
-              register={register('cholesterol', { required: true })}
+              register={register('cholesterol')}
             />
           </Grid>
         </Grid>
@@ -1897,7 +2177,7 @@ export function Biochemistry() {
               label="Triglyceride"
               name="triglyceride"
               type="text"
-              register={register('triglyceride', { required: true })}
+              register={register('triglyceride')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1905,7 +2185,7 @@ export function Biochemistry() {
               label="Phos"
               name="phos"
               type="text"
-              register={register('phos', { required: true })}
+              register={register('phos')}
             />
           </Grid>
         </Grid>
@@ -1915,7 +2195,7 @@ export function Biochemistry() {
               label="Calcium"
               name="calcium"
               type="text"
-              register={register('calcium', { required: true })}
+              register={register('calcium')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1923,7 +2203,7 @@ export function Biochemistry() {
               label="SGOT"
               name="sgot"
               type="text"
-              register={register('sgot', { required: true })}
+              register={register('sgot')}
             />
           </Grid>
         </Grid>
@@ -1933,7 +2213,7 @@ export function Biochemistry() {
               label="SGPT"
               name="sgpt"
               type="text"
-              register={register('sgpt', { required: true })}
+              register={register('sgpt')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1941,7 +2221,7 @@ export function Biochemistry() {
               label="OGTT"
               name="ogtt"
               type="text"
-              register={register('ogtt', { required: true })}
+              register={register('ogtt')}
             />
           </Grid>
         </Grid>
@@ -1951,7 +2231,7 @@ export function Biochemistry() {
               label="Alk Phos"
               name="alkPhos"
               type="text"
-              register={register('alkPhos', { required: true })}
+              register={register('alkPhos')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1959,7 +2239,7 @@ export function Biochemistry() {
               label="Acid Phos"
               name="acidPhos"
               type="text"
-              register={register('acidPhos', { required: true })}
+              register={register('acidPhos')}
             />
           </Grid>
         </Grid>
@@ -1969,7 +2249,7 @@ export function Biochemistry() {
               label="ADH"
               name="adh"
               type="text"
-              register={register('adh', { required: true })}
+              register={register('adh')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -1977,7 +2257,7 @@ export function Biochemistry() {
               label="APK"
               name="apk"
               type="text"
-              register={register('apk', { required: true })}
+              register={register('apk')}
             />
           </Grid>
         </Grid>
@@ -1987,7 +2267,7 @@ export function Biochemistry() {
               label="Amylase"
               name="amylase"
               type="text"
-              register={register('adh', { required: true })}
+              register={register('adh')}
             />
           </Grid>
         </Grid>
@@ -1997,7 +2277,7 @@ export function Biochemistry() {
               placeholder="Recommendation"
               name="Recommendation"
               type="text"
-              register={register('Recommendation', { required: true })}
+              register={register('Recommendation')}
             />
           </Grid>
         </Grid>
@@ -2772,7 +3052,7 @@ export function Microbiology() {
               placeholder="Recommendation"
               name="Recommendation"
               type="text"
-              register={register('Recommendation', { required: true })}
+              register={register('Recommendation')}
             />
           </Grid>
         </Grid>
@@ -3189,7 +3469,7 @@ export function Urine() {
               label="Macroscopy"
               name="macroscopy"
               type="text"
-              register={register('macroscopy', { required: true })}
+              register={register('macroscopy')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -3197,7 +3477,7 @@ export function Urine() {
               label="Microscopy"
               name="microscopy"
               type="text"
-              register={register('microscopy', { required: true })}
+              register={register('microscopy')}
             />
           </Grid>
         </Grid>
@@ -3207,7 +3487,7 @@ export function Urine() {
               label="Pus Cells/hof"
               name="pusCellsOrhof"
               type="text"
-              register={register('pusCellsOrhof', { required: true })}
+              register={register('pusCellsOrhof')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -3215,7 +3495,7 @@ export function Urine() {
               label="RBC/hpf"
               name="rbsOrHpf"
               type="text"
-              register={register('rbsOrHpf', { required: true })}
+              register={register('rbsOrHpf')}
             />
           </Grid>
         </Grid>
@@ -3225,7 +3505,7 @@ export function Urine() {
               label="Yeast Cells"
               name="yeastCells"
               type="text"
-              register={register('yeastCells', { required: true })}
+              register={register('yeastCells')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -3233,7 +3513,7 @@ export function Urine() {
               label="Bacteria"
               name="bacteria"
               type="text"
-              register={register('bacteria', { required: true })}
+              register={register('bacteria')}
             />
           </Grid>
         </Grid>
@@ -3243,7 +3523,7 @@ export function Urine() {
               label="Casts"
               name="casts"
               type="text"
-              register={register('casts', { required: true })}
+              register={register('casts')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -3251,7 +3531,7 @@ export function Urine() {
               label="Epith Cells"
               name="epithCells"
               type="text"
-              register={register('epithCells', { required: true })}
+              register={register('epithCells')}
             />
           </Grid>
         </Grid>
@@ -3261,7 +3541,7 @@ export function Urine() {
               label="Crystals"
               name="crystals"
               type="text"
-              register={register('crystals', { required: true })}
+              register={register('crystals')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -3269,7 +3549,7 @@ export function Urine() {
               label="T.V"
               name="tv"
               type="text"
-              register={register('tv', { required: true })}
+              register={register('tv')}
             />
           </Grid>
         </Grid>
@@ -3278,7 +3558,7 @@ export function Urine() {
             <Textarea
               label="Culture Yielded"
               name="cultureYielded"
-              register={register('cultureYielded', { required: true })}
+              register={register('cultureYielded')}
               type="text"
             />
           </Grid>
@@ -3288,7 +3568,7 @@ export function Urine() {
             <Textarea
               label="Malaria Parasite"
               name="malariaParasite"
-              register={register('malariaParasite', { required: true })}
+              register={register('malariaParasite')}
               type="text"
             />
           </Grid>
@@ -3298,7 +3578,7 @@ export function Urine() {
             <Textarea
               label="Recommendation"
               name="Recommendation"
-              register={register('Recommendation', { required: true })}
+              register={register('Recommendation')}
               type="text"
             />
           </Grid>
@@ -4243,7 +4523,7 @@ export function Stool() {
               placeholder="Macro"
               name="macro"
               type="text"
-              register={register('macro', { required: true })}
+              register={register('macro')}
             />
           </Grid>
         </Grid>
@@ -4253,7 +4533,7 @@ export function Stool() {
               placeholder="Micro"
               name="micro"
               type="text"
-              register={register('macro', { required: true })}
+              register={register('macro')}
             />
           </Grid>
         </Grid>
@@ -4263,7 +4543,7 @@ export function Stool() {
               placeholder="Culture"
               name="culture2"
               type="text"
-              register={register('macro', { required: true })}
+              register={register('macro')}
             />
           </Grid>
         </Grid>
@@ -4273,7 +4553,7 @@ export function Stool() {
               placeholder="Recommendation"
               name="Recommendation"
               type="text"
-              register={register('Recommendation', { required: true })}
+              register={register('Recommendation')}
             />
           </Grid>
         </Grid>
@@ -4651,7 +4931,7 @@ export function HVS() {
               label="Pus cells' hpf"
               name="pusCells"
               type="text"
-              register={register('pusCells', { required: true })}
+              register={register('pusCells')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -4659,7 +4939,7 @@ export function HVS() {
               label="Rbcs/hpf"
               name="rbcsOrHpf"
               type="text"
-              register={register('rbcsOrHpf', { required: true })}
+              register={register('rbcsOrHpf')}
             />
           </Grid>
         </Grid>
@@ -4669,7 +4949,7 @@ export function HVS() {
               label="Yeast Cells"
               name="yeastCells"
               type="text"
-              register={register('yeastCells', { required: true })}
+              register={register('yeastCells')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -4677,7 +4957,7 @@ export function HVS() {
               label="Bacteria"
               name="bacteria2"
               type="text"
-              register={register('bacteria2', { required: true })}
+              register={register('bacteria2')}
             />
           </Grid>
         </Grid>
@@ -4687,7 +4967,7 @@ export function HVS() {
               label="Casts"
               name="casts"
               type="text"
-              register={register('casts', { required: true })}
+              register={register('casts')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -4695,7 +4975,7 @@ export function HVS() {
               label="Epith Cells"
               name="epithCells2"
               type="text"
-              register={register('epithCells2', { required: true })}
+              register={register('epithCells2')}
             />
           </Grid>
         </Grid>
@@ -4705,7 +4985,7 @@ export function HVS() {
               label="Crystals"
               name="crystals2"
               type="text"
-              register={register('crystals2', { required: true })}
+              register={register('crystals2')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -4713,7 +4993,7 @@ export function HVS() {
               label="T.V"
               name="tv2"
               type="text"
-              register={register('tv2', { required: true })}
+              register={register('tv2')}
             />
           </Grid>
         </Grid>
@@ -4723,7 +5003,7 @@ export function HVS() {
               placeholder="Recommendation"
               name="Recommendation"
               type="text"
-              register={register('Recommendation', { required: true })}
+              register={register('Recommendation')}
             />
           </Grid>
         </Grid>
@@ -5152,7 +5432,7 @@ export function LabNoteGeneric() {
             <Grid item xs={12} sm={6}>
               <Input
                 name="investigation"
-                register={register('investigation', { required: true })}
+                register={register('investigation')}
                 type="text"
                 placeholder="Investigation"
               />
@@ -5163,7 +5443,7 @@ export function LabNoteGeneric() {
               <Textarea
                 name="finding"
                 placeholder="Findings"
-                register={register('finding', { required: true })}
+                register={register('finding')}
                 type="text"
               />
             </Grid>
@@ -5173,7 +5453,7 @@ export function LabNoteGeneric() {
               <Textarea
                 name="recommendation"
                 placeholder="Recommendation"
-                register={register('recommendation', { required: true })}
+                register={register('recommendation')}
                 type="text"
               />
             </Grid>
@@ -5500,7 +5780,7 @@ export function LabNoteCreate() {
               <Textarea
                 name="Finding"
                 placeholder="Findings"
-                register={register('Finding', { required: true })}
+                register={register('Finding')}
                 type="text"
                 disabled={bill_report_status === 'Final'}
                 style={{
@@ -5514,7 +5794,7 @@ export function LabNoteCreate() {
               <Textarea
                 name="Recommendation"
                 placeholder="Recommendation"
-                register={register('Recommendation', { required: true })}
+                register={register('Recommendation')}
                 type="text"
                 disabled={bill_report_status === 'Final'}
                 style={{

@@ -115,13 +115,8 @@ export function CaseDefinitionCreate() {
   const [symptoms, setSymptoms] = useState([]);
   const [duration, setDuration] = useState('');
   const [sympreq, setSympreq] = useState(false);
-<<<<<<< HEAD
 
   const [lab, setLab] = useState('');
-=======
-  
-  const [lab, setLab] = useState("");
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
   const [labs, setLabs] = useState([]);
   const [labvalue, setLabvalue] = useState('');
   /* const [sympreq,setSympreq] = useState(false) */
@@ -343,13 +338,16 @@ export function CaseDefinitionCreate() {
                   label="choose notification type"
                   name="notification type"
                   options={notificationOption}
-<<<<<<< HEAD
                   register={register('notificationType', { required: true })}
                   onChange={(e) => handleChangeMode(e.target.value)}
                 />
+
                 <Input
                   label="name of disease"
-                  {...register('disease', { required: true })}
+                  register={register('disease', { required: true })}
+                  name="disease"
+                  options={disease}
+                  onChange={(e) => handleChangeMode(e.target.value)}
                 />
               </DetailsWrapper>
               <DetailsWrapper title="Symptoms">
@@ -358,7 +356,7 @@ export function CaseDefinitionCreate() {
                     label="Symptoms"
                     type="text"
                     value={symptom}
-                    {...register('symptom', { required: true })}
+                    register={register('symptom', { required: true })}
                     onChange={(e) => {
                       setSymptom(e.target.value);
                     }}
@@ -367,7 +365,7 @@ export function CaseDefinitionCreate() {
                   <Input
                     label="Duration"
                     value={duration}
-                    {...register('duration', { required: true })}
+                    register={register('Duration', { required: true })}
                     onChange={(e) => {
                       setDuration(e.target.value);
                     }}
@@ -381,7 +379,7 @@ export function CaseDefinitionCreate() {
                       onChange={(e) => {
                         handleChecked(e);
                       }}
-                      {...register('sympreq', { required: true })}
+                      register={register('sympreq', { required: true })}
                     />
                     required
                   </Box>
@@ -399,69 +397,19 @@ export function CaseDefinitionCreate() {
 
                 <CustomTable
                   title={'Syptom'}
-=======
-                  register={register("notificationType", {required:true})}
-                  onChange={(e)=>handleChangeMode(e.target.value)}
-            />
-
-            <Input 
-            label="name of disease"
-            register={register("disease", {required:true})}
-             name="disease"
-             options={disease}
-             onChange={(e)=>handleChangeMode(e.target.value)}
-             />
-        </DetailsWrapper>
-        <DetailsWrapper title='Symptoms'>
-        <GridWrapper className="four-columns">
-          <Input 
-                label="Symptoms"
-                type="text"
-                value={symptom}
-                register={register("symptom", {required:true})} onChange={e => {
-                  setSymptom(e.target.value);
-                }}
-                placeholder="Specify"
-                 />
-          <Input label="Duration"
-          value={duration}
-          register={register("Duration", {required:true})} onChange={e => {
-            setDuration(e.target.value);
-          }}
-          name="duration" />
-          <Box sx={{jusifyContent:"space-between"}}><input type ="checkbox"
-  
-                        value={sympreq}
-                        name="sympreq"
-                        onChange={e => {
-                          handleChecked(e);
-                        }} register={register("sympreq", {required:true})}
-            />required
-            </Box>
-          
-           <Button
-                  style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                  label="Add" onClick={handleAddSymptoms} />
-
-        </GridWrapper>
-      
-        <CustomTable
-                  title={"Syptom"}
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   columns={syptomSchema}
                   data={symptoms}
                   pointerOnHover
                   highlightOnHover
                   striped
                 />
-<<<<<<< HEAD
               </DetailsWrapper>
               <DetailsWrapper title="Clinical Signs">
                 <GridWrapper>
                   <Input
                     label="Clinical Signs"
                     value={finding}
-                    {...register('finding', { required: true })}
+                    register={register('finding', { required: true })}
                     onChange={(e) => {
                       setFinding(e.target.value);
                     }}
@@ -476,7 +424,7 @@ export function CaseDefinitionCreate() {
                       onChange={(e) => {
                         handleChecked2(e);
                       }}
-                      {...register('sympreq', { required: true })}
+                      register={register('findingreq', { required: true })}
                     />
                     required
                   </Box>
@@ -493,33 +441,6 @@ export function CaseDefinitionCreate() {
 
                 <CustomTable
                   title={'Clinical Signs'}
-=======
-          </DetailsWrapper>
-          <DetailsWrapper title='Clinical Signs'>
-        <GridWrapper>
-        <Input 
-                label="Clinical Signs"
-                value={finding}
-                register={register("finding", {required:true})} onChange={e => {
-                          setFinding(e.target.value);
-                        }}
-                type="text"
-                placeholder="Finding" />
-                <Box sx={{jusifyContent:"space-between"}}><input type="checkbox"
-                        value={findingreq}
-                        
-                        name="sympreq"
-                        onChange={e => {
-                          handleChecked2(e);
-                        }} register={register("findingreq", {required:true})}/>required</Box>
-           <Button
-                  style={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                  label="Add " onClick={handleAddFindings}/>
-        </GridWrapper>
-
-        <CustomTable
-                  title={"Clinical Signs"}
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
                   columns={clinicalSignSchema}
                   data={findings}
                   pointerOnHover

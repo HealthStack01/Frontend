@@ -1,18 +1,21 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import "./styles/documentation.scss";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import './styles/documentation.scss';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { ClientCreate, ClientDetail, ClientList } from "../Client/Client";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { ClientCreate, ClientDetail, ClientList } from '../Client/Client';
+import Slide from '@mui/material/Slide';
 
-import EncounterMain from "./EncounterMain";
-import EncounterRight from "./EncounterRight";
-import PatientProfile from "../Client/PatientProfile";
-var random = require("random-string-generator");
+import EncounterMain from './EncounterMain';
+import EncounterRight from './EncounterRight';
+import PatientProfile from '../Client/PatientProfile';
+import ModalBox from '../../components/modal';
+import { Box, Grid } from '@mui/material';
+var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -29,12 +32,12 @@ export default function Documentation({ standalone }) {
   //let { path, url } = useRouteMatch();
 
   useEffect(() => {
-    console.log("starting up Encounter module");
+    console.log('starting up Encounter module');
     console.log(state.ClientModule.selectedClient);
     const newDocumentClassModule = {
       selectedDocumentClass: {},
       //state.DocumentClassModule.selectedDocumentClass.name
-      show: "detail",
+      show: 'detail',
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -60,10 +63,7 @@ export default function Documentation({ standalone }) {
   };
 
   return (
-<<<<<<< HEAD
-    <section className="section remPadTop">
-=======
-    <section className="section remPadTop" style={{padding: "15px"}}>
+    <section className="section remPadTop" style={{ padding: '15px' }}>
       {!standalone && (
         <Grid container spacing={1}>
           <Grid item xs={3}>
@@ -85,86 +85,61 @@ export default function Documentation({ standalone }) {
           <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
         </div>
       )}
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
             </div> */}
-      <div className="columns ">
-        {!standalone && (
-          <div className="column is-2 ">{/* <PatientProfile /> */}</div>
-        )}
+      {/* <div className="columns "> */}
+      {/* {!standalone && <PatientProfile />} */}
 
-        {!standalone && (
-          <div
-            className={
-              state.DocumentClassModule.show === "detail"
-                ? "column is-6"
-                : "column is-6 "
-            }
-          >
-            <EncounterMain client={selectedClient} />
-          </div>
-        )}
+      {/* {!standalone && <EncounterMain client={selectedClient} />} */}
 
-        {standalone && (
+      {/* {standalone && (
           <div
             className={
               state.DocumentClassModule.show === "detail"
                 ? "column is-8"
                 : "column is-12 "
             }
-          >
-            {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
-          </div>
+          > */}
+      {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
+      {/* </div>
         )}
-        <div className="column is-4 ">
-          {/* {state.DocumentClassModule.show === "detail" && (
+        <div className="column is-4 "> */}
+      {/* {state.DocumentClassModule.show === "detail" && (
             <EncounterRight client={selectedClient} />
           )} */}
-          {/*  <DocumentClassCreate /> */}
-        </div>
-      </div>
-      <div className={`modal ${showModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head btnheight">
-            <p className="modal-card-title">Choose Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={() => setShowModal(false)}
-            ></button>
-          </header>
-          <section className="modal-card-body ">
-            <ClientList standalone="true" />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
+      {/*  <DocumentClassCreate /> */}
+      {/* </div>
+      </div> */}
+
+      <ModalBox
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        header="Choose Client"
+      >
+        <ClientList standalone="true" />
+      </ModalBox>
     </section>
   );
 }
 
 export function InventorySearch({ getSearchfacility, clear }) {
-  const productServ = client.service("inventory");
+  const productServ = client.service('inventory');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
+  const [val, setVal] = useState('');
   const { user } = useContext(UserContext);
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
@@ -188,7 +163,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -206,12 +181,12 @@ export function InventorySearch({ getSearchfacility, clear }) {
   };
   const handleSearch = async (value) => {
     setVal(value);
-    if (value === "") {
+    if (value === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (value.length >= 3) {
       productServ
@@ -220,7 +195,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
             //service
             [field]: {
               $regex: value,
-              $options: "i",
+              $options: 'i',
             },
             facility: user.currentEmployee.facilityDetail._id,
             storeId: state.StoreModule.selectedStore._id,
@@ -231,22 +206,22 @@ export function InventorySearch({ getSearchfacility, clear }) {
           },
         })
         .then((res) => {
-          console.log("product  fetched successfully");
+          console.log('product  fetched successfully');
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
         .catch((err) => {
           toast({
-            message: "Error creating ProductEntry " + err,
-            type: "is-danger",
+            message: 'Error creating ProductEntry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -263,8 +238,8 @@ export function InventorySearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
-      setSimpa("");
+      console.log('success has changed', clear);
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -273,10 +248,10 @@ export function InventorySearch({ getSearchfacility, clear }) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{ width: '100%' }}>
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -293,16 +268,16 @@ export function InventorySearch({ getSearchfacility, clear }) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ""
+                  ''
                 ) : (
                   <div
                     className="dropdown-item" /* onClick={handleAddproduct} */
                   >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
+                    {' '}
+                    <span> {val} is not in your inventory</span>{' '}
                   </div>
                 )}
 
@@ -331,7 +306,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
           </div>
         </div>
       </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
+      <div className={`modal ${productModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">

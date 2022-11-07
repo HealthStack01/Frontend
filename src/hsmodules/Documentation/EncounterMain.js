@@ -1,5 +1,4 @@
 /* eslint-disable */
-<<<<<<< HEAD
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
@@ -7,6 +6,10 @@ import { useForm } from 'react-hook-form';
 import { DocumentClassList } from './DocumentClass';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { ChartClassList } from './DocumentClass';
 import EndEncounter, { EndEncounterList } from './EndEncounter';
@@ -31,47 +34,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CustomSelect from './ui-components/inputs/basic/Select';
 import Button from '../../components/buttons/Button';
+import MuiButton from '@mui/material/Button';
+
 import Slide from '@mui/material/Slide';
-=======
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {DocumentClassList} from "./DocumentClass";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-
-import {ChartClassList} from "./DocumentClass";
-import EndEncounter, {EndEncounterList} from "./EndEncounter";
-//import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {format, formatDistanceToNowStrict} from "date-fns";
-import VideoConference from "../utils/VideoConference";
-import Prescription, {PrescriptionCreate} from "./Prescription";
-import LabOrders from "./LabOrders";
-import AdmitOrders from "./AdmitOrders";
-import DischargeOrders from "./DischargeOrders";
-import RadiologyOrders from "./RadiologyOrders";
-import {useReactToPrint} from "react-to-print";
-import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
-import Input from "./ui-components/inputs/basic/Input";
-import Divider from "@mui/material/Divider";
-
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import CustomSelect from "./ui-components/inputs/basic/Select";
-import Button from "../../components/buttons/Button";
-import MuiButton from "@mui/material/Button";
-
-import Slide from "@mui/material/Slide";
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
 
 import {
   AdmissionOrderDocument,
@@ -118,7 +83,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const open = Boolean(showActions);
 
-  const handleShowActions = event => {
+  const handleShowActions = (event) => {
     setShowActions(event.currentTarget);
   };
   const handleHideActions = () => {
@@ -206,12 +171,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       const newDocumentClassModule = {
         selectedDocumentClass: documentobj,
         //state.DocumentClassModule.selectedDocumentClass.name
-<<<<<<< HEAD
         show: 'detail',
-=======
-        show: "detail",
         encounter_right: true,
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
       };
       await setState((prevstate) => ({
         ...prevstate,
@@ -338,12 +299,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     const newDocumentClassModule = {
       selectedDocumentClass: {},
       //state.DocumentClassModule.selectedDocumentClass.name
-<<<<<<< HEAD
       show: 'list',
-=======
-      show: "list",
       encounter_right: false,
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -372,12 +329,8 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       const newDocumentClassModule = {
         selectedDocumentClass: {},
         //state.DocumentClassModule.selectedDocumentClass.name
-<<<<<<< HEAD
         show: 'list',
-=======
-        show: "list",
         encounter_right: false,
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
       };
       setState((prevstate) => ({
         ...prevstate,
@@ -431,14 +384,9 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const handleCancel = async () => {
     const newDocumentClassModule = {
-<<<<<<< HEAD
       selectedEndEncounter: '',
       show: '',
-=======
-      selectedEndEncounter: "",
-      show: "",
       encounter_right: false,
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -478,44 +426,38 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const [isTrue, setIsTrue] = useState(false);
 
-<<<<<<< HEAD
-  const toggleIsTrue = () => {
-    setIsTrue((prev) => !prev);
-  };
-=======
   const actionsList = [
     {
-      title: "Charts",
+      title: 'Charts',
       action: handleCharts,
       show: true,
     },
     {
-      title: "Radiology",
+      title: 'Radiology',
       action: handleRadOrders,
       show: true,
     },
     {
-      title: "Laboratory",
+      title: 'Laboratory',
       action: handleLabOrders,
       show: true,
     },
     {
-      title: "End Encounter",
+      title: 'End Encounter',
       action: handleEndEncounter,
       show: true,
     },
     {
-      title: "Prescription",
+      title: 'Prescription',
       action: handleNewPrescription,
       show: true,
     },
     {
-      title: "New Document",
+      title: 'New Document',
       action: handleNewDocument,
       show: true,
     },
   ];
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
 
   return (
     <Box
@@ -524,117 +466,16 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         flexGrow: '1',
       }}
     >
-<<<<<<< HEAD
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid
-          container
-          spacing={1}
-          columns={14}
-          sx={{
-            marginBottom: '25px',
-          }}
-        >
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: '0.8rem',
-                width: '100%',
-                backgroundColor: '#363636',
-                variant: 'outlined',
-              }}
-              onClick={handleCharts}
-            >
-              Charts
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: '0.8rem',
-                width: '100%',
-                backgroundColor: '#17935C',
-              }}
-              onClick={handleRadOrders}
-            >
-              Radiology
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: '0.8rem',
-                width: '100%',
-                backgroundColor: '#B6CCFE',
-              }}
-              onClick={handleLabOrders}
-            >
-              Laboratory
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: '0.8rem',
-                width: '100%',
-                background: 'none',
-                color: '#0364FF',
-                border: '1px solid #0364FF',
-              }}
-              onClick={handleEndEncounter}
-            >
-              End Encouter
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: '0.8rem',
-                width: '100%',
-                backgroundColor: '#EF9645',
-              }}
-              onClick={handleNewPrescription}
-            >
-              Prescription
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <Button
-              style={{
-                fontSize: '0.8rem',
-                width: '100%',
-                backgroundColor: '#4F772D',
-              }}
-              onClick={handleNewDocument}
-            >
-              New Document
-            </Button>
-          </Grid>
-
-          <Grid item xs={2}>
-            <VideoConference />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box sx={{ flexGrow: 1, width: '100%' }}>
-        <Box sx={{ flex: 1 }}>
-=======
       <Box
         container
         sx={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Box item sx={{width: "calc(100% - 350px)"}}>
->>>>>>> bb584317912526417cb57109d86115d0005b15d4
+        <Box item sx={{ width: 'calc(100% - 350px)' }}>
           <Input
             label="Search Documentation"
             className="input is-small "
@@ -648,7 +489,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         <Box
           container
           sx={{
-            width: "180px",
+            width: '180px',
           }}
         >
           <VideoConference />
@@ -657,23 +498,23 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         <Box
           item
           sx={{
-            width: "140px",
-            display: "flex",
-            justifyContent: "flex-end",
+            width: '140px',
+            display: 'flex',
+            justifyContent: 'flex-end',
           }}
         >
           <div
             style={{
-              width: "100%",
+              width: '100%',
             }}
           >
             <MuiButton
               onClick={handleShowActions}
               variant="outlined"
-              sx={{height: "48px", width: "100%"}}
-              aria-controls={showActions ? "basic-menu" : undefined}
+              sx={{ height: '48px', width: '100%' }}
+              aria-controls={showActions ? 'basic-menu' : undefined}
               aria-haspopup="true"
-              aria-expanded={showActions ? "true" : undefined}
+              aria-expanded={showActions ? 'true' : undefined}
             >
               Actions <ExpandMoreIcon />
             </MuiButton>
@@ -684,7 +525,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
               open={open}
               onClose={handleHideActions}
               MenuListProps={{
-                "aria-labelledby": "basic-button",
+                'aria-labelledby': 'basic-button',
               }}
             >
               {actionsList.map((action, i) => {
@@ -896,7 +737,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           mountOnEnter
           unmountOnExit
           direction="left"
-          in={state.DocumentClassModule.show === "detail"}
+          in={state.DocumentClassModule.show === 'detail'}
         >
           <Grid item xs={5}>
             <Box
@@ -921,9 +762,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           onClose={() => setShowModal(false)}
           header="Choose Document Class"
         >
-          <DocumentClassList
-            standalone="true"
-          />
+          <DocumentClassList standalone="true" />
         </ModalBox>
 
         <ModalBox
