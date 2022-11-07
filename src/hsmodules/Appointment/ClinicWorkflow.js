@@ -33,7 +33,7 @@ export default function ClinicCheckIn() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="section remPadTop">
+    <section className='section remPadTop'>
       {checkinpage === 'checkin' && (
         <CheckIn
           pageView={checkinpage}
@@ -86,7 +86,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       selectedAppointment: {},
       show: 'create',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -95,24 +95,24 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       selectedClient: {},
       show: 'create',
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: 'detail',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = 'firstname';
     //  console.log(val)
 
@@ -203,13 +203,13 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     }
 
     ClientServ.find({ query: query })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
@@ -262,15 +262,15 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on('created', obj => handleCalendarClose());
+    ClientServ.on('updated', obj => handleCalendarClose());
+    ClientServ.on('patched', obj => handleCalendarClose());
+    ClientServ.on('removed', obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -295,7 +295,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -314,7 +314,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     <>
       {user ? (
         <>
-          <div className="level">
+          <div className='level'>
             <PageWrapper
               style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
@@ -327,7 +327,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   }}
                 >
                   {handleSearch && (
-                    <div className="inner-table">
+                    <div className='inner-table'>
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
@@ -515,7 +515,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       selectedAppointment: {},
       show: 'create',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -524,24 +524,24 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       selectedClient: {},
       show: 'create',
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: 'detail',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = 'firstname';
     //  console.log(val)
 
@@ -633,13 +633,13 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     }
 
     ClientServ.find({ query: query })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
@@ -692,15 +692,15 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on('created', obj => handleCalendarClose());
+    ClientServ.on('updated', obj => handleCalendarClose());
+    ClientServ.on('patched', obj => handleCalendarClose());
+    ClientServ.on('removed', obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -725,7 +725,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -744,7 +744,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     <>
       {user ? (
         <>
-          <div className="level">
+          <div className='level'>
             <PageWrapper
               style={{
                 flexDirection: 'column',
@@ -760,7 +760,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   }}
                 >
                   {handleSearch && (
-                    <div className="inner-table">
+                    <div className='inner-table'>
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
@@ -824,7 +824,7 @@ export function CheckDetails({ showModal, setShowModal }) {
       selectedAppointment: Client,
       show: 'modify',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -840,14 +840,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={6}>
           <MdCancel
             onClick={() => {
-              setShowModal(false),
-                setState((prevstate) => ({
-                  ...prevstate,
-                  AppointmentModule: {
-                    selectedAppointment: {},
-                    show: 'list',
-                  },
-                }));
+              setShowModal(false);
+              setState(prevstate => ({
+                ...prevstate,
+                AppointmentModule: {
+                  selectedAppointment: {},
+                  show: 'list',
+                },
+              }));
             }}
             style={{
               fontSize: '2rem',
