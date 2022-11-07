@@ -33,8 +33,8 @@ import Input from '../../components/inputs/basic/Input';
 import { Box, Portal } from '@mui/material';
 import CustomTable from './ui-components/customtable';
 import ModalBox from '../../components/modal';
-import ClientForm from './ClientForm';
 import ClientView from './ClientView';
+import ClientForm from './ClientForm';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -75,7 +75,7 @@ export default function Client() {
             <ClientModify Client={selectedClient} />
           )}
           <ModalBox open={showModal} setOpen={handleHideModal}>
-            <ClientForm setOpen={handleHideModal} />
+            <ClientForm open={showModal} setOpen={handleHideModal} />
           </ModalBox>
         </div>
       </div>
