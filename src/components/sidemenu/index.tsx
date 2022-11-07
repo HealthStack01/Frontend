@@ -198,13 +198,20 @@ export const menuItems = [
   {
     name: "Managed Care",
     exact: true,
-    to: "/app/theatre",
+    to: "/app/managed care",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Appointment", to: "/app/theatre/theatre-appointments"},
-      {name: "Check In", to: "/app/theatre/theatre-checkedin"},
-      {name: "Bill Client", to: "/app/theatre/billservice"},
-      {name: "Bill Order Sent", to: "/app/theatre/theatre-bill"},
+      {name: "Policy", to: "/app/managed care/managedcare-policy"},
+      {name: "Beneficiary", to: "/app/managed care/managedcare-beneficiary"},
+      {name: "Check In", to: "/app/managed care/managedcare-checkin"},
+      {name: "Provider", to: "/app/managed care/managedcare-provider"},
+      {name: "Complaints", to: "/app/managed care/managedcare-complaints"},
+      {name: "HIA", to: "/app/managed care/managedcare-HIA"},
+      {name: "Premiums", to: "/app/managed care/managedcare-premiums"},
+      {name: "Organisation", to: "/app/managed care/managedcare-organisation"},
+      {name: "Referrals", to: "/app/managed care/managedcare-referrals"},
+      {name: "Tariff", to: "/app/managed care/managedcare-tariff"},
+
     ],
   },
   {
