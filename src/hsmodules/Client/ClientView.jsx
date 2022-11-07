@@ -20,6 +20,7 @@ import {
   GridWrapper,
   HeadWrapper,
   PageWrapper,
+  ViewBox,
 } from "../app/styles";
 import dayjs from "dayjs";
 import { createClientSchema } from "./schema";
@@ -38,9 +39,11 @@ const ClientView = ({ open, setOpen, user }) => {
   const [openFinance, setOpenFinance] = useState(false);
   const [editing, setEditing] = useState(false);
   const [active, setActive] = useState("");
+  const [chosen, setChosen] = useState();
+  const [clientId, setClientId] = useState();
   const [billService, setBillService] = useState(false);
 
-  const {  state, setState  } = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const result = localStorage.getItem("user");
   const data = JSON.parse(result);
@@ -48,7 +51,7 @@ const ClientView = ({ open, setOpen, user }) => {
   const {
     register,
     handleSubmit,
-    formState: {  errors  },
+    formState: { errors },
     reset,
   } = useForm({
     resolver: yupResolver(createClientSchema),
@@ -254,7 +257,7 @@ const ClientView = ({ open, setOpen, user }) => {
         </GrayWrapper>
       </ModalBox>
 
-      <GrayWrapper>
+      <div style={{ height: "100%", overflowY: "scroll" }}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>
@@ -302,6 +305,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label="First Name"
                   register={register("firstname")}
+                  defaultValue={user?.firstname}
                   errorText={errors?.firstname?.message}
                 />
               )}
@@ -352,6 +356,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 <CustomSelect
                   label="Gender"
                   register={register("gender")}
+                  defaultValue={user?.gender}
                   options={[
                     { label: "Male", value: "male" },
                     { label: "Female", value: "female" },
@@ -365,6 +370,8 @@ const ClientView = ({ open, setOpen, user }) => {
                 <CustomSelect
                   label="Marital Status"
                   register={register("maritalstatus")}
+                  defaultValue={user?.maritalstatus}
+                  s
                   options={[
                     { label: "Single", value: "single" },
                     { label: "Married", value: "married" },
@@ -378,18 +385,27 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label="Medical record Number"
                   register={register("mrn")}
+                  defaultValue={user?.mrn}
                 />
               )}
               {!editing ? (
                 <ViewText label="Religion" text={user?.religion} />
               ) : (
-                <Input label="Religion" register={register("religion")} />
+                <Input
+                  label="Religion"
+                  register={register("religion")}
+                  defaultValue={user?.religion}
+                />
               )}
 
               {!editing ? (
                 <ViewText label="Profession" text={user?.profession} />
               ) : (
-                <Input label="Profession" register={register("profession")} />
+                <Input
+                  label="Profession"
+                  register={register("profession")}
+                  defaultValue={user?.profession}
+                />
               )}
               {!editing ? (
                 <ViewText label="Phone Number" text={user?.phone} />
@@ -398,6 +414,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label="Phone Number"
                   register={register("phone")}
                   type="tel"
+                  defaultValue={user?.phone}
                 />
               )}
               {!editing ? (
@@ -407,6 +424,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label="Email"
                   register={register("email")}
                   type="email"
+                  defaultValue={user?.email}
                 />
               )}
               {!editing ? (
@@ -415,7 +433,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label="Tags"
                   register={register("clientTags")}
-                  type="email"
+                  defaultValue={user?.clientTags}
                 />
               )}
             </GridBox>
