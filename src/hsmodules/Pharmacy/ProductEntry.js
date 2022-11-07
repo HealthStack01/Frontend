@@ -29,6 +29,7 @@ import {
 import {maxHeight} from "@mui/system";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import ProductSearchHelper from "../helpers/ProductSearch";
+import moment from "moment";
 //import MuiButton from "@mui/material/Button";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -75,11 +76,19 @@ export default function ProductEntry() {
         openDetailModal={handleOpenDetailModal}
       />
 
-      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
-        <ProductEntryCreate />
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Create ProductEntry: Initialization, Purchase Invoice, Audit"
+      >
+        <ProductEntryCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
-      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+      <ModalBox
+        open={detailModal}
+        onClose={handleCloseDetailModal}
+        header="Product Entry Detail"
+      >
         <ProductEntryDetail openModifyModal={handleOpenModifyModal} />
       </ModalBox>
 
@@ -142,9 +151,9 @@ export function ProductEntryCreate({closeModal}) {
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
   const getSearchfacility = obj => {
-    setProductId(obj._id);
-    setName(obj.name);
-    setBaseunit(obj.baseunit);
+    setProductId(obj?._id);
+    setName(obj?.name);
+    setBaseunit(obj?.baseunit);
 
     /*  setValue("facility", obj._id,  {
             shouldValidate: true,
@@ -262,7 +271,7 @@ export function ProductEntryCreate({closeModal}) {
     setProductItem(prev => prev.filter((obj, index) => index !== i));
   };
 
-  const billDescriptionSchema = [
+  const productCreateSchema = [
     {
       name: "S/N",
       key: "sn",
@@ -272,39 +281,18 @@ export function ProductEntryCreate({closeModal}) {
       inputType: "HIDDEN",
     },
     {
-      name: "Type",
+      name: "Name",
       key: "type",
-      description: "Enter Type",
+      description: "Enter Name",
       selector: row => row.type,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
-    {
-      name: "Product Id",
-      key: "productId",
-      description: "productId",
-      selector: row => row.productId,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Name",
-      key: "name",
-      description: "name",
-      selector: row => row.name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
     {
       name: "Quantity",
-      key: "quantity",
-      description: "quantity",
+      key: "quanity",
+      description: "Enter quantity",
       selector: row => row.quantity,
       sortable: true,
       required: true,
@@ -312,38 +300,9 @@ export function ProductEntryCreate({closeModal}) {
     },
 
     {
-      name: "Selling price",
-      key: "costprice",
-      description: "costprice",
-      selector: row => row.costprice,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Supplier",
-      key: "supplier",
-      description: "supplier",
-      selector: row => row.source,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Total Amount",
-      key: "totalamount",
-      description: "totalamount",
-      selector: row => row.totalamount,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-
-    {
-      name: "Baseunit",
+      name: "Unit",
       key: "baseunit",
-      description: "baseunit",
+      description: "Base Unit",
       selector: row => row.baseunit,
       sortable: true,
       required: true,
@@ -351,30 +310,37 @@ export function ProductEntryCreate({closeModal}) {
     },
 
     {
-      name: "Date",
-      key: "date",
-      description: "Enter Created date",
-      selector: row => row.date,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-
-    {
-      name: "Document No",
-      key: "documentno",
-      description: "documentno",
-      selector: row => row.documentNo,
+      name: "Cost Price",
+      key: "costprice",
+      description: "Enter cost price",
+      selector: row => row.costprice,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
 
     {
-      name: "Supplier",
-      key: "source",
-      description: "source",
-      selector: row => row.source,
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Actions",
+      key: "costprice",
+      description: "costprice",
+      selector: (row, i) => (
+        <p
+          style={{color: "red", fontSize: "0.75rem"}}
+          onClick={() => removeEntity(row, i)}
+        >
+          Remove
+        </p>
+      ),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -404,14 +370,14 @@ export function ProductEntryCreate({closeModal}) {
   ));
 
   return (
-    <>
-      <Box
-        container
-        sx={{
-          width: "750px",
-          maxHeight: "400px",
-        }}
-      >
+    <Box
+      sx={{
+        width: "750px",
+        maxHeight: "600px",
+        overflowY: "auto",
+      }}
+    >
+      <Box container>
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={8}>
@@ -495,7 +461,7 @@ export function ProductEntryCreate({closeModal}) {
         </Box>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={7}>
             <ProductSearchHelper
               getSearchfacility={getSearchfacility}
               clear={success}
@@ -512,7 +478,7 @@ export function ProductEntryCreate({closeModal}) {
             />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Input
               /* ref={register({ required: true })} */
               name="quantity"
@@ -536,74 +502,50 @@ export function ProductEntryCreate({closeModal}) {
         </Grid>
       </Box>
 
-      <div className="card card-overflow">
-        <div className="card-content ">
-          <form onSubmit={onSubmit}></form>
+      {productItem.length > 0 && (
+        <Box sx={{height: "200px", widht: "300%"}}>
+          <CustomTable
+            title={""}
+            columns={productCreateSchema}
+            data={productItem}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+        </Box>
+      )}
 
-          {productItem.length > 0 && (
-            <div>
-              <label>Product Items:</label>
-              <div className="table-container  vscrol" id="scrollableDiv">
-                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                  <thead>
-                    <tr>
-                      <th>
-                        <abbr title="Serial No">S/No</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Type">Name</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Type">Quanitity</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Document No">Unit</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Cost Price">Cost Price</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Cost Price">Amount</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Actions">Actions</abbr>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tfoot></tfoot>
-                  <tbody>
-                    {productItem.map((ProductEntry, i) => (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <td>{ProductEntry.name}</td>
-                        <th>{ProductEntry.quantity}</th>
-                        <td>{ProductEntry.baseunit}</td>
-                        <td>{ProductEntry.costprice}</td>
-                        <td>{ProductEntry.amount}</td>
-                        <td onClick={() => removeEntity(ProductEntry, i)}>
-                          <span className="showAction">x</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="field mt-2">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
-                  >
-                    Create
-                  </button>
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </>
+      <Box
+        container
+        sx={{
+          width: "100%",
+          display: "flex",
+        }}
+        mt={2}
+      >
+        <MuiButton
+          variant="contained"
+          disabled={!productItem.length > 0}
+          onClick={onSubmit}
+          sx={{
+            width: "150px",
+            height: "40px",
+            textTransform: "capitalize",
+            marginRight: "15px",
+          }}
+        >
+          Add Product(s)
+        </MuiButton>
+        <MuiButton
+          variant="outlined"
+          color="error"
+          sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
+          onClick={closeModal}
+        >
+          Cancel
+        </MuiButton>
+      </Box>
+    </Box>
   );
 }
 
@@ -1046,6 +988,7 @@ export function ProductEntryDetail({openModifyModal}) {
     //console.log(state)
     openModifyModal();
   };
+
   const ProductDetailSchema = [
     {
       name: "S/N",
@@ -1103,120 +1046,72 @@ export function ProductEntryDetail({openModifyModal}) {
     },
   ];
   const handleRow = () => {};
+
+  console.log(ProductEntry.date);
+
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">ProductEntry Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Type
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.type}{" "}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Supplier:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.source}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Date:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {format(new Date(ProductEntry.date), "dd-MM-yy HH:mm")}{" "}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Invoice No:
-                  </label>
-                </td>
+      <Box
+        container
+        sx={{
+          width: "700px",
+          height: "400px",
+          overflowY: "auto",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <Input value={ProductEntry.source} label="Supplier" disabled />
+          </Grid>
 
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.documentNo}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Total Amount:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.totalamount}{" "}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Grid item xs={4}>
+            <Input value={ProductEntry.type} label="Type" disabled />
+          </Grid>
+        </Grid>
 
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <p>Product Items</p>
-            <CustomTable
-              title={""}
-              columns={ProductDetailSchema}
-              data={ProductEntry.productitems}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              // progressPending={loading}
+        <Grid container spacing={2} mb={2}>
+          <Grid item xs={4}>
+            <Input
+              value={
+                ProductEntry.date
+                  ? moment(ProductEntry.date).format("YYYY-MM-DD HH:mm:ss")
+                  : "-----"
+              }
+              label="Date"
+              disabled
             />
-          </div>
-        </div>
-      </div>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Input
+              value={ProductEntry.documentNo}
+              label="Invoice Number"
+              disabled
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <Input
+              value={ProductEntry.totalamount}
+              label="Total Amount"
+              disabled
+            />
+          </Grid>
+        </Grid>
+
+        <Box sx={{width: "100%", height: "200px", overflowY: "auto"}}>
+          <CustomTable
+            title={""}
+            columns={ProductDetailSchema}
+            data={ProductEntry.productitems}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            // progressPending={loading}
+          />
+        </Box>
+      </Box>
     </>
   );
 }

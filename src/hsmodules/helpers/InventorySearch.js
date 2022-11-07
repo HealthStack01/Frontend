@@ -7,6 +7,7 @@ import {ProductCreate} from "../../hsmodules/Pharmacy/Products";
 import Input from "../../components/inputs/basic/Input";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
+import {UserContext, ObjectContext} from "../../context";
 
 import {Box, Card, Grow} from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -18,7 +19,7 @@ const searchfacility = {};
 
 const filter = createFilterOptions();
 
-export default function ProductSearchHelper({getSearchfacility, clear}) {
+export default function InventorySearchHelper({getSearchfacility, clear}) {
   const productServ = client.service("products");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -38,6 +39,9 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
   const [productModal, setProductModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
+
   const dropDownRef = useRef(null);
 
   const handleRow = async obj => {
@@ -50,16 +54,17 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
     await setCount(2);
   };
   const handleBlur = async e => {};
+
   const handleSearch = async value => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
+      getSearchfacility(false);
       return;
     }
     const field = "name"; //field variable
 
     if (value.length >= 3) {
-      setLoading(true);
       productServ
         .find({
           query: {
@@ -68,6 +73,8 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
               $regex: value,
               $options: "i",
             },
+            facility: user.currentEmployee.facilityDetail._id,
+            storeId: state.StoreModule.selectedStore._id,
             $limit: 10,
             $sort: {
               createdAt: -1,
@@ -75,13 +82,13 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
           },
         })
         .then(res => {
+          console.log("product  fetched successfully");
+          console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
-          setLoading(false);
         })
         .catch(err => {
-          setLoading(false);
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -90,9 +97,11 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
           });
         });
     } else {
+      console.log("less than 3 ");
+      console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      // console.log(facilities)
+      console.log(facilities);
     }
   };
 
@@ -159,9 +168,21 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
         clearOnBlur
         handleHomeEndKeys
         renderOption={(props, option) => (
-          <li {...props} style={{fontSize: "0.75rem"}}>
+          <div {...props} style={{fontSize: "0.75rem"}}>
             {option.name} {option.baseunit}
-          </li>
+            <div>
+              <span>{option.name}</span>
+            </div>
+            <div>
+              <span>
+                <strong>{option.quantity}</strong>
+              </span>
+              <span>{option.baseunit}(s) remaining</span>
+              <span className="padleft">
+                <strong>Price:</strong> N{option.sellingprice}
+              </span>
+            </div>
+          </div>
         )}
         sx={{width: "100%", margin: "0.75rem 0"}}
         freeSolo
