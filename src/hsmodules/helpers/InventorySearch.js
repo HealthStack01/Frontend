@@ -160,7 +160,7 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
             return option;
           }
           if (option.inputValue) {
-            return option.inputValue;
+            return option.name;
           }
           return option.name;
         }}
@@ -190,7 +190,7 @@ export default function InventorySearchHelper({getSearchfacility, clear}) {
         renderInput={params => (
           <TextField
             {...params}
-            label="Search for Products"
+            label="Search your Inventory"
             onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
