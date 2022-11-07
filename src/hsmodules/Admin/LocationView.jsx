@@ -50,7 +50,7 @@ const LocationView = ({ open, setOpen }) => {
   useEffect(() => {
     reset({
       name: Location.name,
-      bandType: Location.locationType,
+      locationType: Location.locationType,
       facility: data.currentEmployee.facility,
     });
   }, []);
@@ -75,7 +75,7 @@ const LocationView = ({ open, setOpen }) => {
 
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
-    const dleteId = band._id;
+    const dleteId = user._id;
     if (conf) {
       LocationServ.remove(dleteId)
         .then((res) => {
