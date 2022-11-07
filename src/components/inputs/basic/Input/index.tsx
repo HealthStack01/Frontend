@@ -1,8 +1,7 @@
+import { FormHelperText } from '@mui/material';
+import React from 'react';
 
-import { FormHelperText } from "@mui/material";
-import React from "react";
-
-import { InputBox, InputField, InputLabel } from "./styles";
+import { InputBox, InputField, InputLabel } from './styles';
 
 
 interface InputProps {
@@ -51,7 +50,7 @@ const Input: React.FC<InputProps> = ({
   <div>
     <InputBox>
       <InputField
-        className="form_checkbox"
+        className='form_checkbox'
         onChange={onChange}
         type={type}
         defaultValue={defaultValue}
@@ -62,16 +61,14 @@ const Input: React.FC<InputProps> = ({
         {...register}
         onBlur={onBlur}
         autoComplete={autoComplete}
-        sx={{ width: "16px", ...sx }}
+        sx={{ width: '16px', ...sx }}
       />
-      <InputLabel className="form__label" htmlFor={name}>
+      <InputLabel className='form__label' htmlFor={name}>
         {label}
       </InputLabel>
     </InputBox>
     {errorText && (
-
-      <label style={{ color: "red", fontSize: "0.7rem", textAlign: "left" }}>
-
+      <label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
         {errorText}
       </label>
     )}

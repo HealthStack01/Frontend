@@ -33,6 +33,7 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
     defaultValues: {
       notificationType: casedefinition?.notificationType,
       disease: casedefinition?.disease?.name,
+      observations: casedefinition?.observations,
     },
   });
   const [finding, setFinding] = useState('');
@@ -127,14 +128,8 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
   const onSubmit = async (data, e) => {
     setLoading(true);
 
-    data.observations = [];
-    data.disease = {
-      name: data.disease,
-      icdcode: '',
-      icdver: '',
-      snomed: '',
-      snomedver: '',
-    };
+    data.observations = casedefinition?.observations;
+    data.disease = casedefinition?.disease;
 
     if (data.notificationtype === '') {
       alert('Kindly choose notification type');
