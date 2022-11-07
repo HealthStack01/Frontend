@@ -24,6 +24,8 @@ import ClientHistory from "./ClientHistory";
 import ClientIntolerance from "./ClientIntolerance";
 import ClientBilling from "./ClientBilling";
 import ClientProblems from "./ClientProblems";
+import ClientDiagnoisHistory  from "./ClientDiagnoisHistory"
+import MedicalProfile from "./MedicalProfile"
 import {Card} from "@mui/material";
 
 export default function PatientProfile() {
@@ -38,6 +40,8 @@ export default function PatientProfile() {
   const [intoleranceModal, setIntoleranceModal] = useState(false);
   const [problemModal, setProblemModal] = useState(false);
   const [taskModal, setTaskModal] = useState(false);
+  const [diagnoisHistoryModal, setDiagnoisHistory]= useState(false);
+  const [medicalProfile, setMedicalProfileModel] = useState(false);
   const client = state.ClientModule.selectedClient;
   const {
     firstname,
@@ -130,6 +134,17 @@ export default function PatientProfile() {
       title: "Task",
       action: () => setTaskModal(true),
     },
+
+    {
+      title: "Diagnois History",
+      action:  () => setDiagnoisHistory(true),
+    },
+
+    {
+        title:"Medical Profile",
+        action: () => setMedicalProfileModel(true),
+    }
+
   ];
 
   return (
@@ -302,6 +317,21 @@ export default function PatientProfile() {
         header="Client Last Visit"
       >
         <ClientLastVisit closeModal={() => setVisitModal(false)} />
+      </ModalBox>
+
+      <ModalBox open={diagnoisHistoryModal}
+              onClose={()=>setDiagnoisHistory(false)}
+              header="Diagnois History"
+      >
+        <ClientDiagnoisHistory closeModal={()=>setDiagnoisHistory(false)}/>
+              
+      </ModalBox>
+      <ModalBox open={medicalProfile}
+              onClose={()=>setMedicalProfileModel(false)}
+              header="Medical Profile"
+      >
+        <ClientDiagnoisHistory closeModal={()=>setMedicalProfileModel(false)}/>
+              
       </ModalBox>
     </div>
   );
