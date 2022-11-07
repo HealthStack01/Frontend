@@ -375,8 +375,8 @@ export function ProductEntryCreate({closeModal}) {
   return (
     <Box
       sx={{
-        width: "750px",
-        maxHeight: "600px",
+        width: "780px",
+        height: "600px",
         overflowY: "auto",
       }}
     >
