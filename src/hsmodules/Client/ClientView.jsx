@@ -257,7 +257,7 @@ const ClientView = ({ open, setOpen, user }) => {
         </GrayWrapper>
       </ModalBox>
 
-      <div>
+      <div style={{ height: '100%', overflowY: 'scroll' }}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>

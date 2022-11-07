@@ -177,8 +177,9 @@ export const GridBox = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  align-items: center;
   grid-gap: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 `;
 
 export const ViewBox = styled.div`
