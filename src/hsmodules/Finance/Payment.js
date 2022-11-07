@@ -17,6 +17,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import ModalBox from "./ui-components/modal";
 import "react-datepicker/dist/react-datepicker.css";
+import {Box} from "@mui/material";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -64,7 +65,9 @@ export default function FinancePayment() {
       <BillingList openModal={handleOpenModal} />
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
-        <PaymentCreate closeModal={handleCloseModal} />
+        <Box sx={{width: "750px"}}>
+          <PaymentCreate closeModal={handleCloseModal} />
+        </Box>
       </ModalBox>
 
       {/* <div className="column is-4">
@@ -367,7 +370,10 @@ export function BillingList({openModal}) {
           status: order.billing_status,
           description: order.serviceInfo.name,
           category: data.catName,
-          amount: data.catAmount,
+          amount:
+            order.billing_status === "Unpaid"
+              ? order.serviceInfo.amount
+              : order.paymentInfo.balance,
           order: order,
         };
 

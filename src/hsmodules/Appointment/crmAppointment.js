@@ -27,6 +27,7 @@ import ModalHeader from './ui-components/Heading/modalHeader';
 import { Box, Grid } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
+
 // eslint-disable-next-line
 const searchfacility = {};
 

@@ -3,24 +3,25 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-} from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+} from "@mui/material";
+import React, {useContext, useEffect, useState} from "react";
+import {Controller, useForm} from "react-hook-form";
+import {Link, useNavigate} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
 
-import AuthWrapper from '../../components/AuthWrapper';
-import Button from '../../components/buttons/Button';
-import Input from '../../components/inputs/basic/Input';
-import PasswordInput from '../../components/inputs/basic/Password';
-import Preloader from '../../components/utilities/Preloader';
-import { UserContext } from '../../context';
-import client from '../../feathers';
+
+import AuthWrapper from "../../components/AuthWrapper";
+import Button from "../../components/buttons/Button";
+import Input from "../../components/inputs/basic/Input";
+import PasswordInput from "../../components/inputs/basic/Password";
+import Preloader from "../../components/utilities/Preloader";
+import {UserContext} from "../../context";
+import client from "../../feathers";
 
 function Login() {
   const navigate = useNavigate();
-  const { handleSubmit, control } = useForm();
-  const { setUser } = useContext(UserContext);
+  const {handleSubmit, control} = useForm();
+  const {setUser} = useContext(UserContext);
   const [keepMeIn, setKeepMeIn] = useState(false);
   const [loaderTimer, setLoaderTimer] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -29,28 +30,29 @@ function Login() {
       top: 0,
       left: 0,
     });
-    document.title = 'Health Stack - Login';
+    document.title = "Health Stack - Login";
     setTimeout(() => setLoaderTimer(false), 1500);
   }, []);
 
-  const onSubmit = ({ email, password }) => {
-    client
+  const onSubmit = async ({email, password}) => {
+    setLoading(true);
+    await client
       .authenticate({
-        strategy: 'local',
+        strategy: "local",
         email,
         password,
       })
       .then((res) => {
         const user = {
           ...res.user,
-          currentEmployee: { ...res.user.employeeData[0] },
+          currentEmployee: {...res.user.employeeData[0]},
         };
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         setLoading(false);
-        toast.success('You successfully logged in');
+        toast.success("You successfully logged in");
 
-        navigate('/app');
+        navigate("/app");
       })
       .catch((err) => {
         toast.error(`Error loggin in User, probable network issues  ${err}`);
@@ -65,23 +67,25 @@ function Login() {
       ) : (
         <AuthWrapper paragraph="Login here as an organization">
           <form onSubmit={handleSubmit(onSubmit)}>
+            <ToastContainer theme="colored" />
+
             <Controller
               name="email"
               control={control}
-              render={({ field: { ref: _re, ...field } }) => (
-                <Input {...field} label="Email" placeholder="Email" />
+              render={({field: {ref: _re, ...field}}) => (
+                <Input {...field} label="Email" />
               )}
             />
             <Controller
               name="password"
               control={control}
-              render={({ field: { ref: _re, ...field } }) => (
+              render={({field: {ref: _re, ...field}}) => (
                 <PasswordInput {...field} />
               )}
             />
             <FormControl
               component="fieldset"
-              sx={{ width: '1r00%', mt: 1, mb: 1 }}
+              sx={{width: "1r00%", mt: 1, mb: 1}}
             >
               <FormGroup>
                 <FormControlLabel
@@ -100,10 +104,10 @@ function Login() {
               <Link
                 className="nav-link"
                 style={{
-                  padding: '0',
-                  background: 'transparent',
-                  color: 'blue',
-                  marginLeft: '0.6rem',
+                  padding: "0",
+                  background: "transparent",
+                  color: "blue",
+                  marginLeft: "0.6rem",
                 }}
                 to="/forgot-password"
               >
@@ -135,10 +139,10 @@ function Login() {
               <Link
                 className="nav-link"
                 style={{
-                  padding: '0',
-                  background: 'transparent',
-                  color: 'blue',
-                  marginLeft: '0.6rem',
+                  padding: "0",
+                  background: "transparent",
+                  color: "blue",
+                  marginLeft: "0.6rem",
                 }}
                 to="/signup"
               >

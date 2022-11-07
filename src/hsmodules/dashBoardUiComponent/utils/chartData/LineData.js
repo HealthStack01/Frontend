@@ -1,23 +1,26 @@
-import { getDayIntheOtherMonth } from "../getNameAndNumOfDaysArray.js";
+import {getDayIntheOtherMonth} from "../getNameAndNumOfDaysArray.js";
 import useFetch from "../usefetch";
 import useFetchData from "../useFetchData.js";
+import {UserContext} from "../../../../context";
+import {useContext} from "react";
+
 const userDetails = localStorage.getItem("user");
 
-// const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
+//const facilityId = JSON.parse(userDetails)?.employeeData[0]?.facility | '';
 
 const TotalNewClientWithinARangeOf30Day = (service, lt, gt) => {
   var dayGT = 24 * 60 * 60 * 1000 * gt;
   var dayLT = 24 * 60 * 60 * 1000 * lt;
 
   var query = {
-    $sort: { createdAt: -1 },
+    $sort: {createdAt: -1},
     $select: ["createdAt"],
     createdAt: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime() - dayLT,
     },
   };
-  var { data, isPending, error } = useFetch(service, query);
+  var {data, isPending, error} = useFetch(service, query);
   let totalNewClientWithin30Day = Number(data.total);
   let err = error;
   return {
@@ -31,8 +34,12 @@ const TotalPharmacySaleWithinARangeOf30Day = (service, lt, gt) => {
   var dayGT = 24 * 60 * 60 * 1000 * gt;
   var dayLT = 24 * 60 * 60 * 1000 * lt;
 
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+
   var query = {
-    $sort: { createdAt: -1 },
+    $sort: {createdAt: -1},
     "participantInfo.billingFacility": facilityId,
     "orderInfo.orderObj.order_category": "Prescription",
     createdAt: {
@@ -40,9 +47,9 @@ const TotalPharmacySaleWithinARangeOf30Day = (service, lt, gt) => {
       $lt: new Date().getTime() - dayLT,
     },
   };
-  const { data, isPending, error } = useFetchData(service, query, true);
+  const {data, isPending, error} = useFetchData(service, query, true);
   var total = 0;
-  data.map((dat) => {
+  data.map(dat => {
     return (total += dat.paymentInfo.amountpaid);
   });
   const totalPharmacySaleWithInARange = Math.ceil(total);
@@ -58,15 +65,15 @@ const TotalPharmacyStockWithinARangeOf30Day = (service, lt, gt) => {
   var dayLT = 24 * 60 * 60 * 1000 * lt;
 
   var query = {
-    $sort: { createdAt: -1 },
+    $sort: {createdAt: -1},
     createdAt: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime() - dayLT,
     },
   };
-  const { data, isPending, error } = useFetchData(service, query);
+  const {data, isPending, error} = useFetchData(service, query);
   var total = 0;
-  data.map((dat) => {
+  data.map(dat => {
     return (total += dat.stockvalue);
   });
   const totalPharmacySaleWithInARange = Math.ceil(total);
@@ -78,8 +85,8 @@ const TotalPharmacyStockWithinARangeOf30Day = (service, lt, gt) => {
   };
 };
 
-export const clientLineData = (service) => {
-  const { monthNameForCurrentYear, numOfDayInmonthForCurrentYear } =
+export const clientLineData = service => {
+  const {monthNameForCurrentYear, numOfDayInmonthForCurrentYear} =
     getDayIntheOtherMonth();
   const length = numOfDayInmonthForCurrentYear.length;
 
@@ -89,7 +96,7 @@ export const clientLineData = (service) => {
   for (let i = length - 2; i >= 0; i--) {
     let lt = prevState;
     let gt = prevState + numOfDayInmonthForCurrentYear[i];
-    const { totalNewClientWithin30Day } = TotalNewClientWithinARangeOf30Day(
+    const {totalNewClientWithin30Day} = TotalNewClientWithinARangeOf30Day(
       service,
       lt,
       gt
@@ -99,7 +106,7 @@ export const clientLineData = (service) => {
     prevState = prevState + numOfDayInmonthForCurrentYear[i];
   }
 
-  const { totalNewClientWithin30Day } = TotalNewClientWithinARangeOf30Day(
+  const {totalNewClientWithin30Day} = TotalNewClientWithinARangeOf30Day(
     service,
     0,
     numOfDayInmonthForCurrentYear[length - 1]
@@ -117,7 +124,7 @@ export const clientLineData = (service) => {
     },
   ];
 
-  return { monthNameForCurrentYear, newClientLineSeriesData };
+  return {monthNameForCurrentYear, newClientLineSeriesData};
 };
 
 export const PharmacyLineData = (
@@ -125,7 +132,7 @@ export const PharmacyLineData = (
   name,
   TotalPharmacyQueryWithinARangeOf30Day
 ) => {
-  const { monthNameForCurrentYear, numOfDayInmonthForCurrentYear } =
+  const {monthNameForCurrentYear, numOfDayInmonthForCurrentYear} =
     getDayIntheOtherMonth();
   const length = numOfDayInmonthForCurrentYear.length;
 
@@ -135,19 +142,18 @@ export const PharmacyLineData = (
   for (let i = length - 2; i >= 0; i--) {
     let lt = prevState;
     let gt = prevState + numOfDayInmonthForCurrentYear[i];
-    const { totalPharmacySaleWithInARange } =
+    const {totalPharmacySaleWithInARange} =
       TotalPharmacyQueryWithinARangeOf30Day(service, lt, gt);
 
     pharmacySaleValueLineData.unshift(`${totalPharmacySaleWithInARange}K`);
     prevState = prevState + numOfDayInmonthForCurrentYear[i];
   }
 
-  const { totalPharmacySaleWithInARange } =
-    TotalPharmacyQueryWithinARangeOf30Day(
-      service,
-      0,
-      numOfDayInmonthForCurrentYear[length - 1]
-    );
+  const {totalPharmacySaleWithInARange} = TotalPharmacyQueryWithinARangeOf30Day(
+    service,
+    0,
+    numOfDayInmonthForCurrentYear[length - 1]
+  );
 
   pharmacySaleValueLineData.push(`${totalPharmacySaleWithInARange}K`);
   // console.log("result day details", {
@@ -159,7 +165,7 @@ export const PharmacyLineData = (
     data: pharmacySaleValueLineData,
   };
 
-  return { monthNameForCurrentYear, pharmacyDataSeriesData };
+  return {monthNameForCurrentYear, pharmacyDataSeriesData};
 };
 
 export const PharmacyLineSeriesData = (serviceOne, serviceTwo) => {
@@ -172,23 +178,22 @@ export const PharmacyLineSeriesData = (serviceOne, serviceTwo) => {
     TotalPharmacySaleWithinARangeOf30Day
   );
 
-  const { pharmacyDataSeriesData: pharmacyStockValueLineData } =
-    PharmacyLineData(
-      serviceTwo,
-      "Stock",
-      TotalPharmacyStockWithinARangeOf30Day
-    );
+  const {pharmacyDataSeriesData: pharmacyStockValueLineData} = PharmacyLineData(
+    serviceTwo,
+    "Stock",
+    TotalPharmacyStockWithinARangeOf30Day
+  );
 
   const pharmacyLineSeriesData = [
     pharmacySaleValueLineData,
     pharmacyStockValueLineData,
   ];
 
-  return { monthNameForCurrentYear, pharmacyLineSeriesData };
+  return {monthNameForCurrentYear, pharmacyLineSeriesData};
 };
 
 const TotalResultWithinARangeOf30Day = (service, query) => {
-  var { data, isPending, error } = useFetch(service, query);
+  var {data, isPending, error} = useFetch(service, query);
   let resultWithin30Day = Number(data.total);
   let err = error;
   return {
@@ -198,8 +203,8 @@ const TotalResultWithinARangeOf30Day = (service, query) => {
   };
 };
 
-export const AdmittedPatientLineData = (service) => {
-  const { monthNameForCurrentYear, numOfDayInmonthForCurrentYear } =
+export const AdmittedPatientLineData = service => {
+  const {monthNameForCurrentYear, numOfDayInmonthForCurrentYear} =
     getDayIntheOtherMonth();
   const length = numOfDayInmonthForCurrentYear.length;
 
@@ -214,7 +219,7 @@ export const AdmittedPatientLineData = (service) => {
 
     //Query for the previous months
     let query = {
-      $sort: { start_time: -1 },
+      $sort: {start_time: -1},
       $select: ["start_time"],
       start_time: {
         $gt: new Date().getTime() - dayGT,
@@ -222,7 +227,7 @@ export const AdmittedPatientLineData = (service) => {
       },
     };
 
-    const { resultWithin30Day: totalAdmittedPatientWithin30Day } =
+    const {resultWithin30Day: totalAdmittedPatientWithin30Day} =
       TotalResultWithinARangeOf30Day(service, query);
 
     admittedPatientLineData.unshift(totalAdmittedPatientWithin30Day);
@@ -232,14 +237,14 @@ export const AdmittedPatientLineData = (service) => {
 
   //Query for the current month
   let query = {
-    $sort: { start_time: -1 },
+    $sort: {start_time: -1},
     $select: ["start_time"],
     start_time: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime(),
     },
   };
-  const { resultWithin30Day: totalAdmittedPatientWithin30Day } =
+  const {resultWithin30Day: totalAdmittedPatientWithin30Day} =
     TotalResultWithinARangeOf30Day(service, query);
 
   admittedPatientLineData.push(totalAdmittedPatientWithin30Day);
@@ -249,11 +254,11 @@ export const AdmittedPatientLineData = (service) => {
     data: admittedPatientLineData,
   };
 
-  return { monthNameForCurrentYear, admittedPatientLineSeriesData };
+  return {monthNameForCurrentYear, admittedPatientLineSeriesData};
 };
 
-export const DischargedPatientLineData = (service) => {
-  const { monthNameForCurrentYear, numOfDayInmonthForCurrentYear } =
+export const DischargedPatientLineData = service => {
+  const {monthNameForCurrentYear, numOfDayInmonthForCurrentYear} =
     getDayIntheOtherMonth();
   const length = numOfDayInmonthForCurrentYear.length;
 
@@ -268,7 +273,7 @@ export const DischargedPatientLineData = (service) => {
 
     //Query for the previous months
     let query = {
-      $sort: { end_time: -1 },
+      $sort: {end_time: -1},
       $select: ["end_time"],
       end_time: {
         $gt: new Date().getTime() - dayGT,
@@ -276,7 +281,7 @@ export const DischargedPatientLineData = (service) => {
       },
     };
 
-    const { resultWithin30Day: totalDischargedPatientWithin30Day } =
+    const {resultWithin30Day: totalDischargedPatientWithin30Day} =
       TotalResultWithinARangeOf30Day(service, query);
 
     dischargedPatientLineData.unshift(totalDischargedPatientWithin30Day);
@@ -286,14 +291,14 @@ export const DischargedPatientLineData = (service) => {
 
   //Query for the current month
   let query = {
-    $sort: { end_time: -1 },
+    $sort: {end_time: -1},
     $select: ["end_time"],
     end_time: {
       $gt: new Date().getTime() - dayGT,
       $lt: new Date().getTime(),
     },
   };
-  const { resultWithin30Day: totalDischargedPatientWithin30Day } =
+  const {resultWithin30Day: totalDischargedPatientWithin30Day} =
     TotalResultWithinARangeOf30Day(service, query);
 
   dischargedPatientLineData.push(totalDischargedPatientWithin30Day);
@@ -303,15 +308,14 @@ export const DischargedPatientLineData = (service) => {
     data: dischargedPatientLineData,
   };
 
-  return { monthNameForCurrentYear, dischargedPatientLineSeriesData };
+  return {monthNameForCurrentYear, dischargedPatientLineSeriesData};
 };
 
-export const AdmittedAndDischargedPatientLineData = (service) => {
-  const { monthNameForCurrentYear, admittedPatientLineSeriesData } =
+export const AdmittedAndDischargedPatientLineData = service => {
+  const {monthNameForCurrentYear, admittedPatientLineSeriesData} =
     AdmittedPatientLineData(service);
 
-  const { dischargedPatientLineSeriesData } =
-    DischargedPatientLineData(service);
+  const {dischargedPatientLineSeriesData} = DischargedPatientLineData(service);
 
   const admittedAndDischargedPatientLineSeriesData = [
     admittedPatientLineSeriesData,
