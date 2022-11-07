@@ -155,6 +155,7 @@ const moduleLocationTypes = {
   inventory: "Store",
   ward: "Ward",
   laboratory: "Laboratory",
+  managed care:"Managed Care",
 };
 
 const AppRoutes = () => {
@@ -510,6 +511,21 @@ const AppRoutes = () => {
             <Route path="/app/ward/documentation" element={<Documentation />} />
             <Route path="/app/ward/discharge" element={<Discharge />} />
             <Route path="/app/ward/dashboard" element={<WardDashboard />} />
+          </Route>
+
+           {/*  <managed care></managed> */}
+           <Route path="/app/managed care" element={<WardHome />}>
+            <Route path="/app/managed care/policy" element={<Transfer />} />
+            <Route path="/app/managed care/beneficiary" element={<Inpatient />} />
+            <Route path="/app/managed care/checkin" element={<Admissions />} />
+            <Route path="/app/managed care/provider" element={<Documentation />} />
+            <Route path="/app/managed care/complaints" element={<Discharge />} />
+            <Route path="/app/managed care/HIA" element={<WardDashboard />} />
+            <Route path="/app/managed care/premiums" element={<WardDashboard />} />
+            <Route path="/app/managed care/HIA" element={<WardDashboard />} />
+            <Route path="/app/managed care/HIA" element={<WardDashboard />} />
+            <Route path="/app/managed care/HIA" element={<WardDashboard />} />
+
           </Route>
         </Route>
       </Routes>

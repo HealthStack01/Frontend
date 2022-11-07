@@ -196,6 +196,18 @@ export const menuItems = [
     ],
   },
   {
+    name: "Managed Care",
+    exact: true,
+    to: "/app/theatre",
+    iconClassName: "bi bi-person",
+    subMenus: [
+      {name: "Appointment", to: "/app/theatre/theatre-appointments"},
+      {name: "Check In", to: "/app/theatre/theatre-checkedin"},
+      {name: "Bill Client", to: "/app/theatre/billservice"},
+      {name: "Bill Order Sent", to: "/app/theatre/theatre-bill"},
+    ],
+  },
+  {
     name: "Logout",
     exact: true,
     to: "/",
