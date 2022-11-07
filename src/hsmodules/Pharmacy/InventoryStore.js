@@ -122,8 +122,12 @@ export default function Inventory() {
         openDetailModal={handleOpenDetailModal}
       />
 
-      <ModalBox open={createModal} onClose={handleHideCreateModal}>
-        <InventoryCreate />
+      <ModalBox
+        open={createModal}
+        onClose={handleHideCreateModal}
+        header="Create Inventory: Product Entry- Initialization, Purchase Invoice, Audit"
+      >
+        <InventoryCreate closeModal={handleHideCreateModal} />
       </ModalBox>
 
       <ModalBox
@@ -240,6 +244,16 @@ export function InventoryCreate() {
 
   return (
     <>
+      <Box
+        container
+        sx={{
+          width: "700px",
+          maxHeight: "500px",
+          overflowY: "auto",
+        }}
+      >
+        <Box></Box>
+      </Box>
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">
@@ -736,13 +750,13 @@ export function InventoryList({showcreateModal, openDetailModal}) {
                 </h2>
               </div>
 
-              {handleCreateNew && (
+              {/* {handleCreateNew && (
                 <Button
                   style={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
                   onClick={showcreateModal}
                 />
-              )}
+              )} */}
             </TableMenu>
 
             <div style={{width: "100%", height: "600px", overflow: "auto"}}>
@@ -1532,11 +1546,17 @@ export function InventoryBatches({closeModal}) {
   ];
 
   return (
-    <>
+    <Box
+      container
+      sx={{
+        width: "600px",
+        overflowY: "auto",
+      }}
+    >
       <Box
         container
         sx={{
-          width: "600px",
+          width: "100%",
         }}
       >
         <Box
@@ -1582,6 +1602,7 @@ export function InventoryBatches({closeModal}) {
                 dateFormat="MM/yyyy"
                 placeholderText="Expiry Date"
                 customInput={<DatePickerCustomInput />}
+                wrapperClassName="date-picker-custom-style"
               />
             </Grid>
             <Grid item xs={4}>
@@ -1601,8 +1622,8 @@ export function InventoryBatches({closeModal}) {
         <Box
           sx={{
             width: "100%",
-            maxHeight: "300px",
-            overflowY: "scroll",
+            height: "300px",
+            overflowY: "auto",
           }}
           mb={3}
         >
@@ -1644,7 +1665,7 @@ export function InventoryBatches({closeModal}) {
           Cancel
         </MuiButton>
       </Box>
-    </>
+    </Box>
   );
 }
 

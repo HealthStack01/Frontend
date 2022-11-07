@@ -14,7 +14,7 @@ interface ModalProps {
 const style = {
   minWidth: "400px",
   maxWidth: "95vw",
-  minHeight: "300px",
+  minHeight: "200px",
   maxHeight: "95vh",
   bgcolor: "#FAFAFA",
   boxShadow: 24,
@@ -65,7 +65,7 @@ const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
                     color: "#33415C",
                     fontWeight: "500",
                     lineHeight: "1.5",
-                    fontSize: "24px",
+                    fontSize: "20px",
                     fontStyle: "SemiBold",
                   }}
                 >

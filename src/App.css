@@ -2,223 +2,218 @@
   /* text-align: center; 
   background-color: #282c34;
    font-size: calc(10px + 2vmin);*/
-  
+
   min-height: 100vh;
-  
- /*  display: flex;
+
+  /*  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
  
   color: white; */
 }
-.shift-left{
-  margin-left:-10 px ;
+
+.shift-left {
+  margin-left: -10 px;
 }
-.shift-right{
-  margin-right:-10 px ;
+.shift-right {
+  margin-right: -10 px;
 }
 
-.blk{
+.blk {
   display: block !important;
 }
-.cancel{
-  text-decoration: line-through
+.cancel {
+  text-decoration: line-through;
 }
-.warp{
+.warp {
   flex-wrap: wrap;
 }
-.upt{
+.upt {
   margin-top: -1rem !important;
 }
-.map{
-  height:80vh;
+.map {
+  height: 80vh;
   width: 80vw;
   margin-left: 200px;
 }
-.naira{
+.naira {
   height: 1.5rem !important;
   margin-left: -0.7rem !important;
   font-size: x-large !important;
- 
 }
-.red-border{
+.red-border {
   border: 1px solid red;
   font-size: 0.8rem;
   z-index: 100;
-
 }
-.smallerinput{
+.smallerinput {
   font-size: 0.65rem !important;
 }
-.payment{
+.payment {
   background-color: rgb(133, 237, 133);
-  color:white !important;
-  width:fit-content
+  color: white !important;
+  width: fit-content;
 }
-.accordion__panel{
-  padding:0px !important;
+.accordion__panel {
+  padding: 0px !important;
 }
-.sz2{
-  width:20% !important;
+.sz2 {
+  width: 20% !important;
   border: none;
   border-color: transparent;
 }
-.showAction{
+.showAction {
   cursor: pointer;
 }
 
-.v-centered{
-  margin-top:45% !important;
-  
+.v-centered {
+  margin-top: 45% !important;
 }
-.active{
+.active {
   text-decoration: underline !important;
 }
-.pushleft{
+.pushleft {
   margin-top: 0.5rem !important;
   margin-right: 0.5rem !important;
 }
-.z10{
+.z10 {
   z-index: 10 !important;
 }
 .navbar-end .navbar-item > a {
-  color: white ;
+  color: white;
 }
-.bckcolor{
+.bckcolor {
   background-color: lightblue !important;
 }
-.remPad{
+.remPad {
   padding: 0rem !important;
 }
-.poslabel{
+.poslabel {
   margin-top: 0.6rem;
 }
-.remPadTop{
+.remPadTop {
   padding-top: 1rem !important;
   padding-bottom: 0rem !important;
 }
-.remPad1{
-  padding: 1.0rem !important;
+.remPad1 {
+  padding: 1rem !important;
 }
-.btnheight{
+.btnheight {
   height: 1.2rem !important;
 }
-.accordion__button{
-  padding:0.2rem !important;
+.accordion__button {
+  padding: 0.2rem !important;
 }
-.dropitem{
-  padding:0.5rem !important;
+.dropitem {
+  padding: 0.5rem !important;
 }
-.pullup{
+.pullup {
   margin-top: -1rem;
   cursor: pointer;
 }
-.pullupx{
+.pullupx {
   margin-top: -1.5rem;
   cursor: pointer;
 }
-.pullups{
+.pullups {
   margin-top: -0.75rem;
 }
-.selectadd{
-  height:2.0em !important;
-  font-size:0.75rem !important;
+.selectadd {
+  height: 2em !important;
+  font-size: 0.75rem !important;
   padding-top: 0rem !important;
   padding-bottom: 0rem !important;
 }
-.redu{
-  font-size:0.75rem !important;
+.redu {
+  font-size: 0.75rem !important;
 }
-.wt100{
-  width:100%;
+.wt100 {
+  width: 100%;
 }
-.card-overflow{
+.card-overflow {
   overflow: visible !important;
 }
-.card-content form input{
+.card-content form input {
   margin-bottom: 1rem;
 }
-.vscrollable{
-  overflow-y: auto  !important;
-  max-height: 80vh ; /* 550px */
+.vscrollable {
+  overflow-y: auto !important;
+  max-height: 80vh; /* 550px */
 }
-.vscrollNote{
-  overflow-y: auto  !important;
-  max-height: 77vh ; /* 550px */
+.vscrollNote {
+  overflow-y: auto !important;
+  max-height: 77vh; /* 550px */
 }
-.vht{
-  height:4.0em !important;
+.vht {
+  height: 4em !important;
 }
-.vscrol{
-  overflow-y: auto  !important;
-  max-height: 40vh ; /* 550px */
+.vscrol {
+  overflow-y: auto !important;
+  max-height: 40vh; /* 550px */
 }
-.vscrola{
-  overflow-y: auto  !important;
-  max-height: 70vh ; /* 550px */
+.vscrola {
+  overflow-y: auto !important;
+  max-height: 70vh; /* 550px */
 }
-.vscrolar{
-  overflow-y: auto  !important;
-  max-height: 30vh ; /* 550px */
+.vscrolar {
+  overflow-y: auto !important;
+  max-height: 30vh; /* 550px */
 }
-.vscrollable-acc{
+.vscrollable-acc {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 40vh ; /* 550px */
+  max-height: 40vh; /* 550px */
 }
-.larger{
-  width:95% !important;
+.larger {
+  width: 95% !important;
 }
-.modalbkgrnd{
-width:90% !important;
-
+.modalbkgrnd {
+  width: 90% !important;
 }
-.bckgrnd{
+.bckgrnd {
   background-color: black;
   color: white;
 }
 
-.sbut{
+.sbut {
   height: 1rem !important;
   width: 1rem !important;
   font-size: xx-small !important;
-  }
-
-.cardheight{
-   max-height:87vh !important;
-   padding-bottom: 2rem;
-  
 }
-.cardht80{
-  height:80vh;
+
+.cardheight {
+  max-height: 87vh !important;
+  padding-bottom: 2rem;
+}
+.cardht80 {
+  height: 80vh;
   margin-bottom: 3rem;
 }
-.modalcolor{
-  background-color:lightblue !important;
+.modalcolor {
+  background-color: lightblue !important;
 }
-.vscrollable-table{
+.vscrollable-table {
   overflow-y: auto;
-  max-height: 75vh ; 
+  max-height: 75vh;
 }
-.layout{
+.layout {
   display: flex;
   flex-direction: column;
 }
 
-.onTop{
+.onTop {
   z-index: 50;
   position: absolute;
   background-color: lightslategray;
   cursor: pointer;
   margin-top: -12px;
   width: 200px;
-
 }
-.padleft{
+.padleft {
   padding-left: 0.5rem;
 }
-.dropdown-item{
+.dropdown-item {
   padding-top: 0px !important;
   /*padding-bottom: 0px !important;
    margin-bottom: 0px; */
@@ -233,29 +228,29 @@ width:90% !important;
 /* .active{
   background-color: #282c34;
 } */
-.minHt{
-  height:1.5rem !important;
+.minHt {
+  height: 1.5rem !important;
   min-height: 1.5rem !important;
-/*   margin-top: -10px !important; */
+  /*   margin-top: -10px !important; */
 }
-.signupcenter{
+.signupcenter {
   margin-top: 5% !important;
 }
 
 .App-link {
   color: #61dafb;
 }
-input{
+input {
   margin-bottom: 0rem !important;
 }
 .sticky {
   position: fixed;
   /* top: 0;
   left: 0; */
- /*  width: 30%; */
+  /*  width: 30%; */
   /* z-index:100 */
 }
-table tr{
+table tr {
   cursor: pointer !important;
 }
 @keyframes App-logo-spin {
@@ -266,12 +261,12 @@ table tr{
     transform: rotate(360deg);
   }
 }
-.mvUp{
+.mvUp {
   margin-top: 0px;
 }
 html {
-  --scrollbarBG: #CFD8DC;
-  --thumbBG: #90A4AE;
+  --scrollbarBG: #cfd8dc;
+  --thumbBG: #90a4ae;
 }
 body::-webkit-scrollbar {
   width: 11px;
@@ -284,7 +279,7 @@ body::-webkit-scrollbar-track {
   background: var(--scrollbarBG);
 }
 body::-webkit-scrollbar-thumb {
-  background-color: var(--thumbBG) ;
+  background-color: var(--thumbBG);
   border-radius: 6px;
   border: 3px solid var(--scrollbarBG);
 }
@@ -299,14 +294,14 @@ div::-webkit-scrollbar-track {
   background: var(--scrollbarBG);
 }
 div::-webkit-scrollbar-thumb {
-  background-color: var(--thumbBG) ;
+  background-color: var(--thumbBG);
   border-radius: 6px;
   border: 3px solid var(--scrollbarBG);
 }
-.docdate{
-  width:4rem;
+.docdate {
+  width: 4rem;
   margin-right: 0.75rem;
 }
-.hovercard{
+.hovercard {
   cursor: pointer;
 }

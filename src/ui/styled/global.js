@@ -17,7 +17,32 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Manrope', sans-serif;
 }
 
+.react-datepicker-popper {
+  z-index: 999999 !important;
+}
 
+.MuiInputBase-input {
+  height: 32px !important;
+}
+
+*.dark::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: inherit;
+  border-radius: 4px;
+  border: 3px solid gray;
+  background-color : gray;
+}
 
 html{
   scroll-behavior: smooth;

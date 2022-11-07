@@ -64,7 +64,7 @@ const CustomTable: React.FC<Props> = ({
       progressPending={progressPending}
       noDataComponent={<EmptyData />}
       conditionalRowStyles={conditionalRowStyles}
-      noHeader={true}
+      noHeader={noHeader}
     />
   );
 };
