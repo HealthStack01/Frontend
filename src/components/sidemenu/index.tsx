@@ -219,6 +219,8 @@ export const menuItems = [
       {name: "Provider payment", to: "/app/managed-care/managedcare-providerpayment"},
       {name: "Report", to: "/app/managed-care/managedcare-report"},
       {name: "User mgt", to: "/app/managed-care/managedcare-usermgt"},
+      {name: "Dashboard", to: "/app/managed-care/managedcare-dashboard"},
+
       
     ],
   },
@@ -266,7 +268,7 @@ export const menuItems = [
     subMenus: [
       {name: "Whatsapp", to: "/app/communication/communication-whatsapp"},
       {name: "SMS", to: "/app/communication/communication-sms"},
-      {name: "USSd", to: "/app/communication/communication-ussd"},
+      {name: "USSD", to: "/app/communication/communication-ussd"},
       {name: "Email", to: "/app/communication/communication-email"},
       {name: "IVR", to: "/app/communication/communication-ivr"},
 
