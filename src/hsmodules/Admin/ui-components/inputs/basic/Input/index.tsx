@@ -1,7 +1,7 @@
-import { FormHelperText } from '@mui/material';
-import React from 'react';
+import {FormHelperText} from "@mui/material";
+import React from "react";
 
-import { InputBox, InputField, InputLabel } from './styles';
+import {InputBox, InputField, InputLabel} from "./styles";
 
 interface InputProps {
   label?: string;
@@ -16,9 +16,12 @@ interface InputProps {
   defaultValue?: string;
   value?: any;
   placeholder?: string;
-  size?: 'small' | 'medium';
+  size?: "small" | "medium";
   disabled?: boolean;
   inputRef?: any;
+  register?: any;
+  onBlur?: () => void;
+  autoComplete?: boolean;
 }
 
 // Reset Input MUI
@@ -28,14 +31,18 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   label,
   errorText,
-  type = 'text',
+  type = "text",
   name,
-  defaultValue = '',
+  defaultValue = "",
   onChange,
   onKeyDown,
   placeholder,
   // size = 'medium',
   disabled = false,
+  register,
+  value,
+  autoComplete = true,
+  onBlur,
 }) => (
   <div>
     <InputBox>
@@ -47,12 +54,20 @@ const Input: React.FC<InputProps> = ({
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
+        value={value}
+        {...register}
+        onBlur={onBlur}
+        autoComplete={autoComplete}
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}
       </InputLabel>
     </InputBox>
-    {errorText && <FormHelperText error>{errorText}</FormHelperText>}
+    {errorText && (
+      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+        {errorText}
+      </label>
+    )}
   </div>
 );
 

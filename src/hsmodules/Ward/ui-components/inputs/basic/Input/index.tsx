@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
   errorText,
   type = 'text',
   name,
-  defaultValue = '',
+  defaultValue,
   onChange,
   onKeyDown,
   placeholder,

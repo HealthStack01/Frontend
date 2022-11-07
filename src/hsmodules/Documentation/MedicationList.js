@@ -1,43 +1,43 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {DocumentClassList} from "./DocumentClass";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { DocumentClassList } from './DocumentClass';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
 
 export default function MedicationList() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("clinicaldocument");
+  const ClientServ = client.service('clinicaldocument');
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [allergy, setAllergy] = useState("");
-  const [reaction, setReaction] = useState("");
-  const [allergine, setAllergine] = useState("");
+  const [allergy, setAllergy] = useState('');
+  const [reaction, setReaction] = useState('');
+  const [allergine, setAllergine] = useState('');
   const [allergies, setAllergies] = useState([]);
-  const [notes, setNotes] = useState("");
-  const [drugname, setDrugName] = useState("");
-  const [strengthfreq, setStrengthFreq] = useState("");
+  const [notes, setNotes] = useState('');
+  const [drugname, setDrugName] = useState('');
+  const [strengthfreq, setStrengthFreq] = useState('');
   const [symptoms, setSymptoms] = useState([]);
-  const [docStatus, setDocStatus] = useState("Draft");
+  const [docStatus, setDocStatus] = useState('Draft');
 
   const [dataset, setDataset] = useState();
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
   //state.DocumentClassModule.selectedDocumentClass.name
 
   useEffect(() => {
-    if (!!draftDoc && draftDoc.status === "Draft") {
+    if (!!draftDoc && draftDoc.status === 'Draft') {
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -52,8 +52,8 @@ export default function MedicationList() {
     };
   }, [draftDoc]);
 
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
+  const getSearchfacility = (obj) => {
+    setValue('facility', obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -78,123 +78,123 @@ export default function MedicationList() {
   });
 
   const coughinfo = [
-    "productive",
-    "dry",
-    "barking",
-    "paroxysimal",
-    "post-tusive vomiting ",
-    "worse at night ",
-    "worse at any time of the day ",
-    "worse in certain posture ",
-    "progressive",
+    'productive',
+    'dry',
+    'barking',
+    'paroxysimal',
+    'post-tusive vomiting ',
+    'worse at night ',
+    'worse at any time of the day ',
+    'worse in certain posture ',
+    'progressive',
   ];
   const coughsymptoms = [
-    "fever",
-    "catarrh",
-    "night sweats",
-    "weight loss",
-    "contact with someone with chronic cough",
-    "facial swelling",
-    "leg swelling",
+    'fever',
+    'catarrh',
+    'night sweats',
+    'weight loss',
+    'contact with someone with chronic cough',
+    'facial swelling',
+    'leg swelling',
   ];
-  const coughsputum = ["creamy", "brown", "blood stained", "whitish"];
+  const coughsputum = ['creamy', 'brown', 'blood stained', 'whitish'];
   const resp = [
-    "Difficulty breathing",
-    "fast breathing",
-    "excessive sneezing",
-    "allergy salute",
-    "chest pain",
-    "atopy",
-    "family history of atopy",
+    'Difficulty breathing',
+    'fast breathing',
+    'excessive sneezing',
+    'allergy salute',
+    'chest pain',
+    'atopy',
+    'family history of atopy',
   ];
   const cvs = [
-    "cough",
-    "easy defatigability",
-    "breathelessness",
-    "breathelessness  at rest",
-    "breathelessness on exertion",
-    "Othopnea",
-    "Paroxymal nocturnal orthopnea",
-    "palpitation",
-    "chest pain",
+    'cough',
+    'easy defatigability',
+    'breathelessness',
+    'breathelessness  at rest',
+    'breathelessness on exertion',
+    'Othopnea',
+    'Paroxymal nocturnal orthopnea',
+    'palpitation',
+    'chest pain',
   ];
-  const yesno = ["Yes", "No"];
+  const yesno = ['Yes', 'No'];
   const urinary = [
-    "frequency",
-    "nocturia",
-    "polyuria",
-    "poor stream",
-    "incomplete bladder empty",
-    "urgency",
-    "hesistancy",
+    'frequency',
+    'nocturia',
+    'polyuria',
+    'poor stream',
+    'incomplete bladder empty',
+    'urgency',
+    'hesistancy',
   ];
   const neuro = [
-    "headache",
-    "neck pain",
-    "neck stiffness",
-    "vertigo",
-    "dizziness",
-    "fainting spells",
-    "akward gait",
-    "weakness of upper limbs",
-    "weakness of lower limbs",
+    'headache',
+    'neck pain',
+    'neck stiffness',
+    'vertigo',
+    'dizziness',
+    'fainting spells',
+    'akward gait',
+    'weakness of upper limbs',
+    'weakness of lower limbs',
   ];
   const headache = [
-    "throbing",
-    "dull",
-    "generalised",
-    "frontal",
-    "right-sided",
-    "left sided",
-    "photophia",
+    'throbing',
+    'dull',
+    'generalised',
+    'frontal',
+    'right-sided',
+    'left sided',
+    'photophia',
   ];
-  const limbs = ["Right Limb", "Left Limb", "Both Limbs"];
-  const side = ["Right", "Left", "Both"];
-  const eardis = ["Right", "Left", "Both", "Purulent", "bloody"];
+  const limbs = ['Right Limb', 'Left Limb', 'Both Limbs'];
+  const side = ['Right', 'Left', 'Both'];
+  const eardis = ['Right', 'Left', 'Both', 'Purulent', 'bloody'];
   const ent = [
-    "Sore throat",
-    "change in voice",
-    "nasal discharge",
-    "excessive sneezing",
-    "allergy salute",
+    'Sore throat',
+    'change in voice',
+    'nasal discharge',
+    'excessive sneezing',
+    'allergy salute',
   ];
   const endo = [
-    "heat intolerance",
-    "apathy",
-    "excessive sweating",
-    "excessive hair growth",
-    "weight gain",
-    "weight loss",
-    "menstral irregularity",
+    'heat intolerance',
+    'apathy',
+    'excessive sweating',
+    'excessive hair growth',
+    'weight gain',
+    'weight loss',
+    'menstral irregularity',
   ];
   const birthmode = [
-    "Spontenous varginal delivery",
-    "Elective Suregery",
-    "Emergency Surgery",
+    'Spontenous varginal delivery',
+    'Elective Suregery',
+    'Emergency Surgery',
   ];
-  const vachist = ["caregiver's report", "child health card"];
-  const pernotes = ["dull", "resonant", "hyper-resonant"];
+  const vachist = ["caregiver's report", 'child health card'];
+  const pernotes = ['dull', 'resonant', 'hyper-resonant'];
   const pulsenature = [
-    "Regular",
-    "Irregular",
-    "Normal volume",
-    "Pounding",
-    "Synchronous",
-    "Asynchronous",
+    'Regular',
+    'Irregular',
+    'Normal volume',
+    'Pounding',
+    'Synchronous',
+    'Asynchronous',
   ];
-  const heartsound = ["S1", "S2", "S3", "S4"];
+  const heartsound = ['S1', 'S2', 'S3', 'S4'];
   const abd = [
-    "Full",
-    "Distended",
-    "Flat",
-    "moves with respiration",
-    "Abdominal vein visible",
+    'Full',
+    'Distended',
+    'Flat',
+    'moves with respiration',
+    'Abdominal vein visible',
   ];
   const bowelsound = [
-    "Normal",
-    "absent",
-    "hyperactive",
-    "reduced or hypoactive",
+    'Normal',
+    'absent',
+    'hyperactive',
+    'reduced or hypoactive',
   ];
 
   /*  const joins=(p)=>{
@@ -207,7 +207,7 @@ export default function MedicationList() {
     } */
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     let document = {};
@@ -221,17 +221,17 @@ export default function MedicationList() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
     document.documentdetail = data;
-    document.documentname = "Medication List"; //"Lab Result"
+    document.documentname = 'Medication List'; //"Lab Result"
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = state.ClientModule.selectedClient._id;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = docStatus === "Draft" ? "Draft" : "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = docStatus === 'Draft' ? 'Draft' : 'completed';
     //console.log(document)
 
     if (
@@ -241,8 +241,8 @@ export default function MedicationList() {
     ) {
       toast({
         message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
+          ' Documentation data missing, requires location and facility details',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -252,9 +252,9 @@ export default function MedicationList() {
       `You are about to save this document ${document.documentname} ?`
     );
     if (confirm) {
-      if (!!draftDoc && draftDoc.status === "Draft") {
+      if (!!draftDoc && draftDoc.status === 'Draft') {
         ClientServ.patch(draftDoc._id, document)
-          .then(res => {
+          .then((res) => {
             //console.log(JSON.stringify(res))
             e.target.reset();
             setAllergies([]);
@@ -262,24 +262,24 @@ export default function MedicationList() {
             /*  setMessage("Created Client successfully") */
             setSuccess(true);
             toast({
-              message: "Pediatric Pulmonology Form updated succesfully",
-              type: "is-success",
+              message: 'Pediatric Pulmonology Form updated succesfully',
+              type: 'is-success',
               dismissible: true,
               pauseOnHover: true,
             });
             setSuccess(false);
           })
-          .catch(err => {
+          .catch((err) => {
             toast({
-              message: "Error updating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
+              message: 'Error updating Pediatric Pulmonology Form ' + err,
+              type: 'is-danger',
               dismissible: true,
               pauseOnHover: true,
             });
           });
       } else {
         ClientServ.create(document)
-          .then(res => {
+          .then((res) => {
             //console.log(JSON.stringify(res))
             e.target.reset();
             setAllergies([]);
@@ -287,18 +287,18 @@ export default function MedicationList() {
             /*  setMessage("Created Client successfully") */
             setSuccess(true);
             toast({
-              message: "Medication List created succesfully",
-              type: "is-success",
+              message: 'Medication List created succesfully',
+              type: 'is-success',
               dismissible: true,
               pauseOnHover: true,
             });
             setSuccess(false);
             closeForm();
           })
-          .catch(err => {
+          .catch((err) => {
             toast({
-              message: "Error creating Medication List " + err,
-              type: "is-danger",
+              message: 'Error creating Medication List ' + err,
+              type: 'is-danger',
               dismissible: true,
               pauseOnHover: true,
             });
@@ -307,15 +307,15 @@ export default function MedicationList() {
     }
   };
 
-  const handleChangePart = async e => {
+  const handleChangePart = async (e) => {
     //console.log(e)
     //const (name, value) = e.target
-    let {name, value} = e.target;
+    let { name, value } = e.target;
     console.log(name, value);
-    await setDataset(prev => ({...prev, [name]: value}));
+    await setDataset((prev) => ({ ...prev, [name]: value }));
     //  console.log(dataset)
   };
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     // await setAppointment_type(e.target.value)
 
     setDocStatus(e.target.value);
@@ -330,13 +330,13 @@ export default function MedicationList() {
             }
         }, [docStatus]) */
 
-  const handleAllergy = async e => {
+  const handleAllergy = async (e) => {
     //console.log(e)
     //const (name, value) = e.target
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     console.log(name, value);
     // [name]=value
-    await setAllergy(prev => ({...prev, [name]: value}));
+    await setAllergy((prev) => ({ ...prev, [name]: value }));
     console.log(allergy);
   };
 
@@ -345,10 +345,10 @@ export default function MedicationList() {
       allergine: allergine,
       reaction: reaction,
     };
-    setAllergies(prev => [...prev, allergy]);
+    setAllergies((prev) => [...prev, allergy]);
     setAllergy({});
-    setReaction("");
-    setAllergine("");
+    setReaction('');
+    setAllergine('');
   };
   const handleAddMedication = () => {
     let newMedication = {
@@ -356,37 +356,34 @@ export default function MedicationList() {
       strengthfreq,
       notes,
     };
-    setSymptoms(prev => [...prev, newMedication]);
+    setSymptoms((prev) => [...prev, newMedication]);
     // setAllergy({})
-    setDrugName("");
-    setStrengthFreq("");
-    setNotes("");
+    setDrugName('');
+    setStrengthFreq('');
+    setNotes('');
   };
   const closeForm = async () => {
     let documentobj = {};
-    documentobj.name = "";
-    documentobj.facility = "";
-    documentobj.document = "";
+    documentobj.name = '';
+    documentobj.facility = '';
+    documentobj.document = '';
     //  alert("I am in draft mode : " + Clinic.documentname)
     const newDocumentClassModule = {
       selectedDocumentClass: documentobj,
       //state.DocumentClassModule.selectedDocumentClass.name
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
-    console.log("close form");
+    console.log('close form');
   };
 
   const onDelete = (comp, i) => {
     //console.log(comp,i)
-    setSymptoms(prevstate => prevstate.filter((el, index) => index !== i));
+    setSymptoms((prevstate) => prevstate.filter((el, index) => index !== i));
   };
-      
-  
-
 
   return (
     <>
@@ -411,7 +408,7 @@ export default function MedicationList() {
               <p className="control ">
                 <input
                   className="input is-small"
-                  {...register}
+                  ref={register}
                   name="Date"
                   type="text"
                   placeholder="Date"
@@ -423,7 +420,7 @@ export default function MedicationList() {
             </h4>
             <input
               className="input is-small is-hidden"
-              {...register}
+              ref={register}
               name="Allergies"
               type="text"
               placeholder="Specify"
@@ -438,7 +435,7 @@ export default function MedicationList() {
                     <input
                       className="input is-small"
                       value={allergine}
-                      /* {...register} */ onChange={e => {
+                      /* ref={register} */ onChange={(e) => {
                         setAllergine(e.target.value);
                       }}
                       name="allergine"
@@ -459,7 +456,7 @@ export default function MedicationList() {
                     <input
                       className="input is-small"
                       value={reaction}
-                      /* {...register} */ onChange={e => {
+                      /* ref={register} */ onChange={(e) => {
                         setReaction(e.target.value);
                       }}
                       name="reaction"
@@ -512,7 +509,7 @@ export default function MedicationList() {
             </h4>
             <input
               className="input is-small is-hidden"
-              {...register}
+              ref={register}
               name="Medications"
               type="text"
               placeholder="Specify"
@@ -527,7 +524,7 @@ export default function MedicationList() {
                     <input
                       className="input is-small"
                       value={drugname}
-                      /* {...register} */ onChange={e => {
+                      /* ref={register} */ onChange={(e) => {
                         setDrugName(e.target.value);
                       }}
                       name="Drugname"
@@ -548,7 +545,7 @@ export default function MedicationList() {
                     <input
                       className="input is-small"
                       value={strengthfreq}
-                      /* {...register} */ onChange={e => {
+                      /* ref={register} */ onChange={(e) => {
                         setStrengthFreq(e.target.value);
                       }}
                       name="strengthfreq"
@@ -569,7 +566,7 @@ export default function MedicationList() {
                     <input
                       className="input is-small"
                       value={notes}
-                      /* {...register} */ onChange={e => {
+                      /* ref={register} */ onChange={(e) => {
                         setNotes(e.target.value);
                       }}
                       name="notes"
@@ -629,23 +626,23 @@ export default function MedicationList() {
               <label className=" is-small">
                 <input
                   type="radio"
-                  checked={docStatus === "Draft"}
+                  checked={docStatus === 'Draft'}
                   name="status"
                   value="Draft"
-                  onChange={e => {
+                  onChange={(e) => {
                     handleChangeStatus(e);
                   }}
                 />
                 <span> Draft</span>
-              </label>{" "}
+              </label>{' '}
               <br />
               <label className=" is-small">
                 <input
                   type="radio"
-                  checked={docStatus === "Final"}
+                  checked={docStatus === 'Final'}
                   name="status"
                   value="Final"
-                  onChange={e => handleChangeStatus(e)}
+                  onChange={(e) => handleChangeStatus(e)}
                 />
                 <span> Final </span>
               </label>

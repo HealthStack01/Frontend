@@ -8,22 +8,6 @@ import { PageText as NavText } from '../../components/PageText';
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
 
-/* *::-webkit-scrollbar-track{
-	-webkit-box-shadow: inset 0 0 6px 12px rgba(0,0,0,0.08);
-	border-radius: 8px;
-	background-color: #FeFeFe;
-} */
-
-*::-webkit-scrollbar{
-	display:none
-}
-
-/* *::-webkit-scrollbar-thumb{
-	border-radius: 2px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #fcfcfc;
-} */
-
 *{
     margin: 0;
     padding: 0;
@@ -32,6 +16,34 @@ export const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
     font-family: 'Manrope', sans-serif;
 }
+
+.react-datepicker-popper {
+  z-index: 999999 !important;
+}
+
+.MuiInputBase-input {
+  height: 32px !important;
+}
+
+*.dark::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: inherit;
+  border-radius: 4px;
+  border: 3px solid gray;
+  background-color : gray;
+}
+
 html{
   scroll-behavior: smooth;
 
@@ -223,8 +235,8 @@ export const Container = styled.div`
 `;
 
 export const Text = styled(NavText)`
-  color: ${(props) => (props.color ? props.color : '#ffffff')};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : '.9em')};
+  color: ${props => (props.color ? props.color : '#ffffff')};
+  font-size: ${props => (props.fontSize ? props.fontSize : '.9em')};
   margin-right: 1em;
   border: 1px solid #232f3e;
   padding: 0.5em 0.1em;
@@ -246,10 +258,9 @@ export const LeftText = styled(Text)`
 
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
-  flex-direction: ${(props) =>
+  flex-direction: ${props =>
     props.flexDirection ? props.flexDirection : 'column'};
-  align-items: ${(props) =>
-    props.alignItems ? props.alignItems : 'flex-start'};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'flex-start')};
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -264,18 +275,17 @@ export const Wrapper = styled(NavItemWrapper)`
 `;
 
 export const Stat = styled(StatWrapper)`
-  padding: ${(props) => (props.padding ? props.padding : '30px')};
+  padding: ${props => (props.padding ? props.padding : '30px')};
   display: flex;
-  align-items: ${(props) => (props.alignItems ? props.alignItems : 'center')};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
   background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: ${(props) =>
-    props.borderRadius ? props.borderRadius : '15px'};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '15px')};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
-  margin-bottom: ${(props) =>
+  margin-bottom: ${props =>
     props.margingBottom ? props.margingBottom : '30px'};
 
   &::before {
@@ -306,15 +316,14 @@ export const UserWrapper = styled.div`
 `;
 
 export const AttendWrapper = styled(StatWrapper)`
-  background: ${(props) => (props.background ? props.background : 'white')};
-  height: ${(props) => (props.height ? props.height : '120px')};
-  widtht: ${(props) => (props.width ? props.width : 'auto')};
-  /* width: ${(props) => (props.width ? props.width : '120px')} */
+  background: ${props => (props.background ? props.background : 'white')};
+  height: ${props => (props.height ? props.height : '120px')};
+  widtht: ${props => (props.width ? props.width : 'auto')};
+  /* width: ${props => (props.width ? props.width : '120px')} */
   margin-left: 0.6rem;
   font-size: 12px;
-  padding: ${(props) => (props.padding ? props.padding : '1rem')};
-  border-radius: ${(props) =>
-    props.borderRadius ? props.borderRadius : '4px'};
+  padding: ${props => (props.padding ? props.padding : '1rem')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '4px')};
 
   /* flex: 1; */
 `;

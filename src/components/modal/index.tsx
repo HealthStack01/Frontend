@@ -8,13 +8,14 @@ interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-  header?: string;
-  // width?: "string";
+  header?: 'string';
+  width?: 'string';
 }
 const style = {
   minWidth: '800px',
   maxWidth: '95vw',
-  minHeight: '400px',
+  minHeight: '200px',
+
   maxHeight: '95vh',
   bgcolor: '#FAFAFA',
   boxShadow: 24,
@@ -29,7 +30,6 @@ const ModalBox: React.FC<ModalProps> = ({
   onClose,
   children,
   header,
-  // width = "auto",
 }) => (
   <>
     <Modal
@@ -53,35 +53,39 @@ const ModalBox: React.FC<ModalProps> = ({
           <div
             style={{
               height: '100%',
-              width: '100%',
-              overflowY: 'auto',
+              overflowY: 'hidden',
             }}
           >
-            <Box
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-              mb={2}
-            >
-              <h1
+            {header && (
+              <Box
                 style={{
-                  color: '#33415C',
-                  fontWeight: '500',
-                  lineHeight: '1.5',
-                  fontSize: '24px',
-                  fontStyle: 'SemiBold',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
+                mb={2}
               >
-                {header}
-              </h1>
+                <h1
+                  style={{
+                    color: '#33415C',
+                    fontWeight: '500',
+                    lineHeight: '1.5',
+                    fontSize: '20px',
+                    fontStyle: 'SemiBold',
+                  }}
+                >
+                  {header}
+                </h1>
 
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
+                {onClose && (
+                  <IconButton onClick={onClose}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Box>
+            )}
+
             {children}
           </div>
         </Box>

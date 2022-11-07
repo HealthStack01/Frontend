@@ -13,8 +13,11 @@ var random = require("random-string-generator");
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
+//import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import {Box, Button, Typography} from "@mui/material";
+import ModalBox from "../../components/modal";
+import MakeDeposit from "./Deposit";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -66,6 +69,7 @@ export default function PaymentCreate({closeModal}) {
   const [subWallet, setSubWallet] = useState();
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
+  const [depositModal, setDepositModal] = useState(false);
 
   const {state, setState} = useContext(ObjectContext);
 
@@ -326,9 +330,9 @@ export default function PaymentCreate({closeModal}) {
     // }
 
     setSource(
-      medication.participantInfo.client.firstname +
+      medication?.participantInfo?.client?.firstname +
         " " +
-        medication.participantInfo.client.lastname
+        medication?.participantInfo?.client?.lastname
     );
     setProductItem(state.financeModule.selectedBills);
 
@@ -929,6 +933,105 @@ export default function PaymentCreate({closeModal}) {
   return (
     <>
       <div style={{width: "100%"}}>
+        <ModalBox
+          open={depositModal}
+          onClose={() => setDepositModal(false)}
+          header={`Make Deposit`}
+        >
+          <MakeDeposit balance={balance} />
+        </ModalBox>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={2}
+        >
+          <Typography
+            sx={{
+              fontSize: "0.8rem",
+              color: "2d2d2d",
+            }}
+          >
+            Pay Bills for {source} #{documentNo}
+          </Typography>
+          <Button
+            onClick={() => setDepositModal(true)}
+            variant="outlined"
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            Make Deposit
+          </Button>
+        </Box>
+
+        <Box
+          container
+          sx={{width: "100%", display: "flex", flexDirection: "column"}}
+          mb={2}
+        >
+          <Box
+            container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              item
+              sx={{
+                width: "49%",
+                height: "80px",
+                border: "1px solid #E5E5E5",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                padding: "0 15px",
+              }}
+            >
+              <Typography>Total Amount Due</Typography>
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "700",
+                  color: "2d2d2d",
+                }}
+              >
+                {" "}
+                &#8358;{totalamount.toFixed(2)}
+              </Typography>
+            </Box>
+
+            <Box
+              item
+              sx={{
+                width: "49%",
+                height: "80px",
+                border: "1px solid #E5E5E5",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                padding: "0 15px",
+              }}
+            >
+              <Typography>Current Balance</Typography>
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "700",
+                  color: "2d2d2d",
+                }}
+              >
+                &#8358;{balance.toFixed(2)}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
         <div
           style={{
             backgroundColor: "#F8F8F8",
@@ -937,31 +1040,6 @@ export default function PaymentCreate({closeModal}) {
             boxShadow: "0 3px 3px 0 rgb(3 4 94 / 20%)",
           }}
         >
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "15px",
-            }}
-          >
-            <p style={{fontSize: "0.75rem", fontWeight: "bold"}}>
-              Pay Bills for {source} #{documentNo}
-            </p>
-            <div
-              style={{
-                padding: "3px 5px",
-                backgroundColor: "rgb(241, 70, 104)",
-                borderRadius: "15px",
-              }}
-            >
-              <p style={{color: "#fff", fontSize: "0.75rem"}}>
-                Total Amount Due: N {totalamount.toFixed(2)}
-              </p>
-            </div>
-          </div>
-
           <div
             style={{
               width: "100%",

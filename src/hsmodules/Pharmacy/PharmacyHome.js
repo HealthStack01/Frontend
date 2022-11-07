@@ -39,7 +39,7 @@ export default function PharmacyHome({children}) {
       locationName: state.StoreModule.selectedStore.name,
       locationType: "Pharmacy",
       locationId: state.StoreModule.selectedStore._id,
-      facilityId: user.currentEmployee.facilityDetail._id,
+      facilityId: user.currentEmployee?.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
     setState(prevstate => ({

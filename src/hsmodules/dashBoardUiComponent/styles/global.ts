@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, {createGlobalStyle} from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
@@ -9,15 +9,26 @@ export const GlobalStyle = createGlobalStyle`
 	background-color: #FeFeFe;
 } */
 
-*::-webkit-scrollbar{
-	display:none
+
+
+*.dark::-webkit-scrollbar {
+  width: 7px;
 }
 
-/* *::-webkit-scrollbar-thumb{
-	border-radius: 2px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #fcfcfc;
-} */
+*::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: inherit;
+  border-radius: 4px;
+  border: 3px solid gray;
+  background-color : gray;
+}
 
 *{
     margin: 0;

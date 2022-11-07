@@ -54,3 +54,7 @@ html {
   border: 1px solid #b6b6b6;
   width: '100%' !important;
 }
+
+*::-webkit-scrollbar {
+  display: none !important;
+}

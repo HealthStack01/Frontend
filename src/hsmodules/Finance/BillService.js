@@ -475,7 +475,7 @@ export function BillsList({openCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100% - 100px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49%" : "100%",
             }}
@@ -496,7 +496,7 @@ export function BillsList({openCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100% - 100px)",
                   width: "49%",
                 }}
               >

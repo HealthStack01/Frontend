@@ -1,22 +1,22 @@
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {useForm} from "react-hook-form";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
-import client from "../../../feathers";
-import {toast} from "bulma-toast";
-import {UserContext, ObjectContext} from "../../../context";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import client from '../../../feathers';
+import { toast } from 'bulma-toast';
+import { UserContext, ObjectContext } from '../../../context';
 
 const VitalSignChart = () => {
-  const {register, handleSubmit, setValue} = useForm();
-  const fluidTypeOptions = ["Input", "Output"];
-  const {user, setUser} = useContext(UserContext);
+  const { register, handleSubmit, setValue } = useForm();
+  const fluidTypeOptions = ['Input', 'Output'];
+  const { user, setUser } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
   const [selectedFluid, setSelectedFluid] = useState();
   const [chosen, setChosen] = useState(true);
   const [chosen1, setChosen1] = useState(true);
   const [chosen2, setChosen2] = useState(true);
-  const {state} = useContext(ObjectContext);
-  const [docStatus, setDocStatus] = useState("Draft");
-  const ClientServ = client.service("clinicaldocument");
+  const { state } = useContext(ObjectContext);
+  const [docStatus, setDocStatus] = useState('Draft');
+  const ClientServ = client.service('clinicaldocument');
   const fac = useRef([]);
   const struc = useRef([]);
 
@@ -32,8 +32,8 @@ const VitalSignChart = () => {
       setChosen2(false);
     } else {
       toast({
-        message: "Patient not on admission",
-        type: "is-danger",
+        message: 'Patient not on admission',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -71,7 +71,7 @@ const VitalSignChart = () => {
   };
 
   useEffect(() => {
-    if (!!draftDoc && draftDoc.status === "Draft") {
+    if (!!draftDoc && draftDoc.status === 'Draft') {
       /*  Object.entries(draftDoc.documentdetail).map(([keys,value],i)=>(
                   setValue(keys, value,  {
                       shouldValidate: true,
@@ -104,32 +104,32 @@ const VitalSignChart = () => {
       state.DocumentClassModule.selectedDocumentClass._id;
     document.location =
       state.ClinicModule.selectedClinic.name +
-      " " +
+      ' ' +
       state.ClinicModule.selectedClinic.locationType;
     document.locationId = state.ClinicModule.selectedClinic._id;
     document.client = state.ClientModule.selectedClient._id;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = docStatus === "Draft" ? "Draft" : "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = docStatus === 'Draft' ? 'Draft' : 'completed';
     document.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
     console.log(document);
 
     // alert(document.status)
     ClientServ.create(document)
-      .then(res => {
+      .then((res) => {
         setChosen(true);
 
         toast({
-          message: "Fluid Input/Output entry successful",
-          type: "is-success",
+          message: 'Fluid Input/Output entry successful',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
+          message: 'Error creating Appointment ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -143,17 +143,17 @@ const VitalSignChart = () => {
     data.entrytime = new Date();
     data.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     data.locationId = state.employeeLocation.locationId;
     data.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
     data.createdBy = user._id;
-    data.createdByname = user.firstname + " " + user.lastname;
+    data.createdByname = user.firstname + ' ' + user.lastname;
 
     // await update(data)
     struc.current = [data, ...facilities];
     // console.log(struc.current)
-    setFacilities(prev => [data, ...facilities]);
+    setFacilities((prev) => [data, ...facilities]);
     // data.recordings=facilities
     e.target.reset();
     setChosen(false);
@@ -174,33 +174,33 @@ const VitalSignChart = () => {
       state.DocumentClassModule.selectedDocumentClass._id;
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = state.ClientModule.selectedClient._id;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = docStatus === "Draft" ? "Draft" : "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = docStatus === 'Draft' ? 'Draft' : 'completed';
     document.episodeofcare_id = state.ClientModule.selectedClient.admission_id;
     console.log(document);
 
     // alert(document.status)
     if (chosen1) {
       ClientServ.create(document)
-        .then(res => {
+        .then((res) => {
           setChosen(true);
 
           toast({
-            message: "Vital Signs entry successful",
-            type: "is-success",
+            message: 'Vital Signs entry successful',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
+            message: 'Fluid Input/Output entry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -209,20 +209,20 @@ const VitalSignChart = () => {
       ClientServ.patch(fac.current._id, {
         documentdetail: document.documentdetail,
       })
-        .then(res => {
+        .then((res) => {
           setChosen(true);
 
           toast({
-            message: "Fluid Input/Output entry successful",
-            type: "is-success",
+            message: 'Fluid Input/Output entry successful',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
-            message: "Fluid Input/Output entry " + err,
-            type: "is-danger",
+            message: 'Fluid Input/Output entry ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -243,7 +243,7 @@ const VitalSignChart = () => {
                 <label className="label is-small">Date & Time</label>
                 <p className="control is-expanded">
                   <input
-                    {...register("vitals_time", {required: true})}
+                    {...register('vitals_time', { required: true })}
                     name="vitals_time"
                     className="input is-small"
                     type="datetime-local"
@@ -260,7 +260,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("Temperature")}
+                    {...register('Temperature')}
                     name="Temperature"
                     type="text"
                     placeholder="Temperature"
@@ -275,7 +275,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("Pulse")}
+                    {...register('Pulse')}
                     name="Pulse"
                     type="text"
                     placeholder="Pulse"
@@ -293,7 +293,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("Respiratory_rate")}
+                    {...register('Respiratory_rate')}
                     name="Respiratory_rate"
                     type="text"
                     placeholder="Respiratory rate"
@@ -307,7 +307,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("Random_glucose")}
+                    {...register('Random_glucose')}
                     name="Random_glucose"
                     type="text"
                     placeholder="Blood Glucose"
@@ -325,7 +325,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("Systolic_BP")}
+                    {...register('Systolic_BP')}
                     name="Systolic_BP"
                     type="text"
                     placeholder="Systolic BP"
@@ -339,7 +339,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("Diastolic_BP")}
+                    {...register('Diastolic_BP')}
                     name="Diastolic_BP"
                     type="text"
                     placeholder="Diastolic_BP"
@@ -357,7 +357,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("SPO2")}
+                    {...register('SPO2')}
                     name="SPO2"
                     type="text"
                     placeholder="SPO2"
@@ -371,7 +371,7 @@ const VitalSignChart = () => {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("Pain")}
+                    {...register('Pain')}
                     name="Pain"
                     type="text"
                     placeholder="Pain"
@@ -422,7 +422,7 @@ const VitalSignChart = () => {
               <label className="label is-small">Comments</label>
               <div className="control">
                 <input
-                  {...register("comments")}
+                  {...register('comments')}
                   name="comments"
                   className="input is-small"
                   type="text"
@@ -496,14 +496,14 @@ const VitalSignChart = () => {
                   onClick={() => handleRow(Client)}
                   className={
                     Client._id === (selectedFluid?._id || null)
-                      ? "is-selected"
-                      : ""
+                      ? 'is-selected'
+                      : ''
                   }
                 >
                   <th>{i + 1}</th>
                   <td>
                     <strong>
-                      {format(new Date(Client.vitals_time), "HH:mm:ss")}
+                      {format(new Date(Client.vitals_time), 'HH:mm:ss')}
                     </strong>
                   </td>
                   <th>{Client.Temperature}</th>
@@ -521,7 +521,7 @@ const VitalSignChart = () => {
                   <td>{Client.comments}</td>
                   {Client.entrytime && (
                     <td>
-                      {format(new Date(Client.entrytime), "dd-MM HH:mm:ss")}
+                      {format(new Date(Client.entrytime), 'dd-MM HH:mm:ss')}
                     </td>
                   )}
                 </tr>

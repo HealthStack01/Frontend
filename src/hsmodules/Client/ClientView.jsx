@@ -16,6 +16,7 @@ import {
   BottomWrapper,
   DetailsWrapper,
   GrayWrapper,
+  GridBox,
   GridWrapper,
   HeadWrapper,
   PageWrapper,
@@ -39,7 +40,7 @@ const ClientView = ({ open, setOpen, user }) => {
   const [active, setActive] = useState("");
   const [billService, setBillService] = useState(false);
 
-  const { state, setState } = useContext(ObjectContext);
+  const {  state, setState  } = useContext(ObjectContext);
 
   const result = localStorage.getItem("user");
   const data = JSON.parse(result);
@@ -47,7 +48,7 @@ const ClientView = ({ open, setOpen, user }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {  errors  },
     reset,
   } = useForm({
     resolver: yupResolver(createClientSchema),
@@ -60,10 +61,14 @@ const ClientView = ({ open, setOpen, user }) => {
       phone: user?.phone,
       email: user?.email,
       facility: data?.currentEmployee.facility,
+      gender: user?.gender,
+      maritalstatus: user?.maritalstatus,
+      mrn: user?.mrn,
+      religion: user?.religion,
+      profession: user?.profession,
+      clientTags: user?.clientTags,
     },
   });
-
-  console.log("Selected User>>>>>>", user);
 
   useEffect(() => {
     reset({
@@ -74,6 +79,12 @@ const ClientView = ({ open, setOpen, user }) => {
       phone: user.phone,
       email: user.email,
       facility: data.currentEmployee.facility,
+      gender: user?.gender,
+      maritalstatus: user?.maritalstatus,
+      mrn: user?.mrn,
+      religion: user?.religion,
+      profession: user?.profession,
+      clientTags: user?.clientTags,
     });
   }, []);
 
@@ -282,8 +293,9 @@ const ClientView = ({ open, setOpen, user }) => {
 
           {/* Names Section */}
 
-          <DetailsWrapper title="Names">
-            <GridWrapper>
+          <ViewBox>
+            <h2>Names</h2>
+            <GridBox>
               {!editing ? (
                 <ViewText label="First Name" text={user?.firstname} />
               ) : (
@@ -300,6 +312,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label="Middle Name"
                   register={register("middlename")}
                   errorText={errors?.middlename?.message}
+                  defaultValue={user?.middlename}
                 />
               )}
               {!editing ? (
@@ -309,6 +322,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label="Last Name"
                   register={register("lastname", { required: true })}
                   errorText={errors?.lastname?.message}
+                  defaultValue={user?.lastnames}
                 />
               )}
               {!editing ? (
@@ -324,12 +338,14 @@ const ClientView = ({ open, setOpen, user }) => {
                   // errorText={errors?.dob?.message}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Biodata Section */}
 
-          <DetailsWrapper title="Biodata">
-            <GridWrapper>
+          <ViewBox>
+            <h2>Biodata</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label="Gender" text={user?.gender} />
               ) : (
@@ -402,11 +418,13 @@ const ClientView = ({ open, setOpen, user }) => {
                   type="email"
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Address */}
-          <DetailsWrapper title="Address">
-            <GridWrapper>
+          <ViewBox>
+            <h2>Addresses</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label="Residential Address" text={user?.address} />
               ) : (
@@ -441,11 +459,13 @@ const ClientView = ({ open, setOpen, user }) => {
               ) : (
                 <Input label="Country" register={register("country")} />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Medical Data */}
-          <DetailsWrapper title="Medical Data">
-            <GridWrapper>
+          <ViewBox>
+            <h2>Medical Data</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label="Blood Group" text={user?.bloodgroup} />
               ) : (
@@ -489,11 +509,13 @@ const ClientView = ({ open, setOpen, user }) => {
                   register={register("specificDetails")}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Next of Kin Information */}
-          <DetailsWrapper title="Next of Kin Information">
-            <GridWrapper>
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label="Next of Kin Full Name" text={user?.nok_name} />
               ) : (
@@ -553,15 +575,15 @@ const ClientView = ({ open, setOpen, user }) => {
                   register={register("specificDetails")}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {editing && (
             <BottomWrapper>
               <Button label="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>
-      </GrayWrapper>
+      </div>
 
       <ModalBox
         open={billService}

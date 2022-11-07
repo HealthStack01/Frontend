@@ -361,7 +361,7 @@ export function RadAppointmentCreate() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register}
+                      ref={register}
                     />
                     {c + " "}
                   </label>
@@ -2173,7 +2173,7 @@ export function RadAppointmentModify() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register}
+                      ref={register}
                     />
                     {c + " "}
                   </label>
