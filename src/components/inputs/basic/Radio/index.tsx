@@ -4,24 +4,20 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 
 interface RadioProps {
   name: string;
   title?: string;
-  options: {value: string; label: string; disabled?: boolean}[] | string[];
+  options: { value: string; label: string; disabled?: boolean }[] | string[];
   onChange?: (e: any) => void;
   defaultValue?: string;
   disabled?: boolean;
   register?: any;
-  iconSize?: number;
+  checked?: any;
+  value?: any;
 }
-
-const radioButtonStyles = {
-  width: "12px",
-  height: "12px",
-};
 
 const RadioButton: React.FC<RadioProps> = ({
   name,
@@ -29,14 +25,14 @@ const RadioButton: React.FC<RadioProps> = ({
   disabled,
   options,
   onChange,
-  defaultValue = "",
+  defaultValue = '',
   register,
-  iconSize = 24,
+  checked,
 }) => (
   <FormControl
     disabled={disabled}
     component="fieldset"
-    sx={{width: "100%", mt: 1, mb: 1}}
+    sx={{ width: '100%', mt: 1, mb: 1 }}
   >
     <FormLabel component="legend">{title}</FormLabel>
     <RadioGroup
@@ -45,21 +41,14 @@ const RadioButton: React.FC<RadioProps> = ({
       name={name}
       onChange={onChange}
       {...register}
+      value={checked}
     >
       {options.map((option, i) => (
         <FormControlLabel
           key={i}
-          value={option.value || option || ""}
-          control={
-            <Radio
-              sx={{
-                "& .MuiSvgIcon-root": {
-                  fontSize: iconSize,
-                },
-              }}
-            />
-          }
-          label={option.label || option || ""}
+          value={option.value || option || ''}
+          control={<Radio />}
+          label={option.label || option || ''}
           disabled={option.disabled}
           defaultValue={defaultValue}
           // checked={defaultValue === (option.value || option || '')}

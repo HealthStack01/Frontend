@@ -3,12 +3,13 @@ import React from 'react';
 
 import { InputBox, InputField, InputLabel } from './styles';
 
+
 interface InputProps {
   label?: string;
   inputId?: string;
   errors?: boolean;
   errorText?: string;
-  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (_) => void;
   helperText?: string;
   name?: string;

@@ -1,14 +1,14 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {ProductCreate, ProductDetail} from "./Products";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { ProductCreate, ProductDetail } from "./Products";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
@@ -33,7 +33,7 @@ import InventorySearchHelper from "../helpers/InventorySearch";
 const searchfacility = {};
 
 export default function PharmacyProductExit() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
   const [createModal, setCreateModal] = useState(false);
@@ -106,7 +106,7 @@ export function ProductExitCreate({closeModal}) {
   const [facility, setFacility] = useState();
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [type, setType] = useState("Sales");
@@ -127,7 +127,7 @@ export function ProductExitCreate({closeModal}) {
   const [productItem, setProductItem] = useState([]);
   const [billingId, setBilllingId] = useState("");
   const [changeAmount, setChangeAmount] = useState(true);
-  const {state} = useContext(ObjectContext);
+  const { state } = useContext(ObjectContext);
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
@@ -156,7 +156,7 @@ export function ProductExitCreate({closeModal}) {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setProductId(obj.productId);
     setName(obj.name);
     setBaseunit(obj.baseunit);
@@ -191,10 +191,10 @@ export function ProductExitCreate({closeModal}) {
   }, [user]);
 
   const handleUpdateTotal = () => {
-    setTotalamount(prevtotal => Number(prevtotal) + Number(calcamount));
+    setTotalamount((prevtotal) => Number(prevtotal) + Number(calcamount));
   };
 
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     await setType(e.target.value);
   };
 
@@ -218,7 +218,7 @@ export function ProductExitCreate({closeModal}) {
     }
 
     await setSuccess(false);
-    await setProductItem(prevProd => prevProd.concat(productItemI));
+    await setProductItem((prevProd) => prevProd.concat(productItemI));
     handleUpdateTotal();
     setName("");
     setBaseunit("");
@@ -247,7 +247,7 @@ export function ProductExitCreate({closeModal}) {
       }
     }) */
 
-  const handleQtty = async e => {
+  const handleQtty = async (e) => {
     if (invquantity < e.target.value) {
       toast({
         message: "You can not sell more quantity than exist in inventory ",
@@ -288,7 +288,7 @@ export function ProductExitCreate({closeModal}) {
     setProductItem([]);
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setError(false);
@@ -335,7 +335,7 @@ export function ProductExitCreate({closeModal}) {
     }
     console.log("b4 create", productEntry);
     ProductEntryServ.create(productEntry)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
@@ -355,7 +355,7 @@ export function ProductExitCreate({closeModal}) {
         setDocumentNo(invoiceNo);
         setType("Sales");
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating ProductExit " + err,
           type: "is-danger",
@@ -366,7 +366,7 @@ export function ProductExitCreate({closeModal}) {
   };
 
   const handleChangeAmount = () => {
-    setChangeAmount(rev => !rev);
+    setChangeAmount((rev) => !rev);
   };
   // console.log("i am rendering")
 
@@ -679,7 +679,7 @@ export function ProductExitCreate({closeModal}) {
                 />
                 <p
                   className="control has-icons-left "
-                  style={{display: "none"}}
+                  style={{ display: "none" }}
                 >
                   <input
                     className="input is-small"
@@ -688,7 +688,7 @@ export function ProductExitCreate({closeModal}) {
                     }
                     name="productId"
                     type="text"
-                    onChange={e => setProductId(e.target.value)}
+                    onChange={(e) => setProductId(e.target.value)}
                     placeholder="Product Id"
                   />
                   <span className="icon is-small is-left">
@@ -703,14 +703,14 @@ export function ProductExitCreate({closeModal}) {
           </div>
           <div className="field is-horizontal">
             <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
+              <div className="field" style={{ width: "40%" }}>
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
                     /* {...register("x",{required: true})} */ name="quantity"
                     value={quantity}
                     type="text"
-                    onChange={e => handleQtty(e)}
+                    onChange={(e) => handleQtty(e)}
                     placeholder="Quantity"
                   />
                   <span className="icon is-small is-left">
@@ -723,7 +723,7 @@ export function ProductExitCreate({closeModal}) {
                 <label>Amount:</label>
                 {/* <p>{quantity*sellingprice}</p> */}
               </div>
-              <div className="field" style={{width: "40%"}}>
+              <div className="field" style={{ width: "40%" }}>
                 <p
                   className="control has-icons-left " /* style={{display:"none"}} */
                 >
@@ -733,7 +733,7 @@ export function ProductExitCreate({closeModal}) {
                     disabled={changeAmount}
                     value={calcamount}
                     type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
+                    onChange={async (e) => await setCalcAmount(e.target.value)}
                     placeholder="Amount"
                   />
                   <span className="icon is-small is-left">
@@ -833,7 +833,7 @@ export function ProductExitCreate({closeModal}) {
   );
 }
 
-export function ProductExitList({openDetailModal, openCreateModal}) {
+export function ProductExitList({ openDetailModal, openCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -848,9 +848,9 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
@@ -858,14 +858,14 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       selectedProductEntry: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductExitModule: newProductExitModule,
     }));
     //console.log(state)
     openCreateModal();
   };
-  const handleRow = async ProductEntry => {
+  const handleRow = async (ProductEntry) => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -876,7 +876,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       selectedProductEntry: ProductEntry,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductExitModule: newProductExitModule,
     }));
@@ -884,7 +884,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
     openDetailModal();
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     console.log(val);
     ProductEntryServ.find({
@@ -902,13 +902,13 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
@@ -986,10 +986,10 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ProductEntryServ.on("created", obj => getFacilities());
-    ProductEntryServ.on("updated", obj => getFacilities());
-    ProductEntryServ.on("patched", obj => getFacilities());
-    ProductEntryServ.on("removed", obj => getFacilities());
+    ProductEntryServ.on("created", (obj) => getFacilities());
+    ProductEntryServ.on("updated", (obj) => getFacilities());
+    ProductEntryServ.on("patched", (obj) => getFacilities());
+    ProductEntryServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -1005,7 +1005,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "S/No",
       key: "sn",
       description: "",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -1014,7 +1014,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "date",
       key: "date",
       description: "Enter date",
-      selector: row => row.date,
+      selector: (row) => row.date,
 
       sortable: true,
       required: true,
@@ -1024,7 +1024,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "Type",
       key: "type",
       description: "Enter type",
-      selector: row => row.type,
+      selector: (row) => row.type,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
@@ -1034,7 +1034,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "Client",
       key: "source",
       description: "Enter client",
-      selector: row => (row.source ? row.source : "----"),
+      selector: (row) => (row.source ? row.source : "----"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1043,7 +1043,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "Document No",
       key: "DocumentNO",
       description: "Enter Document Number",
-      selector: row => row.documentNo,
+      selector: (row) => row.documentNo,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1052,7 +1052,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "Total Amount",
       key: "totalamount",
       description: "Enter Total Amount",
-      selector: row => row.totalamount,
+      selector: (row) => row.totalamount,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1061,7 +1061,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: "Entered By ",
       key: "source",
       description: "Enter Entered By ",
-      selector: row => (row.enteredby ? row.enteredby : "----"),
+      selector: (row) => (row.enteredby ? row.enteredby : "----"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1070,7 +1070,7 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       name: " Actions",
       key: "actions",
       description: "Enter Actions",
-      selector: row => "----",
+      selector: (row) => "----",
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1082,30 +1082,30 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
       {state.StoreModule.selectedStore ? (
         <>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   Inventory Store
                 </h2>
               </div>
 
               {handleCreateNew && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
                   onClick={handleCreateNew}
                 />
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
               <CustomTable
                 title={""}
                 columns={ProductExitSchema}
@@ -1136,7 +1136,7 @@ export function ProductExitDetail() {
   //const ProductEntryServ=client.service('/ProductEntry')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const ProductEntry = state.ProductExitModule.selectedProductEntry;
 
@@ -1145,7 +1145,7 @@ export function ProductExitDetail() {
       selectedProductEntry: ProductEntry,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductExitModule: newProductExitModule,
     }));
@@ -1157,7 +1157,7 @@ export function ProductExitDetail() {
       name: "S/NO",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -1166,7 +1166,7 @@ export function ProductExitDetail() {
       name: "Name",
       key: "name",
       description: "Enter name of product",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1175,7 +1175,7 @@ export function ProductExitDetail() {
       name: "Quantity",
       key: "quantity",
       description: "Enter Quantity",
-      selector: row => row.quantity,
+      selector: (row) => row.quantity,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1184,7 +1184,7 @@ export function ProductExitDetail() {
       name: "Unit",
       key: "unit",
       description: "Enter Unit",
-      selector: row => (row.baseunit ? row.baseunit : "----"),
+      selector: (row) => (row.baseunit ? row.baseunit : "----"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1193,7 +1193,7 @@ export function ProductExitDetail() {
       name: "Selling Price",
       key: "sellingprice",
       description: "Enter Selling price",
-      selector: row => row.sellingprice,
+      selector: (row) => row.sellingprice,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1202,7 +1202,7 @@ export function ProductExitDetail() {
       name: "Amount",
       key: "amount",
       description: "Enter Amount",
-      selector: row => row.amount,
+      selector: (row) => row.amount,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1277,7 +1277,7 @@ export function ProductExitDetail() {
 }
 
 export function ProductExitModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1288,8 +1288,8 @@ export function ProductExitModify() {
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const ProductEntry = state.ProductExitModule.selectedProductEntry;
 
@@ -1335,7 +1335,7 @@ export function ProductExitModify() {
       selectedProductEntry: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ProductExitModule: newProductExitModule,
     }));
@@ -1347,7 +1347,7 @@ export function ProductExitModify() {
       selectedProductEntry: {},
       show: "create",
     };
-    setState(prevstate => ({
+    setState((prevstate) => ({
       ...prevstate,
       ProductExitModule: newProductExitModule,
     }));
@@ -1358,7 +1358,7 @@ export function ProductExitModify() {
     const dleteId = ProductEntry._id;
     if (conf) {
       ProductEntryServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted ProductEntry successfully")
@@ -1375,7 +1375,7 @@ export function ProductExitModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting ProductEntry, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1402,7 +1402,7 @@ export function ProductExitModify() {
     //console.log(data);
 
     ProductEntryServ.patch(ProductEntry._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated ProductEntry successfully")
@@ -1415,7 +1415,7 @@ export function ProductExitModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating ProductEntry, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1443,7 +1443,7 @@ export function ProductExitModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="name"
                     type="text"
                     placeholder="Name"
@@ -1460,7 +1460,7 @@ export function ProductExitModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small "
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     disabled
                     name="ProductEntryType"
                     type="text"
@@ -1569,7 +1569,7 @@ export function ProductExitModify() {
   );
 }
 
-export function InventorySearch({getSearchfacility, clear}) {
+export function InventorySearch({ getSearchfacility, clear }) {
   const productServ = client.service("inventory");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1586,11 +1586,11 @@ export function InventorySearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1607,7 +1607,7 @@ export function InventorySearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -1625,7 +1625,7 @@ export function InventorySearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async value => {
+  const handleSearch = async (value) => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -1651,14 +1651,14 @@ export function InventorySearch({getSearchfacility, clear}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -1695,9 +1695,9 @@ export function InventorySearch({getSearchfacility, clear}) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: "100%" }}>
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -1705,8 +1705,8 @@ export function InventorySearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -1714,7 +1714,7 @@ export function InventorySearch({getSearchfacility, clear}) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
+            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""
