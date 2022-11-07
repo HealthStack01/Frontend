@@ -173,6 +173,19 @@ export const GrayWrapper = styled.div`
   }
 `;
 
+export const GridBox = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  grid-gap: 1rem;
+`;
+
+export const ViewBox = styled.div`
+  margin-top: 3.5rem;
+  margin-bottom: 3.5rem;
+`;
+
 export const GridWrapper = styled.div`
   width: 100%;
   display: grid;
