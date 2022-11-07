@@ -16,8 +16,8 @@ export const InputField = styled.input`
   }
 
   &:focus + label {
-    top: -0.5rem;
-    left: 0.8rem;
+    /* top: -0.5rem;
+    left: 0.8rem; */
     color: ${({ theme }) => theme.blueTwo};
     font-weight: 500;
     z-index: 10;
@@ -50,8 +50,10 @@ export const InputBox = styled.div`
 
 export const InputLabel = styled.label`
   position: absolute;
-  left: 1rem;
-  top: 1rem;
+  /* left: 1rem;
+  top: 1rem; */
+  top: -0.5rem;
+  left: 0.8rem;
   padding: 0 0.25rem;
   background-color: #fff;
   transition: 0.4s;
