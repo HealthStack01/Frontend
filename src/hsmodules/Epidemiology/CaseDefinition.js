@@ -69,13 +69,16 @@ export default function CaseDefinition() {
   };
 
   return (
+
     <section className='section remPadTop'>
+
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
       <CaseDefinitionList openCreateModal={handleOpenCreateModal} />
       <ModalBox open={modal} onClose={handleCloseCreateModal}>
+
         <CaseDefinitionForm setOpen={handleCloseCreateModal} />
       </ModalBox>
 
@@ -149,12 +152,12 @@ export function CaseDefinitionCreate() {
       });
     }
   });
-  const handleChecked = e => {
+  const handleChecked = (e) => {
     // console.log(e.target.checked)
     setSympreq(e.target.checked);
   };
 
-  const handleChecked2 = e => {
+  const handleChecked2 = (e) => {
     // console.log(e.target.checked)
     setFindingreq(e.target.checked);
   };
@@ -179,7 +182,7 @@ export function CaseDefinitionCreate() {
     }
     if (symptoms.length > 0) {
       let sympcollection = [];
-      symptoms.forEach(el => {
+      symptoms.forEach((el) => {
         let obs = {
           category: 'symptoms',
           name: el.symptom,
@@ -198,7 +201,7 @@ export function CaseDefinitionCreate() {
     }
     if (findings.length > 0) {
       let findingscollection = [];
-      findings.forEach(el => {
+      findings.forEach((el) => {
         let obs = {
           category: 'Signs',
           name: el.finding,
@@ -215,7 +218,7 @@ export function CaseDefinitionCreate() {
     }
     if (labs.length > 0) {
       let labscollection = [];
-      labs.forEach(el => {
+      labs.forEach((el) => {
         let obs = {
           category: 'Laboratory',
           name: el.lab,
@@ -245,7 +248,7 @@ export function CaseDefinitionCreate() {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     BandServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Band successfully") */
@@ -263,7 +266,7 @@ export function CaseDefinitionCreate() {
         });
         setSuccess(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: 'Error creating Band ' + err,
           type: 'is-danger',
@@ -279,7 +282,7 @@ export function CaseDefinitionCreate() {
       sympreq,
     };
     console.log(newsymptom);
-    setSymptoms(prev => [...prev, newsymptom]);
+    setSymptoms((prev) => [...prev, newsymptom]);
     // setAllergy({})
     setSymptom('');
     setDuration('');
@@ -291,7 +294,7 @@ export function CaseDefinitionCreate() {
       findingreq,
     };
     console.log(newFinding);
-    setFindings(prev => [...prev, newFinding]);
+    setFindings((prev) => [...prev, newFinding]);
     // setAllergy({})
     setFinding('');
     setFindingreq(false);
@@ -302,7 +305,7 @@ export function CaseDefinitionCreate() {
       labvalue,
     };
     console.log(newLabs);
-    setLabs(prev => [...prev, newLabs]);
+    setLabs((prev) => [...prev, newLabs]);
     // setAllergy({})
     setLab('');
     setLabvalue('');
@@ -310,15 +313,15 @@ export function CaseDefinitionCreate() {
   };
   const onDelete = (comp, i) => {
     //console.log(comp,i)
-    setSymptoms(prevstate => prevstate.filter((el, index) => index !== i));
+    setSymptoms((prevstate) => prevstate.filter((el, index) => index !== i));
   };
   const onDeleteFinding = (comp, i) => {
     //console.log(comp,i)
-    setFindings(prevstate => prevstate.filter((el, index) => index !== i));
+    setFindings((prevstate) => prevstate.filter((el, index) => index !== i));
   };
   const onDeleteLab = (comp, i) => {
     //console.log(comp,i)
-    setLabs(prevstate => prevstate.filter((el, index) => index !== i));
+    setLabs((prevstate) => prevstate.filter((el, index) => index !== i));
   };
   const notificationOption = [
     'Immediate Notification',
@@ -392,6 +395,7 @@ export function CaseDefinitionCreate() {
                       fontWeight: '600',
                       width: '80px',
                     }}
+
                     label='Add'
                     onClick={handleAddSymptoms}
                   />
@@ -450,7 +454,6 @@ export function CaseDefinitionCreate() {
                   striped
                 />
               </DetailsWrapper>
-
               <DetailsWrapper title='Lab Confirmation'>
                 <GridWrapper>
                   <Input
@@ -495,7 +498,6 @@ export function CaseDefinitionCreate() {
                   striped
                 />
               </DetailsWrapper>
-
               <DetailsWrapper title='Management Protocol'>
                 <Input
                   label='Management protocol'
@@ -557,14 +559,14 @@ export function CaseDefinitionList({ openCreateModal }) {
       selectedEpid: {},
       show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
     openCreateModal();
     //console.log(state)
   };
-  const handleRow = async Band => {
+  const handleRow = async (Band) => {
     //console.log("b4",state)
 
     //console.log("handlerow",Band)
@@ -575,7 +577,7 @@ export function CaseDefinitionList({ openCreateModal }) {
       selectedEpid: Band,
       show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
@@ -598,13 +600,13 @@ export function CaseDefinitionList({ openCreateModal }) {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(' Band  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage('Error fetching Band, probable network issues ' + err);
         setError(true);
@@ -779,7 +781,7 @@ export function CaseDefinitionDetail() {
       EpidemiologyModule: Band,
       show: 'modify',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       EpidemiologyModule: newBandModule,
     }));
@@ -937,6 +939,7 @@ export function CaseDefinitionDetail() {
               {' '}
               <span className='icon is-small is-left'>
                 <i className='fas fa-hospital'></i>
+
               </span>
               Treatment Protocol:
             </label>
@@ -1049,7 +1052,7 @@ export function CaseDefinitionModify() {
     const dleteId = Band._id;
     if (conf) {
       BandServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Band successfully")
@@ -1066,7 +1069,7 @@ export function CaseDefinitionModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Band, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1092,7 +1095,7 @@ export function CaseDefinitionModify() {
     //console.log(data);
 
     BandServ.patch(Band._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Band successfully")
@@ -1105,7 +1108,7 @@ export function CaseDefinitionModify() {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Band, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1275,7 +1278,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -1292,7 +1295,7 @@ export function InputSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log('stuff was chosen');
     }
@@ -1334,7 +1337,7 @@ export function InputSearch({ getSearchfacility, clear }) {
           setSearchMessage(' facility  fetched successfully');
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             'Error searching facility, probable network issues ' + err
@@ -1370,8 +1373,8 @@ export function InputSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className='icon is-small is-left'>

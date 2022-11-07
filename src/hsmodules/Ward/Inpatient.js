@@ -132,7 +132,7 @@ export function InpatientList() {
     }));
     //console.log(state)
 
-    navigate('/app/ward/encounter');
+    navigate('/app/ward/documentation');
   };
 
   const handleCreateNew = async () => {
@@ -280,7 +280,7 @@ export function InpatientList() {
                       width: '300px',
                     }}
                   >
-                    List of Appointments
+                    Inpatients
                   </h2>
                 </div>
               </TableMenu>
@@ -292,7 +292,7 @@ export function InpatientList() {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={handleRow}
+                  onRowClicked={handleMedicationRow}
                   progressPending={loading}
                 />
               </div>

@@ -1,23 +1,22 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import "./styles/index.scss";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import './styles/index.scss';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict} from "date-fns";
-import VideoConference from "../utils/VideoConference";
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict } from 'date-fns';
+import VideoConference from '../utils/VideoConference';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
-import {DrugAdminList} from "../Documentation/Prescription";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import ModalBox from "../../components/modal";
-import Button from "../../components/buttons/Button";
-import {Box} from "@mui/system";
-
+import { DrugAdminList } from '../Documentation/Prescription';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import ModalBox from '../../components/modal';
+import Button from '../../components/buttons/Button';
+import { Box } from '@mui/system';
 import ClientLastVisit from "./ClientVisitationHistory";
 import ClientTasks from "./ClientTasks";
 import ClientHistory from "./ClientHistory";
@@ -28,9 +27,10 @@ import ClientDiagnoisHistory  from "./ClientDiagnoisHistory"
 import MedicalProfile from "./MedicalProfile"
 import {Card} from "@mui/material";
 
+
 export default function PatientProfile() {
-  const {state} = useContext(ObjectContext); //,setState
-  const {user, setUser} = useContext(UserContext);
+  const { state } = useContext(ObjectContext); //,setState
+  const { user, setUser } = useContext(UserContext);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [billingModal, setBillingModal] = useState(false);
@@ -111,27 +111,27 @@ export default function PatientProfile() {
 
   const profileButtons = [
     {
-      title: "Last Visit",
+      title: 'Last Visit',
       action: () => setVisitModal(true),
     },
     {
-      title: "Drug Intolerance",
+      title: 'Drug Intolerance',
       action: () => setIntoleranceModal(true),
     },
     {
-      title: "Medications",
+      title: 'Medications',
       action: () => setMedicationModal(true),
     },
     {
-      title: "History",
+      title: 'History',
       action: () => setHistoryModal(true),
     },
     {
-      title: "Problem List",
+      title: 'Problem List',
       action: () => setProblemModal(true),
     },
     {
-      title: "Task",
+      title: 'Task',
       action: () => setTaskModal(true),
     },
 
@@ -169,7 +169,7 @@ export default function PatientProfile() {
                     <span>
                       <time dateTime="2016-1-1">
                         {dob && formatDistanceToNowStrict(new Date(dob))}
-                      </time>{" "}
+                      </time>{' '}
                       {gender} {maritalstatus} {religion} {profession}
                       <br />
                       {bloodgroup} {genotype} <br />
@@ -179,15 +179,15 @@ export default function PatientProfile() {
                 </div>
               </div>
 
-              {user.currentEmployee?.roles.includes("Bill Client") ||
+              {user.currentEmployee?.roles.includes('Bill Client') ||
                 user.currentEmployee?.roles.length === 0 ||
                 (user.stacker && (
                   <Button
                     style={{
-                      backgroundColor: "#4F772D",
-                      color: "#ffffff",
-                      fontSize: "0.8rem",
-                      width: "30%",
+                      backgroundColor: '#4F772D',
+                      color: '#ffffff',
+                      fontSize: '0.8rem',
+                      width: '30%',
                     }}
                     onClick={showBilling}
                   >
@@ -197,10 +197,10 @@ export default function PatientProfile() {
 
               <Button
                 style={{
-                  backgroundColor: "#4F772D",
-                  color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "30%",
+                  backgroundColor: '#4F772D',
+                  color: '#ffffff',
+                  fontSize: '0.8rem',
+                  width: '30%',
                 }}
                 onClick={showBilling}
               >
@@ -212,22 +212,24 @@ export default function PatientProfile() {
 
             <div className="user-information-bottom-container">
               <div className="each-bottom-section">
-                <span style={{fontWeight: "600"}}>Specific Instructions:</span>
+                <span style={{ fontWeight: '600' }}>
+                  Specific Instructions:
+                </span>
                 <span>{specificDetails}</span>
               </div>
 
               <div className="each-bottom-section">
-                <span style={{fontWeight: "600"}}>Allergies:</span>
+                <span style={{ fontWeight: '600' }}>Allergies:</span>
                 <span>{allergies}</span>
               </div>
 
               <div className="each-bottom-section">
-                <span style={{fontWeight: "600"}}>Co-morbidities:</span>
+                <span style={{ fontWeight: '600' }}>Co-morbidities:</span>
                 <span>{comorbidities}</span>
               </div>
 
               <div className="each-bottom-section">
-                <span style={{fontWeight: "600"}}>Disabilities:</span>
+                <span style={{ fontWeight: '600' }}>Disabilities:</span>
                 <span>{disabilities}</span>
               </div>
             </div>
@@ -261,11 +263,11 @@ export default function PatientProfile() {
         onClose={() => setMedicationModal(false)}
         header="Client Medications"
       >
-        <Box sx={{width: "95vw"}}>
-        <DrugAdminList
-          standalone="true"
-          onCloseModal={() => setMedicationModal(false)}
-        />
+        <Box sx={{ width: '95vw' }}>
+          <DrugAdminList
+            standalone="true"
+            onCloseModal={() => setMedicationModal(false)}
+          />
         </Box>
       </ModalBox>
 

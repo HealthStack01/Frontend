@@ -1,8 +1,9 @@
 import "../_style.css";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const MedicalSickLeave = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+
+  const { register, handleSubmit } = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -16,62 +17,32 @@ const MedicalSickLeave = ({onSubmit}) => {
             </p>
             <p className="label is-small">
               This is to certify that
-              <input
-                {...register}
-                name="name"
-                className="dotted_bottom"
-                type="text"
-                id=""
-              />{" "}
-              <br />
+              <input ref={register} name="name" className="dotted_bottom" type="text"  id="" /> <br />
               Address
-              <input
-                {...register}
+              <input ref={register}
                 className="dotted_bottom"
                 type="text"
                 name="address"
                 id=""
-              />{" "}
-              <br /> Was examined and treated at our Hospital on{" "}
-              <input
-                {...register}
-                name="hospital"
-                className="dotted_bottom"
-                type="date"
-                id=""
-              />{" "}
-              <br /> with the following Diagnosis{" "}
+              /> <br /> Was examined and treated at our Hospital on{" "}
+              <input ref={register} name="hospital" className="dotted_bottom" type="date"  id="" /> <br />{" "}
+              with the following Diagnosis{" "}
             </p>
             <div className="field">
               <div className="control">
-                <textarea
-                  {...register}
-                  name="diagnosis"
-                  className="textarea is-small"
-                ></textarea>
+                <textarea ref={register} name="diagnosis" className="textarea is-small"></textarea>
               </div>
             </div>
             <p className="label is-small mt-3">
               and would need Medical Attention/Bed Rest for
-              <input
-                {...register}
-                name="medicalAttention"
-                className="dotted_bottom"
-                type="text"
-                id=""
-              />{" "}
-              days in order to ensure total recurperation
+              <input ref={register} name="medicalAttention" className="dotted_bottom" type="text"  id="" /> days
+              in order to ensure total recurperation
             </p>
           </div>
           <div className="field has-text-right mt-4">
             <label className="label is-small">Attending Physician</label>
             <div className="control">
-              <input
-                {...register}
-                name="physician"
-                className="input is-small dotted_bottom"
-                type="text"
-              />
+              <input ref={register} name="physician" className="input is-small dotted_bottom" type="text" />
             </div>
           </div>
           <div className="field mt-4">
