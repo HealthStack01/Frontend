@@ -154,7 +154,6 @@ export default function BillServiceCreate() {
                   })
                  await setSellingPrice(0)
              }
-
             }else{ */
 
       let contract = contracts.filter(
@@ -303,7 +302,6 @@ export default function BillServiceCreate() {
            // console.log(resp)
              handleRow(resp) 
             //update dispense
-
         })
         .catch((err)=>{
             console.log(err)
@@ -834,13 +832,12 @@ export default function BillServiceCreate() {
             {/* handleSubmit(onSubmit) */}
             <div className="field is-horizontal">
               <div className="field-body">
-
                 <div className="field">
                   <Box
                     mb={1}
                     sx={{
-                      width: "100%",
-                      height: "80px",
+                      width: '100%',
+                      height: '80px',
                     }}
                   >
                     <Grid container spacing={2}>
@@ -853,54 +850,49 @@ export default function BillServiceCreate() {
                             //label="Selected Client"
                           />
                         ) : (
-
                           <ClientSearch
                             getSearchfacility={getSearchfacility1}
                             clear={success1}
                           />
-
-                        </Grid>
-
-                        <Grid item xs={4} mt={1.5}>
-                          <CustomSelect
-                            name="paymentmode"
-                            defaultValue={paymentmode}
-                            onChange={(e) => handleChangeMode(e.target.value)}
-                            options={paymentOptions.map((item) => item.name)}
-                            initialOption="Payment option"
-                            label="Billing Mode"
-                          />
-                        </Grid>
-
                         )}
-
                       </Grid>
 
                       <Grid item xs={4} mt={1.5}>
                         <CustomSelect
                           name="paymentmode"
                           defaultValue={paymentmode}
-                          onChange={e => handleChangeMode(e.target.value)}
-                          options={paymentOptions.map(item => item.name)}
+                          onChange={(e) => handleChangeMode(e.target.value)}
+                          options={paymentOptions.map((item) => item.name)}
                           initialOption="Payment option"
                           label="Billing Mode"
                         />
                       </Grid>
+                    </Grid>
+
+                    <Grid item xs={4} mt={1.5}>
+                      <CustomSelect
+                        name="paymentmode"
+                        defaultValue={paymentmode}
+                        onChange={(e) => handleChangeMode(e.target.value)}
+                        options={paymentOptions.map((item) => item.name)}
+                        initialOption="Payment option"
+                        label="Billing Mode"
+                      />
                     </Grid>
                   </Box>
 
                   <Box
                     mb={1}
                     sx={{
-                      width: "100%",
-                      height: "80px",
+                      width: '100%',
+                      height: '80px',
                     }}
                   >
                     <Grid container spacing={2}>
                       <Grid item xs={4}>
                         <Input
                           value={date}
-                          onChange={e => setDate(e.target.value)}
+                          onChange={(e) => setDate(e.target.value)}
                           name="date"
                           label="Date and Time"
                           disabled
@@ -910,7 +902,7 @@ export default function BillServiceCreate() {
                       <Grid item xs={4}>
                         <Input
                           value={documentNo}
-                          onChange={e => setDocumentNo(e.target.value)}
+                          onChange={(e) => setDocumentNo(e.target.value)}
                           label="Invoice Number"
                           type="text"
                           disabled
@@ -921,7 +913,7 @@ export default function BillServiceCreate() {
                         <Input
                           value={totalamount}
                           type="text"
-                          onChange={e => setTotalamount(e.target.value)}
+                          onChange={(e) => setTotalamount(e.target.value)}
                           label=" Total Amount"
                         />
                       </Grid>
@@ -930,7 +922,7 @@ export default function BillServiceCreate() {
 
                   <Divider
                     sx={{
-                      marginBottom: "25px",
+                      marginBottom: '25px',
                     }}
                   />
 
@@ -943,8 +935,8 @@ export default function BillServiceCreate() {
                       <Grid item xs={7}>
                         <Box
                           sx={{
-                            display: "flex",
-                            flexDirection: "column",
+                            display: 'flex',
+                            flexDirection: 'column',
                           }}
                         >
                           <ServiceSearch
@@ -957,17 +949,17 @@ export default function BillServiceCreate() {
                             value={productId}
                             name="productId"
                             type="text"
-                            onChange={e => setProductId(e.target.value)}
+                            onChange={(e) => setProductId(e.target.value)}
                             placeholder="Product Id"
-                            style={{display: "none"}}
+                            style={{ display: 'none' }}
                           />
                           <Button
                             variant="outlined"
                             startIcon={<AddCircleOutlineIcon />}
                             onClick={handleClickProd}
                             sx={{
-                              marginTop: "10px",
-                              width: "50%",
+                              marginTop: '10px',
+                              width: '50%',
                               //textTransform: "capitalize",
                             }}
                           >
@@ -981,15 +973,15 @@ export default function BillServiceCreate() {
                           name="quantity"
                           value={quantity}
                           type="text"
-                          onChange={e => handleQtty(e)}
+                          onChange={(e) => handleQtty(e)}
                           label="Quantity"
                         />
                       </Grid>
                       <Grid item xs={3}>
                         <Box
                           sx={{
-                            display: "flex",
-                            flexDirection: "column",
+                            display: 'flex',
+                            flexDirection: 'column',
                           }}
                         >
                           <Input
@@ -997,7 +989,7 @@ export default function BillServiceCreate() {
                             disabled={changeAmount}
                             value={calcamount}
                             type="text"
-                            onChange={async e =>
+                            onChange={async (e) =>
                               await setCalcAmount(e.target.value)
                             }
                             label="Amount"
@@ -1007,14 +999,12 @@ export default function BillServiceCreate() {
                             variant="contained"
                             size="small"
                             sx={{
-
-                              marginTop: "10px",
+                              marginTop: '10px',
                               //textTransform: "capitalize",
-
                             }}
                             disabled={
                               user.currentEmployee?.roles.includes(
-                                "Adjust Price"
+                                'Adjust Price'
                               ) ||
                               user.currentEmployee?.roles.length === 0 ||
                               user.stacker
@@ -1031,28 +1021,28 @@ export default function BillServiceCreate() {
                   <Collapse in={productItem.length > 0}>
                     <Box
                       sx={{
-                        width: "100%",
-                        maxHeight: "150px",
-                        overflowY: "auto",
+                        width: '100%',
+                        maxHeight: '150px',
+                        overflowY: 'auto',
                       }}
                     >
                       <CustomTable
-                        title={""}
+                        title={''}
                         columns={productSchema}
                         //data={dummyData}
                         data={productItem}
                         pointerOnHover
                         highlightOnHover
                         striped
-                        onRowClicked={row => onRowClicked(row)}
+                        onRowClicked={(row) => onRowClicked(row)}
                         progressPending={false}
                       />
                     </Box>
 
                     <Box
                       sx={{
-                        display: "flex",
-                        marginTop: "15px",
+                        display: 'flex',
+                        marginTop: '15px',
                       }}
                     >
                       <Button
@@ -1060,7 +1050,7 @@ export default function BillServiceCreate() {
                         disabled={!productItem.length > 0}
                         onClick={handleCreateBill}
                         sx={{
-                          marginRight: "20px",
+                          marginRight: '20px',
                         }}
                       >
                         Done
