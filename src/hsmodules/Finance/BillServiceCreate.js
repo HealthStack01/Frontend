@@ -154,7 +154,6 @@ export default function BillServiceCreate() {
                   })
                  await setSellingPrice(0)
              }
-
             }else{ */
 
       let contract = contracts.filter(
@@ -303,7 +302,6 @@ export default function BillServiceCreate() {
            // console.log(resp)
              handleRow(resp) 
             //update dispense
-
         })
         .catch((err)=>{
             console.log(err)
@@ -832,9 +830,9 @@ export default function BillServiceCreate() {
           <form onSubmit={onSubmit}>
             {' '}
             {/* handleSubmit(onSubmit) */}
-            <div className='field is-horizontal'>
-              <div className='field-body'>
-                <div className='field'>
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div className="field">
                   <Box
                     mb={1}
                     sx={{
@@ -863,22 +861,22 @@ export default function BillServiceCreate() {
                         <CustomSelect
                           name='paymentmode'
                           defaultValue={paymentmode}
-                          onChange={e => handleChangeMode(e.target.value)}
-                          options={paymentOptions.map(item => item.name)}
-                          initialOption='Payment option'
-                          label='Billing Mode'
+                          onChange={(e) => handleChangeMode(e.target.value)}
+                          options={paymentOptions.map((item) => item.name)}
+                          initialOption="Payment option"
+                          label="Billing Mode"
                         />
                       </Grid>
                     </Grid>
 
                     <Grid item xs={4} mt={1.5}>
                       <CustomSelect
-                        name='paymentmode'
+                        name="paymentmode"
                         defaultValue={paymentmode}
-                        onChange={e => handleChangeMode(e.target.value)}
-                        options={paymentOptions.map(item => item.name)}
-                        initialOption='Payment option'
-                        label='Billing Mode'
+                        onChange={(e) => handleChangeMode(e.target.value)}
+                        options={paymentOptions.map((item) => item.name)}
+                        initialOption="Payment option"
+                        label="Billing Mode"
                       />
                     </Grid>
                   </Box>
@@ -894,9 +892,9 @@ export default function BillServiceCreate() {
                       <Grid item xs={4}>
                         <Input
                           value={date}
-                          onChange={e => setDate(e.target.value)}
-                          name='date'
-                          label='Date and Time'
+                          onChange={(e) => setDate(e.target.value)}
+                          name="date"
+                          label="Date and Time"
                           disabled
                         />
                       </Grid>
@@ -904,9 +902,9 @@ export default function BillServiceCreate() {
                       <Grid item xs={4}>
                         <Input
                           value={documentNo}
-                          onChange={e => setDocumentNo(e.target.value)}
-                          label='Invoice Number'
-                          type='text'
+                          onChange={(e) => setDocumentNo(e.target.value)}
+                          label="Invoice Number"
+                          type="text"
                           disabled
                         />
                       </Grid>
@@ -914,9 +912,9 @@ export default function BillServiceCreate() {
                       <Grid item xs={4}>
                         <Input
                           value={totalamount}
-                          type='text'
-                          onChange={e => setTotalamount(e.target.value)}
-                          label=' Total Amount'
+                          type="text"
+                          onChange={(e) => setTotalamount(e.target.value)}
+                          label=" Total Amount"
                         />
                       </Grid>
                     </Grid>
@@ -949,10 +947,10 @@ export default function BillServiceCreate() {
                           <input
                             className='input is-small'
                             value={productId}
-                            name='productId'
-                            type='text'
-                            onChange={e => setProductId(e.target.value)}
-                            placeholder='Product Id'
+                            name="productId"
+                            type="text"
+                            onChange={(e) => setProductId(e.target.value)}
+                            placeholder="Product Id"
                             style={{ display: 'none' }}
                           />
                           <Button
@@ -974,9 +972,9 @@ export default function BillServiceCreate() {
                         <Input
                           name='quantity'
                           value={quantity}
-                          type='text'
-                          onChange={e => handleQtty(e)}
-                          label='Quantity'
+                          type="text"
+                          onChange={(e) => handleQtty(e)}
+                          label="Quantity"
                         />
                       </Grid>
                       <Grid item xs={3}>
@@ -990,8 +988,8 @@ export default function BillServiceCreate() {
                             name='qamount'
                             disabled={changeAmount}
                             value={calcamount}
-                            type='text'
-                            onChange={async e =>
+                            type="text"
+                            onChange={async (e) =>
                               await setCalcAmount(e.target.value)
                             }
                             label='Amount'
@@ -1036,7 +1034,7 @@ export default function BillServiceCreate() {
                         pointerOnHover
                         highlightOnHover
                         striped
-                        onRowClicked={row => onRowClicked(row)}
+                        onRowClicked={(row) => onRowClicked(row)}
                         progressPending={false}
                       />
                     </Box>
