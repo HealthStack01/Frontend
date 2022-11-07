@@ -4,22 +4,35 @@ import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { ProductCreate } from './Products';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Input from '../../components/inputs/basic/Input';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from './ui-components/customtable';
-import CustomSelect from '../../components/inputs/basic/Select';
-import 'react-datepicker/dist/react-datepicker.css';
-import ModalBox from './ui-components/modal';
-import { Box } from '@mui/material';
+
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
+import {ProductCreate} from "./Products";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import DatePicker from "react-datepicker";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Input from "../../components/inputs/basic/Input";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "./ui-components/customtable";
+import CustomSelect from "../../components/inputs/basic/Select";
+import "react-datepicker/dist/react-datepicker.css";
+import ModalBox from "../../components/modal";
+import {
+  Box,
+  Grid,
+  Button as MuiButton,
+  Divider,
+  Typography,
+} from "@mui/material";
+import {maxHeight} from "@mui/system";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import ProductSearchHelper from "../helpers/ProductSearch";
+import moment from "moment";
+//import MuiButton from "@mui/material/Button";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -65,11 +78,19 @@ export default function ProductEntry() {
         openDetailModal={handleOpenDetailModal}
       />
 
-      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
-        <ProductEntryCreate />
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Create ProductEntry: Initialization, Purchase Invoice, Audit"
+      >
+        <ProductEntryCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
-      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+      <ModalBox
+        open={detailModal}
+        onClose={handleCloseDetailModal}
+        header="Product Entry Detail"
+      >
         <ProductEntryDetail openModifyModal={handleOpenModifyModal} />
       </ModalBox>
 
@@ -80,8 +101,10 @@ export default function ProductEntry() {
   );
 }
 
-export function ProductEntryCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+
+export function ProductEntryCreate({closeModal}) {
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState('');
@@ -92,17 +115,17 @@ export function ProductEntryCreate() {
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [type, setType] = useState('Purchase Invoice');
-  const [documentNo, setDocumentNo] = useState('');
-  const [totalamount, setTotalamount] = useState('');
-  const [productId, setProductId] = useState('');
-  const [source, setSource] = useState('');
-  const [date, setDate] = useState('');
-  const [name, setName] = useState('');
-  const [baseunit, setBaseunit] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [costprice, setCostprice] = useState('');
-  const [storeId, setStoreId] = useState('');
+  const [type, setType] = useState("Purchase Invoice");
+  const [documentNo, setDocumentNo] = useState("");
+  const [totalamount, setTotalamount] = useState("");
+  const [productId, setProductId] = useState("");
+  const [source, setSource] = useState("");
+  const [date, setDate] = useState("");
+  const [name, setName] = useState("");
+  const [baseunit, setBaseunit] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [costprice, setCostprice] = useState("");
+  const [storeId, setStoreId] = useState("");
   const [productItem, setProductItem] = useState([]);
   const { state } = useContext(ObjectContext);
 
@@ -131,10 +154,10 @@ export function ProductEntryCreate() {
   };
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = (obj) => {
-    setProductId(obj._id);
-    setName(obj.name);
-    setBaseunit(obj.baseunit);
+  const getSearchfacility = obj => {
+    setProductId(obj?._id);
+    setName(obj?.name);
+    setBaseunit(obj?.baseunit);
 
     /*  setValue("facility", obj._id,  {
             shouldValidate: true,
@@ -153,27 +176,22 @@ export function ProductEntryCreate() {
   };
   const handleClickProd = async () => {
     if (!productId || !quantity || !costprice) {
-      toast({
-        message: 'Kindly choose Product,price and quantity',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("Kindly choose Product,price and quantity");
       return;
     }
     await setSuccess(false);
-    setProductItem((prevProd) => prevProd.concat(productItemI));
-    setType('');
-    setProductId('');
-    setName('');
-    setQuantity('');
-    setBaseunit('');
-    setCostprice('');
-    setSource('');
-    setTotalamount('');
-    setDate('');
-    setDocumentNo('');
-    setStoreId('');
+    setProductItem(prevProd => prevProd.concat(productItemI));
+    setType("");
+    setProductId("");
+    setName("");
+    setQuantity("");
+    setBaseunit("");
+    setCostprice("");
+    setSource("");
+    setTotalamount("");
+    setDate("");
+    setDocumentNo("");
+    setStoreId("");
 
     await setSuccess(true);
     // console.log(success)
@@ -184,17 +202,17 @@ export function ProductEntryCreate() {
   };
 
   const resetform = () => {
-    setType('');
-    setProductId('');
-    setName('');
-    setQuantity('');
-    setBaseunit('');
-    setCostprice('');
-    setSource('');
-    setTotalamount('');
-    setDate('');
-    setDocumentNo('');
-    setStoreId('');
+    setType("");
+    setProductId("");
+    setName("");
+    setQuantity("");
+    setBaseunit("");
+    setCostprice("");
+    setSource("");
+    setTotalamount("");
+    setDate("");
+    setDocumentNo("");
+    setStoreId("");
     setProductItem([]);
   };
 
@@ -206,12 +224,7 @@ export function ProductEntryCreate() {
       setError(false);
       setSuccess(false);
       if (!date) {
-        toast({
-          message: 'Kindly choose date',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("Kindly choose date");
         return;
       }
 
@@ -230,23 +243,13 @@ export function ProductEntryCreate() {
       if (user.currentEmployee) {
         productItemI.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
       } else {
-        toast({
-          message: 'You can not add inventory to any organization',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You can not add inventory to any organization");
         return;
       }
       if (state.StoreModule.selectedStore._id) {
         productItemI.storeId = state.StoreModule.selectedStore._id;
       } else {
-        toast({
-          message: 'You need to select a store before adding inventory',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error("You need to select a store before adding inventory");
         return;
       }
       //console.log("b4 create",productEntry);
@@ -256,22 +259,13 @@ export function ProductEntryCreate() {
           resetform();
           /*  setMessage("Created ProductEntry successfully") */
           setSuccess(true);
-          toast({
-            message: 'ProductEntry created succesfully',
-            type: 'is-success',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success("ProductEntry created succesfully");
           setSuccess(false);
           setProductItem([]);
+          closeModal && closeModal();
         })
-        .catch((err) => {
-          toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+        .catch(err => {
+          toast.error(`Error creating ProductEntry ${err}`);
         });
     }
   };
@@ -279,7 +273,8 @@ export function ProductEntryCreate() {
     //console.log(entity)
     setProductItem((prev) => prev.filter((obj, index) => index !== i));
   };
-  const billDescriptionSchema = [
+
+  const productCreateSchema = [
     {
       name: 'S/N',
       key: 'sn',
@@ -289,326 +284,270 @@ export function ProductEntryCreate() {
       inputType: 'HIDDEN',
     },
     {
-      name: 'Type',
-      key: 'type',
-      description: 'Enter Type',
-      selector: (row) => row.type,
+      name: "Name",
+      key: "type",
+      description: "Enter Name",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: "Quantity",
+      key: "quanity",
+      description: "Enter quantity",
+      selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
 
     {
-      name: 'Product Id',
-      key: 'productId',
-      description: 'productId',
-      selector: (row) => row.productId,
+      name: "Unit",
+      key: "baseunit",
+      description: "Base Unit",
+      selector: row => row.baseunit,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
 
     {
-      name: 'Name',
-      key: 'name',
-      description: 'name',
-      selector: (row) => row.name,
+      name: "Cost Price",
+      key: "costprice",
+      description: "Enter cost price",
+      selector: row => row.costprice,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
 
     {
-      name: 'Quantity',
-      key: 'quantity',
-      description: 'quantity',
-      selector: (row) => row.quantity,
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: row => row.amount,
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
 
     {
-      name: 'Selling price',
-      key: 'costprice',
-      description: 'costprice',
-      selector: (row) => row.costprice,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'Supplier',
-      key: 'supplier',
-      description: 'supplier',
-      selector: (row) => row.source,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-
-    {
-      name: 'Total Amount',
-      key: 'totalamount',
-      description: 'totalamount',
-      selector: (row) => row.totalamount,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-
-    {
-      name: 'Baseunit',
-      key: 'baseunit',
-      description: 'baseunit',
-      selector: (row) => row.baseunit,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-
-    {
-      name: 'Date',
-      key: 'date',
-      description: 'Enter Created date',
-      selector: (row) => row.date,
-      sortable: true,
-      required: true,
-      inputType: 'DATE',
-    },
-
-    {
-      name: 'Document No',
-      key: 'documentno',
-      description: 'documentno',
-      selector: (row) => row.documentNo,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
-    },
-
-    {
-      name: 'Supplier',
-      key: 'source',
-      description: 'source',
-      selector: (row) => row.source,
+      name: "Actions",
+      key: "costprice",
+      description: "costprice",
+      selector: (row, i) => (
+        <p
+          style={{color: "red", fontSize: "0.75rem"}}
+          onClick={() => removeEntity(row, i)}
+        >
+          Remove
+        </p>
+      ),
       sortable: true,
       required: true,
       inputType: 'TEXT',
     },
   ];
 
+  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
+    <div
+      onClick={onClick}
+      ref={ref}
+      style={{
+        width: "100%",
+        height: "48px",
+        border: "1.5px solid #BBBBBB",
+        borderRadius: "4px",
+        display: "flex",
+        alignItems: "center",
+        margin: "0.75rem 0",
+        fontSize: "0.85rem",
+        padding: "0 15px",
+        color: "#000000",
+        backgroundColor: "#fff",
+      }}
+    >
+      {value === "" ? "Pick Date" : value}
+    </div>
+  ));
+
   return (
-    <>
-      <div>
-        <div></div>
-        <div className="card-content">
-          <form onSubmit={onSubmit}>
-            {' '}
-            <div>
-              <div>
-                <div>
-                  <div>
-                    <div>
-                      <CustomSelect
-                        name="type"
-                        value={type}
-                        onChange={handleChangeType}
-                        options={[
-                          'Choose Type',
-                          'Initialization',
-                          'Purchase Invoice',
-                          'Audit',
-                        ]}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <p>
-                    <Input
-                      register={register('productId', { required: true })}
-                      value={productId}
-                      name="productId"
-                      type="text"
-                      onChange={(e) => setProductId(e.target.value)}
-                      placeholder="Product Id"
-                    />
+    <Box
+      sx={{
+        width: "750px",
+        maxHeight: "600px",
+        overflowY: "auto",
+      }}
+    >
+      <Box container>
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <Input
+                /* ref={register({ required: true })} */
+                value={source}
+                name="supplier"
+                type="text"
+                onChange={e => setSource(e.target.value)}
+                label="Supplier"
+              />
+            </Grid>
+            <Grid item xs={4} sx={{margin: "0.75rem 0"}}>
+              <CustomSelect
+                defaultValue={type}
+                name="type"
+                options={["Purchase Invoice", "Initialization", "Audit"]}
+                onChange={handleChangeType}
+              />
+            </Grid>
+          </Grid>
+        </Box>
 
-                    <Input
-                      register={register('name', { required: true })}
-                      value={name}
-                      name="name"
-                      type="text"
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="name"
-                    />
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <DatePicker
+                selected={date}
+                onChange={date => handleDate(date)}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="Pick Date"
+                customInput={<DatePickerCustomInput />}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Input
+                name="documentNo"
+                value={documentNo}
+                type="text"
+                onChange={e => setDocumentNo(e.target.value)}
+                label="Invoice Number"
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Input
+                value={totalamount}
+                name="totalamount"
+                type="text"
+                onChange={async e => await setTotalamount(e.target.value)}
+                label="Total Amount"
+              />
+            </Grid>
+          </Grid>
+        </Box>
 
-                    <Input
-                      register={register('quantity', { required: true })}
-                      name="quantity"
-                      value={quantity}
-                      type="text"
-                      onChange={(e) => setQuantity(e.target.value)}
-                      placeholder="Quantity"
-                    />
-                    <Input
-                      register={register('costprice', { required: true })}
-                      name="Selling Price"
-                      value={costprice}
-                      type="text"
-                      onChange={(e) => setCostprice(e.target.value)}
-                      placeholder="Cost Price"
-                    />
+        <Divider sx={{margin: "20px 0"}} />
+        <Box
+          container
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <Box item>
+            <Typography>Add Product Items</Typography>
+          </Box>
 
-                    <Input
-                      register={register('supplier', { required: true })}
-                      value={source}
-                      name="supplier"
-                      type="text"
-                      onChange={(e) => setSource(e.target.value)}
-                      placeholder="Supplier"
-                    />
-                    <Input
-                      register={register('amount', { required: true })}
-                      value={totalamount}
-                      name="Amount"
-                      type="text"
-                      onChange={async (e) =>
-                        await setTotalamount(e.target.value)
-                      }
-                      placeholder="  Amount"
-                    />
+          <Box item>
+            <MuiButton
+              variant="outlined"
+              sx={{width: "100px", textTransform: "capitalize"}}
+              onClick={handleClickProd}
+            >
+              <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+              Add
+            </MuiButton>
+          </Box>
+        </Box>
 
-                    <Input
-                      register={register('baseunit', { required: true })}
-                      value={baseunit}
-                      name="BaseUnit"
-                      type="text"
-                      onChange={async (e) => await setBaseunit(e.target.value)}
-                      placeholder="  Base Unit"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>{' '}
-            {/* horizontal end */}
-            <div>
-              <div>
-                <div>
-                  <div>
-                    <DatePicker
-                      selected={date}
-                      onChange={(date) => handleDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="Pick Date"
+        <Grid container spacing={2}>
+          <Grid item xs={7}>
+            <ProductSearchHelper
+              getSearchfacility={getSearchfacility}
+              clear={success}
+            />
+            <input
+              className="input is-small"
+              /* ref={register ({ required: true }) }  */ /* add array no */
+              value={productId}
+              name="productId"
+              type="text"
+              onChange={e => setProductId(e.target.value)}
+              placeholder="Product Id"
+              style={{display: "none"}}
+            />
+          </Grid>
 
-                      //isClearable
-                    />
-                  </div>
-                </div>
-                <div>
-                  <p>
-                    <Input
-                      register={register('documentNo', { required: true })}
-                      value={documentNo}
-                      type="text"
-                      onChange={(e) => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
+          <Grid item xs={2}>
+            <Input
+              /* ref={register({ required: true })} */
+              name="quantity"
+              value={quantity}
+              type="text"
+              onChange={e => setQuantity(e.target.value)}
+              label="Quantity"
+            />
+          </Grid>
 
-          {/* array of ProductEntry items */}
+          <Grid item xs={3}>
+            <Input
+              /* ref={register({ required: true })} */
+              name="costprice"
+              value={costprice}
+              type="text"
+              onChange={e => setCostprice(e.target.value)}
+              label="Cost Price"
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
-          <label className="label is-small">Add Product Items:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <ProductSearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{ display: 'none' }}
-                >
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-                <label>{baseunit}</label>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-dollar-sign"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control"></p>
-              </div>
-            </div>
-          </div>
+      {productItem.length > 0 && (
+        <Box sx={{height: "200px", widht: "300%"}}>
+          <CustomTable
+            title={""}
+            columns={productCreateSchema}
+            data={productItem}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+        </Box>
+      )}
 
-          <div>
-            <label>Product Items:</label>
-            <div className="table-container  vscrol" id="scrollableDiv"></div>
-            <div className="field mt-2">
-              <p className="control">
-                <CustomTable
-                  title={'Product Table'}
-                  columns={billDescriptionSchema}
-                  data={productItem}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-                <Button>
-                  <span className="is-small" onClick={handleClickProd}>
-                    {' '}
-                    +
-                  </span>
-                </Button>
-                <Button type="submit" onClick={onSubmit}>
-                  Create
-                </Button>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+      <Box
+        container
+        sx={{
+          width: "100%",
+          display: "flex",
+        }}
+        mt={2}
+      >
+        <MuiButton
+          variant="contained"
+          disabled={!productItem.length > 0}
+          onClick={onSubmit}
+          sx={{
+            width: "150px",
+            height: "40px",
+            textTransform: "capitalize",
+            marginRight: "15px",
+          }}
+        >
+          Add Product(s)
+        </MuiButton>
+        <MuiButton
+          variant="outlined"
+          color="error"
+          sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
+          onClick={closeModal}
+        >
+          Cancel
+        </MuiButton>
+      </Box>
+    </Box>
   );
 }
 
@@ -1053,6 +992,7 @@ export function ProductEntryDetail({ openModifyModal }) {
     //console.log(state)
     openModifyModal();
   };
+
   const ProductDetailSchema = [
     {
       name: 'S/N',
@@ -1110,120 +1050,72 @@ export function ProductEntryDetail({ openModifyModal }) {
     },
   ];
   const handleRow = () => {};
+
+  console.log(ProductEntry.date);
+
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">ProductEntry Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {' '}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Type
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {' '}
-                    {ProductEntry.type}{' '}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Supplier:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.source}{' '}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {' '}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Date:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {' '}
-                    {format(new Date(ProductEntry.date), 'dd-MM-yy HH:mm')}{' '}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Invoice No:
-                  </label>
-                </td>
+      <Box
+        container
+        sx={{
+          width: "700px",
+          height: "400px",
+          overflowY: "auto",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <Input value={ProductEntry.source} label="Supplier" disabled />
+          </Grid>
 
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.documentNo}{' '}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {' '}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Total Amount:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {' '}
-                    {ProductEntry.totalamount}{' '}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Grid item xs={4}>
+            <Input value={ProductEntry.type} label="Type" disabled />
+          </Grid>
+        </Grid>
 
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <p>Product Items</p>
-            <CustomTable
-              title={''}
-              columns={ProductDetailSchema}
-              data={ProductEntry.productitems}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              // progressPending={loading}
+        <Grid container spacing={2} mb={2}>
+          <Grid item xs={4}>
+            <Input
+              value={
+                ProductEntry.date
+                  ? moment(ProductEntry.date).format("YYYY-MM-DD HH:mm:ss")
+                  : "-----"
+              }
+              label="Date"
+              disabled
             />
-          </div>
-        </div>
-      </div>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Input
+              value={ProductEntry.documentNo}
+              label="Invoice Number"
+              disabled
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <Input
+              value={ProductEntry.totalamount}
+              label="Total Amount"
+              disabled
+            />
+          </Grid>
+        </Grid>
+
+        <Box sx={{width: "100%", height: "200px", overflowY: "auto"}}>
+          <CustomTable
+            title={""}
+            columns={ProductDetailSchema}
+            data={ProductEntry.productitems}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            // progressPending={loading}
+          />
+        </Box>
+      </Box>
     </>
   );
 }
@@ -1546,6 +1438,7 @@ export function ProductSearch({ getSearchfacility, clear }) {
                 onBlur={(e) => handleBlur(e)}
                 onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
+                element={Input}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
@@ -1578,27 +1471,13 @@ export function ProductSearch({ getSearchfacility, clear }) {
           </div>
         </div>
       </div>
-      <div className={`modal ${productModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head minHt">
-            <p className="modal-card-title">Product</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ProductCreate />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Create New Product"
+      >
+        <ProductCreate />
+      </ModalBox>
     </div>
   );
 }

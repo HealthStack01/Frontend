@@ -32,6 +32,8 @@ import {
 import Input from '../../components/inputs/basic/Input';
 import DataTable from 'react-data-table-component';
 import CheckboxInput from '../../components/inputs/basic/Checkbox';
+import CaseDefinitionForm from './CaseDefinationForm';
+import CaseDefinitionView from './CaseDefinationView';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
@@ -67,14 +69,17 @@ export default function CaseDefinition() {
   };
 
   return (
-    <section className="section remPadTop">
+
+    <section className='section remPadTop'>
+
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
 
       <CaseDefinitionList openCreateModal={handleOpenCreateModal} />
       <ModalBox open={modal} onClose={handleCloseCreateModal}>
-        <CaseDefinitionCreate />
+
+        <CaseDefinitionForm setOpen={handleCloseCreateModal} />
       </ModalBox>
 
       {state.EpidemiologyModule.show === 'detail' && <CaseDefinitionDetail />}
@@ -124,7 +129,7 @@ export function CaseDefinitionCreate() {
   const [mgtProtocol, setMgtProtocol] = useState('');
   const [notified, setNotified] = useState('');
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue('facility', obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -333,50 +338,50 @@ export function CaseDefinitionCreate() {
         <PageWrapper>
           <GrayWrapper>
             <Box>
-              <DetailsWrapper title="Notification Type and Name of Disease ">
+              <DetailsWrapper title='Notification Type and Name of Disease '>
                 <CustomSelect
-                  label="choose notification type"
-                  name="notification type"
+                  label='choose notification type'
+                  name='notification type'
                   options={notificationOption}
                   register={register('notificationType', { required: true })}
-                  onChange={(e) => handleChangeMode(e.target.value)}
+                  onChange={e => handleChangeMode(e.target.value)}
                 />
 
                 <Input
-                  label="name of disease"
+                  label='name of disease'
                   register={register('disease', { required: true })}
-                  name="disease"
-                  options={disease}
-                  onChange={(e) => handleChangeMode(e.target.value)}
+                  name='disease'
+                  //  options={disease}
+                  onChange={e => handleChangeMode(e.target.value)}
                 />
               </DetailsWrapper>
-              <DetailsWrapper title="Symptoms">
-                <GridWrapper className="four-columns">
+              <DetailsWrapper title='Symptoms'>
+                <GridWrapper className='four-columns'>
                   <Input
-                    label="Symptoms"
-                    type="text"
+                    label='Symptoms'
+                    type='text'
                     value={symptom}
                     register={register('symptom', { required: true })}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSymptom(e.target.value);
                     }}
-                    placeholder="Specify"
+                    placeholder='Specify'
                   />
                   <Input
-                    label="Duration"
+                    label='Duration'
                     value={duration}
                     register={register('Duration', { required: true })}
-                    onChange={(e) => {
+                    onChange={e => {
                       setDuration(e.target.value);
                     }}
-                    name="duration"
+                    name='duration'
                   />
                   <Box sx={{ jusifyContent: 'space-between' }}>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       value={sympreq}
-                      name="sympreq"
-                      onChange={(e) => {
+                      name='sympreq'
+                      onChange={e => {
                         handleChecked(e);
                       }}
                       register={register('sympreq', { required: true })}
@@ -390,7 +395,8 @@ export function CaseDefinitionCreate() {
                       fontWeight: '600',
                       width: '80px',
                     }}
-                    label="Add"
+
+                    label='Add'
                     onClick={handleAddSymptoms}
                   />
                 </GridWrapper>
@@ -404,24 +410,24 @@ export function CaseDefinitionCreate() {
                   striped
                 />
               </DetailsWrapper>
-              <DetailsWrapper title="Clinical Signs">
+              <DetailsWrapper title='Clinical Signs'>
                 <GridWrapper>
                   <Input
-                    label="Clinical Signs"
+                    label='Clinical Signs'
                     value={finding}
                     register={register('finding', { required: true })}
-                    onChange={(e) => {
+                    onChange={e => {
                       setFinding(e.target.value);
                     }}
-                    type="text"
-                    placeholder="Finding"
+                    type='text'
+                    placeholder='Finding'
                   />
                   <Box sx={{ jusifyContent: 'space-between' }}>
                     <input
-                      type="checkbox"
+                      type='checkbox'
                       value={findingreq}
-                      name="sympreq"
-                      onChange={(e) => {
+                      name='sympreq'
+                      onChange={e => {
                         handleChecked2(e);
                       }}
                       register={register('findingreq', { required: true })}
@@ -434,7 +440,7 @@ export function CaseDefinitionCreate() {
                       fontWeight: '600',
                       width: '80px',
                     }}
-                    label="Add "
+                    label='Add '
                     onClick={handleAddFindings}
                   />
                 </GridWrapper>
@@ -448,29 +454,28 @@ export function CaseDefinitionCreate() {
                   striped
                 />
               </DetailsWrapper>
-
-              <DetailsWrapper title="Lab Confirmation">
+              <DetailsWrapper title='Lab Confirmation'>
                 <GridWrapper>
                   <Input
                     value={lab}
                     {...register('lab', { required: true })}
-                    onChange={(e) => {
+                    onChange={e => {
                       setLab(e.target.value);
                     }}
-                    label="Lab"
-                    type="text"
-                    placeholder="Specify"
+                    label='Lab'
+                    type='text'
+                    placeholder='Specify'
                   />
 
                   <Input
                     value={labvalue}
                     {...register('labvalue', { required: true })}
-                    onChange={(e) => {
+                    onChange={e => {
                       setLabvalue(e.target.value);
                     }}
-                    label="Value"
-                    type="text"
-                    placeholder="Specify"
+                    label='Value'
+                    type='text'
+                    placeholder='Specify'
                   />
 
                   <Button
@@ -479,7 +484,7 @@ export function CaseDefinitionCreate() {
                       fontWeight: '600',
                       width: '80px',
                     }}
-                    label="Add "
+                    label='Add '
                     onClick={handleAddLabs}
                   />
                 </GridWrapper>
@@ -493,13 +498,12 @@ export function CaseDefinitionCreate() {
                   striped
                 />
               </DetailsWrapper>
-
-              <DetailsWrapper title="Management Protocol">
+              <DetailsWrapper title='Management Protocol'>
                 <Input
-                  label="Management protocol"
+                  label='Management protocol'
                   value={mgtProtocol}
                   {...register('mgtProtocol', { required: true })}
-                  onChange={(e) => {
+                  onChange={e => {
                     setMgtProtocol(e.target.value);
                   }}
                 />
@@ -508,7 +512,7 @@ export function CaseDefinitionCreate() {
               <BottomWrapper>
                 <Button
                   style={{ fontSize: '14px', fontWeight: '600', width: '80px' }}
-                  label="Save "
+                  label='Save '
                 />
               </BottomWrapper>
             </Box>
@@ -538,7 +542,18 @@ export function CaseDefinitionList({ openCreateModal }) {
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
+  const [selectedUser, setSelectedUser] = useState();
+  const [open, setOpen] = useState(false);
 
+  console.log('Case Defination>>>>', selectedUser);
+  const handleRowClicked = row => {
+    setSelectedUser(row);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
   const handleCreateNew = async () => {
     const newBandModule = {
       selectedEpid: {},
@@ -569,7 +584,7 @@ export function CaseDefinitionList({ openCreateModal }) {
     console.log(newBandModule);
   };
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = 'disease.name';
     console.log(val);
     BandServ.find({
@@ -653,10 +668,10 @@ export function CaseDefinitionList({ openCreateModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    BandServ.on('created', (obj) => getFacilities());
-    BandServ.on('updated', (obj) => getFacilities());
-    BandServ.on('patched', (obj) => getFacilities());
-    BandServ.on('removed', (obj) => getFacilities());
+    BandServ.on('created', obj => getFacilities());
+    BandServ.on('updated', obj => getFacilities());
+    BandServ.on('patched', obj => getFacilities());
+    BandServ.on('removed', obj => getFacilities());
     return () => {};
   }, []);
 
@@ -666,7 +681,7 @@ export function CaseDefinitionList({ openCreateModal }) {
       name: 'S/NO',
       key: 'sn',
       description: 'Enter name of Disease',
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: 'HIDDEN',
@@ -675,7 +690,7 @@ export function CaseDefinitionList({ openCreateModal }) {
       name: 'Disease',
       key: 'name',
       description: 'Enter name of Disease',
-      selector: (row) => row.disease.name,
+      selector: row => row.disease.name,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -684,7 +699,7 @@ export function CaseDefinitionList({ openCreateModal }) {
       name: 'Notification Type',
       key: 'notificationtype',
       description: 'Enter Notification Type',
-      selector: (row) => row.notificationtype,
+      selector: row => row.notificationtype,
       sortable: true,
       required: true,
       inputType: 'SELECT_LIST',
@@ -696,13 +711,19 @@ export function CaseDefinitionList({ openCreateModal }) {
     <>
       {user ? (
         <>
+          <ModalBox open={open} onClose={handleCloseModal}>
+            <CaseDefinitionView
+              casedefinition={selectedUser}
+              setOpen={handleCloseModal}
+            />
+          </ModalBox>
           <PageWrapper
             style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
           >
             <TableMenu>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {handleSearch && (
-                  <div className="inner-table">
+                  <div className='inner-table'>
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
@@ -714,7 +735,7 @@ export function CaseDefinitionList({ openCreateModal }) {
               {handleCreateNew && (
                 <Button
                   style={{ fontSize: '14px', fontWeight: '600' }}
-                  label="Add new "
+                  label='Add new '
                   onClick={handleCreateNew}
                 />
               )}
@@ -728,7 +749,7 @@ export function CaseDefinitionList({ openCreateModal }) {
                 pointerOnHover
                 highlightOnHover
                 striped
-                onRowClicked={handleRow}
+                onRowClicked={handleRowClicked}
                 progressPending={loading}
               />
             </div>
@@ -769,54 +790,54 @@ export function CaseDefinitionDetail() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Case Definition Details</p>
+      <div className='card '>
+        <div className='card-header'>
+          <p className='card-header-title'>Case Definition Details</p>
         </div>
-        <div className="card-content vscrollable">
+        <div className='card-content vscrollable'>
           <div>
-            <label className="label is-small">
+            <label className='label is-small'>
               {' '}
-              <span className="icon is-small is-left">
-                <i className="fas fa-hospital"></i>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-hospital'></i>
               </span>
               Disease :
-              <span className="is-size-7 padleft" name="name">
+              <span className='is-size-7 padleft' name='name'>
                 {' '}
                 {Band.disease.name}{' '}
               </span>
             </label>
           </div>
-          <div className=" mt-2">
-            <label className="label is-small">
-              <span className="icon is-small is-left">
-                <i className="fas fa-map-signs"></i>
+          <div className=' mt-2'>
+            <label className='label is-small'>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-map-signs'></i>
               </span>
               Notification Type:{' '}
-              <span className="is-size-7 padleft" name="BandType">
+              <span className='is-size-7 padleft' name='BandType'>
                 {Band.notificationtype}{' '}
               </span>
             </label>
           </div>
-          <div className=" mt-2">
-            <label className=" mt-2">
+          <div className=' mt-2'>
+            <label className=' mt-2'>
               <b> Symptoms </b>
             </label>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
+            <table className='table is-striped  is-hoverable is-fullwidth is-scrollable mr-2'>
               <thead>
                 <tr>
                   <th>
-                    <abbr title="Serial No">S/No</abbr>
+                    <abbr title='Serial No'>S/No</abbr>
                   </th>
 
                   <th>
-                    <abbr title="Type"> Symptom</abbr>
+                    <abbr title='Type'> Symptom</abbr>
                   </th>
                   <th>
-                    <abbr title="Destination">Duration</abbr>
+                    <abbr title='Destination'>Duration</abbr>
                   </th>
                   <th>
-                    <abbr title="Destination">Required</abbr>
+                    <abbr title='Destination'>Required</abbr>
                   </th>
                 </tr>
               </thead>
@@ -837,25 +858,25 @@ export function CaseDefinitionDetail() {
               </tbody>
             </table>
           </div>
-          <div className=" mt-2">
-            <label className=" mt-2">
+          <div className=' mt-2'>
+            <label className=' mt-2'>
               <b>Clinical Signs </b>
             </label>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
+            <table className='table is-striped  is-hoverable is-fullwidth is-scrollable mr-2'>
               <thead>
                 <tr>
                   <th>
-                    <abbr title="Serial No">S/No</abbr>
+                    <abbr title='Serial No'>S/No</abbr>
                   </th>
 
                   <th>
-                    <abbr title="Type"> Symptom</abbr>
+                    <abbr title='Type'> Symptom</abbr>
                   </th>
                   <th>
-                    <abbr title="Destination">Duration</abbr>
+                    <abbr title='Destination'>Duration</abbr>
                   </th>
                   <th>
-                    <abbr title="Destination">Required</abbr>
+                    <abbr title='Destination'>Required</abbr>
                   </th>
                 </tr>
               </thead>
@@ -876,22 +897,22 @@ export function CaseDefinitionDetail() {
               </tbody>
             </table>
           </div>
-          <div className=" mt-2">
-            <label className=" mt-2">
+          <div className=' mt-2'>
+            <label className=' mt-2'>
               <b> Laboratory</b>
             </label>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
+            <table className='table is-striped  is-hoverable is-fullwidth is-scrollable mr-2'>
               <thead>
                 <tr>
                   <th>
-                    <abbr title="Serial No">S/No</abbr>
+                    <abbr title='Serial No'>S/No</abbr>
                   </th>
 
                   <th>
-                    <abbr title="Type"> Lab Test </abbr>
+                    <abbr title='Type'> Lab Test </abbr>
                   </th>
                   <th>
-                    <abbr title="Destination">Value</abbr>
+                    <abbr title='Destination'>Value</abbr>
                   </th>
                   {/*  <th><abbr title="Destination">Required</abbr></th> */}
                 </tr>
@@ -913,28 +934,29 @@ export function CaseDefinitionDetail() {
               </tbody>
             </table>
           </div>
-          <div className=" mt-2">
-            <label className="label is-small">
+          <div className=' mt-2'>
+            <label className='label is-small'>
               {' '}
-              <span className="icon is-small is-left">
-                <i className="fas fa-hospital"></i>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-hospital'></i>
+
               </span>
               Treatment Protocol:
             </label>
 
-            <span className="is-size-7 padleft" name="name">
+            <span className='is-size-7 padleft' name='name'>
               {' '}
               {Band.treatmentprotocol}{' '}
             </span>
           </div>
-          <div className=" mt-2">
-            <label className="label is-small">
+          <div className=' mt-2'>
+            <label className='label is-small'>
               {' '}
-              <span className="icon is-small is-left">
-                <i className="fas fa-hospital"></i>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-hospital'></i>
               </span>
               Person to Notify :{' '}
-              <span className="is-size-7 padleft" name="name">
+              <span className='is-size-7 padleft' name='name'>
                 {' '}
                 {Band.notification_destination[0]}{' '}
               </span>
@@ -1013,10 +1035,7 @@ export function CaseDefinitionModify() {
       selectedBand: {},
       show: 'create',
     };
-    await setState((prevstate) => ({
-      ...prevstate,
-      BandModule: newBandModule,
-    }));
+    await setState(prevstate => ({ ...prevstate, BandModule: newBandModule }));
     //console.log(state)
   };
 
@@ -1025,7 +1044,7 @@ export function CaseDefinitionModify() {
       selectedBand: {},
       show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, BandModule: newBandModule }));
+    setState(prevstate => ({ ...prevstate, BandModule: newBandModule }));
   };
   const handleDelete = async () => {
     let conf = window.confirm('Are you sure you want to delete this data?');
@@ -1103,44 +1122,44 @@ export function CaseDefinitionModify() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Band Details-Modify</p>
+      <div className='card '>
+        <div className='card-header'>
+          <p className='card-header-title'>Band Details-Modify</p>
         </div>
-        <div className="card-content vscrollable">
+        <div className='card-content vscrollable'>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
+            <div className='field'>
+              <label className='label is-small'>
                 {' '}
                 Name
-                <p className="control has-icons-left has-icons-right">
+                <p className='control has-icons-left has-icons-right'>
                   <input
-                    className="input  is-small"
+                    className='input  is-small'
                     {...register('name', { required: true })}
-                    name="name"
-                    type="text"
-                    placeholder="Name"
+                    name='name'
+                    type='text'
+                    placeholder='Name'
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
+                  <span className='icon is-small is-left'>
+                    <i className='fas fa-hospital'></i>
                   </span>
                 </p>
               </label>
             </div>
-            <div className="field">
-              <label className="label is-small">
+            <div className='field'>
+              <label className='label is-small'>
                 Band Type
-                <p className="control has-icons-left has-icons-right">
+                <p className='control has-icons-left has-icons-right'>
                   <input
-                    className="input is-small "
+                    className='input is-small '
                     {...register('x', { required: true })}
                     disabled
-                    name="bandType"
-                    type="text"
-                    placeholder="Band Type"
+                    name='bandType'
+                    type='text'
+                    placeholder='Band Type'
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
+                  <span className='icon is-small is-left'>
+                    <i className='fas fa-map-signs'></i>
                   </span>
                 </p>
               </label>
@@ -1208,29 +1227,29 @@ export function CaseDefinitionModify() {
             </div> */}
           </form>
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
+          <div className='field  is-grouped mt-2'>
+            <p className='control'>
               <button
-                type="submit"
-                className="button is-success is-small"
+                type='submit'
+                className='button is-success is-small'
                 onClick={handleSubmit(onSubmit)}
               >
                 Save
               </button>
             </p>
-            <p className="control">
+            <p className='control'>
               <button
-                className="button is-warning is-small"
+                className='button is-warning is-small'
                 onClick={handleCancel}
               >
                 Cancel
               </button>
             </p>
-            <p className="control">
+            <p className='control'>
               <button
-                className="button is-danger is-small"
+                className='button is-danger is-small'
                 onClick={() => handleDelete()}
-                type="delete"
+                type='delete'
               >
                 Delete
               </button>
@@ -1294,7 +1313,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = 'facilityName'; //field variable
 
     if (val.length >= 3) {
@@ -1312,7 +1331,7 @@ export function InputSearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log('facility  fetched successfully');
           setFacilities(res.data);
           setSearchMessage(' facility  fetched successfully');
@@ -1343,14 +1362,14 @@ export function InputSearch({ getSearchfacility, clear }) {
   console.log(facilities);
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
+      <div className='field'>
+        <div className='control has-icons-left  '>
           <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
-            <div className="dropdown-trigger">
+            <div className='dropdown-trigger'>
               <DebounceInput
-                className="input is-small "
-                type="text"
-                placeholder="Search Facilities"
+                className='input is-small '
+                type='text'
+                placeholder='Search Facilities'
                 value={simpa}
                 minLength={1}
                 debounceTimeout={400}
@@ -1358,16 +1377,16 @@ export function InputSearch({ getSearchfacility, clear }) {
                 onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-search'></i>
               </span>
             </div>
             {searchError && <div>{searchMessage}</div>}
-            <div className="dropdown-menu">
-              <div className="dropdown-content">
+            <div className='dropdown-menu'>
+              <div className='dropdown-content'>
                 {facilities.map((facility, i) => (
                   <div
-                    className="dropdown-item"
+                    className='dropdown-item'
                     key={facility._id}
                     onClick={() => handleRow(facility)}
                   >

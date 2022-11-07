@@ -4,41 +4,32 @@ import Pharmacy, {PharmacyList, PharmacyListStandalone} from "./Pharmacy";
 import {UserContext, ObjectContext} from "../../context";
 import {Outlet} from "react-router-dom";
 import ModalBox from "../../components/modal";
+import {Box} from "@mui/material";
 
 export default function PharmacyHome({children}) {
-  // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
-  const [open, setOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const {user, setUser} = useContext(UserContext);
 
-  const [selectedClinic, setSelectedClinic] = useState(
-    state.FrontDesk.selectedFrontDesk
+  const [selectedStore, setSelectedStore] = useState(
+    state.StoreModule.selectedStore
   );
 
-  const handleCloseModal = () => {
-    state.showStoreModal = "modal";
-    setState(state);
-    console.log(state.showStoreModal);
-  };
+  // const handleCloseModal = () => {
+  //   state.showStoreModal = "modal";
+  //   setState(state);
+  //   console.log(state.showStoreModal);
+  // };
 
   useEffect(() => {
-    // console.log("starting up Client module")
-    if (!selectedClinic) {
-      handleChangeClinic();
+    if (!selectedStore) {
+      handleChangeStore();
     }
     return () => {};
   }, []);
 
-  const handleChangeClinic = async () => {
+  const handleChangeStore = async () => {
     await setShowModal(true);
-    await setOpen(true);
-    // console.log( showModal)
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -48,7 +39,7 @@ export default function PharmacyHome({children}) {
       locationName: state.StoreModule.selectedStore.name,
       locationType: "Pharmacy",
       locationId: state.StoreModule.selectedStore._id,
-      facilityId: user.currentEmployee.facilityDetail._id,
+      facilityId: user.currentEmployee?.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
     setState(prevstate => ({
@@ -66,11 +57,18 @@ export default function PharmacyHome({children}) {
             <h2 className="subtitle">Have fun working today!</h2>
           </div>
           <div className="layout__content-main">
-            <ModalBox open={open}>
-              <PharmacyListStandalone
-                standalone="true"
-                closeModal={() => setOpen(false)}
-              />
+            <ModalBox open={showModal} onClick={() => setShowModal(false)}>
+              <Box
+                sx={{
+                  width: "600px",
+                  maxHeight: "450px",
+                }}
+              >
+                <PharmacyListStandalone
+                  standalone={true}
+                  closeModal={() => setShowModal(false)}
+                />
+              </Box>
             </ModalBox>
             {children}
             <Outlet />

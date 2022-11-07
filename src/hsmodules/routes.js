@@ -244,28 +244,35 @@ const AppRoutes = () => {
 
           {/* ***************************** CLINICS ROUTES ************************************* */}
 
-          <Route path="/app/clinic" element={<ClinicHome />} />
-          <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
-          <Route
-            path="/app/clinic/appointments"
-            element={<ClinicAppointments />}
-          />
-          <Route path="/app/clinic/checkin" element={<ClinicCheckIn />} />
-          <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
-          <Route path="/app/clinic/payments" element={<Payment />} />
-          <Route path="/app/clinic" element={<ClinicHome />} />
-          <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
-          <Route
-            path="/app/clinic/appointments"
-            element={<ClinicAppointments />}
-          />
-          <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
-          <Route path="/app/clinic/documentation" element={<Documentation />} />
-          <Route path="/app/clinic/patients" element={<Patients />} />
-          <Route path="/app/clinic/clinicreports" element={<ClinicReport />} />
-          <Route path="/app/clinic/clinics" element={<Clinic />} />
-          <Route path="/app/clinic/checkin" element={<ClinicCheckin />} />
-          <Route path="/app/clinic/dashboard" element={<ClinicDashboard />} />
+          <Route path="/app/clinic" element={<ClinicHome />}>
+            <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
+            <Route
+              path="/app/clinic/appointments"
+              element={<ClinicAppointments />}
+            />
+            <Route path="/app/clinic/checkin" element={<ClinicCheckIn />} />
+            <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
+            <Route path="/app/clinic/payments" element={<Payment />} />
+            <Route path="/app/clinic" element={<ClinicHome />} />
+            <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
+            <Route
+              path="/app/clinic/appointments"
+              element={<ClinicAppointments />}
+            />
+            <Route path="/app/clinic/clinicstore" element={<ClinicStore />} />
+            <Route
+              path="/app/clinic/documentation"
+              element={<Documentation />}
+            />
+            <Route path="/app/clinic/patients" element={<Patients />} />
+            <Route
+              path="/app/clinic/clinicreports"
+              element={<ClinicReport />}
+            />
+            <Route path="/app/clinic/clinics" element={<Clinic />} />
+            <Route path="/app/clinic/checkin" element={<ClinicCheckin />} />
+            <Route path="/app/clinic/dashboard" element={<ClinicDashboard />} />
+          </Route>
 
           {/* ***************************** CLIENTS ROUTES ************************************* */}
           <Route path="/app/clients/" element={<ClientHome />}>
@@ -298,10 +305,12 @@ const AppRoutes = () => {
 
           <Route path="/app/epidemiology" element={<EpidemiologyHome />}>
             <Route path="/app/epidemiology/map" element={<Map />} />
+
             <Route
               path="/app/epidemiology/dashboard"
               element={<EpidemiologyDashboard />}
             />
+
             <Route
               path="/app/epidemiology/casedefinition"
               element={<CaseDefinition />}
@@ -352,105 +361,116 @@ const AppRoutes = () => {
 
           {/* ***************************** INVENTORY ROUTES ************************************* */}
 
-          <Route path="/app/inventory" element={<InventoryHome />} />
+          <Route path="/app/inventory" element={<InventoryHome />}>
+            <Route
+              path="/app/inventory/inv-dispense"
+              element={<InventoryDispense />}
+            />
+            <Route
+              path="/app/inventory/billprescription"
+              element={<InventoryBillPrescription />}
+            />
+            <Route
+              path="/app/inventory/inv-admin"
+              element={<InventorySetup />}
+            />
+            <Route
+              path="/app/inventory/storeinventory"
+              element={<InventoryStore />}
+            />
+            <Route
+              path="/app/inventory/productentry"
+              element={<InventoryProductEntry />}
+            />
+            <Route
+              path="/app/inventory/issueout"
+              element={<InventoryProductExit />}
+            />
+            <Route
+              path="/app/inventory/inv-products"
+              element={<InventoryProducts />}
+            />
+            <Route
+              path="/app/inventory/billservice"
+              element={<InventoryBillService />}
+            />
+            <Route
+              path="/app/inventory/inv-reports"
+              element={<InventoryReport />}
+            />
 
-          <Route
-            path="/app/inventory/inv-dispense"
-            element={<InventoryDispense />}
-          />
-          <Route
-            path="/app/inventory/billprescription"
-            element={<InventoryBillPrescription />}
-          />
-          <Route path="/app/inventory/inv-admin" element={<InventorySetup />} />
-          <Route
-            path="/app/inventory/storeinventory"
-            element={<InventoryStore />}
-          />
-          <Route
-            path="/app/inventory/productentry"
-            element={<InventoryProductEntry />}
-          />
-          <Route
-            path="/app/inventory/issueout"
-            element={<InventoryProductExit />}
-          />
-          <Route
-            path="/app/inventory/inv-products"
-            element={<InventoryProducts />}
-          />
-          <Route
-            path="/app/inventory/billservice"
-            element={<InventoryBillService />}
-          />
-          <Route
-            path="/app/inventory/inv-reports"
-            element={<InventoryReport />}
-          />
-
-          <Route path="/app/inventory/inv-stores" element={<Store />} />
-          <Route path="/app/inventory/payment" element={<InventoryPayment />} />
-          <Route
-            path="/app/inventory/dashboard"
-            element={<InventoryDashboard />}
-          />
+            <Route path="/app/inventory/inv-stores" element={<Store />} />
+            <Route
+              path="/app/inventory/payment"
+              element={<InventoryPayment />}
+            />
+            <Route
+              path="/app/inventory/dashboard"
+              element={<InventoryDashboard />}
+            />
+          </Route>
 
           {/* ***************************** LABS ROUTES ************************************* */}
 
-          <Route path="/app/laboratory" element={<LaboratoryHome />} />
-          <Route
-            path="/app/laboratory/billclient"
-            element={<LaboratoryBillService />}
-          />
-          <Route path="/app/laboratory/labresult" element={<LabReport />} />
-          <Route path="/app/laboratory/billlaborders" element={<BillLab />} />
-          <Route path="/app/laboratory/labs" element={<Labs />} />
-          <Route
-            path="/app/laboratory/payment"
-            element={<LaboratoryPayment />}
-          />
-          <Route
-            path="/app/laboratory/dashboard"
-            element={<LaboratoryDashboard />}
-          />
+          <Route path="/app/laboratory" element={<LaboratoryHome />}>
+            <Route
+              path="/app/laboratory/billclient"
+              element={<LaboratoryBillService />}
+            />
+            <Route path="/app/laboratory/labresult" element={<LabReport />} />
+            <Route path="/app/laboratory/billlaborders" element={<BillLab />} />
+            <Route path="/app/laboratory/labs" element={<Labs />} />
+            <Route
+              path="/app/laboratory/payment"
+              element={<LaboratoryPayment />}
+            />
+            <Route
+              path="/app/laboratory/dashboard"
+              element={<LaboratoryDashboard />}
+            />
+          </Route>
 
           {/* ***************************** PHARMACY ROUTES ************************************* */}
 
-          <Route path="/app/pharmacy" element={<PharmacyHome />} />
-          <Route
-            path="/app/pharmacy/billclient"
-            element={<PharmacyBillService />}
-          />
-          <Route
-            path="/app/pharmacy/billprescription"
-            element={<PharmacyBillPrescription />}
-          />
-          <Route path="/app/pharmacy/payment" element={<PharmacyPayment />} />
-          <Route
-            path="/app/pharmacy/dispensary"
-            element={<PharmacyDispense />}
-          />
-          <Route
-            path="/app/pharmacy/storeinventory"
-            element={<PharmacyInventoryStore />}
-          />
-          <Route
-            path="/app/pharmacy/productentry"
-            element={<PharmacyProductEntry />}
-          />
-          <Route
-            path="/app/pharmacy/issueout"
-            element={<PharmacyProductExit />}
-          />
-          <Route
-            path="/app/pharmacy/requisition"
-            element={<PharmacyInventoryReport />}
-          />
-          <Route path="/app/pharmacy/transfer" element={<PharmacyTransfer />} />
-          <Route
-            path="/app/pharmacy/dashboard"
-            element={<PharmacyDashboard />}
-          />
+          <Route path="/app/pharmacy" element={<PharmacyHome />}>
+            <Route
+              path="/app/pharmacy/billclient"
+              element={<PharmacyBillService />}
+            />
+            <Route
+              path="/app/pharmacy/billprescription"
+              element={<PharmacyBillPrescription />}
+            />
+            <Route path="/app/pharmacy/payment" element={<PharmacyPayment />} />
+            <Route
+              path="/app/pharmacy/dispensary"
+              element={<PharmacyDispense />}
+            />
+            <Route
+              path="/app/pharmacy/storeinventory"
+              element={<PharmacyInventoryStore />}
+            />
+            <Route
+              path="/app/pharmacy/productentry"
+              element={<PharmacyProductEntry />}
+            />
+            <Route
+              path="/app/pharmacy/issueout"
+              element={<PharmacyProductExit />}
+            />
+            <Route
+              path="/app/pharmacy/requisition"
+              element={<PharmacyInventoryReport />}
+            />
+            <Route
+              path="/app/pharmacy/transfer"
+              element={<PharmacyTransfer />}
+            />
+            <Route
+              path="/app/pharmacy/dashboard"
+              element={<PharmacyDashboard />}
+            />
+          </Route>
           {/* 
           <Route
             path="/app/pharmacy/inv-payment"
@@ -459,69 +479,73 @@ const AppRoutes = () => {
 
           {/* ***************************** RADIOLOGY ROUTES ************************************* */}
 
-          <Route path="/app/radiology" element={<RadiologyHome />} />
-
-          <Route path="/app/radiology/checkedin" element={<RadCheckedin />} />
-          <Route
-            path="/app/radiology/appointments"
-            element={<RadAppointments />}
-          />
-          <Route
-            path="/app/radiology/billservice"
-            element={<RadiologyBillService />}
-          />
-          <Route
-            path="/app/radiology/radiology-result"
-            element={<RadiologyReport />}
-          />
-          <Route
-            path="/app/radiology/radiology-bill"
-            element={<BillRadiology />}
-          />
-          <Route path="/app/radiology/radiology" element={<Radiology />} />
-          <Route path="/app/radiology/payment" element={<RadiologyPayment />} />
+          <Route path="/app/radiology" element={<RadiologyHome />}>
+            <Route path="/app/radiology/checkedin" element={<RadCheckedin />} />
+            <Route
+              path="/app/radiology/appointments"
+              element={<RadAppointments />}
+            />
+            <Route
+              path="/app/radiology/billservice"
+              element={<RadiologyBillService />}
+            />
+            <Route
+              path="/app/radiology/radiology-result"
+              element={<RadiologyReport />}
+            />
+            <Route
+              path="/app/radiology/radiology-bill"
+              element={<BillRadiology />}
+            />
+            <Route path="/app/radiology/radiology" element={<Radiology />} />
+            <Route
+              path="/app/radiology/payment"
+              element={<RadiologyPayment />}
+            />
+          </Route>
 
           {/* ***************************** THEATRE ROUTES ************************************* */}
 
-          <Route path="/app/theatre" element={<TheatreHome />} />
-
-          <Route
-            path="/app/theatre/theatre-checkedin"
-            element={<TheatreCheckIn />}
-          />
-          <Route
-            path="/app/theatre/theatre-appointments"
-            element={<TheatreAppointments />}
-          />
-          <Route
-            path="/app/theatre/billservice"
-            element={<TheatreBillService />}
-          />
-          <Route
-            path="/app/theatre/theatre-result"
-            element={<TheatreReport />}
-          />
-          <Route path="/app/theatre/theatre-bill" element={<BillTheatre />} />
-          <Route path="/app/theatre/theatre" element={<Theatre />} />
-          <Route
-            path="/app/theatre/theatre-payment"
-            element={<TheatrePayment />}
-          />
-          <Route
-            path="/app/theatre/documentation"
-            element={<Documentation />}
-          />
+          <Route path="/app/theatre" element={<TheatreHome />}>
+            <Route
+              path="/app/theatre/theatre-checkedin"
+              element={<TheatreCheckIn />}
+            />
+            <Route
+              path="/app/theatre/theatre-appointments"
+              element={<TheatreAppointments />}
+            />
+            <Route
+              path="/app/theatre/billservice"
+              element={<TheatreBillService />}
+            />
+            <Route
+              path="/app/theatre/theatre-result"
+              element={<TheatreReport />}
+            />
+            <Route path="/app/theatre/theatre-bill" element={<BillTheatre />} />
+            <Route path="/app/theatre/theatre" element={<Theatre />} />
+            <Route
+              path="/app/theatre/theatre-payment"
+              element={<TheatrePayment />}
+            />
+            <Route
+              path="/app/theatre/documentation"
+              element={<Documentation />}
+            />
+          </Route>
 
           {/* ***************************** WARD ROUTES ************************************* */}
 
           {/*  <ward></ward> */}
-          <Route path="/app/ward" element={<WardHome />} />
-          <Route path="/app/ward/transfer" element={<Transfer />} />
-          <Route path="/app/ward/inpatients" element={<Inpatient />} />
-          <Route path="/app/ward/admissions" element={<Admissions />} />
-          <Route path="/app/ward/documentation" element={<Documentation />} />
-          <Route path="/app/ward/discharge" element={<Discharge />} />
-          <Route path="/app/ward/dashboard" element={<WardDashboard />} />
+          <Route path="/app/ward" element={<WardHome />}>
+            <Route path="/app/ward/transfer" element={<Transfer />} />
+            <Route path="/app/ward/inpatients" element={<Inpatient />} />
+            <Route path="/app/ward/admissions" element={<Admissions />} />
+            <Route path="/app/ward/documentation" element={<Documentation />} />
+            <Route path="/app/ward/discharge" element={<Discharge />} />
+            <Route path="/app/ward/dashboard" element={<WardDashboard />} />
+          </Route>
         </Route>
       </Routes>
     </>
