@@ -46,6 +46,9 @@ const ClientView = ({ open, setOpen, user }) => {
       phone: user?.phone,
       email: user?.email,
       facility: data?.currentEmployee.facility,
+      gender: user?.gender,
+      maritalstatus: user?.maritalstatus,
+      mrn: user?.mrn,
     },
   });
 
@@ -60,6 +63,8 @@ const ClientView = ({ open, setOpen, user }) => {
       phone: user.phone,
       email: user.email,
       facility: data.currentEmployee.facility,
+      gender: user?.gender,
+      maritalstatus: user?.maritalstatus,
     });
   }, []);
 
@@ -143,6 +148,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label='First Name'
                   register={register('firstname')}
+                  defaultValue={user?.firstname}
                   errorText={errors?.firstname?.message}
                 />
               )}
@@ -153,6 +159,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label='Midle Name'
                   register={register('middlename')}
                   errorText={errors?.middlename?.message}
+                  defaultValue={user?.middlename}
                 />
               )}
               {!editing ? (
@@ -162,6 +169,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label='Last Name'
                   register={register('lastname', { required: true })}
                   errorText={errors?.lastname?.message}
+                  defaultValue={user?.lastnames}
                 />
               )}
               {!editing ? (
@@ -189,6 +197,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 <CustomSelect
                   label='Gender'
                   register={register('gender')}
+                  defaultValue={user?.gender}
                   options={[
                     { label: 'Male', value: 'male' },
                     { label: 'Female', value: 'female' },
@@ -202,6 +211,8 @@ const ClientView = ({ open, setOpen, user }) => {
                 <CustomSelect
                   label='Marital Status'
                   register={register('maritalstatus')}
+                  defaultValue={user?.maritalstatus}
+                  s
                   options={[
                     { label: 'Single', value: 'single' },
                     { label: 'Married', value: 'married' },
@@ -215,6 +226,7 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label='Medical record Number'
                   register={register('mrn')}
+                  defaultValue={user?.mrn}
                 />
               )}
               {!editing ? (
