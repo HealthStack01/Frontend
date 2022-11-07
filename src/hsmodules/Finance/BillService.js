@@ -48,7 +48,7 @@ export default function PharmacyBillService() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        header="Bill Service"
+        header="Bill Service/Client"
       >
         <BillServiceCreate />
       </ModalBox>
