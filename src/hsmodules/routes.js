@@ -30,7 +30,7 @@ import ClientsAppointments from "./Client/Appointments";
 import ClinicHome from "./Clinic/ClinicHome";
 import Clinic from "./Clinic/Clinic";
 import ClinicReport from "./Clinic/ClinicReport";
-import ClinicCheckIn, { CheckIn } from "./Appointment/ClinicWorkflow";
+import ClinicCheckIn from "./Appointment/ClinicWorkflow";
 import ClinicSetup from "./Clinic/ClinicSetup";
 import ClinicStore from "./Clinic/ClinicStore";
 import ClinicCheckin from "./Clinic/CheckIn";
@@ -145,8 +145,6 @@ import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
 import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
 import ForgotPassword from "./auth/ForgotPassword";
 import CreatePassword from "./auth/CreatePassword";
-import Beneficiary from "./ManagedCare/Beneficiary";
-import OrganizationClient from "./ManagedCare/HIA";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -157,7 +155,6 @@ const moduleLocationTypes = {
   inventory: "Store",
   ward: "Ward",
   laboratory: "Laboratory",
-  managed care:"Managed Care",
 };
 
 const AppRoutes = () => {
@@ -513,21 +510,6 @@ const AppRoutes = () => {
             <Route path="/app/ward/documentation" element={<Documentation />} />
             <Route path="/app/ward/discharge" element={<Discharge />} />
             <Route path="/app/ward/dashboard" element={<WardDashboard />} />
-          </Route>
-
-           {/*  <managed care></managed> */}
-           <Route path="/app/managed care" element={<ManagedCareHome />}>
-            <Route path="/app/managed care/policy" element={<Policy />} />
-            <Route path="/app/managed care/beneficiary" element={<Beneficiary />} />
-            <Route path="/app/managed care/checkin" element={<CheckIn />} />
-            <Route path="/app/managed care/provider" element={<Provider />} />
-            <Route path="/app/managed care/complaints" element={<Complaints />} />
-            <Route path="/app/managed care/HIA" element={<HIA />} />
-            <Route path="/app/managed care/premiums" element={<Premiums />} />
-            <Route path="/app/managed care/organisation" element={<Organization />} />
-            <Route path="/app/managed care/referrals" element={<Referrals />} />
-            <Route path="/app/managed care/tariff" element={<Tariff />} />
-
           </Route>
         </Route>
       </Routes>
