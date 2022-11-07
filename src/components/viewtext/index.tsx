@@ -9,7 +9,7 @@ interface Props {
 const ViewText: React.FC<Props> = ({ label, text }) => {
   return (
     <Box sx={{ width: '100%' }}>
-      <h2>{label}</h2>
+      <h3>{label}</h3>
       <p>{text}</p>
     </Box>
   );
