@@ -29,6 +29,7 @@ const BasicDatePicker: React.FC<Props> = ({
   return (
     <Box sx={{ my: 2 }}>
       <FormControl style={{ width: '100%' }}>
+        <label className='form__label'>{label}</label>
         <input
           {...register}
           type='date'

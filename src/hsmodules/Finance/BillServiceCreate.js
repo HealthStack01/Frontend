@@ -1,70 +1,70 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {ProductCreate} from "./Products";
-import Encounter from "../Documentation/Documentation";
-import {ClientSearch} from "../helpers/ClientSearch";
-import ServiceSearch from "../helpers/ServiceSearch";
-import Input from "../../components/inputs/basic/Input";
-import {Box, Card, Collapse, Divider, Grid, Typography} from "@mui/material";
-import BasicDatePicker from "../../components/inputs/Date";
-import CustomSelect from "../../components/inputs/basic/Select";
-var random = require("random-string-generator");
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'react-toastify';
+import { ProductCreate } from './Products';
+import Encounter from '../Documentation/Documentation';
+import { ClientSearch } from '../helpers/ClientSearch';
+import ServiceSearch from '../helpers/ServiceSearch';
+import Input from '../../components/inputs/basic/Input';
+import { Box, Card, Collapse, Divider, Grid, Typography } from '@mui/material';
+import BasicDatePicker from '../../components/inputs/Date';
+import CustomSelect from '../../components/inputs/basic/Select';
+var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
-import Button from "@mui/material/Button";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CustomTable from "../../components/customtable";
+import Button from '@mui/material/Button';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CustomTable from '../../components/customtable';
 
 export default function BillServiceCreate() {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   //const [error, setError] =useState(false)
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
   //const ProductEntryServ=client.service('productentry')
-  const OrderServ = client.service("order");
-  const BillCreateServ = client.service("createbilldirect");
+  const OrderServ = client.service('order');
+  const BillCreateServ = client.service('createbilldirect');
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const [type, setType] = useState("Bill");
-  const [documentNo, setDocumentNo] = useState("");
+  const [type, setType] = useState('Bill');
+  const [documentNo, setDocumentNo] = useState('');
   const [totalamount, setTotalamount] = useState(0);
   const [qamount, setQAmount] = useState(null);
-  const [productId, setProductId] = useState("");
-  const [source, setSource] = useState("");
-  const [date, setDate] = useState("");
-  const [name, setName] = useState("");
-  const [inventoryId, setInventoryId] = useState("");
-  const [baseunit, setBaseunit] = useState("");
+  const [productId, setProductId] = useState('');
+  const [source, setSource] = useState('');
+  const [date, setDate] = useState('');
+  const [name, setName] = useState('');
+  const [inventoryId, setInventoryId] = useState('');
+  const [baseunit, setBaseunit] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const [sellingprice, setSellingPrice] = useState("");
+  const [sellingprice, setSellingPrice] = useState('');
   const [costprice, setCostprice] = useState(0);
-  const [invquantity, setInvQuantity] = useState("");
+  const [invquantity, setInvQuantity] = useState('');
   const [calcamount, setCalcAmount] = useState(0);
   const [productItem, setProductItem] = useState([]);
-  const [billingId, setBilllingId] = useState("");
+  const [billingId, setBilllingId] = useState('');
   const [changeAmount, setChangeAmount] = useState(true);
-  const [paymentmode, setPaymentMode] = useState("");
-  const [category, setCategory] = useState("");
+  const [paymentmode, setPaymentMode] = useState('');
+  const [category, setCategory] = useState('');
   const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billMode, setBillMode] = useState("");
-  const [obj, setObj] = useState("");
+  const [billMode, setBillMode] = useState('');
+  const [obj, setObj] = useState('');
   const [productModal, setProductModal] = useState(false);
-  const [patient, setPatient] = useState("");
-  const [contracts, setContracts] = useState("");
+  const [patient, setPatient] = useState('');
+  const [contracts, setContracts] = useState('');
 
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const inputEl = useRef(0);
   let calcamount1;
   let hidestatus;
@@ -77,7 +77,7 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeMode = async value => {
-    console.log("value", value);
+    console.log('value', value);
     await setPaymentMode(value);
     console.log(value);
     let billm = paymentOptions.filter(el => el.name === value);
@@ -103,7 +103,7 @@ export default function BillServiceCreate() {
 
     const newProductEntryModule = {
       selectedMedication: ProductEntry,
-      show: "detail",
+      show: 'detail',
     };
     await setState(prevstate => ({
       ...prevstate,
@@ -130,14 +130,14 @@ export default function BillServiceCreate() {
     amount: calcamount, //||qamount
     baseunit,
     costprice,
-    category: category === "Inventory" ? "Prescription" : category,
+    category: category === 'Inventory' ? 'Prescription' : category,
     billingId,
     billingContract: contracts,
     billMode,
   };
 
   const checkPrice = async (contracts, billMode) => {
-    if (billMode.type === "HMO Cover") {
+    if (billMode.type === 'HMO Cover') {
       //paymentmode
       /*  if (billMode.detail.plan==="NHIS"){
                 //find contract for NHIS
@@ -154,7 +154,6 @@ export default function BillServiceCreate() {
                   })
                  await setSellingPrice(0)
              }
-
             }else{ */
 
       let contract = contracts.filter(
@@ -165,13 +164,13 @@ export default function BillServiceCreate() {
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
-          "Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount "
+          'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount '
         );
         await setSellingPrice(0);
       }
     }
     /*  } */
-    if (billMode.type === "Company Cover") {
+    if (billMode.type === 'Company Cover') {
       //paymentmode
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.organizationId
@@ -181,12 +180,12 @@ export default function BillServiceCreate() {
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
-          "Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash"
+          'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash'
         );
         await setSellingPrice(0);
       }
     }
-    if (billMode.type === "Cash" || billMode.type === "Family Cover") {
+    if (billMode.type === 'Cash' || billMode.type === 'Family Cover') {
       //paymentmode
       let contract = contracts.filter(el => el.source_org === el.dest_org);
       if (contract.length) {
@@ -194,7 +193,7 @@ export default function BillServiceCreate() {
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
-          "Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero "
+          'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero '
         );
         await setSellingPrice(0);
       }
@@ -205,18 +204,18 @@ export default function BillServiceCreate() {
     //  console.log(JSON.stringify(service))
     if (!service) {
       //"clear stuff"
-      setProductId("");
-      setName("");
-      setBaseunit("");
-      setInventoryId("");
+      setProductId('');
+      setName('');
+      setBaseunit('');
+      setInventoryId('');
       setSellingPrice(0);
-      setInvQuantity("");
+      setInvQuantity('');
       setQAmount(null);
-      setCostprice("");
-      setContracts("");
-      setCategory("");
-      setInventoryId("");
-      setBilllingId("");
+      setCostprice('');
+      setContracts('');
+      setCategory('');
+      setInventoryId('');
+      setBilllingId('');
 
       //setCalcAmount(null)
       return;
@@ -243,12 +242,12 @@ export default function BillServiceCreate() {
              setInvQuantity("")
              setQAmount(null)
              setCostprice("") */
-      setPatient("");
-      setSource("");
+      setPatient('');
+      setSource('');
       return;
     }
     await setPatient(person);
-    setSource(person.firstname + " " + person.lastname);
+    setSource(person.firstname + ' ' + person.lastname);
   };
 
   useEffect(() => {
@@ -276,14 +275,14 @@ export default function BillServiceCreate() {
          console.log("qamount: ",qamount)
          console.log("calcamount: ",calcamount) */
     if (
-      source === "" ||
-      quantity === "" ||
-      obj === "" ||
+      source === '' ||
+      quantity === '' ||
+      obj === '' ||
       quantity === 0 ||
-      paymentmode === ""
+      paymentmode === ''
     ) {
       toast.error(
-        "You need to choose a service, billing mode and quantity to proceed"
+        'You need to choose a service, billing mode and quantity to proceed'
       );
       return;
     }
@@ -303,7 +302,6 @@ export default function BillServiceCreate() {
            // console.log(resp)
              handleRow(resp) 
             //update dispense
-
         })
         .catch((err)=>{
             console.log(err)
@@ -313,22 +311,22 @@ export default function BillServiceCreate() {
     //?attached chosen product to medication
     //dispense helper?
 
-    setName("");
-    setBaseunit("");
+    setName('');
+    setBaseunit('');
     setQuantity(1);
-    setInventoryId("");
+    setInventoryId('');
     setSellingPrice(0);
-    setInvQuantity("");
+    setInvQuantity('');
     // handleAmount()
     setCalcAmount(0);
     await setSuccess(true);
     getSearchfacility(false);
-    setObj("");
+    setObj('');
     console.log(sellingprice);
     /* console.log(qamount)
         console.log(productItem) */
     setChangeAmount(true);
-    setContracts("");
+    setContracts('');
     // alert("finished")
   };
 
@@ -343,7 +341,7 @@ export default function BillServiceCreate() {
              return
          } */
     setQuantity(e.target.value);
-    if (e.target.vlue === "") {
+    if (e.target.vlue === '') {
       setQuantity(1);
     }
     /* calcamount1=quantity*sellingprice
@@ -364,17 +362,17 @@ export default function BillServiceCreate() {
   }, [date]);
 
   const resetform = () => {
-    setType("Sales");
-    setDocumentNo("");
-    setTotalamount("");
-    setProductId("");
-    setSource("");
-    setDate("");
-    setName("");
+    setType('Sales');
+    setDocumentNo('');
+    setTotalamount('');
+    setProductId('');
+    setSource('');
+    setDate('');
+    setName('');
     setBaseunit();
     setCostprice();
     setProductItem([]);
-    setContracts("");
+    setContracts('');
   };
 
   const handleCreateBill = async () => {
@@ -390,33 +388,33 @@ export default function BillServiceCreate() {
     }
     document.documentdetail = productItem;
     console.log(document.documentdetail);
-    document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
+    document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = patient._id;
     document.clientname =
-      patient.firstname + " " + patient.middlename + " " + patient.lastname;
+      patient.firstname + ' ' + patient.middlename + ' ' + patient.lastname;
     document.clientobj = patient;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
     console.log(document);
 
     //order
     document.documentdetail.forEach(async element => {
       let orderinfo = {
         //for reach document
-        documentationId: "", //tbf
+        documentationId: '', //tbf
         order_category: element.category, //category
         order: element.name, //name
-        instruction: "",
+        instruction: '',
         destination_name: document.facilityname, //facilityname
         destination: document.facility, //facility id
-        order_status: "Billed",
+        order_status: 'Billed',
         payer: element.billMode.organizationName,
         paymentmode: element.billMode.paymentmode,
 
@@ -438,7 +436,7 @@ export default function BillServiceCreate() {
 
       let billInfo = {
         orderInfo: {
-          orderId: "", //tbf
+          orderId: '', //tbf
           orderObj: orderinfo,
         },
         serviceInfo: {
@@ -467,7 +465,7 @@ export default function BillServiceCreate() {
           paymentmode: element.billMode,
         },
         createdBy: user._id,
-        billing_status: "Unpaid",
+        billing_status: 'Unpaid',
       };
       let items = {
         orderinfo,
@@ -477,7 +475,7 @@ export default function BillServiceCreate() {
       serviceList.push(items);
     });
 
-    console.log("==================");
+    console.log('==================');
     console.log(document, serviceList);
 
     let confirm = window.confirm(
@@ -490,14 +488,14 @@ export default function BillServiceCreate() {
       })
         .then(res => {
           setSuccess(true);
-          toast.success("Billed Orders created succesfully");
+          toast.success('Billed Orders created succesfully');
           setSuccess(false);
           setProductItem([]);
           setCalcAmount(0);
           const today = new Date().toLocaleString();
           //console.log(today)
           setDate(today);
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = random(6, 'uppernumeric');
           setDocumentNo(invoiceNo);
         })
         .catch(err => {
@@ -516,7 +514,7 @@ export default function BillServiceCreate() {
 
   const onSubmit = async e => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     //setError(false)
     setSuccess(false);
     await setProductEntry({
@@ -528,20 +526,20 @@ export default function BillServiceCreate() {
     });
     productEntry.productitems = productItem;
     productEntry.createdby = user._id;
-    productEntry.transactioncategory = "debit";
+    productEntry.transactioncategory = 'debit';
 
     // console.log("b4 facility",productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast.error("You can not remove inventory from any organization");
+      toast.error('You can not remove inventory from any organization');
       return;
     }
 
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-      toast.error("You need to select a store before removing inventory");
+      toast.error('You need to select a store before removing inventory');
       return;
     }
   };
@@ -556,7 +554,7 @@ export default function BillServiceCreate() {
 
   const createObj = (pay, name, cover, type) => {
     let details = {};
-    details = {...pay};
+    details = { ...pay };
     details.type = type;
 
     return {
@@ -590,50 +588,50 @@ export default function BillServiceCreate() {
       patient.paymentinfo.forEach((pay, i) => {
         if (pay.active) {
           switch (pay.paymentmode) {
-            case "Cash":
+            case 'Cash':
               // code block
-              obj = createObj(pay, "Cash", "Cash", "Cash");
+              obj = createObj(pay, 'Cash', 'Cash', 'Cash');
 
               paymentoptions.push(obj);
-              setPaymentMode("Cash");
+              setPaymentMode('Cash');
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "Family":
+            case 'Family':
               // code block
               obj = createObj(
                 pay,
-                "Family Cover",
-                "familyCover",
-                "Family Cover"
+                'Family Cover',
+                'familyCover',
+                'Family Cover'
               );
               paymentoptions.push(obj);
-              setPaymentMode("Family Cover");
+              setPaymentMode('Family Cover');
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "Company":
+            case 'Company':
               // code block
               let name =
-                "Company: " + pay.organizationName + "(" + pay.plan + ")";
+                'Company: ' + pay.organizationName + '(' + pay.plan + ')';
 
-              obj = createObj(pay, name, "CompanyCover", "Company Cover");
+              obj = createObj(pay, name, 'CompanyCover', 'Company Cover');
               paymentoptions.push(obj);
               setPaymentMode(
-                "Company: " + pay.organizationName + "(" + pay.plan + ")"
+                'Company: ' + pay.organizationName + '(' + pay.plan + ')'
               );
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "HMO":
+            case 'HMO':
               // code block
               console.log(pay);
-              let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
+              let sname = 'HMO: ' + pay.organizationName + '(' + pay.plan + ')';
 
-              obj = createObj(pay, sname, "HMOCover", "HMO Cover");
+              obj = createObj(pay, sname, 'HMOCover', 'HMO Cover');
               paymentoptions.push(obj);
               setPaymentMode(
-                "HMO: " + pay.organizationName + "(" + pay.plan + ")"
+                'HMO: ' + pay.organizationName + '(' + pay.plan + ')'
               );
               billme = obj;
               //  console.log("billme",billme)
@@ -653,19 +651,19 @@ export default function BillServiceCreate() {
   }, [source]);
 
   useEffect(() => {
-    console.log("startup");
+    console.log('startup');
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
     //console.log(today)
     setDate(today);
-    const invoiceNo = random(6, "uppernumeric");
+    const invoiceNo = random(6, 'uppernumeric');
     setDocumentNo(invoiceNo);
     return () => {
-      console.log("closeup");
+      console.log('closeup');
       const today = new Date().toLocaleString();
       //console.log(today)
       setDate(today);
-      const invoiceNo = random(6, "uppernumeric");
+      const invoiceNo = random(6, 'uppernumeric');
       setDocumentNo(invoiceNo);
       setCalcAmount(0);
     };
@@ -721,94 +719,94 @@ export default function BillServiceCreate() {
 
   const productSchema = [
     {
-      name: "S/NO",
-      key: "sn",
-      description: "SN",
+      name: 'S/NO',
+      key: 'sn',
+      description: 'SN',
       selector: row => row.sn,
       sortable: true,
       required: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "Category",
-      key: "category",
-      description: "Enter Category",
+      name: 'Category',
+      key: 'category',
+      description: 'Enter Category',
       selector: row => row.category,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Name",
-      key: "name",
-      description: "Enter Name",
+      name: 'Name',
+      key: 'name',
+      description: 'Enter Name',
       selector: row => row.name,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Quantity",
-      key: "quantity",
-      description: "Enter Quantity",
+      name: 'Quantity',
+      key: 'quantity',
+      description: 'Enter Quantity',
       selector: row => row.quantity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Unit",
-      key: "baseunit",
-      description: "Enter Unit",
+      name: 'Unit',
+      key: 'baseunit',
+      description: 'Enter Unit',
       selector: row => row.baseunit,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Selling Price",
-      key: "sellingprice",
-      description: "Enter selling price",
+      name: 'Selling Price',
+      key: 'sellingprice',
+      description: 'Enter selling price',
       selector: row => row.sellingprice,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Amount",
-      key: "amount",
-      description: "Enter Amount",
+      name: 'Amount',
+      key: 'amount',
+      description: 'Enter Amount',
       selector: row => row.amount,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Mode",
-      key: "billMode",
-      description: "Enter Bill mode",
+      name: 'Mode',
+      key: 'billMode',
+      description: 'Enter Bill mode',
       selector: row => row.billMode.type,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Action",
-      key: "name",
-      description: "Enter Name",
+      name: 'Action',
+      key: 'name',
+      description: 'Enter Name',
       selector: row => (
         <Button
-          color="error"
-          className="button is-info is-small"
+          color='error'
+          className='button is-info is-small'
           sx={{
-            background: "none",
+            background: 'none',
             //color: "red",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.27rem 1rem",
-            border: "none",
-            cursor: "pointer",
-            textTransform: "capitalize",
+            fontSize: '0.75rem',
+            borderRadius: '2px',
+            padding: '0.27rem 1rem',
+            border: 'none',
+            cursor: 'pointer',
+            textTransform: 'capitalize',
           }}
           onClick={() => {
             handleRemoveBill(row);
@@ -819,247 +817,256 @@ export default function BillServiceCreate() {
       ),
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
   return (
     <>
       <div
-        className="card card-overflow"
-        style={{width: "50vw", maxHeight: "70vh"}}
+        className='card card-overflow'
+        style={{ width: '50vw', maxHeight: '70vh' }}
       >
-    
-        <div className="card-content ">
+        <div className='card-content '>
           <form onSubmit={onSubmit}>
-            {" "}
+            {' '}
             {/* handleSubmit(onSubmit) */}
             <div className="field is-horizontal">
               <div className="field-body">
-                {state.ClientModule.selectedClient.firstname !== undefined ? (
-                  <div className="field">
-                    <label className="label is-size-7">
-                      {" "}
-                      {state.ClientModule.selectedClient.firstname}{" "}
-                      {state.ClientModule.selectedClient.lastname}
-                    </label>
-                  </div>
-                ) : (
-                  <div className="field">
-                    <Box
-                      mb={1}
-                      sx={{
-                        width: "100%",
-                        height: "80px",
-                      }}
-                    >
-                      <Grid container spacing={2}>
-                        <Grid item xs={8}>
+                <div className="field">
+                  <Box
+                    mb={1}
+                    sx={{
+                      width: '100%',
+                      height: '80px',
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={8}>
+                        {state.ClientModule.selectedClient.firstname !==
+                        undefined ? (
+                          <Input
+                            value={`${state.ClientModule.selectedClient.firstname} ${state.ClientModule.selectedClient.lastname}`}
+                            disabled
+                            //label="Selected Client"
+                          />
+                        ) : (
                           <ClientSearch
                             getSearchfacility={getSearchfacility1}
                             clear={success1}
                           />
-                        </Grid>
-
-                        <Grid item xs={4} mt={1.5}>
-                          <CustomSelect
-                            name="paymentmode"
-                            defaultValue={paymentmode}
-                            onChange={e => handleChangeMode(e.target.value)}
-                            options={paymentOptions.map(item => item.name)}
-                            initialOption="Payment option"
-                            label="Billing Mode"
-                          />
-                        </Grid>
+                        )}
                       </Grid>
+
+                      <Grid item xs={4} mt={1.5}>
+                        <CustomSelect
+                          name='paymentmode'
+                          defaultValue={paymentmode}
+                          onChange={(e) => handleChangeMode(e.target.value)}
+                          options={paymentOptions.map((item) => item.name)}
+                          initialOption="Payment option"
+                          label="Billing Mode"
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid item xs={4} mt={1.5}>
+                      <CustomSelect
+                        name="paymentmode"
+                        defaultValue={paymentmode}
+                        onChange={(e) => handleChangeMode(e.target.value)}
+                        options={paymentOptions.map((item) => item.name)}
+                        initialOption="Payment option"
+                        label="Billing Mode"
+                      />
+                    </Grid>
+                  </Box>
+
+                  <Box
+                    mb={1}
+                    sx={{
+                      width: '100%',
+                      height: '80px',
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <Input
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                          name="date"
+                          label="Date and Time"
+                          disabled
+                        />
+                      </Grid>
+
+                      <Grid item xs={4}>
+                        <Input
+                          value={documentNo}
+                          onChange={(e) => setDocumentNo(e.target.value)}
+                          label="Invoice Number"
+                          type="text"
+                          disabled
+                        />
+                      </Grid>
+
+                      <Grid item xs={4}>
+                        <Input
+                          value={totalamount}
+                          type="text"
+                          onChange={(e) => setTotalamount(e.target.value)}
+                          label=" Total Amount"
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Divider
+                    sx={{
+                      marginBottom: '25px',
+                    }}
+                  />
+
+                  <Typography color='text.primary' mb={1}>
+                    Choose Service Item:
+                  </Typography>
+
+                  <Box mb={1}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={7}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                          }}
+                        >
+                          <ServiceSearch
+                            getSearchfacility={getSearchfacility}
+                            clear={success}
+                            mode={billMode}
+                          />
+                          <input
+                            className='input is-small'
+                            value={productId}
+                            name="productId"
+                            type="text"
+                            onChange={(e) => setProductId(e.target.value)}
+                            placeholder="Product Id"
+                            style={{ display: 'none' }}
+                          />
+                          <Button
+                            variant='outlined'
+                            startIcon={<AddCircleOutlineIcon />}
+                            onClick={handleClickProd}
+                            sx={{
+                              marginTop: '10px',
+                              width: '50%',
+                              //textTransform: "capitalize",
+                            }}
+                          >
+                            Add
+                          </Button>
+                        </Box>
+                      </Grid>
+
+                      <Grid item xs={2}>
+                        <Input
+                          name='quantity'
+                          value={quantity}
+                          type="text"
+                          onChange={(e) => handleQtty(e)}
+                          label="Quantity"
+                        />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                          }}
+                        >
+                          <Input
+                            name='qamount'
+                            disabled={changeAmount}
+                            value={calcamount}
+                            type="text"
+                            onChange={async (e) =>
+                              await setCalcAmount(e.target.value)
+                            }
+                            label='Amount'
+                          />
+
+                          <Button
+                            variant='contained'
+                            size='small'
+                            sx={{
+                              marginTop: '10px',
+                              //textTransform: "capitalize",
+                            }}
+                            disabled={
+                              user.currentEmployee?.roles.includes(
+                                'Adjust Price'
+                              ) ||
+                              user.currentEmployee?.roles.length === 0 ||
+                              user.stacker
+                            }
+                            onClick={handleChangeAmount}
+                          >
+                            Adjust
+                          </Button>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Collapse in={productItem.length > 0}>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        maxHeight: '150px',
+                        overflowY: 'auto',
+                      }}
+                    >
+                      <CustomTable
+                        title={''}
+                        columns={productSchema}
+                        //data={dummyData}
+                        data={productItem}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        onRowClicked={(row) => onRowClicked(row)}
+                        progressPending={false}
+                      />
                     </Box>
 
                     <Box
-                      mb={1}
                       sx={{
-                        width: "100%",
-                        height: "80px",
+                        display: 'flex',
+                        marginTop: '15px',
                       }}
                     >
-                      <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                          <Input
-                            value={date}
-                            onChange={e => setDate(e.target.value)}
-                            name="date"
-                            label="Date and Time"
-                            disabled
-                          />
-                        </Grid>
-
-                        <Grid item xs={4}>
-                          <Input
-                            value={documentNo}
-                            onChange={e => setDocumentNo(e.target.value)}
-                            label="Invoice Number"
-                            type="text"
-                            disabled
-                          />
-                        </Grid>
-
-                        <Grid item xs={4}>
-                          <Input
-                            value={totalamount}
-                            type="text"
-                            onChange={e => setTotalamount(e.target.value)}
-                            label=" Total Amount"
-                          />
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    <Divider
-                      sx={{
-                        marginBottom: "25px",
-                      }}
-                    />
-
-                    <Typography color="text.primary" mb={1}>
-                      Choose Service Item:
-                    </Typography>
-
-                    <Box mb={1}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={7}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <ServiceSearch
-                              getSearchfacility={getSearchfacility}
-                              clear={success}
-                              mode={billMode}
-                            />
-                            <input
-                              className="input is-small"
-                              value={productId}
-                              name="productId"
-                              type="text"
-                              onChange={e => setProductId(e.target.value)}
-                              placeholder="Product Id"
-                              style={{display: "none"}}
-                            />
-                            <Button
-                              variant="outlined"
-                              startIcon={<AddCircleOutlineIcon />}
-                              onClick={handleClickProd}
-                              sx={{
-                                marginTop: "10px",
-                                width: "50%",
-                                //textTransform: "capitalize",
-                              }}
-                            >
-                              Add
-                            </Button>
-                          </Box>
-                        </Grid>
-
-                        <Grid item xs={2}>
-                          <Input
-                            name="quantity"
-                            value={quantity}
-                            type="text"
-                            onChange={e => handleQtty(e)}
-                            label="Quantity"
-                          />
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Input
-                              name="qamount"
-                              disabled={changeAmount}
-                              value={calcamount}
-                              type="text"
-                              onChange={async e =>
-                                await setCalcAmount(e.target.value)
-                              }
-                              label="Amount"
-                            />
-
-                            <Button
-                              variant="contained"
-                              size="small"
-                              sx={{
-                                marginTop: "10px",
-                                //textTransform: "capitalize",
-                              }}
-                              disabled={
-                                user.currentEmployee?.roles.includes(
-                                  "Adjust Price"
-                                ) ||
-                                user.currentEmployee?.roles.length === 0 ||
-                                user.stacker
-                              }
-                              onClick={handleChangeAmount}
-                            >
-                              Adjust
-                            </Button>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    <Collapse in={productItem.length > 0}>
-                      <Box
+                      <Button
+                        variant='outlined'
+                        disabled={!productItem.length > 0}
+                        onClick={handleCreateBill}
                         sx={{
-                          width: "100%",
-                          maxHeight: "150px",
-                          overflowY: "auto",
+                          marginRight: '20px',
                         }}
                       >
-                        <CustomTable
-                          title={""}
-                          columns={productSchema}
-                          //data={dummyData}
-                          data={productItem}
-                          pointerOnHover
-                          highlightOnHover
-                          striped
-                          onRowClicked={row => onRowClicked(row)}
-                          progressPending={false}
-                        />
-                      </Box>
+                        Done
+                      </Button>
 
-                      <Box
-                        sx={{
-                          display: "flex",
-                          marginTop: "15px",
-                        }}
+                      <Button
+                        variant='contained'
+                        color='error'
+                        disabled={!productItem.length > 0}
+                        onClick={onSubmit}
                       >
-                        <Button
-                          variant="outlined"
-                          disabled={!productItem.length > 0}
-                          onClick={handleCreateBill}
-                          sx={{
-                            marginRight: "20px",
-                          }}
-                        >
-                          Done
-                        </Button>
-
-                        <Button
-                          variant="contained"
-                          color="error"
-                          disabled={!productItem.length > 0}
-                          onClick={onSubmit}
-                        >
-                          Clear
-                        </Button>
-                      </Box>
-                    </Collapse>
-                  </div>
-                )}
+                        Clear
+                      </Button>
+                    </Box>
+                  </Collapse>
+                </div>
               </div>
             </div>
           </form>
@@ -1069,25 +1076,25 @@ export default function BillServiceCreate() {
   );
 }
 
-export function ServiceSearch2({getSearchfacility, clear}) {
-  const productServ = client.service("billing");
+export function ServiceSearch2({ getSearchfacility, clear }) {
+  const productServ = client.service('billing');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
+  const [val, setVal] = useState('');
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
   const handleRow = async obj => {
@@ -1124,12 +1131,12 @@ export function ServiceSearch2({getSearchfacility, clear}) {
   };
   const handleSearch = async value => {
     setVal(value);
-    if (value === "") {
+    if (value === '') {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = "name"; //field variable
+    const field = 'name'; //field variable
 
     if (value.length >= 3) {
       productServ
@@ -1138,7 +1145,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
             //service
             [field]: {
               $regex: value,
-              $options: "i",
+              $options: 'i',
             },
             facility: user.currentEmployee.facilityDetail._id,
             //storeId: state.StoreModule.selectedStore._id,
@@ -1152,7 +1159,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
           //console.log("product  fetched successfully")
           //console.log(res.data)
           setFacilities(res.data);
-          setSearchMessage(" product  fetched successfully");
+          setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
         .catch(err => {
@@ -1177,23 +1184,23 @@ export function ServiceSearch2({getSearchfacility, clear}) {
   useEffect(() => {
     if (clear) {
       // console.log("success has changed",clear)
-      setSimpa("");
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
+      <div className='field'>
+        <div className='control has-icons-left  '>
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            className={`dropdown ${showPanel ? 'is-active' : ''}`}
+            style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className='dropdown-trigger' style={{ width: '100%' }}>
               <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Services"
+                className='input is-small  is-expanded'
+                type='text'
+                placeholder='Search Services'
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
@@ -1201,27 +1208,27 @@ export function ServiceSearch2({getSearchfacility, clear}) {
                 onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-search'></i>
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
-              <div className="dropdown-content">
+            <div className='dropdown-menu expanded' style={{ width: '100%' }}>
+              <div className='dropdown-content'>
                 {facilities.length > 0 ? (
-                  ""
+                  ''
                 ) : (
                   <div
-                    className="dropdown-item selectadd" /* onClick={handleAddproduct} */
+                    className='dropdown-item selectadd' /* onClick={handleAddproduct} */
                   >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
+                    {' '}
+                    <span> {val} is not in your inventory</span>{' '}
                   </div>
                 )}
 
                 {facilities.map((facility, i) => (
                   <div
-                    className="dropdown-item"
+                    className='dropdown-item'
                     key={facility._id}
                     onClick={() => handleRow(facility)}
                   >
@@ -1233,7 +1240,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
                         <strong>{facility.quantity}</strong>
                       </span>
                       <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
+                      <span className='padleft'>
                         <strong>Price:</strong> N{facility.sellingprice}
                       </span>
                     </div>

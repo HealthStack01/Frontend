@@ -593,7 +593,7 @@ export function BandDetail({showModifyModal}) {
           <ModalHeader text={"Client Details"} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <MdCancel
+          {/* <MdCancel
             onClick={() => {
               setShowModal(false),
                 setState(prevstate => ({
@@ -610,7 +610,7 @@ export function BandDetail({showModifyModal}) {
               cursor: "pointer",
               float: "right",
             }}
-          />
+          /> */}
         </Grid>
       </Grid>
       <Grid container spacing={2} mt={4}>

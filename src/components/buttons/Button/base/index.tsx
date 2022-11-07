@@ -9,6 +9,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   showicon?: boolean;
   icon?: string;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 const BaseButton: React.FC<ButtonProps> = ({
@@ -17,9 +18,10 @@ const BaseButton: React.FC<ButtonProps> = ({
   icon,
   children,
   loading,
+  disabled,
   ...props
 }) => (
-  <button {...props} disabled={loading}>
+  <button {...props} disabled={disabled}>
     {showicon ? <i className={icon} /> : null}
     {loading ? (
       <Spinner />
