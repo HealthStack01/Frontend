@@ -12,6 +12,7 @@ import { TableMenu } from "../../ui/styled/global";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
+import ModalBox from "../../components/modal";
 
 export default function CorporateClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -366,6 +367,16 @@ export function CorporateList() {
       inputType: "HIDDEN",
     },
     {
+      name: "Organization Name",
+      key: "facilityName",
+      description: "Organization Name",
+      selector: (row) => row?.organizationDetail?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
       name: "Band",
       key: "band",
       description: "Band",
@@ -379,7 +390,7 @@ export function CorporateList() {
       name: "Address",
       key: "address",
       description: "Address",
-      selector: (row) => row.facilityAddress,
+      selector: (row) => row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -389,7 +400,7 @@ export function CorporateList() {
       name: "City",
       key: "city",
       description: "City",
-      selector: (row) => row.facilityCity,
+      selector: (row) => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -399,7 +410,7 @@ export function CorporateList() {
       name: "Phone",
       key: "phone",
       description: "Phone",
-      selector: (row) => row.facilityContactPhone,
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
       inputType: "PHONE",
@@ -409,7 +420,7 @@ export function CorporateList() {
       name: "Email",
       key: "email",
       description: "Email",
-      selector: (row) => row.facilityEmail,
+      selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
       // inputType: "SELECT_LIST",
@@ -420,7 +431,7 @@ export function CorporateList() {
       name: "Email",
       key: "email",
       description: "Email",
-      selector: (row) => row.facilityEmail,
+      selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
       // inputType: "SELECT_LIST",
@@ -431,7 +442,7 @@ export function CorporateList() {
       name: "Type",
       key: "type",
       description: "johndoe@mail.com",
-      selector: (row) => row.facilityType,
+      selector: (row) => row?.organizationDetail?.facilityType,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -441,7 +452,7 @@ export function CorporateList() {
       name: "Category",
       key: "category",
       description: "Category",
-      selector: (row) => row.facilityCategory,
+      selector: (row) => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -451,7 +462,9 @@ export function CorporateList() {
   return (
     <>
       {" "}
-      <CorporateCreate />
+      <ModalBox>
+        <CorporateCreate />
+      </ModalBox>
       <div className="level">
         <PageWrapper
           style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
