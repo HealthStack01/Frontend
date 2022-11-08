@@ -9,12 +9,11 @@ import { toast } from "bulma-toast";
 import { formatDistanceToNowStrict, format } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Appointment/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
-
+import CustomTable from "../../components/customtable";
 import "react-datepicker/dist/react-datepicker.css";
 import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
 import { PageWrapper } from "../../ui/styled/styles";
@@ -283,7 +282,7 @@ export function PolicyList() {
       name: "Plan",
       key: "plan",
       description: "Plan",
-      selector: (row) => row.plan,
+      selector: (row) => row.plan.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -323,7 +322,7 @@ export function PolicyList() {
       name: "Pricipal Last Name",
       key: "principal",
       description: "Principal Last Name",
-      selector: (row) => row.lastname,
+      selector: (row) => row.principal.lastname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -333,7 +332,7 @@ export function PolicyList() {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: (row) => row.firstname,
+      selector: (row) => row.principal.firstname,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -343,7 +342,7 @@ export function PolicyList() {
       name: "Middle Name",
       key: "middlename",
       description: "Middle Name",
-      selector: (row) => row.middlename,
+      selector: (row) => row.principal.middlename,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -353,7 +352,7 @@ export function PolicyList() {
       name: "Phone",
       key: "phone",
       description: "Phone Number",
-      selector: (row) => row.phone,
+      selector: (row) => row.principal.phone,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -363,7 +362,7 @@ export function PolicyList() {
       name: "Email",
       key: "email",
       description: "simpa@email.com",
-      selector: (row) => row.email,
+      selector: (row) => row.principal.email,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -373,7 +372,7 @@ export function PolicyList() {
       name: "Tags",
       key: "tags",
       description: "Tags",
-      selector: (row) => row.clientTags,
+      selector: (row) => row.principal.clientTags,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -429,119 +428,6 @@ export function PolicyList() {
             />
           </div>
         </PageWrapper>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            List of Clients{" "}
-          </span>
-        </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="level-item">
-              <div
-                className="button is-success is-small"
-                onClick={handleCreateNew}
-              >
-                New
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="table-container pullup  vscrola" id="scrollableDiv">
-        <InfiniteScroll
-          dataLength={facilities.length}
-          next={getFacilities}
-          hasMore={total > facilities.length}
-          loader={<h4>Loading...</h4>}
-          scrollableTarget="scrollableDiv"
-        >
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Date Created ">Date Created </abbr>
-                </th>
-                <th>
-                  <abbr title="Sponsorship Type">Sponsorship Type </abbr>
-                </th>
-                <th>
-                  <abbr title="Plan">Plan </abbr>
-                </th>
-                <th>
-                  <abbr title="Premium">Premium </abbr>
-                </th>
-                <th>
-                  <abbr title="Paid">Paid </abbr>
-                </th>
-                <th>
-                  <abbr title="Active">Active </abbr>
-                </th>
-                <th>Principal Last Name</th>
-                <th>
-                  <abbr title="First Name">First Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Middle Name">Middle Name</abbr>
-                </th>
-                {/* <th><abbr title="Age">Payment Mode</abbr></th> */}
-
-                <th>
-                  <abbr title="Phone">Phone</abbr>
-                </th>
-                <th>
-                  <abbr title="Email">Email</abbr>
-                </th>
-                <th>
-                  <abbr title="Tags">Tags</abbr>
-                </th>
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facilities.map((Client, i) => (
-                <tr
-                  key={Client._id}
-                  onClick={() => handleRow(Client)}
-                  className={
-                    Client._id === (selectedClient?._id || null)
-                      ? "is-selected"
-                      : ""
-                  }
-                >
-                  <td>{i + 1}</td>
-                  <td>
-                    {Client.createdAt && (
-                      <>
-                        {formatDistanceToNowStrict(new Date(Client.createdAt))}{" "}
-                        {format(
-                          new Date(Client.createdAt),
-                          "dd-MM-yy HH:mm:ss"
-                        )}
-                      </>
-                    )}
-                  </td>
-                  <td>{Client.sponsorshipType}</td>
-                  <td>{Client.plan.name}</td>
-                  <td>{Client.premium}</td>
-                  <td>{Client.isPaid}</td>
-                  <td>{Client.active}</td>
-                  <th>{Client.principal.lastname}</th>
-                  <td>{Client.principal.firstname}</td>
-                  <td>{Client.principal.middlename}</td>
-                  <td>{Client.principal.phone}</td>
-                  <td>{Client.principal.email}</td>
-                  <td>{Client.principal.clientTags}</td>
-                  {/*  <td><span   className="showAction"  >...</span></td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </InfiniteScroll>
       </div>
     </>
   );
