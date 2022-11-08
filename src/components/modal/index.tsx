@@ -12,13 +12,12 @@ interface ModalProps {
   width?: 'string';
 }
 const style = {
-  minWidth: '800px',
+  minWidth: '400px',
   maxWidth: '95vw',
   minHeight: '200px',
 
   maxHeight: '95vh',
   bgcolor: '#FAFAFA',
-  boxShadow: 24,
   p: 4,
   borderRadius: '6px',
   overflow: 'hidden',
@@ -33,8 +32,8 @@ const ModalBox: React.FC<ModalProps> = ({
 }) => (
   <>
     <Modal
-      aria-labelledby='transition-modal-title'
-      aria-describedby='transition-modal-description'
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
       open={open}
       onClose={onClose}
       closeAfterTransition
