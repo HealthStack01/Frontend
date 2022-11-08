@@ -7,6 +7,9 @@ import { toast } from "bulma-toast";
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
 import { FacilitySearch } from "../helpers/FacilitySearch";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -446,9 +449,9 @@ export function OrganizationList() {
       {" "}
       <OrganizationCreate />
       <div className="level">
-        <PageWrapper>
+        <PageWrapper style={{flexDirection:"column" ,padding:"0.6rem 1rem"}}>
           <TableMenu>
-            <div>
+            <div style={{display:"flex",alignItems:"center"}}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
@@ -472,7 +475,7 @@ export function OrganizationList() {
           >
             <CustomTable
               title={""}
-              columns={BeneficiarySchema}
+              columns={HIASchema}
               data={facilities}
               pointerOnHover
               highlightOnHover

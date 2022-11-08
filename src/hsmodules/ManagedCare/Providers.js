@@ -7,7 +7,9 @@ import {toast} from "bulma-toast";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {FacilitySearch} from "../helpers/FacilitySearch";
-
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
 export default function OrganizationClient() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -443,15 +445,15 @@ export function OrganizationList() {
       {" "}
       <OrganizationCreate />
       <div className="level">
-      <PageWrapper>
+      <PageWrapper style={{flexDirection:"column" ,padding:"0.6rem 1rem"}}>
           <TableMenu>
-            <div>
+            <div style={{display:"flex",alignItems:"center"}}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2>List of Clients</h2>
+              <h2 style={{marginLeft:"10px",fontSize:"0.95rem"}}>List of Clients</h2>
             </div>
             {handleCreateNew && (
               <Button style={{ fontSize: "14px", fontWeight: "600px" }} />

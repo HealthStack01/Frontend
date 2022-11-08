@@ -1121,15 +1121,15 @@ export function ManagedServicesList() {
       {state.StoreModule.selectedStore ? (
         <>
           <div className="level">
-            <PageWrapper>
+            <PageWrapper style={{flexDirection:"column" ,padding:"0.6rem 1rem"}}>
               <TableMenu>
-                <div>
+                <div style={{display:"flex",alignItems:"center"}}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2>Services</h2>
+                  <h2 style={{marginLeft:"10px",fontSize:"0.95rem"}}>Services</h2>
                 </div>
                 {handleCreateNew && (
                   <Button style={{ fontSize: "14px", fontWeight: "600px" }} />

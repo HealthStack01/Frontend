@@ -1,15 +1,16 @@
 /* eslint-disable */
-import React, {  useState, useContext, useEffect, useRef  } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import {  DebounceInput  } from "react-debounce-input";
-import {  useForm  } from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {  UserContext, ObjectContext  } from "../../context";
-import {  toast  } from "bulma-toast";
-import {  formatDistanceToNowStrict  } from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
+import { AppointmentCreate } from "../Appointment/generalAppointment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
@@ -17,12 +18,17 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Beneficiary() {
-  const {  state  } = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -46,8 +52,8 @@ export default function Beneficiary() {
   );
 }
 
-export function ClientCreate({  closeModal  }) {
-  const {  register, handleSubmit, setValue, getValues, reset  } = useForm(); //, watch, errors, reset
+export function ClientCreate({ closeModal }) {
+  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -59,24 +65,24 @@ export function ClientCreate({  closeModal  }) {
   const ClientServ = client.service("client");
   const mpiServ = client.service("mpi");
   //const navigate=useNavigate()
-  const {  user  } = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
-  const {  state, setState  } = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   // eslint-disable-next-line
-  const getSearchfacility = ((obj)) => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
-  const handleDate = async ((date)) => {
+  const handleDate = async (date) => {
     setDate(date);
   };
   useEffect(() => {
@@ -170,7 +176,7 @@ export function ClientCreate({  closeModal  }) {
     }
   };
 
-  const checkQuery = ((query)) => {
+  const checkQuery = (query) => {
     setPatList([]);
     if (
       !(
@@ -179,8 +185,8 @@ export function ClientCreate({  closeModal  }) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({  query: query  })
-        .then(((res)) => {
+      ClientServ.find({ query: query })
+        .then((res) => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -189,7 +195,7 @@ export function ClientCreate({  closeModal  }) {
             return;
           }
         })
-        .catch(((err)) => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -202,7 +208,7 @@ export function ClientCreate({  closeModal  }) {
     setBillModal(false);
   };
 
-  const choosen = async ((client)) => {
+  const choosen = async (client) => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -221,7 +227,7 @@ export function ClientCreate({  closeModal  }) {
     //toast niotification
     //cash payment
   };
-  const dupl = ((client)) => {
+  const dupl = (client) => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -231,7 +237,7 @@ export function ClientCreate({  closeModal  }) {
     reset();
     setPatList([]);
   };
-  const reg = async ((client)) => {
+  const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
         (el) => el.facility === user.currentEmployee.facilityDetail._id
@@ -248,7 +254,7 @@ export function ClientCreate({  closeModal  }) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then(((resp)) => {
+        .then((resp) => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -256,7 +262,7 @@ export function ClientCreate({  closeModal  }) {
             pauseOnHover: true,
           });
         })
-        .catch(((err)) => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -270,7 +276,7 @@ export function ClientCreate({  closeModal  }) {
     setPatList([]);
     //cash payment
   };
-  const depen = ((client)) => {
+  const depen = (client) => {
     setDependant(true);
   };
   const onSubmit = async (data, e) => {
@@ -310,7 +316,7 @@ export function ClientCreate({  closeModal  }) {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-        .then(((res)) => {
+        .then((res) => {
           console.log(res);
           //console.log(JSON.stringify(res))
           e.target.reset();
@@ -353,13 +359,13 @@ export function ClientCreate({  closeModal  }) {
                     others:{},
                     show:'create'
                     }          */
-          setState(((prevstate)) => ({
+          setState((prevstate) => ({
             ...prevstate,
             Beneficiary: newClientModule,
           }));
           closeModal();
         })
-        .catch(((err)) => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -390,7 +396,7 @@ export function ClientCreate({  closeModal  }) {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", {  required: true  })}
+                      {...register("x", { required: true })}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -422,7 +428,7 @@ export function ClientCreate({  closeModal  }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", {  required: true  })}
+                      {...register("x", { required: true })}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -447,11 +453,10 @@ export function ClientCreate({  closeModal  }) {
                     <DatePicker
                       className="is-danger"
                       selected={date}
-                      onChange={((date)) => handleDate(date)}
+                      onChange={(date) => handleDate(date)}
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Enter date with dd/MM/yyyy format "
                       //isClearable
-                      // className="red-border is-small"
                     />
                   </p>
                 </div>
@@ -534,7 +539,7 @@ export function ClientCreate({  closeModal  }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", {  required: true  })}
+                      {...register("x", { required: true })}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -896,7 +901,7 @@ export function ClientCreate({  closeModal  }) {
 }
 
 export function BeneficiaryCreate() {
-  const {  register, handleSubmit, setValue, getValues, reset  } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -909,7 +914,7 @@ export function BeneficiaryCreate() {
   const policyServ = client.service("policy");
   //const navigate=useNavigate()
   const [chosen, setChosen] = useState("");
-  const {  user  } = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [clientModal, setClientModal] = useState(false);
   const [showCorp, setShowCorp] = useState(false);
@@ -927,7 +932,7 @@ export function BeneficiaryCreate() {
   const [date, setDate] = useState();
   const [type, setType] = useState("Sales ");
   const [chosenPlan, setChosenPlan] = useState();
-  const {  state, setState  } = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [documentNo, setDocumentNo] = useState("");
   const hMO = ["simpa", "dania"];
   const [benefittingPlans1, setBenefittingPlans1] = useState([]);
@@ -942,7 +947,7 @@ export function BeneficiaryCreate() {
             shouldDirty: true
         })
     } */
-  const handleDate = async ((date)) => {
+  const handleDate = async (date) => {
     setDate(date);
   };
 
@@ -960,13 +965,13 @@ export function BeneficiaryCreate() {
     return () => {};
   }, []);
 
-  const getSearchfacility = ((obj)) => {
+  const getSearchfacility = (obj) => {
     setChosen(obj);
     if (!obj) {
     }
   };
 
-  const getSearchfacility1 = ((obj)) => {
+  const getSearchfacility1 = (obj) => {
     setPlanHMO(obj);
     if (!obj) {
     }
@@ -996,20 +1001,20 @@ export function BeneficiaryCreate() {
             name: c.name,
             // checked:false
           };
-          await setBenefittingPlans1(((prev)) => prev.concat(c));
+          await setBenefittingPlans1((prev) => prev.concat(c));
         });
       }
     }
   };
 
-  const handleChangeMode = ((mode)) => {
+  const handleChangeMode = (mode) => {
     setMessage(mode);
     if (mode == "Corporate") {
       setShowCorp(true);
     }
   };
 
-  const handleChangePlan = async ((value)) => {
+  const handleChangePlan = async (value) => {
     console.log(value);
     if (value == "") {
       setPrice("");
@@ -1038,7 +1043,7 @@ export function BeneficiaryCreate() {
     console.log(state.Beneficiary);
   };
 
-  const choosen = async ((client)) => {
+  const choosen = async (client) => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -1057,7 +1062,7 @@ export function BeneficiaryCreate() {
     //toast niotification
     //cash payment
   };
-  const dupl = ((client)) => {
+  const dupl = (client) => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -1067,7 +1072,7 @@ export function BeneficiaryCreate() {
     reset();
     setPatList([]);
   };
-  const reg = async ((client)) => {
+  const reg = async (client) => {
     if (
       client.relatedfacilities.findIndex(
         (el) => el.facility === user.currentEmployee.facilityDetail._id
@@ -1084,7 +1089,7 @@ export function BeneficiaryCreate() {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then(((resp)) => {
+        .then((resp) => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -1092,7 +1097,7 @@ export function BeneficiaryCreate() {
             pauseOnHover: true,
           });
         })
-        .catch(((err)) => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -1106,7 +1111,7 @@ export function BeneficiaryCreate() {
     setPatList([]);
     //cash payment
   };
-  const depen = ((client)) => {
+  const depen = (client) => {
     setDependant(true);
   };
   //create productitem
@@ -1170,7 +1175,7 @@ export function BeneficiaryCreate() {
     console.log(document);
 
     //order
-    document.documentdetail.forEach(async ((element)) => {
+    document.documentdetail.forEach(async (element) => {
       let orderinfo = {
         //for reach document
         documentationId: "", //tbf
@@ -1251,7 +1256,7 @@ export function BeneficiaryCreate() {
         document,
         serviceList,
       })
-        .then(((res)) => {
+        .then((res) => {
           setSuccess(true);
           toast({
             message: "Billed Orders created succesfully",
@@ -1268,7 +1273,7 @@ export function BeneficiaryCreate() {
           const invoiceNo = random(6, "uppernumeric");
           setDocumentNo(invoiceNo);
         })
-        .catch(((err)) => {
+        .catch((err) => {
           toast({
             message: "Error creating Billed Orders " + err,
             type: "is-danger",
@@ -1356,7 +1361,7 @@ export function BeneficiaryCreate() {
 
       await policyServ
         .create(policy)
-        .then(((res)) => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           e.target.reset();
           /*  setMessage("Created Client successfully") */
@@ -1372,7 +1377,7 @@ export function BeneficiaryCreate() {
                   setDependant(false)
                   setDate() */
         })
-        .then(async ((res)) => {
+        .then(async (res) => {
           //  await setType("Sales")
           //    const today=new Date().toLocaleString()
           // await setDate(today)
@@ -1383,7 +1388,7 @@ export function BeneficiaryCreate() {
           // await createProductEntry()
           // await handleCreateBill()
         })
-        .catch(((err)) => {
+        .catch((err) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -1397,13 +1402,13 @@ export function BeneficiaryCreate() {
   };
 
   const handleClickProd = () => {
-    setState(((prevstate)) => ({  ...prevstate, currBeneficiary: "principal"  }));
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
     setDependant("principal");
     console.log(state.Beneficiary);
     setClientModal(true);
   };
   const handleClickProd2 = () => {
-    setState(((prevstate)) => ({  ...prevstate, currBeneficiary: "dependent"  }));
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
     setDependant("dependent");
     setClientModal(true);
   };
@@ -1415,7 +1420,7 @@ export function BeneficiaryCreate() {
     console.log(e);
   };
 
-  const handleRow = ((Client)) => {
+  const handleRow = (Client) => {
     //domething o
   };
   return (
@@ -1662,7 +1667,7 @@ export function BeneficiaryCreate() {
                 </div>
                 <div
                   className="field"
-                  style={!showCorp ? {  display: "none"  } : {}}
+                  style={!showCorp ? { display: "none" } : {}}
                 >
                   <label
                     className="label is-size-7 my-0"
@@ -1680,7 +1685,7 @@ export function BeneficiaryCreate() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{  display: "none"  }}
+                      style={{ display: "none" }}
                     >
                       <input
                         className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
@@ -1703,7 +1708,7 @@ export function BeneficiaryCreate() {
                 <div className="select is-small ">
                   <select
                     name="plan"
-                    {...register("x", {  required: true  })}
+                    {...register("x", { required: true })}
                     onChange={(e, i) => handleChangePlan(e.target.value)}
                     className="selectadd"
                   >
@@ -1947,38 +1952,39 @@ export function ClientList() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {  state, setState  } = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {  user, setUser  } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
       show: "create",
     };
-    await setState(((prevstate)) => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
   };
 
-  const handleRow = async ((Client)) => {
+  const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(((prevstate)) => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
   };
 
-  const handleSearch = ((val)) => {
+  const handleSearch = (val) => {
     // eslint-disable-next-line
     const field = "firstname";
     console.log(val);
@@ -2033,7 +2039,7 @@ export function ClientList() {
               $options: "i",
             },
           },
-          {  gender: val  },
+          { gender: val },
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -2043,13 +2049,13 @@ export function ClientList() {
         },
       },
     })
-      .then(((res)) => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(((err)) => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -2078,7 +2084,7 @@ export function ClientList() {
       await setTotal(findClient.total);
       //console.log(user.currentEmployee.facilityDetail._id, state)
       //console.log(facilities)
-      setPage(((page)) => page + 1);
+      setPage((page) => page + 1);
     } else {
       if (user.stacker) {
         const findClient = await ClientServ.find({
@@ -2108,10 +2114,10 @@ export function ClientList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", ((obj)) => rest());
-    ClientServ.on("updated", ((obj)) => rest());
-    ClientServ.on("patched", ((obj)) => rest());
-    ClientServ.on("removed", ((obj)) => rest());
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -2133,130 +2139,138 @@ export function ClientList() {
   }, [facilities]);
   //todo: pagination and vertical scroll bar
 
+  const BeneficiarySchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: (row) => row.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Midlle Name",
+      key: "middlename",
+      description: "Midlle Name",
+      selector: (row) => row.middlename,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Payment Mode",
+      key: "paymentmode",
+      description: "Payment Mode",
+      selector: (row) => row.paymentmode,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Age",
+      key: "dob",
+      description: "Age",
+      selector: (row) => row.dob,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Gender",
+      key: "gender",
+      description: "Male",
+      selector: (row) => row.gender,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+      options: ["Male", "Female"],
+    },
+
+    {
+      name: "Email",
+      key: "email",
+      description: "johndoe@mail.com",
+      selector: (row) => row.email,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+
+    {
+      name: "Tags",
+      key: "clientTags",
+      description: "Tags",
+      selector: (row) => row.clientTags,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
       <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Clients"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
+        <PageWrapper style={{flexDirection:"column" ,padding:"0.6rem 1rem"}}>
+          <TableMenu>
+            <div style={{display:"flex",alignItems:"center"}}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
+              )}
+              <h2 style={{marginLeft:"10px",fontSize:"0.95rem"}}>List of Clients</h2>
             </div>
-          </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            List of Clients{" "}
-          </span>
-        </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="level-item">
-              <div
-                className="button is-success is-small"
+            {handleCreateNew && (
+              <Button
+                style={{ fontSize: "14px", fontWeight: "600px" }}
+                label="Add New"
                 onClick={handleCreateNew}
-              >
-                New
-              </div>
-            </div>
+                showicon={true}
+              />
+            )}
+          </TableMenu>
+
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh-90px)",
+              overflow: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={BeneficiarySchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleCreateNew}
+              progressPending={loading}
+            />
           </div>
-        </div>
-      </div>
-      <div className="table-container pullup  vscrola" id="scrollableDiv">
-        <InfiniteScroll
-          dataLength={facilities.length}
-          next={getFacilities}
-          hasMore={total > facilities.length}
-          loader={<h4>Loading...</h4>}
-          scrollableTarget="scrollableDiv"
-        >
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Last Name">Last Name</abbr>
-                </th>
-                <th>First Name</th>
-                <th>
-                  <abbr title="Middle Name">Middle Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Age">Payment Mode</abbr>
-                </th>
-                <th>
-                  <abbr title="Age">Age</abbr>
-                </th>
-                <th>
-                  <abbr title="Gender">Gender</abbr>
-                </th>
-                <th>
-                  <abbr title="Phone">Phone</abbr>
-                </th>
-                <th>
-                  <abbr title="Email">Email</abbr>
-                </th>
-                <th>
-                  <abbr title="Tags">Tags</abbr>
-                </th>
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facilities.map((Client, i) => (
-                <tr
-                  key={Client._id}
-                  onClick={() => handleRow(Client)}
-                  className={
-                    Client._id === (selectedClient?._id || null)
-                      ? "is-selected"
-                      : ""
-                  }
-                >
-                  <td>{i + 1}</td>
-                  <th>{Client.lastname}</th>
-                  <td>{Client.firstname}</td>
-                  <td>{Client.middlename}</td>
-                  <td>
-                    {Client.paymentinfo.map((pay, i) => (
-                      <>
-                        {pay.paymentmode}{" "}
-                        {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-                        {pay.organizationName}
-                        <br></br>
-                      </>
-                    ))}
-                  </td>
-                  <td>
-                    {Client.dob && (
-                      <>{formatDistanceToNowStrict(new Date(Client.dob))}</>
-                    )}
-                  </td>
-                  <td>{Client.gender}</td>
-                  <td>{Client.phone}</td>
-                  <td>{Client.email}</td>
-                  <td>{Client.clientTags}</td>
-                  {/*  <td><span   className="showAction"  >...</span></td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </InfiniteScroll>
+        </PageWrapper>
       </div>
     </>
   );
@@ -2278,8 +2292,8 @@ export function ClientDetail() {
   const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
-  const {  user, setUser  } = useContext(UserContext);
-  const {  state, setState  } = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -2289,7 +2303,7 @@ export function ClientDetail() {
       selectedClient: Client,
       show: "modify",
     };
-    await setState(((prevstate)) => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -3001,7 +3015,7 @@ export function ClientDetail() {
 }
 
 export function ClientModify() {
-  const {  register, handleSubmit, setValue, reset  } = useForm(); //watch, errors,, errors
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -3012,8 +3026,8 @@ export function ClientModify() {
   const ClientServ = client.service("client");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {  user  } = useContext(UserContext);
-  const {  state, setState  } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
 
@@ -3123,7 +3137,7 @@ export function ClientModify() {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(((prevstate)) => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -3135,7 +3149,7 @@ export function ClientModify() {
       selectedClient: {},
       show: "create",
     };
-    setState(((prevstate)) => ({  ...prevstate, ClientModule: newClientModule  }));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
@@ -3144,7 +3158,7 @@ export function ClientModify() {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(((res)) => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -3161,7 +3175,7 @@ export function ClientModify() {
           });
           changeState();
         })
-        .catch(((err)) => {
+        .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -3187,7 +3201,7 @@ export function ClientModify() {
     //console.log(data);
 
     ClientServ.patch(Client._id, data)
-      .then(((res)) => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
@@ -3200,7 +3214,7 @@ export function ClientModify() {
 
         changeState();
       })
-      .catch(((err)) => {
+      .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -3701,7 +3715,7 @@ export function ClientModify() {
   );
 }
 
-export function InputSearch({  getSearchfacility, clear  }) {
+export function InputSearch({ getSearchfacility, clear }) {
   const ClientServ = client.service("client");
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
@@ -3719,7 +3733,7 @@ export function InputSearch({  getSearchfacility, clear  }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
 
-  const handleRow = async ((obj)) => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -3754,7 +3768,7 @@ export function InputSearch({  getSearchfacility, clear  }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async ((val)) => {
+  const handleSearch = async (val) => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -3771,13 +3785,13 @@ export function InputSearch({  getSearchfacility, clear  }) {
           },
         },
       })
-        .then(((res)) => {
+        .then((res) => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
-        .catch(((err)) => {
+        .catch((err) => {
           console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
