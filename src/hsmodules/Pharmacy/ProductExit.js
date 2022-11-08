@@ -500,7 +500,7 @@ export function ProductExitCreate({closeModal}) {
       <Box
         sx={{
           width: "780px",
-          height: "600px",
+          maxHeight: "600px",
           overflowY: "auto",
         }}
       >
@@ -1080,7 +1080,7 @@ export function ProductExitDetail() {
         container
         sx={{
           width: "700px",
-          height: "400px",
+          maxHeight: "500px",
           overflowY: "auto",
         }}
       >

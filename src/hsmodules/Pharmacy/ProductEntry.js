@@ -373,7 +373,7 @@ export function ProductEntryCreate({closeModal}) {
     <Box
       sx={{
         width: "780px",
-        height: "600px",
+        maxHeight: "600px",
         overflowY: "auto",
       }}
     >
@@ -1039,7 +1039,7 @@ export function ProductEntryDetail({openModifyModal}) {
       name: "Amount",
       key: "amount",
       description: "Enter amount",
-      selector: ProductEntry => ProductEntry.totalamount,
+      selector: ProductEntry => ProductEntry.amount,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -1054,8 +1054,8 @@ export function ProductEntryDetail({openModifyModal}) {
       <Box
         container
         sx={{
-          width: "700px",
-          height: "400px",
+          width: "750px",
+          maxHeight: "500px",
           overflowY: "auto",
         }}
       >
