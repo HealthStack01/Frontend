@@ -148,11 +148,14 @@ import CreatePassword from "./auth/CreatePassword";
 import ManagedCareHome from "./ManagedCare/ManagedCareHome";
 import Policy from "./ManagedCare/Policy";
 import Beneficiary from "./ManagedCare/Beneficiary";
+import ReferralsCollections from "./ManagedCare/Referral";
 import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
+import ClientBilledPrescription from "./ManagedCare/Claims";
+import { OrgList } from "./ManagedCare/OrgClientList";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -576,7 +579,14 @@ const AppRoutes = () => {
               path="/app/managed-care/dashboard"
               element={<ManagedCareFrontDashboard />}
             />
+            <Route
+              path="/app/managed-care/referrals"
+              element={<ReferralsCollections />}
+            />
+            <Route path="app/managed-care/claims" element={<ClientBilledPrescription/>}/>
+             <Route path="app/managed-care/organization" element={<OrgList/>}/>
           </Route>
+          
         </Route>
       </Routes>
     </>
