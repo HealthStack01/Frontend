@@ -15,7 +15,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Collections() {
+export default function ReferralsCollections() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState();
