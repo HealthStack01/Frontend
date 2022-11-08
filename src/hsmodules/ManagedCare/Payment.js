@@ -71,6 +71,7 @@ export function BillingList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
@@ -276,6 +277,56 @@ export function BillingList() {
     }
     return () => {};
   }, [state.financeModule.show]);
+
+  const PaymentSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "Date",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Description",
+      key: "name",
+      description: "Description",
+      selector: (row) => row.serviceInfo.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Status",
+      key: "billing_status",
+      description: "status",
+      selector: (row) => row.billing_status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Amount",
+      selector: (row) => row.serviceInfo.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
