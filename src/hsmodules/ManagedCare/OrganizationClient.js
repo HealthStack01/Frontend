@@ -9,6 +9,8 @@ import {UserContext, ObjectContext} from "../../context";
 import {FacilitySearch} from "../helpers/FacilitySearch";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
 export default function OrganizationClient() {
   const {state} = useContext(ObjectContext); //,setState
@@ -486,6 +488,7 @@ export function OrganizationList() {
    
     </>
   );
+          }
 
 
 export function OrganizationDetail() {
