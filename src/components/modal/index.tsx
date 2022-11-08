@@ -8,30 +8,16 @@ interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-<<<<<<< HEAD
-
-=======
->>>>>>> 6885055fc7fda850ebfda111755e01c95ca5d491
   header?: 'string';
   width?: 'string';
 }
 const style = {
-<<<<<<< HEAD
   minWidth: '400px',
   maxWidth: '95vw',
   minHeight: '200px',
 
   maxHeight: '95vh',
   bgcolor: '#FAFAFA',
-=======
-  minWidth: '800px',
-  maxWidth: '95vw',
-  minHeight: '200px',
->>>>>>> 6885055fc7fda850ebfda111755e01c95ca5d491
-
-  maxHeight: '95vh',
-  bgcolor: '#FAFAFA',
-  boxShadow: 24,
   p: 4,
   borderRadius: '6px',
   overflow: 'hidden',
@@ -46,8 +32,8 @@ const ModalBox: React.FC<ModalProps> = ({
 }) => (
   <>
     <Modal
-      aria-labelledby='transition-modal-title'
-      aria-describedby='transition-modal-description'
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
       open={open}
       onClose={onClose}
       closeAfterTransition
