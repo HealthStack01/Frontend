@@ -9,9 +9,11 @@ import { UserContext, ObjectContext } from "../../context";
 import { FacilitySearch } from "../helpers/FacilitySearch";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
+import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
 
-export default function OrganizationClient() {
+export default function HiaOrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
@@ -462,10 +464,13 @@ export function OrganizationList() {
               <h2>List of Clients</h2>
             </div>
             {handleCreateNew && (
-              <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
+              <Button
+                style={{ fontSize: "14px", fontWeight: "600px" }}
+                label="Add New"
+                onClick={handleCreateNew}
+                showicon={true}
+              />
             )}
-            label="Add New" onClick={handleCreateNew}
-            showicon={true}
           </TableMenu>
 
           <div

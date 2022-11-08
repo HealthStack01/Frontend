@@ -148,9 +148,10 @@ import CreatePassword from "./auth/CreatePassword";
 import ManagedCareHome from "./ManagedCare/ManagedCareHome";
 import Policy from "./ManagedCare/Policy";
 import Beneficiary from "./ManagedCare/Beneficiary";
-import OrganizationClient from "./ManagedCare/HIA";
+import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
+import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
 
 const moduleLocationTypes = {
@@ -561,11 +562,15 @@ const AppRoutes = () => {
             />
             <Route
               path="/app/managed-care/provider"
-              element={<OrganizationClient />}
+              element={<ProviderOrganizationClient />}
             />
             <Route
               path="/app/managed-care/corporate"
               element={<CorporateClient />}
+            />
+            <Route
+              path="/app/managed-care/HIA"
+              element={<HiaOrganizationClient />}
             />
             <Route
               path="/app/managed-care/dashboard"
