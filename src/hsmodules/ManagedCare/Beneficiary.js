@@ -1,23 +1,22 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {  useState, useContext, useEffect, useRef  } from "react";
 import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {  DebounceInput  } from "react-debounce-input";
+import {  useForm  } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict } from "date-fns";
+import {  UserContext, ObjectContext  } from "../../context";
+import {  toast  } from "bulma-toast";
+import {  formatDistanceToNowStrict  } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Appointment/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
+import {  OrgFacilitySearch, SponsorSearch  } from "../helpers/FacilitySearch";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -28,7 +27,7 @@ var random = require("random-string-generator");
 const searchfacility = {};
 
 export default function Beneficiary() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {  state  } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -52,8 +51,8 @@ export default function Beneficiary() {
   );
 }
 
-export function ClientCreate({ closeModal }) {
-  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
+export function ClientCreate({  closeModal  }) {
+  const {  register, handleSubmit, setValue, getValues, reset  } = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -82,7 +81,7 @@ export function ClientCreate({ closeModal }) {
     });
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async ((date)) => {
     setDate(date);
   };
   useEffect(() => {
@@ -176,7 +175,7 @@ export function ClientCreate({ closeModal }) {
     }
   };
 
-  const checkQuery = (query) => {
+  const checkQuery = ((query)) => {
     setPatList([]);
     if (
       !(
@@ -185,8 +184,8 @@ export function ClientCreate({ closeModal }) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({ query: query })
-        .then((res) => {
+      ClientServ.find({  query: query  })
+        .then(((res)) => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -195,7 +194,7 @@ export function ClientCreate({ closeModal }) {
             return;
           }
         })
-        .catch((err) => {
+        .catch(((err)) => {
           console.log(err);
         });
     }
@@ -208,7 +207,7 @@ export function ClientCreate({ closeModal }) {
     setBillModal(false);
   };
 
-  const choosen = async (client) => {
+  const choosen = async ((client)) => {
     //update client with facilities
     /*   if (client.facility !== user.currentEmployee.facilityDetail._id ){ //check taht it is not in list of related facilities
            
@@ -227,7 +226,7 @@ export function ClientCreate({ closeModal }) {
     //toast niotification
     //cash payment
   };
-  const dupl = (client) => {
+  const dupl = ((client)) => {
     toast({
       message: "Client previously registered in this facility",
       type: "is-danger",
@@ -254,7 +253,7 @@ export function ClientCreate({ closeModal }) {
       //console.log(newPat)
       await mpiServ
         .create(newPat)
-        .then((resp) => {
+        .then(((resp)) => {
           toast({
             message: "Client created succesfully",
             type: "is-success",
@@ -276,7 +275,7 @@ export function ClientCreate({ closeModal }) {
     setPatList([]);
     //cash payment
   };
-  const depen = (client) => {
+  const depen = ((client)) => {
     setDependant(true);
   };
   const onSubmit = async (data, e) => {
@@ -316,7 +315,7 @@ export function ClientCreate({ closeModal }) {
     if (confirm) {
       data.dob = date;
       await ClientServ.create(data)
-        .then((res) => {
+        .then(((res)) => {
           console.log(res);
           //console.log(JSON.stringify(res))
           e.target.reset();
@@ -359,13 +358,13 @@ export function ClientCreate({ closeModal }) {
                     others:{},
                     show:'create'
                     }          */
-          setState((prevstate) => ({
+          setState(((prevstate)) => ({
             ...prevstate,
             Beneficiary: newClientModule,
           }));
           closeModal();
         })
-        .catch((err) => {
+        .catch(((err)) => {
           toast({
             message: "Error creating Client " + err,
             type: "is-danger",
@@ -396,7 +395,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", { required: true })}
+                      {...register("x", {  required: true  })}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -428,7 +427,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", { required: true })}
+                      {...register("x", {  required: true  })}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -453,7 +452,7 @@ export function ClientCreate({ closeModal }) {
                     <DatePicker
                       className="is-danger"
                       selected={date}
-                      onChange={(date) => handleDate(date)}
+                      onChange={((date)) => handleDate(date)}
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Enter date with dd/MM/yyyy format "
                       //isClearable
@@ -540,7 +539,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", { required: true })}
+                      {...register("x", {  required: true  })}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -948,7 +947,7 @@ export function BeneficiaryCreate() {
             shouldDirty: true
         })
     } */
-  const handleDate = async (date) => {
+  const handleDate = async ((date)) => {
     setDate(date);
   };
 
@@ -966,13 +965,13 @@ export function BeneficiaryCreate() {
     return () => {};
   }, []);
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = ((obj)) => {
     setChosen(obj);
     if (!obj) {
     }
   };
 
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = ((obj)) => {
     setPlanHMO(obj);
     if (!obj) {
     }
@@ -1015,7 +1014,7 @@ export function BeneficiaryCreate() {
     }
   };
 
-  const handleChangePlan = async (value) => {
+  const handleChangePlan = async ((value)) => {
     console.log(value);
     if (value == "") {
       setPrice("");
@@ -2234,40 +2233,127 @@ export function ClientList() {
   return (
     <>
       <div className="level">
-        <PageWrapper>
-          <TableMenu>
-            <div>
-              {handleSearch && (
-                <div className="inner-table">
-                  <FilterMenu onSearch={handleSearch} />
-                </div>
-              )}
-              <h2>List of Clients</h2>
+        <div className="level-left">
+          <div className="level-item">
+            <div className="field">
+              <p className="control has-icons-left  ">
+                <DebounceInput
+                  className="input is-small "
+                  type="text"
+                  placeholder="Search Clients"
+                  minLength={3}
+                  debounceTimeout={400}
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-search"></i>
+                </span>
+              </p>
             </div>
-            {handleCreateNew && (
-              <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
-            )}
-            label="Add New" onClick={handleCreateNew}
-            showicon={true}
-          </TableMenu>
-
-          <div
-            style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
-            }}
-          >
-            <CustomTable title={""} 
-            columns={BeneficiarySchema}
-            data={facilities}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={handleCreateNew}
-            progressPending={loading}/>
           </div>
-        </PageWrapper>
+        </div>
+        <div className="level-item">
+          {" "}
+          <span className="is-size-6 has-text-weight-medium">
+            List of Clients{" "}
+          </span>
+        </div>
+        <div className="level-right">
+          <div className="level-item">
+            <div className="level-item">
+              <div
+                className="button is-success is-small"
+                onClick={handleCreateNew}
+              >
+                New
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="table-container pullup  vscrola" id="scrollableDiv">
+        <InfiniteScroll
+          dataLength={facilities.length}
+          next={getFacilities}
+          hasMore={total > facilities.length}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollableDiv"
+        >
+          <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
+            <thead>
+              <tr>
+                <th>
+                  <abbr title="Serial No">S/No</abbr>
+                </th>
+                <th>
+                  <abbr title="Last Name">Last Name</abbr>
+                </th>
+                <th>First Name</th>
+                <th>
+                  <abbr title="Middle Name">Middle Name</abbr>
+                </th>
+                <th>
+                  <abbr title="Age">Payment Mode</abbr>
+                </th>
+                <th>
+                  <abbr title="Age">Age</abbr>
+                </th>
+                <th>
+                  <abbr title="Gender">Gender</abbr>
+                </th>
+                <th>
+                  <abbr title="Phone">Phone</abbr>
+                </th>
+                <th>
+                  <abbr title="Email">Email</abbr>
+                </th>
+                <th>
+                  <abbr title="Tags">Tags</abbr>
+                </th>
+                {/* <th><abbr title="Actions">Actions</abbr></th> */}
+              </tr>
+            </thead>
+            <tfoot></tfoot>
+            <tbody>
+              {facilities.map((Client, i) => (
+                <tr
+                  key={Client._id}
+                  onClick={() => handleRow(Client)}
+                  className={
+                    Client._id === (selectedClient?._id || null)
+                      ? "is-selected"
+                      : ""
+                  }
+                >
+                  <td>{i + 1}</td>
+                  <th>{Client.lastname}</th>
+                  <td>{Client.firstname}</td>
+                  <td>{Client.middlename}</td>
+                  <td>
+                    {Client.paymentinfo.map((pay, i) => (
+                      <>
+                        {pay.paymentmode}{" "}
+                        {pay.paymentmode === "Cash" ? "" : ":"}{" "}
+                        {pay.organizationName}
+                        <br></br>
+                      </>
+                    ))}
+                  </td>
+                  <td>
+                    {Client.dob && (
+                      <>{formatDistanceToNowStrict(new Date(Client.dob))}</>
+                    )}
+                  </td>
+                  <td>{Client.gender}</td>
+                  <td>{Client.phone}</td>
+                  <td>{Client.email}</td>
+                  <td>{Client.clientTags}</td>
+                  {/*  <td><span   className="showAction"  >...</span></td> */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </InfiniteScroll>
       </div>
     </>
   );

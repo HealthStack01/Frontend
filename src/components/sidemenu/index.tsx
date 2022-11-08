@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MenuItem from "../menuitem";
-import {Lists} from "../menuitem/style";
-import {MainMenu, Sidemenu, TopSection} from "./styles";
+import { Lists } from "../menuitem/style";
+import { MainMenu, Sidemenu, TopSection } from "./styles";
 
 export const menuItems = [
   {
@@ -11,7 +11,7 @@ export const menuItems = [
     exact: true,
     to: "/app",
     iconClassName: "bi bi-house-door",
-    subMenus: [{name: "Dashboard", to: "/app/overview/dashboard"}],
+    subMenus: [{ name: "Dashboard", to: "/app/overview/dashboard" }],
   },
   {
     name: "Client",
@@ -19,9 +19,9 @@ export const menuItems = [
     to: "/app/clients",
     iconClassName: "bi bi-people",
     subMenus: [
-      {name: "Appointment", to: "/app/clients/appointments"},
-      {name: "Client", to: "/app/clients/clients"},
-      {name: "Dashboard", to: "/app/clients/dashboard"},
+      { name: "Appointment", to: "/app/clients/appointments" },
+      { name: "Client", to: "/app/clients/clients" },
+      { name: "Dashboard", to: "/app/clients/dashboard" },
     ],
   },
   {
@@ -30,9 +30,9 @@ export const menuItems = [
     to: "/app/clinic",
     iconClassName: "bi bi-file-medical",
     subMenus: [
-      {name: "Appointment", to: "/app/clinic/appointments"},
-      {name: "checkin", to: "/app/clinic/checkin"},
-      {name: "Dashboard", to: "/app/clinic/dashboard"},
+      { name: "Appointment", to: "/app/clinic/appointments" },
+      { name: "checkin", to: "/app/clinic/checkin" },
+      { name: "Dashboard", to: "/app/clinic/dashboard" },
     ],
   },
 
@@ -48,11 +48,11 @@ export const menuItems = [
     to: "/app/laboratory",
     iconClassName: "bi bi-binoculars",
     subMenus: [
-      {name: "Bill Client", to: "/app/laboratory/billclient"},
-      {name: "Bill Lab Orders", to: "/app/laboratory/billlaborders"},
-      {name: "Payment", to: "/app/laboratory/payment"},
-      {name: "Lab Result", to: "/app/laboratory/labresult"},
-      {name: "Dashboard", to: "/app/laboratory/dashboard"},
+      { name: "Bill Client", to: "/app/laboratory/billclient" },
+      { name: "Bill Lab Orders", to: "/app/laboratory/billlaborders" },
+      { name: "Payment", to: "/app/laboratory/payment" },
+      { name: "Lab Result", to: "/app/laboratory/labresult" },
+      { name: "Dashboard", to: "/app/laboratory/dashboard" },
     ],
   },
 
@@ -62,16 +62,16 @@ export const menuItems = [
     to: "/app/pharmacy",
     iconClassName: "bi bi-file-medical",
     subMenus: [
-      {name: "Bill Client", to: "/app/pharmacy/billclient"},
-      {name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription"},
-      {name: "Payment", to: "/app/pharmacy/payment"},
-      {name: "Dispensary", to: "/app/pharmacy/dispensary"},
-      {name: "Store Inventory", to: "/app/pharmacy/storeinventory"},
-      {name: "Product Entry", to: "/app/pharmacy/productentry"},
-      {name: "Issue Out", to: "/app/pharmacy/issueout"},
-      {name: "Requisiition", to: "/app/pharmacy/requisition"},
-      {name: "Transfer", to: "/app/pharmacy/transfer"},
-      {name: "Dashboard", to: "/app/pharmacy/dashboard"},
+      { name: "Bill Client", to: "/app/pharmacy/billclient" },
+      { name: "Bill Prescription Sent", to: "/app/pharmacy/billprescription" },
+      { name: "Payment", to: "/app/pharmacy/payment" },
+      { name: "Dispensary", to: "/app/pharmacy/dispensary" },
+      { name: "Store Inventory", to: "/app/pharmacy/storeinventory" },
+      { name: "Product Entry", to: "/app/pharmacy/productentry" },
+      { name: "Issue Out", to: "/app/pharmacy/issueout" },
+      { name: "Requisiition", to: "/app/pharmacy/requisition" },
+      { name: "Transfer", to: "/app/pharmacy/transfer" },
+      { name: "Dashboard", to: "/app/pharmacy/dashboard" },
     ],
   },
   {
@@ -80,13 +80,13 @@ export const menuItems = [
     to: "/app/finance",
     iconClassName: "bi bi-cash",
     subMenus: [
-      {name: "Bill Services", to: "/app/finance/billservices"},
-      {name: "Payment", to: "/app/finance/payment"},
-      {name: "Revenue", to: "/app/finance/revenue"},
-      {name: "Collections", to: "/app/finance/collections"},
-      {name: "Services", to: "/app/finance/services"},
-      {name: "HMO Authorization", to: "/app/finance/hmoauthorization"},
-      {name: "Dashboard", to: "/app/finance/dashboard"},
+      { name: "Bill Services", to: "/app/finance/billservices" },
+      { name: "Payment", to: "/app/finance/payment" },
+      { name: "Revenue", to: "/app/finance/revenue" },
+      { name: "Collections", to: "/app/finance/collections" },
+      { name: "Services", to: "/app/finance/services" },
+      { name: "HMO Authorization", to: "/app/finance/hmoauthorization" },
+      { name: "Dashboard", to: "/app/finance/dashboard" },
     ],
   },
   {
@@ -97,12 +97,12 @@ export const menuItems = [
     subMenus: [
       // {name: "Home", to: "/app/radiology"},
       // {name: "Radiology", to: "/app/radiology/radiology"},
-      {name: "Bill Client", to: "/app/radiology/billservice"},
-      {name: "Checked-In", to: "/app/radiology/checkedin"},
-      {name: "Appointment", to: "/app/radiology/appointments"},
-      {name: "Bill Lab Orders", to: "/app/radiology/radiology-bill"},
+      { name: "Bill Client", to: "/app/radiology/billservice" },
+      { name: "Checked-In", to: "/app/radiology/checkedin" },
+      { name: "Appointment", to: "/app/radiology/appointments" },
+      { name: "Bill Lab Orders", to: "/app/radiology/radiology-bill" },
       // {name: "Payment", to: "/app/radiology/payment"},
-      {name: "Lab Result", to: "/app/radiology/radiology-result"},
+      { name: "Lab Result", to: "/app/radiology/radiology-result" },
     ],
   },
   // {
@@ -121,10 +121,10 @@ export const menuItems = [
     to: "/app/admin",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Bands", to: "/app/admin/bands"},
-      {name: "Employees", to: "/app/admin/employees"},
-      {name: "Location", to: "/app/admin/location"},
-      {name: "Dashboard", to: "/app/admin/dashboard"},
+      { name: "Bands", to: "/app/admin/bands" },
+      { name: "Employees", to: "/app/admin/employees" },
+      { name: "Location", to: "/app/admin/location" },
+      { name: "Dashboard", to: "/app/admin/dashboard" },
     ],
   },
   {
@@ -133,16 +133,16 @@ export const menuItems = [
     to: "/app/inventory",
     iconClassName: "bi bi-file-medical",
     subMenus: [
-      {name: "Bill Client", to: "/app/inventory/billservice"},
-      {name: "Bill Prescription Sent", to: "/app/inventory/billprescription"},
-      {name: "Payment", to: "/app/inventory/payment"},
-      {name: "Dispensary", to: "/app/inventory/dispensary"},
-      {name: "Store Inventory", to: "/app/inventory/storeinventory"},
-      {name: "Product Entry", to: "/app/inventory/productentry"},
-      {name: "Issue Out", to: "/app/inventory/issueout"},
-      {name: "Requisiition", to: "/app/inventory/requisition"},
-      {name: "Transfer", to: "/app/inventory/transfer"},
-      {name: "Dashboard", to: "/app/inventory/dashboard"},
+      { name: "Bill Client", to: "/app/inventory/billservice" },
+      { name: "Bill Prescription Sent", to: "/app/inventory/billprescription" },
+      { name: "Payment", to: "/app/inventory/payment" },
+      { name: "Dispensary", to: "/app/inventory/dispensary" },
+      { name: "Store Inventory", to: "/app/inventory/storeinventory" },
+      { name: "Product Entry", to: "/app/inventory/productentry" },
+      { name: "Issue Out", to: "/app/inventory/issueout" },
+      { name: "Requisiition", to: "/app/inventory/requisition" },
+      { name: "Transfer", to: "/app/inventory/transfer" },
+      { name: "Dashboard", to: "/app/inventory/dashboard" },
     ],
   },
   {
@@ -151,10 +151,10 @@ export const menuItems = [
     to: "/app/communication",
     iconClassName: "bi bi-rss",
     subMenus: [
-      {name: "Channel", to: "/app/communication/channel"},
-      {name: "Questionnaires", to: "/app/communication/questionnaires"},
-      {name: "Configuration", to: "/app/communication/configuration"},
-      {name: "Submissions", to: "/app/communication/submissions"},
+      { name: "Channel", to: "/app/communication/channel" },
+      { name: "Questionnaires", to: "/app/communication/questionnaires" },
+      { name: "Configuration", to: "/app/communication/configuration" },
+      { name: "Submissions", to: "/app/communication/submissions" },
     ],
   },
   {
@@ -163,11 +163,11 @@ export const menuItems = [
     to: "/app/communication",
     iconClassName: "bi bi-rss",
     subMenus: [
-      {name: "Dashboard", to: "/app/epidemiology/dashboard"},
-      {name: "Case Definition", to: "/app/epidemiology/casedefinition"},
-      {name: "Signals", to: "/app/epidemiology/signal"},
-      {name: "Map", to: "/app/epidemiology/map"},
-      {name: "Dashboard", to: "/app/epidemiology/dashboard"},
+      { name: "Dashboard", to: "/app/epidemiology/dashboard" },
+      { name: "Case Definition", to: "/app/epidemiology/casedefinition" },
+      { name: "Signals", to: "/app/epidemiology/signal" },
+      { name: "Map", to: "/app/epidemiology/map" },
+      { name: "Dashboard", to: "/app/epidemiology/dashboard" },
     ],
   },
 
@@ -177,10 +177,10 @@ export const menuItems = [
     to: "/app/ward",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Admission", to: "/app/ward/admissions"},
-      {name: "In-Patient", to: "/app/ward/inpatients"},
-      {name: "Discharge", to: "/app/ward/discharge"},
-      {name: "Dashboard", to: "/app/ward/dashboard"},
+      { name: "Admission", to: "/app/ward/admissions" },
+      { name: "In-Patient", to: "/app/ward/inpatients" },
+      { name: "Discharge", to: "/app/ward/discharge" },
+      { name: "Dashboard", to: "/app/ward/dashboard" },
     ],
   },
   {
@@ -189,10 +189,10 @@ export const menuItems = [
     to: "/app/theatre",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Appointment", to: "/app/theatre/theatre-appointments"},
-      {name: "Check In", to: "/app/theatre/theatre-checkedin"},
-      {name: "Bill Client", to: "/app/theatre/billservice"},
-      {name: "Bill Order Sent", to: "/app/theatre/theatre-bill"},
+      { name: "Appointment", to: "/app/theatre/theatre-appointments" },
+      { name: "Check In", to: "/app/theatre/theatre-checkedin" },
+      { name: "Bill Client", to: "/app/theatre/billservice" },
+      { name: "Bill Order Sent", to: "/app/theatre/theatre-bill" },
     ],
   },
   {
@@ -230,14 +230,14 @@ export const menuItems = [
     to: "/app/crm",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Lead", to: "/app/crm/crm-lead"},
-      {name: "Invoice", to: "/app/managed-care/managedcare-beneficiary"},
-      {name: "Deal", to: "/app/managed-care/managedcare-checkin"},
-      {name: "Proposal", to: "/app/managed-care/managedcare-provider"},
-      {name: "SLA", to: "/app/managed-care/managedcare-complaints"},
-      {name: "Appointment", to: "/app/managed-care/managedcare-HIA"},
-      {name: "Dashboard", to: "/app/managed-care/managedcare-premiums"},
-          ],
+      { name: "Lead", to: "/app/crm/crm-lead" },
+      { name: "Invoice", to: "/app/managed-care/managedcare-beneficiary" },
+      { name: "Deal", to: "/app/managed-care/managedcare-checkin" },
+      { name: "Proposal", to: "/app/managed-care/managedcare-provider" },
+      { name: "SLA", to: "/app/managed-care/managedcare-complaints" },
+      { name: "Appointment", to: "/app/managed-care/managedcare-HIA" },
+      { name: "Dashboard", to: "/app/managed-care/managedcare-premiums" },
+    ],
   },
   {
     name: "Complaints",
@@ -245,8 +245,8 @@ export const menuItems = [
     to: "/app/complaints",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Complaints", to: "/app/complaints/complaints-complaints"},
-      ],
+      { name: "Complaints", to: "/app/complaints/complaints-complaints" },
+    ],
   },
   {
     name: "Referral",
@@ -254,11 +254,14 @@ export const menuItems = [
     to: "/app/referral",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Incoming", to: "/app/referral/referral-incoming"},
-      {name: "Outgoing", to: "/app/referral/referral-outgoing"},
-      {name: "Referral account", to: "/app/referral/referral-referral-account"},
-      {name: "Setting", to: "/app/referral/referral-setting"},
-      ],
+      { name: "Incoming", to: "/app/referral/referral-incoming" },
+      { name: "Outgoing", to: "/app/referral/referral-outgoing" },
+      {
+        name: "Referral account",
+        to: "/app/referral/referral-referral-account",
+      },
+      { name: "Setting", to: "/app/referral/referral-setting" },
+    ],
   },
   {
     name: "Communication",
@@ -280,12 +283,12 @@ export const menuItems = [
     to: "/app/patient-portal",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Profile", to: "/app/patient-portal/patientportal-profile"},
-      {name: "View", to: "/app/patient-portal/patientportal-view"},
-      {name: "Buy", to: "/app/patient-portal/patientportal-buy"},
-      {name: "Search", to: "/app/patient-portal/patientportal-search"},
-      {name: "Read", to: "/app/patient-portal/patientportal-read"},
-      {name: "Chat", to: "/app/patient-portal/patientportal-chat"},
+      { name: "Profile", to: "/app/patient-portal/patientportal-profile" },
+      { name: "View", to: "/app/patient-portal/patientportal-view" },
+      { name: "Buy", to: "/app/patient-portal/patientportal-buy" },
+      { name: "Search", to: "/app/patient-portal/patientportal-search" },
+      { name: "Read", to: "/app/patient-portal/patientportal-read" },
+      { name: "Chat", to: "/app/patient-portal/patientportal-chat" },
     ],
   },
   {
@@ -294,12 +297,15 @@ export const menuItems = [
     to: "/app/accounting",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Chart of accounts", to: "/app/accounting/accounting-chart-of-account"},
-      {name: "Account", to: "/app/accounting/accounting-account"},
-      {name: "Payment", to: "/app/accounting/accounting-payment"},
-      {name: "Expenses", to: "/app/accounting/accounting-expenses"},
-      {name: "Journal", to: "/app/accounting/accounting-journal"},
-      {name: "Report", to: "/app/accounting/accounting-report"},
+      {
+        name: "Chart of accounts",
+        to: "/app/accounting/accounting-chart-of-account",
+      },
+      { name: "Account", to: "/app/accounting/accounting-account" },
+      { name: "Payment", to: "/app/accounting/accounting-payment" },
+      { name: "Expenses", to: "/app/accounting/accounting-expenses" },
+      { name: "Journal", to: "/app/accounting/accounting-journal" },
+      { name: "Report", to: "/app/accounting/accounting-report" },
     ],
   },
   {
@@ -308,12 +314,18 @@ export const menuItems = [
     to: "/app/immunization",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Vaccine profile", to: "/app/immunization/immunization-vaccineprofile"},
-      {name: "Immunization schedule", to: "/app/immunization/immunization-immunization-sche"},
-      {name: "Inventory", to: "/app/immunization/immunization-inventory"},
-      {name: "Appointment", to: "/app/immunization/immunization-appointment"},
-      {name: "Checkin/out", to: "/app/immunization/immunization-checkin-out"},
-      {name: "Report", to: "/app/immunization/immunization-report"},
+      {
+        name: "Vaccine profile",
+        to: "/app/immunization/immunization-vaccineprofile",
+      },
+      {
+        name: "Immunization schedule",
+        to: "/app/immunization/immunization-immunization-sche",
+      },
+      { name: "Inventory", to: "/app/immunization/immunization-inventory" },
+      { name: "Appointment", to: "/app/immunization/immunization-appointment" },
+      { name: "Checkin/out", to: "/app/immunization/immunization-checkin-out" },
+      { name: "Report", to: "/app/immunization/immunization-report" },
     ],
   },
   {
@@ -322,9 +334,9 @@ export const menuItems = [
     to: "/app/blood-bank",
     iconClassName: "bi bi-person",
     subMenus: [
-      {name: "Inventory", to: "/app/blood-bank/bloodbank-inventory"},
-      {name: "Appointment", to: "/app/blood-bank/bloodbank-appointment"},
-      {name: "Lab", to: "/app/blood-bank/bloodbank-lab"},
+      { name: "Inventory", to: "/app/blood-bank/bloodbank-inventory" },
+      { name: "Appointment", to: "/app/blood-bank/bloodbank-appointment" },
+      { name: "Lab", to: "/app/blood-bank/bloodbank-lab" },
     ],
   },
   {
@@ -338,7 +350,7 @@ export const menuItems = [
   },
 ];
 
-function SideMenu({isOpen}) {
+function SideMenu({ isOpen }) {
   const [inactive, setInactive] = useState(false);
   const navigate = useNavigate();
 
@@ -353,11 +365,11 @@ function SideMenu({isOpen}) {
   useEffect(() => {
     const menuItems = document.querySelectorAll(".menu-item");
 
-    menuItems.forEach(el => {
+    menuItems.forEach((el) => {
       el.addEventListener("click", () => {
         const next = el.nextElementSibling;
         removeActiveClassFromSubMenu();
-        menuItems.forEach(el => el.classList.remove("active"));
+        menuItems.forEach((el) => el.classList.remove("active"));
         el.classList.toggle("active");
 
         if (next !== null) {

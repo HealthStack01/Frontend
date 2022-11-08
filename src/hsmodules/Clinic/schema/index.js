@@ -93,4 +93,33 @@ export const AppointmentSchema = [
   },
 ];
 
+export const clinicListSchema = [
+  {
+    name: 'S/N',
+    key: 'sn',
+    description: 'SN',
+    selector: (row) => row.sn,
+    sortable: true,
+    inputType: 'HIDDEN',
+  },
+  {
+    name: 'Name',
+    key: 'name',
+    description: 'Name',
+    selector: (row) => row.name,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+  {
+    name: 'Location',
+    key: 'location',
+    description: 'Location',
+    selector: (row) => row.locationType,
+    sortable: true,
+    required: true,
+    inputType: 'TEXT',
+  },
+];
+
 // TODO: Add a new  schema for Checkin
