@@ -3,7 +3,7 @@ import { Route, Switch, Link, NavLink } from 'react-router-dom';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'bulma-toast';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
@@ -19,38 +19,47 @@ import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { AppointmentSchema } from '../Clinic/schema';
 import { CustomButton } from '../../components/buttons/Button/base/styles';
-
+import ModalBox from './ui-components/modal';
+import ModalHeader from './ui-components/Heading/modalHeader';
+import { Box, Grid } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
 export default function ClinicCheckIn() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [checkinpage, setCheckinpage] = useState('checkin');
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="section remPadTop">
-      <div className="columns ">
-        <div className="column is-6">
-          {checkinpage === 'checkin' && (
-            <CheckIn pageView={checkinpage} setPageView={setCheckinpage} />
-          )}
-          {checkinpage === 'checkout' && (
-            <CheckOut pageView={checkinpage} setPageView={setCheckinpage} />
-          )}
-        </div>
-        <div className="column is-6 ">
-          {/* {state.ClientModule.show === 'List' && <CheckIn />}
-          {state.ClientModule.show === 'detail' && <ClientDetail />}
-           {state.ClientModule.show === 'modify' && ( 
-            <ClientModify Client={selectedClient} />
-          )}  */}
-        </div>
-      </div>
+    <section className='section remPadTop'>
+      {checkinpage === 'checkin' && (
+        <CheckIn
+          pageView={checkinpage}
+          setPageView={setCheckinpage}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
+      {checkinpage === 'checkout' && (
+        <CheckOut
+          pageView={checkinpage}
+          setPageView={setCheckinpage}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
+      {showModal && (
+        <ModalBox open={state.AppointmentModule.show === 'detail'}>
+          <CheckDetails showModal={showModal} setShowModal={setShowModal} />
+        </ModalBox>
+      )}
     </section>
   );
 }
 
-export function CheckIn({ pageView, setPageView }) {
+export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -77,7 +86,7 @@ export function CheckIn({ pageView, setPageView }) {
       selectedAppointment: {},
       show: 'create',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -86,23 +95,24 @@ export function CheckIn({ pageView, setPageView }) {
       selectedClient: {},
       show: 'create',
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
+    setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: 'detail',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = 'firstname';
     //  console.log(val)
 
@@ -193,13 +203,13 @@ export function CheckIn({ pageView, setPageView }) {
     }
 
     ClientServ.find({ query: query })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
@@ -252,15 +262,15 @@ export function CheckIn({ pageView, setPageView }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on('created', obj => handleCalendarClose());
+    ClientServ.on('updated', obj => handleCalendarClose());
+    ClientServ.on('patched', obj => handleCalendarClose());
+    ClientServ.on('removed', obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -285,7 +295,7 @@ export function CheckIn({ pageView, setPageView }) {
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -299,12 +309,12 @@ export function CheckIn({ pageView, setPageView }) {
     return () => {};
   }, [startDate]);
   //todo: pagination and vertical scroll bar
-  console.log(pageView);
+  console.log(pageView, facilities);
   return (
     <>
       {user ? (
         <>
-          <div className="level">
+          <div className='level'>
             <PageWrapper
               style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
@@ -317,7 +327,7 @@ export function CheckIn({ pageView, setPageView }) {
                   }}
                 >
                   {handleSearch && (
-                    <div className="inner-table">
+                    <div className='inner-table'>
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
@@ -479,7 +489,7 @@ export function CheckIn({ pageView, setPageView }) {
     </>
   );
 }
-export function CheckOut({ pageView, setPageView }) {
+export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -505,7 +515,7 @@ export function CheckOut({ pageView, setPageView }) {
       selectedAppointment: {},
       show: 'create',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -514,23 +524,24 @@ export function CheckOut({ pageView, setPageView }) {
       selectedClient: {},
       show: 'create',
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
+    setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: 'detail',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = 'firstname';
     //  console.log(val)
 
@@ -622,13 +633,13 @@ export function CheckOut({ pageView, setPageView }) {
     }
 
     ClientServ.find({ query: query })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
@@ -681,15 +692,15 @@ export function CheckOut({ pageView, setPageView }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on('created', obj => handleCalendarClose());
+    ClientServ.on('updated', obj => handleCalendarClose());
+    ClientServ.on('patched', obj => handleCalendarClose());
+    ClientServ.on('removed', obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: 'create',
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -714,7 +725,7 @@ export function CheckOut({ pageView, setPageView }) {
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -733,7 +744,7 @@ export function CheckOut({ pageView, setPageView }) {
     <>
       {user ? (
         <>
-          <div className="level">
+          <div className='level'>
             <PageWrapper
               style={{
                 flexDirection: 'column',
@@ -749,7 +760,7 @@ export function CheckOut({ pageView, setPageView }) {
                   }}
                 >
                   {handleSearch && (
-                    <div className="inner-table">
+                    <div className='inner-table'>
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
@@ -787,6 +798,292 @@ export function CheckOut({ pageView, setPageView }) {
       ) : (
         <div>loading</div>
       )}
+    </>
+  );
+}
+export function CheckDetails({ showModal, setShowModal }) {
+  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+  // eslint-disable-next-line
+  const navigate = useNavigate();
+
+  const [error, setError] = useState(false); //,
+  //const [success, setSuccess] =useState(false)
+  // eslint-disable-next-line
+  const [message, setMessage] = useState(''); //,
+  //const ClientServ=client.service('/Client')
+  //const navigate=useNavigate()
+  //const {user,setUser} = useContext(UserContext)
+  const { state, setState } = useContext(ObjectContext);
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+
+  const Client = state.AppointmentModule.selectedAppointment;
+  //const client=Client
+  const handleEdit = async () => {
+    const newClientModule = {
+      selectedAppointment: Client,
+      show: 'modify',
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      AppointmentModule: newClientModule,
+    }));
+    //console.log(state)
+  };
+
+  return (
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <ModalHeader text={'Client Details'} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MdCancel
+            onClick={() => {
+              setShowModal(false);
+              setState(prevstate => ({
+                ...prevstate,
+                AppointmentModule: {
+                  selectedAppointment: {},
+                  show: 'list',
+                },
+              }));
+            }}
+            style={{
+              fontSize: '2rem',
+              color: 'crimson',
+              cursor: 'pointer',
+              float: 'right',
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={1}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            First Name:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client?.firstname}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Middle Name:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client?.middlename}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Last Name:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client?.lastname}
+          </span>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Age:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {formatDistanceToNowStrict(new Date(Client.dob))}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Gender:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.gender}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Phone No:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.phone}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2} mb={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Email:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.email}
+          </span>
+        </Grid>
+      </Grid>
+      <hr />
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Start Time:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Location:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {`${Client.location_name} (${Client.location_type})`}
+          </span>
+        </Grid>
+
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Professional:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Status:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_status}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Class:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointmentClass}
+          </span>
+        </Grid>
+
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Type:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_type}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={12}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Reason for Appointment:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_reason}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={4}>
+        <Grid item xs={12} sm={3} md={4}>
+          <Button
+            onClick={handleEdit}
+            style={{
+              width: '100%',
+              backgroundColor: '#17935C',
+              fontSize: '18px',
+            }}
+          >
+            Edit Appointment Details
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 }
