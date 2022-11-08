@@ -242,12 +242,12 @@ export const menuItems = [
     iconClassName: "bi bi-person",
     subMenus: [
       { name: "Lead", to: "/app/crm/crm-lead" },
-      { name: "Invoice", to: "/app/managed-care/managedcare-beneficiary" },
-      { name: "Deal", to: "/app/managed-care/managedcare-checkin" },
-      { name: "Proposal", to: "/app/managed-care/managedcare-provider" },
-      { name: "SLA", to: "/app/managed-care/managedcare-complaints" },
-      { name: "Appointment", to: "/app/managed-care/managedcare-HIA" },
-      { name: "Dashboard", to: "/app/managed-care/managedcare-premiums" },
+      { name: "Invoice", to: "/app/crm/beneficiary" },
+      { name: "Deal", to: "/app/crm/checkin" },
+      { name: "Proposal", to: "/app/crm/provider" },
+      { name: "SLA", to: "/app/crm/complaints" },
+      { name: "Appointment", to: "/app/crm/HIA" },
+      { name: "Dashboard", to: "/app/crm/premiums" },
     ],
   },
   {
@@ -265,13 +265,13 @@ export const menuItems = [
     to: "/app/referral",
     iconClassName: "bi bi-person",
     subMenus: [
-      { name: "Incoming", to: "/app/referral/referral-incoming" },
-      { name: "Outgoing", to: "/app/referral/referral-outgoing" },
+      { name: "Incoming", to: "/app/referral/incoming" },
+      { name: "Outgoing", to: "/app/referral/outgoing" },
       {
         name: "Referral account",
-        to: "/app/referral/referral-referral-account",
+        to: "/app/referral/referral-account",
       },
-      { name: "Setting", to: "/app/referral/referral-setting" },
+      { name: "Setting", to: "/app/referral/setting" },
     ],
   },
   {
@@ -280,11 +280,11 @@ export const menuItems = [
     to: "/app/communication",
     iconClassName: "bi bi-person",
     subMenus: [
-      { name: "Whatsapp", to: "/app/communication/communication-whatsapp" },
-      { name: "SMS", to: "/app/communication/communication-sms" },
-      { name: "USSD", to: "/app/communication/communication-ussd" },
-      { name: "Email", to: "/app/communication/communication-email" },
-      { name: "IVR", to: "/app/communication/communication-ivr" },
+      { name: "Whatsapp", to: "/app/communication/whatsapp" },
+      { name: "SMS", to: "/app/communication/sms" },
+      { name: "USSD", to: "/app/communication/ussd" },
+      { name: "Email", to: "/app/communication/email" },
+      { name: "IVR", to: "/app/communication/ivr" },
     ],
   },
   {
@@ -293,12 +293,12 @@ export const menuItems = [
     to: "/app/patient-portal",
     iconClassName: "bi bi-person",
     subMenus: [
-      { name: "Profile", to: "/app/patient-portal/patientportal-profile" },
-      { name: "View", to: "/app/patient-portal/patientportal-view" },
-      { name: "Buy", to: "/app/patient-portal/patientportal-buy" },
-      { name: "Search", to: "/app/patient-portal/patientportal-search" },
-      { name: "Read", to: "/app/patient-portal/patientportal-read" },
-      { name: "Chat", to: "/app/patient-portal/patientportal-chat" },
+      { name: "Profile", to: "/app/patient-portal/profile" },
+      { name: "View", to: "/app/patient-portal/view" },
+      { name: "Buy", to: "/app/patient-portal/buy" },
+      { name: "Search", to: "/app/patient-portal/search" },
+      { name: "Read", to: "/app/patient-portal/read" },
+      { name: "Chat", to: "/app/patient-portal/chat" },
     ],
   },
   {
@@ -309,13 +309,13 @@ export const menuItems = [
     subMenus: [
       {
         name: "Chart of accounts",
-        to: "/app/accounting/accounting-chart-of-account",
+        to: "/app/accounting/chart-of-account",
       },
-      { name: "Account", to: "/app/accounting/accounting-account" },
-      { name: "Payment", to: "/app/accounting/accounting-payment" },
-      { name: "Expenses", to: "/app/accounting/accounting-expenses" },
-      { name: "Journal", to: "/app/accounting/accounting-journal" },
-      { name: "Report", to: "/app/accounting/accounting-report" },
+      { name: "Account", to: "/app/accounting/account" },
+      { name: "Payment", to: "/app/accounting/payment" },
+      { name: "Expenses", to: "/app/accounting/expenses" },
+      { name: "Journal", to: "/app/accounting/journal" },
+      { name: "Report", to: "/app/accounting/report" },
     ],
   },
   {
@@ -326,16 +326,16 @@ export const menuItems = [
     subMenus: [
       {
         name: "Vaccine profile",
-        to: "/app/immunization/immunization-vaccineprofile",
+        to: "/app/immunization/vaccineprofile",
       },
       {
         name: "Immunization schedule",
-        to: "/app/immunization/immunization-immunization-sche",
+        to: "/app/immunization/immunization-sche",
       },
-      { name: "Inventory", to: "/app/immunization/immunization-inventory" },
-      { name: "Appointment", to: "/app/immunization/immunization-appointment" },
-      { name: "Checkin/out", to: "/app/immunization/immunization-checkin-out" },
-      { name: "Report", to: "/app/immunization/immunization-report" },
+      { name: "Inventory", to: "/app/immunization/inventory" },
+      { name: "Appointment", to: "/app/immunization/appointment" },
+      { name: "Checkin/out", to: "/app/immunization/checkin-out" },
+      { name: "Report", to: "/app/immunization/report" },
     ],
   },
   {
@@ -344,9 +344,9 @@ export const menuItems = [
     to: "/app/blood-bank",
     iconClassName: "bi bi-person",
     subMenus: [
-      { name: "Inventory", to: "/app/blood-bank/bloodbank-inventory" },
-      { name: "Appointment", to: "/app/blood-bank/bloodbank-appointment" },
-      { name: "Lab", to: "/app/blood-bank/bloodbank-lab" },
+      { name: "Inventory", to: "/app/blood-bank/inventory" },
+      { name: "Appointment", to: "/app/blood-bank/appointment" },
+      { name: "Lab", to: "/app/blood-bank/lab" },
     ],
   },
   {
