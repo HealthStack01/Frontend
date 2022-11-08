@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
@@ -161,7 +160,6 @@ export function BandCreate({ open, setOpen }) {
         <div className="card-header"></div>
         <div className="card-content vscrollable">
           <BandForm open={open} setOpen={setOpen} />
-   
         </div>
       </div>
     </>
@@ -285,14 +283,12 @@ export function BandList({ showCreateModal }) {
         await setFacilities(findBand.data);
       }
     }
- 
   };
 
   useEffect(() => {
     if (user) {
       getFacilities();
     } else {
-    
     }
     BandServ.on("created", (obj) => getFacilities());
     BandServ.on("updated", (obj) => getFacilities());

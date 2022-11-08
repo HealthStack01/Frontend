@@ -5,28 +5,46 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import BasicDatePicker from '../../components/inputs/Date';
+import { Box } from '@mui/material';
 import ViewText from '../../components/viewtext';
-import { UserContext } from '../../context';
+import CustomTable from './ui-components/customtable';
 import client from '../../feathers';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { UserContext, ObjectContext } from '../../context';
 
 import {
   BottomWrapper,
   DetailsWrapper,
   GrayWrapper,
+  GridBox,
   GridWrapper,
   HeadWrapper,
   PageWrapper,
+  ViewBox,
 } from '../app/styles';
 import dayjs from 'dayjs';
 import { createClientSchema } from './schema';
-import ModalBox from '../../components/new-modal';
+import ModalBox from '../../components/modal';
+import { Checkbox } from '../../components/switch/styles';
+import CheckboxInput from '../../components/inputs/basic/Checkbox';
+import { ClientSearch } from '../helpers/ClientSearch';
+import DataTable from 'react-data-table-component';
+import { customStyles } from '../../components/customtable/styles';
+import BillServiceCreate from '../Finance/BillServiceCreate';
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service('client');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openFinance, setOpenFinance] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [active, setActive] = useState('');
+  const [chosen, setChosen] = useState();
+  const [clientId, setClientId] = useState();
+  const [billService, setBillService] = useState(false);
+
+  const { state, setState } = useContext(ObjectContext);
+
   const result = localStorage.getItem('user');
   const data = JSON.parse(result);
 
@@ -46,10 +64,14 @@ const ClientView = ({ open, setOpen, user }) => {
       phone: user?.phone,
       email: user?.email,
       facility: data?.currentEmployee.facility,
+      gender: user?.gender,
+      maritalstatus: user?.maritalstatus,
+      mrn: user?.mrn,
+      religion: user?.religion,
+      profession: user?.profession,
+      clientTags: user?.clientTags,
     },
   });
-
-  console.log('Selected User>>>>>>', user);
 
   useEffect(() => {
     reset({
@@ -60,8 +82,21 @@ const ClientView = ({ open, setOpen, user }) => {
       phone: user.phone,
       email: user.email,
       facility: data.currentEmployee.facility,
+      gender: user?.gender,
+      maritalstatus: user?.maritalstatus,
+      mrn: user?.mrn,
+      religion: user?.religion,
+      profession: user?.profession,
+      clientTags: user?.clientTags,
     });
   }, []);
+
+  const handleFinance = async () => {
+    // setLoading(true);
+    // e.preventDefault();
+    // setSuccess(false);
+    setOpenFinance(true);
+  };
 
   const handleDelete = async () => {
     let conf = window.confirm('Are you sure you want to delete this data?');
@@ -77,7 +112,16 @@ const ClientView = ({ open, setOpen, user }) => {
         });
     }
   };
-
+  const getSearchfacility = obj => {
+    setClientId(obj._id);
+    setChosen(obj);
+    //handleRow(obj)
+    if (!obj) {
+      //"clear stuff"
+      setClientId();
+      setChosen();
+    }
+  };
   const submit = async (data, e) => {
     setLoading(true);
     e.preventDefault();
@@ -98,9 +142,122 @@ const ClientView = ({ open, setOpen, user }) => {
     setLoading(false);
   };
 
+  const handleBillClient = async () => {
+    const newProductEntryModule = {
+      selectedDispense: {},
+      show: 'create',
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      DispenseModule: newProductEntryModule,
+    }));
+
+    await setBillService(true);
+  };
+
+  const ClientFinanceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: row => row.sn,
+      sortable: true,
+    },
+    {
+      name: 'Type',
+      key: 'type',
+      description: ' Type',
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: 'Principal',
+      key: 'name',
+      description: 'Principal',
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: 'Organization',
+      key: 'organization',
+      description: 'age',
+      selector: row => row.organization,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: 'Gender',
+      key: 'gender',
+      description: 'Gender',
+      selector: row => row.gender,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: 'HMO Agenst',
+      key: 'agent',
+      description: 'Agent',
+      selector: row => row.agent,
+      sortable: true,
+      required: true,
+    },
+  ];
+
   return (
     <PageWrapper>
-      <GrayWrapper>
+      <ModalBox
+        open={openFinance}
+        onClose={() => setOpenFinance(false)}
+        header='Financial Information'
+      >
+        <GrayWrapper>
+          <CustomSelect
+            options={[
+              'Payment Mode',
+              'HMO Cover',
+              'Family Cover',
+              'Company Cover',
+            ]}
+          />
+          <ClientSearch getSearchfacility={getSearchfacility} clear={success} />
+          <Input label='Plan' register={register('plan')} />
+          <Box
+            sx={{
+              justifyContent: 'space-between',
+              width: '50px',
+              display: 'flex',
+              gap: '4px',
+            }}
+          >
+            <input
+              type='checkbox'
+              name='Active'
+              value={active}
+              onChange={e => {
+                setActive(e.target.value);
+              }}
+              placeholder='Active'
+            />
+            <label>Active</label>
+          </Box>
+          <Button label='Add' background='#FFE9E9' color='#ED0423' />
+          <DataTable
+            title='Clients'
+            columns={ClientFinanceSchema}
+            customStyles={customStyles}
+
+            // data={users}
+          />
+        </GrayWrapper>
+      </ModalBox>
+
+      <div style={{ height: '100%', overflowY: 'scroll' }}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>
@@ -127,7 +284,11 @@ const ClientView = ({ open, setOpen, user }) => {
                 setEditing(!editing);
               }}
             />
-            <Button>Bill Client</Button>
+
+            {/*********************************** IMPLEMENT BILL CLIENT MODAL************************************** */}
+
+            <Button onClick={handleBillClient}>Bill Client</Button>
+            <Button onClick={handleFinance}> Financial Information</Button>
           </BottomWrapper>
         </HeadWrapper>
         <form onSubmit={handleSubmit(submit)}>
@@ -135,14 +296,16 @@ const ClientView = ({ open, setOpen, user }) => {
 
           {/* Names Section */}
 
-          <DetailsWrapper title='Names'>
-            <GridWrapper>
+          <ViewBox>
+            <h2>Names</h2>
+            <GridBox>
               {!editing ? (
                 <ViewText label='First Name' text={user?.firstname} />
               ) : (
                 <Input
                   label='First Name'
                   register={register('firstname')}
+                  defaultValue={user?.firstname}
                   errorText={errors?.firstname?.message}
                 />
               )}
@@ -150,9 +313,10 @@ const ClientView = ({ open, setOpen, user }) => {
                 <ViewText label='Middle Name' text={user?.middlename} />
               ) : (
                 <Input
-                  label='Midle Name'
+                  label='Middle Name'
                   register={register('middlename')}
                   errorText={errors?.middlename?.message}
+                  defaultValue={user?.middlename}
                 />
               )}
               {!editing ? (
@@ -162,6 +326,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label='Last Name'
                   register={register('lastname', { required: true })}
                   errorText={errors?.lastname?.message}
+                  defaultValue={user?.lastnames}
                 />
               )}
               {!editing ? (
@@ -177,18 +342,21 @@ const ClientView = ({ open, setOpen, user }) => {
                   // errorText={errors?.dob?.message}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Biodata Section */}
 
-          <DetailsWrapper title='Biodata'>
-            <GridWrapper>
+          <ViewBox>
+            <h2>Biodata</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label='Gender' text={user?.gender} />
               ) : (
                 <CustomSelect
                   label='Gender'
                   register={register('gender')}
+                  defaultValue={user?.gender}
                   options={[
                     { label: 'Male', value: 'male' },
                     { label: 'Female', value: 'female' },
@@ -202,6 +370,8 @@ const ClientView = ({ open, setOpen, user }) => {
                 <CustomSelect
                   label='Marital Status'
                   register={register('maritalstatus')}
+                  defaultValue={user?.maritalstatus}
+                  s
                   options={[
                     { label: 'Single', value: 'single' },
                     { label: 'Married', value: 'married' },
@@ -215,18 +385,27 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label='Medical record Number'
                   register={register('mrn')}
+                  defaultValue={user?.mrn}
                 />
               )}
               {!editing ? (
                 <ViewText label='Religion' text={user?.religion} />
               ) : (
-                <Input label='Religion' register={register('religion')} />
+                <Input
+                  label='Religion'
+                  register={register('religion')}
+                  defaultValue={user?.religion}
+                />
               )}
 
               {!editing ? (
                 <ViewText label='Profession' text={user?.profession} />
               ) : (
-                <Input label='Profession' register={register('profession')} />
+                <Input
+                  label='Profession'
+                  register={register('profession')}
+                  defaultValue={user?.profession}
+                />
               )}
               {!editing ? (
                 <ViewText label='Phone Number' text={user?.phone} />
@@ -235,6 +414,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label='Phone Number'
                   register={register('phone')}
                   type='tel'
+                  defaultValue={user?.phone}
                 />
               )}
               {!editing ? (
@@ -244,6 +424,7 @@ const ClientView = ({ open, setOpen, user }) => {
                   label='Email'
                   register={register('email')}
                   type='email'
+                  defaultValue={user?.email}
                 />
               )}
               {!editing ? (
@@ -252,14 +433,16 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label='Tags'
                   register={register('clientTags')}
-                  type='email'
+                  defaultValue={user?.clientTags}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Address */}
-          <DetailsWrapper title='Address'>
-            <GridWrapper>
+          <ViewBox>
+            <h2>Addresses</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label='Residential Address' text={user?.address} />
               ) : (
@@ -294,11 +477,13 @@ const ClientView = ({ open, setOpen, user }) => {
               ) : (
                 <Input label='Country' register={register('country')} />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Medical Data */}
-          <DetailsWrapper title='Medical Data'>
-            <GridWrapper>
+          <ViewBox>
+            <h2>Medical Data</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label='Blood Group' text={user?.bloodgroup} />
               ) : (
@@ -342,11 +527,13 @@ const ClientView = ({ open, setOpen, user }) => {
                   register={register('specificDetails')}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {/* Next of Kin Information */}
-          <DetailsWrapper title='Next of Kin Information'>
-            <GridWrapper>
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
+
+            <GridBox>
               {!editing ? (
                 <ViewText label='Next of Kin Full Name' text={user?.nok_name} />
               ) : (
@@ -406,15 +593,23 @@ const ClientView = ({ open, setOpen, user }) => {
                   register={register('specificDetails')}
                 />
               )}
-            </GridWrapper>
-          </DetailsWrapper>
+            </GridBox>
+          </ViewBox>
           {editing && (
             <BottomWrapper>
               <Button label='Save Form' type='submit' loading={loading} />
             </BottomWrapper>
           )}
         </form>
-      </GrayWrapper>
+      </div>
+
+      <ModalBox
+        open={billService}
+        onClose={() => setBillService(false)}
+        header='Bill Client/Service'
+      >
+        <BillServiceCreate />
+      </ModalBox>
     </PageWrapper>
   );
 };

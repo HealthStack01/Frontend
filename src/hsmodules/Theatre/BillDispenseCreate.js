@@ -371,7 +371,7 @@ export default function BillDispenseCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* {...register} */ name="documentNo"
+                      /* ref={register} */ name="documentNo"
                       value={documentNo}
                       type="text"
                       onChange={e => setDocumentNo(e.target.value)}

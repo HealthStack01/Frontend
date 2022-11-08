@@ -1,14 +1,15 @@
-import {FormHelperText} from "@mui/material";
-import React from "react";
+import { FormHelperText } from '@mui/material';
+import React from 'react';
 
-import {InputBox, InputField, InputLabel} from "./styles";
+import { InputBox, InputField, InputLabel } from './styles';
+
 
 interface InputProps {
   label?: string;
   inputId?: string;
   errors?: boolean;
   errorText?: string;
-  onChange?: (_: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (_) => void;
   helperText?: string;
   name?: string;
@@ -16,12 +17,13 @@ interface InputProps {
   defaultValue?: string;
   value?: any;
   placeholder?: string;
-  size?: "small" | "medium";
+  size?: 'small' | 'medium';
   disabled?: boolean;
   inputRef?: any;
   register?: any;
   onBlur?: () => void;
   autoComplete?: boolean;
+  sx?: {};
 }
 
 // Reset Input MUI
@@ -31,9 +33,9 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   label,
   errorText,
-  type = "text",
+  type = 'text',
   name,
-  defaultValue = "",
+  defaultValue = '',
   onChange,
   onKeyDown,
   placeholder,
@@ -43,11 +45,12 @@ const Input: React.FC<InputProps> = ({
   value,
   autoComplete = true,
   onBlur,
+  sx,
 }) => (
   <div>
     <InputBox>
       <InputField
-        className="form__input"
+        className='form_checkbox'
         onChange={onChange}
         type={type}
         defaultValue={defaultValue}
@@ -58,13 +61,14 @@ const Input: React.FC<InputProps> = ({
         {...register}
         onBlur={onBlur}
         autoComplete={autoComplete}
+        sx={{ width: '16px', ...sx }}
       />
-      <InputLabel className="form__label" htmlFor={name}>
+      <InputLabel className='form__label' htmlFor={name}>
         {label}
       </InputLabel>
     </InputBox>
     {errorText && (
-      <label style={{color: "red", fontSize: "0.7rem", textAlign: "left"}}>
+      <label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
         {errorText}
       </label>
     )}
