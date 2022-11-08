@@ -22,7 +22,7 @@ import { bandTypeOptions } from "../../dummy-data";
 
 // import { createClientSchema } from "./schema";
 
-const LocationView = ({ open, setOpen }) => {
+const LocationView = ({ open, setOpen, location }) => {
   const LocationServ = client.service("location");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,16 +41,16 @@ const LocationView = ({ open, setOpen }) => {
     resolver: yupResolver(createLocationSchema),
 
     defaultValues: {
-      name: Location.name,
-      locationType: Location.locationType,
+      name: location.name,
+      locationType: location.locationType,
       facility: data.currentEmployee.facility,
     },
   });
 
   useEffect(() => {
     reset({
-      name: Location.name,
-      bandType: Location.locationType,
+      name: location.name,
+      bandType: location.locationType,
       facility: data.currentEmployee.facility,
     });
   }, []);
@@ -59,7 +59,7 @@ const LocationView = ({ open, setOpen }) => {
     e.preventDefault();
     setSuccess(false);
 
-    await LocationServ.patch(Location._id, data)
+    await LocationServ.patch(location._id, data)
       .then((res) => {
         toast.success(`Location successfully updated`);
         setLoading(false);
@@ -75,7 +75,7 @@ const LocationView = ({ open, setOpen }) => {
 
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
-    const dleteId = band._id;
+    const dleteId = location._id;
     if (conf) {
       LocationServ.remove(dleteId)
         .then((res) => {

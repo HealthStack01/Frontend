@@ -76,11 +76,11 @@ export default function BillServiceCreate() {
     // handleSearch(val)
   };
 
-  const handleChangeMode = async (value) => {
+  const handleChangeMode = async value => {
     console.log('value', value);
     await setPaymentMode(value);
     console.log(value);
-    let billm = paymentOptions.filter((el) => el.name === value);
+    let billm = paymentOptions.filter(el => el.name === value);
     await setBillMode(billm[0]);
     console.log(billm);
     // at startup
@@ -94,7 +94,7 @@ export default function BillServiceCreate() {
     // pricing
   };
 
-  const handleRow = async (ProductEntry) => {
+  const handleRow = async ProductEntry => {
     //console.log("b4",state)
 
     //console.log("handlerow",ProductEntry)
@@ -105,7 +105,7 @@ export default function BillServiceCreate() {
       selectedMedication: ProductEntry,
       show: 'detail',
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
@@ -157,7 +157,7 @@ export default function BillServiceCreate() {
             }else{ */
 
       let contract = contracts.filter(
-        (el) => el.source_org === billMode.detail.organizationId
+        el => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
         //  console.log(contract[0].price)
@@ -173,7 +173,7 @@ export default function BillServiceCreate() {
     if (billMode.type === 'Company Cover') {
       //paymentmode
       let contract = contracts.filter(
-        (el) => el.source_org === billMode.detail.organizationId
+        el => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
         // console.log(contract[0].price)
@@ -187,7 +187,7 @@ export default function BillServiceCreate() {
     }
     if (billMode.type === 'Cash' || billMode.type === 'Family Cover') {
       //paymentmode
-      let contract = contracts.filter((el) => el.source_org === el.dest_org);
+      let contract = contracts.filter(el => el.source_org === el.dest_org);
       if (contract.length) {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
@@ -200,7 +200,7 @@ export default function BillServiceCreate() {
     }
   };
 
-  const getSearchfacility = async (service) => {
+  const getSearchfacility = async service => {
     //  console.log(JSON.stringify(service))
     if (!service) {
       //"clear stuff"
@@ -231,7 +231,7 @@ export default function BillServiceCreate() {
     console.log(service.contracts);
   };
 
-  const getSearchfacility1 = async (person) => {
+  const getSearchfacility1 = async person => {
     if (!person) {
       //"clear stuff"
       /*   setProductId("")
@@ -257,10 +257,10 @@ export default function BillServiceCreate() {
   }, [user]);
 
   const handleUpdateTotal = async () => {
-    await setTotalamount((prevtotal) => Number(prevtotal) + Number(calcamount));
+    await setTotalamount(prevtotal => Number(prevtotal) + Number(calcamount));
   };
 
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     // console.log(e.target.value)
     await setType(e.target.value);
   };
@@ -288,7 +288,7 @@ export default function BillServiceCreate() {
     }
 
     await setSuccess(false);
-    await setProductItem((prevProd) => prevProd.concat(productItemI));
+    await setProductItem(prevProd => prevProd.concat(productItemI));
     handleUpdateTotal();
     // generate billing info
 
@@ -330,7 +330,7 @@ export default function BillServiceCreate() {
     // alert("finished")
   };
 
-  const handleQtty = async (e) => {
+  const handleQtty = async e => {
     /*  if (invquantity<e.target.value){
              toast({
                  message: 'You can not sell more quantity than exist in inventory ' ,
@@ -405,7 +405,7 @@ export default function BillServiceCreate() {
     console.log(document);
 
     //order
-    document.documentdetail.forEach(async (element) => {
+    document.documentdetail.forEach(async element => {
       let orderinfo = {
         //for reach document
         documentationId: '', //tbf
@@ -486,7 +486,7 @@ export default function BillServiceCreate() {
         document,
         serviceList,
       })
-        .then((res) => {
+        .then(res => {
           setSuccess(true);
           toast.success('Billed Orders created succesfully');
           setSuccess(false);
@@ -498,7 +498,7 @@ export default function BillServiceCreate() {
           const invoiceNo = random(6, 'uppernumeric');
           setDocumentNo(invoiceNo);
         })
-        .catch((err) => {
+        .catch(err => {
           toast.error(`Error creating Billed Orders" + ${err}`);
         });
     }
@@ -512,7 +512,7 @@ export default function BillServiceCreate() {
     // ProductEntry.show=!ProductEntry.show
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
     setMessage('');
     //setError(false)
@@ -545,7 +545,7 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeAmount = () => {
-    setChangeAmount((rev) => !rev);
+    setChangeAmount(rev => !rev);
   };
 
   const newclient = async () => {
@@ -714,7 +714,7 @@ export default function BillServiceCreate() {
   }, [state.ClientModule.selectedClient]);
 
   const handleRemoveBill = (item, index) => {
-    setProductItem((prev) => prev.filter((el, i) => i !== index));
+    setProductItem(prev => prev.filter((el, i) => i !== index));
   };
 
   const productSchema = [
@@ -722,7 +722,7 @@ export default function BillServiceCreate() {
       name: 'S/NO',
       key: 'sn',
       description: 'SN',
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: 'HIDDEN',
@@ -731,7 +731,7 @@ export default function BillServiceCreate() {
       name: 'Category',
       key: 'category',
       description: 'Enter Category',
-      selector: (row) => row.category,
+      selector: row => row.category,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -740,7 +740,7 @@ export default function BillServiceCreate() {
       name: 'Name',
       key: 'name',
       description: 'Enter Name',
-      selector: (row) => row.name,
+      selector: row => row.name,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -749,7 +749,7 @@ export default function BillServiceCreate() {
       name: 'Quantity',
       key: 'quantity',
       description: 'Enter Quantity',
-      selector: (row) => row.quantity,
+      selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -758,7 +758,7 @@ export default function BillServiceCreate() {
       name: 'Unit',
       key: 'baseunit',
       description: 'Enter Unit',
-      selector: (row) => row.baseunit,
+      selector: row => row.baseunit,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -767,7 +767,7 @@ export default function BillServiceCreate() {
       name: 'Selling Price',
       key: 'sellingprice',
       description: 'Enter selling price',
-      selector: (row) => row.sellingprice,
+      selector: row => row.sellingprice,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -776,7 +776,7 @@ export default function BillServiceCreate() {
       name: 'Amount',
       key: 'amount',
       description: 'Enter Amount',
-      selector: (row) => row.amount,
+      selector: row => row.amount,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -785,7 +785,7 @@ export default function BillServiceCreate() {
       name: 'Mode',
       key: 'billMode',
       description: 'Enter Bill mode',
-      selector: (row) => row.billMode.type,
+      selector: row => row.billMode.type,
       sortable: true,
       required: true,
       inputType: 'TEXT',
@@ -794,10 +794,10 @@ export default function BillServiceCreate() {
       name: 'Action',
       key: 'name',
       description: 'Enter Name',
-      selector: (row) => (
+      selector: row => (
         <Button
-          color="error"
-          className="button is-info is-small"
+          color='error'
+          className='button is-info is-small'
           sx={{
             background: 'none',
             //color: "red",
@@ -823,10 +823,10 @@ export default function BillServiceCreate() {
   return (
     <>
       <div
-        className="card card-overflow"
+        className='card card-overflow'
         style={{ width: '50vw', maxHeight: '70vh' }}
       >
-        <div className="card-content ">
+        <div className='card-content '>
           <form onSubmit={onSubmit}>
             {' '}
             {/* handleSubmit(onSubmit) */}
@@ -859,7 +859,7 @@ export default function BillServiceCreate() {
 
                       <Grid item xs={4} mt={1.5}>
                         <CustomSelect
-                          name="paymentmode"
+                          name='paymentmode'
                           defaultValue={paymentmode}
                           onChange={(e) => handleChangeMode(e.target.value)}
                           options={paymentOptions.map((item) => item.name)}
@@ -926,7 +926,7 @@ export default function BillServiceCreate() {
                     }}
                   />
 
-                  <Typography color="text.primary" mb={1}>
+                  <Typography color='text.primary' mb={1}>
                     Choose Service Item:
                   </Typography>
 
@@ -945,7 +945,7 @@ export default function BillServiceCreate() {
                             mode={billMode}
                           />
                           <input
-                            className="input is-small"
+                            className='input is-small'
                             value={productId}
                             name="productId"
                             type="text"
@@ -954,7 +954,7 @@ export default function BillServiceCreate() {
                             style={{ display: 'none' }}
                           />
                           <Button
-                            variant="outlined"
+                            variant='outlined'
                             startIcon={<AddCircleOutlineIcon />}
                             onClick={handleClickProd}
                             sx={{
@@ -970,7 +970,7 @@ export default function BillServiceCreate() {
 
                       <Grid item xs={2}>
                         <Input
-                          name="quantity"
+                          name='quantity'
                           value={quantity}
                           type="text"
                           onChange={(e) => handleQtty(e)}
@@ -985,19 +985,19 @@ export default function BillServiceCreate() {
                           }}
                         >
                           <Input
-                            name="qamount"
+                            name='qamount'
                             disabled={changeAmount}
                             value={calcamount}
                             type="text"
                             onChange={async (e) =>
                               await setCalcAmount(e.target.value)
                             }
-                            label="Amount"
+                            label='Amount'
                           />
 
                           <Button
-                            variant="contained"
-                            size="small"
+                            variant='contained'
+                            size='small'
                             sx={{
                               marginTop: '10px',
                               //textTransform: "capitalize",
@@ -1046,7 +1046,7 @@ export default function BillServiceCreate() {
                       }}
                     >
                       <Button
-                        variant="outlined"
+                        variant='outlined'
                         disabled={!productItem.length > 0}
                         onClick={handleCreateBill}
                         sx={{
@@ -1057,8 +1057,8 @@ export default function BillServiceCreate() {
                       </Button>
 
                       <Button
-                        variant="contained"
-                        color="error"
+                        variant='contained'
+                        color='error'
                         disabled={!productItem.length > 0}
                         onClick={onSubmit}
                       >
@@ -1097,7 +1097,7 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
   const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     await setSimpa(obj.name);
@@ -1112,7 +1112,7 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     /* if (count===2){
              console.log("stuff was chosen")
          } */
@@ -1129,7 +1129,7 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (value) => {
+  const handleSearch = async value => {
     setVal(value);
     if (value === '') {
       setShowPanel(false);
@@ -1155,14 +1155,14 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
+        .then(res => {
           //console.log("product  fetched successfully")
           //console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(' product  fetched successfully');
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast.error(`Error creating ProductEntry  ${err}`);
         });
     } else {
@@ -1190,36 +1190,36 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
   }, [clear]);
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
+      <div className='field'>
+        <div className='control has-icons-left  '>
           <div
             className={`dropdown ${showPanel ? 'is-active' : ''}`}
             style={{ width: '100%' }}
           >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
+            <div className='dropdown-trigger' style={{ width: '100%' }}>
               <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Services"
+                className='input is-small  is-expanded'
+                type='text'
+                placeholder='Search Services'
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
+              <span className='icon is-small is-left'>
+                <i className='fas fa-search'></i>
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
-              <div className="dropdown-content">
+            <div className='dropdown-menu expanded' style={{ width: '100%' }}>
+              <div className='dropdown-content'>
                 {facilities.length > 0 ? (
                   ''
                 ) : (
                   <div
-                    className="dropdown-item selectadd" /* onClick={handleAddproduct} */
+                    className='dropdown-item selectadd' /* onClick={handleAddproduct} */
                   >
                     {' '}
                     <span> {val} is not in your inventory</span>{' '}
@@ -1228,7 +1228,7 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
 
                 {facilities.map((facility, i) => (
                   <div
-                    className="dropdown-item"
+                    className='dropdown-item'
                     key={facility._id}
                     onClick={() => handleRow(facility)}
                   >
@@ -1240,7 +1240,7 @@ export function ServiceSearch2({ getSearchfacility, clear }) {
                         <strong>{facility.quantity}</strong>
                       </span>
                       <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
+                      <span className='padleft'>
                         <strong>Price:</strong> N{facility.sellingprice}
                       </span>
                     </div>
