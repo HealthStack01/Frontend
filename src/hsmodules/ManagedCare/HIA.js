@@ -235,6 +235,7 @@ export function OrganizationList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
@@ -348,115 +349,147 @@ export function OrganizationList() {
 
   //todo: pagination and vertical scroll bar
 
+  const HIASchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Band",
+      key: "band",
+      description: "Band",
+      selector: (row) => row.Band,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Address",
+      key: "address",
+      description: "Address",
+      selector: (row) => row.facilityAddress,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "City",
+      key: "city",
+      description: "City",
+      selector: (row) => row.facilityCity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  
+    {
+      name: "Phone",
+      key: "phone",
+      description: "Phone",
+      selector: (row) => row.facilityContactPhone,
+      sortable: true,
+      required: true,
+      inputType: "PHONE",
+    },
+  
+    {
+      name: "Email",
+      key: "email",
+      description: "Email",
+      selector: (row) => row.facilityEmail,
+      sortable: true,
+      required: true,
+      // inputType: "SELECT_LIST",
+      // options: ["Male", "Female"],
+    },
+  
+    {
+      name: "Email",
+      key: "email",
+      description: "Email",
+      selector: (row) => row.facilityEmail,
+      sortable: true,
+      required: true,
+      // inputType: "SELECT_LIST",
+      // options: ["Single", "Married"],
+    },
+  
+    {
+      name: "Type",
+      key: "type",
+      description: "johndoe@mail.com",
+      selector: (row) => row.facilityType,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+  
+    {
+      name: "Category",
+      key: "category",
+      description: "Category",
+      selector: (row) => row.facilityCategory,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+
+
   return (
     <>
       {" "}
       <OrganizationCreate />
       <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Facilities"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
+      <PageWrapper>
+          <TableMenu>
+            <div>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
+              )}
+              <h2>List of Clients</h2>
             </div>
+            {handleCreateNew && (
+              <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
+            )}
+            label="Add New" onClick={handleCreateNew}
+            showicon={true}
+          </TableMenu>
+
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh-90px)",
+              overflow: "auto",
+            }}
+          >
+            <CustomTable title={""} 
+            columns={BeneficiarySchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleCreateNew}
+            progressPending={loading}/>
           </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            List of Contracted Health Insurance Agent (HIA)Organizations{" "}
-          </span>
-        </div>
-        {/*  <div className="level-right">
-                        <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>
-                    </div> */}
+        </PageWrapper>
+     
       </div>
       {/* {!!facilities[1] && */}{" "}
-      <div className="table-container pullup ">
-        <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-          <thead>
-            <tr>
-              <th>
-                <abbr title="S/No">S/No</abbr>
-              </th>
-              <th>Organization Name</th>
-              <th>
-                <abbr title="Band"> Band</abbr>
-              </th>
-              <th>
-                <abbr title="Address"> Address</abbr>
-              </th>
-              <th>
-                <abbr title="City">City</abbr>
-              </th>
-              <th>
-                <abbr title="Phone">Phone</abbr>
-              </th>
-              <th>
-                <abbr title="Email">Email</abbr>
-              </th>
-              <th>
-                <abbr title="Type">Type</abbr>
-              </th>
-              <th>
-                <abbr title="Category">Category</abbr>
-              </th>
-              {/* <th><abbr title="Actions">Actions</abbr></th> */}
-            </tr>
-          </thead>
-          <tfoot></tfoot>
-          <tbody>
-            {facilities.map(
-              (facility, i) =>
-                facility.hasOwnProperty("organizationDetail") && (
-                  <>
-                    <tr
-                      key={i}
-                      onClick={() => handleRow(facility)}
-                      className={
-                        facility.organizationDetail?._id ===
-                        (selectedFacility?._id || null)
-                          ? "is-selected"
-                          : ""
-                      }
-                    >
-                      <th>{i + 1}</th>
-                      <th>{facility.organizationDetail.facilityName}</th>
-                      <td>{facility.band}</td>
-                      <td>{facility.organizationDetail.facilityAddress}</td>
-                      <td>{facility.organizationDetail.facilityCity}</td>
-                      <td>
-                        {facility.organizationDetail.facilityContactPhone}
-                      </td>
-                      <td>{facility.organizationDetail.facilityEmail}</td>
-                      <td>{facility.organizationDetail.facilityType}</td>
-                      <td>{facility.organizationDetail.facilityCategory}</td>
-
-                      {/*  <td><span   className="showAction"  >...</span></td> */}
-                    </tr>
-                  </>
-                )
-            )}
-          </tbody>
-        </table>
-      </div>
+      
       {/*  }  */}
     </>
   );
-}
+
 
 export function OrganizationDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,

@@ -1959,6 +1959,7 @@ export function ClientList() {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [loading,setLoading] = useState(false)
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -2149,6 +2150,15 @@ export function ClientList() {
       inputType: "HIDDEN",
     },
     {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
@@ -2172,7 +2182,7 @@ export function ClientList() {
       name: "Payment Mode",
       key: "paymentmode",
       description: "Payment Mode",
-      selector: (row) => row.Paymentmode,
+      selector: (row) => row.paymentmode,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2180,9 +2190,9 @@ export function ClientList() {
 
     {
       name: "Age",
-      key: "age",
+      key: "dob",
       description: "Age",
-      selector: (row) => row.age,
+      selector: (row) => row.dob,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -2199,16 +2209,6 @@ export function ClientList() {
       options: ["Male", "Female"],
     },
 
-    {
-      name: "Gender",
-      key: "gender",
-      description: "Gender",
-      selector: (row) => row.gender,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Female", "Male"],
-    },
 
     {
       name: "Email",
@@ -2222,7 +2222,7 @@ export function ClientList() {
 
     {
       name: "Tags",
-      key: "tags",
+      key: "clientTags",
       description: "Tags",
       selector: (row) => row.clientTags,
       sortable: true,
@@ -2258,7 +2258,14 @@ export function ClientList() {
               overflow: "auto",
             }}
           >
-            <CustomTable title={""} />
+            <CustomTable title={""} 
+            columns={BeneficiarySchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleCreateNew}
+            progressPending={loading}/>
           </div>
         </PageWrapper>
       </div>

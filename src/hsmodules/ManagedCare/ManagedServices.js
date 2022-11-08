@@ -1,24 +1,24 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {FacilitySearch} from "../helpers/FacilitySearch";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { FacilitySearch } from "../helpers/FacilitySearch";
 import CategorySearch from "../helpers/CategorySearch";
 import ServiceSearch2 from "../helpers/ServiceSearch";
-import {OrgList} from "./OrgClientList";
+import { OrgList } from "./OrgClientList";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
-import {StoreModify} from "../inventory/Store";
+import { StoreModify } from "../inventory/Store";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function ManagedServices() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedServices, setSelectedServices] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -48,7 +48,7 @@ export default function ManagedServices() {
 }
 
 export function ManagedServicesCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [categoryname, setCategoryName] = useState("");
   const [success, setSuccess] = useState(false);
   const [success2, setSuccess2] = useState(false);
@@ -60,7 +60,7 @@ export function ManagedServicesCreate() {
   const ServicesServ = client.service("billing");
   const BandsServ = client.service("bands");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [facilityId, setFacilityId] = useState("");
   const [source, setSource] = useState("");
@@ -77,7 +77,7 @@ export function ManagedServicesCreate() {
   const [currentUser, setCurrentUser] = useState("");
   const [panelList, setPanelList] = useState([]);
   const [successService, setSuccessService] = useState(false);
-  const {state} = useContext(ObjectContext);
+  const { state } = useContext(ObjectContext);
   const [chosen2, setChosen2] = useState();
   const [modifier, setModifier] = useState([]);
   const [subplan, setSubplan] = useState({});
@@ -111,10 +111,10 @@ export function ManagedServicesCreate() {
         copay: "",
       };
       //   console.log(planx)
-      await setBenefittingPlans(prev => [...prev, planx]);
+      await setBenefittingPlans((prev) => [...prev, planx]);
     } else {
-      await setBenefittingPlans(prevstate =>
-        prevstate.filter(el => el.name !== c.name)
+      await setBenefittingPlans((prevstate) =>
+        prevstate.filter((el) => el.name !== c.name)
       ); //remove from benefiting plan
     }
   };
@@ -134,8 +134,8 @@ export function ManagedServicesCreate() {
     return array;
   };
 
-  const handleChangeMode = async e => {
-    let existingBand = productItem.filter(el => el.band === e.target.value);
+  const handleChangeMode = async (e) => {
+    let existingBand = productItem.filter((el) => el.band === e.target.value);
     if (!existingBand.length > 0) {
       await setBand(e.target.value);
     } else {
@@ -150,7 +150,7 @@ export function ManagedServicesCreate() {
   };
 
   const handleServType = async (e, i, c) => {
-    let currentPlan = benefittingplans.filter(el => el.name == c.name)[0];
+    let currentPlan = benefittingplans.filter((el) => el.name == c.name)[0];
     currentPlan.serviceClass = e.target.value;
     currentPlan.capitation = e.target.value === "Capitation" ? true : false;
     currentPlan.feeforService =
@@ -160,7 +160,7 @@ export function ManagedServicesCreate() {
   };
 
   const handleCopay = async (e, i, c) => {
-    let currentPlan = benefittingplans.filter(el => el.name == c.name)[0];
+    let currentPlan = benefittingplans.filter((el) => el.name == c.name)[0];
     currentPlan.copay = e.target.value;
     currentPlan.reqCopay = currentPlan.copay === "" ? false : true;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
@@ -168,7 +168,7 @@ export function ManagedServicesCreate() {
   };
 
   const handleAuthCode = async (e, i, c) => {
-    let currentPlan = benefittingplans.filter(el => el.name == c.name)[0];
+    let currentPlan = benefittingplans.filter((el) => el.name == c.name)[0];
     currentPlan.reqAuthCode = e.target.checked;
     const updatedplan = updateObjectInArray(benefittingplans, currentPlan);
     await setBenefittingPlans(updatedplan);
@@ -186,7 +186,7 @@ export function ManagedServicesCreate() {
 
   // consider batchformat{batchno,expirydate,qtty,baseunit}
   //consider baseunoit conversions
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setFacilityId(obj._id);
     setName(obj.facilityName);
     setOrgType(obj.facilityType);
@@ -203,7 +203,7 @@ export function ManagedServicesCreate() {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setCategoryName(obj.categoryname);
     setChosen2(obj);
 
@@ -214,7 +214,7 @@ export function ManagedServicesCreate() {
     }
   };
 
-  const getSearchService = obj => {
+  const getSearchService = (obj) => {
     setService(obj);
     if (!obj) {
       setService("");
@@ -222,7 +222,7 @@ export function ManagedServicesCreate() {
     setSuccessService(false);
   };
 
-  const notfound = async obj => {
+  const notfound = async (obj) => {
     //alert(obj)
     await setServiceUnavailable(obj);
     await setSuccessService(true);
@@ -259,12 +259,12 @@ export function ManagedServicesCreate() {
       });
       console.log(findServices);
       if (findServices.total > 0) {
-        findServices.groupedOrder[0].services.forEach(async c => {
+        findServices.groupedOrder[0].services.forEach(async (c) => {
           const newPlan = {
             name: c.name,
             checked: false,
           };
-          await setBenefittingPlans1(prev => prev.concat(c));
+          await setBenefittingPlans1((prev) => prev.concat(c));
         });
       }
     }
@@ -390,7 +390,7 @@ export function ManagedServicesCreate() {
     await setCash("");
 
     await setSuccess(false);
-    setProductItem(prevProd => prevProd.concat(productItemI));
+    setProductItem((prevProd) => prevProd.concat(productItemI));
 
     setCostprice("");
     setBand("");
@@ -470,7 +470,7 @@ export function ManagedServicesCreate() {
     //  console.log(data)
 
     ServicesServ.create(data)
-      .then(res => {
+      .then((res) => {
         setSuccessService(true);
         //console.log(JSON.stringify(res))
         resetform();
@@ -495,7 +495,7 @@ export function ManagedServicesCreate() {
         });
         // setSuccessService(true)
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating Services " + err,
           type: "is-danger",
@@ -505,8 +505,8 @@ export function ManagedServicesCreate() {
       });
   };
 
-  const handleBenefit = e => {
-    setBenefittingPlans(prevstate => prevstate.concat(plan));
+  const handleBenefit = (e) => {
+    setBenefittingPlans((prevstate) => prevstate.concat(plan));
     setPlan("");
   };
 
@@ -523,7 +523,7 @@ export function ManagedServicesCreate() {
     }
 
     //setProductItem(prevstate=> prevstate.splice(i,1))
-    setProductItem(prevstate =>
+    setProductItem((prevstate) =>
       prevstate.filter((ProductionItem, i) => i !== index)
     );
 
@@ -538,7 +538,7 @@ export function ManagedServicesCreate() {
       service_name: service.name,
       panel: service.panel,
     };
-    setPanelList(prevstate => prevstate.concat(newService));
+    setPanelList((prevstate) => prevstate.concat(newService));
     setSuccessService(true);
     newService = {};
     setService("");
@@ -609,7 +609,10 @@ export function ManagedServicesCreate() {
                 clear={successService}
                 notfound={notfound}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <p
+                className="control has-icons-left "
+                style={{ display: "none" }}
+              >
                 <input
                   className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
                 />
@@ -630,7 +633,7 @@ export function ManagedServicesCreate() {
               getSearchfacility={getSearchfacility2}
               clear={success2}
             />
-            <p className="control has-icons-left " style={{display: "none"}}>
+            <p className="control has-icons-left " style={{ display: "none" }}>
               <input
                 className="input is-small"
                 /* ref={register ({ required: true }) } */ /* add array no */ value={
@@ -638,7 +641,7 @@ export function ManagedServicesCreate() {
                 }
                 name="categoryname"
                 type="text"
-                onChange={e => setCategoryName(e.target.value)}
+                onChange={(e) => setCategoryName(e.target.value)}
                 placeholder="Category of Service"
               />
               <span className="icon is-small is-left">
@@ -653,7 +656,7 @@ export function ManagedServicesCreate() {
                 value={comments}
                 name="comments"
                 type="text"
-                onChange={e => setComments(e.target.value)}
+                onChange={(e) => setComments(e.target.value)}
                 placeholder="Comments"
               />
               <span className="icon is-small is-left">
@@ -671,7 +674,7 @@ export function ManagedServicesCreate() {
                     <select
                       name="bandType"
                       value={band}
-                      onChange={e => handleChangeMode(e)}
+                      onChange={(e) => handleChangeMode(e)}
                       className="selectadd"
                     >
                       <option value="">
@@ -698,7 +701,7 @@ export function ManagedServicesCreate() {
                     /* {...register("x",{required: true})} */ name="costprice"
                     value={costprice}
                     type="text"
-                    onChange={e => setCostprice(e.target.value)}
+                    onChange={(e) => setCostprice(e.target.value)}
                     placeholder="Price"
                   />
                   <span className="icon naira is-left">
@@ -739,7 +742,7 @@ export function ManagedServicesCreate() {
                                   value={i}
                                   name={`selectedPlans +${i}`}
                                   /*  checked={c.checked}  */
-                                  onChange={e => handleChange(e, i, c)}
+                                  onChange={(e) => handleChange(e, i, c)}
                                 />
                                 {c.name + " "}
                               </label>
@@ -755,11 +758,11 @@ export function ManagedServicesCreate() {
                                 name={`copay +${i}`}
                                 value={
                                   benefittingplans.filter(
-                                    el => el.name == c.name
+                                    (el) => el.name == c.name
                                   ).copay
                                 }
                                 type="text"
-                                onChange={e => handleCopay(e, i, c)}
+                                onChange={(e) => handleCopay(e, i, c)}
                                 placeholder="Co-pay Amount"
                               />
                             </div>
@@ -780,7 +783,7 @@ export function ManagedServicesCreate() {
                                       value="Capitation"
                                       name={`servtype +${i}`}
                                       type="radio"
-                                      onChange={e => handleServType(e, i, c)}
+                                      onChange={(e) => handleServType(e, i, c)}
                                     />
                                     <span>Capitation</span>
                                   </label>
@@ -794,7 +797,7 @@ export function ManagedServicesCreate() {
                                       name={`servtype +${i}`}
                                       value="Fee for Service"
                                       type="radio"
-                                      onChange={e => handleServType(e, i, c)}
+                                      onChange={(e) => handleServType(e, i, c)}
                                     />
 
                                     <span>Fee for Service</span>
@@ -810,7 +813,7 @@ export function ManagedServicesCreate() {
                                   className="checkbox is-small"
                                   name={`authCode +${i}`}
                                   type="checkbox"
-                                  onChange={e => handleAuthCode(e, i, c)}
+                                  onChange={(e) => handleAuthCode(e, i, c)}
                                 />
                                 <span>Requires Pre-Authorization Code</span>
                               </label>
@@ -956,25 +959,26 @@ export function ManagedServicesList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedServices, setSelectedServices] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newServicesModule = {
       selectedServices: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
   };
-  const handleRow = async Service => {
+  const handleRow = async (Service) => {
     //console.log("b4",state)
 
     //console.log("handlerow",Services)
@@ -985,14 +989,14 @@ export function ManagedServicesList() {
       selectedServices: Service,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "name";
     console.log(val);
     ServicesServ.find({
@@ -1009,11 +1013,11 @@ export function ManagedServicesList() {
         },
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.groupedOrder);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         toast({
           message: "Error during search " + err,
@@ -1061,10 +1065,10 @@ export function ManagedServicesList() {
   useEffect(() => {
     getFacilities();
 
-    ServicesServ.on("created", obj => getFacilities());
-    ServicesServ.on("updated", obj => getFacilities());
-    ServicesServ.on("patched", obj => getFacilities());
-    ServicesServ.on("removed", obj => getFacilities());
+    ServicesServ.on("created", (obj) => getFacilities());
+    ServicesServ.on("updated", (obj) => getFacilities());
+    ServicesServ.on("patched", (obj) => getFacilities());
+    ServicesServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -1082,116 +1086,77 @@ export function ManagedServicesList() {
             }, [state.StoreModule.selectedStore]) */
   //todo: pagination and vertical scroll bar
 
+  const ManagedServicesSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "name",
+      selector: (row) => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Panel",
+      key: "panel",
+      description: "panel",
+      selector: (row) => row.panel,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
       {state.StoreModule.selectedStore ? (
         <>
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Services"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                Services{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className=" pullup ">
-            <div className=" is-fullwidth vscrollable pr-1">
-              <div>
-                {facilities.map((Clinic, i) => (
-                  <div key={Clinic.categoryname}>
-                    <div>
-                      <div>
-                        {/* <input type = "checkbox" name={Clinic.client_id}  />   */}
-                        <strong>
-                          {" "}
-                          {i + 1} {Clinic.categoryname}{" "}
-                          {/* with {Clinic.bills.length} Unpaid bills. */}{" "}
-                          {/* Grand Total amount: N */}
-                        </strong>
-                      </div>
+            <PageWrapper>
+              <TableMenu>
+                <div>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
                     </div>
-                    <div>
-                      <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                        <thead>
-                          <tr>
-                            <th>
-                              <abbr title="Serial No">S/No</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Date">Name</abbr>
-                            </th>
-                            <th>
-                              <abbr title="Type">Panel?</abbr>
-                            </th>
-                            <th>Cash Price</th>
-                            {/*<th><abbr title="Document No">Document No</abbr></th>
-                                        <th><abbr title="Total Amount">Total Amount</abbr></th>
-                                        <th><abbr title="Enteredby">Entered By</abbr></th>
-                                        <th><abbr title="Actions">Actions</abbr></th> */}
-                          </tr>
-                        </thead>
-                        <tfoot></tfoot>
-                        <tbody>
-                          {Clinic.services.map((Services, i) => (
-                            <tr
-                              key={Services._id}
-                              onClick={() => handleRow(Services)}
-                            >
-                              <th>{i + 1}</th>
-                              <td>{Services.name}</td>
-                              <th>{Services.panel ? "Yes" : "No"}</th>
-                              <td>
-                                {Services.contracts.map(
-                                  (el, i) =>
-                                    el.source_org === el.dest_org && (
-                                      <p key={i}>{el.price}</p>
-                                    )
-                                )}
-                              </td>
-                              {/*<td>{Services.documentNo}</td>
-                                            <td>{Services.totalamount}</td>
-                                            <td>{Services.enteredby}</td>
-                                            <td><span className="showAction"  >...</span></td> */}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                ))}
+                  )}
+                  <h2>Services</h2>
+                </div>
+                {handleCreateNew && (
+                  <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
+                )}
+                label="Add New" onClick={handleCreateNew}
+                showicon={true}
+              </TableMenu>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "calc(100vh-90px)",
+                  overflow: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={ManagedServicesSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleCreateNew}
+                  progressPending={loading}
+                />
               </div>
-            </div>
+            </PageWrapper>
           </div>
         </>
       ) : (
@@ -1211,7 +1176,7 @@ export function ManagedServicesDetail() {
   //const ServicesServ=client.service('/Services')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Services = state.ServicesModule.selectedServices;
   /* console.log(Services) */
@@ -1221,7 +1186,7 @@ export function ManagedServicesDetail() {
       selectedServices: Services,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
@@ -1405,8 +1370,8 @@ export function ManagedServicesModify() {
   const ServicesServ = client.service("billing");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const [facilityId, setFacilityId] = useState("");
   const [source, setSource] = useState("");
@@ -1520,7 +1485,7 @@ export function ManagedServicesModify() {
         category: categoryname,
       },
     })
-      .then(resp => {
+      .then((resp) => {
         console.log(resp);
         if (resp.data.length > 0) {
           toast({
@@ -1532,7 +1497,7 @@ export function ManagedServicesModify() {
           return true;
         }
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error checking services  " + err,
           type: "is-danger",
@@ -1590,7 +1555,7 @@ export function ManagedServicesModify() {
       }
 
       await setSuccess(false);
-      setProductItem(prevProd => prevProd.concat(productItemI));
+      setProductItem((prevProd) => prevProd.concat(productItemI));
     } else {
       productItemI = {
         source_org: facilityId,
@@ -1631,7 +1596,7 @@ export function ManagedServicesModify() {
     setOrgType("");
   };
 
-  const getSearchService = obj => {
+  const getSearchService = (obj) => {
     setService(obj);
     if (!obj) {
       setService("");
@@ -1639,7 +1604,7 @@ export function ManagedServicesModify() {
     setSuccessService(false);
   };
 
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setCategoryName(obj.categoryname);
     setChosen2(obj);
 
@@ -1649,7 +1614,7 @@ export function ManagedServicesModify() {
       setChosen2();
     }
   };
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setFacilityId(obj._id);
     setName(obj.facilityName);
     setOrgType(obj.facilityType);
@@ -1665,8 +1630,8 @@ export function ManagedServicesModify() {
                 shouldDirty: true
             }) */
   };
-  const handleBenefit = e => {
-    setBenefittingPlans(prevstate => prevstate.concat(plan));
+  const handleBenefit = (e) => {
+    setBenefittingPlans((prevstate) => prevstate.concat(plan));
     setPlan("");
   };
 
@@ -1683,7 +1648,7 @@ export function ManagedServicesModify() {
     }
 
     //setProductItem(prevstate=> prevstate.splice(i,1))
-    setProductItem(prevstate =>
+    setProductItem((prevstate) =>
       prevstate.filter((ProductionItem, i) => i !== index)
     );
 
@@ -1698,7 +1663,7 @@ export function ManagedServicesModify() {
       service_name: service.name,
       panel: service.panel,
     };
-    setPanelList(prevstate => prevstate.concat(newService));
+    setPanelList((prevstate) => prevstate.concat(newService));
     setSuccessService(true);
     newService = {};
     setService("");
@@ -1709,19 +1674,22 @@ export function ManagedServicesModify() {
       selectedServices: Services,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
   };
 
-  const changeState = resp => {
+  const changeState = (resp) => {
     const newServicesModule = {
       selectedServices: resp,
       show: "detail",
     };
-    setState(prevstate => ({...prevstate, ServicesModule: newServicesModule}));
+    setState((prevstate) => ({
+      ...prevstate,
+      ServicesModule: newServicesModule,
+    }));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -1729,7 +1697,7 @@ export function ManagedServicesModify() {
     const dleteId = Services._id;
     if (conf) {
       ServicesServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Services successfully")
@@ -1746,7 +1714,7 @@ export function ManagedServicesModify() {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Services, probable network issues "+ err )
           // setError(true)
           toast({
@@ -1793,7 +1761,7 @@ export function ManagedServicesModify() {
     //console.log(data);
 
     ServicesServ.patch(Services._id, data)
-      .then(res => {
+      .then((res) => {
         console.log(JSON.stringify(res));
         // e.target.reset();
         // setMessage("updated Services successfully")
@@ -1806,7 +1774,7 @@ export function ManagedServicesModify() {
 
         changeState(res);
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Services, probable network issues "+ err )
         // setError(true)
         toast({
@@ -1845,7 +1813,7 @@ export function ManagedServicesModify() {
                 />
                 <p
                   className="control has-icons-left "
-                  style={{display: "none"}}
+                  style={{ display: "none" }}
                 >
                   {/* <input className="input is-small"   ref={register ({ required: true }) }  add array no   value={categoryname} name="categoryname" type="text" onChange={e=>setCategoryName(e.target.value)} placeholder="Category of Service" /> */}
                   <span className="icon is-small is-left">
@@ -1860,7 +1828,7 @@ export function ManagedServicesModify() {
                     /* {...register("x",{required: true})} */ value={source}
                     name="source"
                     type="text"
-                    onChange={e => setSource(e.target.value)}
+                    onChange={(e) => setSource(e.target.value)}
                     onBlur={handleCheck}
                     placeholder="Name of Service"
                     autoComplete="false"
@@ -1883,7 +1851,7 @@ export function ManagedServicesModify() {
                       /* {...register("x",{required: true})} */ checked={panel}
                       name="panel"
                       type="checkbox"
-                      onChange={e =>
+                      onChange={(e) =>
                         setPanel(e.target.checked)
                       } /* placeholder="Date" */
                     />
@@ -1905,7 +1873,7 @@ export function ManagedServicesModify() {
                       />
                       <p
                         className="control has-icons-left "
-                        style={{display: "none"}}
+                        style={{ display: "none" }}
                       >
                         <input
                           className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
@@ -1958,7 +1926,7 @@ export function ManagedServicesModify() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{display: "none"}}
+                      style={{ display: "none" }}
                     >
                       <input
                         className="input is-small"
@@ -1967,7 +1935,7 @@ export function ManagedServicesModify() {
                         }
                         name="facilityId"
                         type="text"
-                        onChange={e => setFacilityId(e.target.value)}
+                        onChange={(e) => setFacilityId(e.target.value)}
                         placeholder="Product Id"
                       />
                       <span className="icon is-small is-left">
@@ -1991,7 +1959,7 @@ export function ManagedServicesModify() {
                         /* {...register("x",{required: true})} */ name="costprice"
                         value={costprice}
                         type="text"
-                        onChange={e => setCostprice(e.target.value)}
+                        onChange={(e) => setCostprice(e.target.value)}
                         placeholder="Price"
                       />
                       <span className="icon is-small is-left">
@@ -2022,14 +1990,14 @@ export function ManagedServicesModify() {
                           type="text"
                           name="plan"
                           value={plan}
-                          onChange={e => setPlan(e.target.value)}
+                          onChange={(e) => setPlan(e.target.value)}
                           placeholder="Benefitting Plans"
                         />
                       </div>
                       <div className="control">
                         <button
                           className="button is-info selectadd"
-                          onClick={e => handleBenefit(e)}
+                          onClick={(e) => handleBenefit(e)}
                         >
                           add
                         </button>
@@ -2059,7 +2027,7 @@ export function ManagedServicesModify() {
                         name="cash"
                         value={cash}
                         type="text"
-                        onChange={e =>
+                        onChange={(e) =>
                           setCash(e.target.value)
                         } /* placeholder="Cost Price" */
                       />
@@ -2075,7 +2043,7 @@ export function ManagedServicesModify() {
                         /* {...register("x",{required: true})} */ name="costprice"
                         value={costprice}
                         type="text"
-                        onChange={e => setCostprice(e.target.value)}
+                        onChange={(e) => setCostprice(e.target.value)}
                         placeholder="Price"
                       />
                       <span className="icon is-small is-left">
@@ -2193,7 +2161,7 @@ export function ManagedServicesModify() {
   );
 }
 
-export function ServiceSearch({getSearchService, clear, notfound}) {
+export function ServiceSearch({ getSearchService, clear, notfound }) {
   const productServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2212,7 +2180,7 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     await setSimpa(obj.name);
     // alert("something is chaning")
@@ -2229,7 +2197,7 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was not chosen");
     }
@@ -2247,7 +2215,7 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async value => {
+  const handleSearch = async (value) => {
     setVal(value);
     if (value === "") {
       setShowPanel(false);
@@ -2272,16 +2240,16 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           // console.log("product  fetched successfully")
           //console.log(res.data)
           //...new Set(array)
 
-          const uniqueArr = [...new Set(res.data.map(data => data.name))];
+          const uniqueArr = [...new Set(res.data.map((data) => data.name))];
           // console.log(uniqueArr)
           let uniqueObj = [];
-          uniqueArr.forEach(obj => {
-            uniqueObj.push(res.data.find(el => el.name == obj));
+          uniqueArr.forEach((obj) => {
+            uniqueObj.push(res.data.find((el) => el.name == obj));
             //  console.log(uniqueObj)
           });
           //console.log(uniqueObj)
@@ -2289,7 +2257,7 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating Services " + err,
             type: "is-danger",
@@ -2306,7 +2274,7 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
     }
   };
 
-  const handleAddproduct = val => {
+  const handleAddproduct = (val) => {
     setProductModal(true);
     setShowPanel(false);
     notfound({
@@ -2332,9 +2300,9 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: "100%" }}>
               <DebounceInput
                 className="input is-small "
                 type="text"
@@ -2342,8 +2310,8 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -2351,7 +2319,7 @@ export function ServiceSearch({getSearchService, clear, notfound}) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu" style={{width: "100%"}}>
+            <div className="dropdown-menu" style={{ width: "100%" }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""

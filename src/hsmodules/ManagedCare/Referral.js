@@ -320,6 +320,7 @@ export function CollectionList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoadig] = useState(false)
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState(); //
   // eslint-disable-next-line
@@ -467,99 +468,98 @@ export function CollectionList() {
 
   //todo: pagination and vertical scroll bar
 
+  const ReferralSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "createdAt",
+      description: "date",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Clients",
+      key: "fromName",
+      description: "date",
+      selector: (row) => row.fromName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Amount",
+      key: "amount",
+      description: "amount",
+      selector: (row) => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Payment Mode",
+      key: "paymentmode",
+      description: "Payment Mode",
+      selector: (row) => row.paymentmode,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+
   return (
     <>
       {user ? (
         <>
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Collections"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
+          <PageWrapper>
+          <TableMenu>
+            <div>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
                 </div>
-              </div>
+              )}
+              <h2>Collection in the last 30 days</h2>
             </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                Collections in last 30 days{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              {/* <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div> */}
-            </div>
+            {handleCreateNew && (
+              <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
+            )}
+            label="Add New" onClick={handleCreateNew}
+            showicon={true}
+          </TableMenu>
+
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh-90px)",
+              overflow: "auto",
+            }}
+          >
+            <CustomTable title={""} 
+            columns={ReferralSchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleCreateNew}
+            progressPending={loading}/>
           </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Cost Price">Date</abbr>
-                  </th>
-                  {/* <th><abbr title="Category">Category</abbr></th> */}
-                  <th>Client</th>
-                  <th>
-                    <abbr title="Quantity">Amount</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Base Unit">Mode</abbr>
-                  </th>
-                  {/*  <th><abbr title="Stock Value">Stock Value</abbr></th>
-                                         
-                                        <th><abbr title="Selling Price">Selling Price</abbr></th>
-                                        <th><abbr title="Re-Order Level">Re-Order Level</abbr></th>
-                                        <th><abbr title="Expiry">Expiry</abbr></th> 
-                                        <th><abbr title="Actions">Actions</abbr></th> */}
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Inventory, i) => (
-                  <tr
-                    key={Inventory._id}
-                    onClick={() => handleRow(Inventory)}
-                    className={
-                      Inventory._id === (selectedInventory?._id || null)
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <th>{i + 1}</th>
-                    <td>
-                      {new Date(Inventory.createdAt).toLocaleString("en-GB")}
-                    </td>{" "}
-                    {/*add time  */}
-                    <th>{Inventory.fromName}</th>
-                    <td>{Inventory.amount}</td>
-                    <td>{Inventory.paymentmode}</td>
-                    {/* <td>{Inventory.stockvalue}</td>
-                                            <td>{Inventory.costprice}</td>
-                                            <td>{Inventory.sellingprice}</td>
-                                            <td>{Inventory.reorder_level}</td> 
-                                            <td>{Inventory.expiry}</td>
-                                            <td><span   className="showAction"  >...</span></td> */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        </PageWrapper>
+            
           </div>
+          
         </>
       ) : (
         <div>loading</div>
