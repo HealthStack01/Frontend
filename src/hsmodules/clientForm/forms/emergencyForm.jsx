@@ -1,7 +1,8 @@
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const EmergencyForm = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+
+  const { register, handleSubmit } = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -12,74 +13,43 @@ const EmergencyForm = ({onSubmit}) => {
           <div className="field">
             <label className="label is-small">Staff Name</label>
             <p className="control is-expanded">
-              <input
-                {...register}
-                name="staffName"
-                className="input is-small"
-                type="text"
-              />
+              <input ref={register} name="staffName" className="input is-small" type="text" />
             </p>
           </div>
           <div className="field">
             <label className="label is-small">Staff ID No</label>
             <p className="control is-expanded">
-              <input
-                {...register}
-                name="staffIdNum"
-                className="input is-small"
-                type="number"
-              />
+              <input ref={register} name="staffIdNum" className="input is-small" type="number" />
             </p>
           </div>
           <div className="field">
             <label className="label is-small">Date of Encounter</label>
             <div className="control">
-              <input
-                {...register}
-                name="dateOfEncounter"
-                className="input is-small"
-                type="date"
-              />
+              <input ref={register} name="dateOfEncounter" className="input is-small" type="date" />
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Presenting Complain</label>
             <div className="control">
-              <textarea
-                {...register}
-                name="presentingComplain"
-                className="textarea is-small"
-              ></textarea>
+              <textarea ref={register} name="presentingComplain" className="textarea is-small"></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Examination Findings</label>
             <div className="control">
-              <textarea
-                {...register}
-                name="examFindings"
-                className="textarea is-small"
-              ></textarea>
+              <textarea ref={register} name="examFindings" className="textarea is-small"></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Investigation Diagnosis</label>
             <div className="control">
-              <textarea
-                {...register}
-                name="investigationDiag"
-                className="textarea is-small"
-              ></textarea>
+              <textarea ref={register} name="investigationDiag" className="textarea is-small"></textarea>
             </div>
           </div>
           <div className="field">
             <label className="label is-small">Drugs Given</label>
             <div className="control">
-              <textarea
-                {...register}
-                name="drugsGiven"
-                className="textarea is-small"
-              ></textarea>
+              <textarea ref={register} name="drugsGiven" className="textarea is-small"></textarea>
             </div>
           </div>
           <div className="columns mt-3">
@@ -87,12 +57,7 @@ const EmergencyForm = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Doctor's Name</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="docName"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="docName" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -100,12 +65,7 @@ const EmergencyForm = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Patient Name</label>
                 <div className="control">
-                  <input
-                    {...register}
-                    name="patientName"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="patientName" className="input is-small" type="text" />
                 </div>
               </div>
             </div>

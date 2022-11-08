@@ -5,7 +5,7 @@ export const ClientMiniSchema = [
     name: "S/N",
     key: "sn",
     description: "SN",
-    selector: (row) => row.sn,
+    selector: (row, i) => i + 1,
     sortable: true,
     inputType: "HIDDEN",
   },

@@ -9,6 +9,7 @@ import {Controller, useForm} from "react-hook-form";
 import {Link, useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
+
 import AuthWrapper from "../../components/AuthWrapper";
 import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
@@ -22,8 +23,8 @@ function Login() {
   const {handleSubmit, control} = useForm();
   const {setUser} = useContext(UserContext);
   const [keepMeIn, setKeepMeIn] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [loaderTimer, setLoaderTimer] = useState(true);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -41,12 +42,11 @@ function Login() {
         email,
         password,
       })
-      .then(res => {
+      .then((res) => {
         const user = {
           ...res.user,
           currentEmployee: {...res.user.employeeData[0]},
         };
-        setLoading(false);
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         setLoading(false);
@@ -54,9 +54,8 @@ function Login() {
 
         navigate("/app");
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error(`Error loggin in User, probable network issues  ${err}`);
-        setLoading(false);
       });
   };
 
@@ -74,7 +73,7 @@ function Login() {
               name="email"
               control={control}
               render={({field: {ref: _re, ...field}}) => (
-                <Input {...field} label="Email" />
+                <Input {...field} type="email" label="Email" />
               )}
             />
             <Controller

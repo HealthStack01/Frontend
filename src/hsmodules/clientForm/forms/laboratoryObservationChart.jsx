@@ -1,7 +1,8 @@
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const LaboratoryObservationChart = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+
+  const { register, handleSubmit } = useForm();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -12,23 +13,13 @@ const LaboratoryObservationChart = ({onSubmit}) => {
           <div className="field">
             <label className="label is-small">Name</label>
             <p className="control is-expanded">
-              <input
-                {...register}
-                name="name"
-                className="input is-small"
-                type="text"
-              />
+              <input ref={register} name="name" className="input is-small" type="text" />
             </p>
           </div>
           <div className="field">
             <label className="label is-small">Reg. No</label>
             <p className="control is-expanded">
-              <input
-                {...register}
-                name="regNumber"
-                className="input is-small"
-                type="text"
-              />
+              <input ref={register} name="regNumber" className="input is-small" type="text" />
             </p>
           </div>
           <div className="columns">
@@ -36,12 +27,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Date & Time</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="dateAndTime"
-                    className="input is-small"
-                    type="date"
-                  />
+                  <input ref={register} name="dateAndTime" className="input is-small" type="date" />
                 </p>
               </div>
             </div>
@@ -49,12 +35,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Temp</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="temp"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="temp" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -62,12 +43,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">P</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="p"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="p" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -75,12 +51,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">R</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="r"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="r" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -90,12 +61,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">B/P</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="bldPre"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="bldPre" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -103,12 +69,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">FH</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="fh"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="fh" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -116,12 +77,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Fluid Intake</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="fluidIntake"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="fluidIntake" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -129,12 +85,7 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Fluid Output</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="fluidOutput"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="fluidOutput" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -144,22 +95,13 @@ const LaboratoryObservationChart = ({onSubmit}) => {
               Contractions Frequency & Strength
             </label>
             <p className="control is-expanded">
-              <input
-                {...register}
-                name="contractions"
-                className="input is-small"
-                type="text"
-              />
+              <input ref={register} name="contractions" className="input is-small" type="text" />
             </p>
           </div>
           <div className="field">
             <label className="label is-small">Remark</label>
             <div className="control">
-              <textarea
-                {...register}
-                name="remark"
-                className="textarea is-small"
-              ></textarea>
+              <textarea ref={register} name="remark" className="textarea is-small"></textarea>
             </div>
           </div>
           <div className="field mt-4">

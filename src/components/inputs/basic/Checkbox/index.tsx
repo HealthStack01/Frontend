@@ -26,10 +26,11 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
   errorText,
   options,
   register,
+  name,
 }) => {
   const [values, setValues] = useState({});
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const newValues = { ...values, [e.target.value]: !values[e.target.value] };
     setValues(newValues);
     const selected = Object.entries(newValues)
@@ -41,18 +42,25 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
   return (
     <FormControl
       disabled={disabled}
-      component='fieldset'
+      component="fieldset"
       sx={{ width: '1r00%', mt: 1, mb: 1 }}
     >
-      <FormLabel component='legend'>{label}</FormLabel>
-      <FormGroup>
+      {/* <FormLabel component='legend'>{label}</FormLabel> */}
+      <FormGroup
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+        }}
+      >
         {options.map((option, i) => (
           <FormControlLabel
             key={i}
             defaultValue={defaultValue}
             control={
               <Checkbox
-                name={option.label || option}
+                name={name}
                 value={option.value || option || ''}
                 onChange={handleChange}
                 disabled={disabled}

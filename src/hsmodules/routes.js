@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -145,6 +145,13 @@ import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
 import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
 import ForgotPassword from "./auth/ForgotPassword";
 import CreatePassword from "./auth/CreatePassword";
+import ManagedCareHome from "./ManagedCare/ManagedCareHome";
+import Policy from "./ManagedCare/Policy";
+import Beneficiary from "./ManagedCare/Beneficiary";
+import OrganizationClient from "./ManagedCare/HIA";
+import CorporateClient from "./ManagedCare/Corporate";
+import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
+import DispensaryMain from "./ManagedCare/Checkin";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -158,7 +165,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -205,6 +212,41 @@ const AppRoutes = () => {
           <Route
             path="/app/global-appointment"
             element={<GeneralAppointments />}
+          />
+
+          {/* ***************************** Documetation ROUTES ************************************* */}
+          <Route
+            path="/app/blood-bank/documentation"
+            element={<Documentation />}
+          />
+          <Route path="/app/crm/documentation" element={<Documentation />} />
+          <Route
+            path="/app/general/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/immunization/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/labour-ward/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/pharmacy/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/radiology/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/referral/documentation"
+            element={<Documentation />}
+          />
+          <Route
+            path="/app/theatre/documentation"
+            element={<Documentation />}
           />
 
           {/* ***************************** CLINICS ROUTES ************************************* */}
@@ -436,11 +478,6 @@ const AppRoutes = () => {
               element={<PharmacyDashboard />}
             />
           </Route>
-          {/* 
-          <Route
-            path="/app/pharmacy/inv-payment"
-            element={<PharmacyPayment />}
-          /> */}
 
           {/* ***************************** RADIOLOGY ROUTES ************************************* */}
 
@@ -510,6 +547,30 @@ const AppRoutes = () => {
             <Route path="/app/ward/documentation" element={<Documentation />} />
             <Route path="/app/ward/discharge" element={<Discharge />} />
             <Route path="/app/ward/dashboard" element={<WardDashboard />} />
+          </Route>
+          {/**************************MANAGED CARE *************************************** */}
+          <Route path="/app/managed-care" element={<ManagedCareHome />}>
+            <Route path="/app/managed-care/policy" element={<Policy />} />
+            <Route
+              path="/app/managed-care/beneficiary"
+              element={<Beneficiary />}
+            />
+            <Route
+              path="/app/managed-care/checkin"
+              element={<DispensaryMain />}
+            />
+            <Route
+              path="/app/managed-care/provider"
+              element={<OrganizationClient />}
+            />
+            <Route
+              path="/app/managed-care/corporate"
+              element={<CorporateClient />}
+            />
+            <Route
+              path="/app/managed-care/dashboard"
+              element={<ManagedCareFrontDashboard />}
+            />
           </Route>
         </Route>
       </Routes>

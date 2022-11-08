@@ -1,7 +1,8 @@
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const ContinuationSheet = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+
+  const { register, handleSubmit } = useForm(); 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="card">
@@ -14,12 +15,7 @@ const ContinuationSheet = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Surname</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="surname"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="surname" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -27,12 +23,7 @@ const ContinuationSheet = ({onSubmit}) => {
               <div className="field">
                 <label className="label is-small">Firstname</label>
                 <p className="control is-expanded">
-                  <input
-                    {...register}
-                    name="firstname"
-                    className="input is-small"
-                    type="text"
-                  />
+                  <input ref={register} name="firstname" className="input is-small" type="text" />
                 </p>
               </div>
             </div>
@@ -41,8 +32,7 @@ const ContinuationSheet = ({onSubmit}) => {
             <div className="field">
               <label className="label is-small">Date & Time</label>
               <div className="control">
-                <input
-                  {...register}
+                <input ref={register} 
                   name="dateAndTime"
                   className="input is-small"
                   type="datetime-local"
@@ -55,23 +45,14 @@ const ContinuationSheet = ({onSubmit}) => {
             <div className="field">
               <label className="label is-small">Description/Remark</label>
               <div className="control">
-                <textarea
-                  {...register}
-                  name="descOrRemark"
-                  className="textarea is-small"
-                ></textarea>
+                <textarea ref={register} name="descOrRemark" className="textarea is-small"></textarea>
               </div>
             </div>
           </div>
           <div className="field w-100 mt-3">
             <label className="label is-small">Signature</label>
             <p className="control">
-              <input
-                {...register}
-                name="signature"
-                className="input is-small"
-                type="text"
-              />
+              <input ref={register} name="signature" className="input is-small" type="text" />
             </p>
           </div>
           <div className="field mt-4">

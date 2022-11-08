@@ -32,15 +32,18 @@ const ManagedCareFrontDashboard = () => {
             Hello <span>{userName}</span>👋
           </Typography>
           <Typography variant="body1">
-            Welcome to your Client Module{" "}
-            <span>@Front Desk {facilityName}</span>
+            Welcome to your Managed Care{" "}
+            <span>Dashboard</span>
           </Typography>
         </Box>
 
         <StartCardWapper>
-          <ViewCard count={40} title="Total Clients" />
+          <ViewCard count={50} title="Total Claims" />
           {/* <ViewCard count={16} title="Upcoming Appointments" hasFilter={true} /> */}
-          <ViewCard count={56} title="Total New Clients" />
+          <ViewCard count={180} title="Total Referrals" />
+          <ViewCard count={16} title="Total Check In" />
+          <ViewCard count={12} title="Total New Clients" />
+
         </StartCardWapper>
 
         <DashboardContainer>
@@ -62,21 +65,12 @@ const ManagedCareFrontDashboard = () => {
             </Box>
             <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
               <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
-                Gender
+                250
               </Typography>
-              <Typography variant="body2">Total Client by Gender</Typography>
+              <Typography variant="body2">Beneficiaries</Typography>
 
-              {/* <Stack
-                direction='row'
-                spacing={0.4}
-                sx={{ mt: 4 }}
-                justifyContent='center'
-              >
-                <Button>Male</Button>
-                <Button>Female</Button>
-                <Button>Others</Button>
-              </Stack> */}
-              <CircleChart />
+
+              {/* <CircleChart /> */}
             </Box>
           </Box>
         </DashboardContainer>

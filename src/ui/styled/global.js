@@ -1,9 +1,9 @@
-import {Stack, Tab, Tabs} from "@mui/material";
-import styled, {createGlobalStyle} from "styled-components";
+import { Stack, Tab, Tabs } from '@mui/material';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import StatWrapper from "../../components/CardWrapper";
-import {ItemWrapper as NavItemWrapper} from "../../components/ItemWrapper";
-import {PageText as NavText} from "../../components/PageText";
+import StatWrapper from '../../components/CardWrapper';
+import { ItemWrapper as NavItemWrapper } from '../../components/ItemWrapper';
+import { PageText as NavText } from '../../components/PageText';
 
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
@@ -208,14 +208,14 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  color: ${({theme}) => theme.text};
-  background: ${({theme}) => theme.background};
+  color: ${({ theme }) => theme.text};
+  background: ${({ theme }) => theme.background};
 
   &.center {
     display: flex;
     place-items: center;
-    background: ${({theme}) => theme.primary};
-    color: ${({theme}) => theme.btnText};
+    background: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.btnText};
   }
 
   & .text-center {
@@ -235,8 +235,8 @@ export const Container = styled.div`
 `;
 
 export const Text = styled(NavText)`
-  color: ${props => (props.color ? props.color : "#ffffff")};
-  font-size: ${props => (props.fontSize ? props.fontSize : ".9em")};
+  color: ${props => (props.color ? props.color : '#ffffff')};
+  font-size: ${props => (props.fontSize ? props.fontSize : '.9em')};
   margin-right: 1em;
   border: 1px solid #232f3e;
   padding: 0.5em 0.1em;
@@ -259,8 +259,8 @@ export const LeftText = styled(Text)`
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
   flex-direction: ${props =>
-    props.flexDirection ? props.flexDirection : "column"};
-  align-items: ${props => (props.alignItems ? props.alignItems : "flex-start")};
+    props.flexDirection ? props.flexDirection : 'column'};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'flex-start')};
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -275,21 +275,21 @@ export const Wrapper = styled(NavItemWrapper)`
 `;
 
 export const Stat = styled(StatWrapper)`
-  padding: ${props => (props.padding ? props.padding : "30px")};
+  padding: ${props => (props.padding ? props.padding : '30px')};
   display: flex;
-  align-items: ${props => (props.alignItems ? props.alignItems : "center")};
-  background: ${({theme}) => theme.background};
+  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
+  background: ${({ theme }) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : "15px")};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '15px')};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
   margin-bottom: ${props =>
-    props.margingBottom ? props.margingBottom : "30px"};
+    props.margingBottom ? props.margingBottom : '30px'};
 
   &::before {
-    content: "";
+    content: '';
     width: 100%;
     padding-top: 100%;
     border-radius: 50%;
@@ -316,14 +316,14 @@ export const UserWrapper = styled.div`
 `;
 
 export const AttendWrapper = styled(StatWrapper)`
-  background: ${props => (props.background ? props.background : "white")};
-  height: ${props => (props.height ? props.height : "120px")};
-  widtht: ${props => (props.width ? props.width : "auto")};
-  /* width: ${props => (props.width ? props.width : "120px")} */
+  background: ${props => (props.background ? props.background : 'white')};
+  height: ${props => (props.height ? props.height : '120px')};
+  widtht: ${props => (props.width ? props.width : 'auto')};
+  /* width: ${props => (props.width ? props.width : '120px')} */
   margin-left: 0.6rem;
   font-size: 12px;
-  padding: ${props => (props.padding ? props.padding : "1rem")};
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : "4px")};
+  padding: ${props => (props.padding ? props.padding : '1rem')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '4px')};
 
   /* flex: 1; */
 `;
@@ -331,7 +331,7 @@ export const Divider = styled.div`
   width: 100%;
   height: 1px;
   border-radius: 1px;
-  background: ${({theme}) => theme.btnText};
+  background: ${({ theme }) => theme.btnText};
 `;
 
 export const TableMenu = styled.div`

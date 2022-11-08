@@ -1,3 +1,4 @@
+
 import useFetch from "../usefetch";
 import {paymentTotal} from "./queryHandler";
 import useFetchData from "../useFetchData";
@@ -145,7 +146,7 @@ export const ClientPaymentMode = service => {
 
   var paymentModeBarSeries = [
     {
-      name: "mode of payment",
+      name: 'mode of payment',
       data: paymentModeData,
     },
   ];
@@ -225,7 +226,7 @@ export const TotalPaymentMode = service => {
 
   var paymentModeBarSeries = [
     {
-      name: "mode of payment",
+      name: 'mode of payment',
       data: paymentModeData,
     },
   ];
@@ -469,8 +470,8 @@ export const FetchOrderByDestination = service => {
   const query = {
     $sort: {createdAt: -1},
     // $select: ["createdAt", "destination"],
-    order_status: "Fully Paid",
-    $select: ["createdAt", "order_status"],
+    order_status: 'Fully Paid',
+    $select: ['createdAt', 'order_status'],
   };
   const {
     data: totalOrderByDestination,
@@ -914,7 +915,7 @@ export const ModelResult = service => {
     $sort: {createdAt: -1},
     // $select: ["createdAt", "order_category"],
     destination: facilityId,
-    order_category: "Laboratory",
+    order_category: 'Laboratory',
   };
 
   const {
