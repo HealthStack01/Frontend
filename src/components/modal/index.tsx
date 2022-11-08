@@ -9,16 +9,16 @@ interface ModalProps {
   onClose?: () => void;
   children?: React.ReactNode | undefined;
 
-  header?: "string";
-  width?: "string";
+  header?: 'string';
+  width?: 'string';
 }
 const style = {
-  minWidth: "400px",
-  maxWidth: "95vw",
-  minHeight: "200px",
+  minWidth: '400px',
+  maxWidth: '95vw',
+  minHeight: '200px',
 
-  maxHeight: "95vh",
-  bgcolor: "#FAFAFA",
+  maxHeight: '95vh',
+  bgcolor: '#FAFAFA',
 
   boxShadow: 24,
   p: 4,
@@ -27,8 +27,12 @@ const style = {
   //minWidth: "100px !important",
 };
 
-const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
-
+const ModalBox: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  children,
+  header,
+}) => (
   <>
     <Modal
       aria-labelledby="transition-modal-title"
@@ -50,28 +54,27 @@ const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
         <Box sx={style}>
           <div
             style={{
-
-              height: "100%",
-              overflowY: "hidden",
+              height: '100%',
+              overflowY: 'hidden',
             }}
           >
             {header && (
               <Box
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
                 mb={2}
               >
                 <h1
                   style={{
-                    color: "#33415C",
-                    fontWeight: "500",
-                    lineHeight: "1.5",
-                    fontSize: "20px",
-                    fontStyle: "SemiBold",
+                    color: '#33415C',
+                    fontWeight: '500',
+                    lineHeight: '1.5',
+                    fontSize: '20px',
+                    fontStyle: 'SemiBold',
                   }}
                 >
                   {header}

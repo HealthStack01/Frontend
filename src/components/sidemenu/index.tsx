@@ -100,9 +100,9 @@ export const menuItems = [
       { name: 'Bill Client', to: '/app/radiology/billservice' },
       { name: 'Checked-In', to: '/app/radiology/checkedin' },
       { name: 'Appointment', to: '/app/radiology/appointments' },
-      { name: 'Bill Lab Orders', to: '/app/radiology/radiology-bill' },
+      { name: 'Bill Radiology Orders', to: '/app/radiology/radiology-bill' },
       // {name: "Payment", to: "/app/radiology/payment"},
-      { name: 'Lab Result', to: '/app/radiology/radiology-result' },
+      { name: 'Radiology Result', to: '/app/radiology/radiology-result' },
     ],
   },
   // {
