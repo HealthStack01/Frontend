@@ -1,16 +1,16 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { useRouteMatch, useHistory } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
-//import {useHistory} from 'react-router-dom'
+//import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Clinic/Appointments";
+import { AppointmentCreate } from "../Appointment/generalAppointment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
@@ -18,6 +18,11 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -59,7 +64,7 @@ export function ClientCreate({ closeModal }) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("client");
   const mpiServ = client.service("mpi");
-  //const history = useHistory()
+  //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
@@ -391,7 +396,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", { required: true })}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -423,7 +428,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", { required: true })}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -452,7 +457,6 @@ export function ClientCreate({ closeModal }) {
                       dateFormat="dd/MM/yyyy"
                       placeholderText="Enter date with dd/MM/yyyy format "
                       //isClearable
-                      className="red-border is-small"
                     />
                   </p>
                 </div>
@@ -535,7 +539,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      ref={register({ required: true })}
+                      {...register("x", { required: true })}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -1704,7 +1708,7 @@ export function BeneficiaryCreate() {
                 <div className="select is-small ">
                   <select
                     name="plan"
-                    ref={register({ required: true })}
+                    {...register("x", { required: true })}
                     onChange={(e, i) => handleChangePlan(e.target.value)}
                     className="selectadd"
                   >
@@ -1803,6 +1807,7 @@ export function ClientList() {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(50);
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -1983,130 +1988,142 @@ export function ClientList() {
   }, [facilities]);
   //todo: pagination and vertical scroll bar
 
+  const BeneficiarySchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "First Name",
+      key: "firstname",
+      description: "First Name",
+      selector: (row) => row.firstname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Last Name",
+      key: "lastname",
+      description: "Last Name",
+      selector: (row) => row.lastname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Midlle Name",
+      key: "middlename",
+      description: "Midlle Name",
+      selector: (row) => row.middlename,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Payment Mode",
+      key: "paymentmode",
+      description: "Payment Mode",
+      selector: (row) => row.paymentmode,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Age",
+      key: "dob",
+      description: "Age",
+      selector: (row) => row.dob,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Gender",
+      key: "gender",
+      description: "Male",
+      selector: (row) => row.gender,
+      sortable: true,
+      required: true,
+      inputType: "SELECT_LIST",
+      options: ["Male", "Female"],
+    },
+
+    {
+      name: "Email",
+      key: "email",
+      description: "johndoe@mail.com",
+      selector: (row) => row.email,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+
+    {
+      name: "Tags",
+      key: "clientTags",
+      description: "Tags",
+      selector: (row) => row.clientTags,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
       <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Clients"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            List of Clients{" "}
-          </span>
-        </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="level-item">
-              <div
-                className="button is-success is-small"
-                onClick={handleCreateNew}
-              >
-                New
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="table-container pullup  vscrola" id="scrollableDiv">
-        <InfiniteScroll
-          dataLength={facilities.length}
-          next={getFacilities}
-          hasMore={total > facilities.length}
-          loader={<h4>Loading...</h4>}
-          scrollableTarget="scrollableDiv"
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
         >
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Last Name">Last Name</abbr>
-                </th>
-                <th>First Name</th>
-                <th>
-                  <abbr title="Middle Name">Middle Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Age">Payment Mode</abbr>
-                </th>
-                <th>
-                  <abbr title="Age">Age</abbr>
-                </th>
-                <th>
-                  <abbr title="Gender">Gender</abbr>
-                </th>
-                <th>
-                  <abbr title="Phone">Phone</abbr>
-                </th>
-                <th>
-                  <abbr title="Email">Email</abbr>
-                </th>
-                <th>
-                  <abbr title="Tags">Tags</abbr>
-                </th>
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facilities.map((Client, i) => (
-                <tr
-                  key={Client._id}
-                  onClick={() => handleRow(Client)}
-                  className={
-                    Client._id === (selectedClient?._id || null)
-                      ? "is-selected"
-                      : ""
-                  }
-                >
-                  <td>{i + 1}</td>
-                  <th>{Client.lastname}</th>
-                  <td>{Client.firstname}</td>
-                  <td>{Client.middlename}</td>
-                  <td>
-                    {Client.paymentinfo.map((pay, i) => (
-                      <>
-                        {pay.paymentmode}{" "}
-                        {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-                        {pay.organizationName}
-                        <br></br>
-                      </>
-                    ))}
-                  </td>
-                  <td>
-                    {Client.dob && (
-                      <>{formatDistanceToNowStrict(new Date(Client.dob))}</>
-                    )}
-                  </td>
-                  <td>{Client.gender}</td>
-                  <td>{Client.phone}</td>
-                  <td>{Client.email}</td>
-                  <td>{Client.clientTags}</td>
-                  {/*  <td><span   className="showAction"  >...</span></td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </InfiniteScroll>
+          <TableMenu>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
+              )}
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                List of Clients
+              </h2>
+            </div>
+            {handleCreateNew && (
+              <Button
+                style={{ fontSize: "14px", fontWeight: "600px" }}
+                label="Add New"
+                onClick={handleCreateNew}
+                showicon={true}
+              />
+            )}
+          </TableMenu>
+
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh-90px)",
+              overflow: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={BeneficiarySchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleCreateNew}
+              progressPending={loading}
+            />
+          </div>
+        </PageWrapper>
       </div>
     </>
   );
@@ -2127,7 +2144,7 @@ export function ClientDetail() {
   // eslint-disable-next-line
   const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
-  //const history = useHistory()
+  //const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
 

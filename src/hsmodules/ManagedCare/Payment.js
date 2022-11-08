@@ -9,6 +9,9 @@ import { toast } from "bulma-toast";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import PaymentCreate from "./PaymentCreate";
 import PatientProfile from "../Client/PatientProfile";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};

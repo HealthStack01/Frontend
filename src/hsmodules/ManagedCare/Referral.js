@@ -7,6 +7,9 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import FacilityAccount from "./Preauthorization";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -44,6 +47,7 @@ export function ClientAccount() {
   const [facility, setFacility] = useState([]);
   const InventoryServ = client.service("subwallettransactions");
   const SubwalletServ = client.service("subwallet");
+  
   //const navigate=useNavigate()
   const {user} = useContext(UserContext); //,setUser
   const {state, setState} = useContext(ObjectContext);
@@ -321,6 +325,7 @@ export function CollectionList() {
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   const [loading, setLoadig] = useState(false)
+  
   // eslint-disable-next-line
   const [selectedInventory, setSelectedInventory] = useState(); //
   // eslint-disable-next-line
@@ -523,15 +528,15 @@ export function CollectionList() {
       {user ? (
         <>
           <div className="level">
-          <PageWrapper>
+          <PageWrapper style={{flexDirection:"column" ,padding:"0.6rem 1rem"}}>
           <TableMenu>
-            <div>
+            <div style={{display:"flex",alignItems:"center"}}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2>Collection in the last 30 days</h2>
+              <h2 style={{marginLeft:"10px",fontSize:"0.95rem"}}>Collection in the last 30 days</h2>
             </div>
             {handleCreateNew && (
               <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
