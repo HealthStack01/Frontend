@@ -12,6 +12,7 @@ import { TableMenu } from "../../ui/styled/global";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
+import { autoSuggestQuery } from "../../components/inputs/query";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -478,6 +479,7 @@ export function CollectionList() {
   const ReferralSchema = [
     {
       name: "S/N",
+      // width: '100px',
       key: "sn",
       description: "SN",
       selector: (row) => row.sn,

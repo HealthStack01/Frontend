@@ -7,6 +7,11 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {ProductCreate} from "./UserManagement";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import FilterMenu from "../../components/utilities/FilterMenu";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -609,7 +614,8 @@ export function ProductExitList() {
   const ProductEntryServ = client.service("productentry");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
-  const [facilities, setFacilities] = useState([]);
+  const [facilities, setFacilities] = useState([]); 
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState(); //
   // eslint-disable-next-line
@@ -761,99 +767,125 @@ export function ProductExitList() {
   }, [state.StoreModule.selectedStore]);
   //todo: pagination and vertical scroll bar
 
+  const HealthPlanSchema = [
+    {
+      name: "S/N",
+      // width: '50px',
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Name",
+      selector: (row) => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quanitity",
+      key: "quanitity",
+      description: "Quanitity",
+      selector: (row) => row.quanitity,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+
+    {
+      name: "Unit",
+      key: "baseunit",
+      description: "Unity",
+      selector: (row) => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Selling Price",
+      key: "sellingprice",
+      description: "Selling Price",
+      selector: (row) => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Amount",
+      selector: (row) => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Actions",
+      key: "x",
+      description: "Actions",
+      selector: (row) => row.x,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+
   return (
     <>
       {state.StoreModule.selectedStore ? (
         <>
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search ProductEntry"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
+          <PageWrapper
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            >
+              <TableMenu>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                    Product items
+                  </h2>
                 </div>
-              </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                Product Exits{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
+                {handleCreateNew && (
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600px" }}
+                    label="Add New"
                     onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
+                    showicon={true}
+                  />
+                )}
+              </TableMenu>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "calc(100vh-90px)",
+                  overflow: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={HealthPlanSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleCreateNew}
+                  progressPending={loading}
+                />
               </div>
-            </div>
+            </PageWrapper>
           </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Date">Date</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Type">Type</abbr>
-                  </th>
-                  <th>Client</th>
-                  <th>
-                    <abbr title="Document No">Document No</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Total Amount">Total Amount</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Enteredby">Entered By</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Actions">Actions</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((ProductEntry, i) => (
-                  <tr
-                    key={ProductEntry._id}
-                    onClick={() => handleRow(ProductEntry)}
-                  >
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.date}</td>
-                    <th>{ProductEntry.type}</th>
-                    <td>{ProductEntry.source}</td>
-                    <td>{ProductEntry.documentNo}</td>
-                    <td>{ProductEntry.totalamount}</td>
-                    <td>{ProductEntry.enteredby}</td>
-                    <td>
-                      <span className="showAction">...</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+         
         </>
       ) : (
         <div>loading... Choose a Store</div>
