@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 
 import ViewCard from "./@sections/ViewCard";
 import LineChart from "../charts/LineChart";
-import PieChart from "../charts/PieChat";
+// import PieChart from "../charts/PieChat";
+import CircleChart from "../charts/CircleChart";
 import { clientLineData } from '../utils/chartData/LineData';
 import Checkbox from '@material-ui/core/Checkbox';
 import ManagedCareDashboardCard from "./@sections/ManagedCareDashboardCard";
+import client from "../../../feathers";
+
 
 import {
   DashboardContainer,
@@ -18,7 +21,6 @@ import { userDetails } from "../utils/fetchUserDetails";
 const ManagedCareFrontDashboard = () => {
   const [userName, setUserName] = useState("");
   const [facilityName, setFacilityName] = useState("");
-  // const { monthNameForCurrentYear, newClientLineSeriesData } = clientLineData(clientService);
 
   useEffect(() => {
     const { userFullName, facilityFullName } = userDetails();
@@ -61,7 +63,7 @@ const ManagedCareFrontDashboard = () => {
                 Check-in Overview
               </Typography>
               <Box  style={{marginBottom: '3rem', marginTop: '5rem',}}>
-              <PieChart title="" />
+              <CircleChart title="" />
               </Box>
               <Typography sx={{fontWeight: "bold"}}>300 <span style={{fontWeight: 'normal', fontSize: '0.8rem',  }}>- Time Btw Check-In/Out</span></Typography>
               <Typography sx={{fontWeight: "bold"}}>180 <span style={{fontWeight: 'normal', fontSize: '0.8rem',  }}>- Pending Check-in</span></Typography>
@@ -72,12 +74,12 @@ const ManagedCareFrontDashboard = () => {
               <LineChart title="Tariff" />
               <Box sx={{p: 4, background: "#f9f9f9", boxShadow: "0", borderRadius: 4, width: { xs: "100%" }, textAlign: "center", mr: 1, mb: { xs: 1 }, alignItems: "center",}}>
                 
-                    {/* <ManagedCareDashboardCard  count={0}
+                    <ManagedCareDashboardCard  count={0}
                         title="80k"
                         hasFilter={true}
-                        // dataSource={prescriptionOrderPresentDataObject}
-                        // isLoading={isSentLoading}
-                        /> */}
+                        dataSource={''}
+                        isLoading={false}
+                        />
                 <Typography style={{color: '#444444', fontWeight: '700', fontSize: '16px'}}>Referral Overview</Typography>
 
               </Box>

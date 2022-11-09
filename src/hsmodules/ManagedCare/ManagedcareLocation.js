@@ -379,6 +379,7 @@ export function LocationList({standalone, closeModal}) {
 
   //todo: pagination and vertical scroll bar
 
+  
   return (
     <>
       {user ? (

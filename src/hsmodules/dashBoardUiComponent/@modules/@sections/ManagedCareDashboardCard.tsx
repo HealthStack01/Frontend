@@ -8,6 +8,13 @@ interface ViewCardProps {
   isLoading?: boolean;
 }
 
+const demoData = {
+  totalOugoing: 3,
+  totalApprovedReferrals: 10,
+  totalRejectedReferrals: 30,
+  totalRejectionByReason: 50
+}
+
 const ManagedCareDashboardCard: React.FC<ViewCardProps> = ({
   title,
   count,
@@ -24,19 +31,16 @@ const ManagedCareDashboardCard: React.FC<ViewCardProps> = ({
 
   const renderDataSource = () => {
     if (outgoing) {
-      setcountValue(dataSource.totalInPresentDay);
+      setcountValue(dataSource.totalOutgoing);
       return;
     } else if (approvedReferrals) {
-      setcountValue(dataSource.totalInPresentWeek);
+      setcountValue(dataSource.totalApprovedReferrals);
       return;
     } else if (rejectedReferrals) {
-      setcountValue(dataSource.totalInPresentMonth);
+      setcountValue(dataSource.totalRejectedReferrals);
       return;
     } else if (rejectionByReason) {
-      setcountValue(dataSource.totalInPresentQuarter);
-      return;
-    } else {
-      setcountValue(dataSource.totalInPresentDay);
+      setcountValue(dataSource.totalRejectionByReason);
       setOutgoing(true);
       return;
     }

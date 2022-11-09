@@ -20,6 +20,7 @@ import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
+import moment from "moment";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -257,17 +258,17 @@ export function PolicyList() {
       selector: (row, i) => i + 1,
       sortable: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Date Created",
       key: "createdAt",
       description: "Date Created",
-      selector: (row) => row.createdAt,
+      selector: (row) => moment(row.date).format("YYYY-MM-DD HH:mm"),
       sortable: true,
       required: true,
       inputType: "DATE",
     },
-
     {
       name: "Sponsorship Type",
       key: "sponsorshipType",
