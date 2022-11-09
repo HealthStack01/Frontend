@@ -18,6 +18,7 @@ interface Props {
   onSelectedRowsChange?: any;
   noHeader?: boolean;
   conditionalRowStyles?: [];
+  selectableRowsComponent?: any;
 }
 
 const CustomLoader = () => (
@@ -40,6 +41,7 @@ const CustomTable: React.FC<Props> = ({
   onSelectedRowsChange,
   noHeader = true,
   conditionalRowStyles = [],
+  selectableRowsComponent,
 }) => {
   return (
     <DataTable
@@ -53,6 +55,7 @@ const CustomTable: React.FC<Props> = ({
       onRowClicked={onRowClicked}
       fixedHeader={true}
       selectableRows={selectable}
+      selectableRowsComponent={selectableRowsComponent}
       onSelectedRowsChange={onSelectedRowsChange}
       fixedHeaderScrollHeight="100%"
       responsive
