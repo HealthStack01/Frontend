@@ -600,14 +600,19 @@ const AppRoutes = () => {
               path="/app/managed-care/complaints"
               element={<ComplaintsInventoryReport />}
             />
-          </Route>
-          <Route path="/app/managed-care/checkin" />
+                   <Route
+              path="/app/managed-care/preauthorization"
+              element={<PreAuth />}
+            />
+                  <Route path="/app/managed-care/checkin" />
           <Route path="/app/managed-care/tarrifs" />
           <Route path="/app/managed-care/fundmanagement" />
           <Route path="/app/managed-care/providerpayment" />
           <Route path="/app/managed-care/usermgt" />
           <Route path="/app/managed-care/report" />
           <Route path="/app/managed-care/healthplan" />
+          </Route>
+        
         </Route>
         {/**************************CRM *************************************** */}
         <Route path="/app/crm" element={<CRMHome />}>
