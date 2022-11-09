@@ -241,13 +241,13 @@ export const menuItems = [
     to: "/app/crm",
     iconClassName: "bi bi-person",
     subMenus: [
-      { name: "Lead", to: "/app/crm/crm-lead" },
-      { name: "Invoice", to: "/app/crm/beneficiary" },
-      { name: "Deal", to: "/app/crm/checkin" },
-      { name: "Proposal", to: "/app/crm/provider" },
-      { name: "SLA", to: "/app/crm/complaints" },
-      { name: "Appointment", to: "/app/crm/HIA" },
-      { name: "Dashboard", to: "/app/crm/premiums" },
+      { name: "Lead", to: "/app/crm/lead" },
+      { name: "Proposal", to: "/app/crm/proposal" },
+      { name: "Invoice", to: "/app/crm/invoice" },
+      { name: "SLA", to: "/app/crm/SLA" },
+      { name: "Dashboard", to: "/app/crm/dashboard" },
+      { name: "Appointment", to: "/app/crm/appointment" },
+      { name: "Deal", to: "/app/crm/deal" },
     ],
   },
   {
@@ -269,7 +269,7 @@ export const menuItems = [
       { name: "Outgoing", to: "/app/referral/outgoing" },
       {
         name: "Referral account",
-        to: "/app/referral/referral-account",
+        to: "/app/referral/account",
       },
       { name: "Setting", to: "/app/referral/setting" },
     ],
@@ -307,10 +307,7 @@ export const menuItems = [
     to: "/app/accounting",
     iconClassName: "bi bi-person",
     subMenus: [
-      {
-        name: "Chart of accounts",
-        to: "/app/accounting/chart-of-account",
-      },
+      { name: "Chart of accounts", to: "/app/accounting/chart-of-account" },
       { name: "Account", to: "/app/accounting/account" },
       { name: "Payment", to: "/app/accounting/payment" },
       { name: "Expenses", to: "/app/accounting/expenses" },
@@ -324,14 +321,8 @@ export const menuItems = [
     to: "/app/immunization",
     iconClassName: "bi bi-person",
     subMenus: [
-      {
-        name: "Vaccine profile",
-        to: "/app/immunization/vaccineprofile",
-      },
-      {
-        name: "Immunization schedule",
-        to: "/app/immunization/immunization-sche",
-      },
+      { name: "Vaccine profile", to: "/app/immunization/vaccineprofile" },
+      { name: "Immunization schedule", to: "/app/immunization/schedule" },
       { name: "Inventory", to: "/app/immunization/inventory" },
       { name: "Appointment", to: "/app/immunization/appointment" },
       { name: "Checkin/out", to: "/app/immunization/checkin-out" },
