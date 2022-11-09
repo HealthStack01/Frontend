@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Route, Routes, useLocation} from "react-router-dom";
 
-import { UserContext, ObjectContext } from "../context";
+import {UserContext, ObjectContext} from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import { Models } from "./app/Constants";
+import {Models} from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -155,8 +155,10 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import { OrgList } from "./ManagedCare/OrgClientList";
+import {OrgList} from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
+
+import PreAuth from "./ManagedCare/PreAuth";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -170,7 +172,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const { setLocationType } = useRepository(Models.LOCATION);
+  const {setLocationType} = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -553,6 +555,7 @@ const AppRoutes = () => {
             <Route path="/app/ward/discharge" element={<Discharge />} />
             <Route path="/app/ward/dashboard" element={<WardDashboard />} />
           </Route>
+
           {/**************************MANAGED CARE *************************************** */}
           <Route path="/app/managed-care" element={<ManagedCareHome />}>
             <Route path="/app/managed-care/policy" element={<Policy />} />
@@ -595,6 +598,11 @@ const AppRoutes = () => {
             <Route
               path="/app/managed-care/complaints"
               element={<ComplaintsInventoryReport />}
+            />
+
+            <Route
+              path="/app/managed-care/preauthorization"
+              element={<PreAuth />}
             />
           </Route>
         </Route>
