@@ -156,6 +156,7 @@ import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
 import { OrgList } from "./ManagedCare/OrgClientList";
+import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -583,10 +584,19 @@ const AppRoutes = () => {
               path="/app/managed-care/referrals"
               element={<ReferralsCollections />}
             />
-            <Route path="app/managed-care/claims" element={<ClientBilledPrescription/>}/>
-             <Route path="app/managed-care/organization" element={<OrgList/>}/>
+            <Route
+              path="/app/managed-care/claims"
+              element={<ClientBilledPrescription />}
+            />
+            <Route
+              path="/app/managed-care/organisation"
+              element={<OrgList />}
+            />
+            <Route
+              path="/app/managed-care/complaints"
+              element={<ComplaintsInventoryReport />}
+            />
           </Route>
-          
         </Route>
       </Routes>
     </>
