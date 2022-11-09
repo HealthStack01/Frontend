@@ -347,6 +347,8 @@ export function DispenseList({openCreateModal}) {
     },
   ];
 
+  const selectedClientSchema = [];
+
   return (
     <>
       <div
@@ -369,13 +371,13 @@ export function DispenseList({openCreateModal}) {
             </h2>
           </div>
 
-          {handleCreateNew && (
+          {/* {handleCreateNew && (
             <Button
               style={{fontSize: "14px", fontWeight: "600"}}
               label="Add new "
               onClick={handleCreateNew}
             />
-          )}
+          )} */}
         </TableMenu>
 
         <div
@@ -405,8 +407,8 @@ export function DispenseList({openCreateModal}) {
               progressPending={loading}
             />
           </div>
-          {/* 
-          {selectedClient && (
+
+          {selectedFinance && (
             <>
               <div
                 style={{
@@ -418,7 +420,7 @@ export function DispenseList({openCreateModal}) {
                 <CustomTable
                   title={""}
                   columns={selectedClientSchema}
-                  data={clientBills}
+                  //data={clientBills}
                   pointerOnHover
                   highlightOnHover
                   striped
@@ -427,7 +429,7 @@ export function DispenseList({openCreateModal}) {
                 />
               </div>
             </>
-          )} */}
+          )}
         </div>
       </div>
     </>

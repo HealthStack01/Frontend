@@ -16,6 +16,10 @@ import FilterMenu from "./ui-components/utilities/FilterMenu";
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+
 // Demo styles, see 'Styles' section below for some notes on use.
 
 import {StoreModify} from "../inventory/Store";
@@ -24,10 +28,14 @@ import Input from "../../components/inputs/basic/Input";
 import {
   Box,
   Button as MuiButton,
+  Card,
+  Collapse,
   Divider,
   Grid,
+  Grow,
   Typography,
 } from "@mui/material";
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1153,8 +1161,8 @@ export function ServicesDetail({openModifyModal, closeModal}) {
   );
 }
 
-export function ServicesModify() {
-  // const { register, handleSubmit, setValue,reset, errors } = useForm(); //watch, errors,
+export function ServicesModify({closeModal}) {
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1475,6 +1483,7 @@ export function ServicesModify() {
       ServicesModule: newServicesModule,
     }));
     //console.log(state)
+    closeModal();
   };
 
   const changeState = resp => {
@@ -1587,114 +1596,158 @@ export function ServicesModify() {
     setPos(i);
   };
 
+  const pricesSchema = [
+    {
+      name: "S/NO",
+      width: "70px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Organization",
+      key: "source_org_name",
+      description: "Enter Organization",
+      selector: row => row.source_org_name,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Amount",
+      key: "price",
+      description: "Enter Price",
+      selector: row => row.price,
+      sortable: true,
+      required: true,
+      inputType: "SELECT",
+    },
+
+    {
+      name: "Billing Type",
+      key: "billing_type",
+      description: "Enter Billing Type",
+      selector: row => row.billing_type,
+      sortable: true,
+      required: true,
+      inputType: "SELECT",
+    },
+
+    {
+      name: "Plans",
+      key: "category",
+      description: "Enter Category",
+      selector: row => {
+        row.plan && row.plans.map((plan, i) => <span key={i}>{plan};</span>);
+      },
+      sortable: true,
+      required: true,
+      inputType: "SELECT",
+    },
+
+    {
+      name: "Action",
+      key: "category",
+      description: "Enter Category",
+      selector: (row, i) => (
+        <p style={{color: "red"}} onClick={() => handleRemove(i, row)}>
+          Delete
+        </p>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "SELECT",
+    },
+  ];
+
   return (
     <>
-      <Box></Box>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Services Details-Modify</p>
-        </div>
+      <Box
+        container
+        sx={{
+          width: "750px",
+          maxHeight: "500px",
+          overflowY: "auto",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <CategorySearch
+              id={Services.category}
+              getSearchfacility={getSearchfacility2}
+              clear={success2}
+              disable={true}
+            />
+          </Grid>
 
-        <div className="card-content vscrollable">
-          {/* <form onSubmit={onSubmit}>  */}
-          {/* handleSubmit(onSubmit) */}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <CategorySearch
-                  id={Services.category}
-                  getSearchfacility={getSearchfacility2}
-                  clear={success2}
-                  disable={true}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
-                  {/* <input className="input is-small"   ref={register ({ required: true }) }  add array no   value={categoryname} name="categoryname" type="text" onChange={e=>setCategoryName(e.target.value)} placeholder="Category of Service" /> */}
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ value={source}
-                    name="source"
-                    type="text"
-                    onChange={e => setSource(e.target.value)}
-                    onBlur={handleCheck}
-                    placeholder="Name of Service"
-                    autoComplete="false"
+          <Grid item xs={6}>
+            <Input
+              className="input is-small"
+              register={register("source", {required: true})}
+              value={source}
+              name="source"
+              type="text"
+              onChange={e => setSource(e.target.value)}
+              onBlur={handleCheck}
+              placeholder="Name of Service"
+              autoComplete="false"
+              disabled
+            />
+          </Grid>
+        </Grid>
+
+        <Box container>
+          <Box sx={{width: "100px"}}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={panel}
+                    name="panel"
+                    onChange={e => setPanel(e.target.checked)}
+                    //{...register("panel", {required: true})}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+                }
+                label="Label"
+              />
+            </FormGroup>
+          </Box>
+        </Box>
 
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <label className="label is-small">
-                    <input
-                      className="checkbox is-small"
-                      /* {...register("x",{required: true})} */ checked={panel}
-                      name="panel"
-                      type="checkbox"
-                      onChange={e =>
-                        setPanel(e.target.checked)
-                      } /* placeholder="Date" */
-                    />
+        <Collapse in={panel}>
+          <Grid container spacing={2}>
+            <Grid item xs={10}>
+              <ServiceSearch
+                getSearchService={getSearchService}
+                clearService={successService}
+                disable={!panel}
+              />
+            </Grid>
 
-                    <span>Panel</span>
-                  </label>
-                </p>
-              </div>
+            <Grid item xs={2}>
+              <MuiButton
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  height: "48px",
+                  margin: "0.75rem 0",
+                  textTransform: "capitalize",
+                }}
+                onClick={handleAddPanel}
+              >
+                <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+              </MuiButton>
+            </Grid>
+          </Grid>
+        </Collapse>
 
-              {panel && (
-                <>
-                  <div className="field">
-                    <div
-                      className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                    >
-                      <ServiceSearch
-                        getSearchService={getSearchService}
-                        clearService={successService}
-                      />
-                      <p
-                        className="control has-icons-left "
-                        style={{display: "none"}}
-                      >
-                        <input
-                          className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no   value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id"*/
-                        />
-                        <span className="icon is-small is-left">
-                          <i className="fas  fa-map-marker-alt"></i>
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  <p className="control">
-                    <button className="button is-info is-small  is-pulled-right selectadd">
-                      <span className="is-small" onClick={handleAddPanel}>
-                        {" "}
-                        +
-                      </span>
-                    </button>
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
+        <Box>
           {panel && panelList.length > 0 && (
             <div>
               <strong> Panel Items:</strong>{" "}
@@ -1705,261 +1758,222 @@ export function ServicesModify() {
               ))}
             </div>
           )}
+        </Box>
 
-          {/*   </form>    */}
+        <Typography sx={{margin: "0.50rem 0"}}>Add Pricing Info:</Typography>
 
-          {/* array of Services items */}
+        {productItem.length > 0 ? (
+          <Box container>
+            <Grid container spacing={2}>
+              <Grid item xs={7}>
+                <FacilitySearch
+                  getSearchfacility={getSearchfacility}
+                  clear={success}
+                />
+                <p
+                  className="control has-icons-left "
+                  style={{display: "none"}}
+                >
+                  <input
+                    className="input is-small"
+                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
+                      facilityId
+                    }
+                    name="facilityId"
+                    type="text"
+                    onChange={e => setFacilityId(e.target.value)}
+                    placeholder="Product Id"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas  fa-map-marker-alt"></i>
+                  </span>
+                </p>
+              </Grid>
 
-          <label className="label is-small">Add Pricing Info:</label>
-          {productItem.length > 0 ? (
-            <>
-              <div className="field is-horizontal">
-                <div className="field-body">
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <FacilitySearch
-                      getSearchfacility={getSearchfacility}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{display: "none"}}
-                    >
-                      <input
-                        className="input is-small"
-                        /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                          facilityId
-                        }
-                        name="facilityId"
-                        type="text"
-                        onChange={e => setFacilityId(e.target.value)}
-                        placeholder="Product Id"
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                  </div>
-                  {/*  <div className="field">
-           <p className="control has-icons-left">
-               <input className="input is-small"  {...register("x",{required: true})}  name="quantity" value={quantity} type="text" onChange={e=>setQuantity(e.target.value)} placeholder="Quantity"  />
-               <span className="icon is-small is-left">
-               <i className="fas fa-envelope"></i>
-               </span>
-           </p>
+              <Grid item xs={3}>
+                <Input
+                  //register={register("costprice", {required: true})}
+                  name="costprice"
+                  value={costprice}
+                  type="text"
+                  onChange={e => setCostprice(e.target.value)}
+                  label="Price"
+                />
+              </Grid>
 
-       </div>  */}
-                  <div className="field">
-                    <p className="control has-icons-left">
-                      <input
-                        className="input is-small"
-                        /* {...register("x",{required: true})} */ name="costprice"
-                        value={costprice}
-                        type="text"
-                        onChange={e => setCostprice(e.target.value)}
-                        placeholder="Price"
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-dollar-sign"></i>
-                      </span>
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control">
-                      <button className="button is-info is-small  is-pulled-right selectadd">
-                        <span className="is-small" onClick={handleClickProd}>
-                          +
-                        </span>
-                      </button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body">
-                  <div className="field">
-                    <div
-                      className="field has-addons" /* style={{display:`${ProductEntry.show}`} }*/
-                    >
-                      <div className="control">
-                        <input
-                          className="input selectadd"
-                          type="text"
-                          name="plan"
-                          value={plan}
-                          onChange={e => setPlan(e.target.value)}
-                          placeholder="Benefitting Plans"
-                        />
-                      </div>
-                      <div className="control">
-                        <button
-                          className="button is-info selectadd"
-                          onClick={e => handleBenefit(e)}
-                        >
-                          add
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="field is-expanded pull-left">
-                    {benefittingplans &&
-                      benefittingplans.map((plan, i) => (
-                        <span key={i} className="ml-1">
-                          {plan};
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="field is-horizontal">
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control has-icons-left">
-                      <input
-                        className="input is-small"
-                        /* {...register("x",{required: true})} */ disabled
-                        name="cash"
-                        value={cash}
-                        type="text"
-                        onChange={e =>
-                          setCash(e.target.value)
-                        } /* placeholder="Cost Price" */
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-dollar-sign"></i>
-                      </span>
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control has-icons-left">
-                      <input
-                        className="input is-small"
-                        /* {...register("x",{required: true})} */ name="costprice"
-                        value={costprice}
-                        type="text"
-                        onChange={e => setCostprice(e.target.value)}
-                        placeholder="Price"
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-dollar-sign"></i>
-                      </span>
-                    </p>
-                  </div>
-                  <div className="field">
-                    <p className="control">
-                      <button className="button is-info is-small  is-pulled-right selectadd">
-                        <span className="is-small" onClick={handleClickProd}>
-                          +
-                        </span>
-                      </button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
+              <Grid item xs={2}>
+                <MuiButton
+                  variant="outlined"
+                  sx={{
+                    width: "100%",
+                    height: "48px",
+                    margin: "0.75rem 0",
+                    textTransform: "capitalize",
+                  }}
+                  onClick={handleClickProd}
+                >
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add
+                </MuiButton>
+              </Grid>
+            </Grid>
 
-          {productItem.length > 0 && (
-            <div>
-              <label>Prices:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Source Organization">Organization</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Price">Amount</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Billing Type">Billing Type</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Benefitting Plans">Plans</abbr>
-                    </th>
-                    {/*  <th><abbr title="Cost Price">Amount</abbr></th>*/}
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((Services, i) => (
-                    <tr key={i} onClick={() => handleModCon(Services, i)}>
-                      <th>{i + 1}</th>
-                      <td>{Services.source_org_name}</td>
-                      <th>{Services.price}</th>
-                      <td>{Services.billing_type}</td>
-                      <td>
-                        {" "}
-                        {Services.plan &&
-                          Services.plans.map((plan, i) => (
-                            <span key={i} className="ml-1">
-                              {plan};
-                            </span>
-                          ))}
-                      </td>
-                      {/*<td>{Services.amount}</td> */}
-                      <td>
-                        <span
-                          className="showAction"
-                          onClick={() => handleRemove(i, Services)}
-                        >
-                          x
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {/*  <div className="field mt-2">
-       <p className="control">
-           <button className="button is-success is-small" disabled={!productItem.length>0} onClick={onSubmit}>
-               Create
-           </button>
-       </p>
-       </div> */}
-            </div>
-          )}
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={onSubmit}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            {/* <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-          </div>
-        </div>
-      </div>
+            <Grid container spacing={2}>
+              <Grid item xs={10}>
+                <Input
+                  type="text"
+                  name="plan"
+                  value={plan}
+                  onChange={e => setPlan(e.target.value)}
+                  label="Benefitting Plans"
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <MuiButton
+                  variant="outlined"
+                  sx={{
+                    width: "100%",
+                    height: "48px",
+                    margin: "0.75rem 0",
+                    textTransform: "capitalize",
+                  }}
+                  onClick={e => handleBenefit(e)}
+                >
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add
+                </MuiButton>
+              </Grid>
+            </Grid>
+          </Box>
+        ) : (
+          <Box container>
+            <Grid container spacing={2}>
+              <Grid item xs={5}>
+                <Input
+                  {...register("cash", {required: true})}
+                  disabled
+                  name="cash"
+                  value={cash}
+                  type="text"
+                  onChange={e => setCash(e.target.value)}
+                  label="Cost Price"
+                />
+              </Grid>
+
+              <Grid item xs={5}>
+                <Input
+                  {...register("costprice", {required: true})}
+                  name="costprice"
+                  value={costprice}
+                  type="text"
+                  onChange={e => setCostprice(e.target.value)}
+                  label="Price"
+                />
+              </Grid>
+
+              <Grid item xs={2}>
+                <MuiButton
+                  variant="outlined"
+                  sx={{
+                    width: "100%",
+                    height: "48px",
+                    margin: "0.75rem 0",
+                    textTransform: "capitalize",
+                  }}
+                  onClick={handleClickProd}
+                >
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add
+                </MuiButton>
+              </Grid>
+            </Grid>
+          </Box>
+        )}
+
+        <Box sx={{width: "100%", height: "150px", overflowY: "auto"}}>
+          <CustomTable
+            title={"Prices"}
+            columns={pricesSchema}
+            data={productItem}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //onRowClicked={row => onRowClicked(row)}
+            progressPending={false}
+          />
+        </Box>
+
+        <Box
+          container
+          sx={{
+            display: "flex",
+            aligntItems: "center",
+          }}
+          mt={2}
+        >
+          <MuiButton
+            variant="contained"
+            onClick={onSubmit}
+            style={{
+              fontSize: "0.75rem",
+              textTransform: "capitalize",
+              width: "150px",
+              marginRight: "15px",
+            }}
+          >
+            Save
+          </MuiButton>
+
+          <MuiButton
+            variant="outlined"
+            color="error"
+            onClick={handleCancel}
+            style={{
+              fontSize: "0.75rem",
+              textTransform: "capitalize",
+              width: "150px",
+            }}
+          >
+            Cancel
+          </MuiButton>
+        </Box>
+      </Box>
     </>
   );
 }
 
-export function ServiceSearch({getSearchService, clearService}) {
+const useOnClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = event => {
+      // Do nothing if clicking ref's element or descendent elements
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, handler]);
+};
+
+export function ServiceSearch({
+  getSearchService,
+  clearService,
+  disable = false,
+}) {
   const productServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1977,6 +1991,8 @@ export function ServiceSearch({getSearchService, clearService}) {
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
   const [productModal, setProductModal] = useState(false);
+
+  const dropDownRef = useRef(null);
 
   const handleRow = async obj => {
     await setChosen(true);
@@ -2076,54 +2092,126 @@ export function ServiceSearch({getSearchService, clearService}) {
     }
     return () => {};
   }, [clearService]);
+
+  useOnClickOutside(dropDownRef, () => setShowPanel(false));
+
   return (
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            className="dropdown-trigger"
+            style={{width: "100%", position: "relative"}}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
-              <DebounceInput
-                className="input is-small "
-                type="text"
-                placeholder="Search Services"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu" style={{width: "100%"}}>
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div className="dropdown-item" onClick={handleAddproduct}>
-                    {" "}
-                    <span>Service does not current exist</span>{" "}
-                  </div>
-                )}
+            <DebounceInput
+              className="input is-small "
+              type="text"
+              label="Search Services"
+              value={simpa}
+              minLength={3}
+              debounceTimeout={400}
+              onBlur={e => handleBlur(e)}
+              onChange={e => handleSearch(e.target.value)}
+              inputRef={inputEl}
+              element={Input}
+              disabled={disable}
+            />
 
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <span>{facility.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <Grow in={showPanel}>
+              <Card>
+                <Box
+                  ref={dropDownRef}
+                  container
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxHeight: "150px",
+                    overflowY: "scroll",
+                    zIndex: "5",
+                    position: "absolute",
+                    background: "#ffffff",
+                    width: "100%",
+                    border: "1px solid lightgray",
+                    zIndex: "500",
+                  }}
+                >
+                  {facilities.length > 0 ? (
+                    facilities.map((facility, i) => (
+                      <Box
+                        item
+                        key={i}
+                        onClick={() => handleRow(facility)}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "0 8px",
+                          width: "100%",
+                          minHeight: "50px",
+                          borderTop: i !== 0 ? "1px solid gray" : "",
+                          cursor: "pointer",
+                          zIndex: "100",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "0.75rem",
+                          }}
+                        >
+                          {facility.name} - {facility.category}
+                        </span>
+                      </Box>
+                    ))
+                  ) : (
+                    <Box
+                      className="dropdown-item"
+                      onClick={handleAddproduct}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0 8px",
+                        width: "100%",
+                        minHeight: "50px",
+                        borderTop: "1px solid gray",
+                        cursor: "pointer",
+                        zIndex: "100",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "0.75rem",
+                        }}
+                      >
+                        Service {val} does not currently exist
+                      </span>{" "}
+                    </Box>
+                  )}
+                </Box>
+              </Card>
+            </Grow>
           </div>
+
+          {/* <div className="dropdown-menu" style={{width: "100%"}}>
+            <div className="dropdown-content">
+              {facilities.length > 0 ? (
+                ""
+              ) : (
+                <div className="dropdown-item" onClick={handleAddproduct}>
+                  {" "}
+                  <span>Service does not current exist</span>{" "}
+                </div>
+              )}
+
+              {facilities.map((facility, i) => (
+                <div
+                  className="dropdown-item"
+                  key={facility._id}
+                  onClick={() => handleRow(facility)}
+                >
+                  <span>{facility.name}</span>
+                </div>
+              ))}
+            </div>
+          </div> */}
         </div>
       </div>
     </div>

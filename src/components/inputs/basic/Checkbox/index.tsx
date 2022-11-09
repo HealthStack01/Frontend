@@ -4,8 +4,8 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
-} from '@mui/material';
-import React, { useState } from 'react';
+} from "@mui/material";
+import React, {useState} from "react";
 
 interface CheckboxProps {
   label: string;
@@ -20,7 +20,7 @@ interface CheckboxProps {
 
 const CheckboxInput: React.FC<CheckboxProps> = ({
   label,
-  defaultValue = '',
+  defaultValue = "",
   onChange,
   disabled,
   errorText,
@@ -30,28 +30,28 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
 }) => {
   const [values, setValues] = useState({});
 
-  const handleChange = (e) => {
-    const newValues = { ...values, [e.target.value]: !values[e.target.value] };
+  const handleChange = e => {
+    const newValues = {...values, [e.target.value]: !values[e.target.value]};
     setValues(newValues);
     const selected = Object.entries(newValues)
       .filter(([, value]) => value)
       .map(([key]) => key);
-    onChange({ target: { value: selected } });
+    onChange({target: {value: selected}});
   };
 
   return (
     <FormControl
       disabled={disabled}
       component="fieldset"
-      sx={{ width: '1r00%', mt: 1, mb: 1 }}
+      sx={{width: "100%", mt: 1, mb: 1}}
     >
       {/* <FormLabel component='legend'>{label}</FormLabel> */}
       <FormGroup
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          alignItems: "center",
         }}
       >
         {options.map((option, i) => (
@@ -61,7 +61,7 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
             control={
               <Checkbox
                 name={name}
-                value={option.value || option || ''}
+                value={option.value || option || ""}
                 onChange={handleChange}
                 disabled={disabled}
                 {...register}
