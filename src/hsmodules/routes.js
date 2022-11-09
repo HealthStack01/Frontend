@@ -152,9 +152,11 @@ import ReferralsCollections from "./ManagedCare/Referral";
 import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
+import FundsManagement from "./ManagedCare/FundsManagement";
+import CheckIn from "./ManagedCare/Checkin";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
-import DispensaryMain from "./ManagedCare/Checkin";
+// import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
 import {OrgList} from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
@@ -565,9 +567,13 @@ const AppRoutes = () => {
               path="/app/managed-care/beneficiary"
               element={<Beneficiary />}
             />
-            <Route
+            {/* <Route
               path="/app/managed-care/checkin"
               element={<DispensaryMain />}
+            /> */}
+            <Route
+              path="/app/managed-care/checkin"
+              element={<CheckIn />}
             />
             <Route
               path="/app/managed-care/provider"
@@ -606,9 +612,9 @@ const AppRoutes = () => {
               path="/app/managed-care/preauthorization"
               element={<PreAuth />}
             />
-            <Route path="/app/managed-care/checkin" />
+            {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
-            <Route path="/app/managed-care/fundmanagement" />
+            <Route path="/app/managed-care/fundmanagement"/>
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
