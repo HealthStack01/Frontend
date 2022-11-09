@@ -187,16 +187,24 @@ const ClientForm = ({ open, setOpen }) => {
                 {/* Names Section */}
 
                 <ViewBox>
+                  <h2>Names</h2>
+
                   <GridWrapper>
                     <Input
                       label='First Name'
                       register={register('firstname')}
+                      errorText={errors?.firstname?.message}
                     />
                     <Input
                       label='Middle Name'
                       register={register('middlename')}
+                      errorText={errors?.middlename?.message}
                     />
-                    <Input label='Last Name' register={register('lastname')} />
+                    <Input
+                      label='Last Name'
+                      register={register('lastname')}
+                      errorText={errors?.lastname?.message}
+                    />
                     <BasicDatePicker
                       label='Date of Birth'
                       register={register('dob')}
@@ -207,6 +215,8 @@ const ClientForm = ({ open, setOpen }) => {
                 {/* Biodata Section */}
 
                 <ViewBox>
+                  <h2>Biodata</h2>
+
                   <GridWrapper>
                     <CustomSelect
                       label='Gender'
@@ -233,13 +243,23 @@ const ClientForm = ({ open, setOpen }) => {
                       label='Profession'
                       register={register('profession')}
                     />
-                    <Input label='Phone No' register={register('phone')} />
-                    <Input label='Email' register={register('email')} />
+                    <Input
+                      label='Phone No'
+                      register={register('phone')}
+                      errorText={errors?.phone?.message}
+                    />
+                    <Input
+                      label='Email'
+                      register={register('email')}
+                      errorText={errors?.email?.message}
+                    />
                     <Input label='Tags' register={register('clientTags')} />
                   </GridWrapper>
                 </ViewBox>
                 {/* Address */}
                 <ViewBox>
+                  <h2>Addresses</h2>
+
                   <GridWrapper>
                     <Input
                       label='Residential Address'
@@ -253,6 +273,8 @@ const ClientForm = ({ open, setOpen }) => {
                 </ViewBox>
                 {/* Medical Data */}
                 <ViewBox>
+                  <h2>Medical Data</h2>
+
                   <GridWrapper>
                     <Input
                       label='Blood Group'
@@ -276,6 +298,8 @@ const ClientForm = ({ open, setOpen }) => {
                 </ViewBox>
                 {/* Next of Kin Information */}
                 <ViewBox>
+                  <h2>Next of Kin Information</h2>
+
                   <GridWrapper>
                     <Input
                       label='Next of Kin Full Name'
