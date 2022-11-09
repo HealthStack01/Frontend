@@ -262,7 +262,7 @@ export function PolicyList() {
       name: "Date Created",
       key: "createdAt",
       description: "Date Created",
-      selector: (row) => row.createdAt,
+      selector: (row) => format(newDate(row.createdAt), "dd-MM-yy"),
       sortable: true,
       required: true,
       inputType: "DATE",

@@ -2092,7 +2092,7 @@ export function ClientList() {
                 </div>
               )}
               <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-                List of Clients
+                List of Beneficiary
               </h2>
             </div>
             {handleCreateNew && (

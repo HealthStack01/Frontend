@@ -463,7 +463,9 @@ export function OrganizationList() {
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2>List of HIA</h2>
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                List of HIA
+              </h2>
             </div>
             {handleCreateNew && (
               <Button
