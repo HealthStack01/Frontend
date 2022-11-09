@@ -31,7 +31,12 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export default function CategorySearch({id, getSearchfacility, clear}) {
+export default function CategorySearch({
+  id,
+  getSearchfacility,
+  clear,
+  disable = false,
+}) {
   const ClientServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -219,7 +224,7 @@ export default function CategorySearch({id, getSearchfacility, clear}) {
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
-                placeholder="Search for Service Category"
+                label="Search Service Category"
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
@@ -227,6 +232,7 @@ export default function CategorySearch({id, getSearchfacility, clear}) {
                 onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
                 element={Input}
+                disabled={disable}
               />
               <Grow in={showPanel}>
                 <Card>

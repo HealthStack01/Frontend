@@ -73,7 +73,7 @@ function Login() {
               name="email"
               control={control}
               render={({field: {ref: _re, ...field}}) => (
-                <Input {...field} label="Email" />
+                <Input {...field} type="email" label="Email" />
               )}
             />
             <Controller

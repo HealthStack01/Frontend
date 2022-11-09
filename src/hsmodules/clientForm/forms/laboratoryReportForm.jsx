@@ -401,7 +401,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              HB (G/DL)
+              HB (G/DL), Range: 12-16
             </label>
           </InputBox>
           {hb < 12 || hb > 16 ? (
@@ -429,7 +429,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              PVC (%)
+              PVC (%) Range: 36-45
             </label>
           </InputBox>
           {pvc < 36 || pvc > 45 ? (
@@ -459,7 +459,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              WBC (CMM)
+              WBC (CMM), Range: 3000-11000
             </label>
           </InputBox>
           {wbc < 3000 || wbc > 11000 ? (
@@ -487,7 +487,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              ESR (MM/HR)
+              ESR (MM/HR), Range: 0.07
             </label>
           </InputBox>
           {esr < 0.07 ? (
@@ -517,7 +517,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              PLATELETS
+              PLATELETS, Range: 150000-400000
             </label>
           </InputBox>
           {platelets < 150000 || platelets > 400000 ? (
@@ -545,7 +545,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              RECTICS (%)
+              RECTICS (%), Range: 0.3
             </label>
           </InputBox>
           {rectics < 0.3 ? (
@@ -575,7 +575,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              RBC
+              RBC, Range: 4.6-12
             </label>
           </InputBox>
           {rbc < 4.6 || rbc > 12 ? (
@@ -603,7 +603,7 @@ export function Haematology() {
                   : labelStyle
               }
             >
-              MCV (FL)
+              MCV (FL), Range: 34-55
             </label>
           </InputBox>
           {mcv < 34 || mcv > 55 ? (
@@ -626,7 +626,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="mchc" style={labelStyle}>
-              MCHC (G/DL)
+              MCHC (G/DL), Range: 31-34
             </label>
           </InputBox>
           {mchc < 31 || mchc > 34 ? (
@@ -647,7 +647,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="mch" style={labelStyle}>
-              MCH
+              MCH, Range: 27-32
             </label>
           </InputBox>
           {mch < 27 || mch > 32 ? (
@@ -670,7 +670,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="neutrophils" style={labelStyle}>
-              NEUTROPHILS (%)
+              NEUTROPHILS (%), Range: 40-70
             </label>
           </InputBox>
           {neutrophils < 40 || neutrophils > 70 ? (
@@ -691,7 +691,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="lymphocytes" style={labelStyle}>
-              LYMPHOCYTES (%)
+              LYMPHOCYTES (%), Range: 20-50
             </label>
           </InputBox>
           {lymphocytes < 20 || lymphocytes > 50 ? (
@@ -714,7 +714,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="monocytes" style={labelStyle}>
-              MONOCYTES (%)
+              MONOCYTES (%), Range: 2-30
             </label>
           </InputBox>
           {monocytes < 2 || monocytes > 30 ? (
@@ -735,7 +735,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="eosinophils" style={labelStyle}>
-              EOSINOPHILS (%)
+              EOSINOPHILS (%), Range: 1-6
             </label>
           </InputBox>
           {eosinophils < 1 || eosinophils > 6 ? (
@@ -758,7 +758,7 @@ export function Haematology() {
               style={inputStyle}
             />
             <label htmlFor="basophils" style={labelStyle}>
-              BASOPHILS (%)
+              BASOPHILS (%), Range: 0-1
             </label>
           </InputBox>
           {basophils < 0 || basophils > 1 ? (
@@ -1868,6 +1868,31 @@ export function Biochemistry() {
   const ClientServ = client.service('labresults');
   const order = state.financeModule.selectedFinance;
   const bill_report_status = state.financeModule.report_status;
+  const [glucoseFasting, setGlucoseFasting] = useState('');
+  const [glucoseRandom, setGlucoseRandom] = useState('');
+  const [urea, setUrea] = useState('');
+  const [creatinine, setCreatinine] = useState('');
+  const [uricAcid, setUricAcid] = useState('');
+  const [sodium, setSodium] = useState('');
+  const [potassium, setPotassium] = useState('');
+  const [bicarbonate, setBicarbonate] = useState('');
+  const [chloride, setChloride] = useState('');
+  const [totalProtein, setTotalProtein] = useState('');
+  const [albumin, setAlbumin] = useState('');
+  const [tBilirubin, setTBilirubin] = useState('');
+  const [dBillirubin, setDBillirubin] = useState('');
+  const [cholesterol, setCholesterol] = useState('');
+  const [triglycerides, setTriglycerides] = useState('');
+  const [phos, setPhos] = useState('');
+  const [calcium, setCalcium] = useState('');
+  const [sgot, setSgot] = useState('');
+  const [sgpt, setSgpt] = useState('');
+  const [ogtt, setOgtt] = useState('');
+  const [alkPhos, setAlkPhos] = useState('');
+  const [acidPhos, setAcidPhos] = useState('');
+  const [adh, setAdh] = useState('');
+  const [apk, setApk] = useState('');
+  const [amylase, setAmylase] = useState('');
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -2039,6 +2064,30 @@ export function Biochemistry() {
     console.log(e.target.value);
     await setReportStatus(e.target.value);
   };
+
+  const inputStyle = {
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    padding: '0.9rem',
+    width: '100%',
+    height: '100%',
+    borderRadius: ' 4px',
+    border: '1.5px solid #BBBBBB',
+    width: '100%',
+    // on focus
+    '&:focus': {
+      border: '2px solid #0364FF',
+    },
+  };
+  const labelStyle = {
+    position: 'absolute',
+    left: '1rem',
+    top: '-0.5rem',
+    padding: '0 0.25rem',
+    backgroundColor: '#fff',
+    transition: '0.4s',
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -2047,228 +2096,553 @@ export function Biochemistry() {
         </p>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="Glucose (Fasting)"
-              name="glucoseFasting"
-              type="text"
-              register={register('glucoseFasting')}
-            />
+            <InputBox>
+              <input
+                name="glucoseFasting"
+                type="text"
+                {...register('glucoseFasting')}
+                onChange={(e) => setGlucoseFasting(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="glucoseFasting" style={labelStyle}>
+                GLUCOSE (FASTING) (MG/DL), Range: 60-120
+              </label>
+            </InputBox>
+            {glucoseFasting < 60 || glucoseFasting > 120 ? (
+              <p style={{ color: 'red' }}>
+                {glucoseFasting < 60 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="Glucose (Random)"
-              name="glucoseRandom"
-              type="text"
-              register={register('glucoseRandom')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Urea"
-              name="urea"
-              type="text"
-              register={register('urea')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Creatinine"
-              name="creatinine"
-              type="text"
-              register={register('creatinine')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Uric Acid"
-              name="uricAcid"
-              type="text"
-              register={register('uricAcid')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Sodium"
-              name="sodium"
-              type="text"
-              register={register('sodium')}
-            />
+            <InputBox>
+              <input
+                name="glucoseRandom"
+                type="text"
+                {...register('glucoseRandom')}
+                onChange={(e) => setGlucoseRandom(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="glucoseRandom" style={labelStyle}>
+                GLUCOSE (RANDOM) (MG/DL), Range: 60-180
+              </label>
+            </InputBox>
+            {glucoseRandom < 60 || glucoseRandom > 180 ? (
+              <p style={{ color: 'red' }}>
+                {glucoseRandom < 60 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="Potassium"
-              name="potassium"
-              type="text"
-              register={register('potassium')}
-            />
+            <InputBox>
+              <input
+                name="urea"
+                type="text"
+                {...register('urea')}
+                onChange={(e) => setUrea(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="urea" style={labelStyle}>
+                UREA (MG/DL), Range: 10-55
+              </label>
+            </InputBox>
+            {urea < 10 || urea > 55 ? (
+              <p style={{ color: 'red' }}>
+                {urea < 10 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="Bicarbonate"
-              name="bicarbonate"
-              type="text"
-              register={register('bicarbonate')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Chloride"
-              name="chloride"
-              type="text"
-              register={register('chloride')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Total Protein"
-              name="totalProtein"
-              type="text"
-              register={register('totalProtein')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Albumin"
-              name="albumin"
-              type="text"
-              register={register('albumin')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="T. Bilirubin"
-              name="tBilirubin"
-              type="text"
-              register={register('tBilirubin')}
-            />
+            <InputBox>
+              <input
+                name="creatinine"
+                type="text"
+                {...register('creatinine')}
+                onChange={(e) => setCreatinine(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="creatinine" style={labelStyle}>
+                CREATININE (MG/DL), Range: 0.6-1.2
+              </label>
+            </InputBox>
+            {creatinine < 0.6 || creatinine > 1.2 ? (
+              <p style={{ color: 'red' }}>
+                {creatinine < 0.6 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="D.Bilirubin"
-              name="dBilirubin"
-              type="text"
-              register={register('dBilirubin')}
-            />
+            <InputBox>
+              <input
+                name="uricAcid"
+                type="text"
+                {...register('uricAcid')}
+                onChange={(e) => setUricAcid(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="uricAcid" style={labelStyle}>
+                URIC ACID (MG/DL), Range: 2.5-7.7
+              </label>
+            </InputBox>
+            {uricAcid < 2.5 || uricAcid > 7.7 ? (
+              <p style={{ color: 'red' }}>
+                {uricAcid < 2.5 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="Cholesterol"
-              name="cholesterol"
-              type="text"
-              register={register('cholesterol')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Triglyceride"
-              name="triglyceride"
-              type="text"
-              register={register('triglyceride')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Phos"
-              name="phos"
-              type="text"
-              register={register('phos')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Calcium"
-              name="calcium"
-              type="text"
-              register={register('calcium')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="SGOT"
-              name="sgot"
-              type="text"
-              register={register('sgot')}
-            />
+            <InputBox>
+              <input
+                name="sodium"
+                type="text"
+                {...register('sodium')}
+                onChange={(e) => setSodium(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="sodium" style={labelStyle}>
+                SODIUM (MMOL/L), Range: 135-150
+              </label>
+            </InputBox>
+            {sodium < 135 || sodium > 150 ? (
+              <p style={{ color: 'red' }}>
+                {sodium < 135 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="SGPT"
-              name="sgpt"
-              type="text"
-              register={register('sgpt')}
-            />
+            <InputBox>
+              <input
+                name="potassium"
+                type="text"
+                {...register('potassium')}
+                onChange={(e) => setPotassium(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="potassium" style={labelStyle}>
+                POTASSIUM (MMOL/L), Range: 3.5-5.1
+              </label>
+            </InputBox>
+            {potassium < 3.5 || potassium > 5.1 ? (
+              <p style={{ color: 'red' }}>
+                {potassium < 3.5 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="OGTT"
-              name="ogtt"
-              type="text"
-              register={register('ogtt')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Alk Phos"
-              name="alkPhos"
-              type="text"
-              register={register('alkPhos')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="Acid Phos"
-              name="acidPhos"
-              type="text"
-              register={register('acidPhos')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="ADH"
-              name="adh"
-              type="text"
-              register={register('adh')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Input
-              label="APK"
-              name="apk"
-              type="text"
-              register={register('apk')}
-            />
+            <InputBox>
+              <input
+                name="bicarbonate"
+                type="text"
+                {...register('bicarbonate')}
+                onChange={(e) => setBicarbonate(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="bicarbonate" style={labelStyle}>
+                BICARBONATE (MMOL/L), Range: 21-29
+              </label>
+            </InputBox>
+            {bicarbonate < 21 || bicarbonate > 29 ? (
+              <p style={{ color: 'red' }}>
+                {bicarbonate < 21 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
-            <Input
-              label="Amylase"
-              name="amylase"
-              type="text"
-              register={register('adh')}
-            />
+            <InputBox>
+              <input
+                name="chloride"
+                type="text"
+                {...register('chloride')}
+                onChange={(e) => setChloride(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="chloride" style={labelStyle}>
+                CHLORIDE (MMOL/L), Range: 98-107
+              </label>
+            </InputBox>
+            {chloride < 98 || chloride > 107 ? (
+              <p style={{ color: 'red' }}>
+                {chloride < 98 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="totalProtein"
+                type="text"
+                {...register('totalProtein')}
+                onChange={(e) => setTotalProtein(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="totalProtein" style={labelStyle}>
+                TOTAL PROTEIN (G/DL), Range: 6.2-8.0
+              </label>
+            </InputBox>
+            {totalProtein < 6.2 || totalProtein > 8.0 ? (
+              <p style={{ color: 'red' }}>
+                {totalProtein < 6.2 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="albumin"
+                type="text"
+                {...register('albumin')}
+                onChange={(e) => setAlbumin(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="albumin" style={labelStyle}>
+                ALBUMIN (G/DL), Range: 3.5-5.5
+              </label>
+            </InputBox>
+            {albumin < 3.5 || albumin > 5.5 ? (
+              <p style={{ color: 'red' }}>
+                {albumin < 3.5 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="tbilirubin"
+                type="text"
+                {...register('tbilirubin')}
+                onChange={(e) => setTBilirubin(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="tbilirubin" style={labelStyle}>
+                TOTAL BILIRUBIN (Mg/DL), Range: 0.12
+              </label>
+            </InputBox>
+            {tBilirubin < 0.12 ? (
+              <p style={{ color: 'red' }}>
+                <span>Low</span>
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="dbilirubin"
+                type="text"
+                {...register('dbilirubin')}
+                onChange={(e) => setDBillirubin(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="dbilirubin" style={labelStyle}>
+                DIRECT BILIRUBIN (Mg/100ML), Range: 0-0.4
+              </label>
+            </InputBox>
+            {dBillirubin < 0 || dBillirubin > 0.4 ? (
+              <p style={{ color: 'red' }}>
+                {dBilirubin < 0 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="cholesterol"
+                type="text"
+                {...register('cholesterol')}
+                onChange={(e) => setCholesterol(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="cholesterol" style={labelStyle}>
+                CHOLESTEROL (MG/100ML), Range: 150-200
+              </label>
+            </InputBox>
+            {cholesterol < 150 || cholesterol > 200 ? (
+              <p style={{ color: 'red' }}>
+                {cholesterol < 150 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="triglyceride"
+                type="text"
+                {...register('triglyceride')}
+                onChange={(e) => setTriglycerides(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="triglyceride" style={labelStyle}>
+                TRIGLYCERIDE (MG/100ML), Range: 100-150
+              </label>
+            </InputBox>
+            {triglycerides < 100 || triglycerides > 150 ? (
+              <p style={{ color: 'red' }}>
+                {triglycerides < 100 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="phos"
+                type="text"
+                {...register('phos')}
+                onChange={(e) => setPhos(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="phos" style={labelStyle}>
+                PHOSPHORUS (MG/DL), Range: 2.5-4.5
+              </label>
+            </InputBox>
+            {phos < 2.5 || phos > 4.5 ? (
+              <p style={{ color: 'red' }}>
+                {phos < 2.5 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="calcium"
+                type="text"
+                {...register('calcium')}
+                onChange={(e) => setCalcium(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="calcium" style={labelStyle}>
+                CALCIUM (MG/DL), Range: 8.8-10.2
+              </label>
+            </InputBox>
+            {calcium < 8.8 || calcium > 10.2 ? (
+              <p style={{ color: 'red' }}>
+                {calcium < 8.8 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="sgot"
+                type="text"
+                {...register('sgot')}
+                onChange={(e) => setSgot(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="sgot" style={labelStyle}>
+                SGOT (U/L), Range: 0-46
+              </label>
+            </InputBox>
+            {sgot < 0 || sgot > 46 ? (
+              <p style={{ color: 'red' }}>
+                {sgot < 0 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="sgpt"
+                type="text"
+                {...register('sgpt')}
+                onChange={(e) => setSgpt(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="sgpt" style={labelStyle}>
+                SGPT (U/L), Range: 0-49
+              </label>
+            </InputBox>
+            {sgpt < 0 || sgpt > 49 ? (
+              <p style={{ color: 'red' }}>
+                {sgpt < 0 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="ogtt"
+                type="text"
+                {...register('ogtt')}
+                onChange={(e) => setOgtt(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="ogtt" style={labelStyle}>
+                OGTT (MG/DL), Range: 6-30
+              </label>
+            </InputBox>
+            {ogtt < 6 || ogtt > 30 ? (
+              <p style={{ color: 'red' }}>
+                {ogtt < 6 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="alkphos"
+                type="text"
+                {...register('alkphos')}
+                onChange={(e) => setAlkPhos(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="alkphos" style={labelStyle}>
+                ALKALINE PHOSPHATASE (U/L), Range: 64-306
+              </label>
+            </InputBox>
+            {alkPhos < 64 || alkPhos > 306 ? (
+              <p style={{ color: 'red' }}>
+                {alkPhos < 64 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="acidphos"
+                type="text"
+                {...register('acidphos')}
+                onChange={(e) => setAcidphos(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="acidphos" style={labelStyle}>
+                ACID PHOSPHATASE (U/L), Range: 0-0.81
+              </label>
+            </InputBox>
+            {acidPhos < 0 || acidPhos > 0.81 ? (
+              <p style={{ color: 'red' }}>
+                {acidPhos < 0 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="adh"
+                type="text"
+                {...register('adh')}
+                onChange={(e) => setAdh(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="adh" style={labelStyle}>
+                ADH (U/L), Range: 160-320
+              </label>
+            </InputBox>
+            {adh < 160 || adh > 320 ? (
+              <p style={{ color: 'red' }}>
+                {adh < 160 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="apk"
+                type="text"
+                {...register('apk')}
+                onChange={(e) => setApk(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="apk" style={labelStyle}>
+                APK (U/L), Range: 15-130
+              </label>
+            </InputBox>
+            {apk < 15 || apk > 130 ? (
+              <p style={{ color: 'red' }}>
+                {apk < 15 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <InputBox>
+              <input
+                name="amylase"
+                type="text"
+                {...register('amylase')}
+                onChange={(e) => setAmylase(e.target.value)}
+                style={inputStyle}
+              />
+              <label htmlFor="amylase" style={labelStyle}>
+                AMYLASE (U/L), Range: 30-125
+              </label>
+            </InputBox>
+            {amylase < 30 || amylase > 125 ? (
+              <p style={{ color: 'red' }}>
+                {amylase < 30 ? <span>Low</span> : <span>High</span>}
+              </p>
+            ) : (
+              <p style={{ color: 'green' }}>Normal</p>
+            )}
           </Grid>
         </Grid>
         <Grid container spacing={1}>
