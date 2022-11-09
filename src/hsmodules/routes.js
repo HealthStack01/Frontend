@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -155,11 +155,13 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
+import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
+import CRMHome from "./CRM/CrmHome";
+import Leads from "./CRM/Lead";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -173,7 +175,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -612,70 +614,77 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/report" />
             <Route path="/app/managed-care/healthplan" />
           </Route>
-        </Route>
-        {/**************************CRM *************************************** */}
-        <Route path="/app/crm">
-          <Route path="/app/crm/lead" />
-          <Route path="/app/crm/proposal" />
-          <Route path="/app/crm/invoice" />
-          <Route path="/app/crm/provider" />
-          <Route path="/app/crm/SLA" />
-          <Route path="/app/crm/appointment" />
-          <Route path="/app/crm/deal" />
-        </Route>
+          {/**************************CRM *************************************** */}
+          <Route path="/app/crm" element={<CRMHome />}>
+            <Route path="/app/crm/lead" element={<Leads />} />
+            <Route path="/app/crm/proposal" />
+            <Route path="/app/crm/invoice" />
+            <Route path="/app/crm/provider" />
+            <Route path="/app/crm/SLA" />
+            <Route path="/app/crm/appointment" />
+            <Route path="/app/crm/deal" />
+            <Route path="/app/crm/dashboard" />
+          </Route>
 
-        {/**************************Referral *************************************** */}
-        <Route path="/app/referral" element={<ReferralHome />}>
-          <Route path="/app/referral/lead" />
-          <Route path="/app/referral/incoming" />
-          <Route path="/app/referral/outgoing" />
-          <Route path="/app/referral/account" />
-          <Route path="/app/referral/setting" />
-        </Route>
+          {/**************************Referral *************************************** */}
+          <Route path="/app/referral" element={<ReferralHome />}>
+            <Route path="/app/referral/lead" />
+            <Route path="/app/referral/incoming" />
+            <Route path="/app/referral/outgoing" />
+            <Route path="/app/referral/account" />
+            <Route path="/app/referral/setting" />
+            <Route path="/app/referral/dashboard" />
+          </Route>
 
-        {/**************************Communication *************************************** */}
-        <Route path="/app/communication">
-          <Route path="/app/communication/whatsapp" />
-          <Route path="/app/communication/sms" />
-          <Route path="/app/communication/ussd" />
-          <Route path="/app/communication/email" />
-          <Route path="/app/communication/ivr" />
-        </Route>
+          {/**************************Communication *************************************** */}
+          <Route path="/app/communication">
+            <Route path="/app/communication/whatsapp" />
+            <Route path="/app/communication/sms" />
+            <Route path="/app/communication/ussd" />
+            <Route path="/app/communication/email" />
+            <Route path="/app/communication/ivr" />
+            <Route path="/app/communication/dashboard" />
+          </Route>
 
-        {/**************************Patient Portal *************************************** */}
-        <Route path="/app/patient-portal">
-          <Route path="/app/patient-portal/profile" />
-          <Route path="/app/patient-portal/view" />
-          <Route path="/app/patient-portal/buy" />
-          <Route path="/app/patient-portal/search" />
-          <Route path="/app/patient-portal/read" />
-          <Route path="/app/patient-portal/chat" />
-        </Route>
+          {/**************************Patient Portal *************************************** */}
+          <Route path="/app/patient-portal">
+            <Route path="/app/patient-portal/profile" />
+            <Route path="/app/patient-portal/view" />
+            <Route path="/app/patient-portal/buy" />
+            <Route path="/app/patient-portal/search" />
+            <Route path="/app/patient-portal/read" />
+            <Route path="/app/patient-portal/chat" />
+            <Route path="/app/patient-portal/dashboard" />
+          </Route>
 
-        {/**************************Accounting *************************************** */}
-        <Route path="/app/accounting">
-          <Route path="/app/accounting/chart-of-account" />
-          <Route path="/app/accounting/account" />
-          <Route path="/app/accounting/payment" />
-          <Route path="/app/accounting/expenses" />
-          <Route path="/app/accounting/journal" />
-          <Route path="/app/accounting/report" />
-        </Route>
+          {/**************************Accounting *************************************** */}
+          <Route path="/app/accounting">
+            <Route path="/app/accounting/chart-of-account" />
+            <Route path="/app/accounting/account" />
+            <Route path="/app/accounting/payment" />
+            <Route path="/app/accounting/expenses" />
+            <Route path="/app/accounting/journal" />
+            <Route path="/app/accounting/report" />
+            <Route path="/app/accounting/dashboard" />
+          </Route>
 
-        {/**************************Immunization *************************************** */}
-        <Route path="/app/immunization">
-          <Route path="/app/immunization/schedule" />
-          <Route path="/app/immunization/vaccineprofile" />
-          <Route path="/app/immunization/appointment" />
-          <Route path="/app/immunization/checkin-out" />
-          <Route path="/app/immunization/report" />
-        </Route>
+          {/**************************Immunization *************************************** */}
+          <Route path="/app/immunization">
+            <Route path="/app/immunization/schedule" />
+            <Route path="/app/immunization/vaccineprofile" />
+            <Route path="/app/immunization/appointment" />
+            <Route path="/app/immunization/checkin-out" />
+            <Route path="/app/immunization/report" />
+            <Route path="/app/immunization/dashboard" />
+          </Route>
 
-        {/**************************Blood Bank *************************************** */}
-        <Route path="/app/blood-bank">
-          <Route path="/app/blood-bank/inventory" />
-          <Route path="/app/blood-bank/appointment" />
-          <Route path="/app/blood-bank/lab" />
+          {/**************************Blood Bank *************************************** */}
+          <Route path="/app/blood-bank">
+            <Route path="/app/blood-bank/inventory" />
+            <Route path="/app/blood-bank/appointment" />
+            <Route path="/app/blood-bank/lab" />
+            <Route path="/app/blood-bank/dashboard" />
+          </Route>
         </Route>
       </Routes>
     </>
