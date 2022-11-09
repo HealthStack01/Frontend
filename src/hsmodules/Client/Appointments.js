@@ -22,13 +22,14 @@ import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 // import ModalBox from "./ui-components/modal";
-import ModalBox from '../../components/modal';
+import ModalBox from '../Appointment/ui-components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 // import ModalHeader from "./ui-components/Heading/modalHeader";
 import { Box, Grid } from '@mui/material';
 import { ClientMiniSchema } from './schema';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
+import { AppointmentSchema } from '../Appointment/schema';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -800,7 +801,7 @@ export function ClientList({ showModal, setShowModal }) {
                 {value === 'list' ? (
                   <CustomTable
                     title={''}
-                    columns={ClientMiniSchema}
+                    columns={AppointmentSchema}
                     data={facilities}
                     pointerOnHover
                     highlightOnHover
@@ -864,7 +865,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       ClientModule: newClientModule,
     }));
     //modify appointment
-    navigate('/app/clinic/encounter');
+    navigate('/app/clients/documentation');
   };
 
   return (
@@ -894,18 +895,18 @@ export function ClientDetail({ showModal, setShowModal }) {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2} mt={4}>
+      <Grid container spacing={2} mt={1}>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
             First Name:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
             {Client?.firstname}
           </span>
         </Grid>
@@ -913,13 +914,13 @@ export function ClientDetail({ showModal, setShowModal }) {
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
             Middle Name:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
             {Client?.middlename}
           </span>
         </Grid>
@@ -927,44 +928,121 @@ export function ClientDetail({ showModal, setShowModal }) {
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
             Last Name:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
             {Client?.lastname}
           </span>
         </Grid>
       </Grid>
+
       <Grid container spacing={2} mt={2}>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
-            Date of Birth:
+            Age:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
-            {new Date(Client.dob).toLocaleDateString('en-GB')}
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {formatDistanceToNowStrict(new Date(Client.dob))}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
             Gender:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
             {Client.gender}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Phone No:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.phone}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2} mb={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Email:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.email}
+          </span>
+        </Grid>
+      </Grid>
+      <hr />
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Start Time:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+          </span>
+        </Grid>
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Location:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {`${Client.location_name} (${Client.location_type})`}
+          </span>
+        </Grid>
+
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Professional:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
           </span>
         </Grid>
       </Grid>
@@ -973,28 +1051,59 @@ export function ClientDetail({ showModal, setShowModal }) {
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
-            Email:
+            Appointment Status:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
-            {Client.email}
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_status}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
               color: ' #0364FF',
-              fontSize: '20px',
+              fontSize: '16px',
               marginRight: '.8rem',
             }}
           >
-            Phone No:
+            Appointment Class:
           </span>
-          <span style={{ color: ' #000000', fontSize: '20px' }}>
-            {Client.phone}
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointmentClass}
+          </span>
+        </Grid>
+
+        <Grid item xs={12} sm={3} md={4}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Appointment Type:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_type}
+          </span>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} sm={3} md={12}>
+          <span
+            style={{
+              color: ' #0364FF',
+              fontSize: '16px',
+              marginRight: '.8rem',
+            }}
+          >
+            Reason for Appointment:
+          </span>
+          <span style={{ color: ' #000000', fontSize: '16px' }}>
+            {Client.appointment_reason}
           </span>
         </Grid>
       </Grid>
@@ -1013,7 +1122,6 @@ export function ClientDetail({ showModal, setShowModal }) {
         </Grid>
         <Grid item xs={12} sm={3} md={3}>
           <Button
-            text={'Attend'}
             onClick={handleAttend}
             style={{
               width: '100%',
@@ -1025,7 +1133,6 @@ export function ClientDetail({ showModal, setShowModal }) {
           </Button>
         </Grid>
       </Grid>
-
       {/* <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Client Details</p>

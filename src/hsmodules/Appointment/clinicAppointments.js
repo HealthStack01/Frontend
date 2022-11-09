@@ -686,7 +686,7 @@ export function ClientList({ showModal, setShowModal }) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user.currentEmployee.facilityDetail._id,
+      facility: user.currentEmployee?.facilityDetail._id,
 
       $limit: 100,
       $sort: {

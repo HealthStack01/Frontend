@@ -325,14 +325,12 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                     className=" is-small"
                     key={c}
                     style={{ fontSize: '16px', fontWeight: 'bold' }}
-
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
                       {...register('appointmentClass', { required: true })}
-
                       style={{
                         border: '1px solid #0364FF',
                         transform: 'scale(1.5)',
@@ -352,7 +350,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 <input
                   name="start_time"
                   {...register('start_time', { required: true })}
-
                   type="datetime-local"
                   style={{
                     border: '1px solid #0364FF',
@@ -413,7 +410,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 className="input is-small"
                 name="appointment_reason"
                 {...register('appointment_reason', { required: true })}
-
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -520,7 +516,6 @@ export function ClientList({ showModal, setShowModal }) {
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-
     const field = 'firstname';
 
     //  console.log(val)
@@ -751,14 +746,12 @@ export function ClientList({ showModal, setShowModal }) {
             >
               <TableMenu>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
-
                     Appointments
                   </h2>
                   <DatePicker
@@ -778,7 +771,6 @@ export function ClientList({ showModal, setShowModal }) {
                       style={value === 'list' ? activeStyle : {}}
                     >
                       <BsList style={{ fontSize: '1rem' }} />
-
                     </button>
                     <button
                       value={value}
@@ -788,7 +780,6 @@ export function ClientList({ showModal, setShowModal }) {
                       style={value === 'grid' ? activeStyle : {}}
                     >
                       <BsFillGridFill style={{ fontSize: '1rem' }} />
-
                     </button>
                   </Switch>
                 </div>
@@ -796,7 +787,6 @@ export function ClientList({ showModal, setShowModal }) {
                 {handleCreateNew && (
                   <Button
                     style={{ fontSize: '14px', fontWeight: '600' }}
-
                     label="Add new "
                     onClick={handleCreateNew}
                   />
@@ -804,7 +794,6 @@ export function ClientList({ showModal, setShowModal }) {
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
                 {value === 'list' ? (
-
                   <CustomTable
                     title={''}
                     columns={AppointmentSchema}
@@ -928,7 +917,6 @@ export function ClientDetail({ showModal, setShowModal }) {
           </span>
 
           <span style={{ color: ' #000000', fontSize: '16px' }}>
-
             {Client?.middlename}
           </span>
         </Grid>
@@ -943,7 +931,6 @@ export function ClientDetail({ showModal, setShowModal }) {
             Last Name:
           </span>
           <span style={{ color: ' #000000', fontSize: '16px' }}>
-
             {Client?.lastname}
           </span>
         </Grid>
@@ -962,7 +949,6 @@ export function ClientDetail({ showModal, setShowModal }) {
           </span>
           <span style={{ color: ' #000000', fontSize: '16px' }}>
             {formatDistanceToNowStrict(new Date(Client.dob))}
-
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
@@ -976,7 +962,6 @@ export function ClientDetail({ showModal, setShowModal }) {
             Gender:
           </span>
           <span style={{ color: ' #000000', fontSize: '16px' }}>
-
             {Client.gender}
           </span>
         </Grid>
@@ -1007,7 +992,6 @@ export function ClientDetail({ showModal, setShowModal }) {
             Email:
           </span>
           <span style={{ color: ' #000000', fontSize: '16px' }}>
-
             {Client.email}
           </span>
         </Grid>
@@ -1997,17 +1981,13 @@ export function ClientModify({ showModal, setShowModal }) {
                   <label
                     className=" is-small"
                     key={c}
-
                     style={{ fontSize: '16px', fontWeight: 'bold' }}
-
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-
                       {...register('appointmentClass', { required: true })}
-
                       style={{
                         border: '1px solid #0364FF',
                         transform: 'scale(1.5)',
@@ -2026,9 +2006,7 @@ export function ClientModify({ showModal, setShowModal }) {
               <div className="field">
                 <input
                   name="start_time"
-
                   {...register('start_time', { required: true })}
-
                   type="datetime-local"
                   defaultValue={format(
                     new Date(Client.start_time),
@@ -2092,9 +2070,7 @@ export function ClientModify({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-
                 {...register('appointment_reason', { required: true })}
-
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -2325,12 +2301,10 @@ export function ClientSearch({ getSearchfacility, clear }) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-
             className={`dropdown ${showPanel ? 'is-active' : ''}`}
             style={{ width: '100%' }}
           >
             <div className="dropdown-trigger" style={{ width: '100%' }}>
-
               <DebouncedInput
                 label={'Search for Client'}
                 value={simpa}
@@ -2344,7 +2318,6 @@ export function ClientSearch({ getSearchfacility, clear }) {
               </span>
             </div>
             <div className="dropdown-menu expanded" style={{ width: '100%' }}>
-
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ''
@@ -2365,9 +2338,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
                       handleRow(facility), setCloseDropdown(true);
                     }}
                   >
-
                     <div style={{ cursor: 'pointer' }}>
-
                       {closeDropdown ? (
                         <></>
                       ) : (
