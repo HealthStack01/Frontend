@@ -102,7 +102,7 @@ const ClientForm = ({ open, setOpen }) => {
             <ToastContainer theme='colored' />
 
             {!isFullRegistration ? (
-              <>
+              <div style={{ height: '100%', overflowY: 'scroll' }}>
                 <ViewBox>
                   <GridWrapper className='height-auto'>
                     <Input
@@ -172,9 +172,18 @@ const ClientForm = ({ open, setOpen }) => {
                     />
                   </GridWrapper>
                 </ViewBox>
-              </>
+
+                <BottomWrapper>
+                  <Button
+                    label='Clear Form'
+                    background='#FFE9E9'
+                    color='#ED0423'
+                  />
+                  <Button label='Save Form' type='submit' loading={loading} />
+                </BottomWrapper>
+              </div>
             ) : (
-              <div style={{ height: '100%', overflowY: 'scroll' }}>
+              <div style={{ height: '80vh', overflowY: 'scroll' }}>
                 {/* Names Section */}
 
                 <ViewBox>
@@ -294,12 +303,17 @@ const ClientForm = ({ open, setOpen }) => {
                     />
                   </GridWrapper>
                 </ViewBox>
+
+                <BottomWrapper>
+                  <Button
+                    label='Clear Form'
+                    background='#FFE9E9'
+                    color='#ED0423'
+                  />
+                  <Button label='Save Form' type='submit' loading={loading} />
+                </BottomWrapper>
               </div>
             )}
-            <BottomWrapper>
-              <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-              <Button label='Save Form' type='submit' loading={loading} />
-            </BottomWrapper>
           </div>
         </PageWrapper>
       </form>

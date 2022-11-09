@@ -55,6 +55,6 @@ html {
   width: '100%' !important;
 }
 
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   display: none !important;
-}
+} */
