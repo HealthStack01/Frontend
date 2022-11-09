@@ -7,7 +7,7 @@ import LineChart from "../charts/LineChart";
 import CircleChart from "../charts/CircleChart";
 import { clientLineData } from '../utils/chartData/LineData';
 import Checkbox from '@material-ui/core/Checkbox';
-import ManagedCareDashboardCard from "./@sections/ManagedCareDashboardCard";
+import ManagedCareDashboardCard from "./@sections/ManagedCareDashboardCardOne";
 import client from "../../../feathers";
 
 

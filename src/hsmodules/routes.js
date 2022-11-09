@@ -151,6 +151,7 @@ import Beneficiary from "./ManagedCare/Beneficiary";
 import ReferralsCollections from "./ManagedCare/Referral";
 import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
+import Claims from "./ManagedCare/Claims";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
@@ -158,6 +159,7 @@ import ClientBilledPrescription from "./ManagedCare/Claims";
 import {OrgList} from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
+import CrmDashboard from "./dashBoardUiComponent/@modules/CrmDashboard";
 
 import PreAuth from "./ManagedCare/PreAuth";
 
@@ -590,7 +592,8 @@ const AppRoutes = () => {
             />
             <Route
               path="/app/managed-care/claims"
-              element={<ClientBilledPrescription />}
+              // element={<ClientBilledPrescription />}
+              element={<Claims />}
             />
             <Route
               path="/app/managed-care/organisation"
@@ -622,6 +625,7 @@ const AppRoutes = () => {
           <Route path="/app/crm/SLA" />
           <Route path="/app/crm/appointment" />
           <Route path="/app/crm/deal" />
+          <Route path="/app/crm/dashboard"  element = {<CrmDashboard/>}/>
         </Route>
 
         {/**************************Referral *************************************** */}
