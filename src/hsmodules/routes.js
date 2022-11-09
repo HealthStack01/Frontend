@@ -151,7 +151,7 @@ import Beneficiary from "./ManagedCare/Beneficiary";
 import ReferralsCollections from "./ManagedCare/Referral";
 import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
-import { ClaimsList } from "./ManagedCare/Claims";
+import Claims from "./ManagedCare/Claims";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
@@ -591,7 +591,7 @@ const AppRoutes = () => {
             <Route
               path="/app/managed-care/claims"
               // element={<ClientBilledPrescription />}
-              element={<ClaimsList />}
+              element={<Claims />}
             />
             <Route
               path="/app/managed-care/organisation"

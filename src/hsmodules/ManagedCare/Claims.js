@@ -30,7 +30,7 @@ import {MdCancel} from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function GeneralAppointments() {
+export default function Claims() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -40,12 +40,12 @@ export default function GeneralAppointments() {
 
   return (
     <section className="section remPadTop">
-      <PreAuthorizationList showModal={showModal} setShowModal={setShowModal} />
+      <ClaimsList showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 }
 
-export function AppointmentCreate({showModal, setShowModal}) {
+export function ClaimsCreate({showModal, setShowModal}) {
   const {state, setState} = useContext(ObjectContext);
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -668,7 +668,7 @@ export function ClaimsList({showModal, setShowModal}) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user.currentEmployee.facilityDetail._id,
+      facility: user?.currentEmployee?.facilityDetail?._id,
 
       $limit: 100,
       $sort: {
