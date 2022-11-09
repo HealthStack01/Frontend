@@ -77,7 +77,7 @@ const LocationView = ({ open, setOpen, location }) => {
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
 
-    const dleteId = location._id
+    const dleteId = location._id;
     if (conf) {
       LocationServ.remove(dleteId)
         .then((res) => {

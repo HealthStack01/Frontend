@@ -1,15 +1,20 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {toast} from "bulma-toast";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+import { toast } from "bulma-toast";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {FacilitySearch} from "../helpers/FacilitySearch";
+import { UserContext, ObjectContext } from "../../context";
+import { FacilitySearch } from "../helpers/FacilitySearch";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
 
-export default function OrganizationClient() {
-  const {state} = useContext(ObjectContext); //,setState
+export default function ProviderOrganizationClient() {
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
@@ -40,7 +45,7 @@ export default function OrganizationClient() {
 }
 
 export function OrganizationCreate() {
-  const {register, handleSubmit} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -51,9 +56,9 @@ export function OrganizationCreate() {
   const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async e => {
+  const handleChangeMode = async (e) => {
     await setBand(e.target.value);
   };
   /* const onSubmit = (data,e) =>{
@@ -122,7 +127,7 @@ export function OrganizationCreate() {
     };
     orgServ
       .create(stuff)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
@@ -135,7 +140,7 @@ export function OrganizationCreate() {
         setSuccess(false);
         setBand("");
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error adding organization " + err,
           type: "is-danger",
@@ -150,7 +155,7 @@ export function OrganizationCreate() {
     getProviderBand();
     return () => {};
   }, []);
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -174,7 +179,7 @@ export function OrganizationCreate() {
               getSearchfacility={getSearchfacility}
               clear={success}
             />
-            <p className="control has-icons-left " style={{display: "none"}}>
+            <p className="control has-icons-left " style={{ display: "none" }}>
               <input
                 className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
               />
@@ -189,7 +194,7 @@ export function OrganizationCreate() {
                 <select
                   name="bandType"
                   value={band}
-                  onChange={e => handleChangeMode(e)}
+                  onChange={(e) => handleChangeMode(e)}
                   className="selectadd"
                 >
                   <option value="">
@@ -221,6 +226,94 @@ export function OrganizationCreate() {
     </>
   );
 }
+const ProvidersSchema = [
+  {
+    name: "S/N",
+    key: "sn",
+    description: "SN",
+    selector: (row) => row.sn,
+    sortable: true,
+    inputType: "HIDDEN",
+  },
+  {
+    name: "Organization Name",
+    key: "facilityName",
+    description: "Organization Name",
+    selector: (row) => row.organizationDetail.facilityName,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+  {
+    name: "Band",
+    key: "band",
+    description: "Band Name",
+    selector: (row) => row.band,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Address",
+    key: "facilityAddress",
+    description: "Address",
+    selector: (row) => row.organizationDetail.facilityAddress,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "City",
+    key: "facilityCity",
+    description: "city",
+    selector: (row) => row.organizationDetail.facilityCity,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Phone",
+    key: "facilityContactPhone",
+    description: "Phone",
+    selector: (row) => row.organizationDetail.facilityContactPhone,
+    sortable: true,
+    required: true,
+    inputType: "NUMBER",
+  },
+
+  {
+    name: "Email",
+    key: "email",
+    description: "simpa@email.com",
+    selector: (row) => row.organizationDetail.facilityEmail,
+    sortable: true,
+    required: true,
+    inputType: "EMAIL",
+  },
+
+  {
+    name: "Type",
+    key: "facilityType",
+    description: "Type",
+    selector: (row) => row.organizationDetail.facilityType,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+
+  {
+    name: "Category",
+    key: "facilityCategory",
+    description: "Category",
+    selector: (row) => row.organizationDetail.facilityCategory,
+    sortable: true,
+    required: true,
+    inputType: "TEXT",
+  },
+];
 
 export function OrganizationList() {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -238,21 +331,22 @@ export function OrganizationList() {
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const [loading, setLoadig] = useState(false);
+  const { user } = useContext(UserContext);
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
   };
-  const handleRow = async facility => {
+  const handleRow = async (facility) => {
     //console.log("b4",state)
 
     //console.log("handlerow",facility)
@@ -263,14 +357,14 @@ export function OrganizationList() {
       selectedFacility: facility,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "facilityName";
     console.log(val);
     if (val.length > 0) {
@@ -290,13 +384,13 @@ export function OrganizationList() {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           setFacilities(res.data);
           setMessage(" Organization  fetched successfully");
           setSuccess(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setMessage("Error creating facility, probable network issues " + err);
           setError(true);
@@ -306,13 +400,6 @@ export function OrganizationList() {
     }
   };
 
-  /*  if (val.length>2){
-                console.log("in")
-               
-            }
-
-        }
-     */
   const getFacilities = () => {
     orgServ
       .find({
@@ -324,13 +411,13 @@ export function OrganizationList() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -339,121 +426,147 @@ export function OrganizationList() {
   useEffect(() => {
     getFacilities();
 
-    orgServ.on("created", obj => getFacilities());
-    orgServ.on("updated", obj => getFacilities());
-    orgServ.on("patched", obj => getFacilities());
-    orgServ.on("removed", obj => getFacilities());
+    orgServ.on("created", (obj) => getFacilities());
+    orgServ.on("updated", (obj) => getFacilities());
+    orgServ.on("patched", (obj) => getFacilities());
+    orgServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
-  //todo: pagination and vertical scroll bar
+  const ProvidersSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Organization Name",
+      key: "facilityName",
+      description: "Organization Name",
+      selector: (row) => row?.organizationDetail?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Band",
+      key: "band",
+      description: "Band Name",
+      selector: (row) => row.band,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Address",
+      key: "facilityAddress",
+      description: "Address",
+      selector: (row) => row?.organizationDetail?.facilityAddress,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "City",
+      key: "facilityCity",
+      description: "city",
+      selector: (row) => row?.organizationDetail?.facilityCity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Phone",
+      key: "facilityContactPhone",
+      description: "Phone",
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+
+    {
+      name: "Email",
+      key: "email",
+      description: "simpa@email.com",
+      selector: (row) => row?.organizationDetail?.facilityEmail,
+      sortable: true,
+      required: true,
+      inputType: "EMAIL",
+    },
+
+    {
+      name: "Type",
+      key: "facilityType",
+      description: "Type",
+      selector: (row) => row?.organizationDetail?.facilityType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Category",
+      key: "facilityCategory",
+      description: "Category",
+      selector: (row) => row?.organizationDetail?.facilityCategory,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
-      {" "}
-      <OrganizationCreate />
       <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Facilities"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
+          <TableMenu>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
+                </div>
+              )}
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                List of Clients
+              </h2>
             </div>
-          </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            List of Provider Organizations{" "}
-          </span>
-        </div>
-        {/*  <div className="level-right">
-                        <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div>
-                    </div> */}
-      </div>
-      {/* {!!facilities[1] && */}{" "}
-      <div className="table-container pullup ">
-        <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-          <thead>
-            <tr>
-              <th>
-                <abbr title="S/No">S/No</abbr>
-              </th>
-              <th>Organization Name</th>
-              <th>
-                <abbr title="Band"> Band</abbr>
-              </th>
-              <th>
-                <abbr title="Address"> Address</abbr>
-              </th>
-              <th>
-                <abbr title="City">City</abbr>
-              </th>
-              <th>
-                <abbr title="Phone">Phone</abbr>
-              </th>
-              <th>
-                <abbr title="Email">Email</abbr>
-              </th>
-              <th>
-                <abbr title="Type">Type</abbr>
-              </th>
-              <th>
-                <abbr title="Category">Category</abbr>
-              </th>
-              {/* <th><abbr title="Actions">Actions</abbr></th> */}
-            </tr>
-          </thead>
-          <tfoot></tfoot>
-          <tbody>
-            {facilities.map(
-              (facility, i) =>
-                facility.hasOwnProperty("organizationDetail") && (
-                  <>
-                    <tr
-                      key={i}
-                      onClick={() => handleRow(facility)}
-                      className={
-                        facility.organizationDetail?._id ===
-                        (selectedFacility?._id || null)
-                          ? "is-selected"
-                          : ""
-                      }
-                    >
-                      <th>{i + 1}</th>
-                      <th>{facility.organizationDetail.facilityName}</th>
-                      <td>{facility.band}</td>
-                      <td>{facility.organizationDetail.facilityAddress}</td>
-                      <td>{facility.organizationDetail.facilityCity}</td>
-                      <td>
-                        {facility.organizationDetail.facilityContactPhone}
-                      </td>
-                      <td>{facility.organizationDetail.facilityEmail}</td>
-                      <td>{facility.organizationDetail.facilityType}</td>
-                      <td>{facility.organizationDetail.facilityCategory}</td>
-
-                      {/*  <td><span   className="showAction"  >...</span></td> */}
-                    </tr>
-                  </>
-                )
+            {handleCreateNew && (
+              <Button
+                style={{ fontSize: "14px", fontWeight: "600px" }}
+                label="Add New"
+                onClick={handleCreateNew}
+              />
             )}
-          </tbody>
-        </table>
+          </TableMenu>
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh-90px)",
+              overflow: "auto",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={ProvidersSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleCreateNew}
+              progressPending={loading}
+            />
+          </div>
+        </PageWrapper>
       </div>
-      {/*  }  */}
     </>
   );
 }
@@ -467,8 +580,8 @@ export function OrganizationDetail() {
   const [message, setMessage] = useState(""); //,
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -477,7 +590,7 @@ export function OrganizationDetail() {
       selectedFacility: facility,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -488,7 +601,7 @@ export function OrganizationDetail() {
       selectedFacility: facility,
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -621,15 +734,15 @@ export function OrganizationDetail() {
 }
 
 export function OrganizationModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const facilityServ = client.service("/facility");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -675,7 +788,7 @@ export function OrganizationModify() {
       selectedFacility: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -687,7 +800,10 @@ export function OrganizationModify() {
       selectedFacility: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, facilityModule: newfacilityModule}));
+    setState((prevstate) => ({
+      ...prevstate,
+      facilityModule: newfacilityModule,
+    }));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -696,7 +812,7 @@ export function OrganizationModify() {
     if (conf) {
       facilityServ
         .remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           setMessage("Deleted Organization successfully");
@@ -707,7 +823,7 @@ export function OrganizationModify() {
           }, 200);
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           setMessage("Error deleting facility, probable network issues " + err);
           setError(true);
           setTimeout(() => {
@@ -732,14 +848,14 @@ export function OrganizationModify() {
 
     facilityServ
       .update(facility._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setMessage("updated Organization successfully");
         setSuccess(true);
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -760,7 +876,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityName"
                     type="text"
                     placeholder="Name of Facility"
@@ -777,7 +893,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityAddress"
                     type="text"
                     placeholder="Address of Facility"
@@ -794,7 +910,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityCity"
                     type="text"
                     placeholder="City/Town"
@@ -811,7 +927,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityContactPhone"
                     type="text"
                     placeholder="Contact Phone No"
@@ -828,7 +944,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityEmail"
                     type="email"
                     placeholder="Organization Email"
@@ -845,7 +961,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityOwner"
                     type="text"
                     placeholder="Organization Owner"
@@ -862,7 +978,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityType"
                     type="text"
                     placeholder="Organization Type"
@@ -879,7 +995,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityCategory"
                     type="text"
                     placeholder="Organization Category"
