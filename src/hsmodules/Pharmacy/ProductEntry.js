@@ -69,10 +69,6 @@ export default function ProductEntry() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
       <ProductEntryList
         openCreateModal={handleOpenCreateModal}
         openDetailModal={handleOpenDetailModal}
@@ -587,6 +583,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
     //console.log(state)
     openCreateModal();
   };
+
   const handleRow = async ProductEntry => {
     //console.log("b4",state)
 
@@ -799,6 +796,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
     setTotal(0);
     getNewFacilities();
   };
+
   const handleDelete = async obj => {
     let confirm = window.confirm(
       `Are you sure you want to delete this entry with Document No: ${obj.documentNo} ?`
@@ -827,9 +825,10 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
   const productEntrySchema = [
     {
       name: "S/NO",
+      width: "100px",
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row, i) => i + 1,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -838,7 +837,7 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
       name: "Date",
       key: "createdAt",
       description: "Enter Created date",
-      selector: row => row.createdAt,
+      selector: row => moment(row.date).format("YYYY-MM-DD HH:mm"),
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -993,6 +992,7 @@ export function ProductEntryDetail({openModifyModal}) {
   const ProductDetailSchema = [
     {
       name: "S/N",
+      width: "80px",
       key: "sn",
       description: "Serial Number",
       sortable: true,
