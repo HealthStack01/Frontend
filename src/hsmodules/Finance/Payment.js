@@ -649,6 +649,7 @@ export function BillingList({openModal}) {
               highlightOnHover
               striped
               onRowClicked={row => onRowClicked(row)}
+              //onSelectedRowsChange={e => handleChoseClient(selectedClient, e, row.order)}
               progressPending={loading}
             />
           </div>
@@ -669,6 +670,7 @@ export function BillingList({openModal}) {
                   pointerOnHover
                   highlightOnHover
                   striped
+                  selectable={true}
                   //onRowClicked={row => onRowClicked(row)}
                   progressPending={loading}
                 />
