@@ -2,10 +2,11 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import ViewCard from "./@sections/ViewCard";
-import AreaChart from "../charts/AreaChart";
-import BarChart from "../charts/BarChart";
-import BubbleChart from "../charts/BubbleChart";
-import CircleChart from "../charts/CircleChart";
+import LineChart from "../charts/LineChart";
+import PieChart from "../charts/PieChat";
+import { clientLineData } from '../utils/chartData/LineData';
+import Checkbox from '@material-ui/core/Checkbox';
+import ManagedCareDashboardCard from "./@sections/ManagedCareDashboardCard";
 
 import {
   DashboardContainer,
@@ -17,6 +18,7 @@ import { userDetails } from "../utils/fetchUserDetails";
 const ManagedCareFrontDashboard = () => {
   const [userName, setUserName] = useState("");
   const [facilityName, setFacilityName] = useState("");
+  // const { monthNameForCurrentYear, newClientLineSeriesData } = clientLineData(clientService);
 
   useEffect(() => {
     const { userFullName, facilityFullName } = userDetails();
@@ -39,10 +41,9 @@ const ManagedCareFrontDashboard = () => {
 
         <StartCardWapper>
           <ViewCard count={50} title="Total Claims" />
-          {/* <ViewCard count={16} title="Upcoming Appointments" hasFilter={true} /> */}
           <ViewCard count={180} title="Total Referrals" />
-          <ViewCard count={16} title="Total Check In" />
-          <ViewCard count={12} title="Total New Clients" />
+          <ViewCard count={16} title="Total Check-in" />
+          <ViewCard count={12} title="No. Of HMO Tariff" />
 
         </StartCardWapper>
 
@@ -55,23 +56,54 @@ const ManagedCareFrontDashboard = () => {
               gridTemplateColumns: { lg: "repeat(3, 1fr)", xs: "1fr" },
             }}
           >
-            <Box sx={{ width: "100%", p: 0, pt: 2, pb: 2 }}>
-              <AreaChart height={200} title="Trends" />
-              <AreaChart height={200} title="New Clients" />
+            <Box sx={{p: 4, background: "#f9f9f9", boxShadow: "0", borderRadius: 4, width: { xs: "100%" }, textAlign: "center", mr: 1, mb: { xs: 1 }, alignItems: "center",}}>
+            <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
+                Check-in Overview
+              </Typography>
+              <Box  style={{marginBottom: '3rem', marginTop: '5rem',}}>
+              <PieChart title="" />
+              </Box>
+              <Typography sx={{fontWeight: "bold"}}>300 <span style={{fontWeight: 'normal', fontSize: '0.8rem',  }}>- Time Btw Check-In/Out</span></Typography>
+              <Typography sx={{fontWeight: "bold"}}>180 <span style={{fontWeight: 'normal', fontSize: '0.8rem',  }}>- Pending Check-in</span></Typography>
+              <Typography sx={{fontWeight: "bold"}}>20 <span style={{fontWeight: 'normal', fontSize: '0.8rem',  }}>- Check-in Overdue</span></Typography>              
             </Box>
+           
             <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
-              <BarChart title="Payment Mode" />
-              <BubbleChart />
+              <LineChart title="Tariff" />
+              <Box sx={{p: 4, background: "#f9f9f9", boxShadow: "0", borderRadius: 4, width: { xs: "100%" }, textAlign: "center", mr: 1, mb: { xs: 1 }, alignItems: "center",}}>
+                
+                    {/* <ManagedCareDashboardCard  count={0}
+                        title="80k"
+                        hasFilter={true}
+                        // dataSource={prescriptionOrderPresentDataObject}
+                        // isLoading={isSentLoading}
+                        /> */}
+                <Typography style={{color: '#444444', fontWeight: '700', fontSize: '16px'}}>Referral Overview</Typography>
+
+              </Box>
             </Box>
-            <Box sx={{ width: "100%", pt: 2, pb: 2 }}>
-              <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
+            <Box>
+            <Box sx={{p: 4, background: "#f9f9f9", boxShadow: "0", borderRadius: 4, width: { xs: "100%" }, height: "40vh", textAlign: "center", mr: 1, mb: { xs: 1 }, alignItems: "center", display: 'spacearound'}}>
+              <Typography sx={{ fontWeight: "bold", fontSize: "22px", marginTop: "4rem", marginBottom: "1rem" }}>
                 250
               </Typography>
-              <Typography variant="body2">Beneficiaries</Typography>
-
-
-              {/* <CircleChart /> */}
+              <Typography>Beneficiaries</Typography>
             </Box>
+            <Box sx={{p: 4, background: "#f9f9f9", boxShadow: "0", borderRadius: 4, width: { xs: "100%" }, textAlign: "center", mr: 1, mb: { xs: 1 }, alignItems: "center", display: 'spacearound'}}>
+            <Box style={{display: 'flex', }}>
+                  <Typography style={{color: '#0064cc', fontWeight: 'bold', fontSize: '2rem', position: 'relative', left: '8rem', top: '5rem'}}>80k</Typography>
+                  <Box style={{ position: 'relative', left: '12rem', padding: '0' }}>
+                  <Typography style={{color: '#444444',  fontWeight: '500', fontSize: '14px'}}>Unpaid Claims{<Checkbox />}</Typography>
+                  <Typography style={{color: '#444444',  fontWeight: '500', fontSize: '14px'}}>Processed Claims{<Checkbox />}</Typography>
+                  <Typography style={{color: '#444444',  fontWeight: '500', fontSize: '14px'}}>Pending Claims{<Checkbox />}</Typography>
+                  <Typography style={{color: '#444444', fontWeight: '500', fontSize: '14px'}}>Claims Approved{<Checkbox />}</Typography>
+                  <Typography style={{color: '#444444', fontWeight: '500', fontSize: '14px' }}>Rejection Claims{<Checkbox />}</Typography>
+                  </Box> 
+                </Box>
+                <Typography style={{color: '#444444', fontWeight: '700', fontSize: '16 px'}}>Claims Overview</Typography>
+              </Box>
+            </Box>
+
           </Box>
         </DashboardContainer>
       </Box>

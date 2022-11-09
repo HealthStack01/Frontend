@@ -216,10 +216,7 @@ export const menuItems = [
       { name: "Referrals", to: "/app/managed-care/referrals" },
       { name: "Tariff", to: "/app/managed-care/tariff" },
       { name: "Claims", to: "/app/managed-care/claims" },
-      { name: "DashBoard", to: "/app/managed-care/dashboard" },
-      {
-        name: "Fund management",
-        to: "/app/managed-care/fundmanagement",
+      { name: "Fund management", to: "/app/managed-care/fundmanagement",
       },
       { name: "Health plan", to: "/app/managed-care/healthplan" },
       {
