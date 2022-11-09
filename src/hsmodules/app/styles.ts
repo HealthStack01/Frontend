@@ -184,7 +184,7 @@ export const GridBox = styled.div`
 
 export const ViewBox = styled.div`
   margin-top: 3.5rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 5rem;
 `;
 
 export const GridWrapper = styled.div`
