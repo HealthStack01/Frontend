@@ -834,13 +834,6 @@ export function LeadList({ showModal, setShowModal }) {
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
                     Lead
                   </h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  />
                   {/* <SwitchButton /> */}
                   <Switch>
                     <button
