@@ -24,7 +24,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {InventoryStoreSchema} from "./ui-components/schema";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 
 export default function Dispense() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -58,20 +58,15 @@ export default function Dispense() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
       <DispenseList openCreateModal={handleOpenCreateModal} />
 
-      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Point of Sale: Sales, Dispense, Audit, Transfer out"
+      >
         <ProductExitCreate />
       </ModalBox>
-
-      {/*  <div className="column is-3 ">
-                
-                {(state.financeModule.show ==='detail')&&<PatientProfile />}
-                </div> */}
     </section>
   );
 }
@@ -99,6 +94,9 @@ export function DispenseList({openCreateModal}) {
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
+  const [selectedClient, setSelectedClient] = useState();
+  const [clientBills, setClientBills] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -113,6 +111,53 @@ export function DispenseList({openCreateModal}) {
   };
 
   const handleChoseClient = async (client, e, order) => {
+    setOldClient(client.clientname);
+
+    order.checked = e.target.checked;
+    await handleSelectedClient(order.participantInfo.client);
+    //handleMedicationRow(order)
+    await setSelectedFinance(order);
+    const newProductEntryModule = {
+      ...state.financeModule,
+      selectedFinance: order,
+      show: "detail",
+      state: e.target.checked,
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      financeModule: newProductEntryModule,
+    }));
+
+    //set of checked items
+    if (e.target.checked) {
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.concat(order),
+        },
+      }));
+      await setSelectedOrders(prevstate => prevstate.concat(order));
+    } else {
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.filter(
+            el => el._id !== order._id
+          ),
+        },
+      }));
+
+      setSelectedOrders(prevstate =>
+        prevstate.filter(el => el._id !== order._id)
+      );
+    }
+
+    // console.log(selectedOrders)
+  };
+
+  const handleChoseClient2 = async (client, e, order) => {
     setOldClient(client.clientname);
     let newClient = client.clientname;
     if (oldClient !== newClient) {
@@ -136,6 +181,7 @@ export function DispenseList({openCreateModal}) {
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
+
     if (e.target.checked) {
       await setSelectedOrders(prevstate => prevstate.concat(order));
     } else {
@@ -250,8 +296,44 @@ export function DispenseList({openCreateModal}) {
     await setFacilities(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
-  const handleRow = async (Client, e) => {
-    // alert(expanded)
+
+  const handleRow = async (client, e) => {
+    await setSelectedClient(client);
+
+    setOldClient(client.clientname);
+    let newClient = client.clientname;
+
+    if (oldClient !== newClient) {
+      selectedOrders.forEach(el => (el.checked = ""));
+      setSelectedOrders([]);
+      setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: [],
+        },
+      }));
+    }
+
+    const clientOrders = client.bills.map(data => {
+      const allOrders = [];
+
+      data.order.map(order => {
+        const orderData = {
+          date: order.createdAt,
+          status: order.billing_status,
+          description: order.serviceInfo.name,
+          amount: order.serviceInfo.amount,
+          order: order,
+        };
+
+        allOrders.push(orderData);
+      });
+      return allOrders;
+    });
+
+    //console.log(clientOrders);
+    setClientBills(clientOrders.flat(1));
   };
   //1.consider using props for global data
   useEffect(() => {
@@ -302,7 +384,28 @@ export function DispenseList({openCreateModal}) {
     return () => {};
   }, [state.financeModule.show]);
 
-  const onRowClicked = () => {};
+  useEffect(() => {
+    const productItem = selectedOrders;
+    setTotalAmount(0);
+    productItem.forEach(el => {
+      if (el.show === "none") {
+        if (el.billing_status === "Unpaid") {
+          setTotalAmount(
+            prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
+          );
+        } else {
+          setTotalAmount(
+            prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
+          );
+        }
+      }
+      if (el.show === "flex") {
+        setTotalAmount(prevtotal => Number(prevtotal) + Number(el.partPay));
+      }
+
+      //
+    });
+  }, [selectedOrders]);
 
   const DispensorySummary = [
     {name: "S/N", selector: row => row.sn},
@@ -347,7 +450,65 @@ export function DispenseList({openCreateModal}) {
     },
   ];
 
-  const selectedClientSchema = [];
+  const selectedClientSchema = [
+    {
+      name: "S/NO",
+      width: "70px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => (
+        <div style={{display: "flex", alignItems: "center"}}>
+          <input
+            type="checkbox"
+            //name={order._id}
+            style={{marginRight: "3px"}}
+            onChange={e => handleChoseClient(selectedClient, e, row.order)}
+            checked={row.order.checked}
+          />
+          {row.sn}
+        </div>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter Date",
+      selector: row => format(new Date(row.date), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Description",
+      key: "description",
+      description: "Enter Description",
+      selector: row => row.description,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      key: "status",
+      description: "Enter Status",
+      selector: row => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
 
   return (
     <>
@@ -371,13 +532,20 @@ export function DispenseList({openCreateModal}) {
             </h2>
           </div>
 
-          {/* {handleCreateNew && (
+          {selectedOrders.length > 0 && (
+            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+              Amount Due : <span>&#8358;</span>
+              {totalAmount}
+            </h2>
+          )}
+
+          {selectedOrders.length > 0 && (
             <Button
               style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
+              label={`Make Payment`}
+              onClick={openCreateModal}
             />
-          )} */}
+          )}
         </TableMenu>
 
         <div
@@ -393,7 +561,7 @@ export function DispenseList({openCreateModal}) {
             style={{
               height: "calc(100% - 70px)",
               transition: "width 0.5s ease-in",
-              width: "100%", //selectedClient ? "49.5%" : "100%",
+              width: selectedClient ? "49.5%" : "100%",
             }}
           >
             <CustomTable
@@ -403,12 +571,12 @@ export function DispenseList({openCreateModal}) {
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={row => onRowClicked(row)}
+              onRowClicked={handleRow}
               progressPending={loading}
             />
           </div>
 
-          {selectedFinance && (
+          {selectedClient && (
             <>
               <div
                 style={{
@@ -420,7 +588,7 @@ export function DispenseList({openCreateModal}) {
                 <CustomTable
                   title={""}
                   columns={selectedClientSchema}
-                  //data={clientBills}
+                  data={clientBills}
                   pointerOnHover
                   highlightOnHover
                   striped
