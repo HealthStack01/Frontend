@@ -1266,12 +1266,13 @@ export function DrugAdminList({standalone}) {
     OrderServ.on("removed", obj => getFacilities());
     return () => {};
   }, []);
-
+  // console.log(facilities);
   const medicationSchema=[
     {
       name: "S/N",
       key: "sn",
       description: "SN",
+      width: "30px",
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
@@ -1282,6 +1283,7 @@ export function DrugAdminList({standalone}) {
       name: "Date",
       key: "Date",
       description: "date",
+      width: "80px",
       selector: row => format(new Date(row.createdAt), "dd-MM-yy"),
       sortable: true,
       required: true,
@@ -1294,6 +1296,7 @@ export function DrugAdminList({standalone}) {
       name: "Medication",
       key: "order",
       description: "order",
+      width: "120px",
       selector: row => row.order,
       sortable: true,
       required: true,
@@ -1304,6 +1307,7 @@ export function DrugAdminList({standalone}) {
       name: "Instructions",
       key: "Instructions",
       description: "fufiled",
+      width: "100px",
       selector: row => row.instruction,
       sortable: true,
       required: true,
@@ -1314,6 +1318,7 @@ export function DrugAdminList({standalone}) {
       name: "Status",
       key: "status",
       description: "status",
+      width: "80px",
       selector: row => row.treatment_status ,
       sortable: true,
       required: true,
@@ -1323,6 +1328,7 @@ export function DrugAdminList({standalone}) {
       name: "Last Administered",
       key: "lastadministered",
       description: "lastadministered",
+      width: "100px",
       selector: row => row.lastadministered,
       sortable: true,
       required: true,
@@ -1370,7 +1376,7 @@ export function DrugAdminList({standalone}) {
       selector: row => ([
       <Box style={{display:"flex",  flexWrap:"wrap", width:"180px"}}>
           <Button
-        style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+        style={{fontSize: "0.7rem", color: "white", width:"70px", backgroundColor: "#00C4A7"}}
         onClick={() => handleAdminister(row)}
       >
         Administer
@@ -1381,13 +1387,13 @@ export function DrugAdminList({standalone}) {
           History
         </Button>, 
         <Button
-          style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+          style={{fontSize: "0.7rem", color: "white", width:"70px", backgroundColor: "#FFDB4A"}}
           onClick={() => handleDiscontinue(row)}
         >
           Discontinue
         </Button>, 
         <Button
-        style={{fontSize: "0.7rem", color: "white", width:"70px"}}
+        style={{fontSize: "0.7rem", color: "white", width:"70px", backgroundColor: "#F03A5F"}}
         onClick={() => handleDrop(row)}
       >
         Drop
@@ -1503,125 +1509,128 @@ const orderSchema=[
       </div>
       <div className="table-container pullup ">
       <Box>   
-      <CustomTable
-       title={""}
-       columns={medicationSchema}
-       data={facilities}
-       onRowClicked={handleRow}
-       pointerOnHover
-       highlightOnHover
-       striped/>
+        <div style={{height: "500px", width: "100%"}}>
+          <CustomTable
+          title={""}
+          columns={medicationSchema}
+          data={facilities}
+          onRowClicked={handleRow}
+          pointerOnHover
+          highlightOnHover
+          striped/>
+        </div>
        </Box>
       </div>
       <div>
        
-        <div className="modal-card">
-          
-            <p className="modal-card-title">Drug Admin History </p>
+            <ModalBox open={hxModal} onClose={handlecloseModal1} header="Drug Admin History">
+              <div className="modal-card" style={{height: "400px", overflow: "auto"}}>
+                
+                  {/* <p className="modal-card-title"> </p> */}
 
-            <ModalBox open={hxModal} onClose={handlecloseModal1}>
-            
-            
-              <Box>
-              <div>
-                <span className="is-medium">
-                  <strong>{currentMed.order}</strong>
-                </span>
-                </div>
-                <div>
-                <span>
-                  <strong>Instruction: </strong>
-                  {currentMed.instruction}
-                </span>
-                </div>
+                    <Box>
+                    <div>
+                      <span className="is-medium">
+                        <strong>{currentMed.order}</strong>
+                      </span>
+                      </div>
+                      <div>
+                      <span>
+                        <strong>Instruction: </strong>
+                        {currentMed.instruction}
+                      </span>
+                      </div>
 
-                <div>
-                <span>
-                  <strong>Ordered by:</strong>{" "}
-                  {currentMed.requestingdoctor_Name}
-                </span>
-                </div>
+                      <div>
+                      <span>
+                        <strong>Ordered by:</strong>{" "}
+                        {currentMed.requestingdoctor_Name}
+                      </span>
+                      </div>
 
-                {currentMed.createdAt && (
-                  <span>
-                    <strong>
-                      {formatDistanceToNowStrict(
-                        new Date(currentMed.createdAt),
-                        {addSuffix: true}
+                      {currentMed.createdAt && (
+                        <span>
+                          <strong>
+                            {formatDistanceToNowStrict(
+                              new Date(currentMed.createdAt),
+                              {addSuffix: true}
+                            )}
+                          </strong>{" "}
+                          <span>
+                            {format(new Date(currentMed.createdAt), "dd-MM-yy")}
+                          </span>
+                        </span>
                       )}
-                    </strong>{" "}
-                    <span>
-                      {format(new Date(currentMed.createdAt), "dd-MM-yy")}
-                    </span>
-                  </span>
-                )}
 
 
+
+                      
+                  <div className="table-container pullup ">
+                    <div>
+                      <span className="is-medium">
+                        <strong>{currentMed.order}</strong>
+                      </span>
+                      <br />
+                      <span>
+                        <strong>Instruction: </strong>
+                        {currentMed.instruction}
+                      </span>
+                      <br />
+                      <span>
+                        <strong>Ordered by:</strong>{" "}
+                        {currentMed.requestingdoctor_Name}
+                      </span>
+                      <br />
+                      {currentMed.createdAt && (
+                        <span>
+                          <strong>
+                            {formatDistanceToNowStrict(
+                              new Date(currentMed.createdAt),
+                              {addSuffix: true}
+                            )}
+                          </strong>{" "}
+                          <span>
+                            {format(new Date(currentMed.createdAt), "dd-MM-yy")}
+                          </span>
+                        </span>
+                      )}
+                    </div>
+                    <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
+                      
+                      <tbody>
+                        {currentMed.hasOwnProperty("treatment_action")&& 
+                          ( 
+                          <div style={{height: "250px", overflow: "auto"}}>
+                          <CustomTable
+                              title={""}
+                              columns={orderSchema}
+                              data={facilities}
+                              onRowClicked={handleRow}
+                              pointerOnHover
+                              highlightOnHover
+                              striped/>
+                              </div>
+                               )
+                          }
+                      </tbody>
+                    </table>
+                  </div>
+
+
+                    </Box>
 
                 
-            <div className="table-container pullup ">
-              <div>
-                <span className="is-medium">
-                  <strong>{currentMed.order}</strong>
-                </span>
-                <br />
-                <span>
-                  <strong>Instruction: </strong>
-                  {currentMed.instruction}
-                </span>
-                <br />
-                <span>
-                  <strong>Ordered by:</strong>{" "}
-                  {currentMed.requestingdoctor_Name}
-                </span>
-                <br />
-                {currentMed.createdAt && (
-                  <span>
-                    <strong>
-                      {formatDistanceToNowStrict(
-                        new Date(currentMed.createdAt),
-                        {addSuffix: true}
-                      )}
-                    </strong>{" "}
-                    <span>
-                      {format(new Date(currentMed.createdAt), "dd-MM-yy")}
-                    </span>
-                  </span>
-                )}
+              
+                
+                  {/* <StoreList standalone="true" /> */}
+                  {/* <BillServiceCreate closeModal={handlecloseModal1}/> */}
+                
+                {/* <footer className="modal-card-foot">
+                                  <button className="button is-success">Save changes</button>
+                                  <button className="button">Cancel</button>
+                                  </footer> */}
               </div>
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-                
-                <tbody>
-                  {currentMed.hasOwnProperty("treatment_action")&& 
-                    ( <CustomTable
-                        title={""}
-                        columns={orderSchema}
-                        data={facilities}
-                        onRowClicked={handleRow}
-                        pointerOnHover
-                        highlightOnHover
-                        striped/> )
-                    
-                    }
-                </tbody>
-              </table>
-            </div>
-
-
-              </Box>
-
             </ModalBox>
-           
-        
-          
-            {/* <StoreList standalone="true" /> */}
-            {/* <BillServiceCreate closeModal={handlecloseModal1}/> */}
-          
-          {/* <footer className="modal-card-foot">
-                            <button className="button is-success">Save changes</button>
-                            <button className="button">Cancel</button>
-                            </footer> */}
-        </div>
       </div>
     </>
   );
