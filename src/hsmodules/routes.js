@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Route, Routes, useLocation} from "react-router-dom";
 
-import { UserContext, ObjectContext } from "../context";
+import {UserContext, ObjectContext} from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import { Models } from "./app/Constants";
+import {Models} from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -149,6 +149,10 @@ import ManagedCareHome from "./ManagedCare/ManagedCareHome";
 import Policy from "./ManagedCare/Policy";
 import Beneficiary from "./ManagedCare/Beneficiary";
 import ReferralsCollections from "./ManagedCare/Referral";
+import TarrifList from "./ManagedCare/Tarrifs"
+import HealthPlan from "./ManagedCare/HealthPlan"
+import Referral from "./ManagedCare/Referral"
+import Provider from "./ManagedCare/Providers";
 import Product from "./ManagedCare/UserManagement";
 import ProductEntry from "./ManagedCare/HealthPlan"
 import HiaOrganizationClient from "./ManagedCare/HIA";
@@ -157,7 +161,12 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import { OrgList } from "./ManagedCare/OrgClientList";
+import {OrgList} from "./ManagedCare/OrgClientList";
+import ComplaintsInventoryReport from "./ManagedCare/Complaints";
+import ReferralHome from "./Referral/ReferralHome";
+
+import PreAuth from "./ManagedCare/PreAuth";
+// import Provider from "./ManagedCare/Providers";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -171,7 +180,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const { setLocationType } = useRepository(Models.LOCATION);
+  const {setLocationType} = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -554,6 +563,7 @@ const AppRoutes = () => {
             <Route path="/app/ward/discharge" element={<Discharge />} />
             <Route path="/app/ward/dashboard" element={<WardDashboard />} />
           </Route>
+
           {/**************************MANAGED CARE *************************************** */}
           <Route path="/app/managed-care" element={<ManagedCareHome />}>
             <Route path="/app/managed-care/policy" element={<Policy />} />
@@ -586,17 +596,95 @@ const AppRoutes = () => {
               element={<ReferralsCollections />}
             />
             <Route
-              path="/app/managed-care/usermanagement"
-              element={<Product />}
+              path="/app/managed-care/claims"
+              element={<ClientBilledPrescription />}
             />
             <Route
-              path="/app/managed-care/healthplan"
-              element={<ProductEntry />}
+              path="/app/managed-care/organisation"
+              element={<OrgList />}
             />
-            <Route path="app/managed-care/claims" element={<ClientBilledPrescription/>}/>
-             <Route path="app/managed-care/organization" element={<OrgList/>}/>
+            <Route
+              path="/app/managed-care/complaints"
+              element={<ComplaintsInventoryReport />}
+            />
+            <Route
+              path="/app/managed-care/preauthorization"
+              element={<PreAuth />}
+            />
+            <Route path="/app/managed-care/checkin" />
+            <Route path="/app/managed-care/tariff" element={<TarrifList/>} />
+            <Route path="/app/managed-care/fundmanagement" />
+            <Route path="/app/managed-care/providerpayment" />
+            <Route path="/app/managed-care/usermgt" />
+            <Route path="/app/managed-care/report" />
+            <Route path="/app/managed-care/healthplan" element={<HealthPlan/>}/>
+            <Route path="/app/managed-care/referral" element={<Referral/>}/>
+            <Route path="/app/managed-care/provider" element={<Provider/>}/>
           </Route>
-          
+        </Route>
+        {/**************************CRM *************************************** */}
+        <Route path="/app/crm">
+          <Route path="/app/crm/lead" />
+          <Route path="/app/crm/proposal" />
+          <Route path="/app/crm/invoice" />
+          <Route path="/app/crm/provider" />
+          <Route path="/app/crm/SLA" />
+          <Route path="/app/crm/appointment" />
+          <Route path="/app/crm/deal" />
+        </Route>
+
+        {/**************************Referral *************************************** */}
+        <Route path="/app/referral" element={<ReferralHome />}>
+          <Route path="/app/referral/lead" />
+          <Route path="/app/referral/incoming" />
+          <Route path="/app/referral/outgoing" />
+          <Route path="/app/referral/account" />
+          <Route path="/app/referral/setting" />
+        </Route>
+
+        {/**************************Communication *************************************** */}
+        <Route path="/app/communication">
+          <Route path="/app/communication/whatsapp" />
+          <Route path="/app/communication/sms" />
+          <Route path="/app/communication/ussd" />
+          <Route path="/app/communication/email" />
+          <Route path="/app/communication/ivr" />
+        </Route>
+
+        {/**************************Patient Portal *************************************** */}
+        <Route path="/app/patient-portal">
+          <Route path="/app/patient-portal/profile" />
+          <Route path="/app/patient-portal/view" />
+          <Route path="/app/patient-portal/buy" />
+          <Route path="/app/patient-portal/search" />
+          <Route path="/app/patient-portal/read" />
+          <Route path="/app/patient-portal/chat" />
+        </Route>
+
+        {/**************************Accounting *************************************** */}
+        <Route path="/app/accounting">
+          <Route path="/app/accounting/chart-of-account" />
+          <Route path="/app/accounting/account" />
+          <Route path="/app/accounting/payment" />
+          <Route path="/app/accounting/expenses" />
+          <Route path="/app/accounting/journal" />
+          <Route path="/app/accounting/report" />
+        </Route>
+
+        {/**************************Immunization *************************************** */}
+        <Route path="/app/immunization">
+          <Route path="/app/immunization/schedule" />
+          <Route path="/app/immunization/vaccineprofile" />
+          <Route path="/app/immunization/appointment" />
+          <Route path="/app/immunization/checkin-out" />
+          <Route path="/app/immunization/report" />
+        </Route>
+
+        {/**************************Blood Bank *************************************** */}
+        <Route path="/app/blood-bank">
+          <Route path="/app/blood-bank/inventory" />
+          <Route path="/app/blood-bank/appointment" />
+          <Route path="/app/blood-bank/lab" />
         </Route>
       </Routes>
     </>

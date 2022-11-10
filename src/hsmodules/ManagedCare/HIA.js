@@ -12,6 +12,7 @@ import { TableMenu } from "../../ui/styled/global";
 import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
+import ModalBox from "../../components/modal";
 
 export default function HiaOrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -353,6 +354,7 @@ export function OrganizationList() {
   }, []);
 
   //todo: pagination and vertical scroll bar
+  console.log(facilities);
 
   const HIASchema = [
     {
@@ -362,6 +364,16 @@ export function OrganizationList() {
       selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+    },
+
+    {
+      name: "Organization Name",
+      key: "facilityName",
+      description: "Organization Name",
+      selector: (row) => row?.organizationDetail?.facilityName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
     },
     {
       name: "Band",
@@ -377,7 +389,7 @@ export function OrganizationList() {
       name: "Address",
       key: "address",
       description: "Address",
-      selector: (row) => row.facilityAddress,
+      selector: (row) => row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -387,7 +399,7 @@ export function OrganizationList() {
       name: "City",
       key: "city",
       description: "City",
-      selector: (row) => row.facilityCity,
+      selector: (row) => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -397,7 +409,7 @@ export function OrganizationList() {
       name: "Phone",
       key: "phone",
       description: "Phone",
-      selector: (row) => row.facilityContactPhone,
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
       inputType: "PHONE",
@@ -407,29 +419,17 @@ export function OrganizationList() {
       name: "Email",
       key: "email",
       description: "Email",
-      selector: (row) => row.facilityEmail,
+      selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
-      // inputType: "SELECT_LIST",
-      // options: ["Male", "Female"],
-    },
-
-    {
-      name: "Email",
-      key: "email",
-      description: "Email",
-      selector: (row) => row.facilityEmail,
-      sortable: true,
-      required: true,
-      // inputType: "SELECT_LIST",
-      // options: ["Single", "Married"],
+      inputType: "EMAIL",
     },
 
     {
       name: "Type",
       key: "type",
       description: "johndoe@mail.com",
-      selector: (row) => row.facilityType,
+      selector: (row) => row?.organizationDetail?.facilityType,
       sortable: true,
       required: true,
       inputType: "EMAIL",
@@ -439,7 +439,7 @@ export function OrganizationList() {
       name: "Category",
       key: "category",
       description: "Category",
-      selector: (row) => row.facilityCategory,
+      selector: (row) => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -449,7 +449,9 @@ export function OrganizationList() {
   return (
     <>
       {" "}
-      <OrganizationCreate />
+      <ModalBox>
+        <OrganizationCreate />
+      </ModalBox>
       <div className="level">
         <PageWrapper
           style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
@@ -461,7 +463,9 @@ export function OrganizationList() {
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2>List of Clients</h2>
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                List of HIA
+              </h2>
             </div>
             {handleCreateNew && (
               <Button

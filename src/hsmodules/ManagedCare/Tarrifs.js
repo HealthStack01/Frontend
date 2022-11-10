@@ -5,7 +5,6 @@ import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
@@ -24,13 +23,13 @@ import Switch from "../../components/switch";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
-import { Box, Grid, Button as MuiButton } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function HealthPlan() {
+export default function TarrifList() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -40,7 +39,7 @@ export default function HealthPlan() {
 
   return (
     <section className="section remPadTop">
-      <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
+      <PreAuthorizationList showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 }
@@ -446,7 +445,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function HealthPlanList({ showModal, setShowModal }) {
+export function PreAuthorizationList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -721,71 +720,53 @@ export function HealthPlanList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
+      SN: "1",
+      description: "Private word per diem",
       category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
+      price: "16,000",
     },
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
+      SN: "1",
+      description: "Private word per diem",
       category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
-    },{
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active"
+      price: "16,000",
     },
-    
+    {
+      SN: "1",
+      description: "Private word per diem",
+      category: "family",
+      price: "16,000",
+    },
+    {
+      SN: "1",
+      description: "Private word per diem",
+      category: "family",
+      price: "16,000",
+    },
+    {
+      SN: "1",
+      description: "Private word per diem",
+      category: "family",
+      price: "16,000",
+    },
+    {
+      SN: "1",
+      description: "Private word per diem",
+      category: "family",
+      price: "16,000",
+    },
+    {
+      SN: "1",
+      description: "Private word per diem",
+      category: "family",
+      price: "16,000",
+    },
+    {
+      SN: "1",
+      description: "Private word per diem",
+      category: "family",
+      price: "16,000",
+    },
   ];
 
   const returnCell = (status) => {
@@ -794,7 +775,7 @@ export function HealthPlanList({ showModal, setShowModal }) {
     // }
     // else if
     switch (status.toLowerCase()) {
-      case "active":
+      case "approved":
         return <span style={{ color: "#17935C" }}>{status}</span>;
 
       case "ongoing":
@@ -813,52 +794,41 @@ export function HealthPlanList({ showModal, setShowModal }) {
 
   const preAuthSchema = [
     {
-      name: "Patients Name",
-      key: "patients_name",
-      description: "Enter Patients Name",
-      selector: (row, i) => row.patients_name,
+      name: "S/N",
+      key: "sn",
+      description: "Enter Serial Number",
+      selector: (row, i) => i + 1,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Name of Plan",
-      key: "name_of_plan",
-      description: "Name of Plan",
-      selector: (row) => row.name_of_plan,
+      name: "Description",
+      key: "description",
+      description: "Description",
+      selector: (row) => row.description,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Category",
-      key: "category",
-      description: "Category",
+      name: "Categories",
+      key: "categories",
+      description: "Categories",
       selector: (row) => row.category,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Premium",
-      key: "premium",
-      description: "Premium",
-      selector: (row, i) => row.premium,
+      name: "Price",
+      key: "price",
+      description: "price",
+      selector: (row, i) => row.price,
       sortable: true,
       required: true,
       inputType: "NUMBER",
     },
-    {
-      name: "Status",
-      key: "status",
-      description: "Status",
-      selector: "status",
-      cell: (row, i) => returnCell (row.status),
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-
   ];
 
   const conditionalRowStyles = [
@@ -909,7 +879,6 @@ export function HealthPlanList({ showModal, setShowModal }) {
             <PageWrapper
               style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
-              
               <TableMenu>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   {handleSearch && (
@@ -950,18 +919,15 @@ export function HealthPlanList({ showModal, setShowModal }) {
                   </Switch>
                 </div>
 
-                {handleCreateNew && (
-                 <MuiButton
-                 variant="contained"
-                 sx={{widh: "fit", textTransform: "capitalize", fontSize: "14px", fontWeight: '600'}}
-                 onClick={handleCreateNew}
-                 >
-                 <AddCircleOutlineIcon sx={{marginRight: "5px"}} fontSize="small"/>
-                  Add Health plan
-                 </MuiButton>
-                )} 
+                {/* {handleCreateNew && (
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600" }}
+                    label="Add new "
+                    onClick={handleCreateNew}
+                  />
+                )} */}
               </TableMenu>
-              <div style={{ width: "100%", height: "700px", overflow: "auto" }}>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}

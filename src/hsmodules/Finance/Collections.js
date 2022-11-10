@@ -13,9 +13,9 @@ import {TableMenu} from "../../ui/styled/global";
 import Button from "./ui-components/buttons/Button";
 import FilterMenu from "./ui-components/utilities/FilterMenu";
 import FacilityAccount from "./FacilityAccount";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 import CloseIcon from "@mui/icons-material/Close";
-import {IconButton} from "@mui/material";
+import {Box, IconButton, Button as MuiButton, Typography} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -41,14 +41,12 @@ export default function Collections() {
             </div> */}
 
       <CollectionList openAccountModal={handleOpenAccountModal} />
-      <ModalBox open={accountModal} onClose={handleCloseAccountModal}>
-        <div
-          style={{
-            width: "90vw",
-          }}
-        >
-          <ClientAccount closeModal={handleCloseAccountModal} />
-        </div>
+      <ModalBox
+        open={accountModal}
+        onClose={handleCloseAccountModal}
+        header="Account Details"
+      >
+        <ClientAccount closeModal={handleCloseAccountModal} />
       </ModalBox>
 
       {/*  {(state.InventoryModule.show ==='detail')&&<InventoryDetail  />}
@@ -72,6 +70,12 @@ export function ClientAccount({closeModal}) {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [balance, setBalance] = useState(0);
+
+  const [accountType, setAccountType] = useState("credit");
+
+  const handleToggleAccount = type => {
+    setAccountType(prev => (prev === "credit" ? "debit" : "credit"));
+  };
 
   const clientSel = state.SelectedClient.client;
   const getSearchfacility = obj => {
@@ -203,7 +207,8 @@ export function ClientAccount({closeModal}) {
       style: {color: "#0364FF"},
       key: "description",
       description: "Enter Date",
-      selector: row => row.description,
+      selector: row =>
+        row.description ? row.description : "---------------------",
       sortable: true,
       required: true,
       inputType: "DATE",
@@ -278,139 +283,157 @@ export function ClientAccount({closeModal}) {
 
   return (
     <>
-      <div className="card cardheight">
-        <div
-          style={{
-            width: "100%",
+      <Box
+        container
+        sx={{
+          width: "750px",
+          height: "550px",
+        }}
+      >
+        <Box
+          mb={2}
+          mt={2}
+          sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginBottom: "2rem",
           }}
         >
-          <div
-            className="card-header"
-            style={{
-              width: "346px",
-              height: "100px",
-              border: "1px solid #E5E5E5",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              paddingLeft: "31px",
+          <Typography
+            sx={{
+              textTransform: "capitalize",
+              fontWeight: "700",
+              color: "#0364FF",
             }}
           >
-            {/* <p className="card-header-title">
+            {facility[0]?.fromName}
+          </Typography>
+          <MuiButton
+            variant="outlined"
+            style={{
+              width: "150px",
+              height: "48px",
+              textTransform: "capitalize",
+            }}
+            onClick={handleToggleAccount}
+          >
+            {accountType === "credit" ? "Debit" : "Credit"} Detail
+          </MuiButton>
+        </Box>
+        <Box mb={2}>
+          <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <div
+              className="card-header"
+              style={{
+                width: "300px",
+                height: "80px",
+                border: "1px solid #E5E5E5",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                paddingLeft: "31px",
+                marginRight: "15px",
+              }}
+            >
+              {/* <p className="card-header-title">
             Account Details: {facility[0]?.fromName}
           </p> */}
-            <span
-              style={{
-                color: "#979DAC",
-                fontSize: "16px",
-                lineHeight: "21.86px",
-              }}
-            >
-              Current Balance
-            </span>
-            <span
-              style={{
-                fontWeight: "700",
-                fontSize: "24px",
-                color: "#414D55",
-              }}
-            >
-              <span>&#8358;</span>
-              {balance}
-            </span>
-          </div>
-
-          <IconButton
-            sx={{
-              backgroundColor: "#0364FF",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "#0364FF",
-              },
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <div className="card-content ">
-          {/*  <div className="level"> vscrollable
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Inventory  Module</span></div>
-            </div> */}
-
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                width: "49.5%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                overflowY: "scroll",
-              }}
-            >
-              <p
+              <span
                 style={{
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  textTransform: "uppercase",
+                  color: "#0364FF",
+                  fontSize: "14px",
+                  lineHeight: "21.86px",
                 }}
               >
-                Credit Account
-              </p>
-              <CustomTable
-                title={""}
-                columns={creditSchema}
-                data={facility.filter(i => i.category === "credit")}
-                pointerOnHover
-                highlightOnHover
-                striped
-                //onRowClicked={handleRow}
-                progressPending={false}
-              />
+                Current Balance
+              </span>
+              <span
+                style={{
+                  fontWeight: "700",
+                  fontSize: "22px",
+                  color: "#000000",
+                }}
+              >
+                <span>&#8358;</span>
+                {balance}
+              </span>
             </div>
 
             <div
+              className="card-header"
               style={{
-                width: "49.5%",
+                width: "300px",
+                height: "80px",
+                border: "1px solid #E5E5E5",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                overflowY: "scroll",
+                justifyContent: "center",
+                paddingLeft: "31px",
               }}
             >
-              <p
+              {/* <p className="card-header-title">
+            Account Details: {facility[0]?.fromName}
+          </p> */}
+              <span
                 style={{
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  textTransform: "uppercase",
+                  color: "#0364FF",
+                  fontSize: "14px",
+                  lineHeight: "21.86px",
                 }}
               >
-                Debit Account
-              </p>
-              <CustomTable
-                title={""}
-                columns={debitSchema}
-                data={facility.filter(i => i.category === "debit")}
-                pointerOnHover
-                highlightOnHover
-                striped
-                //onRowClicked={handleRow}
-                progressPending={false}
-              />
+                Current Balance
+              </span>
+              <span
+                style={{
+                  fontWeight: "700",
+                  fontSize: "22px",
+                  color: "#000000",
+                }}
+              >
+                <span>&#8358;</span>
+                {balance}
+              </span>
             </div>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+          mb={2}
+          mt={2}
+        >
+          <Typography>
+            {accountType === "credit" ? "Credit Account" : "Debit Account"}
+          </Typography>
+        </Box>
+        {accountType === "credit" ? (
+          <Box sx={{height: "350px", overflowY: "auto"}}>
+            <CustomTable
+              title={""}
+              columns={creditSchema}
+              data={facility.filter(i => i.category === "credit")}
+              pointerOnHover
+              highlightOnHover
+              striped
+              //onRowClicked={handleRow}
+              progressPending={false}
+            />
+          </Box>
+        ) : (
+          <Box sx={{height: "350px", overflowY: "auto"}}>
+            <CustomTable
+              title={""}
+              columns={debitSchema}
+              data={facility.filter(i => i.category === "debit")}
+              pointerOnHover
+              highlightOnHover
+              striped
+              //onRowClicked={handleRow}
+              progressPending={false}
+            />
+          </Box>
+        )}
+      </Box>
     </>
   );
 }
