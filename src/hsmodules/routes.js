@@ -162,6 +162,11 @@ import ReferralHome from "./Referral/ReferralHome";
 import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
+import Proposal from "./CRM/Proposal";
+import Invoice from "./CRM/Invoice";
+import SLA from "./CRM/SLA";
+import CrmAppointment from "./CRM/Appointment";
+import Deal from "./CRM/Deal";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -617,12 +622,11 @@ const AppRoutes = () => {
           {/**************************CRM *************************************** */}
           <Route path="/app/crm" element={<CRMHome />}>
             <Route path="/app/crm/lead" element={<Leads />} />
-            <Route path="/app/crm/proposal" />
-            <Route path="/app/crm/invoice" />
-            <Route path="/app/crm/provider" />
-            <Route path="/app/crm/SLA" />
-            <Route path="/app/crm/appointment" />
-            <Route path="/app/crm/deal" />
+            <Route path="/app/crm/proposal" element={<Proposal />} />
+            <Route path="/app/crm/invoice" element={<Invoice />} />
+            <Route path="/app/crm/SLA" element={<SLA />} />
+            <Route path="/app/crm/appointment" element={<CrmAppointment />} />
+            <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" />
           </Route>
 
