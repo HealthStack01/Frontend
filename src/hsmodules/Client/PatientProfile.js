@@ -284,7 +284,7 @@ export default function PatientProfile() {
         onClose={() => setMedicationModal(false)}
         header="Client Medications"
       >
-        <Box sx={{width: "100%", height: "400px", overflow: "scroll"}}>
+        <Box sx={{width: "80vw", height: "500px", overflow: "scroll"}}>
           <DrugAdminList
             standalone="true"
             onCloseModal={() => setMedicationModal(false)}
