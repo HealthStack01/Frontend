@@ -18,7 +18,7 @@
 //      // eslint-disable-next-line
 //     const [success, setSuccess] =useState(false)
 //      // eslint-disable-next-line
-//    const [message, setMessage] = useState("") 
+//    const [message, setMessage] = useState("")
 //     const ClinicServ=client.service('clinicaldocument')
 //     //const navigate=useNavigate()
 //    // const {user,setUser} = useContext(UserContext)
@@ -33,20 +33,19 @@
 //     const [showPrescriptionModal,setShowPrescriptionModal]=useState(false)
 //     // tracking on which page we currently are
 //     const [page, setPage] = useState(0);
-//     // add loader refrence 
+//     // add loader refrence
 //     const loader = useRef(null);
-    
+
 //     const standalone=false
 
 //     const handleNewDocument= async()=>{
-//         await setShowModal(true)                                                                                                                                                        
+//         await setShowModal(true)
 //         console.log( showModal)
 //     }
 //     const handleNewPrescription= async()=>{
-//         await setShowPrescriptionModal(true)                                                                                                                                                        
+//         await setShowPrescriptionModal(true)
 //         console.log( showPrescriptionModal)
 //     }
-
 
 //     const handleCreateNew = async()=>{
 //         const    newClinicModule={
@@ -55,7 +54,6 @@
 //             }
 //        await setState((prevstate)=>({...prevstate, ClinicModule:newClinicModule}))
 //        //console.log(state)
-        
 
 //     }
 //     const handleRow= async(Clinic)=>{
@@ -82,7 +80,7 @@
 //                 [field]: {
 //                     $regex:val,
 //                     $options:'i'
-                   
+
 //                 },
 //               // facility:user.currentEmployee.facilityDetail._id || "",
 //                // locationType:"Clinic",
@@ -95,7 +93,7 @@
 //                 console.log(res)
 //                setFacilities(res.data)
 //                 setMessage(" Clinic  fetched successfully")
-//                 setSuccess(true) 
+//                 setSuccess(true)
 //             })
 //             .catch((err)=>{
 //                 console.log(err)
@@ -103,12 +101,12 @@
 //                 setError(true)
 //             })
 //         }
-   
+
 //     const getFacilities= async(page=0)=>{
 //             /* const limit=20
 //             alert(page) */
 //             if (user.currentEmployee){
-            
+
 //         const findClinic= await ClinicServ.find(
 //                 {query: {
 //                     //locationType:"Clinic",
@@ -139,7 +137,7 @@
 //                                         createdAt: -1
 //                                     }
 //                                 }})
-            
+
 //                     await setFacilities(findClinic.data)
 
 //                     }
@@ -155,12 +153,11 @@
 //                     setError(true)
 //                 }) */
 //             }
-          
 
 //             useEffect(() => {
 //                 getFacilities()
 //                 if (user){
-                    
+
 //                 }else{
 //                     /* const localUser= localStorage.getItem("user")
 //                     const user1=JSON.parse(localUser)
@@ -187,7 +184,7 @@
 //                     observer.observe(loader.current)
 //                  } */
 //                 return () => {
-                
+
 //                 }
 //             },[])
 //            /*  useEffect(() => {
@@ -199,9 +196,9 @@
 //             // in this case we just update page variable
 //                 /* const handleObserver = (entities) => {
 //                     const target = entities[0];
-//                     if (target.isIntersecting) {   
-//                         setPage((page) => page + 1) //load more 
-                        
+//                     if (target.isIntersecting) {
+//                         setPage((page) => page + 1) //load more
+
 //                     }
 //                 } */
 
@@ -213,7 +210,7 @@
 //     //                     <div className="level-item">
 //     //                         <div className="field">
 //     //                             <p className="control has-icons-left  ">
-//     //                                 <DebounceInput className="input is-small " 
+//     //                                 <DebounceInput className="input is-small "
 //     //                                     type="text" placeholder="Search documentation"
 //     //                                     minLength={3}
 //     //                                     debounceTimeout={400}
@@ -227,7 +224,7 @@
 //     //                 </div>
 //     //                {/*  <div className="level-item"> <span className="is-size-6 has-text-weight-medium">List of Clinics</span></div> */}
 //     //                 <div className="level-right">
-//     //             { !standalone &&   <div className="level-item"> 
+//     //             { !standalone &&   <div className="level-item">
 //     //                         <div className="level-item">
 //     //                         <div className="button is-danger is-small mr-2" onClick={handleNewPrescription}>Presciption</div>
 //     //                             <div className="button is-success is-small" onClick={handleNewDocument}>New Document</div>
@@ -236,18 +233,18 @@
 //     //                 </div>
 
 //     //             </div>
-                
+
 //     //             <div className=" pullup ">
 //     //                             <div className=" is-fullwidth vscrollable pr-1">
-                                   
+
 //     //                                     {facilities.map((Clinic, i)=>(
 
 //     //                                         <div key={Clinic._id}  onClick={()=>handleRow(Clinic)}   className={Clinic._id===(selectedClinic?._id||null)?"is-selected":""}>
 //     //                                            <div className="card mt-1 hovercard">
 //     //                                                 <header className="card-header" onClick={(Clinic)=>Clinic.show=!Clinic.show}>
 //     //                                                     <div className="card-header-title">
-//     //                                                     <div className="docdate">{formatDistanceToNowStrict(new Date(Clinic.createdAt),{addSuffix: true})} <br/><span>{format(new Date(Clinic.createdAt),'dd-MM-yy')}</span></div> {Clinic.documentname} by {Clinic.createdByname} at {Clinic.location},{Clinic.facilityname} 
-//     //                                                     <p className="right ml-2 mr-0">{Clinic.status} </p> 
+//     //                                                     <div className="docdate">{formatDistanceToNowStrict(new Date(Clinic.createdAt),{addSuffix: true})} <br/><span>{format(new Date(Clinic.createdAt),'dd-MM-yy')}</span></div> {Clinic.documentname} by {Clinic.createdByname} at {Clinic.location},{Clinic.facilityname}
+//     //                                                     <p className="right ml-2 mr-0">{Clinic.status} </p>
 //     //                                                     </div>
 //     //                                                    {/*  <button className="card-header-icon" aria-label="more options">
 //     //                                                     <span className="icon">
@@ -257,37 +254,37 @@
 //     //                                                 </header>
 //     //                                               {Clinic.documentname!=="Prescription" &&  <div className={Clinic.show?"card-content p-1":"card-content p-1 is-hidden"}>
 //     //                                                     { Object.entries(Clinic.documentdetail).map(([keys,value],i)=>(
-//     //                                                         <div className="field is-horizontal"> 
-//     //                                                                 <div className="field-label"> 
+//     //                                                         <div className="field is-horizontal">
+//     //                                                                 <div className="field-label">
 //     //                                                                     <label className="label is-size-7" key={i}>
 //     //                                                                         {keys}:
 //     //                                                                         </label>
 //     //                                                                 </div>
-//     //                                                                 <div className="field-body"> 
+//     //                                                                 <div className="field-body">
 //     //                                                                     <div className="field" >
-//     //                                                                         {value}   
-//     //                                                                     </div>  
-//     //                                                                 </div>                                                 
+//     //                                                                         {value}
+//     //                                                                     </div>
+//     //                                                                 </div>
 //     //                                                         </div>
 //     //                                                         ))
 //     //                                                     }
 //     //                                             </div>}
-//     //                                             {Clinic.documentname==="Prescription" &&  
+//     //                                             {Clinic.documentname==="Prescription" &&
 //     //                                             <div className={Clinic.show?"card-content p-1":"card-content p-1 is-hidden"}>
-                                                        
+
 //     //                                                     {(Clinic.documentdetail.length>0) && <div>
 //     //                                                         <label>Medications:</label>
 //     //                                                     <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
 //     //                                                             <thead>
 //     //                                                                 <tr>
 //     //                                                                 <th><abbr title="Serial No">S/No</abbr></th>
-                                                                
+
 //     //                                                                 <th><abbr title="Type">Medication</abbr></th>
 //     //                                                                 <th><abbr title="Destination">Destination</abbr></th>
 //     //                                                                 </tr>
 //     //                                                             </thead>
 //     //                                                             <tfoot>
-                                                                    
+
 //     //                                                             </tfoot>
 //     //                                                             <tbody>
 //     //                                                             { Clinic.documentdetail.map((ProductEntry, i)=>(
@@ -296,16 +293,16 @@
 //     //                                                                     <th>{i+1}</th>
 //     //                                                                     {/* <td>{ProductEntry.name}</td> */}
 //     //                                                                     <td>{ProductEntry.medication}<br/>
-//     //                                                                     <span className="help is-size-7">{ProductEntry.instruction}</span></td> 
-//     //                                                                     <td>{ProductEntry.destination}</td>                                                                     
+//     //                                                                     <span className="help is-size-7">{ProductEntry.instruction}</span></td>
+//     //                                                                     <td>{ProductEntry.destination}</td>
 //     //                                                                     </tr>
 
 //     //                                                                 ))}
 //     //                                                             </tbody>
 //     //                                                             </table>
-//     //                                                             </div>}                                                   
+//     //                                                             </div>}
 //     //                                                         </div>}
-//     //                                                 </div>                                           
+//     //                                                 </div>
 //     //                                         </div>
 
 //     //                                     ))}
@@ -314,8 +311,8 @@
 //     //                                             <h2>Load More</h2>
 //     //                                 </div> */}
 //     //                             </div>
-                                    
-//     //             </div> 
+
+//     //             </div>
 //     //             <div className={`modal  ${showModal?"is-active":""}` }>
 //     //                                 <div className="modal-background"></div>
 //     //                                 <div className="modal-card ">
@@ -347,7 +344,7 @@
 //     //                                     <button className="button">Cancel</button>
 //     //                                     </footer> */}
 //     //                                 </div>
-//     //                             </div>                            
+//     //                             </div>
 //     //     </div>
 //     // )
 // }
@@ -358,9 +355,9 @@ import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 import {Box, Grid, Button as MuiButton} from "@mui/material";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
@@ -1174,10 +1171,12 @@ export function CheckInList({showModal, setShowModal}) {
       case "expired":
         return <span style={{color: "#ED0423"}}>{status}</span>;
 
-     case "check":
-        return <CheckCircleOutlineIcon sx={{color: "#17935C"}} fontSize="medium" />;
-    
-     case "uncheck":
+      case "check":
+        return (
+          <CheckCircleOutlineIcon sx={{color: "#17935C"}} fontSize="medium" />
+        );
+
+      case "uncheck":
         return <HighlightOffIcon sx={{color: "#ED0423"}} fontSize="medium" />;
 
       default:
@@ -1190,7 +1189,7 @@ export function CheckInList({showModal, setShowModal}) {
       name: "Date",
       key: "encounter",
       description: "Enter Date of Encounter",
-      selector: (row) => row.encounter,
+      selector: row => row.encounter,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -1217,7 +1216,9 @@ export function CheckInList({showModal, setShowModal}) {
       name: "Premium Status",
       key: "premium",
       description: "Enter Premimum Status",
-      selector: (row, i) => <CheckCircleOutlineIcon sx={{color: "#17935C"}} fontSize="medium" />,
+      selector: (row, i) => (
+        <CheckCircleOutlineIcon sx={{color: "#17935C"}} fontSize="medium" />
+      ),
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -1227,7 +1228,7 @@ export function CheckInList({showModal, setShowModal}) {
       key: "health type",
       description: "Enter Health Encounter Type",
       selector: row => row.health,
-    //   cell: row => returnCell(row.health),
+      //   cell: row => returnCell(row.health),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1256,7 +1257,7 @@ export function CheckInList({showModal, setShowModal}) {
       name: "PreAuth Requested",
       key: "preauth",
       description: "Enter PreAuth Requested",
-      selector:"preauth",
+      selector: "preauth",
       cell: row => returnCell(row.preauth),
       sortable: true,
       required: true,
@@ -1266,12 +1267,12 @@ export function CheckInList({showModal, setShowModal}) {
       name: "Claim Filling Status:",
       key: "claim",
       description: "Enter Claim Filling Status:",
-      selector:  (row, i) => row.claim,
-    //   cell: row => returnCell(row.claim),
+      selector: (row, i) => row.claim,
+      //   cell: row => returnCell(row.claim),
       sortable: true,
       required: true,
       inputType: "TEXT",
-    //   children: ["Capitation", "Fee for service"]
+      //   children: ["Capitation", "Fee for service"]
     },
   ];
 
@@ -1312,7 +1313,7 @@ export function CheckInList({showModal, setShowModal}) {
                     </div>
                   )}
                   <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
-                    Check-in 
+                    Check-in
                   </h2>
                   {/* <DatePicker
                     selected={startDate}
@@ -1346,13 +1347,21 @@ export function CheckInList({showModal, setShowModal}) {
 
                 {handleCreateNew && (
                   <MuiButton
-                  variant="contained"
-                  sx={{width: "fit", textTransform: "capitalize", fontSize: "14px", fontWeight: "600"}}
-                  onClick={handleCreateNew}
-                >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                  New Check in 
-                </MuiButton>
+                    variant="contained"
+                    sx={{
+                      width: "fit",
+                      textTransform: "capitalize",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                    }}
+                    onClick={handleCreateNew}
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    New Check in
+                  </MuiButton>
                 )}
               </TableMenu>
               <div style={{width: "100%", height: "450px", overflow: "auto"}}>

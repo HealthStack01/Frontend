@@ -1,42 +1,42 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import { DocumentClassList } from './DocumentClass';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+import {DocumentClassList} from "./DocumentClass";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import { ChartClassList } from './DocumentClass';
-import EndEncounter, { EndEncounterList } from './EndEncounter';
+import {ChartClassList} from "./DocumentClass";
+import EndEncounter, {EndEncounterList} from "./EndEncounter";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { format, formatDistanceToNowStrict } from 'date-fns';
-import VideoConference from '../utils/VideoConference';
-import Prescription, { PrescriptionCreate } from './Prescription';
-import LabOrders from './LabOrders';
-import AdmitOrders from './AdmitOrders';
-import DischargeOrders from './DischargeOrders';
-import RadiologyOrders from './RadiologyOrders';
-import { useReactToPrint } from 'react-to-print';
-import { Box, Collapse, Grid, IconButton, Typography } from '@mui/material';
-import Input from './ui-components/inputs/basic/Input';
-import Divider from '@mui/material/Divider';
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {format, formatDistanceToNowStrict} from "date-fns";
+import VideoConference from "../utils/VideoConference";
+import Prescription, {PrescriptionCreate} from "./Prescription";
+import LabOrders from "./LabOrders";
+import AdmitOrders from "./AdmitOrders";
+import DischargeOrders from "./DischargeOrders";
+import RadiologyOrders from "./RadiologyOrders";
+import {useReactToPrint} from "react-to-print";
+import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
+import Input from "./ui-components/inputs/basic/Input";
+import Divider from "@mui/material/Divider";
 
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import CustomSelect from './ui-components/inputs/basic/Select';
-import Button from '../../components/buttons/Button';
-import MuiButton from '@mui/material/Button';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import CustomSelect from "./ui-components/inputs/basic/Select";
+import Button from "../../components/buttons/Button";
+import MuiButton from "@mui/material/Button";
 
-import Slide from '@mui/material/Slide';
+import Slide from "@mui/material/Slide";
 
 import {
   AdmissionOrderDocument,
@@ -49,19 +49,19 @@ import {
   PrescriptionDocument,
   RadiologyOrdersDocument,
   BilledOrdersDocument,
-} from './documents/Documents';
-import ModalBox from '../../components/modal';
-import EncounterRight from './EncounterRight';
+} from "./documents/Documents";
+import ModalBox from "../../components/modal";
+import EncounterRight from "./EncounterRight";
 
-export default function EncounterMain({ nopresc, chosenClient }) {
+export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClinicServ = client.service('clinicaldocument');
+  const [message, setMessage] = useState("");
+  const ClinicServ = client.service("clinicaldocument");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -69,9 +69,9 @@ export default function EncounterMain({ nopresc, chosenClient }) {
   const [selectedClinic, setSelectedClinic] = useState({}); //
   const [selectedNote, setSelectedNote] = useState();
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
 
   const [showEncounterModal, setShowEncounterModal] = useState(false);
@@ -83,7 +83,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const open = Boolean(showActions);
 
-  const handleShowActions = (event) => {
+  const handleShowActions = event => {
     setShowActions(event.currentTarget);
   };
   const handleHideActions = () => {
@@ -113,9 +113,9 @@ export default function EncounterMain({ nopresc, chosenClient }) {
   const handleCreateNew = async () => {
     const newClinicModule = {
       selectedClinic: {},
-      show: 'create',
+      show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClinicModule: newClinicModule,
     }));
@@ -125,14 +125,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     //console.log("b4",state)
     // alert(i)
     //console.log("handlerow", Clinic);
-    if (Clinic.status === 'completed' || Clinic.status === 'Final') {
+    if (Clinic.status === "completed" || Clinic.status === "Final") {
       await setSelectedNote(Clinic);
 
       const newClinicModule = {
         selectedNote: Clinic,
         show: true,
       };
-      await setState((prevstate) => ({
+      await setState(prevstate => ({
         ...prevstate,
         NoteModule: newClinicModule,
       }));
@@ -141,14 +141,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
       //console.log(Clinic);
 
-      const newFacilities = await facilities.map((facility) => {
+      const newFacilities = await facilities.map(facility => {
         //CHECK IF CURRENT FACILITY IS SELECTED FACILITY
         if (facility._id === selectedFacilityId) {
           //IF CURRENT FACILITY IS CURRENTLY SELECTED, TOGGLE SHOW KEY
 
           return facility.show
-            ? { ...facility, show: false }
-            : { ...facility, show: true };
+            ? {...facility, show: false}
+            : {...facility, show: true};
 
           //return ;
         } else {
@@ -171,10 +171,10 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       const newDocumentClassModule = {
         selectedDocumentClass: documentobj,
         //state.DocumentClassModule.selectedDocumentClass.name
-        show: 'detail',
+        show: "detail",
         encounter_right: true,
       };
-      await setState((prevstate) => ({
+      await setState(prevstate => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
@@ -185,14 +185,14 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     handleRow(selectedClinic);
   }, [selectedClinic]);
 
-  const handleSearch = (val) => {
-    const field = 'documentname';
+  const handleSearch = val => {
+    const field = "documentname";
     console.log(val);
     ClinicServ.find({
       query: {
         [field]: {
           $regex: val,
-          $options: 'i',
+          $options: "i",
         },
         // facility:user.currentEmployee.facilityDetail._id || "",
         // locationType:"Clinic",
@@ -203,15 +203,15 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Clinic  fetched successfully');
+        setMessage(" Clinic  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        setMessage('Error fetching Clinic, probable network issues ' + err);
+        setMessage("Error fetching Clinic, probable network issues " + err);
         setError(true);
       });
   };
@@ -280,9 +280,9 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     handleHideActions();
   };
 
-  const handlePrint = async (i) => {
+  const handlePrint = async i => {
     var content = document.getElementById(i);
-    var pri = document.getElementById('ifmcontentstoprint').contentWindow;
+    var pri = document.getElementById("ifmcontentstoprint").contentWindow;
     pri.document.open();
     pri.document.write(content.innerHTML);
     pri.document.close();
@@ -299,20 +299,20 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     const newDocumentClassModule = {
       selectedDocumentClass: {},
       //state.DocumentClassModule.selectedDocumentClass.name
-      show: 'list',
+      show: "list",
       encounter_right: false,
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
     if (user) {
     } else {
     }
-    ClinicServ.on('created', (obj) => getFacilities(page));
-    ClinicServ.on('updated', (obj) => getFacilities(page));
-    ClinicServ.on('patched', (obj) => getFacilities(page));
-    ClinicServ.on('removed', (obj) => getFacilities(page));
+    ClinicServ.on("created", obj => getFacilities(page));
+    ClinicServ.on("updated", obj => getFacilities(page));
+    ClinicServ.on("patched", obj => getFacilities(page));
+    ClinicServ.on("removed", obj => getFacilities(page));
 
     /* var options = {
                     root: null,
@@ -329,10 +329,10 @@ export default function EncounterMain({ nopresc, chosenClient }) {
       const newDocumentClassModule = {
         selectedDocumentClass: {},
         //state.DocumentClassModule.selectedDocumentClass.name
-        show: 'list',
+        show: "list",
         encounter_right: false,
       };
-      setState((prevstate) => ({
+      setState(prevstate => ({
         ...prevstate,
         DocumentClassModule: newDocumentClassModule,
       }));
@@ -353,28 +353,28 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                         
                     }
                 } */
-  const handleDelete = (doc) => {
+  const handleDelete = doc => {
     // console.log(doc)
     let confirm = window.confirm(
       `You are about to delete a document: ${
         doc.documentname
-      } created on ${format(new Date(doc.createdAt), 'dd-MM-yy')} ?`
+      } created on ${format(new Date(doc.createdAt), "dd-MM-yy")} ?`
     );
     if (confirm) {
       ClinicServ.remove(doc._id)
-        .then((res) => {
+        .then(res => {
           toast({
-            message: 'Adult Asthma Questionnaire deleted succesfully',
-            type: 'is-success',
+            message: "Adult Asthma Questionnaire deleted succesfully",
+            type: "is-success",
             dismissible: true,
             pauseOnHover: true,
           });
           setSuccess(false);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Error deleting Adult Asthma Questionnaire ' + err,
-            type: 'is-danger',
+            message: "Error deleting Adult Asthma Questionnaire " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
@@ -384,39 +384,39 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const handleCancel = async () => {
     const newDocumentClassModule = {
-      selectedEndEncounter: '',
-      show: '',
+      selectedEndEncounter: "",
+      show: "",
       encounter_right: false,
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       EndEncounterModule: newDocumentClassModule,
     }));
     //console.log(state)
   };
 
-  const DocumentToRender = ({ Clinic }) => {
+  const DocumentToRender = ({Clinic}) => {
     switch (Clinic.documentname.toLowerCase()) {
-      case 'admission order': {
-        return Clinic.status.toLowerCase() !== 'draft' ? (
+      case "admission order": {
+        return Clinic.status.toLowerCase() !== "draft" ? (
           <AdmissionOrderDocument Clinic={Clinic} />
         ) : null;
       }
-      case 'discharge order':
+      case "discharge order":
         return <DischargeOrderComponent Clinic={Clinic} />;
-      case 'medication list':
+      case "medication list":
         return <MedicationListDocument Clinic={Clinic} />;
-      case 'pediatric pulmonology form':
+      case "pediatric pulmonology form":
         return <PediatricPulmonologyForm Clinic={Clinic} />;
-      case 'adult asthma questionnaire':
+      case "adult asthma questionnaire":
         return <AdultAthsmaQuestionaire Clinic={Clinic} />;
-      case 'prescription':
+      case "prescription":
         return <PrescriptionDocument Clinic={Clinic} />;
-      case 'radiology orders':
+      case "radiology orders":
         return <RadiologyOrdersDocument Clinic={Clinic} />;
-      case 'lab order':
+      case "lab order":
         return <LabOrdersDocument Clinic={Clinic} />;
-      case 'billed orders':
+      case "billed orders":
         return <BilledOrdersDocument Clinic={Clinic} />;
 
       default:
@@ -428,32 +428,32 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
   const actionsList = [
     {
-      title: 'Charts',
+      title: "Charts",
       action: handleCharts,
-      show: true,
+      show: !nopresc,
     },
     {
-      title: 'Radiology',
+      title: "Radiology",
       action: handleRadOrders,
-      show: true,
+      show: !nopresc,
     },
     {
-      title: 'Laboratory',
+      title: "Laboratory",
       action: handleLabOrders,
-      show: true,
+      show: !nopresc,
     },
     {
-      title: 'End Encounter',
+      title: "End Encounter",
       action: handleEndEncounter,
-      show: true,
+      show: !nopresc,
     },
     {
-      title: 'Prescription',
+      title: "Prescription",
       action: handleNewPrescription,
-      show: true,
+      show: !nopresc,
     },
     {
-      title: 'New Document',
+      title: "New Document",
       action: handleNewDocument,
       show: true,
     },
@@ -463,58 +463,60 @@ export default function EncounterMain({ nopresc, chosenClient }) {
     <Box
       container
       sx={{
-        flexGrow: '1',
+        flexGrow: "1",
       }}
     >
       <Box
         container
         sx={{
-          display: 'flex',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <Box item sx={{ width: 'calc(100% - 350px)' }}>
+        <Box item sx={{width: "calc(100% - 350px)"}}>
           <Input
             label="Search Documentation"
             className="input is-small "
             type="text"
             minLength={3}
             debounceTimeout={400}
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={e => handleSearch(e.target.value)}
           />
         </Box>
 
-        <Box
-          container
-          sx={{
-            width: '180px',
-          }}
-        >
-          <VideoConference />
-        </Box>
+        {!nopresc && (
+          <Box
+            container
+            sx={{
+              width: "180px",
+            }}
+          >
+            <VideoConference />
+          </Box>
+        )}
 
         <Box
           item
           sx={{
-            width: '140px',
-            display: 'flex',
-            justifyContent: 'flex-end',
+            width: "140px",
+            display: "flex",
+            justifyContent: "flex-end",
           }}
         >
           <div
             style={{
-              width: '100%',
+              width: "100%",
             }}
           >
             <MuiButton
               onClick={handleShowActions}
               variant="outlined"
-              sx={{ height: '48px', width: '100%' }}
-              aria-controls={showActions ? 'basic-menu' : undefined}
+              sx={{height: "48px", width: "100%"}}
+              aria-controls={showActions ? "basic-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={showActions ? 'true' : undefined}
+              aria-expanded={showActions ? "true" : undefined}
             >
               Actions <ExpandMoreIcon />
             </MuiButton>
@@ -525,7 +527,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
               open={open}
               onClose={handleHideActions}
               MenuListProps={{
-                'aria-labelledby': 'basic-button',
+                "aria-labelledby": "basic-button",
               }}
             >
               {actionsList.map((action, i) => {
@@ -547,9 +549,9 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           <Box
             sx={{
               flexGrow: 1,
-              width: '100%',
-              height: 'calc(100vh - 200px)',
-              overflowY: 'scroll',
+              width: "100%",
+              height: "calc(100vh - 200px)",
+              overflowY: "scroll",
             }}
           >
             {facilities.map((Clinic, i) => (
@@ -558,44 +560,46 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                   onClick={() => setSelectedClinic(Clinic)}
                   mt={3}
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                     flexGrow: 1,
-                    width: '100%',
-                    cursor: 'pointer',
-                    border: '1px solid rgba(235, 235, 235, 1)',
-                    borderRadius: '5px',
-                    height: 'auto',
+                    width: "100%",
+                    cursor: "pointer",
+                    border: "1px solid rgba(235, 235, 235, 1)",
+                    borderRadius: "5px",
+                    height: "auto",
+                    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   }}
                 >
                   <Box
                     container
                     sx={{
-                      width: '100%',
-                      minHeight: '100px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
+                      width: "100%",
+                      minHeight: "50px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      background: "#ffffff",
                     }}
                   >
                     <Box
                       item
                       //xs={2}
                       sx={{
-                        borderRight: '1px solid rgba(235, 235, 235, 1)',
-                        width: '150px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
+                        borderRight: "1px solid rgba(235, 235, 235, 1)",
+                        width: "150px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                       }}
                     >
                       <span
                         style={{
-                          fontSize: '14px',
-                          fontWeight: '500',
-                          lineHeight: '19.12px',
-                          color: '#33415C',
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          lineHeight: "19.12px",
+                          color: "#33415C",
                         }}
                       >
                         {formatDistanceToNowStrict(new Date(Clinic.createdAt), {
@@ -604,15 +608,15 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                       </span>
                       <span
                         style={{
-                          color: '#979797',
-                          fontSize: '12px',
-                          fontWeight: '400',
-                          lineHeight: '16.39px',
+                          color: "#979797",
+                          fontSize: "12px",
+                          fontWeight: "400",
+                          lineHeight: "16.39px",
                         }}
                       >
                         {format(
                           new Date(Clinic.createdAt),
-                          'dd-MM-yy HH:mm:ss'
+                          "dd-MM-yy HH:mm:ss"
                         )}
                       </span>
 
@@ -622,30 +626,33 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                     <Box
                       item
                       sx={{
-                        display: 'flex',
-                        width: 'calc(100% - 250px)',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
+                        display: "flex",
+                        width: "calc(100% - 250px)",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
                       }}
                       p={2}
                     >
                       <Typography
                         mr={0.5}
                         sx={{
-                          fontSize: '14px',
-                          fontWeight: '400',
-                          lineHeight: '19.12px',
-                          color: '#33415C',
+                          fontSize: "14px",
+                          fontWeight: "400",
+                          lineHeight: "19.12px",
+                          color: "#33415C",
                         }}
                       >
-                        {Clinic.documentname} by {Clinic.createdByname} at{' '}
-                        {Clinic.location},{Clinic.facilityname} -{' '}
+                        {Clinic.documentname} by {Clinic.createdByname} at{" "}
+                        {Clinic.location},{Clinic.facilityname} -{" "}
                         <Typography
                           sx={{
-                            fontSize: '14px',
-                            fontWeight: '400',
-                            lineHeight: '19.12px',
-                            color: 'orange',
+                            fontSize: "14px",
+                            fontWeight: "400",
+                            lineHeight: "19.12px",
+                            ///color: "orange",
+                            color: `${
+                              Clinic.status === "completed" ? "green" : "orange"
+                            }`,
                           }}
                         >
                           {Clinic.status}
@@ -656,12 +663,12 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                     <Box
                       item
                       sx={{
-                        width: '100px',
+                        width: "100px",
                       }}
                     >
                       <IconButton
                         sx={{
-                          color: '#0364FF',
+                          color: "#0364FF",
                         }}
                         onClick={handlePrint}
                       >
@@ -679,17 +686,17 @@ export default function EncounterMain({ nopresc, chosenClient }) {
                 </Box>
 
                 <Collapse in={Clinic.show}>
-                  {Clinic.documentname !== 'Prescription' &&
-                    Clinic.documentname !== 'Billed Orders' &&
-                    Clinic.documentname !== 'Lab Orders' &&
-                    Clinic.documentname !== 'Radiology Orders' &&
-                    Clinic.documentname !== 'Adult Asthma Questionnaire' &&
-                    Clinic.documentname !== 'Medication List' &&
-                    Clinic.documentname !== 'Admission Order' &&
-                    Clinic.documentname !== 'Discharge Order' &&
-                    Clinic.documentname !== 'Pediatric Pulmonology Form' &&
-                    Clinic.status !== 'Draft' && (
-                      <div ref={(el) => (myRefs.current[i] = el)}>
+                  {Clinic.documentname !== "Prescription" &&
+                    Clinic.documentname !== "Billed Orders" &&
+                    Clinic.documentname !== "Lab Orders" &&
+                    Clinic.documentname !== "Radiology Orders" &&
+                    Clinic.documentname !== "Adult Asthma Questionnaire" &&
+                    Clinic.documentname !== "Medication List" &&
+                    Clinic.documentname !== "Admission Order" &&
+                    Clinic.documentname !== "Discharge Order" &&
+                    Clinic.documentname !== "Pediatric Pulmonology Form" &&
+                    Clinic.status !== "Draft" && (
+                      <div ref={el => (myRefs.current[i] = el)}>
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => (
@@ -737,17 +744,17 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           mountOnEnter
           unmountOnExit
           direction="left"
-          in={state.DocumentClassModule.show === 'detail'}
+          in={state.DocumentClassModule.show === "detail"}
         >
           <Grid item xs={5}>
             <Box
               mt={3}
               sx={{
-                width: '100%',
-                minHeight: '200px',
-                border: '1px solid rgba(235, 235, 235, 1)',
-                maxHeight: 'calc(100vh - 250px)',
-                overflowY: 'scroll',
+                width: "100%",
+                minHeight: "200px",
+                border: "1px solid rgba(235, 235, 235, 1)",
+                maxHeight: "calc(100vh - 250px)",
+                overflowY: "scroll",
               }}
             >
               <EncounterRight client={chosenClient} />
@@ -762,7 +769,10 @@ export default function EncounterMain({ nopresc, chosenClient }) {
           onClose={() => setShowModal(false)}
           header="Choose Document Class"
         >
-          <DocumentClassList standalone="true" />
+          <DocumentClassList
+            standalone="true"
+            closeModal={() => setShowModal(false)}
+          />
         </ModalBox>
 
         <ModalBox
@@ -808,7 +818,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
 
         <ModalBox
           open={
-            state.EndEncounterModule.selectedEndEncounter === 'Admit to Ward'
+            state.EndEncounterModule.selectedEndEncounter === "Admit to Ward"
           }
           onClose={() => handleCancel()}
           header="Admit Orders"
@@ -819,7 +829,7 @@ export default function EncounterMain({ nopresc, chosenClient }) {
         </ModalBox>
 
         <ModalBox
-          open={state.EndEncounterModule.selectedEndEncounter === 'Discharge'}
+          open={state.EndEncounterModule.selectedEndEncounter === "Discharge"}
           onClose={() => handleCancel()}
           header="Discharge Orders"
         >

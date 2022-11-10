@@ -207,6 +207,8 @@ const AppRoutes = () => {
             element={<LandingPageDashboard />}
           />
 
+          <Route path="/app/documentation" element={<Documentation />} />
+
           {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
           <Route path="/app/accounts" element={<AccountHome />} />
@@ -571,10 +573,7 @@ const AppRoutes = () => {
               path="/app/managed-care/checkin"
               element={<DispensaryMain />}
             /> */}
-            <Route
-              path="/app/managed-care/checkin"
-              element={<CheckIn />}
-            />
+            <Route path="/app/managed-care/checkin" element={<CheckIn />} />
             <Route
               path="/app/managed-care/provider"
               element={<ProviderOrganizationClient />}
@@ -614,7 +613,7 @@ const AppRoutes = () => {
             />
             {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
-            <Route path="/app/managed-care/fundmanagement"/>
+            <Route path="/app/managed-care/fundmanagement" />
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
