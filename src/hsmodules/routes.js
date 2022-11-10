@@ -162,6 +162,7 @@ import ReferralHome from "./Referral/ReferralHome";
 import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
+import CrmDashboard from "./dashBoardUiComponent/@modules/CrmDashboard";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -623,7 +624,7 @@ const AppRoutes = () => {
             <Route path="/app/crm/SLA" />
             <Route path="/app/crm/appointment" />
             <Route path="/app/crm/deal" />
-            <Route path="/app/crm/dashboard" />
+            <Route path="/app/crm/dashboard" element={<CrmDashboard/>} />
           </Route>
 
           {/**************************Referral *************************************** */}

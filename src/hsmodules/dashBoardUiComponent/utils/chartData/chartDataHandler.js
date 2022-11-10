@@ -885,6 +885,47 @@ export const FetchTotalBalance = service => {
     err,
   };
 };
+export const FetchTotalPendingBills = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+  const query = {
+    $sort: {createdAt: -1},
+    "participantInfo.billingFacility": facilityId,
+  };
+  const {data, isPending, error} = useFetchData(service, query, true);
+  var total = 0;
+  data.map(dat => { 
+    return (total += dat.paymentInfo.balance);
+});
+const fetchTotalPendingBills = Math.ceil(total);
+
+let err = error;
+return {
+  fetchTotalPendingBills
+}
+};
+
+export const FetchTotalMoneyCollected = service => {
+  const {user, setUser} = useContext(UserContext);
+
+  const facilityId = user?.employeeData[0]?.facility;
+  const query = {
+    $sort: {createdAt: -1},
+    "participantInfo.billingFacility": facilityId,
+  };
+  const {data, isPending, error} = useFetchData(service, query, true);
+  var total = 0;
+  data.map(dat => { 
+    return (total += dat.paymentInfo.balance);
+});
+const fetchTotalMoneyCollected = Math.ceil(total);
+
+let err = error;
+return {
+  FetchTotalMoneyCollected
+}
+};
 
 export const FetchDataByQuery = (service, query) => {
   const {

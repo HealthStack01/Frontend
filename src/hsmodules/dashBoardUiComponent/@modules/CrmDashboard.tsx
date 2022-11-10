@@ -7,6 +7,8 @@ import {
   } from "../core-ui/styles";
 import ViewCard from "./@sections/ViewCard";
 import { Box, Typography } from "@mui/material";
+import PieChart from '../charts/PieChat';
+import AreaChart from '../charts/AreaChart';
 
 
 const CrmDashboard = () => {
@@ -37,6 +39,16 @@ const CrmDashboard = () => {
           <ViewCard count={12} title="No. Of HMO Tariff" />
         </StartCardWapper>
 
+          <Box style={{display: 'flex', alignItems: "center",}}>
+            <div style={{width: '60%', height: '40%', background: "#f9f9f9", }}>
+            <h5 style={{color: '#0064cc', fontWeight: '700', fontSize: '24px', }} >Deals</h5>
+              <PieChart />
+            </div>
+            <div style={{marginLeft:'2rem', width: '60%', background: "#f9f9f9",}}>
+              <h5 style={{color: '#0064cc', fontWeight: '700', fontSize: '24px', }}>Amount</h5>
+              <AreaChart />
+            </div>
+          </Box>
             
             </DashboardPageWrapper>
   )

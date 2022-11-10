@@ -23,6 +23,8 @@ import {
   FetchTotalRevenue,
   FetchTotalBalance,
   FetchTotalMoneyCollectedWithInPresentRange,
+  FetchTotalPendingBills,
+  FetchTotalMoneyCollected,
   ModelResult,
 } from "../utils/chartData/chartDataHandler";
 
@@ -36,6 +38,8 @@ const FinanceDashboard = () => {
 
   const { fetchTotalRevenue } = FetchTotalRevenue(billsService);
   const { fetchTotalBalance } = FetchTotalBalance(billsService);
+  const { fetchTotalPendingBills} = FetchTotalPendingBills(billsService);
+  const { fetchTotalMoneyCollected} = FetchTotalMoneyCollected(billsService);
 
   const {
     totalPresentDataObject: fetchTotalMoneyCollectedPresentDataObject,
@@ -72,9 +76,9 @@ const FinanceDashboard = () => {
 
         <StartCardWapper>
           <ViewCard count={`${fetchTotalRevenue}K`} title="Total Revenue" />
-          <ViewCard count={56} title="Pending Bills" />
+          <ViewCard count={`${fetchTotalPendingBills}K`} title="Pending Bills" />
           <ViewCardWithFilter
-            count={0}
+            count={`${fetchTotalMoneyCollected}K`}
             title="Total Money collected"
             hasFilter={true}
             dataSource={fetchTotalMoneyCollectedPresentDataObject}
