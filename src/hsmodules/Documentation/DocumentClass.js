@@ -369,7 +369,7 @@ export function DocumentClassList({standalone, closeModal}) {
         <>
           <Box
             sx={{
-              width: "40vw",
+              width: "600px",
             }}
           >
             <TableMenu>

@@ -2223,7 +2223,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      ref={register}
+                      {...register("input_name")}
                     />
                     {c + " "}
                   </label>

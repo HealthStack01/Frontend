@@ -252,6 +252,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   return (
     <>
+
       <div className="card ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -312,6 +313,99 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                     key={c}
                     style={{ fontSize: "16px", fontWeight: "bold" }}
                   >
+
+      <div className="card card-overflow">
+        <div className="card-header">
+          <p className="card-header-title">
+            Create Product Exit: Product Exit- Sales, Dispense, Audit, Transfer
+            out
+          </p>
+        </div>
+        <div className="card-content ">
+          <form onSubmit={onSubmit}>
+            {" "}
+            {/* handleSubmit(onSubmit) */}
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div className="field">
+                  <div className="control">
+                    <div className="select is-small">
+                      <select
+                        name="type"
+                        value={type}
+                        onChange={handleChangeType}
+                        className="selectadd"
+                      >
+                        <option value="">Choose Type </option>
+                        <option value="Sales">Sales </option>
+                        <option value="In-house">In-House </option>
+                        <option value="Dispense">Dispense</option>
+                        <option value="Audit">Audit</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={source}
+                      name="client"
+                      type="text"
+                      onChange={e => setSource(e.target.value)}
+                      placeholder="Client"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-hospital"></i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>{" "}
+            {/* horizontal end */}
+            {/*  <div className="field">
+                <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
+                    <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
+                    <span className="icon is-small is-left">
+                    <i className=" fas fa-user-md "></i>
+                    </span>
+                </p>
+            </div> */}
+            <div className="field is-horizontal">
+              <div className="field-body">
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input
+                      className="input is-small"
+                      /* {...register("x",{required: true})} */ value={date}
+                      name="date"
+                      type="text"
+                      onChange={e => setDate(e.target.value)}
+                      placeholder="Date"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-map-signs"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                    <input
+                      className="input is-small"
+                      /* {...register("input_name")} */ name="documentNo"
+                      value={documentNo}
+                      type="text"
+                      onChange={e => setDocumentNo(e.target.value)}
+                      placeholder=" Invoice Number"
+                    />
+                    <span className="icon is-small is-left">
+                      <i className="fas fa-phone-alt"></i>
+                    </span>
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control has-icons-left">
+                  
                     <input
                       type="radio"
                       value={c}

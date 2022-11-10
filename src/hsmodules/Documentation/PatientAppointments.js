@@ -364,7 +364,7 @@ export function AppointmentCreate() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      ref={register}
+                      {...register("input_name")}
                     />
                     {c + " "}
                   </label>
@@ -1788,7 +1788,7 @@ export function ClientModify() {
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      ref={register}
+                      {...register("input_name")}
                     />
                     {c + " "}
                   </label>

@@ -175,25 +175,18 @@ export function BillingList({openModal}) {
   const handleChoseClient = async (client, e, order) => {
     setOldClient(client.clientname);
 
-    // let newClient = client.clientname;
-    // if (oldClient !== newClient) {
-    //   //alert("New Client Onboard")
-    //   //remove all checked clientsly
-    //   selectedOrders.forEach(el => (el.checked = ""));
-    //   setSelectedOrders([]);
-    //}
-
-    // console.log(e.target.checked)
     order.checked = e.target.checked;
     await handleSelectedClient(order.participantInfo.client);
     //handleMedicationRow(order)
     await setSelectedFinance(order);
+
     const newProductEntryModule = {
       ...state.financeModule,
       selectedFinance: order,
       show: "detail",
       state: e.target.checked,
     };
+
     await setState(prevstate => ({
       ...prevstate,
       financeModule: newProductEntryModule,
@@ -530,6 +523,7 @@ export function BillingList({openModal}) {
           <input
             type="checkbox"
             //name={order._id}
+            style={{marginRight: "3px"}}
             onChange={e => handleChoseClient(selectedClient, e, row.order)}
             checked={row.order.checked}
           />
@@ -649,7 +643,6 @@ export function BillingList({openModal}) {
               highlightOnHover
               striped
               onRowClicked={row => onRowClicked(row)}
-              //onSelectedRowsChange={e => handleChoseClient(selectedClient, e, row.order)}
               progressPending={loading}
             />
           </div>
@@ -670,7 +663,6 @@ export function BillingList({openModal}) {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  selectable={true}
                   //onRowClicked={row => onRowClicked(row)}
                   progressPending={loading}
                 />
