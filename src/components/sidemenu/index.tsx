@@ -245,9 +245,9 @@ export const menuItems = [
       { name: "Proposal", to: "/app/crm/proposal" },
       { name: "Invoice", to: "/app/crm/invoice" },
       { name: "SLA", to: "/app/crm/SLA" },
-      { name: "Dashboard", to: "/app/crm/dashboard" },
       { name: "Appointment", to: "/app/crm/appointment" },
       { name: "Deal", to: "/app/crm/deal" },
+      { name: "Dashboard", to: "/app/crm/dashboard" },
     ],
   },
   {
@@ -257,6 +257,7 @@ export const menuItems = [
     iconClassName: "bi bi-person",
     subMenus: [
       { name: "Complaints", to: "/app/complaints/complaints-complaints" },
+      { name: "Dashboard", to: "/app/complaints/dashboard" },
     ],
   },
   {
@@ -272,6 +273,7 @@ export const menuItems = [
         to: "/app/referral/account",
       },
       { name: "Setting", to: "/app/referral/setting" },
+      { name: "Dashboard", to: "/app/referral/dashboard" },
     ],
   },
   {
@@ -285,6 +287,7 @@ export const menuItems = [
       { name: "USSD", to: "/app/communication/ussd" },
       { name: "Email", to: "/app/communication/email" },
       { name: "IVR", to: "/app/communication/ivr" },
+      { name: "Dashboard", to: "/app/communication/dashboard" },
     ],
   },
   {
@@ -299,6 +302,7 @@ export const menuItems = [
       { name: "Search", to: "/app/patient-portal/search" },
       { name: "Read", to: "/app/patient-portal/read" },
       { name: "Chat", to: "/app/patient-portal/chat" },
+      { name: "Dashboard", to: "/app/patient-portal/dashboard" },
     ],
   },
   {
@@ -313,6 +317,7 @@ export const menuItems = [
       { name: "Expenses", to: "/app/accounting/expenses" },
       { name: "Journal", to: "/app/accounting/journal" },
       { name: "Report", to: "/app/accounting/report" },
+      { name: "Dashboard", to: "/app/accounting/dashboard" },
     ],
   },
   {
@@ -327,6 +332,7 @@ export const menuItems = [
       { name: "Appointment", to: "/app/immunization/appointment" },
       { name: "Checkin/out", to: "/app/immunization/checkin-out" },
       { name: "Report", to: "/app/immunization/report" },
+      { name: "Dashboard", to: "/app/immunization/dashboard" },
     ],
   },
   {
@@ -338,6 +344,7 @@ export const menuItems = [
       { name: "Inventory", to: "/app/blood-bank/inventory" },
       { name: "Appointment", to: "/app/blood-bank/appointment" },
       { name: "Lab", to: "/app/blood-bank/lab" },
+      { name: "Dashboard", to: "/app/blood-bank/dashboard" },
     ],
   },
   {
