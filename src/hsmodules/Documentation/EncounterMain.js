@@ -81,6 +81,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
   const [showChartModal, setShowChartModal] = useState(false);
   const [showActions, setShowActions] = useState(null);
 
+  const [activateCall, setActivateCall] = useState(false);
+
   const open = Boolean(showActions);
 
   const handleShowActions = event => {
@@ -486,16 +488,35 @@ export default function EncounterMain({nopresc, chosenClient}) {
           />
         </Box>
 
-        {!nopresc && (
-          <Box
-            container
-            sx={{
-              width: "180px",
-            }}
-          >
-            <VideoConference />
-          </Box>
-        )}
+        <Box
+          container
+          sx={{
+            width: "180px",
+          }}
+        >
+          {activateCall && (
+            <MuiButton
+              sx={{
+                widht: "100%",
+                height: "48px",
+                fontSize: "0.75rem,",
+                textTransform: "capitalize",
+              }}
+              onClick={() => setActivateCall(false)}
+              variant="contained"
+              color="error"
+            >
+              End Teleconsultation
+            </MuiButton>
+          )}
+
+          {!nopresc && (
+            <VideoConference
+              activateCall={activateCall}
+              setActivateCall={setActivateCall}
+            />
+          )}
+        </Box>
 
         <Box
           item
