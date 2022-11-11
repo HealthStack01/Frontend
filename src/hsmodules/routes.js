@@ -165,12 +165,12 @@ import ReferralHome from "./Referral/ReferralHome";
 import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-import Proposal from "./CRM/proposal";
-import Invoice from "./CRM/invoice";
+import Proposal from "./CRM/Proposal";
+import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
-import Complaint from "./Complaints/Complaint"
+import Complaint from "./Complaints/Complaint";
 import ImmunizationHome from "./Immunization/ImmunizationHome";
 import VaccineProfile from "./Immunization/VaccineProfile";
 import BloodBankInventory from "./Bloodbank/Inventory";
@@ -643,9 +643,12 @@ const AppRoutes = () => {
             <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" />
           </Route>
-          
+
           {/**************************COMPLAINT *************************************** */}
-          <Route path="/app/complaints/complaints-complaints" element={<Complaint />}>
+          <Route
+            path="/app/complaints/complaints-complaints"
+            element={<Complaint />}
+          >
             {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
             {/* <Route path="/app/crm/proposal" element={<Proposal />} />
             <Route path="/app/crm/invoice" element={<Invoice />} />
