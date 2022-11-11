@@ -6,6 +6,12 @@ import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
+
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import FilterMenu from "../../components/utilities/FilterMenu";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -256,6 +262,7 @@ export function ProductList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false)
   // eslint-disable-next-line
   const [selectedProduct, setSelectedProduct] = useState(); //
   // eslint-disable-next-line
@@ -384,96 +391,97 @@ export function ProductList() {
   }, []);
 
   //todo: pagination and vertical scroll bar
+  const UserManagementSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Base Unit",
+      key: "baseunit",
+      description: "Base Unit",
+      selector: (row) => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Product Category",
+      key: "category",
+      description: "Product Category",
+      selector: (row) => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Actions",
+      key: "name",
+      description: "Actions",
+      selector: (row) => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+
 
   return (
     <>
       {user ? (
         <>
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field">
-                  <p className="control has-icons-left  ">
-                    <DebounceInput
-                      className="input is-small "
-                      type="text"
-                      placeholder="Search Products"
-                      minLength={3}
-                      debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-search"></i>
-                    </span>
-                  </p>
+          <PageWrapper
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            >
+              <TableMenu>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                    List of products
+                  </h2>
                 </div>
-              </div>
-            </div>
-            <div className="level-item">
-              {" "}
-              <span className="is-size-6 has-text-weight-medium">
-                List of Products{" "}
-              </span>
-            </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="level-item">
-                  <div
-                    className="button is-success is-small"
+                {handleCreateNew && (
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600px" }}
+                    label="Add New"
                     onClick={handleCreateNew}
-                  >
-                    New
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="table-container pullup ">
-            <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-                  <th>Name</th>
+                    showicon={true}
+                  />
+                )}
+              </TableMenu>
 
-                  <th>
-                    <abbr title="Base Unit">Base Unit</abbr>
-                  </th>
-                  {/* <th><abbr title="Phone">Phone</abbr></th>
-                                        <th><abbr title="Email">Email</abbr></th>
-                                        <th><abbr title="Department">Department</abbr></th>
-                                        <th><abbr title="Departmental Unit">Departmental Unit</abbr></th> 
-                                        <th><abbr title="Facility">facility</abbr></th>*/}
-                  <th>
-                    <abbr title="Last Name">Product Category</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Actions">Actions</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {facilities.map((Product, i) => (
-                  <tr key={Product._id} onClick={() => handleRow(Product)}>
-                    <th>{i + 1}</th>
-                    <th>{Product.name}</th>
-                    <td>{Product.baseunit}</td>
-                    <td>{Product.category}</td>
-                    {/*<td>{Product.phone}</td>
-                                            <td>{Product.email}</td>
-                                            <td>{Product.department}</td>
-                                            <td>{Product.deptunit}</td> 
-                                            <td>{Product.facility}</td>*/}
-                    <td>
-                      <span className="showAction">...</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              <div
+                style={{
+                  width: "100%",
+                  height: "calc(100vh-90px)",
+                  overflow: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={UserManagementSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleCreateNew}
+                  progressPending={loading}
+                />
+              </div>
+            </PageWrapper>
           </div>
+         
         </>
       ) : (
         <div>loading</div>

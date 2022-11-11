@@ -149,6 +149,12 @@ import ManagedCareHome from "./ManagedCare/ManagedCareHome";
 import Policy from "./ManagedCare/Policy";
 import Beneficiary from "./ManagedCare/Beneficiary";
 import ReferralsCollections from "./ManagedCare/Referral";
+import TarrifList from "./ManagedCare/Tarrifs";
+import HealthPlan from "./ManagedCare/HealthPlan";
+import Referral from "./ManagedCare/Referral";
+import Provider from "./ManagedCare/Providers";
+import Product from "./ManagedCare/UserManagement";
+import ProductEntry from "./ManagedCare/HealthPlan";
 import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
@@ -163,13 +169,17 @@ import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
+
+// import Provider from "./ManagedCare/Providers";
+
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-import Proposal from "./CRM/proposal";
-import Invoice from "./CRM/invoice";
+import Proposal from "./CRM/Proposal";
+import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
+import Complaint from "./Complaints/Complaint";
 import ImmunizationHome from "./Immunization/ImmunizationHome";
 import VaccineProfile from "./Immunization/VaccineProfile";
 import BloodBankInventory from "./Bloodbank/Inventory";
@@ -625,8 +635,13 @@ const AppRoutes = () => {
               path="/app/managed-care/preauthorization"
               element={<PreAuth />}
             />
+
+            <Route path="/app/managed-care/checkin" />
+            <Route path="/app/managed-care/tariff" element={<TarrifList />} />
+
             {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
+
             <Route path="/app/managed-care/fundmanagement" />
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
@@ -646,6 +661,20 @@ const AppRoutes = () => {
             <Route path="/app/crm/appointment" element={<CrmAppointment />} />
             <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" />
+          </Route>
+
+          {/**************************COMPLAINT *************************************** */}
+          <Route
+            path="/app/complaints/complaints-complaints"
+            element={<Complaint />}
+          >
+            {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
+            {/* <Route path="/app/crm/proposal" element={<Proposal />} />
+            <Route path="/app/crm/invoice" element={<Invoice />} />
+            <Route path="/app/crm/SLA" element={<SLA />} />
+            <Route path="/app/crm/appointment" element={<CrmAppointment />} />
+            <Route path="/app/crm/deal" element={<Deal />} />
+            <Route path="/app/crm/dashboard" /> */}
           </Route>
 
           {/**************************Referral *************************************** */}

@@ -22,10 +22,21 @@ import CustomTable from "../../components/customtable";
 import Switch from "../../components/switch";
 import {BsFillGridFill, BsList} from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
-import {Box, Grid} from "@mui/material";
+import ModalBox from "./modal/index";
+import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
+import {Box, Grid, Typography} from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import {MdCancel} from "react-icons/md";
+import {McText} from "./text";
+import Input from "../../components/inputs/basic/Input/index";
+import ToggleButton from "../../components/toggleButton";
+import RadioButton from "../../components/inputs/basic/Radio";
+import BasicDatePicker from "../../components/inputs/Date";
+import BasicDateTimePicker from "../../components/inputs/DateTime";
+import CustomSelect from "../../components/inputs/basic/Select";
+import Textarea from "../../components/inputs/basic/Textarea";
+import {MdCancel, MdAddCircle} from "react-icons/md";
+import PatientProfile from "../Client/PatientProfile";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -40,11 +51,26 @@ export default function GeneralAppointments() {
   return (
     <section className="section remPadTop">
       <PreAuthorizationList showModal={showModal} setShowModal={setShowModal} />
+      {showModal && (
+        <ModalBox open={showModal} setOpen={setShowModal}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <PatientProfile />
+            </Grid>
+            <Grid item xs={6}>
+              <PreAuthorizationCreate
+                showModal={showModal}
+                setShowModal={setShowModal}
+              />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
     </section>
   );
 }
 
-export function AppointmentCreate({showModal, setShowModal}) {
+export function PreAuthorizationCreate({showModal, setShowModal}) {
   const {state, setState} = useContext(ObjectContext);
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -248,6 +274,12 @@ export function AppointmentCreate({showModal, setShowModal}) {
                 }
                await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
             } */
+  const CustomSelectData = [
+    {
+      label: "Today",
+      value: "today",
+    },
+  ];
 
   return (
     <>
@@ -255,7 +287,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <ModalHeader text={"Create Appointment"} />
+              <ModalHeader text={"Pre-authorization"} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <MdCancel
@@ -279,137 +311,248 @@ export function AppointmentCreate({showModal, setShowModal}) {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
+          {/* <McText
+            txt={'Patient Information'}
+            color={'#0064CC'}
+            type={'p'}
+            bold={'700'}
+            size={'18px'}
+          />
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input name="patientname" label="Patient Name" type="text" />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <RadioButton
+                name="gender"
+                title="Gender"
+                options={[
+                  {
+                    label: 'Male',
+                    value: 'male',
+                  },
+                  {
+                    label: 'Female',
+                    value: 'female',
+                  },
+                ]}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <LocationSearch
-                getSearchfacility={getSearchfacility1}
-                clear={success1}
+            <Grid item xs={12} sm={4}>
+              <Input name="address" label="Address" type="text" />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="healthCareProvider"
+                label="Health Care Provider"
+                type="text"
               />
             </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input name="preAuthId" label="Pre-auth ID" type="text" />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input name="claimId" label="Claim ID" type="text" />
+            </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <EmployeeSearch
-                getSearchfacility={getSearchfacility2}
-                clear={success2}
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={8}>
+              <BasicDateTimePicker
+                name="dateOfRequest"
+                label="Date of Request"
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
-                {appClass.map((c, i) => (
-                  <label
-                    className=" is-small"
-                    key={c}
-                    style={{fontSize: "16px", fontWeight: "bold"}}
-                  >
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register("appointmentClass", {required: true})}
-                      style={{
-                        border: "1px solid #0364FF",
-                        transform: "scale(1.5)",
-                        color: "#0364FF",
-                        margin: ".5rem",
-                      }}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
+            <Grid item xs={12} sm={4}>
+              <RadioButton
+                name="emergency"
+                title="Emergency"
+                options={[
+                  {
+                    label: 'Yes',
+                    value: 'yes',
+                  },
+                  {
+                    label: 'No',
+                    value: 'no',
+                  },
+                ]}
+              />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <div className="field">
-                <input
-                  name="start_time"
-                  {...register("start_time", {required: true})}
-                  type="datetime-local"
+          </Grid> */}
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={6}>
+              <McText
+                txt={"Clinical Information"}
+                color={"#0064CC"}
+                type={"p"}
+                bold={"700"}
+                size={"18px"}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: "right",
+                  backgroundColor: "#ECF3FF",
+                  color: "#0064CC",
+                  border: "none",
+                  padding: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                <MdAddCircle
                   style={{
-                    border: "1px solid #0364FF",
-                    padding: "1rem",
-                    color: " #979DAC",
+                    marginRight: "5px",
                   }}
                 />
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
-              </select>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Appointment Status </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
-              </select>
+                Add complaints
+              </button>
             </Grid>
           </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register("appointment_reason", {required: true})}
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="complaints"
+                label="Complaints"
+                options={CustomSelectData}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="duration"
+                label="Duration"
+                options={CustomSelectData}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={"Clinic Findings"}
+                color={"#0064CC"}
+                type={"p"}
+                bold={"700"}
+                size={"18px"}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="provisionalDiagnosis"
+                label="Provisional Diagnosis"
+                options={CustomSelectData}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: "left",
+                  backgroundColor: "#ECF3FF",
+                  color: "#0064CC",
+                  border: "none",
+                  padding: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: "5px",
+                  }}
+                />
+                Add Diagnosis
+              </button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="plannedDiagnosis"
+                label="Planned Procedure"
+                options={CustomSelectData}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: "left",
+                  backgroundColor: "#ECF3FF",
+                  color: "#0064CC",
+                  border: "none",
+                  padding: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: "5px",
+                  }}
+                />
+                Add Procedure
+              </button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="plannedService"
+                label="Planned Service"
+                options={CustomSelectData}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: "left",
+                  backgroundColor: "#ECF3FF",
+                  color: "#0064CC",
+                  border: "none",
+                  padding: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: "5px",
+                  }}
+                />
+                Add Service
+              </button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Textarea
+                placeholder="Type your message here"
+                name="reason"
                 type="text"
-                placeholder="Appointment Reason"
-                rows="10"
-                cols="50"
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                  width: "100%",
-                }}
-              >
-                {" "}
-              </textarea>
+                label="Reason for Request"
+              />
             </Grid>
           </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="physicianName"
+                label="Physician's Name"
+                type="text"
+              />
+            </Grid>
+          </Grid>
+
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
@@ -420,22 +563,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
                   cursor: "pointer",
                 }}
               >
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="button"
-                onClick={e => e.target.reset()}
-                style={{
-                  backgroundColor: "#ffffff",
-                  width: "100%",
-                  color: "#0364FF",
-                  border: "1px solid #0364FF",
-                  cursor: "pointer",
-                }}
-              >
-                Clear
+                Submit
               </Button>
             </Grid>
           </Grid>

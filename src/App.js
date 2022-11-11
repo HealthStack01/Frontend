@@ -167,6 +167,11 @@ function App() {
       show: "list",
     },
     currBeneficiary: "",
+
+    coordinates: {
+      longitude: "",
+      latitude: "",
+    },
   });
 
   useEffect(() => {

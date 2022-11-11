@@ -1,27 +1,41 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import {} from 'react-router-dom'; //Route, Switch,Link, NavLink,
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format } from "date-fns";
-import ClientFinInfo from "./ClientFinInfo";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ClientBilledPrescription from "../Finance/ClientBill";
-import ClientGroup from "./ClientGroup";
-import DatePicker from "react-datepicker";
-import CustomTable from "../../components/customtable";
-import "react-datepicker/dist/react-datepicker.css";
-import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import moment from "moment";
-var random = require("random-string-generator");
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict, format } from 'date-fns';
+import ClientFinInfo from './ClientFinInfo';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClientBilledPrescription from '../Finance/ClientBill';
+import ClientGroup from './ClientGroup';
+import CustomTable from '../../components/customtable';
+import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import moment from 'moment';
+import ModalBox from './modal/index';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import { Box, Grid, Typography } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { McText } from './text';
+import Input from '../../components/inputs/basic/Input/index';
+import ToggleButton from '../../components/toggleButton';
+import RadioButton from '../../components/inputs/basic/Radio';
+import BasicDatePicker from '../../components/inputs/Date';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
+import { MdCancel, MdAddCircle } from 'react-icons/md';
+import { EnrolleSchema } from './schema';
+import ClientForm from '../Client/ClientForm';
+
+var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -29,34 +43,38 @@ export default function Policy() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <div className="columns ">
-        <div className="column is-6 ">
-          <PolicyList />
-        </div>
-        <div className="column is-6 ">
-          {/*   {(state.ManagedCareModule.show ==='List')&&<PolicyList />} */}
-          {state.ManagedCareModule.show === "create" && <PolicyCreate />}
-          {/*  {(state.ClientModule.show ==='detail')&&<ClientDetail  />}
-                {(state.ClientModule.show ==='modify')&&<ClientModify Client={selectedClient} />}  */}
-        </div>
-      </div>
+      <PolicyList showModal={showModal} setShowModal={setShowModal} />
+      {showModal && (
+        <ModalBox
+          open={state.ManagedCareModule.show === 'create'}
+          onClose={() => setShowModal(false)}
+        >
+          <PolicyCreate
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setOpenCreate={setShowModal2}
+          />
+        </ModalBox>
+      )}
+      <ClientForm open={showModal2} setOpen={() => setShowModal2(false)} />
     </section>
   );
 }
 
-export function PolicyList() {
+export function PolicyList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("policy");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('policy');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -74,30 +92,32 @@ export function PolicyList() {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      ClientModule: newClientModule,
+      ManagedCareModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(true);
+    console.log('test');
   };
 
   const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      ClientModule: newClientModule,
+      ManagedCareModule: newClientModule,
     }));
   };
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
-    const field = "firstname";
+    const field = 'firstname';
     console.log(val);
     ClientServ.find({
       query: {
@@ -105,55 +125,55 @@ export function PolicyList() {
           {
             firstname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             lastname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             middlename: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             phone: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             clientTags: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             mrn: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             email: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             specificDetails: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           { gender: val },
         ],
 
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+        'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
         $limit: limit,
         $sort: {
           createdAt: -1,
@@ -163,12 +183,12 @@ export function PolicyList() {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -226,10 +246,10 @@ export function PolicyList() {
                      console.log(user)
                      getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on('created', (obj) => rest());
+    ClientServ.on('updated', (obj) => rest());
+    ClientServ.on('patched', (obj) => rest());
+    ClientServ.on('removed', (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -252,131 +272,131 @@ export function PolicyList() {
   //todo: pagination and vertical scroll bar
   const PolicySchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row, i) => i + 1,
       sortable: true,
-      inputType: "HIDDEN",
-      width: "80px",
+      inputType: 'HIDDEN',
+      width: '80px',
     },
     {
-      name: "Date Created",
-      key: "createdAt",
-      description: "Date Created",
-      selector: (row) => moment(row.date).format("YYYY-MM-DD HH:mm"),
+      name: 'Date Created',
+      key: 'createdAt',
+      description: 'Date Created',
+      selector: (row) => moment(row.date).format('YYYY-MM-DD HH:mm'),
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: 'DATE',
     },
     {
-      name: "Sponsorship Type",
-      key: "sponsorshipType",
-      description: "Sponsorship Type",
+      name: 'Sponsorship Type',
+      key: 'sponsorshipType',
+      description: 'Sponsorship Type',
       selector: (row) => row.sponsorshipType,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Plan",
-      key: "plan",
-      description: "Plan",
+      name: 'Plan',
+      key: 'plan',
+      description: 'Plan',
       selector: (row) => row.plan.name,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Premium",
-      key: "premium",
-      description: "Premium",
+      name: 'Premium',
+      key: 'premium',
+      description: 'Premium',
       selector: (row) => row.premium,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Paid",
-      key: "isPaid",
-      description: "Paid",
+      name: 'Paid',
+      key: 'isPaid',
+      description: 'Paid',
       selector: (row) => row.isPaid,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Active",
-      key: "active",
-      description: "Active",
+      name: 'Active',
+      key: 'active',
+      description: 'Active',
       selector: (row) => row.active,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Pricipal Last Name",
-      key: "principal",
-      description: "Principal Last Name",
+      name: 'Pricipal Last Name',
+      key: 'principal',
+      description: 'Principal Last Name',
       selector: (row) => row.principal.lastname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
+      name: 'First Name',
+      key: 'firstname',
+      description: 'First Name',
       selector: (row) => row.principal.firstname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Middle Name",
-      key: "middlename",
-      description: "Middle Name",
+      name: 'Middle Name',
+      key: 'middlename',
+      description: 'Middle Name',
       selector: (row) => row.principal.middlename,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Phone",
-      key: "phone",
-      description: "Phone Number",
+      name: 'Phone',
+      key: 'phone',
+      description: 'Phone Number',
       selector: (row) => row.principal.phone,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: 'NUMBER',
     },
 
     {
-      name: "Email",
-      key: "email",
-      description: "simpa@email.com",
+      name: 'Email',
+      key: 'email',
+      description: 'simpa@email.com',
       selector: (row) => row.principal.email,
       sortable: true,
       required: true,
-      inputType: "EMAIL",
+      inputType: 'EMAIL',
     },
 
     {
-      name: "Tags",
-      key: "tags",
-      description: "Tags",
+      name: 'Tags',
+      key: 'tags',
+      description: 'Tags',
       selector: (row) => row.principal.clientTags,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
@@ -384,16 +404,16 @@ export function PolicyList() {
     <>
       <div className="level">
         <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
         >
           <TableMenu>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                 List of Clients
               </h2>
             </div>
@@ -401,8 +421,8 @@ export function PolicyList() {
             {handleCreateNew && (
               <Button
                 style={{
-                  fontSize: "14px",
-                  fontWeight: "600",
+                  fontSize: '14px',
+                  fontWeight: '600',
                 }}
                 label="Add new"
                 onClick={handleCreateNew}
@@ -412,13 +432,13 @@ export function PolicyList() {
           </TableMenu>
           <div
             style={{
-              width: "100%",
-              height: "calc(100vh - 90px)",
-              overflow: "auto",
+              width: '100%',
+              height: 'calc(100vh - 90px)',
+              overflow: 'auto',
             }}
           >
             <CustomTable
-              title={""}
+              title={''}
               columns={PolicySchema}
               data={facilities}
               pointerOnHover
@@ -434,7 +454,7 @@ export function PolicyList() {
   );
 }
 
-export function PolicyCreate() {
+export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const { register, handleSubmit, setValue, getValues, reset } = useForm();
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
@@ -444,13 +464,13 @@ export function PolicyCreate() {
   //const [productItem,setProductItem] = useState([])
   const productItem = useRef([]);
   const [showCorp, setShowCorp] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState('');
   const [chosenPlan, setChosenPlan] = useState();
   const [success, setSuccess] = useState(false);
-  const [chosen, setChosen] = useState("");
-  const [planHMO, setPlanHMO] = useState("");
+  const [chosen, setChosen] = useState('');
+  const [planHMO, setPlanHMO] = useState('');
   const [error, setError] = useState(false);
   //const [documentNo,setDocumentNo] = useState("")
   const documentNo = useRef();
@@ -461,14 +481,15 @@ export function PolicyCreate() {
   //const [productEntry,setProductEntry]=useState()
   const productEntry = useRef();
   //const [type,setType] = useState("Bill")
-  const type = useRef("Bill");
-  const ServicesServ = client.service("billing");
-  const policyServ = client.service("policy");
-  const BillCreateServ = client.service("createbilldirect");
+  const type = useRef('Bill');
+  const ServicesServ = client.service('billing');
+  const policyServ = client.service('policy');
+  const BillCreateServ = client.service('createbilldirect');
   const [paymentOptions, setPaymentOptions] = useState([]);
-  const [billMode, setBillMode] = useState("");
-  const [obj, setObj] = useState("");
-  const [paymentmode, setPaymentMode] = useState("");
+  const [billMode, setBillMode] = useState('');
+  const [obj, setObj] = useState('');
+  const [paymentmode, setPaymentMode] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const getSearchfacility = (obj) => {
     setChosen(obj);
@@ -484,7 +505,7 @@ export function PolicyCreate() {
 
   const handleChangeMode = async (mode) => {
     setMessage(mode);
-    if (mode === "Company") {
+    if (mode === 'Company') {
       setShowCorp(true);
     } else {
       setShowCorp(false);
@@ -496,8 +517,8 @@ export function PolicyCreate() {
 
   const handleChangePlan = async (value) => {
     console.log(value);
-    if (value === "") {
-      setPrice("");
+    if (value === '') {
+      setPrice('');
       return;
     }
     console.log(benefittingPlans1);
@@ -511,15 +532,17 @@ export function PolicyCreate() {
   };
 
   const handleClickProd = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
-    setDependant("principal");
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: 'principal' }));
+    setDependant('principal');
     console.log(state.Beneficiary);
     setClientModal(true);
+    setOpenCreate(true);
   };
   const handleClickProd2 = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
-    setDependant("dependent");
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: 'dependent' }));
+    setDependant('dependent');
     setClientModal(true);
+    setOpenCreate(true);
   };
 
   const handleRow = (Client) => {
@@ -547,8 +570,8 @@ export function PolicyCreate() {
     //state.Beneficiary?.principal._id
     if (!state.Beneficiary.principal._id) {
       toast({
-        message: "Please add principal! ",
-        type: "is-danger",
+        message: 'Please add principal! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -564,7 +587,7 @@ export function PolicyCreate() {
     );
     if (confirm) {
       let policy = {
-        policyNo: "CVGBH/2022/098",
+        policyNo: 'CVGBH/2022/098',
         organizationType: user.currentEmployee.facilityDetail.facilityType,
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
@@ -601,8 +624,8 @@ export function PolicyCreate() {
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -610,11 +633,11 @@ export function PolicyCreate() {
         })
         .then(async (res) => {
           //await setType("Sales")
-          type.current = "Sales";
+          type.current = 'Sales';
           const today = new Date().toLocaleString();
           //await setDate(today)
           date.current = today;
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = random(6, 'uppernumeric');
           // await setDocumentNo(invoiceNo)
           documentNo.current = invoiceNo;
           //await setPatient(state.Beneficiary.principal)
@@ -627,8 +650,8 @@ export function PolicyCreate() {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -641,9 +664,9 @@ export function PolicyCreate() {
       const findServices = await ServicesServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          "contracts.source_org": user.currentEmployee.facilityDetail._id,
-          "contracts.dest_org": user.currentEmployee.facilityDetail._id,
-          category: "Managed Care",
+          'contracts.source_org': user.currentEmployee.facilityDetail._id,
+          'contracts.dest_org': user.currentEmployee.facilityDetail._id,
+          category: 'Managed Care',
 
           $sort: {
             category: 1,
@@ -673,50 +696,50 @@ export function PolicyCreate() {
       patient.paymentinfo.forEach((pay, i) => {
         if (pay.active) {
           switch (pay.paymentmode) {
-            case "Cash":
+            case 'Cash':
               // code block
-              obj = createObj(pay, "Cash", "Cash", "Cash");
+              obj = createObj(pay, 'Cash', 'Cash', 'Cash');
 
               paymentoptions.push(obj);
-              setPaymentMode("Cash");
+              setPaymentMode('Cash');
               billme = obj;
-              console.log("billme", billme);
+              console.log('billme', billme);
               break;
-            case "Family":
+            case 'Family':
               // code block
               obj = createObj(
                 pay,
-                "Family Cover",
-                "familyCover",
-                "Family Cover"
+                'Family Cover',
+                'familyCover',
+                'Family Cover'
               );
               paymentoptions.push(obj);
-              setPaymentMode("Family Cover");
+              setPaymentMode('Family Cover');
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "Company":
+            case 'Company':
               // code block
               let name =
-                "Company: " + pay.organizationName + "(" + pay.plan + ")";
+                'Company: ' + pay.organizationName + '(' + pay.plan + ')';
 
-              obj = createObj(pay, name, "CompanyCover", "Company Cover");
+              obj = createObj(pay, name, 'CompanyCover', 'Company Cover');
               paymentoptions.push(obj);
               setPaymentMode(
-                "Company: " + pay.organizationName + "(" + pay.plan + ")"
+                'Company: ' + pay.organizationName + '(' + pay.plan + ')'
               );
               billme = obj;
               // console.log("billme",billme)
               break;
-            case "HMO":
+            case 'HMO':
               // code block
               console.log(pay);
-              let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
+              let sname = 'HMO: ' + pay.organizationName + '(' + pay.plan + ')';
 
-              obj = createObj(pay, sname, "HMOCover", "HMO Cover");
+              obj = createObj(pay, sname, 'HMOCover', 'HMO Cover');
               paymentoptions.push(obj);
               setPaymentMode(
-                "HMO: " + pay.organizationName + "(" + pay.plan + ")"
+                'HMO: ' + pay.organizationName + '(' + pay.plan + ')'
               );
               billme = obj;
               //  console.log("billme",billme)
@@ -769,11 +792,11 @@ export function PolicyCreate() {
       {
         //productId:,
         name: chosenPlan.name,
-        quantity: "1",
+        quantity: '1',
         sellingprice: price.price,
         amount: price.price, //||qamount
-        baseunit: "",
-        costprice: "",
+        baseunit: '',
+        costprice: '',
         category: chosenPlan.category,
         billingId: chosenPlan._id,
         billingContract: price,
@@ -791,8 +814,8 @@ export function PolicyCreate() {
       type: type.current,
       totalamount: price.price,
       createdby: user._id,
-      transactioncategory: "debit",
-      source: patient.current.firstname + " " + patient.current.lastname,
+      transactioncategory: 'debit',
+      source: patient.current.firstname + ' ' + patient.current.lastname,
       facility: user.currentEmployee.facilityDetail._id,
     };
   };
@@ -812,39 +835,39 @@ export function PolicyCreate() {
     }
     document.documentdetail = productItem.current;
     console.log(document.documentdetail);
-    document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
+    document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = patient.current._id;
     document.clientname =
       patient.current.firstname +
-      " " +
+      ' ' +
       patient.current.middlename +
-      " " +
+      ' ' +
       patient.current.lastname;
     document.clientobj = patient.current;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
     console.log(document);
 
     //order
     document.documentdetail.forEach(async (element) => {
       let orderinfo = {
         //for reach document
-        documentationId: "", //tbf
+        documentationId: '', //tbf
         order_category: element.category, //category
-        order: element.name + " Plan", //name
-        instruction: "",
+        order: element.name + ' Plan', //name
+        instruction: '',
         destination_name: document.facilityname, //facilityname
         destination: document.facility, //facility id
-        order_status: "Billed",
-        payer: "", //!!element.billMode.organizationName?element.billMode.organizationName:"",
-        paymentmode: "", //element.billMode.paymentmode?element.billMode.paymentmode:"",
+        order_status: 'Billed',
+        payer: '', //!!element.billMode.organizationName?element.billMode.organizationName:"",
+        paymentmode: '', //element.billMode.paymentmode?element.billMode.paymentmode:"",
 
         requestingdoctor_Id: document.createdBy,
         requestingdoctor_Name: document.createdByname,
@@ -864,14 +887,14 @@ export function PolicyCreate() {
 
       let billInfo = {
         orderInfo: {
-          orderId: "", //tbf
+          orderId: '', //tbf
           orderObj: orderinfo,
         },
         serviceInfo: {
           price: element.sellingprice,
           quantity: element.quantity,
           productId: element.productId,
-          name: element.name + " Plan",
+          name: element.name + ' Plan',
           baseunit: element.baseunit,
           amount: element.amount,
           billingId: element.billingId,
@@ -893,17 +916,17 @@ export function PolicyCreate() {
           paymentmode: element.billMode,
         },
         createdBy: user._id,
-        billing_status: "Unpaid",
+        billing_status: 'Unpaid',
       };
       let items = {
         orderinfo,
         billInfo,
       };
-      alert("aboutto create bill " + items.orderinfo.name);
+      alert('aboutto create bill ' + items.orderinfo.name);
       serviceList.push(items);
     });
 
-    console.log("==================");
+    console.log('==================');
     console.log(document, serviceList);
 
     let confirm = window.confirm(
@@ -917,8 +940,8 @@ export function PolicyCreate() {
         .then((res) => {
           setSuccess(true);
           toast({
-            message: "Billed Orders created succesfully",
-            type: "is-success",
+            message: 'Billed Orders created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -928,13 +951,13 @@ export function PolicyCreate() {
           const today = new Date().toLocaleString();
           //console.log(today)
           date.current = today;
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = random(6, 'uppernumeric');
           documentNo.current = invoiceNo;
         })
         .catch((err) => {
           toast({
-            message: "Error creating Billed Orders " + err,
-            type: "is-danger",
+            message: 'Error creating Billed Orders ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -949,364 +972,129 @@ export function PolicyCreate() {
     return () => {};
   }, []);
 
+  console.log('==================', state?.Beneficiary?.dependent);
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Beneficiary</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <div>
-            <div className="field is-horizontal">
-              <div className="field ">
-                <label className="label is-size-7 my-0">Principal </label>
-              </div>
-              <div className="field ml-2">
-                {!state.Beneficiary?.principal._id && (
-                  <p className="control">
-                    <button className="button is-info is-small btnheight ">
-                      <span className="is-small" onClick={handleClickProd}>
-                        {" "}
-                        +
-                      </span>
-                    </button>
-                  </p>
-                )}
-              </div>
-            </div>
-            {!!state.Beneficiary?.principal._id && (
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Last Name">Last Name</abbr>
-                    </th>
-                    <th>First Name</th>
-                    <th>
-                      <abbr title="Middle Name">Middle Name</abbr>
-                    </th>
-                    {/* <th><abbr title="Age">Payment Mode</abbr></th> */}
-                    <th>
-                      <abbr title="Age">Age</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Gender">Gender</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Tags">Tags</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {/* {facilities.map((Client, i)=>( */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item md={6}>
+              <ModalHeader text={'Enrolle'} />
+            </Grid>
+            <Grid item md={6} style={{ display: 'flex' }}>
+              <Button
+                onClick={handleClickProd}
+                style={{
+                  float: 'right',
+                  width: '50%',
+                }}
+              >
+                Add Enrolle
+              </Button>
+              <Button
+                onClick={handleClickProd2}
+                style={{
+                  float: 'right',
+                  width: '50%',
+                }}
+              >
+                Add Dependent
+              </Button>
+            </Grid>
+          </Grid>
 
-                  <tr
-                    key={state.Beneficiary?.principal._id}
-                    onClick={() => handleRow(state.Beneficiary?.principal)}
-                    className={
-                      state.Beneficiary?.principal._id ===
-                      (selectedClient?._id || null)
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <td>{1}</td>
-                    <th>{state.Beneficiary?.principal.lastname}</th>
-                    <td>{state.Beneficiary?.principal.firstname}</td>
-                    <td>{state.Beneficiary?.principal.middlename}</td>
-                    {/* <td>{state.Beneficiary?.principal.paymentinfo.map((pay,i)=>(
-                                                <>
-                                                {pay.paymentmode} {pay.paymentmode==="Cash"?"":":" } {pay.organizationName}<br></br>
-                                                </>
-                                            ))}</td> */}
-                    <td>
-                      {state.Beneficiary?.principal.dob && (
-                        <>
-                          {formatDistanceToNowStrict(
-                            new Date(state.Beneficiary?.principal.dob)
-                          )}
-                        </>
-                      )}
-                    </td>
-                    <td>{state.Beneficiary?.principal.gender}</td>
-                    <td>{state.Beneficiary?.principal.phone}</td>
-                    <td>{state.Beneficiary?.principal.email}</td>
-                    <td>{state.Beneficiary?.principal.clientTags}</td>
-                    {/*  <td><span   className="showAction"  >...</span></td> */}
-                  </tr>
-                  {/*   ))} */}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <div className="field is-horizontal">
-            <div className="field ">
-              <label className="label is-size-7 my-0">Dependents </label>
-            </div>
-            <div className="field ml-2">
-              <p className="control">
-                <button className="button is-info is-small btnheight ">
-                  <span className="is-small" onClick={handleClickProd2}>
-                    {" "}
-                    +
-                  </span>
-                </button>
-              </p>
-            </div>
-          </div>
-          <div>
-            {state.Beneficiary.dependent.length > 0 && (
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Last Name">Last Name</abbr>
-                    </th>
-                    <th>First Name</th>
-                    <th>
-                      <abbr title="Middle Name">Middle Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Age">Payment Mode</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Age">Age</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Gender">Gender</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Tags">Tags</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {state.Beneficiary.dependent.map((Client, i) => (
-                    <tr
-                      key={Client._id}
-                      onClick={() => handleRow(Client)}
-                      className={
-                        Client._id === (selectedClient?._id || null)
-                          ? "is-selected"
-                          : ""
-                      }
-                    >
-                      <td>{i + 1}</td>
-                      <th>{Client.lastname}</th>
-                      <td>{Client.firstname}</td>
-                      <td>{Client.middlename}</td>
-                      <td>
-                        {Client.paymentinfo.map((pay, i) => (
-                          <>
-                            {pay.paymentmode}{" "}
-                            {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-                            {pay.organizationName}
-                            <br></br>
-                          </>
-                        ))}
-                      </td>
-                      <td>
-                        {Client.dob && (
-                          <>{formatDistanceToNowStrict(new Date(Client.dob))}</>
-                        )}
-                      </td>
-                      <td>{Client.gender}</td>
-                      <td>{Client.phone}</td>
-                      <td>{Client.email}</td>
-                      <td>{Client.clientTags}</td>
-                      {/*  <td><span   className="showAction"  >...</span></td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Primary Provider{" "}
-            </label>
-            <div
-              className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-            >
+          <Grid container spacing={2}>
+            <Grid item md={4} my={2}>
               <OrgFacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
+            </Grid>
+            <Grid item md={4}>
+              <select
+                name="sponsortype"
+                {...register('sponsortype', { required: true })}
+                onChange={(e) => handleChangeMode(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  margin: '1rem 0',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
               >
-                <input
-                  className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
+                <option value=""> Choose Sponsor </option>
+                <option value="Self">Self</option>
+                <option value="Company">Company</option>
+              </select>
+            </Grid>
+            <Grid item md={4}>
+              <select
+                name="plan"
+                {...register('plan', { required: true })}
+                onChange={(e, i) => handleChangePlan(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  margin: '1rem 0',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Plan </option>
+                {benefittingPlans1.map((option, i) => (
+                  <option key={i} value={option.name}>
+                    {' '}
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item md={4}>
+              <Input value={price.price} disabled label="Price" />
+            </Grid>
+            <Grid item md={4} my={1.5}>
+              {showCorp && (
+                <SponsorSearch
+                  getSearchfacility={getSearchfacility1}
+                  clear={success}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <label
-                    className="label is-size-7 my-0"
-                    name="dob"
-                    type="text"
-                  >
-                    Sponsor{" "}
-                  </label>
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="sponsortype"
-                        {...register("x", { required: true })}
-                        onChange={(e) => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value=""> Choose Sponsor </option>
-                        <option value="Self">Self</option>
-                        <option value="Company">Company</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="field"
-                  style={!showCorp ? { display: "none" } : {}}
-                >
-                  <label
-                    className="label is-size-7 my-0"
-                    name="dob"
-                    type="text"
-                  >
-                    Corporate Sponsor{" "}
-                  </label>
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <SponsorSearch
-                      getSearchfacility={getSearchfacility1}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{ display: "none" }}
-                    >
-                      <input
-                        className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+              )}
+            </Grid>
+          </Grid>
 
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Plan{" "}
-            </label>
-
-            <div className="field">
-              <div className="control">
-                <div className="select is-small ">
-                  <select
-                    name="plan"
-                    {...register("x", { required: true })}
-                    onChange={(e, i) => handleChangePlan(e.target.value)}
-                    className="selectadd"
-                  >
-                    <option value=""> Choose Plan </option>
-                    {benefittingPlans1.map((option, i) => (
-                      <option key={i} value={option.name}>
-                        {" "}
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Premium:{price.price}
-            </label>
-
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="is-size-7 my-0"></label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  type="reset"
-                  className="button is-warning is-small" /* onClick={(e)=>e.target.reset()} */
-                >
-                  Reset
-                </button>
-              </p>
-              {/*  <p className="control">
-                        <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                        Delete
-                        </button>
-                    </p> */}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className={`modal ${clientModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">Create Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal4}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            {/*  <ClientGroup  list={patList}  closeModal={handlecloseModal3} choosen={choosen} dupl ={dupl} reg={reg} depen={depen}/>  */}
-            <ClientCreate closeModal={handlecloseModal4} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+          {!!state.Beneficiary?.principal._id && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => handleRow(state.Beneficiary?.principal)}
+              progressPending={loading}
+            />
+          )}
+          {/* {state.Beneficiary.dependent.length > 0 && ( */}
+          <CustomTable
+            title={''}
+            columns={EnrolleSchema}
+            data={state?.Beneficiary?.dependent}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={() => handleRow()}
+            progressPending={loading}
+          />
+          {/* )} */}
+        </form>
       </div>
     </>
   );
@@ -1319,11 +1107,11 @@ export function ClientCreate({ closeModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const mpiServ = client.service("mpi");
+  const ClientServ = client.service('client');
+  const mpiServ = client.service('mpi');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
@@ -1333,10 +1121,11 @@ export function ClientCreate({ closeModal }) {
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
   const { state, setState } = useContext(ObjectContext);
+  const [showdept, setShowdept] = useState(false);
 
   // eslint-disable-next-line
   const getSearchfacility = (obj) => {
-    setValue("facility", obj._id, {
+    setValue('facility', obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1397,7 +1186,7 @@ export function ClientCreate({ closeModal }) {
 
     if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
       // console.log("simpa")
-      data.middlename = data.middlename || "";
+      data.middlename = data.middlename || '';
       query.gender = data.gender;
       query.dob = data.dob;
 
@@ -1490,8 +1279,8 @@ export function ClientCreate({ closeModal }) {
   };
   const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
+      message: 'Client previously registered in this facility',
+      type: 'is-danger',
       dismissible: true,
       pauseOnHover: true,
     });
@@ -1517,16 +1306,16 @@ export function ClientCreate({ closeModal }) {
         .create(newPat)
         .then((resp) => {
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1543,8 +1332,8 @@ export function ClientCreate({ closeModal }) {
   const onSubmit = async (data, e) => {
     if (!date) {
       toast({
-        message: "Please enter Date of Birth! ",
-        type: "is-danger",
+        message: 'Please enter Date of Birth! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -1552,7 +1341,7 @@ export function ClientCreate({ closeModal }) {
       return;
     }
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     checkClient();
@@ -1584,8 +1373,8 @@ export function ClientCreate({ closeModal }) {
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1596,20 +1385,20 @@ export function ClientCreate({ closeModal }) {
           let newClientModule = {};
           //add to context
           // if principal
-          if (state.currBeneficiary === "principal") {
+          if (state.currBeneficiary === 'principal') {
             newClientModule = {
               principal: res,
               dependent: state.Beneficiary.dependent,
               others: state.Beneficiary.others,
-              show: "create",
+              show: 'create',
             };
           }
-          if (state.currBeneficiary === "dependent") {
+          if (state.currBeneficiary === 'dependent') {
             newClientModule = {
               principal: state.Beneficiary.principal,
               dependent: [...state.Beneficiary.dependent, res],
               others: state.Beneficiary.others,
-              show: "create",
+              show: 'create',
             };
           }
 
@@ -1628,8 +1417,8 @@ export function ClientCreate({ closeModal }) {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1638,525 +1427,908 @@ export function ClientCreate({ closeModal }) {
         });
     }
   };
+  const CustomSelectData = [
+    {
+      label: 'Today',
+      value: 'today',
+    },
+  ];
 
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Client</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          {/*  <p className=" is-small">
-                    Kindly search Client list before creating new Clients!
-                </p> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <p className=" is-small">Names</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small is-danger"
-                      {...register("x", { required: true })}
-                      name="firstname"
-                      type="text"
-                      placeholder="First Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="middlename"
-                      type="text"
-                      placeholder="Middle Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      {...register("x", { required: true })}
-                      name="lastname"
-                      type="text"
-                      placeholder="Last Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" fas fa-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Biodata</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left is-danger">
-                    {/*   <input className="input is-small is-danger" {...register("x",{required: true})} name="dob" type="text" placeholder="Date of Birth"  onBlur={checkClient}/>
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span> */}
-                    <DatePicker
-                      className="is-danger red-border is-small"
-                      selected={date}
-                      onChange={(date) => handleDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="Enter date with dd/MM/yyyy format "
-                      //isClearable
-                      /* className="" */
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="gender"
-                      type="text"
-                      placeholder="Gender"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="maritalstatus"
-                      type="text"
-                      placeholder="Marital Status"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="mrn"
-                      type="text"
-                      placeholder="Medical Records Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="religion"
-                      type="text"
-                      placeholder="Religion"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="profession"
-                      type="text"
-                      placeholder="Profession"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      {...register("x", { required: true })}
-                      name="phone"
-                      type="text"
-                      placeholder=" Phone No"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small "
-                      {...register("x")}
-                      name="email"
-                      type="email"
-                      placeholder="Email"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="clientTags"
-                  type="text"
-                  placeholder="Tags"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <ModalHeader text={'Create Enrolle'} />
+              <p>
+                Create a New enrolle by filling out the form below to get
+                started.
               </p>
-            </div>
-            <p className=" is-small">Address</p>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="address"
-                  type="text"
-                  placeholder="Residential Address"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="city"
-                      type="text"
-                      placeholder="Town/City"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="lga"
-                      type="text"
-                      placeholder="Local Govt Area"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="state"
-                      type="text"
-                      placeholder="State"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="country"
-                      type="text"
-                      placeholder="Country"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Medical Data</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="bloodgroup"
-                      type="text"
-                      placeholder="Blood Group"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="genotype"
-                      type="text"
-                      placeholder="Genotype"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="disabilities"
-                      type="text"
-                      placeholder="Disabilities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            </Grid>
+          </Grid>
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="allergies"
-                      type="text"
-                      placeholder="Allergies"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="comorbidities"
-                      type="text"
-                      placeholder="Co-mobidities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+          <McText
+            txt={'NAME'}
+            color={'#0064CC'}
+            type={'p'}
+            bold={'700'}
+            size={'18px'}
+          />
 
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="specificDetails"
-                  type="text"
-                  placeholder="Specific Details about patient"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <p className=" is-small">Next of Kin Information</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="nok_name"
-                      type="text"
-                      placeholder="Next of Kin Full Name"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-clinic-medical"></i>
-                    </span>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="firstname"
+                label="First Name"
+                register={register('firstname', { required: true })}
+                onBlur={checkClient}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="middlename"
+                label="Middle Name"
+                register={register('middlename', { required: true })}
+                onBlur={checkClient}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="lastname"
+                label="Last Name"
+                register={register('lastname', { required: true })}
+                onBlur={checkClient}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'BIO DATA'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            spacing={2}
+            style={{
+              alignItems: 'center',
+            }}
+          >
+            <Grid item xs={12} sm={3}>
+              <BasicDatePicker
+                name={'Date of Birth'}
+                label={'Date of Birth'}
+                onChange={(date) => handleDate(date)}
+                selected={date}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <RadioButton
+                name="gender"
+                title="Gender"
+                options={[
+                  {
+                    label: 'Male',
+                    value: 'male',
+                  },
+                  {
+                    label: 'Female',
+                    value: 'female',
+                  },
+                ]}
+                register={register('gender', { required: true })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <CustomSelect
+                name="maritalstatus"
+                label="Marital Status"
+                options={[
+                  {
+                    label: 'Single',
+                    value: 'single',
+                  },
+                  {
+                    label: 'Married',
+                    value: 'married',
+                  },
+                  {
+                    label: 'Divorced',
+                    value: 'divorced',
+                  },
+                  {
+                    label: 'Widowed',
+                    value: 'widowed',
+                  },
+                ]}
+                register={register('maritalstatus')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <CustomSelect
+                name="religion"
+                label="Religion"
+                options={[
+                  {
+                    label: 'Christianity',
+                    value: 'christianity',
+                  },
+                  {
+                    label: 'Islam',
+                    value: 'islam',
+                  },
+                  {
+                    label: 'Others',
+                    value: 'others',
+                  },
+                ]}
+                register={register('religion')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="mrn"
+                label="Medical Records Number"
+                register={register('mrn')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="profession"
+                label="Profession"
+                register={register('profession')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="phone"
+                label="Phone Number"
+                register={register('phone')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="phone2"
+                label="Phone Number 2 (Optional)"
+                register={register('phone2')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input name="email" label="Email" register={register('email')} />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'ADDRESS'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="country"
+                label="Country"
+                options={CustomSelectData}
+                register={register('country')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="state"
+                label="State"
+                options={CustomSelectData}
+                register={register('state')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="lga"
+                label="Local Government Area"
+                options={CustomSelectData}
+                register={register('lga')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="city"
+                label="Town/City"
+                options={CustomSelectData}
+                register={register('city')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="neighborhood"
+                label="Neighborhood"
+                register={register('neighborhood')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="address"
+                label="Street Address"
+                register={register('address')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'OTHER DETAILS'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="medicalData"
+                label="Medical Data"
+                placeholder="Enter your resident address here"
+                register={register('medicalData')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="clientTags"
+                label="Tags"
+                placeholder="Tags"
+                register={register('clientTags')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="otherBioData"
+                label="Other Bio Data"
+                register={register('otherBioData')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="nextOfKin"
+                label="Next of Kin"
+                register={register('nextOfKin')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="nonHospitalIdentifiers"
+                label="Non Hospital Identifiers"
+                register={register('nonHospitalIdentifiers')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4} my={1.5}>
+              <CustomSelect
+                name="paymentInfo"
+                label="Payment Information"
+                options={CustomSelectData}
+                register={register('paymentInfo')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={4}>
+              <CustomSelect
+                name="assignToCareTeam"
+                label="Assign to Care Team"
+                options={CustomSelectData}
+                register={register('assignToCareTeam')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'NEXT OF KIN'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="nok_name"
+                label="Full Name"
+                register={register('nok_name')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="nok_phoneno"
+                label="Phone Number"
+                register={register('nok_phoneno')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="nok_email"
+                label="Email"
+                register={register('nok_email')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="nok_relationship"
+                label="Relationship"
+                register={register('nok_relationship')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'NON-HOSPITAL IDENTIFIERS'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="nin"
+                label="National ID Number"
+                register={register('nin')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="passport"
+                label="International Passport Number"
+                register={register('passport')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="voters"
+                label="Voters Card Number"
+                register={register('voters')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="drivers"
+                label="Drivers License Number"
+                register={register('drivers')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'PAYMENT INFORMATION'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="accountName"
+                label="Account Holder Name"
+                register={register('accountName')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input name="bank" label="Bank" register={register('bank')} />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Input
+                name="accountNumber"
+                label="Account Number"
+                register={register('accountNumber')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <CustomSelect
+                name="paymentMethod"
+                label="Payment Method"
+                options={CustomSelectData}
+                register={register('paymentMethod')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'MEDICAL DATA'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="bloodGroup"
+                label="Blood Group"
+                register={register('bloodGroup')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="genotype"
+                label="Genotype"
+                register={register('genotype')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="disabilities"
+                label="Disabilities"
+                register={register('disabilities')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="allergies"
+                label="Allergies"
+                register={register('allergies')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Input
+                name="comorbidities"
+                label="Co-morbidities"
+                register={register('comorbidities')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              {/* <Input
+                name="specificDetails"
+                label="Specific Details about Patient"
+                register={register('specificDetails')}
+              /> */}
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <Textarea
+                label="Specific Details about Patient"
+                name="specificDetails"
+                register={register('specificDetails')}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                onClick={(e) => e.target.reset()}
+                style={{
+                  backgroundColor: '#ffffff',
+                  width: '100%',
+                  color: '#0364FF',
+                  border: '1px solid #0364FF',
+                  cursor: 'pointer',
+                }}
+              >
+                Clear
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                style={{
+                  backgroundColor: '#0364FF',
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setShowdept(true)}
+              >
+                Next
+              </Button>
+            </Grid>
+          </Grid>
+          {/* ------------------------------------------Dependent Modal----------------------------------------------------- */}
+          {showdept && (
+            <ModalBox open={showdept} onClose={() => setShowdept(false)}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12}>
+                  <ModalHeader text={'Dependents'} />
+                  <p>
+                    Add dependents by filling out the form below to get started.
                   </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="nok_phoneno"
-                      type="text"
-                      placeholder="Next of Kin Phone Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="nok_email"
-                      type="email"
-                      placeholder="Next of Kin Email"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="nok_relationship"
-                      type="text"
-                      placeholder="Next of Kin Relationship"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  type="reset"
-                  className="button is-warning is-small" /* onClick={(e)=>e.target.reset()} */
-                >
-                  Reset
-                </button>
-              </p>
-              {/*  <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">
-              Similar Client Already Exist?
-            </p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientGroup
-              list={patList}
-              closeModal={handlecloseModal3}
-              choosen={choosen}
-              dupl={dupl}
-              reg={reg}
-              depen={depen}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">
-              Similar Client Already Exist?
-            </p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientGroup
-              list={patList}
-              closeModal={handlecloseModal3}
-              choosen={choosen}
-              dupl={dupl}
-              reg={reg}
-              depen={depen}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} mt={3}>
+                <Grid item xs={12} sm={12}>
+                  <McText
+                    txt={'Spouse'}
+                    color={'#0064CC'}
+                    type={'p'}
+                    bold={'700'}
+                    size={'18px'}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  alignItems: 'center',
+                }}
+              >
+                <Grid item xs={12} sm={4}>
+                  <BasicDatePicker
+                    name="spouseDob"
+                    label="Date of Birth"
+                    register={register('spouseDob')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <RadioButton
+                    name="spouseGender"
+                    title="Gender"
+                    options={[
+                      {
+                        label: 'Male',
+                        value: 'male',
+                      },
+                      {
+                        label: 'Female',
+                        value: 'female',
+                      },
+                    ]}
+                    register={register('spouseGender')}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} mt={3}>
+                <Grid item xs={12} sm={12}>
+                  <McText
+                    txt={'Child 1'}
+                    color={'#0064CC'}
+                    type={'p'}
+                    bold={'700'}
+                    size={'18px'}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  alignItems: 'center',
+                }}
+              >
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child1firstName"
+                    label="First Name"
+                    register={register('child1firstName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child1MiddleName"
+                    label="Middle Name"
+                    register={register('child1MiddleName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child1LastName"
+                    label="Last Name"
+                    register={register('child1LastName')}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <BasicDatePicker
+                    name="child1Dob"
+                    label="Date of Birth"
+                    register={register('child1Dob')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <RadioButton
+                    name="child1Gender"
+                    title="Gender"
+                    options={[
+                      {
+                        label: 'Male',
+                        value: 'male',
+                      },
+                      {
+                        label: 'Female',
+                        value: 'female',
+                      },
+                    ]}
+                    register={register('child1Gender')}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} mt={3}>
+                <Grid item xs={12} sm={12}>
+                  <McText
+                    txt={'Child 2'}
+                    color={'#0064CC'}
+                    type={'p'}
+                    bold={'700'}
+                    size={'18px'}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  alignItems: 'center',
+                }}
+              >
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child2firstName"
+                    label="First Name"
+                    register={register('child2firstName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child2MiddleName"
+                    label="Middle Name"
+                    register={register('child2MiddleName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child2LastName"
+                    label="Last Name"
+                    register={register('child2LastName')}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <BasicDatePicker
+                    name="child2Dob"
+                    label="Date of Birth"
+                    register={register('child2Dob')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <RadioButton
+                    name="child2Gender"
+                    title="Gender"
+                    options={[
+                      {
+                        label: 'Male',
+                        value: 'male',
+                      },
+                      {
+                        label: 'Female',
+                        value: 'female',
+                      },
+                    ]}
+                    register={register('child2Gender')}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} mt={3}>
+                <Grid item xs={12} sm={12}>
+                  <McText
+                    txt={'Child 3'}
+                    color={'#0064CC'}
+                    type={'p'}
+                    bold={'700'}
+                    size={'18px'}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  alignItems: 'center',
+                }}
+              >
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child3firstName"
+                    label="First Name"
+                    register={register('child3firstName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child3MiddleName"
+                    label="Middle Name"
+                    register={register('child3MiddleName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child3LastName"
+                    label="Last Name"
+                    register={register('child3LastName')}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <BasicDatePicker
+                    name="child3Dob"
+                    label="Date of Birth"
+                    register={register('child3Dob')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <RadioButton
+                    name="child3Gender"
+                    title="Gender"
+                    options={[
+                      {
+                        label: 'Male',
+                        value: 'male',
+                      },
+                      {
+                        label: 'Female',
+                        value: 'female',
+                      },
+                    ]}
+                    register={register('child3Gender')}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} mt={3}>
+                <Grid item xs={12} sm={12}>
+                  <McText
+                    txt={'Child 4'}
+                    color={'#0064CC'}
+                    type={'p'}
+                    bold={'700'}
+                    size={'18px'}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  alignItems: 'center',
+                }}
+              >
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child4firstName"
+                    label="First Name"
+                    register={register('child4firstName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child4MiddleName"
+                    label="Middle Name"
+                    register={register('child4MiddleName')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Input
+                    name="child4LastName"
+                    label="Last Name"
+                    register={register('child4LastName')}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  alignItems: 'center',
+                }}
+              >
+                <Grid item xs={12} sm={6}>
+                  <BasicDatePicker
+                    name="child4Dob"
+                    label="Date of Birth"
+                    register={register('child4Dob')}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <RadioButton
+                    name="child4Gender"
+                    title="Gender"
+                    options={[
+                      {
+                        label: 'Male',
+                        value: 'male',
+                      },
+                      {
+                        label: 'Female',
+                        value: 'female',
+                      },
+                    ]}
+                    register={register('child4Gender')}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} mt={2}>
+                <Grid item xs={12} sm={12} md={4} lg={3}>
+                  <Button
+                    type="button"
+                    onClick={(e) => e.target.reset()}
+                    style={{
+                      backgroundColor: '#ffffff',
+                      width: '100%',
+                      color: '#0364FF',
+                      border: '1px solid #0364FF',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={12} md={4} lg={3}>
+                  <Button
+                    type="submit"
+                    style={{
+                      backgroundColor: '#0364FF',
+                      width: '100%',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </ModalBox>
+          )}
+        </form>
       </div>
     </>
   );
