@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -158,7 +158,7 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
+import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
@@ -174,7 +174,9 @@ import ImmunizationHome from "./Immunization/ImmunizationHome";
 import VaccineProfile from "./Immunization/VaccineProfile";
 import BloodBankInventory from "./Bloodbank/Inventory";
 import BloodBankHome from "./Bloodbank/BloodBankHome";
-import PremiumPayment from "./ManagedCare/Payment";
+import Incoming from "./Referral/Incoming";
+import Outgoing from "./Referral/Outgoing";
+import PremiumPayment from "./ManagedCare/PremiumPayment";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -188,7 +190,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -630,7 +632,10 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route path="/app/managed-care/healthplan" />
-            <Route path="/app/managed-care/premiums" />
+            <Route
+              path="/app/managed-care/premiums"
+              element={<PremiumPayment />}
+            />
           </Route>
           {/**************************CRM *************************************** */}
           <Route path="/app/crm" element={<CRMHome />}>
@@ -645,9 +650,8 @@ const AppRoutes = () => {
 
           {/**************************Referral *************************************** */}
           <Route path="/app/referral" element={<ReferralHome />}>
-            <Route path="/app/referral/lead" />
-            <Route path="/app/referral/incoming" />
-            <Route path="/app/referral/outgoing" />
+            <Route path="/app/referral/incoming" element={<Incoming />} />
+            <Route path="/app/referral/outgoing" element={<Outgoing />} />
             <Route path="/app/referral/account" />
             <Route path="/app/referral/setting" />
             <Route path="/app/referral/dashboard" />
