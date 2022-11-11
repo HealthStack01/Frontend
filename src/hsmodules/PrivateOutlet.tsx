@@ -1,15 +1,31 @@
-import { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
+import {useContext, useEffect} from "react";
+import {Navigate} from "react-router-dom";
 
-import { UserContext } from '../context';
-import Dashboard from './Dashboard/Dashboard';
+import {getUserLocation} from "../components/hooks/getUserLocation";
+
+import {UserContext, ObjectContext} from "../context";
+import Dashboard from "./Dashboard/Dashboard";
 
 const PrivateOutlet = () => {
   // const { user: data } = useContext(UserContext);
-  const data = localStorage.getItem('user');
+  const {state, setState} = useContext(ObjectContext);
+
+  const {longitude, latitude} = getUserLocation();
+
+  const data = localStorage.getItem("user");
   const user = JSON.parse(data);
 
-  return user ? <Dashboard /> : <Navigate to='/' />;
+  useEffect(() => {
+    setState(prev => ({
+      ...prev,
+      coordinates: {
+        latitude,
+        longitude,
+      },
+    }));
+  }, [longitude, latitude, setState]);
+
+  return user ? <Dashboard /> : <Navigate to="/" />;
 };
 
 export default PrivateOutlet;

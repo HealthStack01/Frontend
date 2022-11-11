@@ -19,7 +19,7 @@ const style = {
   maxHeight: "95vh",
   bgcolor: "#fff",
   boxShadow: 24,
-  p: 4,
+  p: 2,
   borderRadius: "6px",
   overflow: "hidden",
   //minWidth: "100px !important",
@@ -60,6 +60,8 @@ const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
                   justifyContent: "space-between",
                 }}
                 mb={2}
+                pl={2}
+                //pr={2}
               >
                 <h1
                   style={{
@@ -81,7 +83,9 @@ const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
               </Box>
             )}
 
-            {children}
+            <Box p={2} sx={{overflowY: "scroll"}}>
+              {children}
+            </Box>
           </div>
         </Box>
       </Fade>
