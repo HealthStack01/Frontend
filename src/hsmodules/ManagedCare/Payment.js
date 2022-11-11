@@ -336,21 +336,29 @@ export function BillingList() {
   return (
     <>
       <div className="level">
-      <PageWrapper style={{flexDirection:"column" ,padding:"0.6rem 1rem"}}>
+        <PageWrapper
+          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+        >
           <TableMenu>
-            <div style={{display:"flex",alignItems:"center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{marginLeft:"10px",fontSize:"0.95rem"}}>Bill List</h2>
+              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                Bill List
+              </h2>
             </div>
             {handleCreateNew && (
-              <Button style={{ fontSize: "14px", fontWeight: "600px" }} label="Add New" onClick={handleCreateNew}
-              showicon={true}/>
+              <Button
+                style={{ fontSize: "14px", fontWeight: "600px" }}
+                label="Add New"
+                onClick={handleCreateNew}
+                showicon={true}
+              />
             )}
-            </TableMenu>
+          </TableMenu>
           <div
             style={{
               width: "100%",
@@ -358,16 +366,18 @@ export function BillingList() {
               overflow: "auto",
             }}
           >
-            <CustomTable title={""} 
-            columns={PaymentSchema}
-            data={facilities}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={handleCreateNew}
-            progressPending={loading}/>
+            <CustomTable
+              title={""}
+              columns={PaymentSchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleCreateNew}
+              progressPending={loading}
+            />
           </div>
-        </PageWrapper>      
+        </PageWrapper>
       </div>
     </>
   );
