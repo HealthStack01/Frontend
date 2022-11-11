@@ -170,6 +170,7 @@ import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
+import Complaint from "./Complaints/Complaint"
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -635,6 +636,17 @@ const AppRoutes = () => {
             <Route path="/app/crm/appointment" element={<CrmAppointment />} />
             <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" />
+          </Route>
+          
+          {/**************************COMPLAINT *************************************** */}
+          <Route path="/app/complaints/complaints-complaints" element={<Complaint />}>
+            {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
+            {/* <Route path="/app/crm/proposal" element={<Proposal />} />
+            <Route path="/app/crm/invoice" element={<Invoice />} />
+            <Route path="/app/crm/SLA" element={<SLA />} />
+            <Route path="/app/crm/appointment" element={<CrmAppointment />} />
+            <Route path="/app/crm/deal" element={<Deal />} />
+            <Route path="/app/crm/dashboard" /> */}
           </Route>
 
           {/**************************Referral *************************************** */}
