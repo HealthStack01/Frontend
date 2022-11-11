@@ -29,7 +29,7 @@ import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Leads() {
+export default function VaccineProfile() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -39,7 +39,7 @@ export default function Leads() {
 
   return (
     <section className="section remPadTop">
-      <LeadList showModal={showModal} setShowModal={setShowModal} />
+      <VaccineProfileList showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 }
@@ -445,7 +445,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function LeadList({ showModal, setShowModal }) {
+export function VaccineProfileList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -720,33 +720,29 @@ export function LeadList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
+      name: "Vitamin A",
+      dosage: "0.5ml - 2-3days",
+      role: "Intra-muscular oral",
+      age: "At birth",
     },
     {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
+      name: "Vitamin A",
+      dosage: "0.5ml - 2-3days",
+      role: "Intra-muscular oral",
+      age: "At birth",
     },
     {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
+      name: "Vitamin A",
+      dosage: "0.5ml - 2-3days",
+      role: "Intra-muscular oral",
+      age: "At birth",
     },
 
     {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
+      name: "Vitamin A",
+      dosage: "0.5ml - 2-3days",
+      role: "Intra-muscular oral",
+      age: "At birth",
     },
   ];
 
@@ -767,49 +763,48 @@ export function LeadList({ showModal, setShowModal }) {
     }
   };
 
-  const LeadSchema = [
+  const VaccineSchema = [
     {
-      name: "Company Name",
+      name: "S/N",
       key: "sn",
-      description: "Enter name of Company",
-      selector: (row) => row.company_name,
+      description: "SN",
+      selector: (row, i) => i + 1,
       sortable: true,
-      required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
-      name: "Telestaff Name",
-      key: "telestaff_name",
-      description: "Enter Telestaff name",
-      selector: (row) => row.telestaff_name,
+      name: "Name of Vaccine",
+      key: "name",
+      description: "Enter name of Vaccine",
+      selector: (row) => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Probability Of Deal",
-      key: "probability",
+      name: "Dosage",
+      key: "dosage",
       description: "Enter bills",
-      selector: (row) => row.probability,
+      selector: (row) => row.dosage,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Date of Submission",
-      key: "date",
+      name: "Role of Administration",
+      key: "role",
       description: "Enter name of Disease",
-      selector: (row, i) => row.date,
+      selector: (row, i) => row.role,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: "TEXT",
     },
     {
-      name: "Status",
-      key: "status",
-      description: "Enter bills",
-      selector: "status",
-      cell: (row) => returnCell(row.status),
+      name: "Targeted Age  Group",
+      key: "age",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.age,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -832,29 +827,8 @@ export function LeadList({ showModal, setShowModal }) {
                     </div>
                   )}
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Lead
+                    Vaccine
                   </h2>
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: "1rem" }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (
@@ -869,7 +843,7 @@ export function LeadList({ showModal, setShowModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={LeadSchema}
+                    columns={VaccineSchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover

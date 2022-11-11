@@ -29,7 +29,7 @@ import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Leads() {
+export default function BloodBankInventory() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -39,7 +39,10 @@ export default function Leads() {
 
   return (
     <section className="section remPadTop">
-      <LeadList showModal={showModal} setShowModal={setShowModal} />
+      <BloodBankInventoryList
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </section>
   );
 }
@@ -445,7 +448,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function LeadList({ showModal, setShowModal }) {
+export function BloodBankInventoryList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -720,96 +723,145 @@ export function LeadList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      company_name: "Health Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
     {
-      company_name: "Albert Health Stack",
-      telestaff_name: "KTeejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
     {
-      company_name: "DonaHealth Stack",
-      telestaff_name: "9Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Inactive",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
 
     {
-      company_name: "DaviHealth Stack",
-      telestaff_name: "Teejay Tabor",
-      probability: "70%",
-      date: "11/9/2022",
-      status: "Active",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
   ];
 
-  const returnCell = (status) => {
+  const returnCell = (expiry) => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
-    switch (status.toLowerCase()) {
-      case "active":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+    switch (expiry.toLowerCase()) {
+      case "exist":
+        return <span style={{ color: "#17935C" }}>{expiry}</span>;
 
       case "inactive":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+        return <span style={{ color: "#0364FF" }}>{expiry}</span>;
 
       default:
         break;
     }
   };
 
-  const LeadSchema = [
+  const BloodBankInventorySchema = [
     {
-      name: "Company Name",
+      name: "S/N",
       key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: " Product",
+      key: "product",
       description: "Enter name of Company",
-      selector: (row) => row.company_name,
+      selector: (row) => row.product,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Telestaff Name",
-      key: "telestaff_name",
+      name: "Quantity",
+      key: "quantity",
       description: "Enter Telestaff name",
-      selector: (row) => row.telestaff_name,
+      selector: (row) => row.quantity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "NUMBER",
     },
     {
-      name: "Probability Of Deal",
-      key: "probability",
+      name: "Blood Group",
+      key: "group",
       description: "Enter bills",
-      selector: (row) => row.probability,
+      selector: (row) => row.group,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Date of Submission",
-      key: "date",
+      name: "Stock Value",
+      key: "value",
       description: "Enter name of Disease",
-      selector: (row, i) => row.date,
+      selector: (row, i) => row.value,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: "NUMBER",
     },
     {
-      name: "Status",
-      key: "status",
+      name: "Cost Price",
+      key: "cost_price",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.cost_price,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Selling Price",
+      key: "selling_price",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.selling_price,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Pre-Order Level",
+      key: "level",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.level,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Expiry",
+      key: "expiry",
       description: "Enter bills",
-      selector: "status",
-      cell: (row) => returnCell(row.status),
+      selector: "expiry",
+      cell: (row) => returnCell(row.expiry),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -832,29 +884,8 @@ export function LeadList({ showModal, setShowModal }) {
                     </div>
                   )}
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Lead
+                    Invoice
                   </h2>
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: "1rem" }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (
@@ -869,7 +900,7 @@ export function LeadList({ showModal, setShowModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={LeadSchema}
+                    columns={BloodBankInventorySchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover

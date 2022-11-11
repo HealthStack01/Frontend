@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Route, Routes, useLocation} from "react-router-dom";
 
-import { UserContext, ObjectContext } from "../context";
+import {UserContext, ObjectContext} from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import { Models } from "./app/Constants";
+import {Models} from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -158,19 +158,24 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import { OrgList } from "./ManagedCare/OrgClientList";
+import {OrgList} from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-import Proposal from "./CRM/Proposal";
-import Invoice from "./CRM/Invoice";
+import Proposal from "./CRM/proposal";
+import Invoice from "./CRM/invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
 import Complaint from "./Complaints/Complaint"
+import ImmunizationHome from "./Immunization/ImmunizationHome";
+import VaccineProfile from "./Immunization/VaccineProfile";
+import BloodBankInventory from "./Bloodbank/Inventory";
+import BloodBankHome from "./Bloodbank/BloodBankHome";
+import PremiumPayment from "./ManagedCare/Payment";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -184,7 +189,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const { setLocationType } = useRepository(Models.LOCATION);
+  const {setLocationType} = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -626,6 +631,7 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route path="/app/managed-care/healthplan" />
+            <Route path="/app/managed-care/premiums" />
           </Route>
           {/**************************CRM *************************************** */}
           <Route path="/app/crm" element={<CRMHome />}>
@@ -692,9 +698,12 @@ const AppRoutes = () => {
           </Route>
 
           {/**************************Immunization *************************************** */}
-          <Route path="/app/immunization">
+          <Route path="/app/immunization" element={<ImmunizationHome />}>
             <Route path="/app/immunization/schedule" />
-            <Route path="/app/immunization/vaccineprofile" />
+            <Route
+              path="/app/immunization/vaccineprofile"
+              element={<VaccineProfile />}
+            />
             <Route path="/app/immunization/appointment" />
             <Route path="/app/immunization/checkin-out" />
             <Route path="/app/immunization/report" />
@@ -702,8 +711,11 @@ const AppRoutes = () => {
           </Route>
 
           {/**************************Blood Bank *************************************** */}
-          <Route path="/app/blood-bank">
-            <Route path="/app/blood-bank/inventory" />
+          <Route path="/app/blood-bank" element={<BloodBankHome />}>
+            <Route
+              path="/app/blood-bank/inventory"
+              element={<BloodBankInventory />}
+            />
             <Route path="/app/blood-bank/appointment" />
             <Route path="/app/blood-bank/lab" />
             <Route path="/app/blood-bank/dashboard" />
