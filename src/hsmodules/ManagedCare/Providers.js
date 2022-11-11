@@ -1,59 +1,64 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from "react";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-import { toast } from "bulma-toast";
+import React, { useState, useContext, useEffect } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { toast } from 'bulma-toast';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { FacilitySearch } from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
+import { UserContext, ObjectContext } from '../../context';
+import { FacilitySearch } from '../helpers/FacilitySearch';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import ModalBox from './modal/index';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import { Box, Grid, Typography } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { McText } from './text';
+import Input from '../../components/inputs/basic/Input/index';
+import ToggleButton from '../../components/toggleButton';
+import RadioButton from '../../components/inputs/basic/Radio';
+import BasicDatePicker from '../../components/inputs/Date';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
+import { MdCancel, MdAddCircle } from 'react-icons/md';
 
 export default function ProviderOrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
-
-  //const [showState,setShowState]=useState() //create|modify|detail
-
-  //console.log("Organization parent", state)
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Organization  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <OrganizationList />
-        </div>
-        <div className="column is-4 ">
-          {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
-          {state.facilityModule.show === "detail" && <OrganizationDetail />}
-          {state.facilityModule.show === "modify" && (
+      <OrganizationList showModal={showModal} setShowModal={setShowModal} />
+      {showModal && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          {state.facilityModule.show === 'create' && <OrganizationCreate />}
+        </ModalBox>
+      )}
+      {/* {state.facilityModule.show === 'detail' && <OrganizationDetail />}
+          {state.facilityModule.show === 'modify' && (
             <OrganizationModify facility={selectedFacility} />
-          )}
-        </div>
-      </div>
+          )} */}
     </section>
   );
 }
 
-export function OrganizationCreate() {
+export function OrganizationCreate({ showModal, setShowModal }) {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
-  const [chosen, setChosen] = useState("");
-  const [band, setBand] = useState("");
-  const BandsServ = client.service("bands");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
+  const [chosen, setChosen] = useState('');
+  const [band, setBand] = useState('');
+  const BandsServ = client.service('bands');
   const [providerBand, setProviderBand] = useState([]);
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
@@ -88,9 +93,9 @@ export function OrganizationCreate() {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           bandType:
-            user.currentEmployee.facilityDetail.facilityType === "HMO"
-              ? "Provider"
-              : "Company",
+            user.currentEmployee.facilityDetail.facilityType === 'HMO'
+              ? 'Provider'
+              : 'Company',
 
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
@@ -108,10 +113,10 @@ export function OrganizationCreate() {
 
   const handleClick = () => {
     //check band selected
-    if (band === "") {
+    if (band === '') {
       toast({
-        message: "Band not selected, Please select band",
-        type: "is-danger",
+        message: 'Band not selected, Please select band',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -122,7 +127,7 @@ export function OrganizationCreate() {
     let stuff = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
-      relationshiptype: "managedcare",
+      relationshiptype: 'managedcare',
       band,
     };
     orgServ
@@ -132,18 +137,18 @@ export function OrganizationCreate() {
         // e.target.reset();
         setSuccess(true);
         toast({
-          message: "Organization added succesfully",
-          type: "is-success",
+          message: 'Organization added succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
-        setBand("");
+        setBand('');
       })
       .catch((err) => {
         toast({
-          message: "Error adding organization " + err,
-          type: "is-danger",
+          message: 'Error adding organization ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -170,18 +175,18 @@ export function OrganizationCreate() {
 
   return (
     <>
-      <div className="field is-horizontal">
+      {/* <div className="field is-horizontal">
         <div className="field-body">
           <div
-            className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
+            className="field is-expanded"
           >
             <FacilitySearch
               getSearchfacility={getSearchfacility}
               clear={success}
             />
-            <p className="control has-icons-left " style={{ display: "none" }}>
+            <p className="control has-icons-left " style={{ display: 'none' }}>
               <input
-                className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
+                className="input is-small" 
               />
               <span className="icon is-small is-left">
                 <i className="fas  fa-map-marker-alt"></i>
@@ -198,13 +203,14 @@ export function OrganizationCreate() {
                   className="selectadd"
                 >
                   <option value="">
-                    {user.currentEmployee.facilityDetail.facilityType === "HMO"
-                      ? "Choose Provider Band"
-                      : "Choose Company Band"}{" "}
+                    {user.currentEmployee?.facilityDetail?.facilityType ===
+                    'HMO'
+                      ? 'Choose Provider Band'
+                      : 'Choose Company Band'}{' '}
                   </option>
                   {providerBand.map((option, i) => (
                     <option key={i} value={option.name}>
-                      {" "}
+                      {' '}
                       {option.name}
                     </option>
                   ))}
@@ -222,109 +228,109 @@ export function OrganizationCreate() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
 const ProvidersSchema = [
   {
-    name: "S/N",
-    key: "sn",
-    description: "SN",
+    name: 'S/N',
+    key: 'sn',
+    description: 'SN',
     selector: (row) => row.sn,
     sortable: true,
-    inputType: "HIDDEN",
+    inputType: 'HIDDEN',
   },
   {
-    name: "Organization Name",
-    key: "facilityName",
-    description: "Organization Name",
+    name: 'Organization Name',
+    key: 'facilityName',
+    description: 'Organization Name',
     selector: (row) => row.organizationDetail.facilityName,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
   {
-    name: "Band",
-    key: "band",
-    description: "Band Name",
+    name: 'Band',
+    key: 'band',
+    description: 'Band Name',
     selector: (row) => row.band,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
 
   {
-    name: "Address",
-    key: "facilityAddress",
-    description: "Address",
+    name: 'Address',
+    key: 'facilityAddress',
+    description: 'Address',
     selector: (row) => row.organizationDetail.facilityAddress,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
 
   {
-    name: "City",
-    key: "facilityCity",
-    description: "city",
+    name: 'City',
+    key: 'facilityCity',
+    description: 'city',
     selector: (row) => row.organizationDetail.facilityCity,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
 
   {
-    name: "Phone",
-    key: "facilityContactPhone",
-    description: "Phone",
+    name: 'Phone',
+    key: 'facilityContactPhone',
+    description: 'Phone',
     selector: (row) => row.organizationDetail.facilityContactPhone,
     sortable: true,
     required: true,
-    inputType: "NUMBER",
+    inputType: 'NUMBER',
   },
 
   {
-    name: "Email",
-    key: "email",
-    description: "simpa@email.com",
+    name: 'Email',
+    key: 'email',
+    description: 'simpa@email.com',
     selector: (row) => row.organizationDetail.facilityEmail,
     sortable: true,
     required: true,
-    inputType: "EMAIL",
+    inputType: 'EMAIL',
   },
 
   {
-    name: "Type",
-    key: "facilityType",
-    description: "Type",
+    name: 'Type',
+    key: 'facilityType',
+    description: 'Type',
     selector: (row) => row.organizationDetail.facilityType,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
 
   {
-    name: "Category",
-    key: "facilityCategory",
-    description: "Category",
+    name: 'Category',
+    key: 'facilityCategory',
+    description: 'Category',
     selector: (row) => row.organizationDetail.facilityCategory,
     sortable: true,
     required: true,
-    inputType: "TEXT",
+    inputType: 'TEXT',
   },
 ];
 
-export function OrganizationList() {
+export function OrganizationList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -338,13 +344,14 @@ export function OrganizationList() {
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    setShowModal(true);
   };
   const handleRow = async (facility) => {
     //console.log("b4",state)
@@ -355,7 +362,7 @@ export function OrganizationList() {
 
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -365,7 +372,7 @@ export function OrganizationList() {
   };
 
   const handleSearch = (val) => {
-    const field = "facilityName";
+    const field = 'facilityName';
     console.log(val);
     if (val.length > 0) {
       orgServ
@@ -387,12 +394,12 @@ export function OrganizationList() {
         .then((res) => {
           console.log(res);
           setFacilities(res.data);
-          setMessage(" Organization  fetched successfully");
+          setMessage(' Organization  fetched successfully');
           setSuccess(true);
         })
         .catch((err) => {
           console.log(err);
-          setMessage("Error creating facility, probable network issues " + err);
+          setMessage('Error creating facility, probable network issues ' + err);
           setError(true);
         });
     } else {
@@ -404,7 +411,7 @@ export function OrganizationList() {
     orgServ
       .find({
         query: {
-          facility: user.currentEmployee.facilityDetail._id,
+          facility: user.currentEmployee?.facilityDetail._id,
           $limit: 100,
           $sort: {
             createdAt: -1,
@@ -414,11 +421,11 @@ export function OrganizationList() {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
+        setMessage(' Organization  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -426,99 +433,99 @@ export function OrganizationList() {
   useEffect(() => {
     getFacilities();
 
-    orgServ.on("created", (obj) => getFacilities());
-    orgServ.on("updated", (obj) => getFacilities());
-    orgServ.on("patched", (obj) => getFacilities());
-    orgServ.on("removed", (obj) => getFacilities());
+    orgServ.on('created', (obj) => getFacilities());
+    orgServ.on('updated', (obj) => getFacilities());
+    orgServ.on('patched', (obj) => getFacilities());
+    orgServ.on('removed', (obj) => getFacilities());
     return () => {};
   }, []);
 
   const ProvidersSchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row) => row.sn,
       sortable: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "Organization Name",
-      key: "facilityName",
-      description: "Organization Name",
+      name: 'Organization Name',
+      key: 'facilityName',
+      description: 'Organization Name',
       selector: (row) => row?.organizationDetail?.facilityName,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Band",
-      key: "band",
-      description: "Band Name",
+      name: 'Band',
+      key: 'band',
+      description: 'Band Name',
       selector: (row) => row.band,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Address",
-      key: "facilityAddress",
-      description: "Address",
+      name: 'Address',
+      key: 'facilityAddress',
+      description: 'Address',
       selector: (row) => row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "City",
-      key: "facilityCity",
-      description: "city",
+      name: 'City',
+      key: 'facilityCity',
+      description: 'city',
       selector: (row) => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Phone",
-      key: "facilityContactPhone",
-      description: "Phone",
+      name: 'Phone',
+      key: 'facilityContactPhone',
+      description: 'Phone',
       selector: (row) => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: 'NUMBER',
     },
 
     {
-      name: "Email",
-      key: "email",
-      description: "simpa@email.com",
+      name: 'Email',
+      key: 'email',
+      description: 'simpa@email.com',
       selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
-      inputType: "EMAIL",
+      inputType: 'EMAIL',
     },
 
     {
-      name: "Type",
-      key: "facilityType",
-      description: "Type",
+      name: 'Type',
+      key: 'facilityType',
+      description: 'Type',
       selector: (row) => row?.organizationDetail?.facilityType,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Category",
-      key: "facilityCategory",
-      description: "Category",
+      name: 'Category',
+      key: 'facilityCategory',
+      description: 'Category',
       selector: (row) => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
@@ -526,22 +533,22 @@ export function OrganizationList() {
     <>
       <div className="level">
         <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
         >
           <TableMenu>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                 List of Clients
               </h2>
             </div>
             {handleCreateNew && (
               <Button
-                style={{ fontSize: "14px", fontWeight: "600px" }}
+                style={{ fontSize: '14px', fontWeight: '600px' }}
                 label="Add New"
                 onClick={handleCreateNew}
               />
@@ -549,13 +556,13 @@ export function OrganizationList() {
           </TableMenu>
           <div
             style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
+              width: '100%',
+              height: 'calc(100vh-90px)',
+              overflow: 'auto',
             }}
           >
             <CustomTable
-              title={""}
+              title={''}
               columns={ProvidersSchema}
               data={facilities}
               pointerOnHover
@@ -577,7 +584,7 @@ export function OrganizationDetail() {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext);
@@ -588,7 +595,7 @@ export function OrganizationDetail() {
   const handleEdit = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -599,13 +606,13 @@ export function OrganizationDetail() {
   const closeForm = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
-    console.log("close form");
+    console.log('close form');
   };
 
   return (
@@ -623,14 +630,14 @@ export function OrganizationDetail() {
           <fieldset>
             <div className="field ">
               <label className="label is-small">
-                {" "}
+                {' '}
                 <span className="icon is-small is-left">
                   <i className="fas fa-hospital"></i>
                 </span>
-                Name:{" "}
+                Name:{' '}
                 <span className="is-small ">
-                  {" "}
-                  {facility.organizationDetail.facilityName}{" "}
+                  {' '}
+                  {facility.organizationDetail.facilityName}{' '}
                 </span>
               </label>
             </div>
@@ -641,7 +648,7 @@ export function OrganizationDetail() {
                 </span>
                 Address:
                 <span className="is-small ">
-                  {facility.organizationDetail.facilityAddress}{" "}
+                  {facility.organizationDetail.facilityAddress}{' '}
                 </span>
               </label>
             </div>
@@ -672,7 +679,7 @@ export function OrganizationDetail() {
                 <span className="icon is-small is-left">
                   <i className="fas fa-envelope"></i>
                 </span>
-                Email:{" "}
+                Email:{' '}
                 <span className="is-small ">
                   {facility.organizationDetail.facilityEmail}
                 </span>
@@ -680,7 +687,7 @@ export function OrganizationDetail() {
             </div>
             <div className="field">
               <label className="label is-small">
-                {" "}
+                {' '}
                 <span className="icon is-small is-left">
                   <i className="fas fa-user-md"></i>
                 </span>
@@ -692,7 +699,7 @@ export function OrganizationDetail() {
             </div>
             <div className="field">
               <label className="label is-small">
-                {" "}
+                {' '}
                 <span className="icon is-small is-left">
                   <i className="fas fa-hospital-symbol"></i>
                 </span>
@@ -737,8 +744,8 @@ export function OrganizationModify() {
   const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("/facility");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('/facility');
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
@@ -747,35 +754,35 @@ export function OrganizationModify() {
   const facility = state.facilityModule.selectedFacility;
 
   useEffect(() => {
-    setValue("facilityName", facility.facilityName, {
+    setValue('facilityName', facility.facilityName, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityAddress", facility.facilityAddress, {
+    setValue('facilityAddress', facility.facilityAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCity", facility.facilityCity, {
+    setValue('facilityCity', facility.facilityCity, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityContactPhone", facility.facilityContactPhone, {
+    setValue('facilityContactPhone', facility.facilityContactPhone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityEmail", facility.facilityEmail, {
+    setValue('facilityEmail', facility.facilityEmail, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityOwner", facility.facilityOwner, {
+    setValue('facilityOwner', facility.facilityOwner, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityType", facility.facilityType, {
+    setValue('facilityType', facility.facilityType, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCategory", facility.facilityCategory, {
+    setValue('facilityCategory', facility.facilityCategory, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -786,7 +793,7 @@ export function OrganizationModify() {
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -798,7 +805,7 @@ export function OrganizationModify() {
   const changeState = () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -806,7 +813,7 @@ export function OrganizationModify() {
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = facility._id;
     if (conf) {
@@ -815,7 +822,7 @@ export function OrganizationModify() {
         .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
-          setMessage("Deleted Organization successfully");
+          setMessage('Deleted Organization successfully');
           setSuccess(true);
           changeState();
           setTimeout(() => {
@@ -824,7 +831,7 @@ export function OrganizationModify() {
           changeState();
         })
         .catch((err) => {
-          setMessage("Error deleting facility, probable network issues " + err);
+          setMessage('Error deleting facility, probable network issues ' + err);
           setError(true);
           setTimeout(() => {
             setError(false);
@@ -839,7 +846,7 @@ export function OrganizationModify() {
           })) */
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     console.log(data);
@@ -851,12 +858,12 @@ export function OrganizationModify() {
       .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
-        setMessage("updated Organization successfully");
+        setMessage('updated Organization successfully');
         setSuccess(true);
         changeState();
       })
       .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -876,7 +883,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityName"
                     type="text"
                     placeholder="Name of Facility"
@@ -893,7 +900,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityAddress"
                     type="text"
                     placeholder="Address of Facility"
@@ -910,7 +917,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityCity"
                     type="text"
                     placeholder="City/Town"
@@ -927,7 +934,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityContactPhone"
                     type="text"
                     placeholder="Contact Phone No"
@@ -944,7 +951,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityEmail"
                     type="email"
                     placeholder="Organization Email"
@@ -961,7 +968,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityOwner"
                     type="text"
                     placeholder="Organization Owner"
@@ -978,7 +985,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityType"
                     type="text"
                     placeholder="Organization Type"
@@ -995,7 +1002,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityCategory"
                     type="text"
                     placeholder="Organization Category"
