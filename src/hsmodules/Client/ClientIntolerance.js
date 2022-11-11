@@ -507,6 +507,67 @@ export function BandList({showCreateModal, showDetailModal}) {
       inputType: "TEXT",
     },
   ];
+  const DrugToleranceSchema = [
+    {
+      name: "Drug",
+      key: "drug",
+      description: "Enter name of drug",
+      selector: row => row.drug,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    
+    {
+      name: "Date administer",
+      key: "date",
+      description: "Enter name of date",
+      selector: row => row.date,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Date of reaction",
+      key: "reaction",
+      description: "Enter date of reaction",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Reaction Type",
+      key: "type",
+      description: "Enter type of reaction",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+  ]
+
+  const drugData = [
+      {
+      drug: "Aspirin",
+      date: "27-10-2022",
+      reaction: "28-10-2022",
+      type: "Irritation",
+      },
+      {
+      drug: "Panadol",
+      date: "21-04-2022",
+      reaction: "30-10-2022",
+      type: "Itching",
+      },
+      {
+      drug: "Declofenac",
+      date: "27-03-2021",
+      reaction: "28-03-2021",
+      type: "Irritation",
+      },
+  ]
 
   return (
     <>
@@ -540,8 +601,10 @@ export function BandList({showCreateModal, showDetailModal}) {
               <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
-                  columns={BandSchema}
-                  data={facilities}
+                  // columns={BandSchema}
+                  columns={DrugToleranceSchema}
+                  // data={facilities}
+                  data={drugData}
                   pointerOnHover
                   highlightOnHover
                   striped

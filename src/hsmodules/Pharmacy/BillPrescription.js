@@ -86,8 +86,8 @@ export default function PharmacyBillPrescription() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "70vw",
-            height: "60vh",
+            width: "800px",
+            height: "500px",
           }}
         >
           <Box
@@ -103,6 +103,8 @@ export default function PharmacyBillPrescription() {
             item
             sx={{
               width: "330px",
+              height: "100%",
+              overflowY: "scroll",
             }}
           >
             <PatientProfile />

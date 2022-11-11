@@ -11,6 +11,29 @@ var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
+import moment from "moment";
+import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+
+const filter = createFilterOptions();
+
+import TextField from "@mui/material/TextField";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import {
+  Box,
+  Grid,
+  Button as MuiButton,
+  Divider,
+  Typography,
+} from "@mui/material";
+
 export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
@@ -38,7 +61,7 @@ export default function ProductEntry() {
   );
 }
 
-export function ProductExitCreate() {
+export function ProductExitCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -367,6 +390,7 @@ export function ProductExitCreate() {
         };
 
         setProductItem(prevProd => prevProd.concat(medication.serviceInfo));
+        console.log(state.financeModule.selectedBills);
       } else {
         if (productItem.length > 0) {
           setProductItem(prevProd =>
@@ -398,281 +422,281 @@ export function ProductExitCreate() {
     return () => {};
   }, [productItem]);
 
+  const productCreateSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quantity",
+      key: "quanity",
+      description: "Enter quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Unit",
+      key: "baseunit",
+      description: "Base Unit",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Selling Price",
+      key: "costprice",
+      description: "Enter cost price",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Actions",
+      key: "costprice",
+      description: "costprice",
+      selector: (row, i) => (
+        <p
+          style={{color: "red", fontSize: "0.75rem"}}
+          onClick={() => removeEntity(row, i)}
+        >
+          Remove
+        </p>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">
-            Point of Sale: Sales, Dispense, Audit, Transfer out
-          </p>
-        </div>
-        <div className="card-content ">
-          <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small">
-                      <select
-                        name="type"
-                        value={type}
-                        onChange={handleChangeType}
-                        className="selectadd"
-                      >
-                        <option value="">Choose Type </option>
-                        <option value="Sales">Sales </option>
-                        <option value="In-house">In-House </option>
-                        <option value="Dispense">Dispense</option>
-                        <option value="Audit">Audit</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={source}
-                      name="client"
-                      type="text"
-                      onChange={e => setSource(e.target.value)}
-                      placeholder="Client"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>{" "}
-            {/* horizontal end */}
-            {/*  <div className="field">
-                <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                    <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
-                    <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                    </span>
-                </p>
-            </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={date}
-                      name="date"
-                      type="text"
-                      onChange={e => setDate(e.target.value)}
-                      placeholder="Date"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* ref={register} */ name="documentNo"
-                      value={documentNo}
-                      type="text"
-                      onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={
-                        totalamount
-                      }
-                      name="totalamount"
-                      type="text"
-                      onChange={e => setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          {/* array of ProductEntry items */}
-
-          <label className="label is-small">Add Product Items:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <InventorySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
+      <Box
+        sx={{
+          width: "780px",
+          maxHeight: "600px",
+          overflowY: "auto",
+        }}
+      >
+        <Box container>
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <Input
+                  /* ref={register({ required: true })} */
+                  value={source}
+                  name="client"
+                  type="text"
+                  onChange={e => setSource(e.target.value)}
+                  label="Client"
                 />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
+              </Grid>
+              <Grid item xs={4} sx={{margin: "0.75rem 0"}}>
+                <CustomSelect
+                  defaultValue={type}
+                  name="type"
+                  options={["Sales", "In-house", "Dispense", "Audit"]}
+                  onChange={handleChangeType}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <Input
+                  label="Date"
+                  value={date}
+                  name="date"
+                  type="text"
+                  onChange={e => setDate(e.target.value)}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  name="documentNo"
+                  value={documentNo}
+                  type="text"
+                  onChange={e => setDocumentNo(e.target.value)}
+                  label="Invoice Number"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  value={totalamount}
+                  name="totalamount"
+                  type="text"
+                  onChange={async e => await setTotalamount(e.target.value)}
+                  label="Total Amount"
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Divider sx={{margin: "20px 0"}} />
+          <Box
+            container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+            mb={1}
+          >
+            <Box item>
+              <Typography>Add Product Items</Typography>
+            </Box>
+
+            <Box item>
+              <MuiButton
+                variant="outlined"
+                sx={{width: "100px", textTransform: "capitalize"}}
+                onClick={handleClickProd}
+              >
+                <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+              </MuiButton>
+            </Box>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={7}>
+              <Box>
+                <>
+                  <InventorySearch
+                    getSearchfacility={getSearchfacility}
+                    clear={success}
+                  />
                   <input
                     className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                      productId
-                    }
+                    /* ref={register ({ required: true }) }  */ /* add array no */
+                    value={productId}
                     name="productId"
                     type="text"
                     onChange={e => setProductId(e.target.value)}
                     placeholder="Product Id"
+                    style={{display: "none"}}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-                {sellingprice && "N"}
-                {sellingprice} {sellingprice && "per"} {baseunit} {invquantity}{" "}
-                {sellingprice && "remaining"}
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={e => handleQtty(e)}
-                    placeholder="Quantity"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                </p>
-                <label>{baseunit}</label>
-              </div>
-              <div className="field">
-                <label>Amount:</label>
-                {/* <p>{quantity*sellingprice}</p> */}
-              </div>
-              <div className="field" style={{width: "40%"}}>
-                <p
-                  className="control has-icons-left " /* style={{display:"none"}} */
-                >
-                  <input
-                    className="input is-small"
-                    name="qamount"
-                    disabled={changeAmount}
-                    value={calcamount}
-                    type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
-                    placeholder="Amount"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-dollar-sign"></i>
-                  </span>
-                </p>
-                <button
-                  className="button is-small is-success btnheight"
+                </>
+
+                <Typography style={{fontSize: "0.75rem"}}>
+                  {sellingprice && "N"}
+                  {sellingprice} {sellingprice && "per"} {baseunit}
+                  {invquantity} {sellingprice && "remaining"}
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={2}>
+              <Input
+                /* ref={register({ required: true })} */
+                name="quantity"
+                value={quantity}
+                type="text"
+                onChange={e => handleQtty(e)}
+                label="Quantity"
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+              <Box container>
+                <Input
+                  /* ref={register({ required: true })} */
+                  name="qamount"
+                  disabled={changeAmount}
+                  value={calcamount}
+                  type="text"
+                  onChange={async e => await setCalcAmount(e.target.value)}
+                  label="Amount"
+                />
+                <MuiButton
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    textTransform: "capitalize",
+                    fontSize: "0.75rem",
+                  }}
                   onClick={handleChangeAmount}
                 >
                   Adjust
-                </button>
-              </div>
-              <div className="field">
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
+                </MuiButton>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
 
-          {productItem.length > 0 && (
-            <div>
-              <label>Product Items:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Quanitity</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Document No">Unit</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Selling Price</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Amount</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.name}</td>
-                      <th>{ProductEntry.quantity}</th>
-                      <td>{ProductEntry.baseunit}</td>
-                      <td>{ProductEntry.sellingprice}</td>
-                      <td>{ProductEntry.amount}</td>
-                      <td>
-                        <span className="showAction">x</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="field mt-2 is-grouped">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
-                  >
-                    Sell
-                  </button>
-                </p>
-                <p className="control">
-                  <button
-                    className="button is-warning is-small"
-                    disabled={!productItem.length > 0} /* onClick={onSubmit} */
-                  >
-                    Clear
-                  </button>
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+        {productItem.length > 0 && (
+          <Box sx={{height: "200px", widht: "300%"}}>
+            <CustomTable
+              title={""}
+              columns={productCreateSchema}
+              data={productItem}
+              pointerOnHover
+              highlightOnHover
+              striped
+            />
+          </Box>
+        )}
+
+        <Box
+          container
+          sx={{
+            width: "100%",
+            display: "flex",
+          }}
+          mt={2}
+        >
+          <MuiButton
+            variant="contained"
+            disabled={!productItem.length > 0}
+            onClick={onSubmit}
+            sx={{
+              width: "150px",
+              height: "40px",
+              textTransform: "capitalize",
+              marginRight: "15px",
+            }}
+          >
+            Sell
+          </MuiButton>
+          <MuiButton
+            variant="outlined"
+            color="error"
+            sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
+            onClick={closeModal}
+          >
+            Cancel
+          </MuiButton>
+        </Box>
+      </Box>
     </>
   );
 }
@@ -1584,6 +1608,7 @@ export function InventorySearch({getSearchfacility, clear}) {
     setProductModal(false);
     handleSearch(val);
   };
+
   useEffect(() => {
     if (clear) {
       console.log("success has changed", clear);
@@ -1591,15 +1616,16 @@ export function InventorySearch({getSearchfacility, clear}) {
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
-      <div className="field">
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: "100%" }}>
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -1607,22 +1633,23 @@ export function InventorySearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
+
             <div className="dropdown-menu expanded" style={{width: "100%"}}>
+
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""
                 ) : (
                   <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
+                    className="dropdown-item" 
                   >
                     {" "}
                     <span> {val} is not in your inventory</span>{" "}
@@ -1653,7 +1680,97 @@ export function InventorySearch({getSearchfacility, clear}) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Autocomplete
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+        }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              name: `"${params.inputValue} is not in your inventory"`,
+            });
+          }
+
+          return filtered;
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          // e.g value selected with enter, right from the input
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        renderOption={(props, option) => (
+          <div
+            {...props}
+            style={{
+              fontSize: "0.75rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderBottom: "1px solid gray",
+            }}
+          >
+            <div style={{marginBottom: "5px"}}>
+              <span>{option.name}</span>
+            </div>
+
+            <div style={{display: "flex"}}>
+              <div style={{marginRight: "10px"}}>
+                <span>
+                  <strong>{option.quantity} </strong>
+                </span>
+                <span>{option.baseunit}(s) remaining</span>
+              </div>
+              <div>
+                <span className="padleft">
+                  <strong>Price:</strong> N{option.sellingprice}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+        sx={{width: "100%", margin: "0.75rem 0"}}
+        freeSolo
+        renderInput={params => (
+          <TextField
+            {...params}
+            label="Search for Products"
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem !important",
+            }}
+            size="small"
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Choose Store"
+      >
+        <ProductCreate />
+      </ModalBox>
+      {/* 
       <div className={`modal ${productModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
@@ -1666,15 +1783,10 @@ export function InventorySearch({getSearchfacility, clear}) {
             ></button>
           </header>
           <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
             <ProductCreate />
           </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
