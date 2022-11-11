@@ -291,7 +291,7 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-                      label='Specific Details about patient'
+                      label='Specific Details '
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -301,20 +301,14 @@ const ClientForm = ({ open, setOpen }) => {
                   <h2>Next of Kin Information</h2>
 
                   <GridWrapper>
+                    <Input label='Full Name' register={register('nok_name')} />
                     <Input
-                      label='Next of Kin Full Name'
-                      register={register('nok_name')}
-                    />
-                    <Input
-                      label='Next of Kin Phone Number'
+                      label='Phone Number'
                       register={register('nok_phoneno')}
                     />
+                    <Input label=' Email' register={register('nok_email')} />
                     <Input
-                      label='Next of Kin Email'
-                      register={register('nok_email')}
-                    />
-                    <Input
-                      label='Next of Kin Relationship'
+                      label='Relationship'
                       register={register('nok_relationship')}
                     />
                     <Input
@@ -322,7 +316,7 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-                      label='Specific Details about patient'
+                      label='Specific Details '
                       register={register('specificDetails')}
                     />
                   </GridWrapper>

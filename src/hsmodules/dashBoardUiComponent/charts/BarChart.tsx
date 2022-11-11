@@ -1,16 +1,18 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
-import { barChartSeries } from "../utils/mock_chart_data";
-import ChartCard from "./ChartCard";
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
+import { barChartSeries } from '../utils/mock_chart_data';
+import ChartCard from './ChartCard';
 
 interface BarChartProps {
   title: string;
   series?: { name: string; data: [] }[];
+  xLabels?: any[];
 }
 
 const BarChart: React.FC<BarChartProps> = ({
   title,
   series = barChartSeries,
+  xLabels,
 }) => {
   const state = {
     series: series,
@@ -23,13 +25,13 @@ const BarChart: React.FC<BarChartProps> = ({
       states: {
         hover: {
           filter: {
-            type: "lighten",
+            type: 'lighten',
             value: 0.04,
           },
         },
         active: {
           filter: {
-            type: "darken",
+            type: 'darken',
             value: 0.88,
           },
         },
@@ -38,7 +40,7 @@ const BarChart: React.FC<BarChartProps> = ({
       fill: {
         opacity: 1,
         gradient: {
-          type: "vertical",
+          type: 'vertical',
           shadeIntensity: 0,
           opacityFrom: 0.4,
           opacityTo: 0,
@@ -56,11 +58,12 @@ const BarChart: React.FC<BarChartProps> = ({
       xaxis: {
         axisBorder: { show: false },
         axisTicks: { show: false },
+        categories: xLabels ? xLabels : [],
       },
       // Markers
       markers: {
         size: 0,
-        strokeColors: "white",
+        strokeColors: 'white',
       },
       // Tooltip
       tooltip: {
@@ -71,7 +74,7 @@ const BarChart: React.FC<BarChartProps> = ({
       plotOptions: {
         // Bar
         bar: {
-          columnWidth: "80%",
+          columnWidth: '80%',
           borderRadius: 4,
         },
       },
@@ -82,9 +85,9 @@ const BarChart: React.FC<BarChartProps> = ({
       <ReactApexChart
         options={state.options}
         series={state.series}
-        type="bar"
+        type='bar'
         height={200}
-        width="100%"
+        width='100%'
       />
     </ChartCard>
   );
