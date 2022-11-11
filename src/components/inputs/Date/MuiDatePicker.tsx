@@ -22,7 +22,11 @@ const MuiCustomDatePicker = ({label, format = "MM/DD/YYYY"}) => {
           setValue(newValue);
         }}
         renderInput={params => (
-          <TextField size="small" {...params} sx={{marginTop: "0.75rem"}} />
+          <TextField
+            size="small"
+            {...params}
+            sx={{marginTop: "0.75rem", width: "100%"}}
+          />
         )}
       />
     </LocalizationProvider>

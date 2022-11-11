@@ -185,21 +185,21 @@ const LeadsCreate = () => {
         </Grid>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Input
               register={register("local_govt", {required: true})}
               label="Weight Forcast"
               //placeholder="Enter customer number"
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <MuiCustomDatePicker
               //format="dd/MM/yyyy"
               label="Projected closing Date"
             />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <MuiCustomDatePicker
               //format="dd/MM/yyyy"
               label="Date of submission"
