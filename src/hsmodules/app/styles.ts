@@ -8,9 +8,9 @@ import AccordionBox from '../../components/accordion';
 
 export const PageWrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 60px);
+  height: auto;
   overflow-y: hidden;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem;
   transition: width 2s, height 4s;
   animation: divanimation 0.6s;
   -webkit-animation: divanimation 0.6s;
@@ -48,7 +48,7 @@ export const HeadWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   animation: divanimation 0.6s;
   -webkit-animation: divanimation 0.6s;
   animation-fill-mode: forwards;
@@ -256,7 +256,6 @@ export const BottomWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   height: 44px;
-  margin-top: 2rem;
 
   &.long {
     @media (max-width: 400px) {
@@ -278,7 +277,7 @@ export const BottomWrapper = styled.div`
   }
 `;
 
-export const autoSuggestStyles = defaultTheme => {
+export const autoSuggestStyles = (defaultTheme) => {
   const classes: any = makeStyles(() => {
     return {
       container: {
