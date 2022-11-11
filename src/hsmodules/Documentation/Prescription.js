@@ -1270,7 +1270,7 @@ export function DrugAdminList({standalone}) {
       name: "S/N",
       key: "sn",
       description: "SN",
-      width: "30px",
+      width: "70px",
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",

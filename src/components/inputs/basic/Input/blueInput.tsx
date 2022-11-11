@@ -1,7 +1,7 @@
 import { FormHelperText } from '@mui/material';
 import React from 'react';
 
-import { InputBox, InputField, InputLabel } from './styles';
+import { BlueInputBox, BlueInputField, BlueInputLabel } from './styles';
 
 interface InputProps {
   label?: string;
@@ -29,7 +29,7 @@ interface InputProps {
 
 // https://stackoverflow.com/questions/57419955/how-to-set-or-clear-value-of-material-ui-input-in-reactjs
 
-const Input: React.FC<InputProps> = ({
+const BlueInput: React.FC<InputProps> = ({
   label,
   errorText,
   type = 'text',
@@ -47,8 +47,8 @@ const Input: React.FC<InputProps> = ({
   sx,
 }) => (
   <div>
-    <InputBox>
-      <InputField
+    <BlueInputBox>
+      <BlueInputField
         className="form_checkbox"
         onChange={onChange}
         type={type}
@@ -62,10 +62,10 @@ const Input: React.FC<InputProps> = ({
         autoComplete={autoComplete}
         sx={{ width: '16px', ...sx }}
       />
-      <InputLabel className="form__label" htmlFor={name}>
+      <BlueInputLabel className="form__label" htmlFor={name}>
         {label}
-      </InputLabel>
-    </InputBox>
+      </BlueInputLabel>
+    </BlueInputBox>
     {errorText && (
       <label style={{ color: 'red', fontSize: '0.7rem', textAlign: 'left' }}>
         {errorText}
@@ -74,4 +74,4 @@ const Input: React.FC<InputProps> = ({
   </div>
 );
 
-export default Input;
+export default BlueInput;

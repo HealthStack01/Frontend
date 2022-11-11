@@ -165,11 +165,17 @@ import ReferralHome from "./Referral/ReferralHome";
 import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-import Proposal from "./CRM/Proposal";
-import Invoice from "./CRM/Invoice";
+import Proposal from "./CRM/proposal";
+import Invoice from "./CRM/invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
+import Complaint from "./Complaints/Complaint"
+import ImmunizationHome from "./Immunization/ImmunizationHome";
+import VaccineProfile from "./Immunization/VaccineProfile";
+import BloodBankInventory from "./Bloodbank/Inventory";
+import BloodBankHome from "./Bloodbank/BloodBankHome";
+import PremiumPayment from "./ManagedCare/Payment";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -625,6 +631,7 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route path="/app/managed-care/healthplan" />
+            <Route path="/app/managed-care/premiums" />
           </Route>
           {/**************************CRM *************************************** */}
           <Route path="/app/crm" element={<CRMHome />}>
@@ -635,6 +642,17 @@ const AppRoutes = () => {
             <Route path="/app/crm/appointment" element={<CrmAppointment />} />
             <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" />
+          </Route>
+          
+          {/**************************COMPLAINT *************************************** */}
+          <Route path="/app/complaints/complaints-complaints" element={<Complaint />}>
+            {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
+            {/* <Route path="/app/crm/proposal" element={<Proposal />} />
+            <Route path="/app/crm/invoice" element={<Invoice />} />
+            <Route path="/app/crm/SLA" element={<SLA />} />
+            <Route path="/app/crm/appointment" element={<CrmAppointment />} />
+            <Route path="/app/crm/deal" element={<Deal />} />
+            <Route path="/app/crm/dashboard" /> */}
           </Route>
 
           {/**************************Referral *************************************** */}
@@ -680,9 +698,12 @@ const AppRoutes = () => {
           </Route>
 
           {/**************************Immunization *************************************** */}
-          <Route path="/app/immunization">
+          <Route path="/app/immunization" element={<ImmunizationHome />}>
             <Route path="/app/immunization/schedule" />
-            <Route path="/app/immunization/vaccineprofile" />
+            <Route
+              path="/app/immunization/vaccineprofile"
+              element={<VaccineProfile />}
+            />
             <Route path="/app/immunization/appointment" />
             <Route path="/app/immunization/checkin-out" />
             <Route path="/app/immunization/report" />
@@ -690,8 +711,11 @@ const AppRoutes = () => {
           </Route>
 
           {/**************************Blood Bank *************************************** */}
-          <Route path="/app/blood-bank">
-            <Route path="/app/blood-bank/inventory" />
+          <Route path="/app/blood-bank" element={<BloodBankHome />}>
+            <Route
+              path="/app/blood-bank/inventory"
+              element={<BloodBankInventory />}
+            />
             <Route path="/app/blood-bank/appointment" />
             <Route path="/app/blood-bank/lab" />
             <Route path="/app/blood-bank/dashboard" />

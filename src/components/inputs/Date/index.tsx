@@ -2,6 +2,7 @@ import { Box, FormControl, FormHelperText } from '@mui/material';
 
 import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import { InputLabel } from './styles';
 
 interface Props {
   label: string;
@@ -11,6 +12,7 @@ interface Props {
   errors?: any;
   name: any;
   defaultValue?: any;
+  selected?: any;
 }
 
 const BasicDatePicker: React.FC<Props> = ({
@@ -21,20 +23,24 @@ const BasicDatePicker: React.FC<Props> = ({
   name,
   errors = {},
   defaultValue,
+  selected,
 }) => {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2014-08-18'));
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
   };
   return (
-    <Box sx={{ my: 2 }}>
+    <Box>
       <FormControl style={{ width: '100%' }}>
-        <label className='form__label'>{label}</label>
+        <InputLabel className="form__label" htmlFor={name}>
+          {label}
+        </InputLabel>
         <input
           {...register}
-          type='date'
-          className='date-picker'
+          type="date"
+          className="date-picker"
           defaultValue={defaultValue}
+          selected={selected}
         />
         {errors[name] && (
           <FormHelperText error>{errors[name].message}</FormHelperText>
