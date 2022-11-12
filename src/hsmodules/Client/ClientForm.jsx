@@ -298,11 +298,7 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-<<<<<<< HEAD
                       label='Specific Details '
-=======
-                      label="Specific Details about patient"
->>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -314,28 +310,12 @@ const ClientForm = ({ open, setOpen }) => {
                   <GridWrapper>
                     <Input label='Full Name' register={register('nok_name')} />
                     <Input
-<<<<<<< HEAD
                       label='Phone Number'
-=======
-                      label="Next of Kin Full Name"
-                      register={register('nok_name')}
-                    />
-                    <Input
-                      label="Next of Kin Phone Number"
->>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('nok_phoneno')}
                     />
                     <Input label=' Email' register={register('nok_email')} />
                     <Input
-<<<<<<< HEAD
                       label='Relationship'
-=======
-                      label="Next of Kin Email"
-                      register={register('nok_email')}
-                    />
-                    <Input
-                      label="Next of Kin Relationship"
->>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('nok_relationship')}
                     />
                     <Input
@@ -343,11 +323,7 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-<<<<<<< HEAD
                       label='Specific Details '
-=======
-                      label="Specific Details about patient"
->>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -355,16 +331,10 @@ const ClientForm = ({ open, setOpen }) => {
 
                 <BottomWrapper>
                   <Button
-<<<<<<< HEAD
                     label='Close'
                     background='#FFE9E9'
                     color='#ED0423'
                     onClick={() => setOpen(false)}
-=======
-                    label="Clear Form"
-                    background="#FFE9E9"
-                    color="#ED0423"
->>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                   />
                   <Button label="Save Form" type="submit" loading={loading} />
                 </BottomWrapper>
