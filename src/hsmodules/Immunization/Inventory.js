@@ -29,7 +29,7 @@ import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Outgoing() {
+export default function ImmunizationInventory() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -39,7 +39,10 @@ export default function Outgoing() {
 
   return (
     <section className="section remPadTop">
-      <OutgoingList showModal={showModal} setShowModal={setShowModal} />
+      <ImmunizationInventoryList
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </section>
   );
 }
@@ -445,7 +448,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function OutgoingList({ showModal, setShowModal }) {
+export function ImmunizationInventoryList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -720,62 +723,66 @@ export function OutgoingList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      name: "Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Approved",
-      reason: "Lorem Ipsum",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
     {
-      name: "Albert Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Approved",
-      reason: "Lorem Ipsum",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
     {
-      name: "Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Unapproved",
-      reason: "Lorem Ipsum",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
 
     {
-      name: "Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Approved",
-      reason: "Lorem Ipsum",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
   ];
 
-  const returnCell = (status) => {
+  const returnCell = (expiry) => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
-    switch (status.toLowerCase()) {
-      case "approved":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+    switch (expiry.toLowerCase()) {
+      case "exist":
+        return <span style={{ color: "#17935C" }}>{expiry}</span>;
 
-      case "unapproved":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+      case "inactive":
+        return <span style={{ color: "#0364FF" }}>{expiry}</span>;
 
       default:
         break;
     }
   };
 
-  const OutgoingSchema = [
+  const ImmunizationInventorySchema = [
     {
       name: "S/N",
       key: "sn",
@@ -786,65 +793,75 @@ export function OutgoingList({ showModal, setShowModal }) {
       width: "80px",
     },
     {
-      name: " Patient Name",
-      key: "name",
+      name: " Product",
+      key: "product",
       description: "Enter name of Company",
-      selector: (row) => row.name,
+      selector: (row) => row.product,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Policy Id",
-      key: "phone_no",
-      description: "Enter bills",
-      selector: (row) => row.phone_no,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Referral Code",
-      key: "code",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.code,
+      name: "Quantity",
+      key: "quantity",
+      description: "Enter Telestaff name",
+      selector: (row) => row.quantity,
       sortable: true,
       required: true,
       inputType: "NUMBER",
     },
     {
-      name: "Referral Provider",
-      key: "provider",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.provider,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Destination Provider",
-      key: "destination",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.destination,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Status",
-      key: "status",
+      name: "Blood Group",
+      key: "group",
       description: "Enter bills",
-      selector: "status",
-      cell: (row) => returnCell(row.status),
+      selector: (row) => row.group,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Reason for Request",
-      key: "provider",
+      name: "Stock Value",
+      key: "value",
       description: "Enter name of Disease",
-      selector: (row, i) => row.reason,
+      selector: (row, i) => row.value,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Cost Price",
+      key: "cost_price",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.cost_price,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Selling Price",
+      key: "selling_price",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.selling_price,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Pre-Order Level",
+      key: "level",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.level,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Expiry",
+      key: "expiry",
+      description: "Enter bills",
+      selector: "expiry",
+      cell: (row) => returnCell(row.expiry),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -867,14 +884,14 @@ export function OutgoingList({ showModal, setShowModal }) {
                     </div>
                   )}
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Outgoing{" "}
+                    Invoice
                   </h2>
                 </div>
 
                 {handleCreateNew && (
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Incoming "
+                    label="Add new "
                     onClick={handleCreateNew}
                   />
                 )}
@@ -883,7 +900,7 @@ export function OutgoingList({ showModal, setShowModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={OutgoingSchema}
+                    columns={BloodBankInventorySchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover

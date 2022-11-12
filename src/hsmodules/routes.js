@@ -184,12 +184,13 @@ import ImmunizationHome from "./Immunization/ImmunizationHome";
 import VaccineProfile from "./Immunization/VaccineProfile";
 import BloodBankInventory from "./Bloodbank/Inventory";
 import BloodBankHome from "./Bloodbank/BloodBankHome";
-import Incoming from "./Referral/Incoming";
-import Outgoing from "./Referral/Outgoing";
 import PremiumPayment from "./ManagedCare/PremiumPayment";
 import BloodBankAppointments from "./Appointment/bloodBankAppoinment";
 import ImmunizationAppointments from "./Appointment/immunizationAppoinment";
 import ImmunizationCheckIn from "./Immunization/Checkin";
+import ReferralIncoming from "./Appointment/referralWorkflow";
+import BloodBankLab from "./Bloodbank/Lab";
+import ImmunizationInventory from "./Immunization/Inventory";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -682,8 +683,11 @@ const AppRoutes = () => {
 
           {/**************************Referral *************************************** */}
           <Route path="/app/referral" element={<ReferralHome />}>
-            <Route path="/app/referral/incoming" element={<Incoming />} />
-            <Route path="/app/referral/outgoing" element={<Outgoing />} />
+            <Route
+              path="/app/referral/incoming"
+              element={<ReferralIncoming />}
+            />
+            {/* <Route path="/app/referral/outgoing" element={<Outgoing />} /> */}
             <Route path="/app/referral/account" />
             <Route path="/app/referral/setting" />
             <Route path="/app/referral/dashboard" />
@@ -737,6 +741,10 @@ const AppRoutes = () => {
               element={<ImmunizationCheckIn />}
             />
             <Route path="/app/immunization/report" />
+            <Route
+              path="/app/immunization/inventory"
+              element={<ImmunizationInventory />}
+            />
             <Route path="/app/immunization/dashboard" />
           </Route>
 
@@ -750,7 +758,7 @@ const AppRoutes = () => {
               path="/app/blood-bank/appointment"
               element={<BloodBankAppointments />}
             />
-            <Route path="/app/blood-bank/lab" />
+            <Route path="/app/blood-bank/lab" element={<BloodBankLab />} />
             <Route path="/app/blood-bank/dashboard" />
           </Route>
         </Route>
