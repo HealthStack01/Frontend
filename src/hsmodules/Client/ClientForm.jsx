@@ -5,13 +5,10 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import BasicDatePicker from '../../components/inputs/Date';
-import { UserContext } from '../../context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import client from '../../feathers';
 import {
   BottomWrapper,
-  DetailsWrapper,
-  GrayWrapper,
   GridWrapper,
   HeadWrapper,
   PageWrapper,
@@ -66,7 +63,7 @@ const ClientForm = ({ open, setOpen }) => {
   const showRegister = data => console.log('>>>>>>', data);
 
   return (
-    <ModalBox open={open} setOpen={setOpen}>
+    <ModalBox open={open} onClose={setOpen}>
       <form onSubmit={handleSubmit(submit)}>
         <ToastContainer theme='colored' />
 
@@ -102,9 +99,15 @@ const ClientForm = ({ open, setOpen }) => {
             <ToastContainer theme='colored' />
 
             {!isFullRegistration ? (
-              <div style={{ height: '100%', overflowY: 'scroll' }}>
+              <div style={{ width: '80vw' }}>
                 <ViewBox>
-                  <GridWrapper className='height-auto'>
+                  <GridWrapper
+                    className='height-auto'
+                    style={{
+                      marginTop: '1rem',
+                      gap: '1rem',
+                    }}
+                  >
                     <Input
                       label='First Name'
                       register={register('firstname')}
@@ -175,15 +178,18 @@ const ClientForm = ({ open, setOpen }) => {
 
                 <BottomWrapper>
                   <Button
-                    label='Clear Form'
+                    label='Close'
                     background='#FFE9E9'
                     color='#ED0423'
+                    onClick={() => setOpen(false)}
                   />
                   <Button label='Save Form' type='submit' loading={loading} />
                 </BottomWrapper>
               </div>
             ) : (
-              <div style={{ height: '80vh', overflowY: 'scroll' }}>
+              <div
+                style={{ height: '80vh', overflowY: 'scroll', width: '80vw' }}
+              >
                 {/* Names Section */}
 
                 <ViewBox>
@@ -291,7 +297,7 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-                      label='Specific Details about patient'
+                      label='Specific Details '
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -301,20 +307,14 @@ const ClientForm = ({ open, setOpen }) => {
                   <h2>Next of Kin Information</h2>
 
                   <GridWrapper>
+                    <Input label='Full Name' register={register('nok_name')} />
                     <Input
-                      label='Next of Kin Full Name'
-                      register={register('nok_name')}
-                    />
-                    <Input
-                      label='Next of Kin Phone Number'
+                      label='Phone Number'
                       register={register('nok_phoneno')}
                     />
+                    <Input label=' Email' register={register('nok_email')} />
                     <Input
-                      label='Next of Kin Email'
-                      register={register('nok_email')}
-                    />
-                    <Input
-                      label='Next of Kin Relationship'
+                      label='Relationship'
                       register={register('nok_relationship')}
                     />
                     <Input
@@ -322,7 +322,7 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-                      label='Specific Details about patient'
+                      label='Specific Details '
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -330,9 +330,10 @@ const ClientForm = ({ open, setOpen }) => {
 
                 <BottomWrapper>
                   <Button
-                    label='Clear Form'
+                    label='Close'
                     background='#FFE9E9'
                     color='#ED0423'
+                    onClick={() => setOpen(false)}
                   />
                   <Button label='Save Form' type='submit' loading={loading} />
                 </BottomWrapper>

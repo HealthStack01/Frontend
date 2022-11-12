@@ -53,13 +53,6 @@ export default function EpidemiologyHome({children}) {
     <section className="section remPadTop">
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
-          <div className="container has-text-centered">
-            <h1 className="title">Epidemiology Module</h1>
-            <h2 className="subtitle">
-              Insights into incidence, distribution, and control of diseases as
-              well as other factors relating to our health!
-            </h2>
-          </div>
           <div className="layout__content-main">
             <ModalBox open={storeModal}>
               <Box

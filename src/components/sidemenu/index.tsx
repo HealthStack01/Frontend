@@ -340,12 +340,12 @@ export const menuItems = [
       {name: "Lab", to: "/app/blood-bank/lab"},
     ],
   },
-  {
-    name: "Dont Click Me",
-    exact: true,
-    to: "/app/documentation",
-    iconClassName: "bi bi-box-arrow-right",
-  },
+  // {
+  //   name: "Dont Click Me",
+  //   exact: true,
+  //   to: "/app/documentation",
+  //   iconClassName: "bi bi-box-arrow-right",
+  // },
   {
     name: "Logout",
     exact: true,

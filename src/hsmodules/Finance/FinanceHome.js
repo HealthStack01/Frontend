@@ -20,6 +20,8 @@ export default function FinacneHome({children}) {
   //   setState(state);
   //   console.log(state.showStoreModal);
 
+  console.log(user);
+
   useEffect(() => {
     console.log("starting up Finance module");
     if (!selectedStore) {
@@ -54,11 +56,8 @@ export default function FinacneHome({children}) {
     <section className="section remPadTop">
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
-          <div className="container has-text-centered">
-            <h1 className="title">Finance Module</h1>
-            <h2 className="subtitle">Have fun working today!</h2>
-          </div>
           <div className="layout__content-main">
+            <p onClick={() => console.log(user)}>Console</p>
             <ModalBox open={storeModal}>
               <Box
                 sx={{
