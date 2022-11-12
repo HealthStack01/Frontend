@@ -7,6 +7,7 @@ import {MdCancel} from "react-icons/md";
 import {Box, Grid} from "@mui/material";
 import ModalHeader from "./ui-components/modal";
 import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {PageWrapper} from "../../ui/styled/styles";
@@ -16,11 +17,11 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Bands() {
+export default function ClientProblems() {
   console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
@@ -57,27 +58,27 @@ export default function Bands() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        <BandList
+        <ClientProblemsList
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
         <ModalBox open={createModal} onClose={handleHideCreateModal}>
-          <BandCreate />
+          <ClientProblemsCreate />
         </ModalBox>
 
         <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-          <BandDetail showModifyModal={handleModifyModal} />
+          <ClientProblemsDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
         <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-          <BandModify />
+          <ClientProblemsModify />
         </ModalBox>
       </div>
     </section>
   );
 }
 
-export function BandCreate() {
+export function ClientProblemsCreate() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -90,11 +91,14 @@ export function BandCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const bandTypeOptions = [
-    "Provider",
-    "Company",
-    "Patient",
-    "Plan",
-    "Corporate Sponsor",
+    // "Provider",
+    // "Company",
+    // "Patient",
+    // "Plan",
+    // "Corporate Sponsor",
+    "Itching",
+    "Irritation",
+    "Nausea",
   ];
 
   //corporate sponsors pay premium and not claims
@@ -118,7 +122,7 @@ export function BandCreate() {
     //setFacility(user.activeBand.FacilityId)//
     if (!user.stacker) {
       console.log(currentUser);
-      setValue("facility", user.currentEmployee.facilityDetail._id, {
+      setValue("facility", user.currentEmployee?.facilityDetail?._id, {
         shouldValidate: true,
         shouldDirty: true,
       });
@@ -167,7 +171,7 @@ export function BandCreate() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create Band</p>
+          <p className="card-header-title">Create Problem</p>
         </div>
         <div className="card-content vscrollable">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -183,10 +187,12 @@ export function BandCreate() {
               <div className="control">
                 
                 <CustomSelect
-                  label="choose band type"
-                  name="bandType"           
+                  // label="choose band type"
+                  // name="bandType"           
+                  label="choose problem"
+                  name="Problem Type"           
                   options={bandTypeOptions}
-                  register={register("bandtype", {required:true})}
+                  register={register("problemtype", {required:true})}
                   onChange={(e)=>handleChangeMode(e.target.value)}
             />
               </div>
@@ -195,11 +201,11 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("name", {required:true})}
+                  register={register("onset", {required:true})}
           
-                  name="name"
-                  type="text"
-                  placeholder="Name of Band"
+                  name="onset"
+                  type="date"
+                  placeholder="Date of Onset"
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-map-signs"></i>
@@ -210,11 +216,26 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("description", {required:true})}
+                  register={register("assessment", {required:true})}
             
-                  name="description"
+                  name="Assessment"
                   type="text"
-                  placeholder="Description of Band"
+                  placeholder="Assessment"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-map-signs"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <Input
+                  className="input is-small"
+                  register={register("note", {required:true})}
+            
+                  name="Note"
+                  type="text"
+                  placeholder="Note"
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-map-signs"></i>
@@ -247,7 +268,7 @@ export function BandCreate() {
                     </span>
                 </p>
             </div> */}
-            <div
+            {/* <div
               className="field"
               style={!user.stacker ? {display: "none"} : {}}
             >
@@ -268,7 +289,7 @@ export function BandCreate() {
                   <i className="fas  fa-map-marker-alt"></i>
                 </span>
               </p>
-            </div>
+            </div> */}
             {/*  <div className="field">
                 <div className="control has-icons-left">
                     <div className="dropdown ">
@@ -325,7 +346,7 @@ export function BandCreate() {
   );
 }
 
-export function BandList({showCreateModal, showDetailModal}) {
+export function ClientProblemsList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -507,6 +528,68 @@ export function BandList({showCreateModal, showDetailModal}) {
     },
   ];
 
+  const ProblemSchema = [
+    {
+      name: "Problem",
+      key: "problem",
+      description: "Enter name of problem",
+      selector: row => row.problem,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    
+    {
+      name: "Date administer",
+      key: "date",
+      description: "Enter name of date",
+      selector: row => row.date,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Note",
+      key: "note",
+      description: "Enter note",
+      selector: row => row.note,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Date of Assesment",
+      key: "assessment",
+      description: "Enter date of assessment",
+      selector: row => row.assessment,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+  ]
+
+  const ProblemData = [
+      {
+      problem: "Itching",
+      date: "27-10-2022",
+      note: "Lorem ipsum dolor....",
+      assessment: "29-10-2022",
+      },
+      {
+      problem: "Sneezing",
+      date: "27-10-2022",
+      note: "Lorem ipsum dolor....",
+      assessment: "29-10-2022",
+      },
+      {
+      problem: "Iritation",
+      date: "27-10-2022",
+      note: "Lorem ipsum dolor....",
+      assessment: "29-10-2022",
+      },
+  ]
+
   return (
     <>
       {facilities ? (
@@ -539,8 +622,10 @@ export function BandList({showCreateModal, showDetailModal}) {
               <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
-                  columns={BandSchema}
-                  data={facilities}
+                  // columns={BandSchema}
+                  // data={facilities}
+                  columns={ProblemSchema}
+                  data={ProblemData}
                   pointerOnHover
                   highlightOnHover
                   striped
@@ -558,7 +643,7 @@ export function BandList({showCreateModal, showDetailModal}) {
   );
 }
 
-export function BandDetail({showModifyModal}) {
+export function ClientProblemsDetail({showModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -655,7 +740,7 @@ export function BandDetail({showModifyModal}) {
   );
 }
 
-export function BandModify() {
+export function ClientProblemsModify() {
   const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);

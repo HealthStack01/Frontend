@@ -6,9 +6,15 @@ import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
+import {Box, getValue} from "@mui/system";
+import {Button, Collapse, Grid, IconButton, Typography} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import Input from "../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import RadioButton from "../../components/inputs/basic/Radio";
 
 export default function AsthmaIntake() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, getValues, watch} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -28,6 +34,8 @@ export default function AsthmaIntake() {
   const [docStatus, setDocStatus] = useState("Draft");
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  const formValues = getValues();
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
@@ -70,8 +78,16 @@ export default function AsthmaIntake() {
     }
   });
 
+  const onSubmitTest = (data, e) => {
+    e.preventDefault();
+
+    console.log(data);
+    console.log(formValues);
+  };
+
   const onSubmit = (data, e) => {
     e.preventDefault();
+
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -208,8 +224,128 @@ export default function AsthmaIntake() {
     setAllergine("");
   };
 
+  //USE THIS TO SHOW OTHER RACES INPUT WHEN USER SELECT OTHERS// CAN BE IMPLEMENTED FOR SIMILAR RADIO INPUTS TOO
+  const selectedRace = watch("Race", "Others");
+  const selectedEducation = watch("Education", "Others (Specify)");
+
   return (
     <>
+      <Box sx={{width: "100%"}}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography>Adult Asthma Questionnaire</Typography>
+          <IconButton>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+
+        <form onSubmit={handleSubmit(onSubmitTest)}>
+          <Grid>
+            <Input
+              register={register("Name")}
+              //name="Name"
+              type="text"
+              label="Name or Initials"
+            />
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <MuiCustomDatePicker label="Date" register={register("Date")} />
+            </Grid>
+
+            <Grid item xs={6}>
+              <MuiCustomDatePicker
+                label="Date of birth"
+                register={register("DOB")}
+              />
+            </Grid>
+          </Grid>
+
+          <Box>
+            <RadioButton
+              register={register("Gender")}
+              title="4. Gender"
+              options={["Male", "Female"]}
+            />
+          </Box>
+
+          <Box>
+            <RadioButton
+              register={register("Race")}
+              title="5. Race"
+              options={["African", "Caucasian", "Asian", "Indian", "Others"]}
+            />
+
+            <Collapse in={selectedRace === "Others"}>
+              <Box>
+                <Input
+                  label="Other race"
+                  register={register("Others_race")}
+                  name="Others_race"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+          </Box>
+
+          <Box>
+            <RadioButton
+              register={register("Race")}
+              title="6. Maritial Status"
+              options={[
+                "Single",
+                "Married",
+                "Widowed",
+                "Divorced",
+                "Seperated",
+              ]}
+            />
+          </Box>
+
+          <Box>
+            <Input
+              label="Occupation"
+              name="Occupation"
+              type="text"
+              register={register("Occupation")}
+            />
+          </Box>
+
+          <Box>
+            <RadioButton
+              register={register("Education")}
+              title="8. Level of Education"
+              options={[
+                "Uneducated",
+                "Primary School",
+                "Secondary School",
+                "Diploma /Degree",
+                "Others (Specify)",
+              ]}
+            />
+
+            <Collapse in={selectedEducation === "Others (Specify)"}>
+              <Box>
+                <Input
+                  label="Other levl of Education"
+                  register={register("others_education")}
+                  name="others_education"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+          </Box>
+
+          <Button type="submit">Submit</Button>
+        </form>
+      </Box>
+
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Adult Asthma Questionnaire</p>
@@ -221,12 +357,13 @@ export default function AsthmaIntake() {
                 <label className="label is-size-7">
                  Test:  {order.serviceInfo.name}
                 </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+          {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+          <form>
             <div className="field">
               <p className="control ">
                 <input
                   className="input is-small"
-                  {...register("input_name")}
+                  // {...register("input_name")}
                   name="Date"
                   type="text"
                   placeholder="Date"
@@ -237,7 +374,7 @@ export default function AsthmaIntake() {
               <p className="control ">
                 <input
                   className="input is-small"
-                  {...register("input_name")}
+                  //{...register("input_name")}
                   name="Name"
                   type="text"
                   placeholder="Name or Initials"
@@ -336,6 +473,8 @@ export default function AsthmaIntake() {
               </p>
             </div>
 
+            {/* ******************* START FROM BELOW TO CONTINUE **************** */}
+
             <div className="field">
               <label>6. Marital Status</label>
               <label className=" is-small ml-2">
@@ -393,13 +532,7 @@ export default function AsthmaIntake() {
             </div>
             <div className="field">
               <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Occupation"
-                  type="text"
-                  placeholder="Occupation"
-                />
+                <input className="input is-small" {...register("input_name")} />
               </p>
             </div>
             <div className="field ">

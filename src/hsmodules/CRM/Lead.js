@@ -46,9 +46,9 @@ export default function Leads() {
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
-        header="Create Lead"
+        header="Create New Lead"
       >
-        <LeadsCreate />
+        <LeadsCreate closeModal={() => setCreateModal(false)} />
       </ModalBox>
     </section>
   );

@@ -208,6 +208,7 @@ const AppRoutes = () => {
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
+
   useEffect(() => {
     const paths = location.pathname.split("/");
     const newModule = paths.length > 2 && paths[2];

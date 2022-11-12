@@ -7,9 +7,14 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 interface componentProps {
   format?: string;
   label?: string;
+  register?: any;
 }
 
-const MuiCustomDatePicker = ({label, format = "MM/DD/YYYY"}) => {
+const MuiCustomDatePicker = ({
+  label,
+  format = "MM/DD/YYYY",
+  register,
+}: componentProps) => {
   const [value, setValue] = React.useState(null);
 
   return (
@@ -18,11 +23,13 @@ const MuiCustomDatePicker = ({label, format = "MM/DD/YYYY"}) => {
         label={label}
         value={value}
         inputFormat={format}
-        onChange={newValue => {
-          setValue(newValue);
-        }}
+        {...register}
         renderInput={params => (
-          <TextField size="small" {...params} sx={{marginTop: "0.75rem"}} />
+          <TextField
+            size="small"
+            {...params}
+            sx={{marginTop: "0.75rem", width: "100%"}}
+          />
         )}
       />
     </LocalizationProvider>
