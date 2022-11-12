@@ -1,6 +1,6 @@
-import React from "react";
-import DataTable from "react-data-table-component";
-import EmptyData from "../../../../components/empty";
+import React from 'react';
+import DataTable from 'react-data-table-component';
+import EmptyData from '../../../../components/empty';
 
 //import { customStyles } from './styles';
 
@@ -19,46 +19,46 @@ interface Props {
 }
 
 const CustomLoader = () => (
-  <div style={{ padding: "24px" }}>
-    <img src="/loading.gif" width={400} />
+  <div style={{ padding: '24px' }}>
+    <img src='/loading.gif' width={400} />
   </div>
 );
 
 const customStyles = {
   rows: {
     style: {
-      minHeight: "64px", // override the row height
-      "&:not(:last-of-type)": {
-        borderBottomWidth: "0px",
+      minHeight: '64px', // override the row height
+      '&:not(:last-of-type)': {
+        borderBottomWidth: '0px',
       },
-      padding: "0.75rem",
-      backgroundColor: "##F8F8F8",
+      padding: '0.75rem',
+      backgroundColor: '##F8F8F8',
     },
   },
   headRow: {
     style: {
-      borderBottomWidth: "0px",
-      padding: "24px",
-      backgroundColor: "#F8F8F8",
-      fontSize: "0.75rem",
+      borderBottomWidth: '0px',
+      padding: '24px',
+      backgroundColor: '#F8F8F8',
+      fontSize: '0.75rem',
     },
   },
   headCells: {
     style: {
-      paddingLeft: "8px", // override the cell padding for head cells
-      paddingRight: "8px",
-      fontSize: "0.75rem",
-      fontWeight: "bold",
-      color: "#33415C",
+      paddingLeft: '8px', // override the cell padding for head cells
+      paddingRight: '8px',
+      fontSize: '0.75rem',
+      fontWeight: 'bold',
+      color: '#000',
     },
   },
   cells: {
     style: {
-      paddingLeft: "8px", // override the cell padding for data cells
-      paddingRight: "8px",
-      fontSize: "o.75rem",
-      color: "#2d2d2d",
-      fontWeight: "400",
+      paddingLeft: '8px', // override the cell padding for data cells
+      paddingRight: '8px',
+      fontSize: 'o.75rem',
+      color: '#000',
+      fontWeight: '400',
     },
   },
 };
@@ -89,11 +89,11 @@ const CustomTable: React.FC<Props> = ({
       fixedHeader={true}
       selectableRows={selectable}
       onSelectedRowsChange={onSelectedRowsChange}
-      fixedHeaderScrollHeight="100%"
+      fixedHeaderScrollHeight='100%'
       responsive
       dense={dense}
       style={{
-        width: "100%",
+        width: '100%',
       }}
       progressComponent={<CustomLoader />}
       progressPending={progressPending}

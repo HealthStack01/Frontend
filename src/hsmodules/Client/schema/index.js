@@ -99,6 +99,7 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: 'TEXT',
+    omit: true,
   },
 
   {
@@ -109,6 +110,7 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: 'TEXT',
+    omit: true,
   },
 
   {
@@ -119,6 +121,7 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: 'TEXT',
+    omit: true,
   },
 
   {
@@ -139,6 +142,7 @@ export const ClientMiniSchema = [
     sortable: true,
     required: true,
     inputType: 'TEXT',
+    omit: true,
   },
 
   {
