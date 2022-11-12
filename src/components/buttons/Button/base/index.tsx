@@ -21,7 +21,11 @@ const BaseButton: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => (
-  <button {...props} disabled={disabled}>
+  <button
+    {...props}
+    disabled={disabled}
+    style={{ fontSize: '1rem !important' }}
+  >
     {showicon ? <i className={icon} /> : null}
     {loading ? (
       <Spinner />

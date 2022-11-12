@@ -12,7 +12,8 @@ interface ModalProps {
   width?: 'string';
 }
 const style = {
-  minWidth: '800px',
+  minWidth: '80%',
+  width: '80%',
   maxWidth: '95vw',
   minHeight: '200px',
 

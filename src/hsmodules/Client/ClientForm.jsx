@@ -175,9 +175,10 @@ const ClientForm = ({ open, setOpen }) => {
 
                 <BottomWrapper>
                   <Button
-                    label='Clear Form'
+                    label='Close'
                     background='#FFE9E9'
                     color='#ED0423'
+                    onClick={() => setOpen(false)}
                   />
                   <Button label='Save Form' type='submit' loading={loading} />
                 </BottomWrapper>
@@ -324,9 +325,10 @@ const ClientForm = ({ open, setOpen }) => {
 
                 <BottomWrapper>
                   <Button
-                    label='Clear Form'
+                    label='Close'
                     background='#FFE9E9'
                     color='#ED0423'
+                    onClick={() => setOpen(false)}
                   />
                   <Button label='Save Form' type='submit' loading={loading} />
                 </BottomWrapper>

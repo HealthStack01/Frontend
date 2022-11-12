@@ -31,12 +31,12 @@ export const AuthContainer = styled.div`
   }
 
   & .aside-child {
-    width: 400px;
+    width: 25rem;
     margin-top: 3rem;
     text-align: left;
 
     @media (max-width: 400px) {
-      width: 350px;
+      width: 20rem;
     }
   }
 
@@ -48,7 +48,7 @@ export const AuthContainer = styled.div`
       display: inline-block;
       padding: 0.8rem;
       background: #f2f2f2;
-      border-radius: 4px;
+      border-radius: 0.25rem;
       margin-right: 1rem;
       margin-top: 1rem;
 
