@@ -874,7 +874,7 @@ export function OutgoingList({ showModal, setShowModal }) {
                 {handleCreateNew && (
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Add new "
+                    label="Incoming "
                     onClick={handleCreateNew}
                   />
                 )}

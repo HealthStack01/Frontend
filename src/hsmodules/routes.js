@@ -187,6 +187,9 @@ import BloodBankHome from "./Bloodbank/BloodBankHome";
 import Incoming from "./Referral/Incoming";
 import Outgoing from "./Referral/Outgoing";
 import PremiumPayment from "./ManagedCare/PremiumPayment";
+import BloodBankAppointments from "./Appointment/bloodBankAppoinment";
+import ImmunizationAppointments from "./Appointment/immunizationAppoinment";
+import ImmunizationCheckIn from "./Immunization/Checkin";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -725,8 +728,14 @@ const AppRoutes = () => {
               path="/app/immunization/vaccineprofile"
               element={<VaccineProfile />}
             />
-            <Route path="/app/immunization/appointment" />
-            <Route path="/app/immunization/checkin-out" />
+            <Route
+              path="/app/immunization/appointment"
+              element={<ImmunizationAppointments />}
+            />
+            <Route
+              path="/app/immunization/checkin-out"
+              element={<ImmunizationCheckIn />}
+            />
             <Route path="/app/immunization/report" />
             <Route path="/app/immunization/dashboard" />
           </Route>
@@ -737,7 +746,10 @@ const AppRoutes = () => {
               path="/app/blood-bank/inventory"
               element={<BloodBankInventory />}
             />
-            <Route path="/app/blood-bank/appointment" />
+            <Route
+              path="/app/blood-bank/appointment"
+              element={<BloodBankAppointments />}
+            />
             <Route path="/app/blood-bank/lab" />
             <Route path="/app/blood-bank/dashboard" />
           </Route>
