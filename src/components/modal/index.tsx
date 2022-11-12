@@ -1,96 +1,105 @@
-import {Box, IconButton} from "@mui/material";
-import Fade from "@mui/material/Fade";
-import Modal from "@mui/material/Modal";
-import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, IconButton } from '@mui/material';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children?: React.ReactNode | undefined;
-  header?: "string";
-  width?: "string";
+  header?: 'string';
+  width?: 'string';
 }
-const style = {
-  minWidth: "400px",
-  maxWidth: "95vw",
-  minHeight: "200px",
 
-  maxHeight: "95vh",
-  bgcolor: "#fff",
-  boxShadow: 24,
-  p: 2,
-  borderRadius: "6px",
-  overflow: "hidden",
-  //minWidth: "100px !important",
-};
+const ModalBox: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  children,
+  header,
+  width,
+}) => {
+  const style = {
+    minWidth: '24rem',
+    width: width ? width : 'auto%',
+    maxWidth: '95vw',
+    minHeight: '200px',
 
-const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
-  <>
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      open={open}
-      onClose={onClose}
-      closeAfterTransition
-      // BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-      sx={{
-        width: "100%",
-        display: "grid",
-        placeItems: "center ",
-      }}
-    >
-      <Fade in={open}>
-        <Box sx={style}>
-          <div
-            style={{
-              height: "100%",
-              overflowY: "hidden",
-            }}
-          >
-            {header && (
-              <Box
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-                mb={2}
-                pl={2}
-                //pr={2}
-              >
-                <h1
+    maxHeight: '95vh',
+    bgcolor: '#fff',
+    boxShadow: 24,
+    p: 2,
+    borderRadius: '6px',
+    overflow: 'hidden',
+  };
+
+  return (
+    <>
+      <Modal
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
+        open={open}
+        onClose={onClose}
+        closeAfterTransition
+        // BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        sx={{
+          width: '100%',
+          display: 'grid',
+          placeItems: 'center ',
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <div
+              style={{
+                height: '100%',
+                overflowY: 'hidden',
+              }}
+            >
+              {header && (
+                <Box
                   style={{
-                    color: "#33415C",
-                    fontWeight: "500",
-                    lineHeight: "1.5",
-                    fontSize: "20px",
-                    fontStyle: "SemiBold",
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   }}
+                  mb={2}
+                  pl={2}
+                  //pr={2}
                 >
-                  {header}
-                </h1>
+                  <h1
+                    style={{
+                      color: '#33415C',
+                      fontWeight: '500',
+                      lineHeight: '1.5',
+                      fontSize: '20px',
+                      fontStyle: 'SemiBold',
+                    }}
+                  >
+                    {header}
+                  </h1>
 
-                {onClose && (
-                  <IconButton onClick={onClose}>
-                    <CloseIcon />
-                  </IconButton>
-                )}
+                  {onClose && (
+                    <IconButton onClick={onClose}>
+                      <CloseIcon />
+                    </IconButton>
+                  )}
+                </Box>
+              )}
+
+              <Box p={2} sx={{ overflowY: 'scroll' }}>
+                {children}
               </Box>
-            )}
-
-            <Box p={2} sx={{overflowY: "scroll"}}>
-              {children}
-            </Box>
-          </div>
-        </Box>
-      </Fade>
-    </Modal>
-  </>
-);
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+    </>
+  );
+};
 
 export default ModalBox;
