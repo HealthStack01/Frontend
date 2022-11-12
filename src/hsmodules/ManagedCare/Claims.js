@@ -1,423 +1,1117 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { Box, Grid, Button as MuiButton } from '@mui/material';
+import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { format, formatDistanceToNowStrict } from "date-fns";
-//import BillDispenseCreate from './BillPrescriptionCreate'
-import PatientProfile from "../Client/PatientProfile";
-/* import {ProductCreate} from './Products' */
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import LocationSearch from '../helpers/LocationSearch';
+import EmployeeSearch from '../helpers/EmployeeSearch';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import 'react-datepicker/dist/react-datepicker.css';
+
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
+import ModalBox from './modal/index';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { McText } from './text';
+import Input from '../../components/inputs/basic/Input/index';
+import ToggleButton from '../../components/toggleButton';
+import RadioButton from '../../components/inputs/basic/Radio';
+import BasicDatePicker from '../../components/inputs/Date';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
+import { MdCancel, MdAddCircle } from 'react-icons/md';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+
 // eslint-disable-next-line
-//const searchfacility={};
+const searchfacility = {};
 
-// Demo styles, see 'Styles' section below for some notes on use.
+export default function Claims() {
+  const { state } = useContext(ObjectContext); //,setState
+  // eslint-disable-next-line
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
 
-export default function ClientBilledPrescription({ selectedClient }) {
+  return (
+    <section className="section remPadTop">
+      <ClaimsList showModal={showModal} setShowModal={setShowModal} />
+      {showModal && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+    </section>
+  );
+}
+
+export function ClaimsCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [success1, setSuccess1] = useState(false);
+  const [success2, setSuccess2] = useState(false);
+  const [message, setMessage] = useState('');
+  const [clientId, setClientId] = useState();
+  const [locationId, setLocationId] = useState();
+  const [practionerId, setPractionerId] = useState();
+  const [type, setType] = useState();
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service('appointments');
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  // const [appointment_reason,setAppointment_reason]= useState()
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
+  const [billingModal, setBillingModal] = useState(false);
+
+  const [chosen, setChosen] = useState();
+  const [chosen1, setChosen1] = useState();
+  const [chosen2, setChosen2] = useState();
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+
+  let appointee; //  =state.ClientModule.selectedClient
+  /*  const getSearchfacility=(obj)=>{
+        setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+    } */
+  const handleChangeType = async (e) => {
+    await setAppointment_type(e.target.value);
+  };
+
+  const handleChangeStatus = async (e) => {
+    await setAppointment_status(e.target.value);
+  };
+
+  const getSearchfacility = (obj) => {
+    setClientId(obj._id);
+    setChosen(obj);
+    //handleRow(obj)
+    if (!obj) {
+      //"clear stuff"
+      setClientId();
+      setChosen();
+    }
+
+    /*  setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        }) */
+  };
+  const getSearchfacility1 = (obj) => {
+    setLocationId(obj._id);
+    setChosen1(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setLocationId();
+      setChosen1();
+    }
+  };
+  const getSearchfacility2 = (obj) => {
+    setPractionerId(obj._id);
+    setChosen2(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setPractionerId();
+      setChosen2();
+    }
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
+    }
+  });
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage('');
+    setError(false);
+    setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: 'list',
+        },
+      }));
+
+    // data.createdby=user._id
+    console.log(data);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+    }
+    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
+    data.practitionerId = practionerId;
+    data.appointment_type = appointment_type;
+    // data.appointment_reason=appointment_reason
+    data.appointment_status = appointment_status;
+    data.clientId = clientId;
+    data.firstname = chosen.firstname;
+    data.middlename = chosen.middlename;
+    data.lastname = chosen.lastname;
+    data.dob = chosen.dob;
+    data.gender = chosen.gender;
+    data.phone = chosen.phone;
+    data.email = chosen.email;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
+    data.practitioner_profession = chosen2.profession;
+    data.practitioner_department = chosen2.department;
+    data.location_name = chosen1.name;
+    data.location_type = chosen1.locationType;
+    data.actions = [
+      {
+        action: appointment_status,
+        actor: user.currentEmployee._id,
+      },
+    ];
+    console.log(data);
+
+    ClientServ.create(data)
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+        e.target.reset();
+        setAppointment_type('');
+        setAppointment_status('');
+        setClientId('');
+        setLocationId('');
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        setSuccess1(true);
+        setSuccess2(true);
+        toast({
+          message:
+            'Appointment created succesfully, Kindly bill patient if required',
+          type: 'is-success',
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        setSuccess(false);
+        setSuccess1(false);
+        setSuccess2(false);
+        // showBilling()
+      })
+      .catch((err) => {
+        toast({
+          message: 'Error creating Appointment ' + err,
+          type: 'is-danger',
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+  };
+
+  useEffect(() => {
+    getSearchfacility(state.ClientModule.selectedClient);
+
+    /* appointee=state.ClientModule.selectedClient 
+        console.log(appointee.firstname) */
+    return () => {};
+  }, [state.ClientModule.selectedClient]);
+
+  /*   const showBilling = () =>{
+        setBillingModal(true)
+       //history.push('/app/finance/billservice')
+        }
+        const  handlecloseModal1 = () =>{
+            setBillingModal(false)
+            }
+
+
+            const handleRow= async(Client)=>{
+              //  await setSelectedClient(Client)
+                const    newClientModule={
+                    selectedClient:Client,
+                    show :'detail'
+                }
+               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
+            } */
+  const CustomSelectData = [
+    {
+      label: 'Today',
+      value: 'today',
+    },
+  ];
+
+  return (
+    <>
+      <div className="card ">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={'Claims'} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false);
+                }}
+                style={{
+                  fontSize: '2rem',
+                  color: 'crimson',
+                  cursor: 'pointer',
+                  float: 'right',
+                }}
+              />
+            </Grid>
+          </Grid>
+
+          <McText
+            txt={`Employer's Details`}
+            color={'#0064CC'}
+            type={'p'}
+            bold={'700'}
+            size={'18px'}
+          />
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Input name="patientname" label="Patient Name" type="text" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="lashmaId" label="LASHMA ID" type="text" />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Input name="hospitalName" label="Hospital Name" type="text" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="doctorName" label="Name of Doctor" type="text" />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Input
+                name="healthPlan"
+                label="Type of Health Plan"
+                type="text"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="authCode" label="Authorozation Code" type="text" />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <RadioButton
+                name="patient"
+                title="Patient"
+                options={[
+                  {
+                    label: 'Out Patient',
+                    value: 'Out Patient',
+                  },
+                  {
+                    label: 'In Patient',
+                    value: 'In Patient',
+                  },
+                ]}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={6}>
+              <BasicDatePicker
+                name="addmissionDate"
+                label="Date of Admission"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <BasicDatePicker name="dischargeDate" label="Date of Discharge" />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <BasicDatePicker name="entryDate" label="Date of Entry" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <CustomSelect
+                name="claimType"
+                label="Claim Type"
+                options={CustomSelectData}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Input name="amount" label="Claim Amount" type="tel" />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'Clinic Information'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={12}>
+              <Textarea
+                name="diagnosis"
+                label="Diagnosis"
+                register={register('diagnosis')}
+              />
+            </Grid>
+            {/* <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: 'left',
+                  backgroundColor: '#ECF3FF',
+                  color: '#0064CC',
+                  border: 'none',
+                  padding: '10px',
+                  cursor: 'pointer',
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: '5px',
+                  }}
+                />
+                Add Diagnosis
+              </button>
+            </Grid> */}
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={12}>
+              <Textarea
+                name="investigation"
+                label="Investigation"
+                register={register('investigation')}
+              />
+            </Grid>
+
+            {/* <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: 'left',
+                  backgroundColor: '#ECF3FF',
+                  color: '#0064CC',
+                  border: 'none',
+                  padding: '10px',
+                  cursor: 'pointer',
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: '5px',
+                  }}
+                />
+                Add Investigation
+              </button>
+            </Grid> */}
+          </Grid>
+
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={12}>
+              <McText
+                txt={'Treatment'}
+                color={'#0064CC'}
+                type={'p'}
+                bold={'700'}
+                size={'18px'}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={12}>
+              <Textarea
+                name="drugs"
+                label="Drugs"
+                register={register('drugs')}
+              />
+            </Grid>
+            {/* <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: 'left',
+                  backgroundColor: '#ECF3FF',
+                  color: '#0064CC',
+                  border: 'none',
+                  padding: '10px',
+                  cursor: 'pointer',
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: '5px',
+                  }}
+                />
+                Add Drugs
+              </button>
+            </Grid> */}
+          </Grid>
+
+          <Grid container spacing={2} my={1}>
+            <Grid item xs={12} sm={12}>
+              <Textarea
+                name="therapy"
+                label="Therapy"
+                register={register('therapy')}
+              />
+            </Grid>
+            {/* <Grid item xs={12} sm={6}>
+              <button
+                style={{
+                  float: 'left',
+                  backgroundColor: '#ECF3FF',
+                  color: '#0064CC',
+                  border: 'none',
+                  padding: '10px',
+                  cursor: 'pointer',
+                }}
+              >
+                <MdAddCircle
+                  style={{
+                    marginRight: '5px',
+                  }}
+                />
+                Add Therapy
+              </button>
+            </Grid> */}
+          </Grid>
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: '#0364FF',
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </>
+  );
+}
+
+export function ClaimsList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const OrderServ = client.service("order");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
-  const [clientOrders, setClientOrders] = useState([]);
+  const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedDispense, setSelectedDispense] = useState(); //
+  const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   const { user, setUser } = useContext(UserContext);
-  const [selectedMedication, setSelectedMedication] = useState("");
-
-  console.log(selectedClient);
-
-  const handleSelectedClient = async (Client) => {
-    // await setSelectedClient(Client)
-    const newClientModule = {
-      selectedClient: Client,
-      show: "detail",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      ClientModule: newClientModule,
-    }));
-  };
-
-  const handleMedicationRow = async (ProductEntry) => {
-    //handle selected single order
-    //console.log("b4",state)
-
-    //console.log("handlerow",ProductEntry)
-    await handleSelectedClient(ProductEntry.client);
-
-    await setSelectedMedication(ProductEntry);
-
-    const newProductEntryModule = {
-      selectedMedication: ProductEntry,
-      show: "detail",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      medicationModule: newProductEntryModule,
-    }));
-    //console.log(state)
-    // ProductEntry.show=!ProductEntry.show
-  };
+  const [startDate, setStartDate] = useState(new Date());
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
-    const newProductEntryModule = {
-      selectedDispense: {},
-      show: "create",
+    const newClientModule = {
+      selectedAppointment: {},
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      DispenseModule: newProductEntryModule,
+      AppointmentModule: newClientModule,
     }));
     //console.log(state)
+    const newClient = {
+      selectedClient: {},
+      show: 'create',
+    };
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(true);
   };
 
+  const handleRow = async (Client) => {
+    setShowModal(true);
+    await setSelectedAppointment(Client);
+    const newClientModule = {
+      selectedAppointment: Client,
+      show: 'detail',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: newClientModule,
+    }));
+  };
+  //console.log(state.employeeLocation)
+
   const handleSearch = (val) => {
-    const field = "name";
-    //console.log(val)
-    OrderServ.find({
-      query: {
-        order: {
-          $regex: val,
-          $options: "i",
+    const field = 'firstname';
+    //  console.log(val)
+
+    let query = {
+      $or: [
+        {
+          firstname: {
+            $regex: val,
+            $options: 'i',
+          },
         },
-        order_status: {
-          $regex: val,
-          $options: "i",
+        {
+          lastname: {
+            $regex: val,
+            $options: 'i',
+          },
         },
-        order_status: "Billed",
-        clientId: selectedClient,
-        order_category: "Prescription",
-        // storeId:state.StoreModule.selectedStore._id,
-        //facility:user.currentEmployee.facilityDetail._id || "",
-        $limit: 10,
-        $sort: {
-          createdAt: -1,
+        {
+          middlename: {
+            $regex: val,
+            $options: 'i',
+          },
         },
+        {
+          phone: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          appointment_type: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          appointment_status: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          appointment_reason: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          location_type: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          location_name: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          practitioner_department: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          practitioner_profession: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+        {
+          practitioner_name: {
+            $regex: val,
+            $options: 'i',
+          },
+        },
+      ],
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      $sort: {
+        createdAt: -1,
       },
-    })
+    };
+    if (state.employeeLocation.locationType !== 'Front Desk') {
+      query.locationId = state.employeeLocation.locationId;
+    }
+
+    ClientServ.find({ query: query })
       .then((res) => {
-        // console.log(res)
-        setClientOrders(res.data);
-        setMessage(" ProductEntry  fetched successfully");
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
-        // console.log(err)
-        setMessage(
-          "Error fetching ProductEntry, probable network issues " + err
-        );
+        console.log(err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
+
   const getFacilities = async () => {
-    // console.log("here b4 server")
-    const findProductEntry = await OrderServ.find({
-      query: {
-        order_category: "Prescription",
-        fulfilled: false,
-        destination: user.currentEmployee.facilityDetail._id,
-        order_status: "Billed",
-        clientId: selectedClient, //selectedClient, //
-        // need to set this finally
-        //storeId:state.StoreModule.selectedStore._id,
-        //clientId:state.ClientModule.selectedClient._id,
-        $limit: 50,
+    console.log(user);
+    if (user.currentEmployee) {
+      let stuff = {
+        facility: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
         $sort: {
           createdAt: -1,
         },
-      },
-    });
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
 
-    console.log("clientorders", findProductEntry);
-    await setClientOrders(findProductEntry.data);
-    //await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
+      const findClient = await ClientServ.find({ query: stuff });
+
+      await setFacilities(findClient.data);
+      console.log(findClient.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
   };
 
-  //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
-    getFacilities();
-    OrderServ.on("created", (obj) => getFacilities());
-    OrderServ.on("updated", (obj) => getFacilities());
-    OrderServ.on("patched", (obj) => getFacilities());
-    OrderServ.on("removed", (obj) => getFacilities());
+    if (user) {
+      handleCalendarClose();
+    } else {
+      /* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
+    }
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
+    const newClient = {
+      selectedClient: {},
+      show: 'create',
+    };
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
+  const handleCalendarClose = async () => {
+    let query = {
+      start_time: {
+        $gt: subDays(startDate, 1),
+        $lt: addDays(startDate, 1),
+      },
+      facility: user?.currentEmployee?.facilityDetail?._id,
 
-  const handleRow = async (ProductEntry) => {
-    await setSelectedDispense(ProductEntry);
-
-    const newProductEntryModule = {
-      selectedDispense: ProductEntry,
-      show: "detail",
+      $limit: 100,
+      $sort: {
+        createdAt: -1,
+      },
     };
-    await setState((prevstate) => ({
-      ...prevstate,
-      DispenseModule: newProductEntryModule,
-    }));
-    //console.log(state)
+    // if (state.employeeLocation.locationType !== "Front Desk") {
+    //   query.locationId = state.employeeLocation.locationId;
+    // }
+
+    const findClient = await ClientServ.find({ query: query });
+
+    await setFacilities(findClient.data);
   };
 
+  const handleDate = async (date) => {
+    setStartDate(date);
+  };
 
-   const ClientMiniSchema = [
+  useEffect(() => {
+    if (!!startDate) {
+      handleCalendarClose();
+    } else {
+      getFacilities();
+    }
+
+    return () => {};
+  }, [startDate]);
+  //todo: pagination and vertical scroll bar
+
+  const onRowClicked = () => {};
+
+  const mapFacilities = () => {
+    let mapped = [];
+    facilities.map((facility, i) => {
+      mapped.push({
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
+        end: facility?.end_time,
+        id: i,
+      });
+    });
+    return mapped;
+  };
+  const activeStyle = {
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0 .8rem',
+  };
+
+  const dummyData = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: (row) => row.sn,
-      sortable: true,
-      inputType: "HIDDEN",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
     {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
-      selector: (row) => row.firstname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Midlle Name",
-      key: "middlename",
-      description: "Midlle Name",
-      selector: (row) => row.middlename,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
-      selector: (row) => row.lastname,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Date of Birth",
-      key: "dob",
-      description: "Date of Birth",
-      selector: (row) => row.dob,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Gender",
-      key: "gender",
-      description: "Male",
-      selector: (row) => row.gender,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Male", "Female"],
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Marital Status",
-      key: "maritalstatus",
-      description: "Single",
-      selector: (row) => row.maritalstatus,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Single", "Married"],
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Email",
-      key: "email",
-      description: "johndoe@mail.com",
-      selector: (row) => row.email,
-      sortable: true,
-      required: true,
-      inputType: "EMAIL",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
     {
-      name: "Phone Number",
-      key: "phone",
-      description: "0806478263",
-      selector: (row) => row.phone,
-      sortable: true,
-      required: true,
-      inputType: "PHONE",
+      healthcare_Plan: 'Formal sector plan',
+      hospital_name: 'Creek Hospital',
+      bill: 'N100,000.00',
+      date: '27-10-21',
+      status: 'Approved',
+      reason: 'Lorem ipsum dolor ...',
     },
-  
+  ];
+
+  const returnCell = (status) => {
+    // if (status === "approved") {
+    //   return <span style={{color: "green"}}>{status}</span>;
+    // }
+    // else if
+    switch (status.toLowerCase()) {
+      case 'approved':
+        return <span style={{ color: '#17935C' }}>{status}</span>;
+
+      case 'ongoing':
+        return <span style={{ color: '#0364FF' }}>{status}</span>;
+
+      case 'declined':
+        return <span style={{ color: '#ED0423' }}>{status}</span>;
+
+      case 'pending':
+        return <span style={{ color: '#EF9645' }}>{status}</span>;
+
+      default:
+        break;
+    }
+  };
+
+  const preAuthSchema = [
     {
-      name: "Residential Address",
-      key: "residentialaddress",
-      description: "Ozumba Mbadiwe",
-      selector: (row) => row.residentialaddress,
+      name: 'Plan',
+      key: 'healthcare plan',
+      description: 'Enter name of Healthcare Plan',
+      selector: (row) => row.healthcare_Plan,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'HIDDEN',
     },
-  
     {
-      name: "Town",
-      key: "town",
-      description: "Ikate Elegushi",
-      selector: (row) => row.town,
+      name: 'Hospital Name',
+      key: 'hospital name',
+      description: 'Enter Hospital Name',
+      selector: (row) => row.hospital_name,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
     {
-      name: "State",
-      key: "state",
-      description: "Lagos",
-      selector: (row) => row.state,
+      name: 'Bill For Month',
+      key: 'bills',
+      description: 'Enter bills',
+      selector: (row) => row.bill,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
     {
-      name: "Country",
-      key: "country",
-      description: "Nigeria",
-      selector: (row) => row.country,
+      name: 'Date',
+      key: 'date',
+      description: 'Enter Date',
+      selector: (row, i) => row.date,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'HIDDEN',
     },
-  
     {
-      name: "Next of Kin",
-      key: "nextofkin",
-      description: "Next of Kin",
-      selector: (row) => row.nextofkin,
+      name: ' Status',
+      key: ' status',
+      description: 'Enter  Status',
+      selector: (row) => row.status,
+      cell: (row) => returnCell(row.status),
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
+    // {
+    //   name: "Status",
+    //   key: "bills",
+    //   description: "Enter bills",
+    //   selector: "status",
+    //   cell: row => returnCell(row.status),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: "TEXT",
+    // },
     {
-      name: "Next of kin Phone",
-      key: "nextofkinphone",
-      description: "Next of Kin",
-      selector: (row) => row.nextofkinphone,
+      name: 'Reason',
+      key: 'reason',
+      description: 'Enter for Request',
+      selector: (row) => row.reason,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
+    },
+  ];
+
+  const conditionalRowStyles = [
+    {
+      when: (row) => row.status === 'approved',
+      style: {
+        color: 'red',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+    {
+      when: (row) => row.status === 'ongoing',
+      style: {
+        color: 'rgba(0,0,0,.54)',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+    {
+      when: (row) => row.status === 'pending',
+      style: {
+        color: 'pink',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+    {
+      when: (row) => row.status === 'declined',
+      style: {
+        color: 'purple',
+        backgroundColor: 'green',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
     },
   ];
 
   return (
     <>
-      {/* <div className="level">
-                     <div className="level-left">
-                         <div className="level-item">
-                             <div className="field">
-                                 <p className="control has-icons-left  ">
-                                     <DebounceInput className="input is-small " 
-                                         type="text" placeholder="Search Medications"
-                                         minLength={3}
-                                         debounceTimeout={400}
-                                         onChange={(e)=>handleSearch(e.target.value)} />
-                                     <span className="icon is-small is-left">
-                                         <i className="fas fa-search"></i>
-                                     </span>
-                                 </p>
-                             </div>
-                         </div>
-                     </div> */}
-      {/* <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Billed Prescriptions </span></div> */}
-      {/* <div className="level-right">
-                        <div className="level-item"> 
-                             <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                         </div> 
-                     </div>*/}
-
-      {/* </div> */}
-      <div className=" pullupx ">
-        <div className=" is-fullwidth vscrollable pr-1">
-          <div>
-            <div>
-              <div>
-                <div>
-                  {/*  {i+1}  {Clinic.clientname} with  */}{" "}
-                  {clientOrders.length} billed medication(s)
+      {user ? (
+        <>
+          <div className="level">
+            <PageWrapper
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+            >
+              <TableMenu>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+                    Claim
+                  </h2>
+                  {/* <DatePicker
+                    selected={startDate}
+                    onChange={date => handleDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="Filter By Date"
+                    isClearable
+                  /> */}
+                  {/* <SwitchButton /> */}
+                  <Switch>
+                    <button
+                      value={value}
+                      onClick={() => {
+                        setValue('list');
+                      }}
+                      style={value === 'list' ? activeStyle : {}}
+                    >
+                      <BsList style={{ fontSize: '1rem' }} />
+                    </button>
+                    <button
+                      value={value}
+                      onClick={() => {
+                        setValue('grid');
+                      }}
+                      style={value === 'grid' ? activeStyle : {}}
+                    >
+                      <BsFillGridFill style={{ fontSize: '1rem' }} />
+                    </button>
+                  </Switch>
                 </div>
-              </div>
-              <div>
-                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                  <thead>
-                    <tr>
-                      <th>
-                        <abbr title="Serial No">S/No</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Date">Date</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Order">Medication</abbr>
-                      </th>
-                      <th>Fulfilled</th>
-                      <th>
-                        <abbr title="Status">Status</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Requesting Physician">
-                          Requesting Physician
-                        </abbr>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {clientOrders.map((order, i) => (
-                      <tr
-                        key={order._id}
-                        /* onClick={()=>handleMedicationRow(order)} */ className={
-                          order._id === (selectedMedication?._id || null)
-                            ? "is-selected"
-                            : ""
-                        }
-                      >
-                        <th>{i + 1}</th>
-                        <td>
-                          <span>
-                            {format(new Date(order.createdAt), "dd-MM-yy")}
-                          </span>
-                        </td>{" "}
-                        {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                        <th>{order.order}</th>
-                        <td>{order.fulfilled === "True" ? "Yes" : "No"}</td>
-                        <td>{order.order_status}</td>
-                        <td>{order.requestingdoctor_Name}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
 
-            {/* <!-- Add Ref to Load More div --> */}
-            {/*  <div className="loading" ref={loader}>
-                                     <h2>Load More</h2>
-                         </div> */}
+                {handleCreateNew && (
+                  <MuiButton
+                    variant="contained"
+                    sx={{
+                      width: 'fit',
+                      textTransform: 'capitalize',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                    }}
+                    onClick={handleCreateNew}
+                  >
+                    <AddCircleOutline
+                      sx={{ marginRight: '5px' }}
+                      fontSize="small"
+                    />
+                    Add Claim
+                  </MuiButton>
+                )}
+              </TableMenu>
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                {value === 'list' ? (
+                  <CustomTable
+                    title={''}
+                    columns={preAuthSchema}
+                    data={dummyData}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={handleRow}
+                    progressPending={loading}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                ) : (
+                  <CalendarGrid appointments={mapFacilities()} />
+                )}
+              </div>
+            </PageWrapper>
           </div>
-        </div>
-      </div>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
     </>
   );
 }

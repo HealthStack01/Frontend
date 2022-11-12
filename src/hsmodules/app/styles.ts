@@ -8,9 +8,9 @@ import AccordionBox from '../../components/accordion';
 
 export const PageWrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 60px);
+  height: auto;
   overflow-y: hidden;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem;
   transition: width 2s, height 4s;
   animation: divanimation 0.6s;
   -webkit-animation: divanimation 0.6s;
@@ -48,7 +48,7 @@ export const HeadWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   animation: divanimation 0.6s;
   -webkit-animation: divanimation 0.6s;
   animation-fill-mode: forwards;
@@ -147,8 +147,9 @@ export const FullDetailsWrapper = styled.div`
 `;
 
 export const GrayWrapper = styled.div`
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 4px;
+  width: 100%;
   height: 100%;
   padding: 1rem;
   /* padding-bottom: 30rem; */
@@ -177,6 +178,7 @@ export const GridBox = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: flex-start;
   grid-gap: 1rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
@@ -184,7 +186,7 @@ export const GridBox = styled.div`
 
 export const ViewBox = styled.div`
   margin-top: 3.5rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 5rem;
 `;
 
 export const GridWrapper = styled.div`
@@ -256,7 +258,6 @@ export const BottomWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   height: 44px;
-  margin-top: 2rem;
 
   &.long {
     @media (max-width: 400px) {

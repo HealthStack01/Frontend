@@ -3,7 +3,6 @@ import React from 'react';
 
 import { InputBox, InputField, InputLabel } from './styles';
 
-
 interface InputProps {
   label?: string;
   inputId?: string;
@@ -50,7 +49,7 @@ const Input: React.FC<InputProps> = ({
   <div>
     <InputBox>
       <InputField
-        className='form_checkbox'
+        className="form_checkbox"
         onChange={onChange}
         type={type}
         defaultValue={defaultValue}
@@ -63,7 +62,7 @@ const Input: React.FC<InputProps> = ({
         autoComplete={autoComplete}
         sx={{ width: '16px', ...sx }}
       />
-      <InputLabel className='form__label' htmlFor={name}>
+      <InputLabel className="form__label" htmlFor={name}>
         {label}
       </InputLabel>
     </InputBox>

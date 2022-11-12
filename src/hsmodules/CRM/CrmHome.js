@@ -1,15 +1,15 @@
 /* eslint-disable */
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext, ObjectContext } from "../../context";
-import { Outlet } from "react-router-dom";
+import React, {useState, useEffect, useContext} from "react";
+import {UserContext, ObjectContext} from "../../context";
+import {Outlet} from "react-router-dom";
 // import ModalBox from "../../components/modal";
 // import { Box } from "@mui/material";
 
-export default function CRMHome({ children }) {
+export default function CRMHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [showModal, setShowModal] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [selectedClinic, setSelectedClinic] = useState();
   // state.ClinicModule.selectedClinic
 
@@ -53,12 +53,6 @@ export default function CRMHome({ children }) {
       {/*  <div className="is-1"> Appointment sdchedule for patients for this clinic</div>
                <div className="is-1"> Communication Command Center</div>     */}
       <section className="hero is-info is-fullheight">
-        <div className="hero-body">
-          <div className="container has-text-centered">
-            <h1 className="title">CRM Module</h1>
-            <h2 className="subtitle">Have fun working today!</h2>
-          </div>
-        </div>
         <div className="layout__content-main">
           {/* <ModalBox open={showModal} onClick={() => setShowModal(false)}>
             <Box

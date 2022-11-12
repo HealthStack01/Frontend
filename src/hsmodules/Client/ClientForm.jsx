@@ -5,16 +5,14 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import BasicDatePicker from '../../components/inputs/Date';
-import { UserContext } from '../../context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import client from '../../feathers';
 import {
   BottomWrapper,
-  DetailsWrapper,
-  GrayWrapper,
   GridWrapper,
   HeadWrapper,
   PageWrapper,
+  ViewBox,
 } from '../app/styles';
 import { createClientSchema } from './schema';
 import ModalBox from '../../components/modal';
@@ -71,7 +69,7 @@ const ClientForm = ({ open, setOpen }) => {
 
         {/* Start form */}
         <PageWrapper>
-          <GrayWrapper>
+          <div>
             <HeadWrapper>
               <div>
                 <h2>{`${
@@ -101,9 +99,15 @@ const ClientForm = ({ open, setOpen }) => {
             <ToastContainer theme='colored' />
 
             {!isFullRegistration ? (
-              <>
-                <DetailsWrapper title='Create Client' defaultExpanded={true}>
-                  <GridWrapper className='height-auto'>
+              <div style={{ width: '80vw' }}>
+                <ViewBox>
+                  <GridWrapper
+                    className='height-auto'
+                    style={{
+                      marginTop: '1rem',
+                      gap: '1rem',
+                    }}
+                  >
                     <Input
                       label='First Name'
                       register={register('firstname')}
@@ -170,33 +174,55 @@ const ClientForm = ({ open, setOpen }) => {
                       type='tel'
                     />
                   </GridWrapper>
-                </DetailsWrapper>
-              </>
+                </ViewBox>
+
+                <BottomWrapper>
+                  <Button
+                    label='Close'
+                    background='#FFE9E9'
+                    color='#ED0423'
+                    onClick={() => setOpen(false)}
+                  />
+                  <Button label='Save Form' type='submit' loading={loading} />
+                </BottomWrapper>
+              </div>
             ) : (
-              <>
+              <div
+                style={{ height: '80vh', overflowY: 'scroll', width: '80vw' }}
+              >
                 {/* Names Section */}
 
-                <DetailsWrapper title='Names'>
+                <ViewBox>
+                  <h2>Names</h2>
+
                   <GridWrapper>
                     <Input
                       label='First Name'
                       register={register('firstname')}
+                      errorText={errors?.firstname?.message}
                     />
                     <Input
                       label='Middle Name'
                       register={register('middlename')}
+                      errorText={errors?.middlename?.message}
                     />
-                    <Input label='Last Name' register={register('lastname')} />
+                    <Input
+                      label='Last Name'
+                      register={register('lastname')}
+                      errorText={errors?.lastname?.message}
+                    />
                     <BasicDatePicker
-                      label='dob'
+                      label='Date of Birth'
                       register={register('dob')}
                       errorText={errors?.dob?.message}
                     />
                   </GridWrapper>
-                </DetailsWrapper>
+                </ViewBox>
                 {/* Biodata Section */}
 
-                <DetailsWrapper title='Biodata'>
+                <ViewBox>
+                  <h2>Biodata</h2>
+
                   <GridWrapper>
                     <CustomSelect
                       label='Gender'
@@ -223,13 +249,23 @@ const ClientForm = ({ open, setOpen }) => {
                       label='Profession'
                       register={register('profession')}
                     />
-                    <Input label='Phone No' register={register('phone')} />
-                    <Input label='Email' register={register('email')} />
+                    <Input
+                      label='Phone No'
+                      register={register('phone')}
+                      errorText={errors?.phone?.message}
+                    />
+                    <Input
+                      label='Email'
+                      register={register('email')}
+                      errorText={errors?.email?.message}
+                    />
                     <Input label='Tags' register={register('clientTags')} />
                   </GridWrapper>
-                </DetailsWrapper>
+                </ViewBox>
                 {/* Address */}
-                <DetailsWrapper title='Address'>
+                <ViewBox>
+                  <h2>Addresses</h2>
+
                   <GridWrapper>
                     <Input
                       label='Residential Address'
@@ -240,9 +276,11 @@ const ClientForm = ({ open, setOpen }) => {
                     <Input label='State' register={register('state')} />
                     <Input label='Country' register={register('country')} />
                   </GridWrapper>
-                </DetailsWrapper>
+                </ViewBox>
                 {/* Medical Data */}
-                <DetailsWrapper title='Medical Data'>
+                <ViewBox>
+                  <h2>Medical Data</h2>
+
                   <GridWrapper>
                     <Input
                       label='Blood Group'
@@ -259,28 +297,24 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-                      label='Specific Details about patient'
+                      label='Specific Details '
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
-                </DetailsWrapper>
+                </ViewBox>
                 {/* Next of Kin Information */}
-                <DetailsWrapper title='Next of Kin Information'>
+                <ViewBox>
+                  <h2>Next of Kin Information</h2>
+
                   <GridWrapper>
+                    <Input label='Full Name' register={register('nok_name')} />
                     <Input
-                      label='Next of Kin Full Name'
-                      register={register('nok_name')}
-                    />
-                    <Input
-                      label='Next of Kin Phone Number'
+                      label='Phone Number'
                       register={register('nok_phoneno')}
                     />
+                    <Input label=' Email' register={register('nok_email')} />
                     <Input
-                      label='Next of Kin Email'
-                      register={register('nok_email')}
-                    />
-                    <Input
-                      label='Next of Kin Relationship'
+                      label='Relationship'
                       register={register('nok_relationship')}
                     />
                     <Input
@@ -288,18 +322,24 @@ const ClientForm = ({ open, setOpen }) => {
                       register={register('comorbidities')}
                     />
                     <Input
-                      label='Specific Details about patient'
+                      label='Specific Details '
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
-                </DetailsWrapper>
-              </>
+                </ViewBox>
+
+                <BottomWrapper>
+                  <Button
+                    label='Close'
+                    background='#FFE9E9'
+                    color='#ED0423'
+                    onClick={() => setOpen(false)}
+                  />
+                  <Button label='Save Form' type='submit' loading={loading} />
+                </BottomWrapper>
+              </div>
             )}
-            <BottomWrapper>
-              <Button label='Clear Form' background='#FFE9E9' color='#ED0423' />
-              <Button label='Save Form' type='submit' loading={loading} />
-            </BottomWrapper>
-          </GrayWrapper>
+          </div>
         </PageWrapper>
       </form>
     </ModalBox>

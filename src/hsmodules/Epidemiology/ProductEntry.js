@@ -39,7 +39,7 @@ export default function ProductEntry() {
 }
 
 export function ProductEntryCreate() {
-  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -295,7 +295,7 @@ export function ProductEntryCreate() {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small"
-                      /* ref={register} */ name="documentNo"
+                      /* {...register("input_name")} */ name="documentNo"
                       value={documentNo}
                       type="text"
                       onChange={e => setDocumentNo(e.target.value)}

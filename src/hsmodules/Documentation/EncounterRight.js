@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import AsthmaIntake from "./AsthmaIntake";
 import PulmonologyIntake from "./Pulmonology";
 import NewPatientConsult from "./NewPatientConsult";
@@ -42,6 +42,7 @@ import VitalSignsFlowSheet from "../clientForm/forms/vitalSignsFlowSheet";
 import VitalSignsRecord from "../clientForm/forms/vitalSignsRecord";
 import VitalSignsChart from "../clientForm/forms/vitalSignChart";
 import SurgicalBookletConsentForm from "../clientForm/forms/surgicalBookletConsentForm";
+import {usePosition} from "../../components/hooks/getUserLocation";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -245,6 +246,14 @@ export function VitalSignCreate() {
     }
   });
 
+  const checkGeolocation = coordinates => {
+    return coordinates.every(item => {
+      return typeof item === "number" && item !== "";
+    });
+  };
+
+  console.log(state.coordinates);
+
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
@@ -292,18 +301,24 @@ export function VitalSignCreate() {
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
 
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+
+    const coordPass = checkGeolocation(document.geolocation.coordinates);
+
     if (
       document.location === undefined ||
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
+      return;
+    } else if (!coordPass) {
+      toast.error("Please grant location access to the web application");
       return;
     }
 
@@ -313,56 +328,39 @@ export function VitalSignCreate() {
     );
     if (confirm) {
       if (!!draftDoc && draftDoc.status === "Draft") {
+        console.log(document);
+
         ClientServ.patch(draftDoc._id, document)
           .then(res => {
-            //console.log(JSON.stringify(res))
             e.target.reset();
             setDocStatus("Draft");
-            // setAllergies([])
-            /*  setMessage("Created Client successfully") */
+
             setSuccess(true);
-            toast({
-              message: "Documentation updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.success("Documentation updated succesfully");
             setSuccess(false);
           })
           .catch(err => {
-            toast({
-              message: "Error updating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.error(`Error updating Documentation ${err}`);
           });
       } else {
+        console.log(document);
+
         ClientServ.create(document)
           .then(res => {
-            //console.log(JSON.stringify(res))
             e.target.reset();
-            /*  setMessage("Created Client successfully") */
+
             setSuccess(true);
-            toast({
-              message: "Documentation created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.success("Documentation created succesfully");
             setSuccess(false);
           })
           .catch(err => {
-            toast({
-              message: "Error creating Documentation " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.error(`Error creating Documentation ${err}`);
           });
       }
     }
   };
+
+  useEffect(() => {}, []);
 
   const handleChangeStatus = async e => {
     // await setAppointment_type(e.target.value)
@@ -391,7 +389,7 @@ export function VitalSignCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      {...register("x")}
+                      {...register("Temperature")}
                       name="Temperature"
                       type="text"
                       spellCheck="true"
