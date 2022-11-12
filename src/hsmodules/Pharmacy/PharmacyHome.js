@@ -22,7 +22,12 @@ export default function PharmacyHome({children}) {
   // };
 
   useEffect(() => {
-    if (!selectedStore) {
+    // console.log("starting up Client module")
+    //alert(!selectedClinic);
+
+    const noObject = Object.keys(selectedStore).length === 0;
+
+    if (noObject) {
       handleChangeStore();
     }
     return () => {};
@@ -52,10 +57,6 @@ export default function PharmacyHome({children}) {
     <section className="section remPadTop">
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
-          <div className="container has-text-centered">
-            <h1 className="title">Pharmacy Module</h1>
-            <h2 className="subtitle">Have fun working today!</h2>
-          </div>
           <div className="layout__content-main">
             <ModalBox open={showModal} onClick={() => setShowModal(false)}>
               <Box

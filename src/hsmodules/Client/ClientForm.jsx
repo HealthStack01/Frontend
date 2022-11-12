@@ -51,24 +51,24 @@ const ClientForm = ({ open, setOpen }) => {
     setSuccess(false);
 
     await ClientServ.create(data)
-      .then(res => {
+      .then((res) => {
         toast.success(`Client successfully created`);
 
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error(`Sorry, You weren't able to create an client. ${err}`);
         setLoading(false);
       });
     setOpen(false);
     setLoading(false);
   };
-  const showRegister = data => console.log('>>>>>>', data);
+  const showRegister = (data) => console.log('>>>>>>', data);
 
   return (
-    <ModalBox open={open} setOpen={setOpen}>
+    <ModalBox open={open} onClose={setOpen}>
       <form onSubmit={handleSubmit(submit)}>
-        <ToastContainer theme='colored' />
+        <ToastContainer theme="colored" />
 
         {/* Start form */}
         <PageWrapper>
@@ -91,54 +91,60 @@ const ClientForm = ({ open, setOpen }) => {
                     ? 'Full Registration'
                     : 'Quick Registration'
                 }`}
-                background='#ECF3FF'
-                color='#0364FF'
+                background="#ECF3FF"
+                color="#0364FF"
                 showicon
-                icon='bi bi-pen-fill'
+                icon="bi bi-pen-fill"
                 onClick={() => setFullRegistration(!isFullRegistration)}
               />
             </HeadWrapper>
 
-            <ToastContainer theme='colored' />
+            <ToastContainer theme="colored" />
 
             {!isFullRegistration ? (
-              <div style={{ height: '100%', overflowY: 'scroll' }}>
+              <>
                 <ViewBox>
-                  <GridWrapper className='height-auto'>
+                  <GridWrapper
+                    className="height-auto"
+                    style={{
+                      marginTop: '1rem',
+                      gap: '1rem',
+                    }}
+                  >
                     <Input
-                      label='First Name'
+                      label="First Name"
                       register={register('firstname')}
                       errorText={errors?.firstname?.message}
                     />
                     <Input
-                      label='Middle Name'
+                      label="Middle Name"
                       register={register('middlename')}
                       errorText={errors?.middlename?.message}
                     />
                     <Input
-                      label='Last Name'
+                      label="Last Name"
                       register={register('lastname')}
                       errorText={errors?.lastname?.message}
                     />
                     <Input
-                      label='Phone'
+                      label="Phone"
                       register={register('phone')}
-                      type='tel'
+                      type="tel"
                       errorText={errors?.phone?.message}
                     />
                     <Input
-                      label='Email'
+                      label="Email"
                       register={register('email')}
-                      type='email'
+                      type="email"
                       errorText={errors?.email?.message}
                     />
                     <BasicDatePicker
-                      label='dob'
+                      label="dob"
                       register={register('dob')}
                       errorText={errors?.dob?.message}
                     />
                     <CustomSelect
-                      label='Gender'
+                      label="Gender"
                       register={register('gender', { required: true })}
                       options={[
                         { label: 'Male', value: 'Male' },
@@ -147,7 +153,7 @@ const ClientForm = ({ open, setOpen }) => {
                       errorText={errors?.gender?.message}
                     />
                     <CustomSelect
-                      label='Marital Status'
+                      label="Marital Status"
                       register={register('maritalstatus')}
                       options={[
                         { label: 'Single', value: 'Single' },
@@ -155,20 +161,20 @@ const ClientForm = ({ open, setOpen }) => {
                       ]}
                     />
                     <Input
-                      label='Residential Address'
+                      label="Residential Address"
                       register={register('residentialaddress')}
                     />
-                    <Input label='Town' register={register('town')} />
-                    <Input label='State' register={register('state')} />
-                    <Input label='Country' register={register('country')} />
+                    <Input label="Town" register={register('town')} />
+                    <Input label="State" register={register('state')} />
+                    <Input label="Country" register={register('country')} />
                     <Input
-                      label='Next of Kin'
+                      label="Next of Kin"
                       register={register('nextofkin')}
                     />
                     <Input
-                      label='Next of Kin Phone'
+                      label="Next of Kin Phone"
                       register={register('nextofkinphone')}
-                      type='tel'
+                      type="tel"
                     />
                   </GridWrapper>
                 </ViewBox>
@@ -180,9 +186,9 @@ const ClientForm = ({ open, setOpen }) => {
                     color='#ED0423'
                     onClick={() => setOpen(false)}
                   />
-                  <Button label='Save Form' type='submit' loading={loading} />
+                  <Button label="Save Form" type="submit" loading={loading} />
                 </BottomWrapper>
-              </div>
+              </>
             ) : (
               <div style={{ height: '80vh', overflowY: 'scroll' }}>
                 {/* Names Section */}
@@ -192,22 +198,22 @@ const ClientForm = ({ open, setOpen }) => {
 
                   <GridWrapper>
                     <Input
-                      label='First Name'
+                      label="First Name"
                       register={register('firstname')}
                       errorText={errors?.firstname?.message}
                     />
                     <Input
-                      label='Middle Name'
+                      label="Middle Name"
                       register={register('middlename')}
                       errorText={errors?.middlename?.message}
                     />
                     <Input
-                      label='Last Name'
+                      label="Last Name"
                       register={register('lastname')}
                       errorText={errors?.lastname?.message}
                     />
                     <BasicDatePicker
-                      label='Date of Birth'
+                      label="Date of Birth"
                       register={register('dob')}
                       errorText={errors?.dob?.message}
                     />
@@ -220,7 +226,7 @@ const ClientForm = ({ open, setOpen }) => {
 
                   <GridWrapper>
                     <CustomSelect
-                      label='Gender'
+                      label="Gender"
                       register={register('gender')}
                       options={[
                         { label: 'Male', value: 'male' },
@@ -228,7 +234,7 @@ const ClientForm = ({ open, setOpen }) => {
                       ]}
                     />
                     <CustomSelect
-                      label='Marital Status'
+                      label="Marital Status"
                       register={register('maritalstatus')}
                       options={[
                         { label: 'Single', value: 'Single' },
@@ -236,25 +242,25 @@ const ClientForm = ({ open, setOpen }) => {
                       ]}
                     />
                     <Input
-                      label='Medical record Number'
+                      label="Medical record Number"
                       register={register('mrn')}
                     />
-                    <Input label='Religion' register={register('religion')} />
+                    <Input label="Religion" register={register('religion')} />
                     <Input
-                      label='Profession'
+                      label="Profession"
                       register={register('profession')}
                     />
                     <Input
-                      label='Phone No'
+                      label="Phone No"
                       register={register('phone')}
                       errorText={errors?.phone?.message}
                     />
                     <Input
-                      label='Email'
+                      label="Email"
                       register={register('email')}
                       errorText={errors?.email?.message}
                     />
-                    <Input label='Tags' register={register('clientTags')} />
+                    <Input label="Tags" register={register('clientTags')} />
                   </GridWrapper>
                 </ViewBox>
                 {/* Address */}
@@ -263,13 +269,13 @@ const ClientForm = ({ open, setOpen }) => {
 
                   <GridWrapper>
                     <Input
-                      label='Residential Address'
+                      label="Residential Address"
                       register={register('address')}
                     />
-                    <Input label='Town/City' register={register('city')} />
-                    <Input label='Local Govt Area' register={register('lga')} />
-                    <Input label='State' register={register('state')} />
-                    <Input label='Country' register={register('country')} />
+                    <Input label="Town/City" register={register('city')} />
+                    <Input label="Local Govt Area" register={register('lga')} />
+                    <Input label="State" register={register('state')} />
+                    <Input label="Country" register={register('country')} />
                   </GridWrapper>
                 </ViewBox>
                 {/* Medical Data */}
@@ -278,21 +284,25 @@ const ClientForm = ({ open, setOpen }) => {
 
                   <GridWrapper>
                     <Input
-                      label='Blood Group'
+                      label="Blood Group"
                       register={register('bloodgroup')}
                     />
-                    <Input label='Genotype' register={register('genotype')} />
+                    <Input label="Genotype" register={register('genotype')} />
                     <Input
-                      label='Disabilities'
+                      label="Disabilities"
                       register={register('disabilities')}
                     />
-                    <Input label='Allergies' register={register('allergies')} />
+                    <Input label="Allergies" register={register('allergies')} />
                     <Input
-                      label='Co-mobidities'
+                      label="Co-mobidities"
                       register={register('comorbidities')}
                     />
                     <Input
+<<<<<<< HEAD
                       label='Specific Details '
+=======
+                      label="Specific Details about patient"
+>>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -304,20 +314,40 @@ const ClientForm = ({ open, setOpen }) => {
                   <GridWrapper>
                     <Input label='Full Name' register={register('nok_name')} />
                     <Input
+<<<<<<< HEAD
                       label='Phone Number'
+=======
+                      label="Next of Kin Full Name"
+                      register={register('nok_name')}
+                    />
+                    <Input
+                      label="Next of Kin Phone Number"
+>>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('nok_phoneno')}
                     />
                     <Input label=' Email' register={register('nok_email')} />
                     <Input
+<<<<<<< HEAD
                       label='Relationship'
+=======
+                      label="Next of Kin Email"
+                      register={register('nok_email')}
+                    />
+                    <Input
+                      label="Next of Kin Relationship"
+>>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('nok_relationship')}
                     />
                     <Input
-                      label='Co-mobidities'
+                      label="Co-mobidities"
                       register={register('comorbidities')}
                     />
                     <Input
+<<<<<<< HEAD
                       label='Specific Details '
+=======
+                      label="Specific Details about patient"
+>>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                       register={register('specificDetails')}
                     />
                   </GridWrapper>
@@ -325,12 +355,18 @@ const ClientForm = ({ open, setOpen }) => {
 
                 <BottomWrapper>
                   <Button
+<<<<<<< HEAD
                     label='Close'
                     background='#FFE9E9'
                     color='#ED0423'
                     onClick={() => setOpen(false)}
+=======
+                    label="Clear Form"
+                    background="#FFE9E9"
+                    color="#ED0423"
+>>>>>>> 6b517de2f5399a9a43bab3e93dda7e4afe222221
                   />
-                  <Button label='Save Form' type='submit' loading={loading} />
+                  <Button label="Save Form" type="submit" loading={loading} />
                 </BottomWrapper>
               </div>
             )}

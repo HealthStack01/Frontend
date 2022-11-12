@@ -17,11 +17,11 @@ import {MdCancel} from "react-icons/md";
 import {Box, Grid} from "@mui/material";
 import ModalHeader from "./ui-components/modal";
 import CustomSelect from "../../components/inputs/basic/Select"
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Bands() {
+export default function ClientIntolerance() {
   console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
@@ -78,7 +78,7 @@ export default function Bands() {
   );
 }
 
-export function BandCreate() {
+export function ClientIntoleranceCreate() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -168,7 +168,7 @@ export function BandCreate() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create Band</p>
+          <p className="card-header-title">Drug Intolerance</p>
         </div>
         <div className="card-content vscrollable">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -182,12 +182,11 @@ export function BandCreate() {
                 </div> */}
             <div className="field">
               <div className="control">
-                
                 <CustomSelect
-                  label="choose band type"
-                  name="bandType"           
+                  label="drug"
+                  name="drug"           
                   options={bandTypeOptions}
-                  register={register("bandtype", {required:true})}
+                  register={register("drug", {required:true})}
                   onChange={(e)=>handleChangeMode(e.target.value)}
             />
               </div>
@@ -196,11 +195,11 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("name", {required:true})}
+                  register={register("date", {required:true})}
           
-                  name="name"
-                  type="text"
-                  placeholder="Name of Band"
+                  name="Date administered"
+                  type="date"
+                  placeholder="Date administered"
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-map-signs"></i>
@@ -211,11 +210,56 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("description", {required:true})}
+                  register={register("reaction", {required:true})}
             
-                  name="description"
+                  name="reaction"
                   type="text"
-                  placeholder="Description of Band"
+                  placeholder="Enter Reaction"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-map-signs"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <Input
+                  className="input is-small"
+                  register={register("assessment", {required:true})}
+            
+                  name="assessment"
+                  type="date"
+                  placeholder="Date of Assessment"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-map-signs"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <Input
+                  className="input is-small"
+                  register={register("note", {required:true})}
+            
+                  name="note"
+                  type="text"
+                  placeholder="note"
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-map-signs"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <Input
+                  className="input is-small"
+                  register={register("type", {required:true})}
+            
+                  name="type"
+                  type="text"
+                  placeholder="Reaction type"
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-map-signs"></i>
@@ -326,7 +370,7 @@ export function BandCreate() {
   );
 }
 
-export function BandList({showCreateModal, showDetailModal}) {
+export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -507,6 +551,91 @@ export function BandList({showCreateModal, showDetailModal}) {
       inputType: "TEXT",
     },
   ];
+  const DrugToleranceSchema = [
+    {
+      name: "Drug",
+      key: "drug",
+      description: "Enter name of drug",
+      selector: row => row.drug,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    
+    {
+      name: "Date administer",
+      key: "date",
+      description: "Enter name of date",
+      selector: row => row.date,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Date of reaction",
+      key: "reaction",
+      description: "Enter date of reaction",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Reaction Type",
+      key: "type",
+      description: "Enter type of reaction",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Assessment",
+      key: "assessment",
+      description: "Enter Assessment",
+      selector: row => row.assessment,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Note",
+      key: "note",
+      description: "Enter Note",
+      selector: row => row.note,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+  ]
+
+  const drugData = [
+      {
+      drug: "Aspirin",
+      date: "27-10-2022",
+      reaction: "Sneezing",
+      assessment: "28-10-2022",
+      note: "lorem ipsum ...",
+      type: "Irritation",
+      },
+      {
+      drug: "Panadol",
+      date: "21-04-2022",
+      reaction: "Sneezing",
+      assessment: "30-10-2022",
+      note: "lorem ipsum ...",
+      type: "Itching",
+      },
+      {
+      drug: "Declofenac",
+      date: "27-03-2021",
+      reaction: "Sneezing",
+      assessment: "28-03-2021",
+      note: "lorem ipsum ...",
+      type: "Irritation",
+      },
+  ]
 
   return (
     <>
@@ -540,8 +669,10 @@ export function BandList({showCreateModal, showDetailModal}) {
               <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
-                  columns={BandSchema}
-                  data={facilities}
+                  // columns={BandSchema}
+                  columns={DrugToleranceSchema}
+                  // data={facilities}
+                  data={drugData}
                   pointerOnHover
                   highlightOnHover
                   striped
@@ -559,7 +690,7 @@ export function BandList({showCreateModal, showDetailModal}) {
   );
 }
 
-export function BandDetail({showModifyModal}) {
+export function ClientIntoleranceDetail({showModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -656,7 +787,7 @@ export function BandDetail({showModifyModal}) {
   );
 }
 
-export function BandModify() {
+export function ClientIntoleranceModify() {
   const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);

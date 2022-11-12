@@ -335,9 +335,6 @@ export function ClientAccount({closeModal}) {
                 marginRight: "15px",
               }}
             >
-              {/* <p className="card-header-title">
-            Account Details: {facility[0]?.fromName}
-          </p> */}
               <span
                 style={{
                   color: "#0364FF",
@@ -371,9 +368,6 @@ export function ClientAccount({closeModal}) {
                 paddingLeft: "31px",
               }}
             >
-              {/* <p className="card-header-title">
-            Account Details: {facility[0]?.fromName}
-          </p> */}
               <span
                 style={{
                   color: "#0364FF",
@@ -475,6 +469,8 @@ export function CollectionList({openAccountModal}) {
 
     //console.log("handlerow",Inventory)
 
+    console.log(Inventory);
+
     await setSelectedInventory(Inventory);
 
     const newInventoryModule = {
@@ -538,7 +534,7 @@ export function CollectionList({openAccountModal}) {
           },
         },
       });
-      console.log(user);
+      //console.log(user);
 
       await setFacilities(findInventory.data);
     } else {
