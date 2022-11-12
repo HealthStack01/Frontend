@@ -874,6 +874,7 @@ export const FetchTotalBalance = service => {
   const {data, isPending, error} = useFetchData(service, query, true);
   var total = 0;
   data.map(dat => {
+    console.log(dat, 'data finding')
     return (total += dat.paymentInfo.balance);
   });
   const fetchTotalBalance = Math.ceil(total);
@@ -896,14 +897,16 @@ export const FetchTotalPendingBills = service => {
   const {data, isPending, error} = useFetchData(service, query, true);
   var total = 0;
   data.map(dat => { 
-    return (total += dat.paymentInfo.balance);
+    return (total += dat.paymentInfo.amountDue);
 });
 const fetchTotalPendingBills = Math.ceil(total);
 
 let err = error;
 return {
-  fetchTotalPendingBills
-}
+  fetchTotalPendingBills,
+  isPending,
+  err,
+};
 };
 
 export const FetchTotalMoneyCollected = service => {
@@ -917,13 +920,15 @@ export const FetchTotalMoneyCollected = service => {
   const {data, isPending, error} = useFetchData(service, query, true);
   var total = 0;
   data.map(dat => { 
-    return (total += dat.paymentInfo.balance);
+    return (total += dat.paymentInfo.paidup);
 });
 const fetchTotalMoneyCollected = Math.ceil(total);
 
 let err = error;
 return {
-  FetchTotalMoneyCollected
+  fetchTotalMoneyCollected,
+  isPending,
+  err,
 }
 };
 

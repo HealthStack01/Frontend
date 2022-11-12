@@ -158,11 +158,11 @@ import ClientBilledPrescription from "./ManagedCare/Claims";
 import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
-
+import RadiologyDashboard from "./dashBoardUiComponent/@modules/RadiologyDashboard"
+import CrmDashboard from "./dashBoardUiComponent/@modules/CrmDashboard"
 import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-import CrmDashboard from "./dashBoardUiComponent/@modules/CrmDashboard";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -515,6 +515,10 @@ const AppRoutes = () => {
               path="/app/radiology/payment"
               element={<RadiologyPayment />}
             />
+            <Route
+              path="/app/radiology/dashboard"
+              element={<RadiologyDashboard />}
+            />
           </Route>
 
           {/* ***************************** THEATRE ROUTES ************************************* */}
@@ -624,7 +628,7 @@ const AppRoutes = () => {
             <Route path="/app/crm/SLA" />
             <Route path="/app/crm/appointment" />
             <Route path="/app/crm/deal" />
-            <Route path="/app/crm/dashboard" element={<CrmDashboard/>} />
+            <Route path="/app/crm/dashboard" element={<CrmDashboard />} />
           </Route>
 
           {/**************************Referral *************************************** */}

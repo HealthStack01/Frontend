@@ -78,7 +78,7 @@ const FinanceDashboard = () => {
           <ViewCard count={`${fetchTotalRevenue}K`} title="Total Revenue" />
           <ViewCard count={`${fetchTotalPendingBills}K`} title="Pending Bills" />
           <ViewCardWithFilter
-            count={`${fetchTotalMoneyCollected}K`}
+            count={fetchTotalMoneyCollected}
             title="Total Money collected"
             hasFilter={true}
             dataSource={fetchTotalMoneyCollectedPresentDataObject}

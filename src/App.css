@@ -305,3 +305,6 @@ div::-webkit-scrollbar-thumb {
 .hovercard {
   cursor: pointer;
 }
+.linechart2 {
+  min-height: 130px !important;
+}
