@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {useEffect, useState, useContext} from "react";
+import {Route, Routes, useLocation} from "react-router-dom";
 
-import { UserContext, ObjectContext } from "../context";
+import {UserContext, ObjectContext} from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import { Models } from "./app/Constants";
+import {Models} from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -164,7 +164,7 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import { OrgList } from "./ManagedCare/OrgClientList";
+import {OrgList} from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
@@ -175,8 +175,8 @@ import PreAuth from "./ManagedCare/PreAuth";
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
 // import Proposal from "./CRM/Proposal";
-import Proposal from "./CRM/proposal";
-import Invoice from "./CRM/invoice";
+import Proposal from "./CRM/Proposal";
+import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
@@ -201,10 +201,13 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const { setLocationType } = useRepository(Models.LOCATION);
+  const {setLocationType} = useRepository(Models.LOCATION);
+
+  const {fetchingUser} = useContext(UserContext);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
+
   useEffect(() => {
     const paths = location.pathname.split("/");
     const newModule = paths.length > 2 && paths[2];

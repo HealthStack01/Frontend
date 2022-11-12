@@ -776,6 +776,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                 border: "1px solid rgba(235, 235, 235, 1)",
                 maxHeight: "calc(100vh - 250px)",
                 overflowY: "scroll",
+                padding: "15px",
               }}
             >
               <EncounterRight client={chosenClient} />

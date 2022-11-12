@@ -36,7 +36,11 @@ export default function ClientHome({children}) {
 
   useEffect(() => {
     // console.log("starting up Client module")
-    if (!selectedClinic) {
+    //alert(!selectedClinic);
+
+    const noObject = Object.keys(selectedClinic).length === 0;
+
+    if (noObject) {
       handleChangeClinic();
     }
     return () => {};
@@ -71,8 +75,6 @@ export default function ClientHome({children}) {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="is-1"> Appointment sdchedule for patients for this clinic</div>
-               <div className="is-1"> Communication Command Center</div>     */}
       <section className="hero is-info is-fullheight">
         <div className="layout__content-main">
           <ModalBox open={showModal}>

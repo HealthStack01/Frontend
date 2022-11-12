@@ -22,7 +22,12 @@ export default function PharmacyHome({children}) {
   // };
 
   useEffect(() => {
-    if (!selectedStore) {
+    // console.log("starting up Client module")
+    //alert(!selectedClinic);
+
+    const noObject = Object.keys(selectedStore).length === 0;
+
+    if (noObject) {
       handleChangeStore();
     }
     return () => {};
