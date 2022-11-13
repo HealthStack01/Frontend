@@ -10,8 +10,8 @@ export default function LaboratoryHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   // eslint-disable-next-line
-  const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+  const [selectedLab, setSelectedLab] = useState(
+    state.LaboratoryModule.selectedLab
   );
   const [showModal, setShowModal] = useState(false);
 
@@ -22,7 +22,7 @@ export default function LaboratoryHome({children}) {
   // };
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedStore).length === 0;
+    const notSelected = Object.keys(selectedLab).length === 0;
 
     if (notSelected) {
       handleChangeStore();
@@ -31,11 +31,11 @@ export default function LaboratoryHome({children}) {
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.StoreModule.selectedStore);
+    setSelectedLab(state.LaboratoryModule.selectedLab);
     const newEmployeeLocation = {
-      locationName: state.StoreModule.selectedStore.name,
-      locationType: state.StoreModule.selectedStore.locationType,
-      locationId: state.StoreModule.selectedStore._id,
+      locationName: state.LaboratoryModule.selectedLab.name,
+      locationType: state.LaboratoryModule.selectedLab.locationType,
+      locationId: state.LaboratoryModule.selectedLab._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
@@ -43,7 +43,7 @@ export default function LaboratoryHome({children}) {
       ...prevstate,
       employeeLocation: newEmployeeLocation,
     }));
-  }, [state.StoreModule]);
+  }, [state.LaboratoryModule]);
 
   const handleChangeStore = async () => {
     await setShowModal(true);

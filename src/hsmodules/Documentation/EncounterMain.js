@@ -454,11 +454,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
       action: handleNewPrescription,
       show: !nopresc,
     },
-    {
-      title: "New Document",
-      action: handleNewDocument,
-      show: true,
-    },
+    // {
+    //   title: "New Document",
+    //   action: handleNewDocument,
+    //   show: true,
+    // },
   ];
 
   return (
@@ -477,7 +477,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
           justifyContent: "space-between",
         }}
       >
-        <Box item sx={{width: "calc(100% - 350px)"}}>
+        <Box item sx={{width: "calc(100% - 350px - 190px)"}}>
           <Input
             label="Search Documentation"
             className="input is-small "
@@ -516,6 +516,29 @@ export default function EncounterMain({nopresc, chosenClient}) {
               setActivateCall={setActivateCall}
             />
           )}
+        </Box>
+
+        <Box
+          sx={{
+            width: "180px",
+          }}
+        >
+          <MuiButton
+            variant="contained"
+            sx={{
+              fontSize: "0.9rem",
+              width: "100%",
+              minHeight: "48px",
+              textTransform: "capitalize",
+              backgroundColor: "green",
+              "&:hover": {
+                backgroundColor: "green",
+              },
+            }}
+            onClick={handleNewDocument}
+          >
+            New Document
+          </MuiButton>
         </Box>
 
         <Box

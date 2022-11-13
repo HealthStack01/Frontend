@@ -1,9 +1,10 @@
 /* eslint-disable */
 // import {Button} from "@mui/material";
+import {Button} from "@mui/material";
 import React, {useState, useContext, useEffect, useRef} from "react";
 import Draggable from "react-draggable";
 import {Jutsu} from "react-jutsu";
-import Button from "../../components/buttons/Button";
+//import Button from "../../components/buttons/Button";
 //import { useJitsi } from 'react-jutsu' // Custom hook
 import {UserContext, ObjectContext} from "../../context";
 
@@ -105,13 +106,14 @@ const VideoConference = ({activateCall, setActivateCall}) => {
         variant="contained"
         onClick={e => handleClick(e)}
         type="submit"
-        style={{
+        sx={{
           fontSize: "0.9rem",
           width: "100%",
           minHeight: "48px",
+          textTransform: "capitalize",
         }}
       >
-        Join Teleconsultation
+        Teleconsultation
       </Button>
     </form>
   );
