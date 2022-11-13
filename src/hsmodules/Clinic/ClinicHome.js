@@ -22,8 +22,9 @@ export default function ClinicHome({children}) {
   // };
 
   useEffect(() => {
-    console.log("starting up Clinic module");
-    if (!selectedClinic) {
+    const notSelected = Object.keys(selectedClinic).length === 0;
+
+    if (notSelected) {
       handleChangeClinic();
     }
     return () => {};

@@ -188,6 +188,7 @@ import BloodBankHome from "./Bloodbank/BloodBankHome";
 import Incoming from "./Referral/Incoming";
 import Outgoing from "./Referral/Outgoing";
 import PremiumPayment from "./ManagedCare/PremiumPayment";
+import PageLoaderComponent from "../components/page-loader/page-loader";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -203,10 +204,12 @@ const moduleLocationTypes = {
 const AppRoutes = () => {
   const {setLocationType} = useRepository(Models.LOCATION);
 
-  const {fetchingUser} = useContext(UserContext);
+  const {authenticatingUser} = useContext(UserContext);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
+
+  console.log(authenticatingUser);
 
   useEffect(() => {
     const paths = location.pathname.split("/");
@@ -220,6 +223,7 @@ const AppRoutes = () => {
     }
   }, [location]);
 
+  if (authenticatingUser) return <PageLoaderComponent />;
   return (
     <>
       <Routes>
