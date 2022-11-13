@@ -23,7 +23,9 @@ export default function TheatreHome({children}) {
   // };
 
   useEffect(() => {
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};
@@ -57,7 +59,7 @@ export default function TheatreHome({children}) {
               <Box
                 sx={{
                   width: "600px",
-                  maxHeight: "450px",
+                  maxHeight: "500px",
                 }}
               >
                 <StoreListStandalone

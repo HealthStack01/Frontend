@@ -15,32 +15,31 @@ export default function ClientHome({children}) {
   // const [activeModal, setActiveModal]=useState("modal is-active ")
   const {state, setState} = useContext(ObjectContext);
   const [showModal, setShowModal] = useState(false);
+  const {user, setUser} = useContext(UserContext);
   // const { user, setUser } = useContext(UserContext);
-  const data = localStorage.getItem("user");
-
-  const user = JSON.parse(data);
 
   console.log("Stored User", user);
 
   const [selectedClinic, setSelectedClinic] = useState(
     state.FrontDesk.selectedFrontDesk
   );
-  const locationOptions = ["simpa", "lekan"];
-  const handleSelectLocation = () => {};
 
-  const handleCloseModal = () => {
-    state.showStoreModal = "modal";
-    setState(state);
-    console.log(state.showStoreModal);
-  };
+  // const locationOptions = ["simpa", "lekan"];
+  // const handleSelectLocation = () => {};
+
+  // const handleCloseModal = () => {
+  //   state.showStoreModal = "modal";
+  //   setState(state);
+  //   console.log(state.showStoreModal);
+  // };
 
   useEffect(() => {
     // console.log("starting up Client module")
     //alert(!selectedClinic);
 
-    const noObject = Object.keys(selectedClinic).length === 0;
+    const notSelected = Object.keys(selectedClinic).length === 0;
 
-    if (noObject) {
+    if (notSelected) {
       handleChangeClinic();
     }
     return () => {};
@@ -81,7 +80,7 @@ export default function ClientHome({children}) {
             <Box
               sx={{
                 width: "600px",
-                maxHeight: "450px",
+                maxHeight: "500px",
               }}
             >
               <FrontDeskList

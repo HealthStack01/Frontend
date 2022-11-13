@@ -29,7 +29,7 @@ import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Incoming() {
+export default function BloodBankLab() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -39,7 +39,7 @@ export default function Incoming() {
 
   return (
     <section className="section remPadTop">
-      <IncomingList showModal={showModal} setShowModal={setShowModal} />
+      <BloodBankLabList showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 }
@@ -445,7 +445,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function IncomingList({ showModal, setShowModal }) {
+export function BloodBankLabList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -720,41 +720,41 @@ export function IncomingList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      name: "Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Approved",
-      reason: "",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
+      status: "Active",
     },
     {
-      name: "Albert Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Approved",
-      reason: "",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
+      status: "Active",
     },
     {
-      name: "Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Unapproved",
-      reason: "",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
+      status: "Inactive",
     },
 
     {
-      name: "Sulaiman Olaniran",
-      policy_id: "234.75.43.01",
-      code: "324234.AC",
-      provider: "Creek Hospital",
-      destination: "Creek Hospital",
-      status: "Approved",
-      reason: "",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
+      status: "Active",
     },
   ];
 
@@ -764,10 +764,10 @@ export function IncomingList({ showModal, setShowModal }) {
     // }
     // else if
     switch (status.toLowerCase()) {
-      case "approved":
+      case "active":
         return <span style={{ color: "#17935C" }}>{status}</span>;
 
-      case "unapproved":
+      case "inactive":
         return <span style={{ color: "#0364FF" }}>{status}</span>;
 
       default:
@@ -775,7 +775,7 @@ export function IncomingList({ showModal, setShowModal }) {
     }
   };
 
-  const IncomingSchema = [
+  const BloodBankLabSchema = [
     {
       name: "S/N",
       key: "sn",
@@ -786,49 +786,58 @@ export function IncomingList({ showModal, setShowModal }) {
       width: "80px",
     },
     {
-      name: " Patient Name",
+      name: "Name Of Donor",
       key: "name",
       description: "Enter name of Company",
       selector: (row) => row.name,
       sortable: true,
       required: true,
-      inputType: "HIDDEN",
+      inputType: "TEXT",
     },
     {
-      name: "Policy Id",
-      key: "phone_no",
+      name: "Order for Lab Testing",
+      key: "order",
+      description: "Enter name of Company",
+      selector: (row) => row.order,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter name of Company",
+      selector: (row) => row.date,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Pending Test",
+      key: "test",
       description: "Enter bills",
-      selector: (row) => row.phone_no,
+      selector: (row) => row.test,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Referral Code",
-      key: "code",
+      name: "Fulfilled",
+      key: "fulfilled",
       description: "Enter name of Disease",
-      selector: (row, i) => row.code,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-    {
-      name: "Referral Provider",
-      key: "provider",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.provider,
+      selector: (row, i) => row.fulfilled,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Destination Provider",
-      key: "destination",
+      name: "Requesting Physician",
+      key: "request",
       description: "Enter name of Disease",
-      selector: (row, i) => row.destination,
+      selector: (row, i) => row.request,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "TEXt",
     },
     {
       name: "Status",
@@ -836,15 +845,6 @@ export function IncomingList({ showModal, setShowModal }) {
       description: "Enter bills",
       selector: "status",
       cell: (row) => returnCell(row.status),
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Reason for Request",
-      key: "provider",
-      description: "Enter name of Disease",
-      selector: (row, i) => row.reason,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -867,14 +867,14 @@ export function IncomingList({ showModal, setShowModal }) {
                     </div>
                   )}
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Incoming
+                    Invoice
                   </h2>
                 </div>
 
                 {handleCreateNew && (
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
-                    label="Outgoing "
+                    label="Add new "
                     onClick={handleCreateNew}
                   />
                 )}
@@ -883,7 +883,7 @@ export function IncomingList({ showModal, setShowModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={IncomingSchema}
+                    columns={BloodBankLabSchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover

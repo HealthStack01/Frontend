@@ -664,7 +664,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "100%", height: "100%"}}>
+          <Box container sx={{width: "100%", maxHeight: "100%"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>

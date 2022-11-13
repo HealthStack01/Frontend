@@ -7,10 +7,9 @@ import {useForm} from "react-hook-form";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
-import "leaflet.markercluster"
+import "leaflet.markercluster";
 
-
-import "./App.css"
+import "./App.css";
 // eslint-disable-next-line
 
 import {PageWrapper} from "../../ui/styled/styles";
@@ -18,13 +17,21 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import { MapContainer, TileLayer, useMap, Marker, Popup, GeoJSON,  } from 'react-leaflet'
-import L  from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import {
+  MapContainer,
+  TileLayer,
+  useMap,
+  Marker,
+  Popup,
+  GeoJSON,
+} from "react-leaflet";
+import L from "leaflet";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 /* import *  as hospData from "../../data/nigeriahealthfacilities.json" */
 
-import 'leaflet/dist/leaflet.css'
+import "leaflet/dist/leaflet.css";
+import {Box} from "@mui/system";
 // let DefaultIcon = L.icon({
 //     iconUrl: icon,
 //     shadowUrl: iconShadow
@@ -39,18 +46,16 @@ export default function EpidemiologySignals() {
   // eslint-disable-next-line
   const [selectedStore, setSelectedStore] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
- 
 
   return (
     <section className="section remPadTop">
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Store  Module</span></div>
             </div> */}
-            <div>
-              <SignalsList/>
-            </div>
+      <div>
+        <SignalsList />
+      </div>
       <div className="columns ">
-       
         <div className="column is-1 "></div>
         {/*             <div className="column is-4 ">
                 {(state.StoreModule.show ==='create')&&<StoreCreate />}
@@ -508,7 +513,7 @@ export function SignalsList({standalone, closeModal}) {
       inputType: "TEXT",
     },
   ];
-  
+
   return (
     <>
       {user ? (
@@ -554,12 +559,9 @@ export function SignalsList({standalone, closeModal}) {
       ) : (
         <div>loading</div>
       )}
-
     </>
   );
 }
-
-
 
 export function StoreListStandalone({standalone, closeModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -733,7 +735,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "100%", height: "100%"}}>
+          <Box container sx={{width: "600px", height: "500px"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>

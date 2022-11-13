@@ -296,7 +296,7 @@ export default function AsthmaIntake() {
 
           <Box>
             <RadioButton
-              register={register("Race")}
+              register={register("Marital_Status")}
               title="6. Maritial Status"
               options={[
                 "Single",
@@ -472,8 +472,6 @@ export default function AsthmaIntake() {
                 />
               </p>
             </div>
-
-            {/* ******************* START FROM BELOW TO CONTINUE **************** */}
 
             <div className="field">
               <label>6. Marital Status</label>

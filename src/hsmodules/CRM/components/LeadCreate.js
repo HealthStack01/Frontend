@@ -36,7 +36,15 @@ const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
 const LeadsCreate = ({closeModal}) => {
   const {register} = useForm();
   return (
-    <Box container sx={{width: "800px", maxHeight: "80vh"}}>
+    <Box
+      container
+      sx={{
+        width: "800px",
+        maxHeight: "95vh",
+        overflowY: "auto",
+        padding: "10px",
+      }}
+    >
       {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
       <Box item>
         <FormsHeaderText text="Customer Details" />

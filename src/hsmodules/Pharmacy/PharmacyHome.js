@@ -22,12 +22,9 @@ export default function PharmacyHome({children}) {
   // };
 
   useEffect(() => {
-    // console.log("starting up Client module")
-    //alert(!selectedClinic);
+    const notSelected = Object.keys(selectedStore).length === 0;
 
-    const noObject = Object.keys(selectedStore).length === 0;
-
-    if (noObject) {
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};
@@ -59,17 +56,10 @@ export default function PharmacyHome({children}) {
         <div className="hero-body">
           <div className="layout__content-main">
             <ModalBox open={showModal} onClick={() => setShowModal(false)}>
-              <Box
-                sx={{
-                  width: "600px",
-                  maxHeight: "450px",
-                }}
-              >
-                <PharmacyListStandalone
-                  standalone={true}
-                  closeModal={() => setShowModal(false)}
-                />
-              </Box>
+              <PharmacyListStandalone
+                standalone={true}
+                closeModal={() => setShowModal(false)}
+              />
             </ModalBox>
             {children}
             <Outlet />
