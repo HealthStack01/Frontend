@@ -174,7 +174,6 @@ import PreAuth from "./ManagedCare/PreAuth";
 
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-// import Proposal from "./CRM/Proposal";
 import Proposal from "./CRM/Proposal";
 import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
