@@ -135,64 +135,6 @@ import GeneralAppointments from "./Appointment/generalAppointment";
 //import ClientsAppointments from "./Client/Appointments";
 
 //importing dashboardModules
-<<<<<<< HEAD
-import ClientDashboard from './dashBoardUiComponent/@modules/ClientDashboard';
-import ClinicDashboard from './dashBoardUiComponent/@modules/ClinicDashboard';
-import LandingPageDashboard from './dashBoardUiComponent/@modules/LandingPageDashboard';
-import WardDashboard from './dashBoardUiComponent/@modules/WardDashboard';
-import PharmacyDashboard from './dashBoardUiComponent/@modules/PharmacyDashboard';
-import InventoryDashboard from './dashBoardUiComponent/@modules/InventoryDashboard';
-import FinanceDashboard from './dashBoardUiComponent/@modules/FinanceDashboard';
-import LaboratoryDashboard from './dashBoardUiComponent/@modules/LaboratoryDashboard';
-import ForgotPassword from './auth/ForgotPassword';
-import CreatePassword from './auth/CreatePassword';
-import ManagedCareHome from './ManagedCare/ManagedCareHome';
-import Policy from './ManagedCare/Policy';
-import Beneficiary from './ManagedCare/Beneficiary';
-import ReferralsCollections from './ManagedCare/Referral';
-import TarrifList from './ManagedCare/Tarrifs';
-import HealthPlan from './ManagedCare/HealthPlan';
-import Referral from './ManagedCare/Referral';
-import Provider from './ManagedCare/Providers';
-import Product from './ManagedCare/UserManagement';
-import ProductEntry from './ManagedCare/HealthPlan';
-import HiaOrganizationClient from './ManagedCare/HIA';
-import CorporateClient from './ManagedCare/Corporate';
-import Claims from './ManagedCare/Claims';
-import FundsManagement from './ManagedCare/FundsManagement';
-import CheckIn from './ManagedCare/Checkin';
-import RadiologyDashboard from './dashBoardUiComponent/@modules/RadiologyDashboard'
-import ManagedCareFrontDashboard from './dashBoardUiComponent/@modules/ManagedCareFrontDashboard';
-import ProviderOrganizationClient from './ManagedCare/Providers';
-||||||| merged common ancestors
-import ClientDashboard from './dashBoardUiComponent/@modules/ClientDashboard';
-import ClinicDashboard from './dashBoardUiComponent/@modules/ClinicDashboard';
-import LandingPageDashboard from './dashBoardUiComponent/@modules/LandingPageDashboard';
-import WardDashboard from './dashBoardUiComponent/@modules/WardDashboard';
-import PharmacyDashboard from './dashBoardUiComponent/@modules/PharmacyDashboard';
-import InventoryDashboard from './dashBoardUiComponent/@modules/InventoryDashboard';
-import FinanceDashboard from './dashBoardUiComponent/@modules/FinanceDashboard';
-import LaboratoryDashboard from './dashBoardUiComponent/@modules/LaboratoryDashboard';
-import ForgotPassword from './auth/ForgotPassword';
-import CreatePassword from './auth/CreatePassword';
-import ManagedCareHome from './ManagedCare/ManagedCareHome';
-import Policy from './ManagedCare/Policy';
-import Beneficiary from './ManagedCare/Beneficiary';
-import ReferralsCollections from './ManagedCare/Referral';
-import TarrifList from './ManagedCare/Tarrifs';
-import HealthPlan from './ManagedCare/HealthPlan';
-import Referral from './ManagedCare/Referral';
-import Provider from './ManagedCare/Providers';
-import Product from './ManagedCare/UserManagement';
-import ProductEntry from './ManagedCare/HealthPlan';
-import HiaOrganizationClient from './ManagedCare/HIA';
-import CorporateClient from './ManagedCare/Corporate';
-import Claims from './ManagedCare/Claims';
-import FundsManagement from './ManagedCare/FundsManagement';
-import CheckIn from './ManagedCare/Checkin';
-import ManagedCareFrontDashboard from './dashBoardUiComponent/@modules/ManagedCareFrontDashboard';
-import ProviderOrganizationClient from './ManagedCare/Providers';
-=======
 import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
 import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
 import LandingPageDashboard from "./dashBoardUiComponent/@modules/LandingPageDashboard";
@@ -220,7 +162,6 @@ import FundsManagement from "./ManagedCare/FundsManagement";
 import CheckIn from "./ManagedCare/Checkin";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
->>>>>>> 6ba891b732caf976b6f02c1eeb7e0947290cfcad
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
 import { OrgList } from "./ManagedCare/OrgClientList";
@@ -231,79 +172,6 @@ import PreAuth from "./ManagedCare/PreAuth";
 
 // import Provider from "./ManagedCare/Providers";
 
-<<<<<<< HEAD
-import CRMHome from './CRM/CrmHome';
-import Leads from './CRM/Lead';
-// import Proposal from "./CRM/Proposal";
-import Proposal from './CRM/Proposal';
-import Invoice from './CRM/Invoice';
-import SLA from './CRM/SLA';
-import CrmAppointment from './CRM/Appointment';
-import Deal from './CRM/Deal';
-import Complaint from './Complaints/Complaint';
-import ImmunizationHome from './Immunization/ImmunizationHome';
-import VaccineProfile from './Immunization/VaccineProfile';
-import BloodBankInventory from './Bloodbank/Inventory';
-import BloodBankHome from './Bloodbank/BloodBankHome';
-import Incoming from './Referral/Incoming';
-import Outgoing from './Referral/Outgoing';
-import PremiumPayment from './ManagedCare/PremiumPayment';
-||||||| merged common ancestors
-<<<<<<<<< Temporary merge branch 1
-import CRMHome from './CRM/CrmHome';
-import Leads from './CRM/Lead';
-// import Proposal from "./CRM/Proposal";
-import Proposal from './CRM/Proposal';
-import Invoice from './CRM/Invoice';
-import SLA from './CRM/SLA';
-import CrmAppointment from './CRM/Appointment';
-import Deal from './CRM/Deal';
-import Complaint from './Complaints/Complaint';
-import ImmunizationHome from './Immunization/ImmunizationHome';
-import VaccineProfile from './Immunization/VaccineProfile';
-import BloodBankInventory from './Bloodbank/Inventory';
-import BloodBankHome from './Bloodbank/BloodBankHome';
-import Incoming from './Referral/Incoming';
-import Outgoing from './Referral/Outgoing';
-import PremiumPayment from './ManagedCare/PremiumPayment';
-||||||||| 2691120
-import CRMHome from "./CRM/CrmHome";
-import Leads from "./CRM/Lead";
-// import Proposal from "./CRM/Proposal";
-import Proposal from "./CRM/proposal";
-import Invoice from "./CRM/invoice";
-import SLA from "./CRM/SLA";
-import CrmAppointment from "./CRM/Appointment";
-import Deal from "./CRM/Deal";
-import Complaint from "./Complaints/Complaint";
-import ImmunizationHome from "./Immunization/ImmunizationHome";
-import VaccineProfile from "./Immunization/VaccineProfile";
-import BloodBankInventory from "./Bloodbank/Inventory";
-import BloodBankHome from "./Bloodbank/BloodBankHome";
-import Incoming from "./Referral/Incoming";
-import Outgoing from "./Referral/Outgoing";
-import PremiumPayment from "./ManagedCare/PremiumPayment";
-=========
-import CRMHome from "./CRM/CrmHome";
-import Leads from "./CRM/Lead";
-import Proposal from "./CRM/Proposal";
-import Invoice from "./CRM/Invoice";
-import SLA from "./CRM/SLA";
-import CrmAppointment from "./CRM/Appointment";
-import Deal from "./CRM/Deal";
-import Complaint from "./Complaints/Complaint";
-import ImmunizationHome from "./Immunization/ImmunizationHome";
-import VaccineProfile from "./Immunization/VaccineProfile";
-import BloodBankInventory from "./Bloodbank/Inventory";
-import BloodBankHome from "./Bloodbank/BloodBankHome";
-import Incoming from "./Referral/Incoming";
-import Outgoing from "./Referral/Outgoing";
-import PremiumPayment from "./ManagedCare/PremiumPayment";
-import BloodBankAppointments from "./Appointment/bloodBankAppoinment";
-import ImmunizationAppointments from "./Appointment/immunizationAppoinment";
-import ImmunizationCheckIn from "./Immunization/Checkin";
->>>>>>>>> Temporary merge branch 2
-=======
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
 import Proposal from "./CRM/Proposal";
@@ -323,7 +191,6 @@ import ImmunizationCheckIn from "./Immunization/Checkin";
 import ReferralIncoming from "./Appointment/referralWorkflow";
 import BloodBankLab from "./Bloodbank/Lab";
 import ImmunizationInventory from "./Immunization/Inventory";
->>>>>>> 6ba891b732caf976b6f02c1eeb7e0947290cfcad
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -678,10 +545,6 @@ const AppRoutes = () => {
               path="/app/radiology/payment"
               element={<RadiologyPayment />}
             />
-            <Route
-              path="/app/radiology/dashboard"
-              element={<RadiologyDashboard />}
-            />
           </Route>
 
           {/* ***************************** THEATRE ROUTES ************************************* */}
@@ -869,35 +732,6 @@ const AppRoutes = () => {
               path="/app/immunization/vaccineprofile"
               element={<VaccineProfile />}
             />
-<<<<<<< HEAD
-            <Route path='/app/immunization/appointment' />
-            <Route path='/app/immunization/checkin-out' />
-            <Route path='/app/immunization/report' />
-            <Route path='/app/immunization/dashboard' />
-||||||| merged common ancestors
-<<<<<<<<< Temporary merge branch 1
-            <Route path='/app/immunization/appointment' />
-            <Route path='/app/immunization/checkin-out' />
-            <Route path='/app/immunization/report' />
-            <Route path='/app/immunization/dashboard' />
-||||||||| 2691120
-            <Route path="/app/immunization/appointment" />
-            <Route path="/app/immunization/checkin-out" />
-            <Route path="/app/immunization/report" />
-            <Route path="/app/immunization/dashboard" />
-=========
-            <Route
-              path="/app/immunization/appointment"
-              element={<ImmunizationAppointments />}
-            />
-            <Route
-              path="/app/immunization/checkin-out"
-              element={<ImmunizationCheckIn />}
-            />
-            <Route path="/app/immunization/report" />
-            <Route path="/app/immunization/dashboard" />
->>>>>>>>> Temporary merge branch 2
-=======
             <Route
               path="/app/immunization/appointment"
               element={<ImmunizationAppointments />}
@@ -912,7 +746,6 @@ const AppRoutes = () => {
               element={<ImmunizationInventory />}
             />
             <Route path="/app/immunization/dashboard" />
->>>>>>> 6ba891b732caf976b6f02c1eeb7e0947290cfcad
           </Route>
 
           {/**************************Blood Bank *************************************** */}
@@ -921,35 +754,12 @@ const AppRoutes = () => {
               path="/app/blood-bank/inventory"
               element={<BloodBankInventory />}
             />
-<<<<<<< HEAD
-            <Route path='/app/blood-bank/appointment' />
-            <Route path='/app/blood-bank/lab' />
-            <Route path='/app/blood-bank/dashboard' />
-||||||| merged common ancestors
-<<<<<<<<< Temporary merge branch 1
-            <Route path='/app/blood-bank/appointment' />
-            <Route path='/app/blood-bank/lab' />
-            <Route path='/app/blood-bank/dashboard' />
-||||||||| 2691120
-            <Route path="/app/blood-bank/appointment" />
-            <Route path="/app/blood-bank/lab" />
-            <Route path="/app/blood-bank/dashboard" />
-=========
-            <Route
-              path="/app/blood-bank/appointment"
-              element={<BloodBankAppointments />}
-            />
-            <Route path="/app/blood-bank/lab" />
-            <Route path="/app/blood-bank/dashboard" />
->>>>>>>>> Temporary merge branch 2
-=======
             <Route
               path="/app/blood-bank/appointment"
               element={<BloodBankAppointments />}
             />
             <Route path="/app/blood-bank/lab" element={<BloodBankLab />} />
             <Route path="/app/blood-bank/dashboard" />
->>>>>>> 6ba891b732caf976b6f02c1eeb7e0947290cfcad
           </Route>
         </Route>
       </Routes>
