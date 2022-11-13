@@ -664,7 +664,7 @@ export function PharmacyListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "100%", height: "100%"}}>
+          <Box container sx={{width: "600px", maxHeight: "500px"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>
@@ -692,8 +692,8 @@ export function PharmacyListStandalone({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "calc(100% - 80px)",
-                overflowY: "scroll",
+                height: "400px",
+                overflowY: "auto",
               }}
             >
               <CustomTable

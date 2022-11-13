@@ -23,8 +23,9 @@ export default function InventoryHome({children}) {
   // };
 
   useEffect(() => {
-    console.log("starting up inventory module");
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};

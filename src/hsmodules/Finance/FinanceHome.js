@@ -23,8 +23,9 @@ export default function FinacneHome({children}) {
   console.log(user);
 
   useEffect(() => {
-    console.log("starting up Finance module");
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};

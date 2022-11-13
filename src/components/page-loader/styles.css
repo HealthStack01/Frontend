@@ -1,0 +1,80 @@
+.page-loader-container {
+  background-color: #ffffff;
+  height: 100vh;
+  width: 100%;
+
+  --dot-yellow: #f49c37;
+  --dot-orange: #e65b5b;
+  --dot-pink: #c7247a;
+  --dot-purple: #601d86;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin: auto;
+  position: absolute;
+  width: 100%;
+}
+
+.dot {
+  animation-timing-function: ease-in-out, linear;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: loading-wave, loading-color-change;
+  border-radius: 50%;
+  margin: 1px;
+
+  height: 50px;
+  width: 50px;
+}
+
+.dot-1 {
+  animation-delay: 0.1s;
+}
+.dot-2 {
+  animation-delay: 0.3s;
+}
+.dot-3 {
+  animation-delay: 0.6s;
+}
+.dot-4 {
+  animation-delay: 0.9s;
+}
+
+@keyframes loading-wave {
+  0%,
+  100% {
+    transform: translateY(-30px);
+  }
+  25% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes loading-color-change {
+  0%,
+  100% {
+    background: var(--dot-purple);
+  }
+  25% {
+    background: var(--dot-pink);
+  }
+  50% {
+    background: var(--dot-orange);
+  }
+  75% {
+    background: var(--dot-yellow);
+  }
+}

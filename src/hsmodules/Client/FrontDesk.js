@@ -433,7 +433,7 @@ export function FrontDeskList({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "100%", height: "100%"}}>
+          <Box container sx={{width: "600px", height: "500px"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>
