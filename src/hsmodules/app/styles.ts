@@ -147,8 +147,9 @@ export const FullDetailsWrapper = styled.div`
 `;
 
 export const GrayWrapper = styled.div`
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 4px;
+  width: 100%;
   height: 100%;
   padding: 1rem;
   /* padding-bottom: 30rem; */
@@ -177,6 +178,7 @@ export const GridBox = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: flex-start;
   grid-gap: 1rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
@@ -277,7 +279,7 @@ export const BottomWrapper = styled.div`
   }
 `;
 
-export const autoSuggestStyles = (defaultTheme) => {
+export const autoSuggestStyles = defaultTheme => {
   const classes: any = makeStyles(() => {
     return {
       container: {

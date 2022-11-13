@@ -233,7 +233,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/create-password" element={<CreatePassword />} />
         <Route path="/app" element={<PrivateOutlet />}>
-          <Route index element={<Overview />} />
+          <Route index element={<LandingPageDashboard />} />
           <Route
             path="/app/overview/dashboard"
             element={<LandingPageDashboard />}

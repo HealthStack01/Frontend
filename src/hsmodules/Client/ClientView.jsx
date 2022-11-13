@@ -229,12 +229,12 @@ const ClientView = ({open, setOpen, user}) => {
             </span>
           </div>
           <BottomWrapper>
-            <Button
-              label="Delete User"
-              background="#FFE9E9"
-              color="#ED0423"
+            {/* <Button
+              label='Delete User'
+              background='#FFE9E9'
+              color='#ED0423'
               onClick={() => handleDelete()}
-            />
+            /> */}
 
             <Button
               label={`${!editing ? "Edit Client" : "Cancel Editing"}`}

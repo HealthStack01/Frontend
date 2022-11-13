@@ -1,7 +1,7 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
-import { horizontalSeries } from "../utils/mock_chart_data";
-import ChartCard from "./ChartCard";
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
+import { horizontalSeries } from '../utils/mock_chart_data';
+import ChartCard from './ChartCard';
 
 interface HorizontalBarProps {
   title?: string;
@@ -29,13 +29,13 @@ const HorizontalBar: React.FC<HorizontalBarProps> = ({
       states: {
         hover: {
           filter: {
-            type: "lighten",
+            type: 'lighten',
             value: 0.04,
           },
         },
         active: {
           filter: {
-            type: "darken",
+            type: 'darken',
             value: 0.88,
           },
         },
@@ -44,7 +44,7 @@ const HorizontalBar: React.FC<HorizontalBarProps> = ({
       fill: {
         opacity: 1,
         gradient: {
-          type: "vertical",
+          type: 'vertical',
           shadeIntensity: 0,
           opacityFrom: 0.4,
           opacityTo: 0,
@@ -67,7 +67,7 @@ const HorizontalBar: React.FC<HorizontalBarProps> = ({
       // Markers
       markers: {
         size: 0,
-        strokeColors: "white",
+        strokeColors: 'white',
       },
       // Tooltip
       tooltip: {
@@ -78,8 +78,8 @@ const HorizontalBar: React.FC<HorizontalBarProps> = ({
       plotOptions: {
         // Bar
         bar: {
-          columnWidth: "100%",
-          rowWidth: "100%",
+          columnWidth: '100%',
+          rowWidth: '100%',
           borderRadius: 4,
           horizontal: horizontal,
         },
@@ -91,9 +91,9 @@ const HorizontalBar: React.FC<HorizontalBarProps> = ({
       <ReactApexChart
         options={state.options}
         series={state.series}
-        type="bar"
+        type='bar'
         height={500}
-        width="100%"
+        width='100%'
       />
     </ChartCard>
   );
