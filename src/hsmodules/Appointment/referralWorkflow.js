@@ -1,40 +1,40 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, Switch, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import { AppointmentSchema } from '../Clinic/schema';
-import { CustomButton } from '../../components/buttons/Button/base/styles';
-import ModalBox from './ui-components/modal';
-import ModalHeader from './ui-components/Heading/modalHeader';
-import { Box, Grid } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { MdCancel } from 'react-icons/md';
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, Switch, Link, NavLink } from "react-router-dom";
+import client from "../../feathers";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import { AppointmentSchema } from "../Clinic/schema";
+import { CustomButton } from "../../components/buttons/Button/base/styles";
+import ModalBox from "./ui-components/modal";
+import ModalHeader from "./ui-components/Heading/modalHeader";
+import { Box, Grid } from "@mui/material";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import { MdCancel } from "react-icons/md";
 export default function ReferralCheckIn() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [checkinpage, setCheckinpage] = useState('checkin');
+  const [checkinpage, setCheckinpage] = useState("checkin");
   const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      {checkinpage === 'checkin' && (
+      {checkinpage === "checkin" && (
         <CheckIn
           pageView={checkinpage}
           setPageView={setCheckinpage}
@@ -42,7 +42,7 @@ export default function ReferralCheckIn() {
           setShowModal={setShowModal}
         />
       )}
-      {checkinpage === 'checkout' && (
+      {checkinpage === "checkout" && (
         <CheckOut
           pageView={checkinpage}
           setPageView={setCheckinpage}
@@ -51,7 +51,7 @@ export default function ReferralCheckIn() {
         />
       )}
       {showModal && (
-        <ModalBox open={state.AppointmentModule.show === 'detail'}>
+        <ModalBox open={state.AppointmentModule.show === "detail"}>
           <CheckDetails showModal={showModal} setShowModal={setShowModal} />
         </ModalBox>
       )}
@@ -66,8 +66,8 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -84,7 +84,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -93,7 +93,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
   };
@@ -103,7 +103,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -113,7 +113,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = 'firstname';
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -121,84 +121,84 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked In',
+      appointment_status: "Checked In",
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -206,12 +206,12 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -220,7 +220,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked In',
+        appointment_status: "Checked In",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -262,13 +262,13 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
@@ -316,14 +316,14 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
                   }}
                 >
                   {handleSearch && (
@@ -331,25 +331,25 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                    Checked In Clients
+                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                    Incoming Clients
                   </h2>
                   <CustomButton
                     style={{
-                      backgroundColor: '#0364FF',
-                      color: '#fff',
-                      marginLeft: 'auto',
-                      width: '163px',
+                      backgroundColor: "#0364FF",
+                      color: "#fff",
+                      marginLeft: "auto",
+                      width: "163px",
                     }}
-                    onClick={() => setPageView('checkout')}
+                    onClick={() => setPageView("checkout")}
                   >
-                    {pageView === 'checkin' ? 'Check Out' : 'Check In'}
+                    {pageView === "checkin" ? "Outgoing" : "Check In"}
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={AppointmentSchema}
                   data={facilities}
                   pointerOnHover
@@ -496,8 +496,8 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -513,7 +513,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -522,7 +522,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
   };
@@ -532,7 +532,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -542,7 +542,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = 'firstname';
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -550,85 +550,85 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
       facility: user.currentEmployee.facilityDetail._id, // || "",
       $limit: 20,
-      appointment_status: 'Checked Out',
+      appointment_status: "Checked Out",
 
       $sort: {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -636,12 +636,12 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -650,7 +650,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     if (user.currentEmployee) {
       let stuff = {
         facility: user.currentEmployee.facilityDetail._id,
-        appointment_status: 'Checked Out',
+        appointment_status: "Checked Out",
         // locationId:state.employeeLocation.locationId,
         $limit: 100,
         $sort: {
@@ -692,13 +692,13 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
@@ -747,16 +747,16 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
           <div className="level">
             <PageWrapper
               style={{
-                flexDirection: 'column',
-                padding: '0.6rem 1rem',
+                flexDirection: "column",
+                padding: "0.6rem 1rem",
               }}
             >
               <TableMenu>
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
                   }}
                 >
                   {handleSearch && (
@@ -764,25 +764,25 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                    Checked Out Clients
+                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                    Outgoing Clients
                   </h2>
                   <CustomButton
                     style={{
-                      backgroundColor: '#0364FF',
-                      color: '#fff',
-                      marginLeft: 'auto',
-                      width: '163px',
+                      backgroundColor: "#0364FF",
+                      color: "#fff",
+                      marginLeft: "auto",
+                      width: "163px",
                     }}
-                    onClick={() => setPageView('checkin')}
+                    onClick={() => setPageView("checkin")}
                   >
-                    {pageView === 'checkin' ? 'Check In' : 'Check In'}
+                    {pageView === "checkout" ? "Incoming" : "Check Out"}
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
                 <CustomTable
-                  title={''}
+                  title={""}
                   columns={AppointmentSchema}
                   data={facilities}
                   pointerOnHover
@@ -809,7 +809,7 @@ export function CheckDetails({ showModal, setShowModal }) {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
@@ -822,7 +822,7 @@ export function CheckDetails({ showModal, setShowModal }) {
   const handleEdit = async () => {
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'modify',
+      show: "modify",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -835,7 +835,7 @@ export function CheckDetails({ showModal, setShowModal }) {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <ModalHeader text={'Client Details'} />
+          <ModalHeader text={"Client Details"} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <MdCancel
@@ -845,15 +845,15 @@ export function CheckDetails({ showModal, setShowModal }) {
                   ...prevstate,
                   AppointmentModule: {
                     selectedAppointment: {},
-                    show: 'list',
+                    show: "list",
                   },
                 }));
             }}
             style={{
-              fontSize: '2rem',
-              color: 'crimson',
-              cursor: 'pointer',
-              float: 'right',
+              fontSize: "2rem",
+              color: "crimson",
+              cursor: "pointer",
+              float: "right",
             }}
           />
         </Grid>
@@ -862,42 +862,42 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             First Name:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client?.firstname}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Middle Name:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client?.middlename}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Last Name:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client?.lastname}
           </span>
         </Grid>
@@ -907,42 +907,42 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Age:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {formatDistanceToNowStrict(new Date(Client.dob))}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Gender:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.gender}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Phone No:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.phone}
           </span>
         </Grid>
@@ -951,14 +951,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Email:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.email}
           </span>
         </Grid>
@@ -968,28 +968,28 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Start Time:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+          <span style={{ color: " #000000", fontSize: "16px" }}>
+            {format(new Date(Client.start_time), "dd/MM/yyyy HH:mm")}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Location:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {`${Client.location_name} (${Client.location_type})`}
           </span>
         </Grid>
@@ -997,14 +997,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Professional:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
           </span>
         </Grid>
@@ -1013,28 +1013,28 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Appointment Status:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.appointment_status}
           </span>
         </Grid>
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Appointment Class:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.appointmentClass}
           </span>
         </Grid>
@@ -1042,14 +1042,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={4}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Appointment Type:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.appointment_type}
           </span>
         </Grid>
@@ -1058,14 +1058,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={3} md={12}>
           <span
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
+              color: " #0364FF",
+              fontSize: "16px",
+              marginRight: ".8rem",
             }}
           >
             Reason for Appointment:
           </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
+          <span style={{ color: " #000000", fontSize: "16px" }}>
             {Client.appointment_reason}
           </span>
         </Grid>
@@ -1075,9 +1075,9 @@ export function CheckDetails({ showModal, setShowModal }) {
           <Button
             onClick={handleEdit}
             style={{
-              width: '100%',
-              backgroundColor: '#17935C',
-              fontSize: '18px',
+              width: "100%",
+              backgroundColor: "#17935C",
+              fontSize: "18px",
             }}
           >
             Edit Appointment Details
