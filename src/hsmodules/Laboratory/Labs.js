@@ -692,8 +692,8 @@ export function StoreListStandalone({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "calc(100% - 80px)",
-                overflowY: "scroll",
+                height: "400px",
+                overflowY: "auto",
               }}
             >
               <CustomTable

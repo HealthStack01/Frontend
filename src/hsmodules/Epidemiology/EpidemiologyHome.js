@@ -22,8 +22,9 @@ export default function EpidemiologyHome({children}) {
   // };
 
   useEffect(() => {
-    console.log("starting up epidemiology module");
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};
@@ -58,7 +59,7 @@ export default function EpidemiologyHome({children}) {
               <Box
                 sx={{
                   width: "600px",
-                  maxHeight: "450px",
+                  maxHeight: "500px",
                 }}
               >
                 <StoreListStandalone

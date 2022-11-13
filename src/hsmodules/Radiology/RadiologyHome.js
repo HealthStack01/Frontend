@@ -23,7 +23,9 @@ export default function RadiologyHome({children}) {
   // }
 
   useEffect(() => {
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};

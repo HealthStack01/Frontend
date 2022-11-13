@@ -11,6 +11,19 @@ import CustomTable from "./ui-components/customtable";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserContext, ObjectContext } from "../../context";
+import React, {useContext, useState, useEffect} from "react";
+import {useForm} from "react-hook-form";
+import {toast, ToastContainer} from "react-toastify";
+import Button from "../../components/buttons/Button";
+import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select";
+import BasicDatePicker from "../../components/inputs/Date";
+import {Box} from "@mui/material";
+import ViewText from "../../components/viewtext";
+import CustomTable from "./ui-components/customtable";
+import client from "../../feathers";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {UserContext, ObjectContext} from "../../context";
 
 import {
   BottomWrapper,
@@ -23,18 +36,19 @@ import {
   ViewBox,
 } from "../app/styles";
 import dayjs from "dayjs";
-import { createClientSchema } from "./schema";
+import {createClientSchema} from "./schema";
 import ModalBox from "../../components/modal";
-import { Checkbox } from "../../components/switch/styles";
+import {Checkbox} from "../../components/switch/styles";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
-import { ClientSearch } from "../helpers/ClientSearch";
+import {ClientSearch} from "../helpers/ClientSearch";
 import DataTable from "react-data-table-component";
-import { customStyles } from "../../components/customtable/styles";
+import {customStyles} from "../../components/customtable/styles";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { InputSearch } from "./Client";
 import ClientFinInfo from "./ClientFinInfo";
 
 const ClientView = ({ open, setOpen, user }) => {
+  const ClientServ = client.service("client");
+const ClientView = ({open, setOpen, user}) => {
   const ClientServ = client.service("client");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,7 +59,7 @@ const ClientView = ({ open, setOpen, user }) => {
   const [clientId, setClientId] = useState();
   const [billService, setBillService] = useState(false);
 
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const result = localStorage.getItem("user");
   const data = JSON.parse(result);
@@ -53,7 +67,7 @@ const ClientView = ({ open, setOpen, user }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     reset,
   } = useForm({
     resolver: yupResolver(createClientSchema),
@@ -157,15 +171,72 @@ const ClientView = ({ open, setOpen, user }) => {
     await setBillService(true);
   };
 
+  const ClientFinanceSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+    },
+    {
+      name: "Type",
+      key: "type",
+      description: " Type",
+      selector: row => row.type,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Principal",
+      key: "name",
+      description: "Principal",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Organization",
+      key: "organization",
+      description: "age",
+      selector: row => row.organization,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "Gender",
+      key: "gender",
+      description: "Gender",
+      selector: row => row.gender,
+      sortable: true,
+      required: true,
+    },
+
+    {
+      name: "HMO Agenst",
+      key: "agent",
+      description: "Agent",
+      selector: row => row.agent,
+      sortable: true,
+      required: true,
+    },
+  ];
+
   return (
     <PageWrapper>
-      <ModalBox open={openFinance} onClose={() => setOpenFinance(false)}>
-        <GrayWrapper>
-          <ClientFinInfo />
-        </GrayWrapper>
+      <ModalBox
+        open={openFinance}
+        onClose={() => setOpenFinance(false)}
+        header="Client Financial Information"
+      >
+        <ClientFinInfo />
       </ModalBox>
 
       <div style={{ height: "80vh", overflowY: "scroll", width: "80vw" }}>
+      <div style={{height: "100%", overflowY: "scroll"}}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>
@@ -233,6 +304,8 @@ const ClientView = ({ open, setOpen, user }) => {
                 <Input
                   label="Last Name"
                   register={register("lastname", { required: true })}
+                  label="Last Name"
+                  register={register("lastname", {required: true})}
                   errorText={errors?.lastname?.message}
                   defaultValue={user?.lastnames}
                 />
@@ -268,6 +341,8 @@ const ClientView = ({ open, setOpen, user }) => {
                   options={[
                     { label: "Male", value: "male" },
                     { label: "Female", value: "female" },
+                    {label: "Male", value: "male"},
+                    {label: "Female", value: "female"},
                   ]}
                   errorText={errors?.gender?.message}
                 />
@@ -283,6 +358,8 @@ const ClientView = ({ open, setOpen, user }) => {
                   options={[
                     { label: "Single", value: "single" },
                     { label: "Married", value: "married" },
+                    {label: "Single", value: "single"},
+                    {label: "Married", value: "married"},
                   ]}
                 />
               )}

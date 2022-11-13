@@ -14,7 +14,15 @@ import Textarea from "../../../components/inputs/basic/Textarea";
 const ProposalCreate = ({closeModal}) => {
   const {register} = useForm();
   return (
-    <Box container sx={{width: "800px", maxHeight: "80vh"}}>
+    <Box
+      container
+      sx={{
+        width: "800px",
+        maxHeight: "95vh",
+        overflow: "scroll",
+        padding: "10px",
+      }}
+    >
       {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
       <Box item>
         <FormsHeaderText text="Prospect Details" />
