@@ -1,14 +1,14 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Route, useNavigate, Link, NavLink} from "react-router-dom";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
 import Encounter from "../Documentation/Documentation";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
@@ -19,7 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const searchfacility = {};
 
 export default function TheatreCheckedin() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
@@ -57,9 +57,9 @@ export function TheatreStatusList() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [editModal, setEditModal] = useState(false);
@@ -70,7 +70,7 @@ export function TheatreStatusList() {
       selectedAppointment: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -79,16 +79,16 @@ export function TheatreStatusList() {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -96,7 +96,7 @@ export function TheatreStatusList() {
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "firstname";
     //  console.log(val)
 
@@ -189,14 +189,14 @@ export function TheatreStatusList() {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -220,7 +220,7 @@ export function TheatreStatusList() {
         stuff.locationId = state.employeeLocation.locationId;
       }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
     } else {
@@ -251,15 +251,15 @@ export function TheatreStatusList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
 
@@ -289,24 +289,24 @@ export function TheatreStatusList() {
       query.locationId = state.employeeLocation.locationId;
     }
     /* const findClient= */
-    await ClientServ.find({query: query})
-      .then(findClient => {
+    await ClientServ.find({ query: query })
+      .then((findClient) => {
         //  console.log(findClient.data)
         // console.log("xed",startDate)
         /* await */
         setFacilities(findClient.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     //change date
 
     setStartDate(date);
 
-    await setState(prevstate => ({...prevstate, currDate: date}));
+    await setState((prevstate) => ({ ...prevstate, currDate: date }));
   };
 
   useEffect(() => {
@@ -341,7 +341,7 @@ export function TheatreStatusList() {
                       placeholder="Search Appointments"
                       minLength={3}
                       debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
+                      onChange={(e) => handleSearch(e.target.value)}
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-search"></i>
@@ -353,7 +353,7 @@ export function TheatreStatusList() {
               <div className="level-item">
                 <DatePicker
                   selected={startDate}
-                  onChange={date => handleDate(date)}
+                  onChange={(date) => handleDate(date)}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Filter By Date"
                   /* isClearable */
@@ -499,9 +499,9 @@ export function TheatreCheckedOutList2() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -510,7 +510,7 @@ export function TheatreCheckedOutList2() {
       selectedAppointment: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -519,23 +519,23 @@ export function TheatreCheckedOutList2() {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "firstname";
     //  console.log(val)
 
@@ -626,14 +626,14 @@ export function TheatreCheckedOutList2() {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -655,7 +655,7 @@ export function TheatreCheckedOutList2() {
         stuff.locationId = state.employeeLocation.locationId;
       }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
     } else {
@@ -686,15 +686,15 @@ export function TheatreCheckedOutList2() {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
 
@@ -715,12 +715,12 @@ export function TheatreCheckedOutList2() {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    const findClient = await ClientServ.find({query: query});
+    const findClient = await ClientServ.find({ query: query });
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setStartDate(date);
   };
 
@@ -750,7 +750,7 @@ export function TheatreCheckedOutList2() {
                       placeholder="Search Appointments"
                       minLength={3}
                       debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
+                      onChange={(e) => handleSearch(e.target.value)}
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-search"></i>
@@ -762,7 +762,7 @@ export function TheatreCheckedOutList2() {
               <div className="level-item">
                 <DatePicker
                   selected={startDate}
-                  onChange={date => handleDate(date)}
+                  onChange={(date) => handleDate(date)}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Filter By Date"
                   isClearable
@@ -885,9 +885,9 @@ export function TheatreCheckedOutList() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [editModal, setEditModal] = useState(false);
@@ -898,7 +898,7 @@ export function TheatreCheckedOutList() {
       selectedAppointment: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -907,16 +907,16 @@ export function TheatreCheckedOutList() {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
   };
 
-  const handleRow = async Client => {
+  const handleRow = async (Client) => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -924,7 +924,7 @@ export function TheatreCheckedOutList() {
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "firstname";
     //  console.log(val)
 
@@ -1017,14 +1017,14 @@ export function TheatreCheckedOutList() {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -1048,7 +1048,7 @@ export function TheatreCheckedOutList() {
         stuff.locationId = state.employeeLocation.locationId;
       }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
     } else {
@@ -1079,15 +1079,15 @@ export function TheatreCheckedOutList() {
                      console.log(user)
                      getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
 
@@ -1117,24 +1117,24 @@ export function TheatreCheckedOutList() {
       query.locationId = state.employeeLocation.locationId;
     }
     /* const findClient= */
-    await ClientServ.find({query: query})
-      .then(findClient => {
+    await ClientServ.find({ query: query })
+      .then((findClient) => {
         //  console.log(findClient.data)
         // console.log("xed",startDate)
         /* await */
         setFacilities(findClient.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     //change date
 
     setStartDate(date);
 
-    await setState(prevstate => ({...prevstate, currDate2: date}));
+    await setState((prevstate) => ({ ...prevstate, currDate2: date }));
   };
 
   useEffect(() => {
@@ -1169,7 +1169,7 @@ export function TheatreCheckedOutList() {
                       placeholder="Search Appointments"
                       minLength={3}
                       debounceTimeout={400}
-                      onChange={e => handleSearch(e.target.value)}
+                      onChange={(e) => handleSearch(e.target.value)}
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-search"></i>
@@ -1181,7 +1181,7 @@ export function TheatreCheckedOutList() {
               <div className="level-item">
                 <DatePicker
                   selected={startDate}
-                  onChange={date => handleDate(date)}
+                  onChange={(date) => handleDate(date)}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Filter By Date"
                   /* isClearable */
@@ -1323,7 +1323,7 @@ export function TheatreAppointmentDetail() {
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -1334,7 +1334,7 @@ export function TheatreAppointmentDetail() {
       selectedAppointment: Client,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1347,7 +1347,7 @@ export function TheatreAppointmentDetail() {
       selectedClient: patient,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1903,8 +1903,8 @@ export function TheatreAppointmentDetail() {
   );
 }
 
-export function TheatreAppointmentModify({handlecloseModal}) {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+export function TheatreAppointmentModify({ handlecloseModal }) {
+  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1915,8 +1915,8 @@ export function TheatreAppointmentModify({handlecloseModal}) {
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState("");
@@ -1932,7 +1932,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
 
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -1943,7 +1943,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
     }
   };
 
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -2014,7 +2014,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
 
     return () => {};
   });
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
     setValue("appointment_type", e.target.value, {
       shouldValidate: true,
@@ -2022,7 +2022,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
     });
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     // await setAppointment_status(e.target.value)
     setValue("appointment_status", e.target.value, {
       shouldValidate: true,
@@ -2035,7 +2035,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -2047,7 +2047,10 @@ export function TheatreAppointmentModify({handlecloseModal}) {
       selectedAppointment: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, AppointmentModule: newClientModule}));
+    setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: newClientModule,
+    }));
     handlecloseModal();
   };
   const handleDelete = async () => {
@@ -2056,7 +2059,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -2073,7 +2076,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -2110,7 +2113,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
     }
     data.actions = Client.actions;
     ClientServ.patch(Client._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
@@ -2123,7 +2126,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
 
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -2164,7 +2167,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{display: "none"}}
+                    style={{ display: "none" }}
                   >
                     <input
                       className="input is-small"
@@ -2173,7 +2176,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                       }
                       name="locationId"
                       type="text"
-                      onChange={e => setLocationId(e.target.value)}
+                      onChange={(e) => setLocationId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -2195,7 +2198,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{display: "none"}}
+                    style={{ display: "none" }}
                   >
                     <input
                       className="input is-small"
@@ -2204,7 +2207,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                       }
                       name="practionerId"
                       type="text"
-                      onChange={e => setPractionerId(e.target.value)}
+                      onChange={(e) => setPractionerId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -2233,7 +2236,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
             <div className="field">
               <input
                 name="start_time"
-                {...register("x", {required: true})}
+                {...register("x", { required: true })}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -2247,8 +2250,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                 <div className="select is-small">
                   <select
                     name="type"
-                    /* value={appointment_type} */ name="appointment_type"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     onChange={handleChangeType}
                   >
                     <option value="">Choose Appointment Type </option>
@@ -2263,7 +2265,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -2301,7 +2303,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
                 </span>
               </p>
             </div>
-            <div className="field " style={{display: "none"}}>
+            <div className="field " style={{ display: "none" }}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
@@ -2351,7 +2353,7 @@ export function TheatreAppointmentModify({handlecloseModal}) {
     </>
   );
 }
-export function ClientSearch({getSearchfacility, clear}) {
+export function ClientSearch({ getSearchfacility, clear }) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2368,11 +2370,11 @@ export function ClientSearch({getSearchfacility, clear}) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const {user} = useContext(UserContext);
-  const {state} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state } = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async obj => {
+  const handleRow = async (obj) => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2399,7 +2401,7 @@ export function ClientSearch({getSearchfacility, clear}) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async e => {
+  const handleBlur = async (e) => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -2417,7 +2419,7 @@ export function ClientSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     setVal(val);
     if (val === "") {
       setShowPanel(false);
@@ -2482,14 +2484,14 @@ export function ClientSearch({getSearchfacility, clear}) {
           },
         },
       })
-        .then(res => {
+        .then((res) => {
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -2526,9 +2528,9 @@ export function ClientSearch({getSearchfacility, clear}) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
+            style={{ width: "100%" }}
           >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
+            <div className="dropdown-trigger" style={{ width: "100%" }}>
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
@@ -2536,15 +2538,15 @@ export function ClientSearch({getSearchfacility, clear}) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
+            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""

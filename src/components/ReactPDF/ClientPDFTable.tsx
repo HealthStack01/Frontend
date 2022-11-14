@@ -1,37 +1,37 @@
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   table: {
-    width: '100%',
+    width: "100%",
   },
   row: {
-    display: 'flex',
-    flexDirection: 'row',
-    borderTop: '1px solid #EEE',
+    display: "flex",
+    flexDirection: "row",
+    borderTop: "1px solid #EEE",
     paddingTop: 8,
     paddingBottom: 8,
   },
   header: {
-    borderTop: 'none',
+    borderTop: "none",
   },
   bold: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   // So Declarative and unDRY 👌
   row1: {
-    width: '27%',
+    width: "27%",
   },
   row2: {
-    width: '15%',
+    width: "15%",
   },
   row3: {
-    width: '15%',
+    width: "15%",
   },
   row4: {
-    width: '20%',
+    width: "20%",
   },
   row5: {
-    width: '27%',
+    width: "27%",
   },
 });
 

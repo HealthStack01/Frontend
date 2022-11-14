@@ -1,7 +1,7 @@
-import {useEffect, useState, useContext} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -164,7 +164,7 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
+import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
@@ -184,10 +184,13 @@ import ImmunizationHome from "./Immunization/ImmunizationHome";
 import VaccineProfile from "./Immunization/VaccineProfile";
 import BloodBankInventory from "./Bloodbank/Inventory";
 import BloodBankHome from "./Bloodbank/BloodBankHome";
-import Incoming from "./Referral/Incoming";
-import Outgoing from "./Referral/Outgoing";
 import PremiumPayment from "./ManagedCare/PremiumPayment";
-import PageLoaderComponent from "../components/page-loader/page-loader";
+import BloodBankAppointments from "./Appointment/bloodBankAppoinment";
+import ImmunizationAppointments from "./Appointment/immunizationAppoinment";
+import ImmunizationCheckIn from "./Immunization/Checkin";
+import ReferralIncoming from "./Appointment/referralWorkflow";
+import BloodBankLab from "./Bloodbank/Lab";
+import ImmunizationInventory from "./Immunization/Inventory";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -201,15 +204,10 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
-
-  const {authenticatingUser} = useContext(UserContext);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
-
-  console.log(authenticatingUser);
-
   useEffect(() => {
     const paths = location.pathname.split("/");
     const newModule = paths.length > 2 && paths[2];
@@ -222,7 +220,6 @@ const AppRoutes = () => {
     }
   }, [location]);
 
-  if (authenticatingUser) return <PageLoaderComponent />;
   return (
     <>
       <Routes>
@@ -232,7 +229,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/create-password" element={<CreatePassword />} />
         <Route path="/app" element={<PrivateOutlet />}>
-          <Route index element={<LandingPageDashboard />} />
+          <Route index element={<Overview />} />
           <Route
             path="/app/overview/dashboard"
             element={<LandingPageDashboard />}
@@ -686,8 +683,11 @@ const AppRoutes = () => {
 
           {/**************************Referral *************************************** */}
           <Route path="/app/referral" element={<ReferralHome />}>
-            <Route path="/app/referral/incoming" element={<Incoming />} />
-            <Route path="/app/referral/outgoing" element={<Outgoing />} />
+            <Route
+              path="/app/referral/incoming"
+              element={<ReferralIncoming />}
+            />
+            {/* <Route path="/app/referral/outgoing" element={<Outgoing />} /> */}
             <Route path="/app/referral/account" />
             <Route path="/app/referral/setting" />
             <Route path="/app/referral/dashboard" />
@@ -732,9 +732,19 @@ const AppRoutes = () => {
               path="/app/immunization/vaccineprofile"
               element={<VaccineProfile />}
             />
-            <Route path="/app/immunization/appointment" />
-            <Route path="/app/immunization/checkin-out" />
+            <Route
+              path="/app/immunization/appointment"
+              element={<ImmunizationAppointments />}
+            />
+            <Route
+              path="/app/immunization/checkin-out"
+              element={<ImmunizationCheckIn />}
+            />
             <Route path="/app/immunization/report" />
+            <Route
+              path="/app/immunization/inventory"
+              element={<ImmunizationInventory />}
+            />
             <Route path="/app/immunization/dashboard" />
           </Route>
 
@@ -744,8 +754,11 @@ const AppRoutes = () => {
               path="/app/blood-bank/inventory"
               element={<BloodBankInventory />}
             />
-            <Route path="/app/blood-bank/appointment" />
-            <Route path="/app/blood-bank/lab" />
+            <Route
+              path="/app/blood-bank/appointment"
+              element={<BloodBankAppointments />}
+            />
+            <Route path="/app/blood-bank/lab" element={<BloodBankLab />} />
             <Route path="/app/blood-bank/dashboard" />
           </Route>
         </Route>
