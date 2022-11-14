@@ -1,9 +1,9 @@
-import { Stack, Tab, Tabs } from '@mui/material';
-import styled, { createGlobalStyle } from 'styled-components';
+import {Stack, Tab, Tabs} from "@mui/material";
+import styled, {createGlobalStyle} from "styled-components";
 
-import StatWrapper from '../../components/CardWrapper';
-import { ItemWrapper as NavItemWrapper } from '../../components/ItemWrapper';
-import { PageText as NavText } from '../../components/PageText';
+import StatWrapper from "../../components/CardWrapper";
+import {ItemWrapper as NavItemWrapper} from "../../components/ItemWrapper";
+import {PageText as NavText} from "../../components/PageText";
 
 export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700;800&display=swap');
@@ -22,15 +22,15 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .MuiInputBase-input {
-  height: 32px !important;
+  height: 2rem !important;
 }
 
 *.dark::-webkit-scrollbar {
-  width: 7px;
+  width: 0.5rem;
 }
 
 *::-webkit-scrollbar {
-  width: 7px;
+  width: 0.5rem;
 }
 
 *::-webkit-scrollbar-track {
@@ -39,8 +39,8 @@ export const GlobalStyle = createGlobalStyle`
 
 *::-webkit-scrollbar-thumb {
   background-color: inherit;
-  border-radius: 4px;
-  border: 3px solid gray;
+  border-radius: 0.25rem;
+  border: 0.2rem solid gray;
   background-color : gray;
 }
 
@@ -81,11 +81,11 @@ p {
 
 /* text editor*/
 .rs-picker-default .rs-picker-toggle.rs-btn {
-    padding-top: 7px;
-    padding-bottom: 7px;
-    width: 282px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 17.625REM;
     position: relative;
-    margin-right: 16px;;
+    margin-right: 1rem;;
 
     @media(max-width: 768px){
       width:100%;
@@ -96,23 +96,23 @@ p {
 /* picked date align */
 .rs-picker-default .rs-picker-toggle {
     position: relative;
-    padding-right: 67px;
+    padding-right: 4.2rem;
     display: inline-block;
     outline: none;
     cursor: pointer;
     color: #575757;
     border: 1px solid #e5e5ea;
-    padding-left: 44px;
+    padding-left: 2.75rem;
     z-index:2000;
 
 }
 /* calander align */
 .rs-picker-toggle-caret {
     display: inline-block;
-    margin-: 240px;
+    margin-: 15rem;
     position: absolute;
-    top: 8px;
-    right: 12px;
+    top: 0.5rem;
+    right: .67rem;
     font-weight: 500;
     color: #8e8e93;
 }
@@ -123,19 +123,19 @@ p {
     cursor: pointer;
     outline: 0 ; 
     border: none; 
-    padding: 8px 12px; 
-    font-size: 14px; 
-    border-radius: 30px;
+    padding: 0.5rem 0.67rem; 
+    font-size: .9rem; 
+    border-radius: 2rem;
     color: #fff;
     background-color: #3498ff;
-    width: 100px;
+    width: 6.25rem;
 }
 
 
 .rs-picker-menu .rs-calendar .rs-calendar-table-cell-content {
     padding-left: 0;
     padding-right: 0;
-    border-radius: 21px;
+    border-radius: 1.3rem;
     display: inline-block;
     position: relative;
     z-index:1000;
@@ -144,11 +144,11 @@ p {
 
 .label-btn{
     padding:0.5rem 1rem;
-    border-radius:2px;
+    border-radius:.125rem;
     margin-bottom:0.4rem;
     cursor: pointer;
     width:100%;
-    font-size:14px;
+    font-size:.9rem;
     font-weight:medium;
     transition: all 0.5s ease-in-out;
     border: 0.1px solid #eee;
@@ -208,14 +208,14 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  color: ${({ theme }) => theme.text};
-  background: ${({ theme }) => theme.background};
+  color: ${({theme}) => theme.text};
+  background: ${({theme}) => theme.background};
 
   &.center {
     display: flex;
     place-items: center;
-    background: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.btnText};
+    background: ${({theme}) => theme.primary};
+    color: ${({theme}) => theme.btnText};
   }
 
   & .text-center {
@@ -225,7 +225,7 @@ export const Container = styled.div`
     & h2 {
       display:block ;
       text-align:center
-      font-size: 48px;
+      font-size: 3rem;
       margin-bottom:1rem
     }
   }
@@ -235,8 +235,8 @@ export const Container = styled.div`
 `;
 
 export const Text = styled(NavText)`
-  color: ${props => (props.color ? props.color : '#ffffff')};
-  font-size: ${props => (props.fontSize ? props.fontSize : '.9em')};
+  color: ${props => (props.color ? props.color : "#ffffff")};
+  font-size: ${props => (props.fontSize ? props.fontSize : ".9em")};
   margin-right: 1em;
   border: 1px solid #232f3e;
   padding: 0.5em 0.1em;
@@ -259,8 +259,8 @@ export const LeftText = styled(Text)`
 export const Wrapper = styled(NavItemWrapper)`
   display: flex;
   flex-direction: ${props =>
-    props.flexDirection ? props.flexDirection : 'column'};
-  align-items: ${props => (props.alignItems ? props.alignItems : 'flex-start')};
+    props.flexDirection ? props.flexDirection : "column"};
+  align-items: ${props => (props.alignItems ? props.alignItems : "flex-start")};
   padding: 0.1em;
   cursor: pointer;
   border: 1px solid #131a22;
@@ -275,21 +275,21 @@ export const Wrapper = styled(NavItemWrapper)`
 `;
 
 export const Stat = styled(StatWrapper)`
-  padding: ${props => (props.padding ? props.padding : '30px')};
+  padding: ${props => (props.padding ? props.padding : "2rem")};
   display: flex;
-  align-items: ${props => (props.alignItems ? props.alignItems : 'center')};
-  background: ${({ theme }) => theme.background};
+  align-items: ${props => (props.alignItems ? props.alignItems : "center")};
+  background: ${({theme}) => theme.background};
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '15px')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : "1rem")};
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.5s ease 0s;
   margin-bottom: ${props =>
-    props.margingBottom ? props.margingBottom : '30px'};
+    props.margingBottom ? props.margingBottom : "2rem"};
 
   &::before {
-    content: '';
+    content: "";
     width: 100%;
     padding-top: 100%;
     border-radius: 50%;
@@ -316,14 +316,14 @@ export const UserWrapper = styled.div`
 `;
 
 export const AttendWrapper = styled(StatWrapper)`
-  background: ${props => (props.background ? props.background : 'white')};
-  height: ${props => (props.height ? props.height : '120px')};
-  widtht: ${props => (props.width ? props.width : 'auto')};
-  /* width: ${props => (props.width ? props.width : '120px')} */
+  background: ${props => (props.background ? props.background : "white")};
+  height: ${props => (props.height ? props.height : "7.5rem")};
+  widtht: ${props => (props.width ? props.width : "auto")};
+  /* width: ${props => (props.width ? props.width : "120px")} */
   margin-left: 0.6rem;
   font-size: 12px;
-  padding: ${props => (props.padding ? props.padding : '1rem')};
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '4px')};
+  padding: ${props => (props.padding ? props.padding : "1rem")};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : "4px")};
 
   /* flex: 1; */
 `;
@@ -331,7 +331,7 @@ export const Divider = styled.div`
   width: 100%;
   height: 1px;
   border-radius: 1px;
-  background: ${({ theme }) => theme.btnText};
+  background: ${({theme}) => theme.btnText};
 `;
 
 export const TableMenu = styled.div`
@@ -375,10 +375,10 @@ export const TableMenu = styled.div`
 
 export const CustomStack = styled(Stack)`
   margin: 2rem 0;
-  width: 400px;
+  width: 25rem;
 
   @media (max-width: 768px) {
-    width: 300px;
+    width: 18.75rem;
   }
 `;
 
@@ -388,15 +388,15 @@ export const CustomTabs = styled(Tabs)`
 `;
 
 export const CustomTab = styled(Tab)`
-  font-size: 12px !important;
+  font-size: 0.75rem !important;
   font-weight: 600 !important;
   padding: 0.4rem !important;
 `;
 
 export const ImageBox = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 60px;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 3.75rem;
 `;
 
 export const FlexBox = styled.div`
@@ -411,9 +411,9 @@ export const FlexBox = styled.div`
   -webkit-animation-fill-mode: forwards;
 
   & img {
-    width: 150px;
-    height: 150px;
-    border-radius: 150px;
+    width: 9.375rem;
+    height: 9.375rem;
+    border-radius: 9.375rem;
   }
 
   @media (max-width: 400px) {
@@ -467,26 +467,26 @@ export const ButtonGroup = styled.div`
 `;
 
 export const LocationWrapper = styled.div`
-  width: 240px;
-  margin-right: 10px;
+  width: 15rem;
+  margin-right: 0.8rem;
   position: relative;
   z-index: 1000;
 
   @media (max-width: 400px) {
-    width: 400px !important;
+    width: 25rem !important;
   }
   & button {
     @media (max-width: 400px) {
-      width: 200px !important;
+      width: 12.5rem !important;
     }
   }
 `;
 
 export const LocationCardWrapper = styled.div`
-  margin: 10px 0;
+  margin: 0.7rem 0;
   border: 0.6px solid #ebebeb;
   background: #fafafa;
-  padding: 16px;
+  padding: 1rem;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 

@@ -6,9 +6,15 @@ import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
+import {Box, getValue} from "@mui/system";
+import {Button, Collapse, Grid, IconButton, Typography} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import Input from "../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import RadioButton from "../../components/inputs/basic/Radio";
 
 export default function AsthmaIntake() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, getValues, watch} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -28,6 +34,8 @@ export default function AsthmaIntake() {
   const [docStatus, setDocStatus] = useState("Draft");
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
+
+  const formValues = getValues();
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
@@ -70,8 +78,16 @@ export default function AsthmaIntake() {
     }
   });
 
+  const onSubmitTest = (data, e) => {
+    e.preventDefault();
+
+    console.log(data);
+    console.log(formValues);
+  };
+
   const onSubmit = (data, e) => {
     e.preventDefault();
+
     setMessage("");
     setError(false);
     setSuccess(false);
@@ -208,8 +224,133 @@ export default function AsthmaIntake() {
     setAllergine("");
   };
 
+  //USE THIS TO SHOW OTHER RACES INPUT WHEN USER SELECT OTHERS// CAN BE IMPLEMENTED FOR SIMILAR RADIO INPUTS TOO
+  const selectedRace = watch("Race", "Others");
+  const selectedEducation = watch("Education", "Others (Specify)");
+  const selectedCough = watch("Cough_other", "Others");
+  const selectedWheez = watch("Wheeze_other", "Others");
+  const selectedShortness = watch("Shortness_other", "Others");
+  const selectedTightness = watch("Tightness_other", "Others");
+  const selectedInhaler = watch("Other_Medication", "Others");
+
   return (
     <>
+      <Box sx={{width: "100%"}}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography>Adult Asthma Questionnaire</Typography>
+          <IconButton>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+
+        <form onSubmit={handleSubmit(onSubmitTest)}>
+          <Grid>
+            <Input
+              register={register("Name")}
+              //name="Name"
+              type="text"
+              label="Name or Initials"
+            />
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <MuiCustomDatePicker label="Date" register={register("Date")} />
+            </Grid>
+
+            <Grid item xs={6}>
+              <MuiCustomDatePicker
+                label="Date of birth"
+                register={register("DOB")}
+              />
+            </Grid>
+          </Grid>
+
+          <Box>
+            <RadioButton
+              register={register("Gender")}
+              title="4. Gender"
+              options={["Male", "Female"]}
+            />
+          </Box>
+
+          <Box>
+            <RadioButton
+              register={register("Race")}
+              title="5. Race"
+              options={["African", "Caucasian", "Asian", "Indian", "Others"]}
+            />
+
+            <Collapse in={selectedRace === "Others"}>
+              <Box>
+                <Input
+                  label="Other race"
+                  register={register("Others_race")}
+                  name="Others_race"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+          </Box>
+
+          <Box>
+            <RadioButton
+              register={register("Marital_Status")}
+              title="6. Maritial Status"
+              options={[
+                "Single",
+                "Married",
+                "Widowed",
+                "Divorced",
+                "Seperated",
+              ]}
+            />
+          </Box>
+
+          <Box>
+            <Input
+              label="Occupation"
+              name="Occupation"
+              type="text"
+              register={register("Occupation")}
+            />
+          </Box>
+
+          <Box>
+            <RadioButton
+              register={register("Education")}
+              title="8. Level of Education"
+              options={[
+                "Uneducated",
+                "Primary School",
+                "Secondary School",
+                "Diploma /Degree",
+                "Others (Specify)",
+              ]}
+            />
+
+            <Collapse in={selectedEducation === "Others (Specify)"}>
+              <Box>
+                <Input
+                  label="Other levl of Education"
+                  register={register("others_education")}
+                  name="others_education"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+          </Box>
+
+          <Button type="submit">Submit</Button>
+        </form>
+      </Box>
+
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Adult Asthma Questionnaire</p>
@@ -221,12 +362,13 @@ export default function AsthmaIntake() {
                 <label className="label is-size-7">
                  Test:  {order.serviceInfo.name}
                 </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
+          {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+          <form>
+            {/* <div className="field">
               <p className="control ">
                 <input
                   className="input is-small"
-                  {...register("input_name")}
+                  // {...register("input_name")}
                   name="Date"
                   type="text"
                   placeholder="Date"
@@ -237,7 +379,7 @@ export default function AsthmaIntake() {
               <p className="control ">
                 <input
                   className="input is-small"
-                  {...register("input_name")}
+                  //{...register("input_name")}
                   name="Name"
                   type="text"
                   placeholder="Name or Initials"
@@ -334,9 +476,13 @@ export default function AsthmaIntake() {
                   placeholder="Highest Level of Education"
                 />
               </p>
-            </div>
+            </div> */}
 
+            {/* ******************* START FROM BELOW TO CONTINUE **************** */}
+
+            {/* <div className="field">
             <div className="field">
+
               <label>6. Marital Status</label>
               <label className=" is-small ml-2">
                 <input
@@ -393,13 +539,7 @@ export default function AsthmaIntake() {
             </div>
             <div className="field">
               <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Occupation"
-                  type="text"
-                  placeholder="Occupation"
-                />
+                <input className="input is-small" {...register("input_name")} />
               </p>
             </div>
             <div className="field ">
@@ -465,12 +605,754 @@ export default function AsthmaIntake() {
                   placeholder="Highest Level of Education"
                 />
               </p>
-            </div>
-            <h3>
-              <b>Symptoms</b>
-            </h3>
-            <h4>A. Cough</h4>
-            <div className="field">
+            </div> */}
+            <Box sx={{width: "100%"}}>
+              <Typography variant="subtitle1"><b>Symptoms</b></Typography>
+              <Typography variant='subtitle2'>A. Cough</Typography>
+              <Box>
+                <RadioButton
+                  register={register("Cough")}
+                  title="9. Were you ever bothered, or are you currently bothered by a
+                    cough?"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Uncertain",
+                  ]}
+            />
+              </Box>
+              <Box>
+                <Typography variant='subtitle1'>10. Has your cough been triggered by any of the following
+                conditions?</Typography>
+                <RadioButton
+              register={register("Cough_exercise")}
+              title="(a) Exercise"
+              options={[
+                "Yes",
+                "No",
+              ]}
+            />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_coldair")}
+                  title="(b) Breathing cold air"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_dust")}
+                  title="(c) Breathing house dust"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_mould")}
+                  title="(d) Being in a mouldy, musty or damp place"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_weather")}
+                  title="(e) Change in weather"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_cats")}
+                  title="(f) Being near cats"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_dogs")}
+                  title="(g) Being near dogs"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_otheranimal")}
+                  title="(h) Being near any other animal (specify)"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_sleep")}
+                  title="(i) During sleep at night"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_aspirin")}
+                  title="(j) Taking aspirin"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+              </Box>
+              <Box>
+                <RadioButton
+                  register={register("Cough_other")}
+                  title="(k) Any other thing"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Others"
+                  ]}
+                />
+                <Collapse in={selectedCough === "Others"}>
+                  <Box>
+                    <Input
+                      label="Specify"
+                      register={register("specify_cough_other")}
+                      name="specify_cough_other"
+                      type="text"
+                    />
+                  </Box>
+            </Collapse>
+              </Box>
+            </Box>
+            <Box sx={{width: "100%"}}>
+              <Box>
+                  <Typography variant='subtitle1'>B. Wheezing</Typography>
+                  <Box>
+                  <RadioButton
+                    register={register("Wheeze")}
+                    title="11. Has your chest ever sounded wheezy or whistling?"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Uncertain",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <Typography variant='subtitle1'>12. Have you ever had wheeze on exposure to any of the
+                following?</Typography>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_exercise")}
+                    title="(a) Exercise"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Uncertain",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_coldair")}
+                    title="(b) Breathing cold air"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_dust")}
+                    title="(c) Breathing house dust"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_mould")}
+                    title="(d) Being in a mouldy, musty or damp place"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_weather")}
+                    title="(e) Change in weather"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_cats")}
+                    title="(f) Being near cats"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_dogs")}
+                    title="(g) Being near dogs"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_otheranimal")}
+                    title="(h) Being near any other animal (specify)"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_sleep")}
+                    title="(i) During sleep at night"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_aspirin")}
+                    title="(j) Taking aspirin"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                    register={register("Wheeze_other")}
+                    title="((k) Any other thing"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Other",
+                    ]}
+                />
+                <Collapse in={selectedWheez === "Others"}>
+              <Box>
+                <Input
+                  label="Specify"
+                  register={register("Wheeze_other")}
+                  name="specify_wheeze_other"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+                </Box>
+                </Box>
+                <Box sx={{width: "100%"}}>
+                    <Typography variant='subtitle1'>C. Shortness of breath</Typography>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness")}
+                    title="13. Have you ever been bothered by shortness of breath when
+                hurrying on flat ground or walking up a slight hill?"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Uncertain",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <Typography variant='subtitle2'>14. Have you ever had shortness of breath with exposure to any
+                of the following circumstances?</Typography>
+                      <RadioButton
+                    register={register("Shortness_exercise")}
+                    title="(a) Exercise"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_coldair")}
+                    title="(b) Breathing cold air"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_dust")}
+                    title="(c) Breathing house dust"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_mould")}
+                    title="(d) Being in a mouldy, musty or damp place"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_weather")}
+                    title="(e) Change in weather"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_cats")}
+                    title="(f) Being near cats"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_dogs")}
+                    title="(g) Being near dogs"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_otheranimal")}
+                    title="(h) Being near any other animal (specify)"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_sleep")}
+                    title="(i) During sleep at night"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_aspirin")}
+                    title="(j) Taking aspirin"
+                    options={[
+                      "Yes",
+                      "No",
+                    ]}
+                />
+                    </Box>
+                    <Box>
+                      <RadioButton
+                    register={register("Shortness_other")}
+                    title="(k) Any other thing"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Others"
+                    ]}
+                />
+                <Collapse in={selectedShortness === "Others"}>
+              <Box>
+                <Input
+                  label="Specify"
+                  register={register("specify_Shortness_other")}
+                  name="specify_Shortness_other"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+                    </Box>
+                </Box>
+              </Box>
+            </Box>
+            <Box sx={{width: "100%"}}>
+              <Typography varaint='subtitle1'>D. Tightness in Chest</Typography>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness")}
+                  title="15. Have you ever been bothered by a tightness in your chest
+                when hurrying on flat ground or walking up a slight hill?"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Uncertain",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <Typography variant='subtitle2'>16. Have you ever had tightness in your chest with exposure to
+                any of the following circumstances?</Typography>
+                  <RadioButton
+                  register={register("Tightness_exercise")}
+                  title="(a) Exercise"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_coldair")}
+                  title="(b) Breathing cold air"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_dust")}
+                  title="(c) Breathing house dust"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_mould")}
+                  title="(d) Being in a mouldy, musty or damp place"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_weather")}
+                  title="(e) Change in weather"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_cats")}
+                  title="(f) Being near cats"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_dogs")}
+                  title="(g) Being near dogs"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_otheranimal")}
+                  title="(h) Being near any other animal (specify)"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_sleep")}
+                  title="(i) During sleep at night"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_aspirin")}
+                  title="(j) Taking aspirin"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Tightness_other")}
+                  title="(k) Any other thing"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Other"
+                  ]}
+                />
+                <Collapse in={selectedTightness === "Others"}>
+              <Box>
+                <Input
+                  label="Specify"
+                  register={register("specify_Tightness_other")}
+                  name="specify_Tightness_other"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+                </Box>
+            </Box>
+            <Box sx={{width: "100%"}}>
+                  <Typography varaint='subtitle1'>Asthma History</Typography>
+                  <Box>
+                  <RadioButton
+                  register={register("Asthma")}
+                  title="17. Have you ever had asthma?"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <Typography variant='subtitle2'>17b. When was your asthma diagnosed? (Age in years)</Typography>
+                    <Input
+                  register={register("age_diagnosis")}
+                  //name="Name"
+                  type="text"
+                  label="Specify"
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Asthma_Confirmed")}
+                  title="17c. Was your asthma confirmed by a doctor?"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Not Sure",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Visit_Doctor")}
+                  title="17d. Have you ever needed to visit a doctor at least once a
+                    year for your asthma?"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Not sure",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <Typography variant='subtitle1'>17e. During the last 12 months, how many times did you need
+                    to visit a doctor for your asthma</Typography>
+                   <Input
+                  register={register("times_visit")}
+                  //name="Name"
+                  type="text"
+                  label="Specify"
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Casualty")}
+                  title="18. Have you ever needed to go to the Casualty Clinic
+                    (Accident &Emergency Dept), doctor's office, because of an
+                    asthma attack?"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Not Sure",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <Typography variant='subtitle1'>
+                    18b If yes to question 18a above, How many times in the last 12months?
+                  </Typography>
+                 <Input
+                  register={register("times_12months")}
+                  //name="Name"
+                  type="text"
+                  label="Specify"
+                />
+                </Box>
+                <Box>
+                  <Typography variant='subtitle1'>18c Have you ever been hospitalized overnight because of an
+                    asthmatic attack?</Typography>
+                 <Input
+                  register={register("Hospitalized")}
+                  //name="Name"
+                  type="text"
+                  label="Specify"
+                />
+                </Box>
+                <Box sx={{width: "100%"}}>
+                  <Box>
+                    <RadioButton
+                    register={register("Herbal")}
+                    title="19. Have you ever taken herbal /local medication for your
+                    asthma before?"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Not Sure",
+                    ]}
+                  />
+                  </Box>
+
+                </Box>
+                <Box sx={{width: "100%"}}>
+                  <Typography variant='subtitle1'>20. Have you ever taken any of the following medications?</Typography>
+                  <RadioButton
+                  register={register("Bronchodilator_inhaler")}
+                  title="(a) Bronchodilator inhaler"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                <Box>
+                  <RadioButton
+                  register={register("Steroid_inhaler")}
+                  title="(b) Steroid inhaler"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Bronchodilator_nebulised")}
+                  title="(c) Bronchodilator nebulised"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                {/* <Collapse in={selectedTightness === "Others"}>
+              <Box>
+                <Input
+                  label="Specify"
+                  register={register("specify_Tightness_other")}
+                  name="specify_Tightness_other"
+                  type="text"
+                />
+              </Box>
+            </Collapse> */}
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Oral_steroid")}
+                  title="(d) Oral steroid"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Oral_bronchodilators")}
+                  title="(e) Oral bronchodilators"
+                  options={[
+                    "Yes",
+                    "No",
+                  ]}
+                />
+                </Box>
+                <Box>
+                  <RadioButton
+                  register={register("Other_Medication")}
+                  title="(f) Others"
+                  options={[
+                    "Yes",
+                    "No",
+                    "Others",
+                  ]}
+                />
+                <Collapse in={selectedInhaler === "Others"}>
+              <Box>
+                <Input
+                  label="Specify"
+                  register={register("specify_other_medication")}
+                  name="specify_other_medication"
+                  type="text"
+                />
+              </Box>
+            </Collapse>
+                </Box>
+                </Box>
+            </Box>
+            {/* <h3>
+              <b></b>
+            </h3> */}
+            {/* <div className="field">
               <label>
                 9. Were you ever bothered, or are you currently bothered by a
                 cough?
@@ -2105,9 +2987,9 @@ export default function AsthmaIntake() {
                   />
                 </p>
               </div>
-            </div>
+            </div> */}
 
-            <h4>Asthma History</h4>
+            {/* <h4>Asthma History</h4>
             <div className="field is-horizontal">
               <div className="field-body ml-3">
                 <div className="field">
@@ -2641,7 +3523,7 @@ export default function AsthmaIntake() {
                   />
                 </p>
               </div>
-            </div>
+            </div> */}
             <div className="field is-horizontal">
               <div className="field-body ml-3">
                 <div className="field">

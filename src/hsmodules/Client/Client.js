@@ -35,6 +35,8 @@ import CustomTable from './ui-components/customtable';
 import ModalBox from '../../components/modal';
 import ClientView from './ClientView';
 import ClientForm from './ClientForm';
+import CircleChart from '../dashBoardUiComponent/charts/CircleChart';
+import AreaChart from '../dashBoardUiComponent/charts/AreaChart';
 // eslint-disable-next-line
 const searchfacility = {};
 

@@ -1,5 +1,6 @@
 import keyBy from "lodash/keyBy";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
+import {ObjectContext} from "../../context";
 
 import {Models} from "../../hsmodules/app/Constants";
 import Breadcrumbs from "../breadcrumb";
@@ -19,6 +20,8 @@ const TopMenu = ({isOpen, handleClick}) => {
     useRepository(Models.LOCATION);
   const [selectedLocation, setSelectedLocation] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
+
+  const {state, setState} = useContext(ObjectContext);
 
   /*                                                                                                                                                                                                                                          */
 
@@ -69,6 +72,14 @@ const TopMenu = ({isOpen, handleClick}) => {
           <Breadcrumbs />
         </span>
       </div>
+
+      <button>Hello World</button>
+
+      <div>
+        @ {state.employeeLocation.locationName}{" "}
+        {state.employeeLocation.locationType}
+      </div>
+
       <Profile>
         <div className="location-selector">
           <LocationSelect

@@ -527,10 +527,13 @@ export function StoreListStandalone({standalone, closeModal}) {
     await setSelectedStore(Store);
 
     const newStoreModule = {
-      selectedStore: Store,
+      selectedTheatre: Store,
       show: "detail",
     };
-    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    await setState(prevstate => ({
+      ...prevstate,
+      TheatreModule: newStoreModule,
+    }));
     //console.log(state)
     closeModal();
   };
@@ -664,7 +667,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "100%", height: "100%"}}>
+          <Box container sx={{width: "100%", maxHeight: "100%"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>

@@ -83,9 +83,7 @@ const ModalBox: React.FC<ModalProps> = ({open, onClose, children, header}) => (
               </Box>
             )}
 
-            <Box p={2} sx={{overflowY: "scroll"}}>
-              {children}
-            </Box>
+            {children}
           </div>
         </Box>
       </Fade>

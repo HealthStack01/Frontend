@@ -1,11 +1,11 @@
-import {styled} from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
 
-import BaseButton from ".";
+import BaseButton from '.';
 
 export const CustomButton = styled(BaseButton)`
-  width: ${props => (props.fullwidth ? "100%" : "auto")};
-  color: ${props => (props.color ? props.color : "#FFF")};
-  background: ${props => (props.background ? props.background : "#0364FF")};
+  width: ${props => (props.fullwidth ? '100%' : 'auto')};
+  color: ${props => (props.color ? props.color : '#FFF')};
+  background: ${props => (props.background ? props.background : '#0364FF')};
   max-height: 50px;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@ export const CustomButton = styled(BaseButton)`
   padding: 1rem 0.6rem;
   margin: 0 0.2rem;
   border: 0;
-  font-size: 80%;
+  font-size: 100%;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;

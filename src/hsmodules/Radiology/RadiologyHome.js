@@ -12,7 +12,7 @@ export default function RadiologyHome({children}) {
   const {user, setUser} = useContext(UserContext);
   // eslint-disable-next-line
   const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+    state.RadiologyModule.selectedRadiology
   );
   const [showModal, setShowModal] = useState(false);
 
@@ -23,18 +23,20 @@ export default function RadiologyHome({children}) {
   // }
 
   useEffect(() => {
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.StoreModule.selectedStore);
+    setSelectedStore(state.RadiologyModule.selectedRadiology);
     const newEmployeeLocation = {
-      locationName: state.StoreModule.selectedStore.name,
-      locationType: state.StoreModule.selectedStore.locationType,
-      locationId: state.StoreModule.selectedStore._id,
+      locationName: state.RadiologyModule.selectedRadiology.name,
+      locationType: state.RadiologyModule.selectedRadiology.locationType,
+      locationId: state.RadiologyModule.selectedRadiology._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };

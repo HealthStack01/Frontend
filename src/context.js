@@ -1,39 +1,37 @@
-import { createContext, useEffect, useState } from 'react';
-import client from './feathers';
+import {createContext, useEffect, useState} from "react";
+import client from "./feathers";
 
-export default function MyUserProvider({ children }) {
+export default function MyUserProvider({children}) {
   //const [data, setData] = useState(null)
-  const storeduser = localStorage.getItem('user');
-  const [user, setUser] = useState(storeduser | null);
-
-  const [location, setLocation] = useState(null);
-  const [locationType, setLocationType] = useState('Front Desk');
+  const [user, setUser] = useState(null);
+  const [authenticatingUser, setAuthenticatingUser] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
         const resp = await client.reAuthenticate();
-        //console.log(resp)
-        await setUser(resp.user);
-        /*   await setFacility(resp.user.currentEmployee.facilityDetail); */
+        //console.log(resp);
 
-        /* console.log("lastname:",  user.lastname)
-            console.log("reauth tried")
-            */
+        const user = {
+          ...resp.user,
+          currentEmployee: {...resp.user.employeeData[0]},
+        };
+
+        await setUser(user);
+
+        setAuthenticatingUser(false);
         return;
       } catch (error) {
         console.log(error);
-        //navigate("/")
+        // history.push("/")
+        setAuthenticatingUser(false);
       }
     })();
   }, []);
-  // const setLocationType =() => {
-  //     console.log("location")
-  // }
 
-  const { Provider } = UserContext;
+  const {Provider} = UserContext;
   return (
-    <Provider value={{ user, setUser, setLocationType }}>{children}</Provider>
+    <Provider value={{user, setUser, authenticatingUser}}>{children}</Provider>
   );
 }
 export const UserContext = createContext();

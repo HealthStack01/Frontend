@@ -531,10 +531,13 @@ export function StoreListStandalone({standalone, closeModal}) {
     await setSelectedStore(Store);
 
     const newStoreModule = {
-      selectedStore: Store,
+      selectedFinance: Store,
       show: "detail",
     };
-    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    await setState(prevstate => ({
+      ...prevstate,
+      financeModule: newStoreModule,
+    }));
     //console.log(state)
     closeModal();
   };

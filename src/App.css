@@ -35,7 +35,7 @@
 .map {
   height: 80vh;
   width: 80vw;
-  margin-left: 200px;
+  margin-left: 12.5rem;
 }
 .naira {
   height: 1.5rem !important;
@@ -304,4 +304,7 @@ div::-webkit-scrollbar-thumb {
 }
 .hovercard {
   cursor: pointer;
+}
+.linechart2 {
+  min-height: 130px !important;
 }

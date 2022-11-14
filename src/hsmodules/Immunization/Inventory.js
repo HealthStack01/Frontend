@@ -29,7 +29,7 @@ import { MdCancel } from "react-icons/md";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Proposal() {
+export default function ImmunizationInventory() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -39,7 +39,10 @@ export default function Proposal() {
 
   return (
     <section className="section remPadTop">
-      <ProposalList showModal={showModal} setShowModal={setShowModal} />
+      <ImmunizationInventoryList
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </section>
   );
 }
@@ -445,7 +448,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function ProposalList({ showModal, setShowModal }) {
+export function ImmunizationInventoryList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -720,96 +723,145 @@ export function ProposalList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      company_name: "Health Stack",
-      contact_person: "Teejay Tabor",
-      contact_position: "CEO",
-      phone_No: "09123802410",
-      status: "Active",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
     {
-      company_name: "Albert Health Stack",
-      contact_person: "KTeejay Tabor",
-      contact_position: "CEO",
-      phone_No: "09123802410",
-      status: "Active",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
     {
-      company_name: "DonaHealth Stack",
-      contact_person: "9Teejay Tabor",
-      contact_position: "CEO",
-      phone_No: "09123802410",
-      status: "Inactive",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
 
     {
-      company_name: "DaviHealth Stack",
-      contact_person: "Teejay Tabor",
-      contact_position: "CEO",
-      phone_No: "09123802410",
-      status: "Active",
+      product: "Blood",
+      quantity: "180",
+      group: "A",
+      value: "1000",
+      cost_price: "5000:00",
+      selling_price: "5500:00",
+      level: "10",
+      expiry: "Exist",
     },
   ];
 
-  const returnCell = (status) => {
+  const returnCell = (expiry) => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
-    switch (status.toLowerCase()) {
-      case "active":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+    switch (expiry.toLowerCase()) {
+      case "exist":
+        return <span style={{ color: "#17935C" }}>{expiry}</span>;
 
       case "inactive":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+        return <span style={{ color: "#0364FF" }}>{expiry}</span>;
 
       default:
         break;
     }
   };
 
-  const ProposalSchema = [
+  const ImmunizationInventorySchema = [
     {
-      name: "Company Name",
+      name: "S/N",
       key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: " Product",
+      key: "product",
       description: "Enter name of Company",
-      selector: (row) => row.company_name,
+      selector: (row) => row.product,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
     },
     {
-      name: "Contact Person",
-      key: "contact_person",
+      name: "Quantity",
+      key: "quantity",
       description: "Enter Telestaff name",
-      selector: (row) => row.contact_person,
+      selector: (row) => row.quantity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "NUMBER",
     },
     {
-      name: "Contact Position",
-      key: "contact_position",
+      name: "Blood Group",
+      key: "group",
       description: "Enter bills",
-      selector: (row) => row.contact_position,
+      selector: (row) => row.group,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Phone Number",
-      key: "phone_No",
+      name: "Stock Value",
+      key: "value",
       description: "Enter name of Disease",
-      selector: (row, i) => row.phone_No,
+      selector: (row, i) => row.value,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: "NUMBER",
     },
     {
-      name: "Status",
-      key: "status",
+      name: "Cost Price",
+      key: "cost_price",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.cost_price,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Selling Price",
+      key: "selling_price",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.selling_price,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Pre-Order Level",
+      key: "level",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.level,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Expiry",
+      key: "expiry",
       description: "Enter bills",
-      selector: "status",
-      cell: (row) => returnCell(row.status),
+      selector: "expiry",
+      cell: (row) => returnCell(row.expiry),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -832,36 +884,8 @@ export function ProposalList({ showModal, setShowModal }) {
                     </div>
                   )}
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Lead
+                    Invoice
                   </h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  />
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: "1rem" }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (
@@ -876,7 +900,7 @@ export function ProposalList({ showModal, setShowModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={ProposalSchema}
+                    columns={BloodBankInventorySchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover

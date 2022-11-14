@@ -330,34 +330,32 @@ export function VitalSignCreate() {
       if (!!draftDoc && draftDoc.status === "Draft") {
         console.log(document);
 
-        // ClientServ.patch(draftDoc._id, document)
-        //   .then(res => {
+        ClientServ.patch(draftDoc._id, document)
+          .then(res => {
+            e.target.reset();
+            setDocStatus("Draft");
 
-        //     e.target.reset();
-        //     setDocStatus("Draft");
-
-        //     setSuccess(true);
-        //     toast.success("Documentation updated succesfully");
-        //     setSuccess(false);
-        //   })
-        //   .catch(err => {
-        //     toast.error(`Error updating Documentation ${err}`);
-        //   });
+            setSuccess(true);
+            toast.success("Documentation updated succesfully");
+            setSuccess(false);
+          })
+          .catch(err => {
+            toast.error(`Error updating Documentation ${err}`);
+          });
       } else {
         console.log(document);
 
-        // ClientServ.create(document)
-        //   .then(res => {
+        ClientServ.create(document)
+          .then(res => {
+            e.target.reset();
 
-        //     e.target.reset();
-
-        //     setSuccess(true);
-        //     toast.success("Documentation created succesfully");
-        //     setSuccess(false);
-        //   })
-        //   .catch(err => {
-        //     toast.error(`Error creating Documentation ${err}`);
-        //   });
+            setSuccess(true);
+            toast.success("Documentation created succesfully");
+            setSuccess(false);
+          })
+          .catch(err => {
+            toast.error(`Error creating Documentation ${err}`);
+          });
       }
     }
   };
@@ -391,7 +389,7 @@ export function VitalSignCreate() {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small"
-                      {...register("x")}
+                      {...register("Temperature")}
                       name="Temperature"
                       type="text"
                       spellCheck="true"

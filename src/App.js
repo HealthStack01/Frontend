@@ -58,9 +58,21 @@ function App() {
       show: "list",
       selectedStore: {},
     },
+    RadiologyModule: {
+      show: "list",
+      selectedRadiology: {},
+    },
+    LaboratoryModule: {
+      show: "list",
+      selectedLab: {},
+    },
     InventoryModule: {
-      show: "details",
+      show: "list",
       selectedInventory: {},
+    },
+    TheatreModule: {
+      show: "list",
+      selectedTheatre: {},
     },
     ProductEntryModule: {
       show: "list",

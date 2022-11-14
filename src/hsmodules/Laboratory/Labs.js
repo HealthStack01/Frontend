@@ -526,11 +526,14 @@ export function StoreListStandalone({standalone, closeModal}) {
 
     await setSelectedStore(Store);
 
-    const newStoreModule = {
-      selectedStore: Store,
+    const newLabModule = {
+      selectedLab: Store,
       show: "detail",
     };
-    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    await setState(prevstate => ({
+      ...prevstate,
+      LaboratoryModule: newLabModule,
+    }));
     //console.log(state)
     closeModal();
   };
@@ -692,8 +695,8 @@ export function StoreListStandalone({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "calc(100% - 80px)",
-                overflowY: "scroll",
+                height: "400px",
+                overflowY: "auto",
               }}
             >
               <CustomTable

@@ -33,10 +33,18 @@ const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
   </div>
 ));
 
-const LeadsCreate = () => {
+const LeadsCreate = ({closeModal}) => {
   const {register} = useForm();
   return (
-    <Box container sx={{width: "800px", height: "70vh"}}>
+    <Box
+      container
+      sx={{
+        width: "800px",
+        maxHeight: "95vh",
+        overflowY: "auto",
+        padding: "10px",
+      }}
+    >
       {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
       <Box item>
         <FormsHeaderText text="Customer Details" />
@@ -185,21 +193,21 @@ const LeadsCreate = () => {
         </Grid>
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Input
               register={register("local_govt", {required: true})}
               label="Weight Forcast"
               //placeholder="Enter customer number"
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <MuiCustomDatePicker
               //format="dd/MM/yyyy"
               label="Projected closing Date"
             />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <MuiCustomDatePicker
               //format="dd/MM/yyyy"
               label="Date of submission"
@@ -229,12 +237,14 @@ const LeadsCreate = () => {
       <Box sx={{display: "flex", alignItems: "center"}}>
         <Button
           variant="outlined"
+          color="error"
           sx={{
             width: "150px",
             height: "40px",
             textTransform: "capitalize",
             marginRight: "15px",
           }}
+          onClick={closeModal}
         >
           Cancel
         </Button>
