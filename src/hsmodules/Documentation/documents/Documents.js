@@ -1,7 +1,9 @@
 import {Box} from "@mui/material";
+import {forwardRef} from "react";
+
 import CustomTable from "../../../components/customtable";
 
-export const AdmissionOrderDocument = ({Clinic, ref}) => {
+export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -25,9 +27,9 @@ export const AdmissionOrderDocument = ({Clinic, ref}) => {
       </div>
     </div>
   );
-};
+});
 
-export const DischargeOrderComponent = ({Clinic, ref}) => {
+export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -51,9 +53,9 @@ export const DischargeOrderComponent = ({Clinic, ref}) => {
       </div>
     </div>
   );
-};
+});
 
-export const MedicationListDocument = ({Clinic, ref}) => {
+export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -163,9 +165,9 @@ export const MedicationListDocument = ({Clinic, ref}) => {
       ))}
     </div>
   );
-};
+});
 
-export const PediatricPulmonologyForm = ({Clinic, ref}) => {
+export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -274,9 +276,9 @@ export const PediatricPulmonologyForm = ({Clinic, ref}) => {
       ))}
     </div>
   );
-};
+});
 
-export const AdultAthsmaQuestionaire = ({Clinic, ref}) => {
+export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -344,9 +346,9 @@ export const AdultAthsmaQuestionaire = ({Clinic, ref}) => {
       ))}
     </div>
   );
-};
+});
 
-export const PrescriptionDocument = ({Clinic, ref}) => {
+export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -394,9 +396,9 @@ export const PrescriptionDocument = ({Clinic, ref}) => {
       )}
     </div>
   );
-};
+});
 
-export const RadiologyOrdersDocument = ({Clinic, ref}) => {
+export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -442,9 +444,9 @@ export const RadiologyOrdersDocument = ({Clinic, ref}) => {
       )}
     </div>
   );
-};
+});
 
-export const LabOrdersDocument = ({Clinic, ref}) => {
+export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -490,9 +492,9 @@ export const LabOrdersDocument = ({Clinic, ref}) => {
       )}
     </div>
   );
-};
+});
 
-export const BilledOrdersDocument = ({Clinic, ref}) => {
+export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
   const columns = [
     {
       name: "S/NO",
@@ -583,7 +585,7 @@ export const BilledOrdersDocument = ({Clinic, ref}) => {
   ];
   return (
     <>
-      <Box sx={{height: "auto"}}>
+      <Box sx={{height: "auto"}} ref={ref}>
         <CustomTable
           title={"Bill Orders:"}
           columns={columns}
@@ -596,4 +598,4 @@ export const BilledOrdersDocument = ({Clinic, ref}) => {
       </Box>
     </>
   );
-};
+});
