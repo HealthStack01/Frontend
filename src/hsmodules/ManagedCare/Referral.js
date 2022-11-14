@@ -24,6 +24,7 @@ import BasicDateTimePicker from '../../components/inputs/DateTime';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
+import PatientProfile from '../Client/PatientProfile';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -38,7 +39,17 @@ export default function ReferralsCollections() {
       <CollectionList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
         <ModalBox open={showModal} setOpen={setShowModal}>
-          <CollectionCreate showModal={showModal} setShowModal={setShowModal} />
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <PatientProfile />
+            </Grid>
+            <Grid item xs={8}>
+              <CollectionCreate
+                showModal={showModal}
+                setShowModal={setShowModal}
+              />
+            </Grid>
+          </Grid>
         </ModalBox>
       )}
     </section>
@@ -284,7 +295,7 @@ export function CollectionCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <McText
+          {/* <McText
             txt={'Patient Information'}
             color={'#0064CC'}
             type={'p'}
@@ -356,7 +367,7 @@ export function CollectionCreate({ showModal, setShowModal }) {
                 ]}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
 
           <Grid container spacing={2} my={2}>
             <Grid item xs={12} sm={6}>

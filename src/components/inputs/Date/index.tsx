@@ -41,6 +41,7 @@ const BasicDatePicker: React.FC<Props> = ({
           className="date-picker"
           defaultValue={defaultValue}
           selected={selected}
+          onChange={onChange}
         />
         {errors[name] && (
           <FormHelperText error>{errors[name].message}</FormHelperText>

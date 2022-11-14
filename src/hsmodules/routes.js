@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { UserContext, ObjectContext } from '../context';
@@ -191,6 +191,7 @@ import ImmunizationCheckIn from './Immunization/Checkin';
 import ReferralIncoming from './Appointment/referralWorkflow';
 import BloodBankLab from './Bloodbank/Lab';
 import ImmunizationInventory from './Immunization/Inventory';
+import PageLoaderComponent from '../components/page-loader/page-loader';
 
 const moduleLocationTypes = {
   clinic: 'Clinic',
@@ -220,6 +221,9 @@ const AppRoutes = () => {
     }
   }, [location]);
 
+  const { authenticatingUser } = useContext(UserContext);
+
+  if (authenticatingUser) return <PageLoaderComponent />;
   return (
     <>
       <Routes>
@@ -650,7 +654,10 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
-            <Route path="/app/managed-care/healthplan" />
+            <Route
+              path="/app/managed-care/healthplan"
+              element={<HealthPlan />}
+            />
             <Route
               path="/app/managed-care/premiums"
               element={<PremiumPayment />}

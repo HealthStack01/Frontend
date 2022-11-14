@@ -55,7 +55,7 @@ export default function HealthPlan() {
 
 export function HealthPlanCreate({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const { register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -78,7 +78,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
   const [appointment_status, setAppointment_status] = useState('');
   const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
-
+  const [showBenefit, setShowBenefit] = useState(false);
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
@@ -232,6 +232,8 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
       });
   };
 
+  const submitbenefit = () => {};
+
   useEffect(() => {
     getSearchfacility(state.ClientModule.selectedClient);
 
@@ -311,63 +313,105 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
               />
             </Grid>
           </Grid>
-
-          <McText txt={'Add Benefits'} type={'p'} bold={'700'} size={'16px'} />
           <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="serviceName"
-                label="Service Name"
-                register={register('serviceName')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} my={1.5}>
-              <CustomSelect
-                name="serviceCategory"
-                label="Category"
-                register={register('serviceCategory')}
-                options={[
-                  { value: 'Individual', label: 'Individual' },
-                  { value: 'Family', label: 'Family' },
-                ]}
-              />
+            <Grid item xs={12} sm={6} my={1}>
+              <Button
+                type="button"
+                variant="contained"
+                style={{
+                  backgroundColor: '#3f51b5',
+                }}
+                onClick={() => setShowBenefit(true)}
+              >
+                Add Benefit
+              </Button>
             </Grid>
           </Grid>
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="serviceDscrp"
-                label="Description"
-                register={register('serviceDscrp')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="serviceprice"
-                label="Price"
-                register={register('serviceprice')}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="capitationPrice"
-                label="Capitation Price"
-                register={register('capitationPrice')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="feeForService"
-                label="Fee for Servcice"
-                register={register('feeForService')}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
+          {showBenefit && (
+            <>
+              <ModalBox
+                open={showBenefit}
+                onClose={() => setShowBenefit(false)}
+              >
+                <McText
+                  txt={'Add Benefits'}
+                  type={'p'}
+                  bold={'700'}
+                  size={'16px'}
+                />
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceName"
+                      label="Service Name"
+                      register={register('serviceName')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} my={1.5}>
+                    <CustomSelect
+                      name="serviceCategory"
+                      label="Category"
+                      register={register('serviceCategory')}
+                      options={[
+                        { value: 'Individual', label: 'Individual' },
+                        { value: 'Family', label: 'Family' },
+                      ]}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceDscrp"
+                      label="Description"
+                      register={register('serviceDscrp')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceprice"
+                      label="Price"
+                      register={register('serviceprice')}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="capitationPrice"
+                      label="Capitation Price"
+                      register={register('capitationPrice')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="feeForService"
+                      label="Fee for Servcice"
+                      register={register('feeForService')}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} mt={1}>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <Button
+                      type="button"
+                      style={{
+                        backgroundColor: '#0364FF',
+                        width: '100%',
+                        cursor: 'pointer',
+                      }}
+                      onClick={submitbenefit}
+                      fullWidth
+                    >
+                      Save
+                    </Button>
+                  </Grid>
+                </Grid>
+              </ModalBox>
+            </>
+          )}
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={12} md={3}>
               <Button
                 type="submit"
                 style={{
@@ -375,11 +419,12 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                   width: '100%',
                   cursor: 'pointer',
                 }}
+                fullwidth
               >
                 Save
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
+            <Grid item xs={12} sm={12} md={3}>
               <Button
                 type="button"
                 onClick={(e) => e.target.reset()}
@@ -390,6 +435,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                   border: '1px solid #0364FF',
                   cursor: 'pointer',
                 }}
+                fullwidth
               >
                 Clear
               </Button>
