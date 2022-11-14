@@ -32,12 +32,14 @@ import DataTable from "react-data-table-component";
 import { customStyles } from "../../components/customtable/styles";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import ClientFinInfo from "./ClientFinInfo";
+import { AppointmentCreate } from "./Appointments";
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service("client");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openFinance, setOpenFinance] = useState(false);
+  const [appointmentModal, setAppointmentModal] = useState(false);
   const [editing, setEditing] = useState(false);
   const [active, setActive] = useState("");
   const [chosen, setChosen] = useState();
@@ -97,6 +99,9 @@ const ClientView = ({ open, setOpen, user }) => {
     // e.preventDefault();
     // setSuccess(false);
     setOpenFinance(true);
+  };
+  const handleSchedule = async () => {
+    setAppointmentModal(true);
   };
 
   const handleDelete = async () => {
@@ -219,6 +224,12 @@ const ClientView = ({ open, setOpen, user }) => {
       >
         <ClientFinInfo />
       </ModalBox>
+      <ModalBox
+        open={appointmentModal}
+        onClose={() => setAppointmentModal(false)}
+      >
+        <AppointmentCreate />
+      </ModalBox>
 
       <div style={{ height: "100%", overflowY: "scroll" }}>
         <HeadWrapper>
@@ -229,13 +240,6 @@ const ClientView = ({ open, setOpen, user }) => {
             </span>
           </div>
           <BottomWrapper>
-            {/* <Button
-              label='Delete User'
-              background='#FFE9E9'
-              color='#ED0423'
-              onClick={() => handleDelete()}
-            /> */}
-
             <Button
               label={`${!editing ? "Edit Client" : "Cancel Editing"}`}
               background="#ECF3FF"
@@ -251,7 +255,8 @@ const ClientView = ({ open, setOpen, user }) => {
             {/*********************************** IMPLEMENT BILL CLIENT MODAL************************************** */}
 
             <Button onClick={handleBillClient}>Bill Client</Button>
-            <Button onClick={handleFinance}> Financial Information</Button>
+            <Button onClick={handleFinance}> Payment Info</Button>
+            <Button onClick={handleSchedule}>Schedule Appointment</Button>
           </BottomWrapper>
         </HeadWrapper>
         <form onSubmit={handleSubmit(submit)}>
