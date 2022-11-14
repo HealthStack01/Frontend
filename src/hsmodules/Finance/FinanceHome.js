@@ -12,7 +12,7 @@ export default function FinacneHome({children}) {
   const {user, setUser} = useContext(UserContext);
   const [storeModal, setStoreModal] = useState(false);
   const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+    state.financeModule.selectedFinance
   );
 
   // const handleCloseModal = () => {
@@ -20,31 +20,31 @@ export default function FinacneHome({children}) {
   //   setState(state);
   //   console.log(state.showStoreModal);
 
-  console.log(user);
-
   useEffect(() => {
-    console.log("starting up Finance module");
-    if (!selectedStore) {
+    const notSelected = Object.keys(selectedStore).length === 0;
+
+    if (notSelected) {
       handleChangeStore();
     }
     return () => {};
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.StoreModule.selectedStore);
+    setSelectedStore(state.financeModule.selectedFinance);
 
     const newEmployeeLocation = {
-      locationName: state.StoreModule.selectedStore.name,
+      locationName: state.financeModule.selectedFinance.name,
       locationType: "Finance",
-      locationId: state.StoreModule.selectedStore._id,
+      locationId: state.financeModule.selectedFinance._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
+
     setState(prevstate => ({
       ...prevstate,
       employeeLocation: newEmployeeLocation,
     }));
-  }, [state.StoreModule]);
+  }, [state.financeModule]);
 
   const handleChangeStore = async () => {
     await setStoreModal(true);
@@ -57,12 +57,11 @@ export default function FinacneHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <p onClick={() => console.log(user)}>Console</p>
             <ModalBox open={storeModal}>
               <Box
                 sx={{
                   width: "600px",
-                  maxHeight: "450px",
+                  height: "400px",
                 }}
               >
                 <StoreListStandalone

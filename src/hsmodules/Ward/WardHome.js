@@ -24,9 +24,10 @@ export default function WardHome({children}) {
   // };
 
   useEffect(() => {
-    // console.log("starting up Client module")
-    if (!selectedWard) {
-      handleChangeClinic();
+    const notSelected = Object.keys(selectedWard).length === 0;
+
+    if (notSelected) {
+      handleChangeWard();
     }
     return () => {};
   }, []);
@@ -47,7 +48,7 @@ export default function WardHome({children}) {
     }));
   }, [state.WardModule.selectedWard]);
 
-  const handleChangeClinic = async () => {
+  const handleChangeWard = async () => {
     await setShowModal(true);
     // console.log( showModal)
   };

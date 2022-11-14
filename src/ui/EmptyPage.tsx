@@ -29,7 +29,7 @@ const EmptyPage = () => {
             Welcome to your compnay {facilityName}
           </Typography>
         </Box>
-        <img src='/empty.png' alt='Empty State' width={400} />
+        <img src='/empty.png' alt='Empty Notifications' width={400} />
         <h2>There are no notifications available.</h2>
       </Box>
     </Box>

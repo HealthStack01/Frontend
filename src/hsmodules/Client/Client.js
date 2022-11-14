@@ -770,7 +770,7 @@ export function ClientList({ showModal }) {
     <>
       {user ? (
         <>
-          <ModalBox open={open} onClose={handleCloseModal}>
+          <ModalBox open={open} onClose={handleCloseModal} width='75%'>
             <ClientView
               user={selectedClient}
               open={open}

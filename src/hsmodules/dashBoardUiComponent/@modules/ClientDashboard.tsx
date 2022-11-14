@@ -100,10 +100,7 @@ const ClientDashboard = () => {
                 labels={['Male', 'Female', 'Other']}
                 title="Total Client by Gender"
               />
-              {/* <Stack direction="row">
-                <ViewCard count={totalDischargedPatient} title="Out Patients" />
-                <ViewCard count={totalInPatient} title="In Patients" />
-              </Stack> */}
+              
             </Box>
           </Box>
         </DashboardContainer>

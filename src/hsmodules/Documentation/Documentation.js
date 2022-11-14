@@ -1,25 +1,25 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import './styles/documentation.scss';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import "./styles/documentation.scss";
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { ClientCreate, ClientDetail, ClientList } from '../Client/Client';
-import Slide from '@mui/material/Slide';
-import EncounterMain from './EncounterMain';
-import EncounterRight from './EncounterRight';
-import PatientProfile from '../Client/PatientProfile';
-import ModalBox from '../../components/modal';
-import { Grid } from '@mui/material';
-var random = require('random-string-generator');
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {ClientCreate, ClientDetail, ClientList} from "../Client/Client";
+import Slide from "@mui/material/Slide";
+import EncounterMain from "./EncounterMain";
+import EncounterRight from "./EncounterRight";
+import PatientProfile from "../Client/PatientProfile";
+import ModalBox from "../../components/modal";
+import {Box, Grid} from "@mui/material";
+var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Documentation({ standalone }) {
-  const { state, setState } = useContext(ObjectContext); //,setState
+export default function Documentation({standalone}) {
+  const {state, setState} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   //const [selectedProductEntry,setSelectedProductEntry]=useState()
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -32,14 +32,14 @@ export default function Documentation({ standalone }) {
   //let { path, url } = useRouteMatch();
 
   useEffect(() => {
-    console.log('starting up Encounter module');
+    console.log("starting up Encounter module");
     console.log(state.ClientModule.selectedClient);
     const newDocumentClassModule = {
       selectedDocumentClass: {},
       //state.DocumentClassModule.selectedDocumentClass.name
-      show: 'detail',
+      show: "detail",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       DocumentClassModule: newDocumentClassModule,
     }));
@@ -63,21 +63,25 @@ export default function Documentation({ standalone }) {
   };
 
   return (
-    <section className="section remPadTop" style={{ padding: '15px' }}>
+    <section className="section remPadTop" style={{padding: "15px"}}>
       {!standalone && (
-        <Grid container spacing={1}>
-          <Grid item xs={3}>
+        <Box
+          container
+          sx={{width: "100%", display: "flex", justifyContent: "space-between"}}
+        >
+          <Box item sx={{width: "300px"}} mt={1}>
             <PatientProfile />
-          </Grid>
+          </Box>
 
-          <Grid item xs={9}>
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 320px)",
+            }}
+          >
             <EncounterMain chosenClient={selectedClient} />
-          </Grid>
-
-          {/* <Grid item xs={4.5}>
-            <EncounterRight client={selectedClient} />
-          </Grid> */}
-        </Grid>
+          </Box>
+        </Box>
       )}
 
       {standalone && (
@@ -85,32 +89,6 @@ export default function Documentation({ standalone }) {
           <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
         </div>
       )}
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
-            </div> */}
-      {/* <div className="columns "> */}
-      {/* {!standalone && <PatientProfile />} */}
-
-      {/* {!standalone && <EncounterMain client={selectedClient} />} */}
-
-      {/* {standalone && (
-          <div
-            className={
-              state.DocumentClassModule.show === "detail"
-                ? "column is-8"
-                : "column is-12 "
-            }
-          > */}
-      {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
-      {/* </div>
-        )}
-        <div className="column is-4 "> */}
-      {/* {state.DocumentClassModule.show === "detail" && (
-            <EncounterRight client={selectedClient} />
-          )} */}
-      {/*  <DocumentClassCreate /> */}
-      {/* </div>
-      </div> */}
 
       <ModalBox
         open={showModal}
@@ -123,28 +101,28 @@ export default function Documentation({ standalone }) {
   );
 }
 
-export function InventorySearch({ getSearchfacility, clear }) {
-  const productServ = client.service('inventory');
+export function InventorySearch({getSearchfacility, clear}) {
+  const productServ = client.service("inventory");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState('');
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -161,9 +139,9 @@ export function InventorySearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
-      console.log('stuff was chosen');
+      console.log("stuff was chosen");
     }
 
     /*  console.log("blur")
@@ -179,14 +157,14 @@ export function InventorySearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (value) => {
+  const handleSearch = async value => {
     setVal(value);
-    if (value === '') {
+    if (value === "") {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = 'name'; //field variable
+    const field = "name"; //field variable
 
     if (value.length >= 3) {
       productServ
@@ -195,7 +173,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
             //service
             [field]: {
               $regex: value,
-              $options: 'i',
+              $options: "i",
             },
             facility: user.currentEmployee.facilityDetail._id,
             storeId: state.StoreModule.selectedStore._id,
@@ -205,23 +183,23 @@ export function InventorySearch({ getSearchfacility, clear }) {
             },
           },
         })
-        .then((res) => {
-          console.log('product  fetched successfully');
+        .then(res => {
+          console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(' product  fetched successfully');
+          setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
+            message: "Error creating ProductEntry " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -238,8 +216,8 @@ export function InventorySearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log('success has changed', clear);
-      setSimpa('');
+      console.log("success has changed", clear);
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
@@ -248,10 +226,10 @@ export function InventorySearch({ getSearchfacility, clear }) {
       <div className="field">
         <div className="control has-icons-left  ">
           <div
-            className={`dropdown ${showPanel ? 'is-active' : ''}`}
-            style={{ width: '100%' }}
+            className={`dropdown ${showPanel ? "is-active" : ""}`}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 className="input is-small  is-expanded"
                 type="text"
@@ -259,8 +237,8 @@ export function InventorySearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
@@ -268,16 +246,16 @@ export function InventorySearch({ getSearchfacility, clear }) {
               </span>
             </div>
             {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
-                  ''
+                  ""
                 ) : (
                   <div
                     className="dropdown-item" /* onClick={handleAddproduct} */
                   >
-                    {' '}
-                    <span> {val} is not in your inventory</span>{' '}
+                    {" "}
+                    <span> {val} is not in your inventory</span>{" "}
                   </div>
                 )}
 
@@ -306,7 +284,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
           </div>
         </div>
       </div>
-      <div className={`modal ${productModal ? 'is-active' : ''}`}>
+      <div className={`modal ${productModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">

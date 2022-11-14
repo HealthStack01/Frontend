@@ -1,3 +1,6 @@
+import {Box} from "@mui/material";
+import CustomTable from "../../../components/customtable";
+
 export const AdmissionOrderDocument = ({Clinic, ref}) => {
   return (
     <div
@@ -490,63 +493,107 @@ export const LabOrdersDocument = ({Clinic, ref}) => {
 };
 
 export const BilledOrdersDocument = ({Clinic, ref}) => {
+  const columns = [
+    {
+      name: "S/NO",
+      width: "70px",
+      key: "sn",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter Category",
+      selector: row => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
+    },
+
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      center: true,
+    },
+
+    {
+      name: "Quantity",
+      key: "quantity",
+      width: "100px",
+      center: "true",
+      description: "Enter Quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Unit",
+      key: "unit",
+      description: "Enter Category",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Selling Price",
+      key: "sellingprice",
+      description: "Enter Category",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      center: true,
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Category",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Mode",
+      key: "billMode",
+      description: "Enter Category",
+      selector: row => row.billMode.type,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+  ];
   return (
-    <div
-      className={
-        Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
-      }
-      ref={ref}
-    >
-      {Clinic.documentdetail.length > 0 && (
-        <div>
-          <label>Billed Orders:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Category">Category</abbr>
-                </th>
-                <th>
-                  <abbr title="Name">Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Quantity">Quanitity</abbr>
-                </th>
-                <th>
-                  <abbr title="Unit">Unit</abbr>
-                </th>
-                <th>
-                  <abbr title="Selling Price">Selling Price</abbr>
-                </th>
-                <th>
-                  <abbr title="Amount">Amount</abbr>
-                </th>
-                <th>
-                  <abbr title="Billing Mode">Mode</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {Clinic.documentdetail.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{ProductEntry.category}</td>
-                  <td>{ProductEntry.name}</td>
-                  <th>{ProductEntry.quantity}</th>
-                  <td>{ProductEntry.baseunit}</td>
-                  <td>{ProductEntry.sellingprice}</td>
-                  <td>{ProductEntry.amount}</td>
-                  <td>{ProductEntry.billMode.type}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+    <>
+      <Box sx={{height: "auto"}}>
+        <CustomTable
+          title={"Bill Orders:"}
+          columns={columns}
+          data={Clinic.documentdetail}
+          pointerOnHover
+          highlightOnHover
+          striped
+          progressPending={false}
+        />
+      </Box>
+    </>
   );
 };

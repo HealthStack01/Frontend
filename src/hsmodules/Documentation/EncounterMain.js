@@ -397,36 +397,82 @@ export default function EncounterMain({nopresc, chosenClient}) {
     //console.log(state)
   };
 
-  const DocumentToRender = ({Clinic}) => {
+  const DocumentToRender = ({Clinic, index}) => {
     switch (Clinic.documentname.toLowerCase()) {
       case "admission order": {
         return Clinic.status.toLowerCase() !== "draft" ? (
           <AdmissionOrderDocument Clinic={Clinic} />
         ) : null;
       }
-      case "discharge order":
-        return <DischargeOrderComponent Clinic={Clinic} />;
-      case "medication list":
-        return <MedicationListDocument Clinic={Clinic} />;
-      case "pediatric pulmonology form":
-        return <PediatricPulmonologyForm Clinic={Clinic} />;
-      case "adult asthma questionnaire":
-        return <AdultAthsmaQuestionaire Clinic={Clinic} />;
+      case "discharge order": {
+        return Clinic.status.toLowerCase() !== "draft" ? (
+          <DischargeOrderComponent
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        ) : null;
+      }
+
+      case "medication list": {
+        return Clinic.status.toLowerCase() !== "draft" ? (
+          <MedicationListDocument
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        ) : null;
+      }
+
+      case "pediatric pulmonology form": {
+        return Clinic.status.toLowerCase() !== "draft" ? (
+          <PediatricPulmonologyForm
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        ) : null;
+      }
+
+      case "adult asthma questionnaire": {
+        return Clinic.status.toLowerCase() !== "draft" ? (
+          <AdultAthsmaQuestionaire
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        ) : null;
+      }
+
       case "prescription":
-        return <PrescriptionDocument Clinic={Clinic} />;
+        return (
+          <PrescriptionDocument
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        );
       case "radiology orders":
-        return <RadiologyOrdersDocument Clinic={Clinic} />;
+        return (
+          <RadiologyOrdersDocument
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        );
       case "lab order":
-        return <LabOrdersDocument Clinic={Clinic} />;
+        return (
+          <LabOrdersDocument
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        );
       case "billed orders":
-        return <BilledOrdersDocument Clinic={Clinic} />;
+        return (
+          <BilledOrdersDocument
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
+        );
 
       default:
         return null;
     }
   };
-
-  const [isTrue, setIsTrue] = useState(false);
 
   const actionsList = [
     {
@@ -454,11 +500,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
       action: handleNewPrescription,
       show: !nopresc,
     },
-    {
-      title: "New Document",
-      action: handleNewDocument,
-      show: true,
-    },
+    // {
+    //   title: "New Document",
+    //   action: handleNewDocument,
+    //   show: true,
+    // },
   ];
 
   return (
@@ -477,7 +523,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
           justifyContent: "space-between",
         }}
       >
-        <Box item sx={{width: "calc(100% - 350px)"}}>
+        <Box
+          item
+          sx={{
+            width: !nopresc
+              ? "calc(100% - 350px - 190px)"
+              : "calc(100% - 190px)",
+          }}
+        >
           <Input
             label="Search Documentation"
             className="input is-small "
@@ -488,90 +541,129 @@ export default function EncounterMain({nopresc, chosenClient}) {
           />
         </Box>
 
-        <Box
-          container
-          sx={{
-            width: "180px",
-          }}
-        >
-          {activateCall && (
-            <MuiButton
-              sx={{
-                widht: "100%",
-                height: "48px",
-                fontSize: "0.75rem,",
-                textTransform: "capitalize",
-              }}
-              onClick={() => setActivateCall(false)}
-              variant="contained"
-              color="error"
-            >
-              End Teleconsultation
-            </MuiButton>
-          )}
+        {!nopresc && (
+          <Box
+            container
+            sx={{
+              width: "180px",
+            }}
+          >
+            {activateCall && (
+              <MuiButton
+                sx={{
+                  widht: "100%",
+                  height: "48px",
+                  fontSize: "0.75rem,",
+                  textTransform: "capitalize",
+                }}
+                onClick={() => setActivateCall(false)}
+                variant="contained"
+                color="error"
+              >
+                End Teleconsultation
+              </MuiButton>
+            )}
 
-          {!nopresc && (
             <VideoConference
               activateCall={activateCall}
               setActivateCall={setActivateCall}
             />
-          )}
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            width: "180px",
+          }}
+        >
+          <MuiButton
+            variant="contained"
+            sx={{
+              fontSize: "0.9rem",
+              width: "100%",
+              minHeight: "48px",
+              textTransform: "capitalize",
+              backgroundColor: "green",
+              "&:hover": {
+                backgroundColor: "green",
+              },
+            }}
+            onClick={handleNewDocument}
+          >
+            New Document
+          </MuiButton>
         </Box>
 
+        {!nopresc && (
+          <Box
+            item
+            sx={{
+              width: "140px",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+              }}
+            >
+              <MuiButton
+                onClick={handleShowActions}
+                variant="outlined"
+                sx={{height: "48px", width: "100%"}}
+                aria-controls={showActions ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={showActions ? "true" : undefined}
+              >
+                Actions <ExpandMoreIcon />
+              </MuiButton>
+
+              <Menu
+                id="basic-menu"
+                anchorEl={showActions}
+                open={open}
+                onClose={handleHideActions}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                {actionsList.map((action, i) => {
+                  if (action.show) {
+                    return (
+                      <MenuItem key={i} onClick={action.action}>
+                        {action.title}
+                      </MenuItem>
+                    );
+                  }
+                })}
+              </Menu>
+            </div>
+          </Box>
+        )}
+      </Box>
+
+      <Box
+        container
+        spacing={1}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Box
           item
           sx={{
-            width: "140px",
-            display: "flex",
-            justifyContent: "flex-end",
+            width: !state.DocumentClassModule.encounter_right
+              ? "100%"
+              : "calc(100% - 465px)",
           }}
         >
-          <div
-            style={{
-              width: "100%",
-            }}
-          >
-            <MuiButton
-              onClick={handleShowActions}
-              variant="outlined"
-              sx={{height: "48px", width: "100%"}}
-              aria-controls={showActions ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={showActions ? "true" : undefined}
-            >
-              Actions <ExpandMoreIcon />
-            </MuiButton>
-
-            <Menu
-              id="basic-menu"
-              anchorEl={showActions}
-              open={open}
-              onClose={handleHideActions}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              {actionsList.map((action, i) => {
-                if (action.show) {
-                  return (
-                    <MenuItem key={i} onClick={action.action}>
-                      {action.title}
-                    </MenuItem>
-                  );
-                }
-              })}
-            </Menu>
-          </div>
-        </Box>
-      </Box>
-
-      <Grid container spacing={1}>
-        <Grid item xs={state.DocumentClassModule.encounter_right ? 7 : 12}>
           <Box
             sx={{
               flexGrow: 1,
               width: "100%",
-              height: "calc(100vh - 200px)",
+              height: "calc(100vh - 180px)",
               overflowY: "scroll",
             }}
           >
@@ -579,7 +671,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
               <>
                 <Box
                   onClick={() => setSelectedClinic(Clinic)}
-                  mt={3}
+                  mb={3}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -620,7 +712,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                           fontSize: "14px",
                           fontWeight: "500",
                           lineHeight: "19.12px",
-                          color: "#33415C",
+                          color: "#000000",
                         }}
                       >
                         {formatDistanceToNowStrict(new Date(Clinic.createdAt), {
@@ -629,7 +721,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       </span>
                       <span
                         style={{
-                          color: "#979797",
+                          color: "#2d2d2d",
                           fontSize: "12px",
                           fontWeight: "400",
                           lineHeight: "16.39px",
@@ -660,7 +752,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                           fontSize: "14px",
                           fontWeight: "400",
                           lineHeight: "19.12px",
-                          color: "#33415C",
+                          color: "#000000",
                         }}
                       >
                         {Clinic.documentname} by {Clinic.createdByname} at{" "}
@@ -754,36 +846,35 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       </div>
                     )}
 
-                  <DocumentToRender Clinic={Clinic} />
+                  <DocumentToRender Clinic={Clinic} index={i} />
                 </Collapse>
               </>
             ))}
           </Box>
-        </Grid>
+        </Box>
 
         <Slide
           mountOnEnter
           unmountOnExit
           direction="left"
-          in={state.DocumentClassModule.show === "detail"}
+          in={state.DocumentClassModule.encounter_right}
         >
-          <Grid item xs={5}>
+          <Box item sx={{width: "450px"}}>
             <Box
-              mt={3}
               sx={{
                 width: "100%",
                 minHeight: "200px",
                 border: "1px solid rgba(235, 235, 235, 1)",
-                maxHeight: "calc(100vh - 250px)",
+                maxHeight: "calc(100vh - 170px)",
                 overflowY: "scroll",
                 padding: "15px",
               }}
             >
               <EncounterRight client={chosenClient} />
             </Box>
-          </Grid>
+          </Box>
         </Slide>
-      </Grid>
+      </Box>
 
       <>
         <ModalBox

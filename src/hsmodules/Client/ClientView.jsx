@@ -31,6 +31,7 @@ import { ClientSearch } from '../helpers/ClientSearch';
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../../components/customtable/styles';
 import BillServiceCreate from '../Finance/BillServiceCreate';
+import ClientFinInfo from './ClientFinInfo';
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service('client');
@@ -214,50 +215,12 @@ const ClientView = ({ open, setOpen, user }) => {
       <ModalBox
         open={openFinance}
         onClose={() => setOpenFinance(false)}
-        header='Financial Information'
+        header='Client Financial Information'
       >
-        <GrayWrapper>
-          <CustomSelect
-            options={[
-              'Payment Mode',
-              'HMO Cover',
-              'Family Cover',
-              'Company Cover',
-            ]}
-          />
-          <ClientSearch getSearchfacility={getSearchfacility} clear={success} />
-          <Input label='Plan' register={register('plan')} />
-          <Box
-            sx={{
-              justifyContent: 'space-between',
-              width: '50px',
-              display: 'flex',
-              gap: '4px',
-            }}
-          >
-            <input
-              type='checkbox'
-              name='Active'
-              value={active}
-              onChange={e => {
-                setActive(e.target.value);
-              }}
-              placeholder='Active'
-            />
-            <label>Active</label>
-          </Box>
-          <Button label='Add' background='#FFE9E9' color='#ED0423' />
-          <DataTable
-            title='Clients'
-            columns={ClientFinanceSchema}
-            customStyles={customStyles}
-
-            // data={users}
-          />
-        </GrayWrapper>
+        <ClientFinInfo />
       </ModalBox>
 
-      <div style={{ height: '80vh', overflowY: 'scroll', width: '80vw' }}>
+      <div style={{ height: '80vh', overflowY: 'scroll' }}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>

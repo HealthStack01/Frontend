@@ -36,17 +36,22 @@ export default function Proposal() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
+
+  const openCreateModal = () => {
+    setCreateModal(true);
+  };
 
   return (
     <section className="section remPadTop">
-      <ProposalList openCreateModal={() => setCreateModal(true)} />
+      <ProposalList openCreateModal={openCreateModal} />
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
-        header="Add New Proposal"
+        header="Create New Proposal"
       >
-        <ProposalCreate closeModal={() => setCreateModal(false)} />
+        <ProposalCreate />
       </ModalBox>
     </section>
   );
@@ -840,34 +845,6 @@ export function ProposalList({openCreateModal}) {
                     </div>
                   )}
                   <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Lead</h2>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={date => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  />
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{fontSize: "1rem"}} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{fontSize: "1rem"}} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (

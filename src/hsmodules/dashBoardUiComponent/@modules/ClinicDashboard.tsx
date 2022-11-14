@@ -37,6 +37,7 @@ const ClinicDashboard = () => {
   const { totalUpcomingAppointment } = TotalUpcomingAppointment(clientService);
   const { monthNameForCurrentYear, newClientLineSeriesData } =
     clientLineData(clientService);
+    console.log(clientLineData, 'clientsss')
   const { circleSeriesArray } = CircleSeriesData(clientService);
   const { paymentModeBarSeries } = ClientPaymentMode(clientService);
   // const { totalDischargedPatient } = TotalDischargedPatient(admissionService);
