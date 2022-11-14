@@ -1,4 +1,9 @@
-export const AdmissionOrderDocument = ({Clinic, ref}) => {
+import {Box} from "@mui/material";
+import {forwardRef} from "react";
+
+import CustomTable from "../../../components/customtable";
+
+export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -22,9 +27,9 @@ export const AdmissionOrderDocument = ({Clinic, ref}) => {
       </div>
     </div>
   );
-};
+});
 
-export const DischargeOrderComponent = ({Clinic, ref}) => {
+export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -48,9 +53,9 @@ export const DischargeOrderComponent = ({Clinic, ref}) => {
       </div>
     </div>
   );
-};
+});
 
-export const MedicationListDocument = ({Clinic, ref}) => {
+export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -160,9 +165,9 @@ export const MedicationListDocument = ({Clinic, ref}) => {
       ))}
     </div>
   );
-};
+});
 
-export const PediatricPulmonologyForm = ({Clinic, ref}) => {
+export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -271,9 +276,9 @@ export const PediatricPulmonologyForm = ({Clinic, ref}) => {
       ))}
     </div>
   );
-};
+});
 
-export const AdultAthsmaQuestionaire = ({Clinic, ref}) => {
+export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -341,9 +346,9 @@ export const AdultAthsmaQuestionaire = ({Clinic, ref}) => {
       ))}
     </div>
   );
-};
+});
 
-export const PrescriptionDocument = ({Clinic, ref}) => {
+export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -391,9 +396,9 @@ export const PrescriptionDocument = ({Clinic, ref}) => {
       )}
     </div>
   );
-};
+});
 
-export const RadiologyOrdersDocument = ({Clinic, ref}) => {
+export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -439,9 +444,9 @@ export const RadiologyOrdersDocument = ({Clinic, ref}) => {
       )}
     </div>
   );
-};
+});
 
-export const LabOrdersDocument = ({Clinic, ref}) => {
+export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
   return (
     <div
       className={
@@ -487,66 +492,110 @@ export const LabOrdersDocument = ({Clinic, ref}) => {
       )}
     </div>
   );
-};
+});
 
-export const BilledOrdersDocument = ({Clinic, ref}) => {
+export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
+  const columns = [
+    {
+      name: "S/NO",
+      width: "70px",
+      key: "sn",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter Category",
+      selector: row => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
+    },
+
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      center: true,
+    },
+
+    {
+      name: "Quantity",
+      key: "quantity",
+      width: "100px",
+      center: "true",
+      description: "Enter Quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Unit",
+      key: "unit",
+      description: "Enter Category",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Selling Price",
+      key: "sellingprice",
+      description: "Enter Category",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      center: true,
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Category",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+
+    {
+      name: "Mode",
+      key: "billMode",
+      description: "Enter Category",
+      selector: row => row.billMode.type,
+      sortable: true,
+      required: true,
+      center: true,
+      inputType: "DATE",
+    },
+  ];
   return (
-    <div
-      className={
-        Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
-      }
-      ref={ref}
-    >
-      {Clinic.documentdetail.length > 0 && (
-        <div>
-          <label>Billed Orders:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Category">Category</abbr>
-                </th>
-                <th>
-                  <abbr title="Name">Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Quantity">Quanitity</abbr>
-                </th>
-                <th>
-                  <abbr title="Unit">Unit</abbr>
-                </th>
-                <th>
-                  <abbr title="Selling Price">Selling Price</abbr>
-                </th>
-                <th>
-                  <abbr title="Amount">Amount</abbr>
-                </th>
-                <th>
-                  <abbr title="Billing Mode">Mode</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {Clinic.documentdetail.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{ProductEntry.category}</td>
-                  <td>{ProductEntry.name}</td>
-                  <th>{ProductEntry.quantity}</th>
-                  <td>{ProductEntry.baseunit}</td>
-                  <td>{ProductEntry.sellingprice}</td>
-                  <td>{ProductEntry.amount}</td>
-                  <td>{ProductEntry.billMode.type}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+    <>
+      <Box sx={{height: "auto"}} ref={ref}>
+        <CustomTable
+          title={"Bill Orders:"}
+          columns={columns}
+          data={Clinic.documentdetail}
+          pointerOnHover
+          highlightOnHover
+          striped
+          progressPending={false}
+        />
+      </Box>
+    </>
   );
-};
+});

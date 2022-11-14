@@ -86,7 +86,7 @@ export default function PharmacyBillPrescription() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "800px",
+            width: "900px",
             height: "500px",
           }}
         >

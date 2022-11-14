@@ -11,8 +11,8 @@ export default function InventoryHome({children}) {
   const {state, setState} = useContext(ObjectContext);
   const {user, setUser} = useContext(UserContext);
   // eslint-disable-next-line
-  const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+  const [selectedInventory, setSelectedStore] = useState(
+    state.InventoryModule.selectedInventory
   );
   const [showModal, setShowModal] = useState(false);
 
@@ -23,7 +23,7 @@ export default function InventoryHome({children}) {
   // };
 
   useEffect(() => {
-    const notSelected = Object.keys(selectedStore).length === 0;
+    const notSelected = Object.keys(selectedInventory).length === 0;
 
     if (notSelected) {
       handleChangeStore();
@@ -32,11 +32,11 @@ export default function InventoryHome({children}) {
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.StoreModule.selectedStore);
+    setSelectedStore(state.InventoryModule.selectedInventory);
     const newEmployeeLocation = {
-      locationName: state.StoreModule.selectedStore.name,
+      locationName: state.InventoryModule.selectedInventory.name,
       locationType: "Store",
-      locationId: state.StoreModule.selectedStore._id,
+      locationId: state.InventoryModule.selectedInventory._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
@@ -44,7 +44,7 @@ export default function InventoryHome({children}) {
       ...prevstate,
       employeeLocation: newEmployeeLocation,
     }));
-  }, [state.StoreModule]);
+  }, [state.InventoryModule]);
 
   const handleChangeStore = async () => {
     await setShowModal(true);

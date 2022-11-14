@@ -24,7 +24,7 @@
       justify-content: space-between;
 
       .user-profile-information {
-        width: 65%;
+        width: 100%;
         display: flex;
 
         .user-image-container {
@@ -46,7 +46,7 @@
           justify-content: flex-start;
           margin-left: 12px;
           h1 {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             //line-height: 24.59px;
             color: #000000;
@@ -61,7 +61,7 @@
               font-weight: 500;
               font-size: 12px;
               //line-height: 16.39px;
-              color: #909090;
+              color: #000000;
             }
           }
         }
@@ -89,9 +89,9 @@
         margin-bottom: 10px;
 
         span {
-          font-size: 14px;
+          font-size: 0.8rem;
           line-height: 19.12px;
-          color: "#505050";
+          color: "#000000";
           word-wrap: break-word;
         }
       }
@@ -117,7 +117,7 @@
       span {
         font-size: 0.75rem;
         font-weight: 600;
-        color: #33415c;
+        color: #000000;
       }
     }
     :nth-child(1) {

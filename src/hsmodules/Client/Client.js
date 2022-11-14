@@ -1,15 +1,15 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
+import {DebounceInput} from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict} from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Clinic/Appointments";
+import {AppointmentCreate} from "../Clinic/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
@@ -18,10 +18,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import { ClientMiniSchema } from "./schema";
-import { useForm } from "react-hook-form";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import {ClientMiniSchema} from "./schema";
+import {useForm} from "react-hook-form";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -30,7 +30,7 @@ import {
   HeadWrapper,
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
-import { Box, Portal } from "@mui/material";
+import {Box, Portal, Grid} from "@mui/material";
 import CustomTable from "./ui-components/customtable";
 import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
@@ -41,10 +41,11 @@ import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
 const searchfacility = {};
 
 export default function Client() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
   //const [showState,setShowState]=useState() //create|modify|detail
   const handleShowModal = () => {
     setShowModal(true);
@@ -56,6 +57,10 @@ export default function Client() {
   };
   const handleShowRegisteredModal = () => {};
   const handleHideRegisteredModal = () => {};
+
+  const handleOpenDetailModal = () => {
+    setDetailModal(true);
+  };
 
   // const createClientSchema = yup.object().shape({
   //   firstName: yup.string().required("Enter a first name"),
@@ -69,15 +74,26 @@ export default function Client() {
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6 ">
-          <ClientList showModal={handleShowModal} />
+          <ClientList
+            showModal={handleShowModal}
+            openDetailModal={handleOpenDetailModal}
+          />
         </div>
         <div className="column is-6 ">
-          {state.ClientModule.show === "detail" && <ClientDetail />}
+          {/* {state.ClientModule.show === 'detail' && <ClientDetail />} */}
           {state.ClientModule.show === "modify" && (
             <ClientModify Client={selectedClient} />
           )}
           <ModalBox open={showModal} setOpen={handleHideModal}>
             <ClientForm open={showModal} setOpen={handleHideModal} />
+          </ModalBox>
+
+          <ModalBox
+            open={detailModal}
+            onClose={() => setDetailModal(false)}
+            header="Client Detail"
+          >
+            <ClientDetail closeModal={() => setDetailModal(false)} />
           </ModalBox>
         </div>
       </div>
@@ -85,10 +101,10 @@ export default function Client() {
   );
 }
 
-export function ClientCreate({ open, setOpen }) {
+export function ClientCreate({open, setOpen}) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
-  const { register, handleSubmit } = useForm({
+  const {register, handleSubmit} = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -145,7 +161,7 @@ export function ClientCreate({ open, setOpen }) {
 
   // eslint-disable-next-line
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -256,8 +272,8 @@ export function ClientCreate({ open, setOpen }) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({ query: query })
-        .then((res) => {
+      ClientServ.find({query: query})
+        .then(res => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -423,21 +439,21 @@ export function ClientCreate({ open, setOpen }) {
         });
     }
   };
-  const users = [{ sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24 }];
+  const users = [{sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24}];
 
   const ClientRegisteredSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: (row) => row.sn,
+      selector: row => row.sn,
       sortable: true,
     },
     {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: (row) => row.lastname,
+      selector: row => row.lastname,
       sortable: true,
       required: true,
     },
@@ -446,7 +462,7 @@ export function ClientCreate({ open, setOpen }) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: (row) => row.firstname,
+      selector: row => row.firstname,
       sortable: true,
       required: true,
     },
@@ -455,7 +471,7 @@ export function ClientCreate({ open, setOpen }) {
       name: "Age",
       key: "age",
       description: "age",
-      selector: (row) => row.age,
+      selector: row => row.age,
       sortable: true,
       required: true,
     },
@@ -464,7 +480,7 @@ export function ClientCreate({ open, setOpen }) {
       name: "Gender",
       key: "gender",
       description: "Gender",
-      selector: (row) => row.gender,
+      selector: row => row.gender,
       sortable: true,
       required: true,
     },
@@ -473,7 +489,7 @@ export function ClientCreate({ open, setOpen }) {
       name: "Phome",
       key: "phone",
       description: "phone",
-      selector: (row) => row.phone,
+      selector: row => row.phone,
       sortable: true,
       required: true,
     },
@@ -482,15 +498,15 @@ export function ClientCreate({ open, setOpen }) {
       name: "Email",
       key: "email",
       description: "Enter your name",
-      selector: (row) => row.email,
+      selector: row => row.email,
       sortable: true,
       required: true,
     },
     {
       name: "Action",
-      cell: (row) => {
+      cell: row => {
         return (
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{display: "flex", gap: 2}}>
             <Button label="Duplicate" />
             <Button label="Register" />
             <Button label="Dependent" />
@@ -545,7 +561,7 @@ export function ClientCreate({ open, setOpen }) {
   );
 }
 
-export function ClientList({ showModal }) {
+export function ClientList({showModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -561,7 +577,7 @@ export function ClientList({ showModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -608,7 +624,8 @@ export function ClientList({ showModal }) {
       ClientModule: newClientModule,
     }));
 
-    await setOpen(true);
+    //await setOpen(true);
+    openDetailModal();
   };
 
   const handleSearch = (val) => {
@@ -666,7 +683,7 @@ export function ClientList({ showModal }) {
               $options: "i",
             },
           },
-          { gender: val },
+          {gender: val},
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -740,10 +757,10 @@ export function ClientList({ showModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on("created", obj => rest());
+    ClientServ.on("updated", obj => rest());
+    ClientServ.on("patched", obj => rest());
+    ClientServ.on("removed", obj => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -781,23 +798,23 @@ export function ClientList({ showModal }) {
             <ClientForm />
           </Portal>
           <PageWrapper
-            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
           >
             <TableMenu>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{display: "flex", alignItems: "center"}}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                   List of Clients
                 </h2>
               </div>
 
               {handleCreateNew && (
                 <Button
-                  style={{ fontSize: "14px", fontWeight: "600" }}
+                  style={{fontSize: "14px", fontWeight: "600"}}
                   label="Add new "
                   onClick={showModal}
                   showicon={true}
@@ -848,8 +865,8 @@ export function ClientDetail() {
   const [message, setMessage] = useState(""); //,
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -904,6 +921,206 @@ export function ClientDetail() {
     }, [billingModal]) */
   return (
     <>
+      <Box
+        sx={{
+          width: "800px",
+          maxHeight: "95vh",
+        }}
+      >
+        <Box>
+          <Grid container spacing={2}>
+            {Client.firstname && (
+              <Grid item xs={4}>
+                <Input
+                  label="First Name"
+                  defaultValue={Client.firstname}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+            {client.middlename && (
+              <Grid item xs={4}>
+                <Input
+                  label="Middle Name"
+                  defaultValue={Client.middlename}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+            {client.lastname && (
+              <Grid item xs={4}>
+                <Input
+                  label="Last Name"
+                  defaultValue={Client.lastname}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.dob && (
+              <Grid item xs={4}>
+                <Input
+                  label="Date of Birth"
+                  defaultValue={new Date(Client.dob).toLocaleDateString(
+                    "en-GB"
+                  )}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.gender && (
+              <Grid item xs={4}>
+                <Input
+                  label="Gender"
+                  defaultValue={Client.gender}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.maritalstatus && (
+              <Grid item xs={4}>
+                <Input
+                  label="Marital Status"
+                  defaultValue={Client.maritalstatus}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.mrn && (
+              <Grid item xs={4}>
+                <Input
+                  label="Medical Record Number"
+                  defaultValue={Client.mrn}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.religion && (
+              <Grid item xs={4}>
+                <Input
+                  label="Religion"
+                  defaultValue={Client.religion}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.profession && (
+              <Grid item xs={4}>
+                <Input
+                  label="Profession"
+                  defaultValue={Client.profession}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.phone && (
+              <Grid item xs={4}>
+                <Input
+                  label="Phone Number"
+                  defaultValue={Client.phone}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.email && (
+              <Grid item xs={4}>
+                <Input
+                  label="Email Address"
+                  defaultValue={Client.email}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.address && (
+              <Grid item xs={8}>
+                <Input
+                  label="Residential Address"
+                  defaultValue={Client.address}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.city && (
+              <Grid item xs={4}>
+                <Input
+                  label="Town/City"
+                  defaultValue={Client.city}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.lga && (
+              <Grid item xs={4}>
+                <Input
+                  label="Local Govt Area"
+                  defaultValue={Client.lga}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.state && (
+              <Grid item xs={4}>
+                <Input
+                  label="State"
+                  defaultValue={Client.state}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.country && (
+              <Grid item xs={4}>
+                <Input
+                  label="Country"
+                  defaultValue={Client.country}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.bloodgroup && (
+              <Grid item xs={4}>
+                <Input
+                  label="Blood Group"
+                  defaultValue={Client.bloodgroup}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.genotype && (
+              <Grid item xs={4}>
+                <Input
+                  label="Genotype"
+                  defaultValue={Client.genotype}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+
+            {Client.disabilities && (
+              <Grid item xs={4}>
+                <Input
+                  label="Disabilities"
+                  defaultValue={Client.disabilities}
+                  disabled={true}
+                />
+              </Grid>
+            )}
+          </Grid>
+        </Box>
+      </Box>
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Client Details</p>
@@ -919,370 +1136,6 @@ export function ClientDetail() {
           )}
         </div>
         <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.firstname && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0 "
-                      name="firstname"
-                      type="text"
-                    >
-                      First Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0 ">
-                      {Client.firstname}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.middlename && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="middlename"
-                      type="text"
-                    >
-                      {" "}
-                      Middle Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.middlename}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lastname && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lastname"
-                      type="text"
-                    >
-                      Last Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lastname}</label>
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.dob && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="dob"
-                      type="text"
-                    >
-                      Date of Birth{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.gender && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="gender"
-                      type="text"
-                    >
-                      Gender{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.gender}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.maritalstatus && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="maritalstatus"
-                      type="text"
-                    >
-                      Marital Status{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.maritalstatus}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.mrn && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="mrn"
-                      type="text"
-                    >
-                      Medical Records Number{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.mrn}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.religion && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="religion"
-                      type="text"
-                    >
-                      Religion{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.religion}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.profession && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="profession"
-                      type="text"
-                    >
-                      Profession{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.profession}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.phone && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="phone"
-                      type="text"
-                    >
-                      {" "}
-                      Phone No
-                    </label>
-                    <label className="is-size-7 my-0">{Client.phone}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="email"
-                      type="email"
-                    >
-                      Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {Client.address && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="address"
-                  type="text"
-                >
-                  Residential Address{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.address}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.city && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="city"
-                      type="text"
-                    >
-                      Town/City{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.city}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lga && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lga"
-                      type="text"
-                    >
-                      Local Govt Area{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lga}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.state && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="state"
-                      type="text"
-                    >
-                      State{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.state}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.country && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="country"
-                      type="text"
-                    >
-                      Country{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.country}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.bloodgroup && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="bloodgroup"
-                      type="text"
-                    >
-                      Blood Group{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.bloodgroup}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.genotype && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="genotype"
-                      type="text"
-                    >
-                      Genotype{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.genotype}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.disabilities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="disabilities"
-                      type="text"
-                    >
-                      Disabilities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.disabilities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
           <div className="field is-horizontal">
             <div className="field-body">
               {Client.allergies && (
@@ -1478,27 +1331,14 @@ export function ClientDetail() {
           </div>
         </div>
       </div>
-      <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Financial Information</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientFinInfo closeModal={handlecloseModal} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                <button className="button is-success">Save changes</button>
-                <button className="button">Cancel</button>
-                </footer> */}
-        </div>
-      </div>
+
+      <ModalBox
+        open={finacialInfoModal}
+        onClose={handlecloseModal}
+        header="Financial Information"
+      >
+        <ClientFinInfo closeModal={handlecloseModal} />
+      </ModalBox>
 
       <ModalBox
         open={billingModal}
@@ -1508,57 +1348,30 @@ export function ClientDetail() {
         <BillServiceCreate closeModal={handlecloseModal1} />
       </ModalBox>
 
-      <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal2}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <AppointmentCreate closeModal={handlecloseModal2} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientBilledPrescription
-              selectedClient={Client._id}
-              closeModal={handlecloseModal3}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
+      <ModalBox
+        open={appointmentModal}
+        onClose={handlecloseModal2}
+        header="Set Appointment"
+      >
+        <AppointmentCreate closeModal={handlecloseModal2} />
+      </ModalBox>
+
+      <ModalBox
+        open={billModal}
+        onClose={handlecloseModal3}
+        header="Set Appointment"
+      >
+        <ClientBilledPrescription
+          selectedClient={Client._id}
+          closeModal={handlecloseModal3}
+        />
+      </ModalBox>
     </>
   );
 }
 
 export function ClientModify() {
-  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
+  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1569,8 +1382,8 @@ export function ClientModify() {
   const ClientServ = client.service("client");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
 
@@ -1692,7 +1505,7 @@ export function ClientModify() {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
+    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
@@ -2258,7 +2071,7 @@ export function ClientModify() {
   );
 }
 
-export function InputSearch({ getSearchfacility, clear }) {
+export function InputSearch({getSearchfacility, clear}) {
   const ClientServ = client.service("client");
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
@@ -2311,7 +2124,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -2328,7 +2141,7 @@ export function InputSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
