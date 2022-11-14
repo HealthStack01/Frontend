@@ -857,16 +857,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
           mountOnEnter
           unmountOnExit
           direction="left"
-          in={state.DocumentClassModule.show === "detail"}
+          in={state.DocumentClassModule.encounter_right}
         >
           <Box item sx={{width: "450px"}}>
             <Box
-              //mt={3}
               sx={{
                 width: "100%",
                 minHeight: "200px",
                 border: "1px solid rgba(235, 235, 235, 1)",
-                maxHeight: "calc(100vh - 250px)",
+                maxHeight: "calc(100vh - 170px)",
                 overflowY: "scroll",
                 padding: "15px",
               }}
