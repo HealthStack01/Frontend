@@ -598,10 +598,13 @@ export function StoreListStandalone({standalone, closeModal}) {
     await setSelectedStore(Store);
 
     const newStoreModule = {
-      selectedStore: Store,
+      selectedEpid: Store,
       show: "detail",
     };
-    await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
+    await setState(prevstate => ({
+      ...prevstate,
+      EpidemiologyModule: newStoreModule,
+    }));
     //console.log(state)
     closeModal();
   };

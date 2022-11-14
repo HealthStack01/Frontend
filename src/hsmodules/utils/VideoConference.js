@@ -60,8 +60,8 @@ const VideoConference = ({activateCall, setActivateCall}) => {
       <div
         style={{
           position: "fixed",
-          right: "calc(50% - 375px)",
-          top: "calc(50% - 250px)",
+          left: "0",
+          bottom: "0",
           width: "750px",
           height: "500px",
           backgroundColor: "#4d4d4d",
