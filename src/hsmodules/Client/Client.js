@@ -1,15 +1,15 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
+import { DebounceInput } from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "react-toastify";
-import {formatDistanceToNowStrict} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
+import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import {AppointmentCreate} from "../Clinic/Appointments";
+import { AppointmentCreate } from "../Clinic/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
@@ -20,10 +20,10 @@ import dayjs from "dayjs";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import {ClientMiniSchema} from "./schema";
-import {useForm} from "react-hook-form";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import { ClientMiniSchema } from "./schema";
+import { useForm } from "react-hook-form";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -32,7 +32,7 @@ import {
   HeadWrapper,
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
-import {Box, Portal, Grid, Button as MuiButton} from "@mui/material";
+import { Box, Portal, Grid, Button as MuiButton } from "@mui/material";
 import CustomTable from "./ui-components/customtable";
 import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
@@ -45,7 +45,7 @@ import CustomSelect from "../../components/inputs/basic/Select";
 const searchfacility = {};
 
 export default function Client() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -108,10 +108,10 @@ export default function Client() {
   );
 }
 
-export function ClientCreate({open, setOpen}) {
+export function ClientCreate({ open, setOpen }) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
-  const {register, handleSubmit} = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -168,7 +168,7 @@ export function ClientCreate({open, setOpen}) {
 
   // eslint-disable-next-line
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setValue("facility", obj._id, {
       shouldValidate: true,
       shouldDirty: true,
@@ -279,8 +279,8 @@ export function ClientCreate({open, setOpen}) {
         query.constructor === Object
       )
     ) {
-      ClientServ.find({query: query})
-        .then(res => {
+      ClientServ.find({ query: query })
+        .then((res) => {
           console.log(res);
           if (res.total > 0) {
             // alert(res.total)
@@ -446,21 +446,21 @@ export function ClientCreate({open, setOpen}) {
         });
     }
   };
-  const users = [{sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24}];
+  const users = [{ sn: 1, lastname: "Dupe", firstname: "Ojo", age: 24 }];
 
   const ClientRegisteredSchema = [
     {
       name: "S/N",
       key: "sn",
       description: "SN",
-      selector: row => row.sn,
+      selector: (row) => row.sn,
       sortable: true,
     },
     {
       name: "Last Name",
       key: "lastname",
       description: "Last Name",
-      selector: row => row.lastname,
+      selector: (row) => row.lastname,
       sortable: true,
       required: true,
     },
@@ -469,7 +469,7 @@ export function ClientCreate({open, setOpen}) {
       name: "First Name",
       key: "firstname",
       description: "First Name",
-      selector: row => row.firstname,
+      selector: (row) => row.firstname,
       sortable: true,
       required: true,
     },
@@ -478,7 +478,7 @@ export function ClientCreate({open, setOpen}) {
       name: "Age",
       key: "age",
       description: "age",
-      selector: row => row.age,
+      selector: (row) => row.age,
       sortable: true,
       required: true,
     },
@@ -487,7 +487,7 @@ export function ClientCreate({open, setOpen}) {
       name: "Gender",
       key: "gender",
       description: "Gender",
-      selector: row => row.gender,
+      selector: (row) => row.gender,
       sortable: true,
       required: true,
     },
@@ -496,7 +496,7 @@ export function ClientCreate({open, setOpen}) {
       name: "Phome",
       key: "phone",
       description: "phone",
-      selector: row => row.phone,
+      selector: (row) => row.phone,
       sortable: true,
       required: true,
     },
@@ -505,15 +505,15 @@ export function ClientCreate({open, setOpen}) {
       name: "Email",
       key: "email",
       description: "Enter your name",
-      selector: row => row.email,
+      selector: (row) => row.email,
       sortable: true,
       required: true,
     },
     {
       name: "Action",
-      cell: row => {
+      cell: (row) => {
         return (
-          <Box sx={{display: "flex", gap: 2}}>
+          <Box sx={{ display: "flex", gap: 2 }}>
             <Button label="Duplicate" />
             <Button label="Register" />
             <Button label="Dependent" />
@@ -568,7 +568,7 @@ export function ClientCreate({open, setOpen}) {
   );
 }
 
-export function ClientList({showModal, openDetailModal}) {
+export function ClientList({ showModal, openDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -584,7 +584,7 @@ export function ClientList({showModal, openDetailModal}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
   // const { user, setUser } = useContext(UserContext);
 
@@ -690,7 +690,7 @@ export function ClientList({showModal, openDetailModal}) {
               $options: "i",
             },
           },
-          {gender: val},
+          { gender: val },
         ],
 
         "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
@@ -764,10 +764,10 @@ export function ClientList({showModal, openDetailModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => rest());
-    ClientServ.on("updated", obj => rest());
-    ClientServ.on("patched", obj => rest());
-    ClientServ.on("removed", obj => rest());
+    ClientServ.on("created", (obj) => rest());
+    ClientServ.on("updated", (obj) => rest());
+    ClientServ.on("patched", (obj) => rest());
+    ClientServ.on("removed", (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -805,23 +805,23 @@ export function ClientList({showModal, openDetailModal}) {
             <ClientForm />
           </Portal>
           <PageWrapper
-            style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+            style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
           >
             <TableMenu>
-              <div style={{display: "flex", alignItems: "center"}}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {handleSearch && (
                   <div className="inner-table">
                     <FilterMenu onSearch={handleSearch} />
                   </div>
                 )}
-                <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+                <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
                   List of Clients
                 </h2>
               </div>
 
               {handleCreateNew && (
                 <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
+                  style={{ fontSize: "14px", fontWeight: "600" }}
                   label="Add new "
                   onClick={showModal}
                   showicon={true}
@@ -856,7 +856,7 @@ export function ClientList({showModal, openDetailModal}) {
   );
 }
 
-export function ClientDetail({closeDetailModal}) {
+export function ClientDetail({ closeDetailModal }) {
   const navigate = useNavigate();
   // eslint-disable-next-line
 
@@ -867,15 +867,15 @@ export function ClientDetail({closeDetailModal}) {
   const [appointmentModal, setAppointmentModal] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
   const [editClient, setEditClient] = useState(false);
 
   const ClientServ = client.service("client");
 
   const [success, setSuccess] = useState(false);
 
-  const {register, handleSubmit, setValue, reset} = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -1039,7 +1039,7 @@ export function ClientDetail({closeDetailModal}) {
       selectedClient: Client,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1053,7 +1053,7 @@ export function ClientDetail({closeDetailModal}) {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -1061,7 +1061,7 @@ export function ClientDetail({closeDetailModal}) {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then(res => {
+        .then((res) => {
           reset();
 
           toast({
@@ -1072,7 +1072,7 @@ export function ClientDetail({closeDetailModal}) {
           });
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           toast({
             message: "Error deleting Client, probable network issues or " + err,
             type: "is-danger",
@@ -1091,12 +1091,12 @@ export function ClientDetail({closeDetailModal}) {
     setSuccess(false);
 
     ClientServ.patch(Client._id, data)
-      .then(res => {
+      .then((res) => {
         toast("Client updated succesfully");
         changeState();
         closeDetailModal();
       })
-      .catch(err => {
+      .catch((err) => {
         toast(`Error updating Client, probable network issues or ${err}`);
       });
   };
@@ -1179,7 +1179,7 @@ export function ClientDetail({closeDetailModal}) {
               marginLeft: "10px",
             }}
             onClick={() => {
-              navigate("/app/clinic/encounter");
+              navigate("/app/general/documentation");
             }}
           >
             Attend to Client
@@ -1254,8 +1254,8 @@ export function ClientDetail({closeDetailModal}) {
                     register={register("gender")}
                     defaultValue={Client?.gender?.toLowerCase()}
                     options={[
-                      {label: "Male", value: "male"},
-                      {label: "Female", value: "female"},
+                      { label: "Male", value: "male" },
+                      { label: "Female", value: "female" },
                     ]}
                     disable={!editClient}
                     //errorText={errors?.gender?.message}
@@ -1521,7 +1521,7 @@ export function ClientDetail({closeDetailModal}) {
               //size="small"
               variant="contained"
               color="success"
-              sx={{textTransform: "capitalize", marginRight: "10px"}}
+              sx={{ textTransform: "capitalize", marginRight: "10px" }}
               onClick={handleSubmit(onSubmit)}
             >
               Update Client
@@ -1530,7 +1530,7 @@ export function ClientDetail({closeDetailModal}) {
             <MuiButton
               variant="contained"
               color="warning"
-              sx={{textTransform: "capitalize", marginRight: "10px"}}
+              sx={{ textTransform: "capitalize", marginRight: "10px" }}
               onClick={handleCancel}
             >
               Cancel Update
@@ -1539,7 +1539,7 @@ export function ClientDetail({closeDetailModal}) {
             <MuiButton
               variant="contained"
               color="error"
-              sx={{textTransform: "capitalize"}}
+              sx={{ textTransform: "capitalize" }}
               onClick={handleDelete}
             >
               Delete Client
@@ -1587,7 +1587,7 @@ export function ClientDetail({closeDetailModal}) {
 }
 
 export function ClientModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,, errors
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1598,8 +1598,8 @@ export function ClientModify() {
   const ClientServ = client.service("client");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const Client = state.ClientModule.selectedClient;
 
@@ -1721,7 +1721,7 @@ export function ClientModify() {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
@@ -2287,7 +2287,7 @@ export function ClientModify() {
   );
 }
 
-export function InputSearch({getSearchfacility, clear}) {
+export function InputSearch({ getSearchfacility, clear }) {
   const ClientServ = client.service("client");
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
@@ -2340,7 +2340,7 @@ export function InputSearch({getSearchfacility, clear}) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async val => {
+  const handleSearch = async (val) => {
     const field = "facilityName"; //field variable
 
     if (val.length >= 3) {
@@ -2357,7 +2357,7 @@ export function InputSearch({getSearchfacility, clear}) {
           },
         },
       })
-        .then(res => {
+        .then((res) => {
           console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
