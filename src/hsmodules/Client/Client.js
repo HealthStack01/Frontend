@@ -5,7 +5,7 @@ import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {formatDistanceToNowStrict} from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
@@ -15,6 +15,8 @@ import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+import dayjs from "dayjs";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
@@ -30,13 +32,15 @@ import {
   HeadWrapper,
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
-import {Box, Portal, Grid} from "@mui/material";
+import {Box, Portal, Grid, Button as MuiButton} from "@mui/material";
 import CustomTable from "./ui-components/customtable";
 import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
 import ClientForm from "./ClientForm";
 import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
 import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
+import BasicDatePicker from "../../components/inputs/Date";
+import CustomSelect from "../../components/inputs/basic/Select";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -93,7 +97,10 @@ export default function Client() {
             onClose={() => setDetailModal(false)}
             header="Client Detail"
           >
-            <ClientDetail closeModal={() => setDetailModal(false)} />
+            <ClientDetail
+              closeModal={() => setDetailModal(false)}
+              closeDetailModal={() => setDetailModal(false)}
+            />
           </ModalBox>
         </div>
       </div>
@@ -849,28 +856,30 @@ export function ClientList({showModal, openDetailModal}) {
   );
 }
 
-export function ClientDetail() {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
-  // eslint-disable-next-line
+export function ClientDetail({closeDetailModal}) {
   const navigate = useNavigate();
   // eslint-disable-next-line
 
-  // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
   const [billingModal, setBillingModal] = useState(false);
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
-  //const ClientServ=client.service('/Client')
-  //const navigate=useNavigate()
+  const [message, setMessage] = useState("");
   const {user, setUser} = useContext(UserContext);
   const {state, setState} = useContext(ObjectContext);
+  const [editClient, setEditClient] = useState(false);
+
+  const ClientServ = client.service("client");
+
+  const [success, setSuccess] = useState(false);
+
+  const {register, handleSubmit, setValue, reset} = useForm();
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
-  const client = Client;
+  //const client = Client;
   const handleEdit = async () => {
     const newClientModule = {
       selectedClient: Client,
@@ -880,7 +889,6 @@ export function ClientDetail() {
       ...prevstate,
       ClientModule: newClientModule,
     }));
-    //console.log(state)
   };
 
   const handleFinancialInfo = () => {
@@ -913,424 +921,632 @@ export function ClientDetail() {
     setBillModal(false);
   };
 
-  /*  useEffect(() => {
-        Client =state.ClientModule.selectedClient
-        return () => {
-           
-        }
-    }, [billingModal]) */
+  useEffect(() => {
+    setValue("firstname", Client.firstname, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("middlename", Client.middlename, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("lastname", Client.lastname, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("phone", Client.phone, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("email", Client.email, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("dob", Client.dob, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("gender", Client.gender, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("profession", Client.profession, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("address", Client.address, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("city", Client.city, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("state", Client.state, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("country", Client.country, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("nok_name", Client.nok_name, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("nok_email", Client.nok_email, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("nok_relationship", Client.nok_relationship, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("nok_phoneno", Client.nok_phoneno, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("lga", Client.lga, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("bloodgroup", Client.bloodgroup, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("genotype", Client.genotype, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("disabilities", Client.disabilities, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("specificDetails", Client.specificDetails, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("clientTags", Client.clientTags, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("mrn", Client.mrn, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("religion", Client.religion, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("maritalstatus", Client.maritalstatus, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("comorbidities", Client.comorbidities, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("allergies", Client.allergies, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    return () => {};
+  });
+
+  const handleCancel = async () => {
+    const newClientModule = {
+      selectedClient: Client,
+      show: "detail",
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      ClientModule: newClientModule,
+    }));
+
+    setEditClient(false);
+    //console.log(state)
+  };
+
+  const changeState = () => {
+    const newClientModule = {
+      selectedClient: {},
+      show: "create",
+    };
+    setState(prevstate => ({...prevstate, ClientModule: newClientModule}));
+  };
+  const handleDelete = async () => {
+    let conf = window.confirm("Are you sure you want to delete this data?");
+
+    const dleteId = Client._id;
+    if (conf) {
+      ClientServ.remove(dleteId)
+        .then(res => {
+          reset();
+
+          toast({
+            message: "Client deleted succesfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          changeState();
+        })
+        .catch(err => {
+          toast({
+            message: "Error deleting Client, probable network issues or " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
+  };
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+
+    console.log(data);
+
+    setSuccess(false);
+
+    ClientServ.patch(Client._id, data)
+      .then(res => {
+        toast("Client updated succesfully");
+        changeState();
+        closeDetailModal();
+      })
+      .catch(err => {
+        toast(`Error updating Client, probable network issues or ${err}`);
+      });
+  };
+
   return (
     <>
       <Box
         sx={{
           width: "800px",
-          maxHeight: "95vh",
+          maxHeight: "80vh",
+          // overflowY: "auto",
         }}
       >
-        <Box>
-          <Grid container spacing={2}>
-            {Client.firstname && (
-              <Grid item xs={4}>
-                <Input
-                  label="First Name"
-                  defaultValue={Client.firstname}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-            {client.middlename && (
-              <Grid item xs={4}>
-                <Input
-                  label="Middle Name"
-                  defaultValue={Client.middlename}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-            {client.lastname && (
-              <Grid item xs={4}>
-                <Input
-                  label="Last Name"
-                  defaultValue={Client.lastname}
-                  disabled={true}
-                />
-              </Grid>
-            )}
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+          }}
+          mb={2}
+        >
+          <MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              marginLeft: "10px",
+            }}
+            onClick={() => setEditClient(true)}
+          >
+            Edit Details
+          </MuiButton>
 
-            {Client.dob && (
-              <Grid item xs={4}>
-                <Input
-                  label="Date of Birth"
-                  defaultValue={new Date(Client.dob).toLocaleDateString(
-                    "en-GB"
-                  )}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.gender && (
-              <Grid item xs={4}>
-                <Input
-                  label="Gender"
-                  defaultValue={Client.gender}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.maritalstatus && (
-              <Grid item xs={4}>
-                <Input
-                  label="Marital Status"
-                  defaultValue={Client.maritalstatus}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.mrn && (
-              <Grid item xs={4}>
-                <Input
-                  label="Medical Record Number"
-                  defaultValue={Client.mrn}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.religion && (
-              <Grid item xs={4}>
-                <Input
-                  label="Religion"
-                  defaultValue={Client.religion}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.profession && (
-              <Grid item xs={4}>
-                <Input
-                  label="Profession"
-                  defaultValue={Client.profession}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.phone && (
-              <Grid item xs={4}>
-                <Input
-                  label="Phone Number"
-                  defaultValue={Client.phone}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.email && (
-              <Grid item xs={4}>
-                <Input
-                  label="Email Address"
-                  defaultValue={Client.email}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.address && (
-              <Grid item xs={8}>
-                <Input
-                  label="Residential Address"
-                  defaultValue={Client.address}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.city && (
-              <Grid item xs={4}>
-                <Input
-                  label="Town/City"
-                  defaultValue={Client.city}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.lga && (
-              <Grid item xs={4}>
-                <Input
-                  label="Local Govt Area"
-                  defaultValue={Client.lga}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.state && (
-              <Grid item xs={4}>
-                <Input
-                  label="State"
-                  defaultValue={Client.state}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.country && (
-              <Grid item xs={4}>
-                <Input
-                  label="Country"
-                  defaultValue={Client.country}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.bloodgroup && (
-              <Grid item xs={4}>
-                <Input
-                  label="Blood Group"
-                  defaultValue={Client.bloodgroup}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.genotype && (
-              <Grid item xs={4}>
-                <Input
-                  label="Genotype"
-                  defaultValue={Client.genotype}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-
-            {Client.disabilities && (
-              <Grid item xs={4}>
-                <Input
-                  label="Disabilities"
-                  defaultValue={Client.disabilities}
-                  disabled={true}
-                />
-              </Grid>
-            )}
-          </Grid>
-        </Box>
-      </Box>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details</p>
           {(user.currentEmployee?.roles.includes("Bill Client") ||
             user.currentEmployee?.roles.length === 0 ||
             user.stacker) && (
-            <button
-              className="button is-success is-small btnheight mt-2"
+            <MuiButton
+              variant="contained"
+              size="small"
+              sx={{
+                textTransform: "capitalize",
+                marginLeft: "10px",
+              }}
               onClick={showBilling}
             >
               Bill Client
-            </button>
+            </MuiButton>
           )}
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.allergies && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="allergies"
-                      type="text"
-                    >
-                      Allergies{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.allergies}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
+
+          <MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              marginLeft: "10px",
+            }}
+            onClick={handleFinancialInfo}
+          >
+            Payment Info
+          </MuiButton>
+
+          <MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              marginLeft: "10px",
+            }}
+            onClick={handleSchedule}
+          >
+            Schedule Appointment
+          </MuiButton>
+
+          <MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              marginLeft: "10px",
+            }}
+            onClick={() => {
+              navigate("/app/clinic/encounter");
+            }}
+          >
+            Attend to Client
+          </MuiButton>
+        </Box>
+
+        <Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              {(Client.firstname || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    register={register("firstname")}
+                    label="First Name"
+                    //defaultValue={Client.firstname}
+                    disabled={!editClient}
+                  />
+                </Grid>
               )}
-              {Client.comorbidities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="comorbidities"
-                      type="text"
-                    >
-                      Co-mobidities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.comorbidities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
+              {(Client.middlename || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    register={register("middlename")}
+                    label="Middle Name"
+                    //defaultValue={Client.middlename}
+                    disabled={!editClient}
+                  />
+                </Grid>
               )}
-            </div>
-          </div>
-          {Client.clientTags && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="clientTags"
-                  type="text"
-                >
-                  Tags{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.clientTags}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          {Client.specificDetails && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="specificDetails"
-                  type="text"
-                >
-                  Specific Details about Client{" "}
-                </label>
-                <label className="is-size-7 my-0">
-                  {Client.specificDetails}
-                </label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.nok_name && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_name"
-                      type="text"
-                    >
-                      Next of Kin Full Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_name}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
+
+              {(Client.lastname || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Last Name"
+                    //defaultValue={Client.lastname}
+                    register={register("lastname")}
+                    disabled={!editClient}
+                  />
+                </Grid>
               )}
-              {Client.nok_phoneno && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_phoneno"
-                      type="text"
-                    >
-                      Next of Kin Phone Number
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_phoneno}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
+
+              {(Client.dob || editClient) && (
+                <Grid item xs={4} mt={1.5}>
+                  {/* <Input
+                    label="Date of Birth"
+                    // defaultValue={new Date(Client.dob).toLocaleDateString(
+                    //   "en-GB"
+                    // )}
+                    disabled={!editClient}
+                    register={register("dob")}
+                  /> */}
+
+                  <BasicDatePicker
+                    label="Date of Birth"
+                    //register={register("dob")}
+                    defaultValue={dayjs(Client?.dob).format("YYYY/MM/DD")}
+                    // errorText={errors?.dob?.message}
+                  />
+                </Grid>
               )}
-              {Client.nok_email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_email"
-                      type="email"
-                    >
-                      Next of Kin Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
+
+              {(Client.gender || editClient) && (
+                <Grid item xs={4} mt={1.5}>
+                  {/* <Input
+                    label="Gender"
+                    //defaultValue={Client.gender}
+                    register={register("gender")}
+                    disabled={!editClient}
+                  /> */}
+                  <CustomSelect
+                    label="Gender"
+                    register={register("gender")}
+                    defaultValue={Client?.gender?.toLowerCase()}
+                    options={[
+                      {label: "Male", value: "male"},
+                      {label: "Female", value: "female"},
+                    ]}
+                    disable={!editClient}
+                    //errorText={errors?.gender?.message}
+                  />
+                </Grid>
               )}
-              {Client.nok_relationship && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_relationship"
-                      type="text"
-                    >
-                      Next of Kin Relationship"{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_relationship}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
+
+              {(Client.maritalstatus || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Marital Status"
+                    //defaultValue={Client.maritalstatus}
+                    register={register("maritalstatus")}
+                    disabled={!editClient}
+                  />
+                </Grid>
               )}
-            </div>
-          </div>
-          <div className="field is-grouped  mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit Details
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-info is-small"
-                onClick={handleFinancialInfo}
-              >
-                Payment Info
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleSchedule}
-              >
-                Schedule appointment
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" >
-                        Check into Clinic 
-                    </button>
-                </p> */}
-            <p className="control">
-              <button
-                className="button is-link is-small"
-                onClick={() => {
-                  navigate("/app/clinic/encounter");
-                }}
-              >
-                Attend to Client
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
+
+              {(Client.mrn || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Medical Record Number"
+                    //defaultValue={Client.mrn}
+                    register={register("mrn")}
+                    disabled={!editClient}
+                  />
+                </Grid>
+              )}
+
+              {(Client.religion || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Religion"
+                    //defaultValue={Client.religion}
+                    register={register("religion")}
+                    disabled={!editClient}
+                  />
+                </Grid>
+              )}
+
+              {(Client.profession || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Profession"
+                    //defaultValue={Client.profession}
+                    disabled={!editClient}
+                    register={register("profession")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.phone || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Phone Number"
+                    //defaultValue={Client.phone}
+                    disabled={!editClient}
+                    register={register("phone")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.email || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Email Address"
+                    //defaultValue={Client.email}
+                    disabled={!editClient}
+                    register={register("email")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.address || editClient) && (
+                <Grid item xs={8}>
+                  <Input
+                    label="Residential Address"
+                    //defaultValue={Client.address}
+                    disabled={!editClient}
+                    register={register("address")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.city || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Town/City"
+                    //defaultValue={Client.city}
+                    disabled={!editClient}
+                    register={register("city")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.lga || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Local Govt Area"
+                    //defaultValue={Client.lga}
+                    disabled={!editClient}
+                    register={register("lga")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.state || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="State"
+                    //defaultValue={Client.state}
+                    disabled={!editClient}
+                    register={register("state")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.country || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Country"
+                    //defaultValue={Client.country}
+                    register={register("country")}
+                    disabled={!editClient}
+                  />
+                </Grid>
+              )}
+
+              {(Client.bloodgroup || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Blood Group"
+                    //defaultValue={Client.bloodgroup}
+                    register={register("bloodgroup")}
+                    disabled={!editClient}
+                  />
+                </Grid>
+              )}
+
+              {(Client.genotype || editClient) && (
+                <Grid item xs={4}>
+                  <Input
+                    label="Genotype"
+                    //defaultValue={Client.genotype}
+                    register={register("genotype")}
+                    disabled={!editClient}
+                  />
+                </Grid>
+              )}
+
+              {(Client.disabilities || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Disabilities"
+                    //defaultValue={Client.disabilities}
+                    disabled={!editClient}
+                    register={register("disabilities")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.allergies || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Allergies"
+                    //defaultValue={Client.allergies}
+                    disabled={!editClient}
+                    register={register("allergies")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.comorbidities || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Co-mobidities"
+                    //defaultValue={Client.comorbidities}
+                    disabled={!editClient}
+                    register={register("comorbidities")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.clientTags || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Tags"
+                    //defaultValue={Client.clientTags}
+                    disabled={!editClient}
+                    register={register("clientTags")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.specificDetails || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Specific Details about Client"
+                    //defaultValue={Client.specificDetails}
+                    disabled={!editClient}
+                    register={register("specificDetails")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.nok_name || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Next of Kin Fullname"
+                    //defaultValue={Client.nok_name}
+                    disabled={!editClient}
+                    register={register("nok_name")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.nok_phoneno || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Next of Kin Phone Number"
+                    //defaultValue={Client.nok_phoneno}
+                    disabled={!editClient}
+                    register={register("nok_phoneno")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.nok_relationship || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Next of Kin Relationship"
+                    //defaultValue={Client.nok_relationship}
+                    disabled={!editClient}
+                    register={register("nok_relationship")}
+                  />
+                </Grid>
+              )}
+
+              {(Client.nok_email || editClient) && (
+                <Grid item xs={6}>
+                  <Input
+                    label="Next of Kin Email Address"
+                    //defaultValue={Client.nok_email}
+                    disabled={!editClient}
+                    register={register("nok_email")}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </form>
+        </Box>
+
+        {editClient && (
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+            mt={2}
+          >
+            <MuiButton
+              //size="small"
+              variant="contained"
+              color="success"
+              sx={{textTransform: "capitalize", marginRight: "10px"}}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Update Client
+            </MuiButton>
+
+            <MuiButton
+              variant="contained"
+              color="warning"
+              sx={{textTransform: "capitalize", marginRight: "10px"}}
+              onClick={handleCancel}
+            >
+              Cancel Update
+            </MuiButton>
+
+            <MuiButton
+              variant="contained"
+              color="error"
+              sx={{textTransform: "capitalize"}}
+              onClick={handleDelete}
+            >
+              Delete Client
+            </MuiButton>
+          </Box>
+        )}
+      </Box>
 
       <ModalBox
         open={finacialInfoModal}

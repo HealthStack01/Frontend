@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 export let styles: () => void;
 
 export const InputLabel = styled.label`
