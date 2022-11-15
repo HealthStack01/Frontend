@@ -406,13 +406,16 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
+              <label className="label" htmlFor="appointment_reason">
+                Reason for Appointment
+              </label>
               <textarea
                 className="input is-small"
                 name="appointment_reason"
                 {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="10"
+                rows="3"
                 cols="50"
                 style={{
                   border: '1px solid #0364FF',
@@ -2002,7 +2005,7 @@ export function ClientModify({ showModal, setShowModal }) {
             </Grid>
           </Grid>
           <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <div className="field">
                 <input
                   name="start_time"
@@ -2020,7 +2023,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 />
               </div>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="type"
                 onChange={handleChangeType}
@@ -2041,7 +2044,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 <option value="Walk in">Walk-in</option>
               </select>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="appointment_status"
                 onChange={handleChangeStatus}
@@ -2067,13 +2070,16 @@ export function ClientModify({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
+              <label className="label" htmlFor="appointment_reason">
+                Reason for Appointment
+              </label>
               <textarea
                 className="input is-small"
                 name="appointment_reason"
                 {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="10"
+                rows="3"
                 cols="50"
                 style={{
                   border: '1px solid #0364FF',

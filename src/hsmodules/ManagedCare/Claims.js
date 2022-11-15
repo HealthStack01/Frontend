@@ -36,6 +36,7 @@ import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import PatientProfile from '../Client/PatientProfile';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -53,7 +54,14 @@ export default function Claims() {
       <ClaimsList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
         <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <PatientProfile />
+            </Grid>
+            <Grid item xs={8}>
+              <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
+            </Grid>
+          </Grid>
         </ModalBox>
       )}
     </section>
@@ -294,7 +302,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <McText
+          {/* <McText
             txt={`Employer's Details`}
             color={'#0064CC'}
             type={'p'}
@@ -331,10 +339,10 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={6}>
               <Input name="authCode" label="Authorozation Code" type="text" />
             </Grid>
-          </Grid>
+          </Grid> */}
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <RadioButton
                 name="patient"
                 title="Patient"
@@ -400,6 +408,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="diagnosis"
                 label="Diagnosis"
                 register={register('diagnosis')}
+                rows={3}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -429,6 +438,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="investigation"
                 label="Investigation"
                 register={register('investigation')}
+                rows={3}
               />
             </Grid>
 
@@ -471,6 +481,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="drugs"
                 label="Drugs"
                 register={register('drugs')}
+                rows={3}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -500,6 +511,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="therapy"
                 label="Therapy"
                 register={register('therapy')}
+                rows={3}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
