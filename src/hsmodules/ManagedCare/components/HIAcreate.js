@@ -253,7 +253,8 @@ const HiaCreate = ({closeModal}) => {
               register={register("employee_list", {required: true})}
               label="List of Beneficaries " 
               style={{width: '100%'}}
-            //   placeholder="Download list"
+              placeholder="Download list"
+            
             />
             <MdFileDownload style={{position: 'absolute',  top: '0.5rem', height: '2rem', width: '2rem', color: '#1565c0', }} />
             </div>

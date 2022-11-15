@@ -650,7 +650,7 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
-            <Route path="/app/managed-care/healthplan" />
+            <Route path="/app/managed-care/healthplan" element={<HealthPlan/>} />
             <Route
               path="/app/managed-care/premiums"
               element={<PremiumPayment />}
