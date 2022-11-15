@@ -1,7 +1,7 @@
-import {useEffect, useState, useContext} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -122,9 +122,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -164,7 +164,7 @@ import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCa
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
+import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
@@ -192,6 +192,7 @@ import ReferralIncoming from "./Appointment/referralWorkflow";
 import BloodBankLab from "./Bloodbank/Lab";
 import ImmunizationInventory from "./Immunization/Inventory";
 import PageLoaderComponent from "../components/page-loader/page-loader";
+import ManagedCareReport from "./ManagedCare/Report";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -205,7 +206,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -221,7 +222,7 @@ const AppRoutes = () => {
     }
   }, [location]);
 
-  const {authenticatingUser} = useContext(UserContext);
+  const { authenticatingUser } = useContext(UserContext);
 
   if (authenticatingUser) return <PageLoaderComponent />;
   return (
@@ -650,11 +651,20 @@ const AppRoutes = () => {
             {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
 
-            <Route path="/app/managed-care/fundmanagement" />
+            <Route
+              path="/app/managed-care/fundmanagement"
+              element={<InventorySetup />}
+            />
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
-            <Route path="/app/managed-care/report" />
-            <Route path="/app/managed-care/healthplan" />
+            <Route
+              path="/app/managed-care/report"
+              element={<ManagedCareReport />}
+            />
+            <Route
+              path="/app/managed-care/healthplan"
+              element={<HealthPlan />}
+            />
             <Route
               path="/app/managed-care/premiums"
               element={<PremiumPayment />}

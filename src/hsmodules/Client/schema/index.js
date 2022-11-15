@@ -21,7 +21,7 @@ export const ClientMiniSchema = [
   },
 
   {
-    name: "Midlle Name",
+    name: "Middlle Name",
     key: "middlename",
     description: "Midlle Name",
     selector: (row) => row.middlename,
@@ -59,17 +59,6 @@ export const ClientMiniSchema = [
     required: true,
     inputType: "SELECT_LIST",
     options: ["Male", "Female"],
-  },
-
-  {
-    name: "Marital Status",
-    key: "maritalstatus",
-    description: "Single",
-    selector: (row) => row.maritalstatus,
-    sortable: true,
-    required: true,
-    inputType: "SELECT_LIST",
-    options: ["Single", "Married"],
   },
 
   {
