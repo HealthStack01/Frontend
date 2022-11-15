@@ -846,28 +846,7 @@ export function LeadList({ openCreateModal }) {
                     Lead
                   </h2>
 
-                  {/* <SwitchButton /> */}
-                  {/* <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: "1rem" }} />
-                    </button>
-
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
-                    </button>
-                  </Switch> */}
+                  
                 </div>
 
                 {handleCreateNew && (

@@ -13,12 +13,14 @@ import CustomTable from "../../components/customtable";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import ModalBox from "../../components/modal";
+import HiaCreate from "./components/HIAcreate";
 
 export default function HiaOrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
+  const [createModal,setCreateModal] = useState(false)
 
   //const [showState,setShowState]=useState() //create|modify|detail
 
@@ -31,7 +33,13 @@ export default function HiaOrganizationClient() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <OrganizationList />
+          <OrganizationList openCreateModal={()=> setCreateModal(true)} />
+
+          <ModalBox open={createModal}
+          onClose={() => setCreateModal(false)}
+          header="HIA Emplanelment">
+          <HiaCreate closeModal={() => setCreateModal(false)}/>
+          </ModalBox>
         </div>
         <div className="column is-4 ">
           {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
@@ -45,7 +53,7 @@ export default function HiaOrganizationClient() {
   );
 }
 
-export function OrganizationCreate() {
+export function OrganizationCreate({showModal,setShowModal}) {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -228,7 +236,7 @@ export function OrganizationCreate() {
   );
 }
 
-export function OrganizationList() {
+export function OrganizationList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -471,8 +479,7 @@ export function OrganizationList() {
               <Button
                 style={{ fontSize: "14px", fontWeight: "600px" }}
                 label="Add New"
-                onClick={handleCreateNew}
-                showicon={true}
+                onClick={openCreateModal}
               />
             )}
           </TableMenu>
@@ -491,7 +498,7 @@ export function OrganizationList() {
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={handleCreateNew}
+              onRowClicked={handleRow}
               progressPending={loading}
             />
           </div>

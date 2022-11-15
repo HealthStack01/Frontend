@@ -7,6 +7,7 @@ import {DocumentClassList} from "./DocumentClass";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+//import {useReactToPrint} from "react-to-print";
 
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,7 +24,7 @@ import LabOrders from "./LabOrders";
 import AdmitOrders from "./AdmitOrders";
 import DischargeOrders from "./DischargeOrders";
 import RadiologyOrders from "./RadiologyOrders";
-import {useReactToPrint} from "react-to-print";
+import ReactToPrint, {useReactToPrint} from "react-to-print";
 import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
 import Input from "./ui-components/inputs/basic/Input";
 import Divider from "@mui/material/Divider";
@@ -37,6 +38,8 @@ import Button from "../../components/buttons/Button";
 import MuiButton from "@mui/material/Button";
 
 import Slide from "@mui/material/Slide";
+
+import ViewDocument from "../../components/ReactPDF/ViewDocument";
 
 import {
   AdmissionOrderDocument,
@@ -52,6 +55,10 @@ import {
 } from "./documents/Documents";
 import ModalBox from "../../components/modal";
 import EncounterRight from "./EncounterRight";
+import {
+  BilledOrdersPrintOut,
+  DoctorsNotePrintOut,
+} from "./print-outs/Print-Outs";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -282,6 +289,18 @@ export default function EncounterMain({nopresc, chosenClient}) {
     handleHideActions();
   };
 
+  const dummyRef = useRef(null);
+
+  const handlePrintDocument = useReactToPrint({
+    content: () => {
+      return myRefs.current[1];
+    },
+  });
+
+  // const handlePrintDocument = () => {
+  //   console.log(myRefs);
+  // };
+
   const handlePrint = async i => {
     var content = document.getElementById(i);
     var pri = document.getElementById("ifmcontentstoprint").contentWindow;
@@ -290,6 +309,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
     pri.document.close();
     pri.focus();
     pri.print();
+
+    console.log("Hello World");
   };
   /*  const handlePrint =(i)=> useReactToPrint({
         content: () => myRefs.current[i]
@@ -341,20 +362,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     };
   }, []);
 
-  /*  useEffect(() => {
-                // here we simulate adding new posts to List
-                getFacilities()
-            }, [page]) */
-
-  // here we handle what happens when user scrolls to Load More div
-  // in this case we just update page variable
-  /* const handleObserver = (entities) => {
-                    const target = entities[0];
-                    if (target.isIntersecting) {   
-                        setPage((page) => page + 1) //load  more 
-                        
-                    }
-                } */
   const handleDelete = doc => {
     // console.log(doc)
     let confirm = window.confirm(
@@ -401,7 +408,10 @@ export default function EncounterMain({nopresc, chosenClient}) {
     switch (Clinic.documentname.toLowerCase()) {
       case "admission order": {
         return Clinic.status.toLowerCase() !== "draft" ? (
-          <AdmissionOrderDocument Clinic={Clinic} />
+          <AdmissionOrderDocument
+            Clinic={Clinic}
+            ref={el => (myRefs.current[index] = el)}
+          />
         ) : null;
       }
       case "discharge order": {
@@ -454,7 +464,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
             ref={el => (myRefs.current[index] = el)}
           />
         );
-      case "lab order":
+      case "lab orders":
         return (
           <LabOrdersDocument
             Clinic={Clinic}
@@ -514,6 +524,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
         flexGrow: "1",
       }}
     >
+      <ModalBox open={false}>
+        <Box sx={{width: "595px", height: "842px", border: "1px solid gray"}}>
+          {/* <BilledOrdersPrintOut /> */}
+        </Box>
+      </ModalBox>
       <Box
         container
         sx={{
@@ -670,7 +685,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
             {facilities.map((Clinic, i) => (
               <>
                 <Box
-                  onClick={() => setSelectedClinic(Clinic)}
                   mb={3}
                   sx={{
                     display: "flex",
@@ -684,6 +698,8 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     height: "auto",
                     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   }}
+                  key={Clinic._id}
+                  id={i}
                 >
                   <Box
                     container
@@ -694,6 +710,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                       alignItems: "center",
                       justifyContent: "space-between",
                       background: "#ffffff",
+                      position: "relative",
                     }}
                   >
                     <Box
@@ -706,6 +723,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         flexDirection: "column",
                         alignItems: "center",
                       }}
+                      onClick={() => setSelectedClinic(Clinic)}
                     >
                       <span
                         style={{
@@ -745,6 +763,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         justifyContent: "flex-start",
                       }}
                       p={2}
+                      onClick={() => setSelectedClinic(Clinic)}
                     >
                       <Typography
                         mr={0.5}
@@ -779,14 +798,18 @@ export default function EncounterMain({nopresc, chosenClient}) {
                         width: "100px",
                       }}
                     >
-                      <IconButton
-                        sx={{
-                          color: "#0364FF",
-                        }}
-                        onClick={handlePrint}
-                      >
-                        <PrintOutlinedIcon />
-                      </IconButton>
+                      <ReactToPrint
+                        trigger={() => (
+                          <IconButton
+                            sx={{
+                              color: "#0364FF",
+                            }}
+                          >
+                            <PrintOutlinedIcon />
+                          </IconButton>
+                        )}
+                        content={() => myRefs.current[i]}
+                      />
 
                       <IconButton
                         color="error"
@@ -809,7 +832,13 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     Clinic.documentname !== "Discharge Order" &&
                     Clinic.documentname !== "Pediatric Pulmonology Form" &&
                     Clinic.status !== "Draft" && (
-                      <div ref={el => (myRefs.current[i] = el)}>
+                      <div>
+                        <Box sx={{display: "none"}}>
+                          <DoctorsNotePrintOut
+                            ref={el => (myRefs.current[i] = el)}
+                            data={Clinic.documentdetail}
+                          />
+                        </Box>
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => (

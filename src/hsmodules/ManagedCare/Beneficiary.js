@@ -1799,7 +1799,7 @@ export function ClientList({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const [message, setMessage] = useState('');
   const ClientServ = client.service('client');
-  //const history = useHistory()
+  // const history = useHistory();
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line

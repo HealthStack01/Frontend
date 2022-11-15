@@ -73,6 +73,7 @@ import InventoryReport from './inventory/InventoryReport';
 import PharmacyReport from './Pharmacy/InventoryReport';
 import InventorySetup from './inventory/InventorySetup';
 import PharmacyInventoryStore from './Pharmacy/InventoryStore';
+
 /* import InventorySetup from './Pharmacy/InventorySetup' */
 import PharmacyProductEntry from './Pharmacy/ProductEntry';
 import PharmacyProductExit from './Pharmacy/ProductExit';
@@ -192,6 +193,15 @@ import ReferralIncoming from './Appointment/referralWorkflow';
 import BloodBankLab from './Bloodbank/Lab';
 import ImmunizationInventory from './Immunization/Inventory';
 import PageLoaderComponent from '../components/page-loader/page-loader';
+import AccountDashboard from './dashBoardUiComponent/@modules/AccountDashboard';
+import AdminDashboard from './dashBoardUiComponent/@modules/AdminDashboard';
+import RadiologyDashboard from './dashBoardUiComponent/@modules/RadiologyDashboard';
+import TheatreDashboard from './dashBoardUiComponent/@modules/TheatreDashboard';
+import CrmDashboard from './dashBoardUiComponent/@modules/CrmDashboard';
+import ReferralDashboard from './dashBoardUiComponent/@modules/ReferralDashboard';
+import CommunicationDashboard from './dashBoardUiComponent/@modules/CommunicationDashboard';
+import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/ImmunizationDashboard';
+import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
 
 const moduleLocationTypes = {
   clinic: 'Clinic',
@@ -243,16 +253,19 @@ const AppRoutes = () => {
 
           {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
-          <Route path="/app/accounts" element={<AccountHome />} />
-          <Route path="/app/accounts/payments" element={<Payment />} />
-          <Route path="/app/accounts/expenses" element={<Expense />} />
-          <Route path="/app/accounts/reports" element={<Report />} />
-          <Route path="/app/accounts/journals" element={<Journal />} />
-          <Route path="/app/accounts/ledgers" element={<Ledgers />} />
-          <Route
-            path="/app/accounts/chartsaccount"
-            element={<ChartofAccount />}
-          />
+          <Route path="/app/accounts" element={<AccountHome />}>
+            <Route indexelement={<AccountDashboard />} />
+
+            <Route path="/app/accounts/payments" element={<Payment />} />
+            <Route path="/app/accounts/expenses" element={<Expense />} />
+            <Route path="/app/accounts/reports" element={<Report />} />
+            <Route path="/app/accounts/journals" element={<Journal />} />
+            <Route path="/app/accounts/ledgers" element={<Ledgers />} />
+            <Route
+              path="/app/accounts/chartsaccount"
+              element={<ChartofAccount />}
+            />
+          </Route>
 
           <Route
             path="/app/global-appointment"
@@ -301,6 +314,8 @@ const AppRoutes = () => {
           {/* ***************************** CLINICS ROUTES ************************************* */}
 
           <Route path="/app/clinic" element={<ClinicHome />}>
+            <Route index element={<ClinicDashboard />} />
+
             <Route path="/app/clinic/clinicsetup" element={<ClinicSetup />} />
             <Route
               path="/app/clinic/appointments"
@@ -332,6 +347,7 @@ const AppRoutes = () => {
 
           {/* ***************************** CLIENTS ROUTES ************************************* */}
           <Route path="/app/clients/" element={<ClientHome />}>
+            <Route index element={<ClientDashboard />} />
             <Route
               path="/app/clients/documentation"
               element={<Documentation />}
@@ -360,6 +376,7 @@ const AppRoutes = () => {
           {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
 
           <Route path="/app/epidemiology" element={<EpidemiologyHome />}>
+            <Route index element={<EpidemiologyDashboard />} />
             <Route path="/app/epidemiology/map" element={<Map />} />
 
             <Route
@@ -382,23 +399,29 @@ const AppRoutes = () => {
           </Route>
           {/* ***************************** ADMIN ROUTES ************************************* */}
 
-          <Route path="/app/admin" element={<FacilityHome />} />
-          <Route path="/app/admin/accessibility" element={<Accessibility />} />
-          <Route path="/app/admin/careteam" element={<CareTeam />} />
-          <Route path="/app/admin/department" element={<Department />} />
-          <Route path="/app/admin/dept-unit" element={<DeptUnits />} />
-          <Route path="/app/admin/employees" element={<Employee />} />
-          <Route path="/app/admin/facility" element={<Facility />} />
-          <Route path="/app/admin/hsmodules" element={<HSModules />} />
-          <Route path="/app/admin/location" element={<Location />} />
-          <Route path="/app/admin/bands" element={<Bands />} />
-          <Route path="/app/admin/roaster" element={<Roaster />} />
-          <Route path="/app/admin/Workspace" element={<Workspace />} />
-          <Route path="/app/admin/clinicsetup" element={<ClinicSetup />} />
+          <Route path="/app/admin" element={<FacilityHome />}>
+            <Route index element={<AdminDashboard />} />
+            <Route
+              path="/app/admin/accessibility"
+              element={<Accessibility />}
+            />
+            <Route path="/app/admin/careteam" element={<CareTeam />} />
+            <Route path="/app/admin/department" element={<Department />} />
+            <Route path="/app/admin/dept-unit" element={<DeptUnits />} />
+            <Route path="/app/admin/employees" element={<Employee />} />
+            <Route path="/app/admin/facility" element={<Facility />} />
+            <Route path="/app/admin/hsmodules" element={<HSModules />} />
+            <Route path="/app/admin/location" element={<Location />} />
+            <Route path="/app/admin/bands" element={<Bands />} />
+            <Route path="/app/admin/roaster" element={<Roaster />} />
+            <Route path="/app/admin/Workspace" element={<Workspace />} />
+            <Route path="/app/admin/clinicsetup" element={<ClinicSetup />} />
+          </Route>
 
           {/* ***************************** FINANCE ROUTES ************************************* */}
 
           <Route path="/app/finance" element={<FinanceHome />}>
+            <Route index element={<FinanceDashboard />} />
             <Route path="/app/finance/payment" element={<Payment />} />
             <Route path="/app/finance/collections" element={<Collections />} />
             <Route path="/app/finance/services" element={<Services />} />
@@ -418,6 +441,7 @@ const AppRoutes = () => {
           {/* ***************************** INVENTORY ROUTES ************************************* */}
 
           <Route path="/app/inventory" element={<InventoryHome />}>
+            <Route index element={<InventoryDashboard />} />
             <Route
               path="/app/inventory/inv-dispense"
               element={<InventoryDispense />}
@@ -469,6 +493,7 @@ const AppRoutes = () => {
           {/* ***************************** LABS ROUTES ************************************* */}
 
           <Route path="/app/laboratory" element={<LaboratoryHome />}>
+            <Route index element={<LaboratoryDashboard />} />
             <Route
               path="/app/laboratory/billclient"
               element={<LaboratoryBillService />}
@@ -489,6 +514,7 @@ const AppRoutes = () => {
           {/* ***************************** PHARMACY ROUTES ************************************* */}
 
           <Route path="/app/pharmacy" element={<PharmacyHome />}>
+            <Route index element={<PharmacyDashboard />} />
             <Route
               path="/app/pharmacy/billclient"
               element={<PharmacyBillService />}
@@ -531,6 +557,7 @@ const AppRoutes = () => {
           {/* ***************************** RADIOLOGY ROUTES ************************************* */}
 
           <Route path="/app/radiology" element={<RadiologyHome />}>
+            <Route index element={<RadiologyDashboard />} />
             <Route path="/app/radiology/checkedin" element={<RadCheckedin />} />
             <Route
               path="/app/radiology/appointments"
@@ -558,6 +585,7 @@ const AppRoutes = () => {
           {/* ***************************** THEATRE ROUTES ************************************* */}
 
           <Route path="/app/theatre" element={<TheatreHome />}>
+            <Route index element={<TheatreDashboard />} />
             <Route
               path="/app/theatre/theatre-checkedin"
               element={<TheatreCheckIn />}
@@ -590,6 +618,8 @@ const AppRoutes = () => {
 
           {/*  <ward></ward> */}
           <Route path="/app/ward" element={<WardHome />}>
+            <Route index element={<WardDashboard />} />
+
             <Route path="/app/ward/transfer" element={<Transfer />} />
             <Route path="/app/ward/inpatients" element={<Inpatient />} />
             <Route path="/app/ward/admissions" element={<Admissions />} />
@@ -600,6 +630,7 @@ const AppRoutes = () => {
 
           {/**************************MANAGED CARE *************************************** */}
           <Route path="/app/managed-care" element={<ManagedCareHome />}>
+            <Route index element={<ManagedCareFrontDashboard />} />
             <Route path="/app/managed-care/policy" element={<Policy />} />
             <Route
               path="/app/managed-care/beneficiary"
@@ -669,13 +700,15 @@ const AppRoutes = () => {
           </Route>
           {/**************************CRM *************************************** */}
           <Route path="/app/crm" element={<CRMHome />}>
+            <Route index element={<CrmDashboard />} />
+
             <Route path="/app/crm/lead" element={<Leads />} />
             <Route path="/app/crm/proposal" element={<Proposal />} />
             <Route path="/app/crm/invoice" element={<Invoice />} />
             <Route path="/app/crm/SLA" element={<SLA />} />
             <Route path="/app/crm/appointment" element={<CrmAppointment />} />
             <Route path="/app/crm/deal" element={<Deal />} />
-            <Route path="/app/crm/dashboard" />
+            <Route path="/app/crm/dashboard" element={<CrmDashboard />} />
           </Route>
 
           {/**************************COMPLAINT *************************************** */}
@@ -694,6 +727,12 @@ const AppRoutes = () => {
 
           {/**************************Referral *************************************** */}
           <Route path="/app/referral" element={<ReferralHome />}>
+            <Route index element={<ReferralDashboard />} />
+            <Route
+              path="/app/referral/dashboard"
+              element={<ReferralDashboard />}
+            />
+
             <Route
               path="/app/referral/incoming"
               element={<ReferralIncoming />}
@@ -706,6 +745,12 @@ const AppRoutes = () => {
 
           {/**************************Communication *************************************** */}
           <Route path="/app/communication">
+            <Route index element={<CommunicationDashboard />} />
+            <Route
+              path="/app/communication/dashboard"
+              element={<CommunicationDashboard />}
+            />
+
             <Route path="/app/communication/whatsapp" />
             <Route path="/app/communication/sms" />
             <Route path="/app/communication/ussd" />
@@ -727,17 +772,27 @@ const AppRoutes = () => {
 
           {/**************************Accounting *************************************** */}
           <Route path="/app/accounting">
+            <Route index element={<AccountDashboard />} />
+            <Route
+              path="/app/accounting/dashboard"
+              element={<AccountDashboard />}
+            />
+
             <Route path="/app/accounting/chart-of-account" />
             <Route path="/app/accounting/account" />
             <Route path="/app/accounting/payment" />
             <Route path="/app/accounting/expenses" />
             <Route path="/app/accounting/journal" />
             <Route path="/app/accounting/report" />
-            <Route path="/app/accounting/dashboard" />
           </Route>
 
           {/**************************Immunization *************************************** */}
           <Route path="/app/immunization" element={<ImmunizationHome />}>
+            <Route index element={<ImmunizationDashboardComponent />} />{' '}
+            <Route
+              path="/app/immunization/dashboard"
+              element={<ImmunizationDashboardComponent />}
+            />
             <Route path="/app/immunization/schedule" />
             <Route
               path="/app/immunization/vaccineprofile"
@@ -756,11 +811,15 @@ const AppRoutes = () => {
               path="/app/immunization/inventory"
               element={<ImmunizationInventory />}
             />
-            <Route path="/app/immunization/dashboard" />
           </Route>
 
           {/**************************Blood Bank *************************************** */}
           <Route path="/app/blood-bank" element={<BloodBankHome />}>
+            <Route index element={<BloodbankDashboard />} />
+            <Route
+              path="/app/blood-bank/dashboard"
+              element={<BloodbankDashboard />}
+            />
             <Route
               path="/app/blood-bank/inventory"
               element={<BloodBankInventory />}
@@ -770,7 +829,10 @@ const AppRoutes = () => {
               element={<BloodBankAppointments />}
             />
             <Route path="/app/blood-bank/lab" element={<BloodBankLab />} />
-            <Route path="/app/blood-bank/dashboard" />
+            <Route
+              path="/app/blood-bank/dashboard"
+              element={<BloodbankDashboard />}
+            />
           </Route>
         </Route>
       </Routes>

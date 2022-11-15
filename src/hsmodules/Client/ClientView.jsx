@@ -38,6 +38,7 @@ const ClientView = ({ open, setOpen, user }) => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openFinance, setOpenFinance] = useState(false);
+  const [appointmentModal, setAppointmentModal] = useState(false);
   const [editing, setEditing] = useState(false);
   const [active, setActive] = useState("");
   const [chosen, setChosen] = useState();
@@ -58,19 +59,36 @@ const ClientView = ({ open, setOpen, user }) => {
     resolver: yupResolver(createClientSchema),
 
     defaultValues: {
-      firstname: user?.firstname,
-      lastname: user?.lastname,
-      middlename: user?.middlename,
-      dob: dayjs(user?.dob).format("YYYY-MM-DD"),
-      phone: user?.phone,
-      email: user?.email,
-      facility: data?.currentEmployee.facility,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      middlename: user.middlename,
+      dob: dayjs(user.dob).format("YYYY-MM-DD"),
+      phone: user.phone,
+      email: user.email,
+      facility: data.currentEmployee.facility,
       gender: user?.gender,
       maritalstatus: user?.maritalstatus,
+      residentialaddress: user?.residentialaddress,
+      town: user?.town,
+      lga: user?.lga,
+      state: user?.state,
+      country: user?.country,
+      nextofkin: user?.nextofkin,
+      address: user?.address,
+      nextofkinphone: user?.nextofkinphone,
       mrn: user?.mrn,
       religion: user?.religion,
       profession: user?.profession,
       clientTags: user?.clientTags,
+      bloodgroup: user?.bloodgroup,
+      genotype: user?.genotype,
+      disabilities: user?.disabilities,
+      allergies: user?.allergies,
+      comorbidities: user?.comorbidities,
+      specificDetails: user?.specificDetails,
+      nok_name: user?.nok_name,
+      nok_phoneno: user?.nok_phoneno,
+      nok_relationship: user?.nok_relationship,
     },
   });
 
@@ -85,10 +103,27 @@ const ClientView = ({ open, setOpen, user }) => {
       facility: data.currentEmployee.facility,
       gender: user?.gender,
       maritalstatus: user?.maritalstatus,
+      residentialaddress: user?.residentialaddress,
+      town: user?.town,
+      lga: user?.lga,
+      state: user?.state,
+      country: user?.country,
+      nextofkin: user?.nextofkin,
+      address: user?.address,
+      nextofkinphone: user?.nextofkinphone,
       mrn: user?.mrn,
       religion: user?.religion,
       profession: user?.profession,
       clientTags: user?.clientTags,
+      bloodgroup: user?.bloodgroup,
+      genotype: user?.genotype,
+      disabilities: user?.disabilities,
+      allergies: user?.allergies,
+      comorbidities: user?.comorbidities,
+      specificDetails: user?.specificDetails,
+      nok_name: user?.nok_name,
+      nok_phoneno: user?.nok_phoneno,
+      nok_relationship: user?.nok_relationship,
     });
   }, []);
 
@@ -97,6 +132,9 @@ const ClientView = ({ open, setOpen, user }) => {
     // e.preventDefault();
     // setSuccess(false);
     setOpenFinance(true);
+  };
+  const handleSchedule = async () => {
+    setAppointmentModal(true);
   };
 
   const handleDelete = async () => {
@@ -219,8 +257,14 @@ const ClientView = ({ open, setOpen, user }) => {
       >
         <ClientFinInfo />
       </ModalBox>
+      <ModalBox
+        open={appointmentModal}
+        onClose={() => setAppointmentModal(false)}
+      >
+        <AppointmentCreate />
+      </ModalBox>
 
-      <div style={{ height: "100%", overflowY: "scroll" }}>
+      <div style={{ height: "80vh", overflowY: "scroll" }}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>
@@ -229,13 +273,6 @@ const ClientView = ({ open, setOpen, user }) => {
             </span>
           </div>
           <BottomWrapper>
-            {/* <Button
-              label='Delete User'
-              background='#FFE9E9'
-              color='#ED0423'
-              onClick={() => handleDelete()}
-            /> */}
-
             <Button
               label={`${!editing ? "Edit Client" : "Cancel Editing"}`}
               background="#ECF3FF"
@@ -251,7 +288,8 @@ const ClientView = ({ open, setOpen, user }) => {
             {/*********************************** IMPLEMENT BILL CLIENT MODAL************************************** */}
 
             <Button onClick={handleBillClient}>Bill Client</Button>
-            <Button onClick={handleFinance}> Financial Information</Button>
+            <Button onClick={handleFinance}> Payment Info</Button>
+            <Button onClick={handleSchedule}>Schedule Appointment</Button>
           </BottomWrapper>
         </HeadWrapper>
         <form onSubmit={handleSubmit(submit)}>

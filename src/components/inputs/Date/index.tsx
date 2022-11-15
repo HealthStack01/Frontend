@@ -13,6 +13,7 @@ interface Props {
   name: any;
   defaultValue?: any;
   selected?: any;
+  disabled?: boolean;
 }
 
 const BasicDatePicker: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const BasicDatePicker: React.FC<Props> = ({
   errors = {},
   defaultValue,
   selected,
+  disabled = false,
 }) => {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2014-08-18'));
   const handleChange = (newValue: Dayjs | null) => {
@@ -42,6 +44,7 @@ const BasicDatePicker: React.FC<Props> = ({
           defaultValue={defaultValue}
           selected={selected}
           onChange={onChange}
+          disabled={disabled}
         />
         {errors[name] && (
           <FormHelperText error>{errors[name].message}</FormHelperText>
