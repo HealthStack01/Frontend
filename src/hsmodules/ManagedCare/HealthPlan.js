@@ -5,7 +5,9 @@ import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
+
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
@@ -24,9 +26,11 @@ import Switch from "../../components/switch";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
+
 import { Box, Grid, Button as MuiButton } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -36,11 +40,11 @@ export default function HealthPlan() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
+      <HealthPlanList openCreateModal={() => setCreateModal(true)} />
     </section>
   );
 }
@@ -239,6 +243,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
             }
+
+
             const handleRow= async(Client)=>{
               //  await setSelectedClient(Client)
                 const    newClientModule={
@@ -444,7 +450,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function HealthPlanList({ showModal, setShowModal }) {
+
+export function HealthPlanList({ openCreateModal }) {
+
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -666,7 +674,7 @@ export function HealthPlanList({ showModal, setShowModal }) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user?.currentEmployee?.facilityDetail?._id,
+      facility: user.currentEmployee.facilityDetail._id,
 
       $limit: 100,
       $sort: {
@@ -711,6 +719,7 @@ export function HealthPlanList({ showModal, setShowModal }) {
     });
     return mapped;
   };
+
   const activeStyle = {
     backgroundColor: "#0064CC29",
     border: "none",
@@ -719,75 +728,36 @@ export function HealthPlanList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
+      patients_name: "Patients Name",
+      name_of_plan: "Family plan",
+      category: "Titanium series",
+      plan_type: "Agriculture",
+      premium: "27/10/21",
       status: "Active",
     },
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
+      patients_name: "Patients Name",
+      name_of_plan: "Family plan",
+      category: "Titanium series",
+      plan_type: "Agriculture",
+      premium: "27/10/21",
       status: "Active",
     },
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
+      patients_name: "Patients Name",
+      name_of_plan: "Family plan",
+      category: "Titanium series",
+      plan_type: "Agriculture",
+      premium: "27/10/21",
       status: "Active",
     },
+
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
+      patients_name: "Patients Name",
+      name_of_plan: "Family plan",
+      category: "Titanium series",
+      plan_type: "Agriculture",
+      premium: "27/10/21",
       status: "Active",
     },
   ];
@@ -801,26 +771,24 @@ export function HealthPlanList({ showModal, setShowModal }) {
       case "active":
         return <span style={{ color: "#17935C" }}>{status}</span>;
 
-      case "ongoing":
+
+      case "inactive":
         return <span style={{ color: "#0364FF" }}>{status}</span>;
 
-      case "declined":
-        return <span style={{ color: "#ED0423" }}>{status}</span>;
-
-      case "pending":
-        return <span style={{ color: "#EF9645" }}>{status}</span>;
 
       default:
         break;
     }
   };
 
-  const healthPlanSchema = [
+
+  const HealthPlanSchema = [
+
     {
       name: "Patients Name",
       key: "patients_name",
-      description: "Enter Patients Name",
-      selector: (row, i) => row.patients_name,
+      description: "Enter patients name",
+      selector: (row) => row.patients_name,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -828,7 +796,9 @@ export function HealthPlanList({ showModal, setShowModal }) {
     {
       name: "Name of Plan",
       key: "name_of_plan",
-      description: "Name of Plan",
+
+      description: "Enter name of plan",
+
       selector: (row) => row.name_of_plan,
       sortable: true,
       required: true,
@@ -837,8 +807,19 @@ export function HealthPlanList({ showModal, setShowModal }) {
     {
       name: "Category",
       key: "category",
-      description: "Category",
+
+      description: "Enter category series",
       selector: (row) => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plan Type",
+      key: "plan_type",
+      description: "Enter plan type",
+      selector: (row) => row.plan_type,
+
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -846,61 +827,23 @@ export function HealthPlanList({ showModal, setShowModal }) {
     {
       name: "Premium",
       key: "premium",
-      description: "Premium",
+      description: "Enter premium",
       selector: (row, i) => row.premium,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: "DATE",
     },
     {
       name: "Status",
       key: "status",
-      description: "Status",
+      description: "Enter bills",
       selector: "status",
-      cell: (row, i) => returnCell(row.status),
+      cell: (row) => returnCell(row.status),
       sortable: true,
       required: true,
-      inputType: "NUMBER",
-    },
-  ];
 
-  const conditionalRowStyles = [
-    {
-      when: (row) => row.status === "approved",
-      style: {
-        color: "red",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: (row) => row.status === "ongoing",
-      style: {
-        color: "rgba(0,0,0,.54)",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: (row) => row.status === "pending",
-      style: {
-        color: "pink",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: (row) => row.status === "declined",
-      style: {
-        color: "purple",
-        backgroundColor: "green",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
+      inputType: "TEXT",
+
     },
   ];
 
@@ -919,63 +862,28 @@ export function HealthPlanList({ showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  {/* <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Pre-Authorization
-                  </h2> */}
-                  {/* <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  /> */}
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: "1rem" }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
-                    </button>
-                  </Switch>
+
+                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                    Lead
+                  </h2>
+
+                  
                 </div>
 
                 {handleCreateNew && (
-                  <MuiButton
-                    variant="contained"
-                    sx={{
-                      widh: "fit",
-                      textTransform: "capitalize",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                    onClick={handleCreateNew}
-                  >
-                    <AddCircleOutlineIcon
-                      sx={{ marginRight: "5px" }}
-                      fontSize="small"
-                    />
-                    Add Health plan
-                  </MuiButton>
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600" }}
+                    label="Add new "
+                    onClick={openCreateModal}
+                  />
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "700px", overflow: "auto" }}>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={healthPlanSchema}
+                    columns={HealthPlanSchema}
+
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover
