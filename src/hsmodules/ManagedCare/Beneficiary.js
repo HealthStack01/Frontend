@@ -15,7 +15,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
-
+// import { useRouteMatch } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
 import { PageWrapper } from "../../ui/styled/styles";
@@ -1795,7 +1796,7 @@ export function ClientList() {
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
   const ClientServ = client.service("client");
-  //const history = useHistory()
+  // const history = useHistory();
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2132,7 +2133,7 @@ export function ClientList() {
 export function ClientDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const history = useHistory();
+  // const history = useHistory();
   // eslint-disable-next-line
   let { path, url } = useRouteMatch();
   // eslint-disable-next-line
