@@ -16,6 +16,10 @@ import {
 } from "../app/styles";
 import { createClientSchema } from "./schema";
 import ModalBox from "../../components/modal";
+} from '../app/styles';
+import { createClientSchema } from './schema';
+import ModalBox from '../../components/modal';
+import Textarea from '../../components/inputs/basic/Textarea';
 
 const ClientForm = ({ open, setOpen }) => {
   const ClientServ = client.service("client");
@@ -265,6 +269,10 @@ const ClientForm = ({ open, setOpen }) => {
                 {/* Address */}
                 <ViewBox>
                   <h2>Addresses</h2>
+                  <Textarea
+                    label='Residential Address'
+                    register={register('address')}
+                  />
 
                   <GridWrapper>
                     <Input
@@ -275,6 +283,10 @@ const ClientForm = ({ open, setOpen }) => {
                     <Input label="Local Govt Area" register={register("lga")} />
                     <Input label="State" register={register("state")} />
                     <Input label="Country" register={register("country")} />
+                    <Input label='Town/City' register={register('city')} />
+                    <Input label='Local Govt Area' register={register('lga')} />
+                    <Input label='State' register={register('state')} />
+                    <Input label='Country' register={register('country')} />
                   </GridWrapper>
                 </ViewBox>
                 {/* Medical Data */}

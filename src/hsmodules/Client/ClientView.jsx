@@ -32,7 +32,6 @@ import DataTable from "react-data-table-component";
 import { customStyles } from "../../components/customtable/styles";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import ClientFinInfo from "./ClientFinInfo";
-import { AppointmentCreate } from "./Appointments";
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service("client");
@@ -60,19 +59,36 @@ const ClientView = ({ open, setOpen, user }) => {
     resolver: yupResolver(createClientSchema),
 
     defaultValues: {
-      firstname: user?.firstname,
-      lastname: user?.lastname,
-      middlename: user?.middlename,
-      dob: dayjs(user?.dob).format("YYYY-MM-DD"),
-      phone: user?.phone,
-      email: user?.email,
-      facility: data?.currentEmployee.facility,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      middlename: user.middlename,
+      dob: dayjs(user.dob).format("YYYY-MM-DD"),
+      phone: user.phone,
+      email: user.email,
+      facility: data.currentEmployee.facility,
       gender: user?.gender,
       maritalstatus: user?.maritalstatus,
+      residentialaddress: user?.residentialaddress,
+      town: user?.town,
+      lga: user?.lga,
+      state: user?.state,
+      country: user?.country,
+      nextofkin: user?.nextofkin,
+      address: user?.address,
+      nextofkinphone: user?.nextofkinphone,
       mrn: user?.mrn,
       religion: user?.religion,
       profession: user?.profession,
       clientTags: user?.clientTags,
+      bloodgroup: user?.bloodgroup,
+      genotype: user?.genotype,
+      disabilities: user?.disabilities,
+      allergies: user?.allergies,
+      comorbidities: user?.comorbidities,
+      specificDetails: user?.specificDetails,
+      nok_name: user?.nok_name,
+      nok_phoneno: user?.nok_phoneno,
+      nok_relationship: user?.nok_relationship,
     },
   });
 
@@ -87,10 +103,27 @@ const ClientView = ({ open, setOpen, user }) => {
       facility: data.currentEmployee.facility,
       gender: user?.gender,
       maritalstatus: user?.maritalstatus,
+      residentialaddress: user?.residentialaddress,
+      town: user?.town,
+      lga: user?.lga,
+      state: user?.state,
+      country: user?.country,
+      nextofkin: user?.nextofkin,
+      address: user?.address,
+      nextofkinphone: user?.nextofkinphone,
       mrn: user?.mrn,
       religion: user?.religion,
       profession: user?.profession,
       clientTags: user?.clientTags,
+      bloodgroup: user?.bloodgroup,
+      genotype: user?.genotype,
+      disabilities: user?.disabilities,
+      allergies: user?.allergies,
+      comorbidities: user?.comorbidities,
+      specificDetails: user?.specificDetails,
+      nok_name: user?.nok_name,
+      nok_phoneno: user?.nok_phoneno,
+      nok_relationship: user?.nok_relationship,
     });
   }, []);
 
@@ -231,7 +264,7 @@ const ClientView = ({ open, setOpen, user }) => {
         <AppointmentCreate />
       </ModalBox>
 
-      <div style={{ height: "100%", overflowY: "scroll" }}>
+      <div style={{ height: "80vh", overflowY: "scroll" }}>
         <HeadWrapper>
           <div>
             <h2>Client Detail</h2>
