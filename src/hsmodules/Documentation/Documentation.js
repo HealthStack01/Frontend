@@ -13,7 +13,7 @@ import EncounterMain from "./EncounterMain";
 import EncounterRight from "./EncounterRight";
 import PatientProfile from "../Client/PatientProfile";
 import ModalBox from "../../components/modal";
-import {Grid} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -65,19 +65,23 @@ export default function Documentation({standalone}) {
   return (
     <section className="section remPadTop" style={{padding: "15px"}}>
       {!standalone && (
-        <Grid container spacing={1}>
-          <Grid item xs={2}>
+        <Box
+          container
+          sx={{width: "100%", display: "flex", justifyContent: "space-between"}}
+        >
+          <Box item sx={{width: "300px"}} mt={1}>
             <PatientProfile />
-          </Grid>
+          </Box>
 
-          <Grid item xs={10}>
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 320px)",
+            }}
+          >
             <EncounterMain chosenClient={selectedClient} />
-          </Grid>
-
-          {/* <Grid item xs={4.5}>
-            <EncounterRight client={selectedClient} />
-          </Grid> */}
-        </Grid>
+          </Box>
+        </Box>
       )}
 
       {standalone && (
@@ -85,32 +89,6 @@ export default function Documentation({standalone}) {
           <EncounterMain chosenClient={selectedClient} nopresc={standalone} />
         </div>
       )}
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div> //10
-            </div> */}
-      {/* <div className="columns "> */}
-      {/* {!standalone && <PatientProfile />} */}
-
-      {/* {!standalone && <EncounterMain client={selectedClient} />} */}
-
-      {/* {standalone && (
-          <div
-            className={
-              state.DocumentClassModule.show === "detail"
-                ? "column is-8"
-                : "column is-12 "
-            }
-          > */}
-      {/* <EncounterMain client={selectedClient} nopresc={standalone} /> */}
-      {/* </div>
-        )}
-        <div className="column is-4 "> */}
-      {/* {state.DocumentClassModule.show === "detail" && (
-            <EncounterRight client={selectedClient} />
-          )} */}
-      {/*  <DocumentClassCreate /> */}
-      {/* </div>
-      </div> */}
 
       <ModalBox
         open={showModal}

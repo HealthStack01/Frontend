@@ -58,20 +58,20 @@ export default function ClientIntolerance() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        <BandList
+        <ClientIntoleranceList
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
         <ModalBox open={createModal} onClose={handleHideCreateModal}>
-          <BandCreate />
+          <ClientIntoleranceCreate />
         </ModalBox>
 
         <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-          <BandDetail showModifyModal={handleModifyModal} />
+          <ClientIntoleranceDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
         <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-          <BandModify />
+          <ClientIntoleranceModify />
         </ModalBox>
       </div>
     </section>

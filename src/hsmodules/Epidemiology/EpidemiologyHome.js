@@ -12,7 +12,7 @@ export default function EpidemiologyHome({children}) {
   const [storeModal, setStoreModal] = useState(false);
 
   const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+    state.EpidemiologyModule.selectedEpid
   );
 
   // const handleCloseModal = () => {
@@ -31,11 +31,12 @@ export default function EpidemiologyHome({children}) {
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.StoreModule.selectedStore);
+    setSelectedStore(state.EpidemiologyModule.selectedEpid);
+
     const newEmployeeLocation = {
-      locationName: state.StoreModule.selectedStore.name,
-      locationType: state.StoreModule.selectedStore.locationType,
-      locationId: state.StoreModule.selectedStore._id,
+      locationName: state.EpidemiologyModule.selectedEpid.name,
+      locationType: state.EpidemiologyModule.selectedEpid.locationType,
+      locationId: state.EpidemiologyModule.selectedEpid._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
@@ -43,7 +44,7 @@ export default function EpidemiologyHome({children}) {
       ...prevstate,
       employeeLocation: newEmployeeLocation,
     }));
-  }, [state.StoreModule]);
+  }, [state.EpidemiologyModule]);
 
   const handleChangeStore = async () => {
     await setStoreModal(true);

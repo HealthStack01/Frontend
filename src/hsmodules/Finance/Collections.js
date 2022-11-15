@@ -308,24 +308,13 @@ export function ClientAccount({closeModal}) {
           >
             {facility[0]?.fromName}
           </Typography>
-          <MuiButton
-            variant="outlined"
-            style={{
-              width: "150px",
-              height: "48px",
-              textTransform: "capitalize",
-            }}
-            onClick={handleToggleAccount}
-          >
-            {accountType === "credit" ? "Debit" : "Credit"} Detail
-          </MuiButton>
         </Box>
         <Box mb={2}>
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <div
               className="card-header"
               style={{
-                width: "300px",
+                width: "200px",
                 height: "80px",
                 border: "1px solid #E5E5E5",
                 display: "flex",
@@ -359,7 +348,7 @@ export function ClientAccount({closeModal}) {
             <div
               className="card-header"
               style={{
-                width: "300px",
+                width: "200px",
                 height: "80px",
                 border: "1px solid #E5E5E5",
                 display: "flex",
@@ -375,7 +364,40 @@ export function ClientAccount({closeModal}) {
                   lineHeight: "21.86px",
                 }}
               >
-                Current Balance
+                Credit Account
+              </span>
+              <span
+                style={{
+                  fontWeight: "700",
+                  fontSize: "22px",
+                  color: "#000000",
+                }}
+              >
+                <span>&#8358;</span>
+                {balance}
+              </span>
+            </div>
+
+            <div
+              className="card-header"
+              style={{
+                width: "200px",
+                height: "80px",
+                border: "1px solid #E5E5E5",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                paddingLeft: "31px",
+              }}
+            >
+              <span
+                style={{
+                  color: "#0364FF",
+                  fontSize: "14px",
+                  lineHeight: "21.86px",
+                }}
+              >
+                Debit Account
               </span>
               <span
                 style={{
@@ -392,13 +414,28 @@ export function ClientAccount({closeModal}) {
         </Box>
 
         <Box
-          sx={{display: "flex", alignItems: "center", justifyContent: "center"}}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
           mb={2}
           mt={2}
         >
           <Typography>
             {accountType === "credit" ? "Credit Account" : "Debit Account"}
           </Typography>
+          <MuiButton
+            variant="outlined"
+            style={{
+              width: "150px",
+              height: "48px",
+              textTransform: "capitalize",
+            }}
+            onClick={handleToggleAccount}
+          >
+            {accountType === "credit" ? "Debit" : "Credit"} Detail
+          </MuiButton>
         </Box>
         {accountType === "credit" ? (
           <Box sx={{height: "350px", overflowY: "auto"}}>

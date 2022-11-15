@@ -1,5 +1,7 @@
+import {Box, Button, Typography} from "@mui/material";
 import keyBy from "lodash/keyBy";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
+import {ObjectContext} from "../context";
 
 import {Models} from "../hsmodules/app/Constants";
 import Breadcrumbs from "./breadcrumb";
@@ -19,6 +21,8 @@ const TopMenu = ({isOpen, handleClick}) => {
     useRepository(Models.LOCATION);
   const [selectedLocation, setSelectedLocation] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
+
+  const {state, setState} = useContext(ObjectContext);
 
   /*                                                                                                                                                                                                                                          */
 
@@ -69,6 +73,22 @@ const TopMenu = ({isOpen, handleClick}) => {
           <Breadcrumbs />
         </span>
       </div>
+
+      {state.employeeLocation.locationName && (
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          <Typography
+            sx={{color: "#000000"}}
+          >{`@ ${state.employeeLocation.locationName} ${state.employeeLocation.locationType}`}</Typography>
+          <Button
+            size="medium"
+            variant="contained"
+            sx={{textTransform: "capitalize", marginLeft: "10px"}}
+          >
+            Change {state.employeeLocation.locationType}
+          </Button>
+        </Box>
+      )}
+
       <Profile>
         <div className="location-selector">
           <LocationSelect

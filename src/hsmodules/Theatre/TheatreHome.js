@@ -12,7 +12,7 @@ export default function TheatreHome({children}) {
   const {user, setUser} = useContext(UserContext);
   // eslint-disable-next-line
   const [selectedStore, setSelectedStore] = useState(
-    state.StoreModule.selectedStore
+    state.TheatreModule.selectedTheatre
   );
   const [showModal, setShowModal] = useState(false);
 
@@ -32,11 +32,11 @@ export default function TheatreHome({children}) {
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.StoreModule.selectedStore);
+    setSelectedStore(state.TheatreModule.selectedTheatre);
     const newEmployeeLocation = {
-      locationName: state.StoreModule.selectedStore.name,
-      locationType: state.StoreModule.selectedStore.locationType,
-      locationId: state.StoreModule.selectedStore._id,
+      locationName: state.TheatreModule.selectedTheatre.name,
+      locationType: state.TheatreModule.selectedTheatre.locationType,
+      locationId: state.TheatreModule.selectedTheatre._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
     };
@@ -44,7 +44,7 @@ export default function TheatreHome({children}) {
       ...prevstate,
       employeeLocation: newEmployeeLocation,
     }));
-  }, [state.StoreModule]);
+  }, [state.TheatreModule]);
 
   const handleChangeStore = async () => {
     await setShowModal(true);
