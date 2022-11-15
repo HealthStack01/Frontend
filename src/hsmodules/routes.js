@@ -293,6 +293,10 @@ const AppRoutes = () => {
             path="/app/theatre/documentation"
             element={<Documentation />}
           />
+          <Route
+            path="/app/beneficiary/documentation"
+            element={<Documentation />}
+          />
 
           {/* ***************************** CLINICS ROUTES ************************************* */}
 
