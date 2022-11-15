@@ -5,9 +5,6 @@ import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
@@ -26,25 +23,26 @@ import Switch from "../../components/switch";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
-
-import { Box, Grid, Button as MuiButton } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
-
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function HealthPlan() {
+export default function ManagedCareReport() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [createModal, setCreateModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <HealthPlanList openCreateModal={() => setCreateModal(true)} />
+      <ManagedCareReportList
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </section>
   );
 }
@@ -450,9 +448,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-
-export function HealthPlanList({ openCreateModal }) {
-
+export function ManagedCareReportList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -719,7 +715,6 @@ export function HealthPlanList({ openCreateModal }) {
     });
     return mapped;
   };
-
   const activeStyle = {
     backgroundColor: "#0064CC29",
     border: "none",
@@ -728,36 +723,40 @@ export function HealthPlanList({ openCreateModal }) {
 
   const dummyData = [
     {
-      patients_name: "Patients Name",
-      name_of_plan: "Family plan",
-      category: "Titanium series",
-      plan_type: "Agriculture",
-      premium: "27/10/21",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
       status: "Active",
     },
     {
-      patients_name: "Patients Name",
-      name_of_plan: "Family plan",
-      category: "Titanium series",
-      plan_type: "Agriculture",
-      premium: "27/10/21",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
       status: "Active",
     },
     {
-      patients_name: "Patients Name",
-      name_of_plan: "Family plan",
-      category: "Titanium series",
-      plan_type: "Agriculture",
-      premium: "27/10/21",
-      status: "Active",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
+      status: "Inactive",
     },
 
     {
-      patients_name: "Patients Name",
-      name_of_plan: "Family plan",
-      category: "Titanium series",
-      plan_type: "Agriculture",
-      premium: "27/10/21",
+      name: "Motun George",
+      order: "Lorem Ipsum",
+      date: "11/12/2022",
+      test: "Blood Test",
+      fulfilled: "lorem ipsum",
+      request: "lorem ipsum",
       status: "Active",
     },
   ];
@@ -771,67 +770,77 @@ export function HealthPlanList({ openCreateModal }) {
       case "active":
         return <span style={{ color: "#17935C" }}>{status}</span>;
 
-
       case "inactive":
         return <span style={{ color: "#0364FF" }}>{status}</span>;
-
 
       default:
         break;
     }
   };
 
-
-  const HealthPlanSchema = [
-
+  const ReportSchema = [
     {
-      name: "Patients Name",
-      key: "patients_name",
-      description: "Enter patients name",
-      selector: (row) => row.patients_name,
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
       sortable: true,
-      required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
-      name: "Name of Plan",
-      key: "name_of_plan",
-
-      description: "Enter name of plan",
-
-      selector: (row) => row.name_of_plan,
+      name: "Name Of Donor",
+      key: "name",
+      description: "Enter name of Company",
+      selector: (row) => row.name,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Category",
-      key: "category",
-
-      description: "Enter category series",
-      selector: (row) => row.category,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Plan Type",
-      key: "plan_type",
-      description: "Enter plan type",
-      selector: (row) => row.plan_type,
-
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Premium",
-      key: "premium",
-      description: "Enter premium",
-      selector: (row, i) => row.premium,
+      name: "Order for Lab Testing",
+      key: "order",
+      description: "Enter name of Company",
+      selector: (row) => row.order,
       sortable: true,
       required: true,
       inputType: "DATE",
+    },
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter name of Company",
+      selector: (row) => row.date,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "Pending Test",
+      key: "test",
+      description: "Enter bills",
+      selector: (row) => row.test,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Fulfilled",
+      key: "fulfilled",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.fulfilled,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Requesting Physician",
+      key: "request",
+      description: "Enter name of Disease",
+      selector: (row, i) => row.request,
+      sortable: true,
+      required: true,
+      inputType: "TEXt",
     },
     {
       name: "Status",
@@ -841,9 +850,7 @@ export function HealthPlanList({ openCreateModal }) {
       cell: (row) => returnCell(row.status),
       sortable: true,
       required: true,
-
       inputType: "TEXT",
-
     },
   ];
 
@@ -862,19 +869,16 @@ export function HealthPlanList({ openCreateModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-
                   <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Lead
+                    Invoice
                   </h2>
-
-                  
                 </div>
 
                 {handleCreateNew && (
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
-                    onClick={openCreateModal}
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
@@ -882,8 +886,7 @@ export function HealthPlanList({ openCreateModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={HealthPlanSchema}
-
+                    columns={ReportSchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover
