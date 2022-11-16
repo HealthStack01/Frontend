@@ -55,6 +55,10 @@ import {
 } from "./documents/Documents";
 import ModalBox from "../../components/modal";
 import EncounterRight from "./EncounterRight";
+import {
+  BilledOrdersPrintOut,
+  DoctorsNotePrintOut,
+} from "./print-outs/Print-Outs";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -460,7 +464,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
             ref={el => (myRefs.current[index] = el)}
           />
         );
-      case "lab order":
+      case "lab orders":
         return (
           <LabOrdersDocument
             Clinic={Clinic}
@@ -520,6 +524,11 @@ export default function EncounterMain({nopresc, chosenClient}) {
         flexGrow: "1",
       }}
     >
+      <ModalBox open={false}>
+        <Box sx={{width: "595px", height: "842px", border: "1px solid gray"}}>
+          {/* <BilledOrdersPrintOut /> */}
+        </Box>
+      </ModalBox>
       <Box
         container
         sx={{
@@ -823,7 +832,13 @@ export default function EncounterMain({nopresc, chosenClient}) {
                     Clinic.documentname !== "Discharge Order" &&
                     Clinic.documentname !== "Pediatric Pulmonology Form" &&
                     Clinic.status !== "Draft" && (
-                      <div ref={el => (myRefs.current[i] = el)}>
+                      <div>
+                        <Box sx={{display: "none"}}>
+                          <DoctorsNotePrintOut
+                            ref={el => (myRefs.current[i] = el)}
+                            data={Clinic.documentdetail}
+                          />
+                        </Box>
                         {Array.isArray(Clinic.documentdetail) ? (
                           Object.entries(Clinic.documentdetail).map(
                             ([keys, value], i) => (
