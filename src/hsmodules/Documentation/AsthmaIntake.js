@@ -10,8 +10,16 @@ import {Box, getValue} from "@mui/system";
 import {Button, Collapse, Grid, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Input from "../../components/inputs/basic/Input";
+// import Button from "../../components/buttons/Button";
+import Textarea from "../../components/inputs/basic/Textarea";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import RadioButton from "../../components/inputs/basic/Radio";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 export default function AsthmaIntake() {
   const {register, handleSubmit, setValue, getValues, watch} = useForm(); //, watch, errors, reset
@@ -346,8 +354,11 @@ export default function AsthmaIntake() {
               </Box>
             </Collapse>
           </Box>
-
-          <Button type="submit">Submit</Button>
+          <Box sx={{
+            marginBlock: "1rem"
+          }}> 
+          <Button variant="contained" type="submit">Submit</Button>
+  </Box>   
         </form>
       </Box>
 
@@ -1345,4400 +1356,1027 @@ export default function AsthmaIntake() {
                   type="text"
                 />
               </Box>
-            </Collapse>
+                </Collapse>
                 </Box>
                 </Box>
             </Box>
-            {/* <h3>
-              <b></b>
-            </h3> */}
-            {/* <div className="field">
-              <label>
-                9. Were you ever bothered, or are you currently bothered by a
-                cough?
-              </label>
-              <div className="field">
-                <label className=" is-small">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Cough"
-                    value="Yes"
-                    onChange={e => {
-                      handleChangePart(e);
-                    }}
-                  />
-                  <span> Yes</span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Cough"
-                    value="No"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>No </span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Cough"
-                    value="Uncertain"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>Uncertain </span>
-                </label>
-              </div>
-            </div>
-            <div className="field">
-              <label>
-                {" "}
-                10. Has your cough been triggered by any of the following
-                conditions?
-              </label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (a) Exercise</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_exercise"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_exercise"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (b) Breathing cold air</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_coldair"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_coldair"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (c) Breathing house dust
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_dust"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_dust"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (d) Being in a mouldy, musty or damp place
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_mould"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_mould"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (e) Change in weather</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_weather"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_weather"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (f) Being near cats</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_cats"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_cats"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (g) Being near dogs</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_dogs"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_dogs"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (h) Being near any other animal (specify)
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_otheranimal"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_otheranimal"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (i) During sleep at night
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_sleep"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_sleep"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (j) Taking aspirin</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_aspirin"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_aspirin"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (k) Any other thing</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_other"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cough_other"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="specify_cough_other"
-                    type="text"
-                    placeholder="Specify"
-                  />
-                </p>
-              </div>
-            </div>
-            <h4>B. Wheezing</h4>
-            <div className="field">
-              <label>
-                11. Has your chest ever sounded wheezy or whistling?
-              </label>
-              <div className="field">
-                <label className=" is-small">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Wheeze"
-                    value="Yes"
-                    onChange={e => {
-                      handleChangePart(e);
-                    }}
-                  />
-                  <span> Yes</span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Wheeze"
-                    value="No"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>No</span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Wheeze"
-                    value="Uncertain"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>Uncertain </span>
-                </label>
-              </div>
-            </div>
-            <div className="field">
-              <label>
-                {" "}
-                12. Have you ever had wheeze on exposure to any of the
-                following?
-              </label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (a) Exercise</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_exercise"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_exercise"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (b) Breathing cold air</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_coldair"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_coldair"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (c) Breathing house dust
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_dust"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_dust"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (d) Being in a mouldy, musty or damp place
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_mould"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_mould"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (e) Change in weather</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_weather"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_weather"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (f) Being near cats</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_cats"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_cats"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (g) Being near dogs</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_dogs"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_dogs"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (h) Being near any other animal (specify)
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_otheranimal"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_otheranimal"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (i) During sleep at night
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_sleep"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_sleep"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (j) Taking aspirin</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_aspirin"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_aspirin"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (k) Any other thing</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_other"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Wheeze_other"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="specify_wheeze_other"
-                    type="text"
-                    placeholder="Specify"
-                  />
-                </p>
-              </div>
-            </div>
-            <h4>C. Shortness of breath</h4>
-            <div className="field">
-              <label>
-                13. Have you ever been bothered by shortness of breath when
-                hurrying on flat ground or walking up a slight hill?
-              </label>
-              <div className="field">
-                <label className=" is-small">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Shortness"
-                    value="Yes"
-                    onChange={e => {
-                      handleChangePart(e);
-                    }}
-                  />
-                  <span> Yes</span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Shortness"
-                    value="No"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>No </span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Shortness"
-                    value="Uncertain"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>Uncertain </span>
-                </label>
-              </div>
-            </div>
-            <div className="field">
-              <label>
-                14. Have you ever had shortness of breath with exposure to any
-                of the following circumstances?
-              </label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (a) Exercise</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <span> Yes</span>
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_exercise"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_exercise"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (b) Breathing cold air</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_coldair"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_coldair"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (c) Breathing house dust
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_dust"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_dust"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (d) Being in a mouldy, musty or damp place
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_mould"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_mould"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (e) Change in weather</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_weather"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_weather"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (f) Being near cats</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_cats"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_cats"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (g) Being near dogs</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_dogs"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_dogs"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (h) Being near any other animal (specify)
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_otheranimal"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_otheranimal"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (i) During sleep at night
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_sleep"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_sleep"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (j) Taking aspirin</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_aspirin"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_aspirin"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (k) Any other thing</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_other"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Shortness_other"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="specify_Shortness_other"
-                    type="text"
-                    placeholder="Specify"
-                  />
-                </p>
-              </div>
-            </div>
-            <h4>D. Tightness in Chest</h4>
-            <div className="field">
-              <label>
-                15. Have you ever been bothered by a tightness in your chest
-                when hurrying on flat ground or walking up a slight hill?
-              </label>
-              <div className="field">
-                <label className=" is-small">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Tightness"
-                    value="Yes"
-                    onChange={e => {
-                      handleChangePart(e);
-                    }}
-                  />
-                  <span> Yes</span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Tightness"
-                    value="No"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>No </span>
-                </label>
-                <label className=" is-small ml-2">
-                  <input
-                    type="radio"
-                    {...register("input_name")}
-                    name="Tightness"
-                    value="Uncertain"
-                    onChange={e => handleChangePart(e)}
-                  />
-                  <span>Uncertain </span>
-                </label>
-              </div>
-            </div>
-            <div className="field">
-              <label>
-                16. Have you ever had tightness in your chest with exposure to
-                any of the following circumstances?
-              </label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (a) Exercise</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_exercise"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_exercise"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (b) Breathing cold air</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_coldair"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_coldair"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (c) Breathing house dust
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_dust"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_dust"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (d) Being in a mouldy, musty or damp place
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_mould"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_mould"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (e) Change in weather</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_weather"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_weather"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (f) Being near cats</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_cats"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_cats"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (g) Being near dogs</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_dogs"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_dogs"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (h) Being near any other animal (specify)
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_otheranimal"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_otheranimal"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (i) During sleep at night
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_sleep"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_sleep"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (j) Taking aspirin</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_aspirin"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_aspirin"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (k) Any other thing</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_other"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tightness_other"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="specify_Tightness_other"
-                    type="text"
-                    placeholder="Specify"
-                  />
-                </p>
-              </div>
-            </div> */}
-
-            {/* <h4>Asthma History</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    17. Have you ever had asthma?
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Asthma"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Asthma"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    17b. When was your asthma diagnosed? (Age in years){" "}
-                  </label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="age_diagnosis"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    17c. Was your asthma confirmed by a doctor?
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Asthma_Confirmed"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Asthma_Confirmed"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Asthma_Confirmed"
-                      value="Not Sure"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Not Sure </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    17d. Have you ever needed to visit a doctor at least once a
-                    year for your asthma?
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Visit_Doctor"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Visit_Doctor"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Visit_Doctor"
-                      value="Not Sure"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Not Sure </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    17e. During the last 12 months, how many times did you need
-                    to visit a doctor for your asthma?{" "}
-                  </label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="times_visit"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    18. Have you ever needed to go to the Casualty Clinic
-                    (Accident &Emergency Dept), doctor's office, because of an
-                    asthma attack?
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Casualty"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Casualty"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Casualty"
-                      value="Not Sure"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Not Sure </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    18b If yes to question 18a above, How many times in the last
-                    12months?{" "}
-                  </label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="times_12months"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    18c Have you ever been hospitalized overnight because of an
-                    asthmatic attack?
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Hospitalized"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Hospitalized"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Hospitalized"
-                      value="Not Sure"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Not Sure </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    19. Have you ever taken herbal /local medication for your
-                    asthma before?
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Herbal"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Herbal"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Herbal"
-                      value="Not Sure"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Not Sure </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <label>
-                20. Have you ever taken any of the following medications?
-              </label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (a) Bronchodilator inhaler
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Bronchodilator_inhaler"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Bronchodilator_inhaler"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (b) Steroid inhaler</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Steroid_inhaler"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Steroid_inhaler"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (c) Bronchodilator nebulised
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Bronchodilator_nebulised"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Bronchodilator_nebulised"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (d) Oral steroid</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Oral_steroid"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Oral_steroid"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      {" "}
-                      (e) Oral bronchodilators
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Oral_bronchodilators"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Oral_bronchodilators"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> (f) Others</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Other_Medication"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Other_Medication"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="specify_other_medication"
-                    type="text"
-                    placeholder="Specify"
-                  />
-                </p>
-              </div>
-            </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    21. During the last 12 months, how many times have you
-                    needed steroids by mouth or injection, such as prednisone{" "}
-                  </label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="age_diagnosis"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    {" "}
-                    22 Have you ever smoked cigarette? (Yes means more than 2
-                    cigarette in a week for a year)
-                  </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Smoked"
-                      value="No"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> No</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Smoked"
-                      value="Yes (in the past)"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Yes (in the past) </span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Smoked"
-                      value="Yes (Currently) "
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>Yes (Currently) </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <h3>
-              <b>23 Other Symptoms</b>
-            </h3>
-            <div className="field">
-              <label>RESPIRATION</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Chest pain</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Chest_pain"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Chest_pain"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Haemoptysis</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Haemoptysis"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Haemoptysis"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Sputum production</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Sputum"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Sputum"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label>CARDIOVASCULAR</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Dyspnoea on exertion</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dyspnoea_on_exertion"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dyspnoea_on_exertion"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Palpitation</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Palpitation"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Palpitation"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Orthopnoea</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Orthopnoea"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Orthopnoea"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">
-                      Paroxysmal Nocturnal Dyspnoea
-                    </label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Paroxysmal_Nocturnal_Dyspnoea"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Paroxysmal_Nocturnal_Dyspnoea"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Leg swelling</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Leg_swelling"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Leg_swelling"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label>GASTROINTESTINAL</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Nausea</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Nausea"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Nausea"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Vomiting</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Vomiting"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Vomiting"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Abdominal pain</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Abdominal_pain"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Abdominal_pain"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Abdominal swelling</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Abdominal_swelling"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Abdominal_swelling"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Diarrhoea</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Diarrhoea"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Diarrhoea"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Constipation</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Constipation"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Constipation"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label>GENITOURINARY</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Dysuria</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dysuria"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dysuria"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Urge incontinence</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Urge_incontinence"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Urge_incontinence"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Terminal dribbling</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Terminal_dribbling"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Terminal_dribbling"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Haematuria</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Haematuria"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Haematuria"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label>CENTRAL NERVOUS SYSTEM</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Headache</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Headache"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Headache"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Dizziness</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dizziness"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dizziness"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Seizures</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Seizures"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Seizures"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Tremors</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tremors"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Tremors"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label>ENDOCRINE</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Polyuria</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Polyuria"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Polyuria"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Polydipsia</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Polydipsia"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Polydipsia"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Polyphagia</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Polyphagia"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Polyphagia"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Weight loss</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Weight_loss"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Weight_loss"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Abnormal Weight gain</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Abnormal_Weight_gain"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Abnormal_Weight_gain"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Heat intolerance</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Heat_intolerance"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Heat_intolerance"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small">Cold intolerance</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cold_intolerance"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Cold_intolerance"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label>ENT</label>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Ear ache</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Ear_ache"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Ear_ache"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Ear Discharges</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Ear_Discharges"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Ear_Discharges"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Snoring</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Snoring"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Snoring"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="field is-horizontal">
-                <div className="field-body ml-3">
-                  <div className="field">
-                    <label className="is-small"> Dysphagia</label>
-                  </div>
-                  <div className="field">
-                    <label className=" is-small">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dysphagia"
-                        value="Yes"
-                        onChange={e => {
-                          handleChangePart(e);
-                        }}
-                      />
-                      <span> Yes</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                      <input
-                        type="radio"
-                        {...register("input_name")}
-                        name="Dysphagia"
-                        value="No"
-                        onChange={e => handleChangePart(e)}
-                      />
-                      <span>No </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <h3>
-              <b>24 Physical Examination</b>
-            </h3>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Height(cm)</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="height"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Weight (cm)</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="Weight"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Palour </label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Palour"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Palour"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Jaundice</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Jaundice"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Jaundice"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Cyanosis</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name=" Cyanosis"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name=" Cyanosis"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Pulse (beats/min)</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="height"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Blood Pressure (mmHg)</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="Blood_Pressure"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="is-small">
-                Other Cardiovascular system findings
-              </label>
-            </div>
-            <div className="field">
-              <textarea
-                className="textarea wt100 is-small"
-                {...register("input_name")}
-                name="Cardiovascular_findings"
-                type="text"
-                placeholder="Specify"
-              />
-            </div>
-
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Respiratory rate</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="respiraatory_rate"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Oxygen Saturation</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="oxygen_saturation"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Wheeze</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="wheeze_finding"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="wheeze_finding"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Crackles</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="crackles"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="crackles"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className="is-small">Other Respirtory findings</label>
-            </div>
-            <div className="field">
-              <textarea
-                className="textarea wt100 is-small"
-                {...register("input_name")}
-                name="respiratory_findings"
-                type="text"
-                placeholder="Specify"
-              />
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Urticaria</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="urticaria"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="urticaria"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Rash</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="rash"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="rash"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Hypopigmentation</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="hypopigmentation"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="hypopigmentation"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Hyperpigmentation</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="hyperpigmentation"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="hyperpigmentation"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className="is-small">Other skin findings</label>
-            </div>
-            <div className="field">
-              <textarea
-                className="textarea wt100 is-small"
-                {...register("input_name")}
-                name="skin_findings"
-                type="text"
-                placeholder="Specify"
-              />
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Hepatomegaly</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="hepatomegaly"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="hepatomegaly"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Splenomegaly</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="splenomegaly"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="splenomegaly"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Ascites</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="ascites"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="ascites"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="is-small">Other GIT findings</label>
-            </div>
-            <div className="field">
-              <textarea
-                className="textarea wt100 is-small"
-                {...register("input_name")}
-                name="GIT_findings"
-                type="text"
-                placeholder="Specify"
-              />
-            </div>
-            <div className="field">
-              <label className="is-small">
-                Other Physical examination findings
-              </label>
-            </div>
-            <div className="field">
-              <textarea
-                className="textarea wt100 is-small"
-                {...register("input_name")}
-                name="physical_exam_findings"
-                type="text"
-                placeholder="Specify"
-              />
-            </div>
-            <h3>
-              <b>Investigations</b>
-            </h3>
-            <h4>CBC</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ml-6">
-                {" "}
-                <div className="field ml-2">
-                  <h4>ABSOLUTE</h4>
-                </div>
-              </div>
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>PERCENTAGE</h4>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> PCV</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PCV_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PCV_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> WBC</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="WBC_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="WBC_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">NEUTROPHIL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="NEUTROPHIL_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="NEUTROPHIL_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">LYMPHOCYTE</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="LYMPHOCYTE_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="LYMPHOCYTE_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">EOSINOPHIL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EOSINOPHIL_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EOSINOPHIL_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> BASOPHIL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="BASOPHIL_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="BASOPHIL_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">MONOCYTE</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="MONOCYTE_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="MONOCYTE_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <h4>SPIROMETRY</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ml-6">
-                {" "}
-                <div className="field ml-2">
-                  <h4>VALUE</h4>
-                </div>
-              </div>
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>PERCENTAGE PREDICTED</h4>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FEV1</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FVC</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FVC_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FVC_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FEV1%</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_percent_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_precent_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FEF25-75</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEF25-75_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEF25-75_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">PEFR</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PEFR_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PEFR_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <h4>ALLERGY SKIN TESTING</h4>
-            <input
-              className="input is-small is-hidden"
-              {...register("input_name")}
-              name="Allergy_Skin_Test"
-              type="text"
-              placeholder="Specify"
+            <Box>
+                  <Typography variant='subtitle1'>21. During the last 12 months, how many times have you
+                    needed steroids by mouth or injection, such as prednisone</Typography>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="specify_other_medication"
+                  type="text"
+                />
+                </Box>
+                </Box>
+                
+            <Box>
+              <Typography variant="subtitle1">22. Have you ever smoked cigarette? (Yes means more than 2 cigarette in a week for a year)</Typography>
+              <Box>
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "No",
+                    "Yes(in the past)",
+                    "Yes(Currently)",
+                 ]}
             />
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> ALLERGINE</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={allergine}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setAllergine(e.target.value);
-                      }}
-                      name="allergine"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">REACTION</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={reaction}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setReaction(e.target.value);
-                      }}
-                      name="reaction"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-              <div className="field">
-                <div className="control">
-                  <div
-                    className="button is-success is-small selectadd"
-                    onClick={handleAdd}
-                  >
-                    Add
-                  </div>
-                </div>
-              </div>
-            </div>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
+              </Box>
+    </Box>
+    
+            <Box>
+              <Typography variant="subtitle1">23. <b>Other Symptoms</b></Typography>
+              <Typography variant='subtitle2'>RESPIRATION</Typography> 
+              <Box>  
+              <Typography variant='subtitle1'>Chest pain</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+              <Box>  
+              <Typography variant='subtitle1'>Haemoptysis</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
 
-                  <th>
-                    <abbr title="Type"> ALLERGINE</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Destination">REACTION</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {allergies.map((ProductEntry, i) => (
-                  <tr key={i}>
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.allergine}</td>
-                    <td>{ProductEntry.reaction}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">SERUM IGE LEVEL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="IGE_Level"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">
-                    FRACTION EXHALED NITRIC OXIDE (FeNO)
-                  </label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FeNo"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
+              <Box>  
+              <Typography variant='subtitle1'>Sputum production</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+              <Box>  
+              <Typography variant='subtitle1'>CARDIOVASCULAR</Typography> 
+              <Typography variant='subtitle1'>Dyspnoea on exertion</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+              <Box>  
+              <Typography variant='subtitle1'>Palpitation</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
 
-            {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Education" type="text" placeholder="Hihest Level of Education" />           
-                        </p> */}
 
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+              <Box>  
+              <Typography variant='subtitle1'>Orthopnoea</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+              <Box>  
+              <Typography variant='subtitle1'>Paroxysmal Nocturnal Dyspnoea</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Leg swelling</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+              <Box>  
+              <Typography variant='subtitle1'>GASTROINTESTINAL
+Nausea</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Vomiting</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Abdominal pain</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+         
+              <Box>  
+              <Typography variant='subtitle1'>Abdominal swelling</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Diarrhoea</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Constipation</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>GENITOURINARY
+Dysuria</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Urge incontinence</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Terminal dribbling</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Haematuria</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>CENTRAL NERVOUS SYSTEM
+Headache</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Dizziness</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Seizures</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Tremors</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>ENDOCRINE Polyuria</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Polydipsia</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Polyphagia</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Weight loss</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Abnormal Weight gain</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Heat intolerance</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Cold intolerance</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>ENT
+Ear ache</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Ear Discharges</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Snoring</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+
+              <Box>  
+              <Typography variant='subtitle1'>Dysphagia</Typography> 
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+              </Box>
+             </Box>
+            
+              <Box>
+              <Typography variant="subtitle1">24. <b>Physical Examination</b></Typography>
+              <Typography variant='subtitle1'>Height(cm)</Typography>
+               
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="height"
+                  type="text"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>Weight (cm)</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="weight"
+                  type="text"
                 />
-                <span> Final </span>
-              </label>
-            </div>
+                </Box>
+            </Box>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-warning is-small" type="reset">
-                  Cancel
-                </button>
-              </p>
-            </div>
+           <Box>
+              <Typography variant='subtitle1'>Palour</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Jaundice</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Cyanosis</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+              <Box>
+              <Typography variant='subtitle1'>Pulse (beats/min)</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="pulse"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>Blood Pressure (mmHg)</Typography> 
+                <Box>
+                <Input
+                  label="Blood Pressure (mmHg)"
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>Other Cardiovascular system findings</Typography> 
+                <Box>
+                <Textarea
+                  label="Specify"
+                  register={register("input_name")}
+                  name="respiraatory_rate"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>Respiratory rate</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="respiraatory_rate"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>Oxygen Saturation</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+
+
+           <Box>
+              <Typography variant='subtitle1'>Wheeze</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Crackles</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+              <Typography variant='subtitle1'>Other Respirtory findings</Typography> 
+                <Box>
+                <Textarea
+                  label="Specify"
+                  register={register("input_name")}
+                  name="respiraatory_rate"
+                  type="text"
+                />
+                </Box>
+
+
+           <Box>
+              <Typography variant='subtitle1'>Urticaria</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Rash</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+
+
+           <Box>
+              <Typography variant='subtitle1'>Hypopigmentation</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Hyperpigmentation</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+              <Box>
+              <Typography variant='subtitle1'>Other skin findings</Typography> 
+                <Box>
+                <Textarea
+                  label="Specify"
+                  register={register("input_name")}
+                  name="respiraatory_rate"
+                  type="text"
+                />
+                </Box>
+
+
+           <Box>
+              <Typography variant='subtitle1'>Hepatomegaly</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Splenomegaly</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+           <Box>
+              <Typography variant='subtitle1'>Ascites</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Yes",
+                    "No"
+                  ]}
+            />
+    </Box>
+            <Box>
+              <Typography variant='subtitle1'>Other GIT findings</Typography> 
+                <Box>
+                <Textarea
+                  label="Specify"
+                  register={register("input_name")}
+                  name="respiraatory_rate"
+                  type="text"
+                />
+                </Box>
+              <Box>
+              <Typography variant='subtitle1'>Other Physical examination findings</Typography> 
+                <Box>
+                <Textarea
+                  label="Specify"
+                  register={register("input_name")}
+                  name="respiraatory_rate"
+                  type="text"
+                />
+                </Box>          
+              <Typography variant="subtitle1"><b>Investigations</b></Typography>
+              <Typography variant="subtitle1"><b>CBC</b></Typography>
+              <Typography variant="subtitle1"><b>ABSOLUTE</b></Typography>
+              <Typography variant="subtitle1"><b>PERCENTAGE</b></Typography>      
+              <Box>
+              <Typography variant='subtitle1'>PVC</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+              </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>WBC</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+              </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>NEUTROPHIL</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>LYMPHOCYTE</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>EOSINOPHIL</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>BASOPHIL</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>MONOCYTE</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+            <Box>
+              <Typography variant="subtitle1"><b>SPIROMETRY</b></Typography>
+              <Typography variant="subtitle1"><b>VALUE</b></Typography>
+              <Typography variant="subtitle1"><b>PERCENTAGE PREDICTED</b></Typography>      
+              <Box>
+              <Typography variant='subtitle1'>FEV1</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+              </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>FVC</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+              </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>FEV1%</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>FEV1%</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>FEF25-75</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>PEFR</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+            </Box>
+            </Box>
+
+              <Box>
+              <Typography variant='subtitle1'>ALLERGY SKIN TESTING</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>ALLERGINE</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>REACTION</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+          <Box sx={{
+            marginBlock: "1rem"
+          }}> 
+          <Button variant="contained" type="button" onClick={handleAdd}>Add</Button>
+  </Box>
+  <Box sx={{marginBlock:"1rem"}}>
+      <Table sx={{ minWidth: 150 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>S/No</TableCell>
+            <TableCell align="right">ALLERGINE</TableCell> 
+            <TableCell align="right">REACTION</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {allergies.map((ProductEntry, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {i + 1}
+              </TableCell>
+              <TableCell align="right">{ProductEntry.allergine}</TableCell>
+              <TableCell align="right">{ProductEntry.reaction}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+  </Box>
+         
+              <Box>
+              <Typography variant='subtitle1'>SERUM IGE LEVEL</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>FRACTION EXHALED NITRIC OXIDE (FeNO)</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+            
+           <Box>
+              <Typography variant='subtitle1'>Splenomegaly</Typography>   
+                <RadioButton
+                  register={register("input_name")}
+                  options={[
+                    "Draft",
+                    "Final"
+                  ]}
+            />
+    </Box>
+    <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+    </Box>
           </form>
         </div>
       </div>

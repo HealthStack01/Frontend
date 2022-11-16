@@ -4,7 +4,7 @@ export const McText = ({ txt, color, bold, type, size }) => {
     <Typography
       variant={type}
       style={{
-        color: color,
+        color: '#0064CC',
         fontWeight: bold ? '700' : 'normal',
       }}
       fontSize={size}

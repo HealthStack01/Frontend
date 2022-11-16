@@ -5,7 +5,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 import { formatDistanceToNowStrict, format } from 'date-fns';
 import ClientFinInfo from './ClientFinInfo';
 import BillServiceCreate from '../Finance/BillServiceCreate';
@@ -19,7 +19,7 @@ import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import moment from 'moment';
-import ModalBox from './modal/index';
+import ModalBox from '../../components/modal/';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import { Box, Grid, Typography } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
@@ -34,6 +34,12 @@ import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import { EnrolleSchema } from './schema';
 import ClientForm from '../Client/ClientForm';
+import {
+  BottomWrapper,
+  GridWrapper,
+  HeadWrapper,
+  ViewBox,
+} from '../app/styles';
 
 var random = require('random-string-generator');
 // eslint-disable-next-line
@@ -45,6 +51,8 @@ export default function Policy() {
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+
+  console.log(showModal2, 'showModal2');
 
   return (
     <section className="section remPadTop">
@@ -61,7 +69,11 @@ export default function Policy() {
           />
         </ModalBox>
       )}
-      <ClientForm open={showModal2} setOpen={() => setShowModal2(false)} />
+      {showModal2 && (
+        <ModalBox open={showModal2} onClose={() => setShowModal2(false)}>
+          <ClientCreate />
+        </ModalBox>
+      )}
     </section>
   );
 }
@@ -972,7 +984,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
     return () => {};
   }, []);
 
-  console.log('==================', state?.Beneficiary?.dependent);
+  console.log('==================', state.Beneficiary?.principal);
 
   return (
     <>
@@ -990,7 +1002,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                   width: '50%',
                 }}
               >
-                Add Enrolle
+                Add Principal
               </Button>
               <Button
                 onClick={handleClickProd2}
@@ -1074,7 +1086,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             <CustomTable
               title={''}
               columns={EnrolleSchema}
-              data={facilities}
+              data={state.Beneficiary?.principal}
               pointerOnHover
               highlightOnHover
               striped
@@ -1082,18 +1094,18 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               progressPending={loading}
             />
           )}
-          {/* {state.Beneficiary.dependent.length > 0 && ( */}
-          <CustomTable
-            title={''}
-            columns={EnrolleSchema}
-            data={state?.Beneficiary?.dependent}
-            pointerOnHover
-            highlightOnHover
-            striped
-            onRowClicked={() => handleRow()}
-            progressPending={loading}
-          />
-          {/* )} */}
+          {state.Beneficiary.dependent.length > 0 && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema}
+              data={state.Beneficiary.dependent}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => handleRow()}
+              progressPending={loading}
+            />
+          )}
         </form>
       </div>
     </>
@@ -1331,12 +1343,7 @@ export function ClientCreate({ closeModal }) {
   };
   const onSubmit = async (data, e) => {
     if (!date) {
-      toast({
-        message: 'Please enter Date of Birth! ',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error('Please enter Date of Birth! ');
 
       return;
     }
@@ -1372,12 +1379,7 @@ export function ClientCreate({ closeModal }) {
           e.target.reset();
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
-          toast({
-            message: 'Client created succesfully',
-            type: 'is-success',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.success('Client created succesfully');
           setSuccess(false);
           setPatList([]);
           setDependant(false);
@@ -1416,12 +1418,7 @@ export function ClientCreate({ closeModal }) {
           closeModal();
         })
         .catch((err) => {
-          toast({
-            message: 'Error creating Client ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error('Error creating Client ' + err);
           setPatList([]);
           setDependant(false);
         });
@@ -1436,898 +1433,148 @@ export function ClientCreate({ closeModal }) {
 
   return (
     <>
-      <div className="card ">
+      <div
+        style={{
+          height: '80vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <ModalHeader text={'Create Enrolle'} />
-              <p>
-                Create a New enrolle by filling out the form below to get
-                started.
-              </p>
-            </Grid>
-          </Grid>
+          {/* Names Section */}
 
-          <McText
-            txt={'NAME'}
-            color={'#0064CC'}
-            type={'p'}
-            bold={'700'}
-            size={'18px'}
-          />
+          <ViewBox>
+            <h2>Names</h2>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <GridWrapper>
               <Input
-                name="firstname"
                 label="First Name"
-                register={register('firstname', { required: true })}
-                onBlur={checkClient}
+                register={register('firstname')}
+                // errorText={errors?.firstname?.message}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
               <Input
-                name="middlename"
                 label="Middle Name"
-                register={register('middlename', { required: true })}
-                onBlur={checkClient}
+                register={register('middlename')}
+                // errorText={errors?.middlename?.message}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
               <Input
-                name="lastname"
                 label="Last Name"
-                register={register('lastname', { required: true })}
-                onBlur={checkClient}
+                register={register('lastname')}
+                // errorText={errors?.lastname?.message}
               />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'BIO DATA'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            spacing={2}
-            style={{
-              alignItems: 'center',
-            }}
-          >
-            <Grid item xs={12} sm={3}>
               <BasicDatePicker
-                name={'Date of Birth'}
-                label={'Date of Birth'}
+                label="Date of Birth"
+                register={register('dob')}
                 onChange={(date) => handleDate(date)}
-                selected={date}
+                // errorText={errors?.dob?.message}
               />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <RadioButton
-                name="gender"
-                title="Gender"
-                options={[
-                  {
-                    label: 'Male',
-                    value: 'male',
-                  },
-                  {
-                    label: 'Female',
-                    value: 'female',
-                  },
-                ]}
-                register={register('gender', { required: true })}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
+            </GridWrapper>
+          </ViewBox>
+          {/* Biodata Section */}
+
+          <ViewBox>
+            <h2>Biodata</h2>
+
+            <GridWrapper>
               <CustomSelect
-                name="maritalstatus"
+                label="Gender"
+                register={register('gender')}
+                options={[
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female' },
+                ]}
+              />
+              <CustomSelect
                 label="Marital Status"
-                options={[
-                  {
-                    label: 'Single',
-                    value: 'single',
-                  },
-                  {
-                    label: 'Married',
-                    value: 'married',
-                  },
-                  {
-                    label: 'Divorced',
-                    value: 'divorced',
-                  },
-                  {
-                    label: 'Widowed',
-                    value: 'widowed',
-                  },
-                ]}
                 register={register('maritalstatus')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <CustomSelect
-                name="religion"
-                label="Religion"
                 options={[
-                  {
-                    label: 'Christianity',
-                    value: 'christianity',
-                  },
-                  {
-                    label: 'Islam',
-                    value: 'islam',
-                  },
-                  {
-                    label: 'Others',
-                    value: 'others',
-                  },
+                  { label: 'Single', value: 'Single' },
+                  { label: 'Married', value: 'Married' },
                 ]}
-                register={register('religion')}
               />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+              <Input label="Medical record Number" register={register('mrn')} />
+              <Input label="Religion" register={register('religion')} />
+              <Input label="Profession" register={register('profession')} />
               <Input
-                name="mrn"
-                label="Medical Records Number"
-                register={register('mrn')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="profession"
-                label="Profession"
-                register={register('profession')}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="phone"
-                label="Phone Number"
+                label="Phone No"
                 register={register('phone')}
+                // errorText={errors?.phone?.message}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
               <Input
-                name="phone2"
-                label="Phone Number 2 (Optional)"
-                register={register('phone2')}
+                label="Email"
+                register={register('email')}
+                // errorText={errors?.email?.message}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input name="email" label="Email" register={register('email')} />
-            </Grid>
-          </Grid>
+              <Input label="Tags" register={register('clientTags')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Address */}
+          <ViewBox>
+            <h2>Addresses</h2>
 
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'ADDRESS'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="country"
-                label="Country"
-                options={CustomSelectData}
-                register={register('country')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="state"
-                label="State"
-                options={CustomSelectData}
-                register={register('state')}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="lga"
-                label="Local Government Area"
-                options={CustomSelectData}
-                register={register('lga')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="city"
-                label="Town/City"
-                options={CustomSelectData}
-                register={register('city')}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
+            <GridWrapper>
               <Input
-                name="neighborhood"
-                label="Neighborhood"
-                register={register('neighborhood')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="address"
-                label="Street Address"
+                label="Residential Address"
                 register={register('address')}
               />
-            </Grid>
-          </Grid>
+              <Input label="Town/City" register={register('city')} />
+              <Input label="Local Govt Area" register={register('lga')} />
+              <Input label="State" register={register('state')} />
+              <Input label="Country" register={register('country')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Medical Data */}
+          <ViewBox>
+            <h2>Medical Data</h2>
 
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'OTHER DETAILS'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <GridWrapper>
+              <Input label="Blood Group" register={register('bloodgroup')} />
+              <Input label="Genotype" register={register('genotype')} />
+              <Input label="Disabilities" register={register('disabilities')} />
+              <Input label="Allergies" register={register('allergies')} />
               <Input
-                name="medicalData"
-                label="Medical Data"
-                placeholder="Enter your resident address here"
-                register={register('medicalData')}
+                label="Co-mobidities"
+                register={register('comorbidities')}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
               <Input
-                name="clientTags"
-                label="Tags"
-                placeholder="Tags"
-                register={register('clientTags')}
+                label="Specific Details "
+                register={register('specificDetails')}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="otherBioData"
-                label="Other Bio Data"
-                register={register('otherBioData')}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="nextOfKin"
-                label="Next of Kin"
-                register={register('nextOfKin')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="nonHospitalIdentifiers"
-                label="Non Hospital Identifiers"
-                register={register('nonHospitalIdentifiers')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4} my={1.5}>
-              <CustomSelect
-                name="paymentInfo"
-                label="Payment Information"
-                options={CustomSelectData}
-                register={register('paymentInfo')}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={4}>
-              <CustomSelect
-                name="assignToCareTeam"
-                label="Assign to Care Team"
-                options={CustomSelectData}
-                register={register('assignToCareTeam')}
-              />
-            </Grid>
-          </Grid>
+            </GridWrapper>
+          </ViewBox>
+          {/* Next of Kin Information */}
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
 
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'NEXT OF KIN'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
+            <GridWrapper>
+              <Input label="Full Name" register={register('nok_name')} />
+              <Input label="Phone Number" register={register('nok_phoneno')} />
+              <Input label=" Email" register={register('nok_email')} />
               <Input
-                name="nok_name"
-                label="Full Name"
-                register={register('nok_name')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="nok_phoneno"
-                label="Phone Number"
-                register={register('nok_phoneno')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="nok_email"
-                label="Email"
-                register={register('nok_email')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="nok_relationship"
                 label="Relationship"
                 register={register('nok_relationship')}
               />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'NON-HOSPITAL IDENTIFIERS'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
               <Input
-                name="nin"
-                label="National ID Number"
-                register={register('nin')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="passport"
-                label="International Passport Number"
-                register={register('passport')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="voters"
-                label="Voters Card Number"
-                register={register('voters')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="drivers"
-                label="Drivers License Number"
-                register={register('drivers')}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'PAYMENT INFORMATION'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="accountName"
-                label="Account Holder Name"
-                register={register('accountName')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input name="bank" label="Bank" register={register('bank')} />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <Input
-                name="accountNumber"
-                label="Account Number"
-                register={register('accountNumber')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <CustomSelect
-                name="paymentMethod"
-                label="Payment Method"
-                options={CustomSelectData}
-                register={register('paymentMethod')}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <McText
-                txt={'MEDICAL DATA'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="bloodGroup"
-                label="Blood Group"
-                register={register('bloodGroup')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="genotype"
-                label="Genotype"
-                register={register('genotype')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="disabilities"
-                label="Disabilities"
-                register={register('disabilities')}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="allergies"
-                label="Allergies"
-                register={register('allergies')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="comorbidities"
-                label="Co-morbidities"
+                label="Co-mobidities"
                 register={register('comorbidities')}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              {/* <Input
-                name="specificDetails"
-                label="Specific Details about Patient"
-                register={register('specificDetails')}
-              /> */}
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
-              <Textarea
-                label="Specific Details about Patient"
-                name="specificDetails"
+              <Input
+                label="Specific Details "
                 register={register('specificDetails')}
               />
-            </Grid>
-          </Grid>
+            </GridWrapper>
+          </ViewBox>
 
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="button"
-                onClick={(e) => e.target.reset()}
-                style={{
-                  backgroundColor: '#ffffff',
-                  width: '100%',
-                  color: '#0364FF',
-                  border: '1px solid #0364FF',
-                  cursor: 'pointer',
-                }}
-              >
-                Clear
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="button"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                onClick={() => setShowdept(true)}
-              >
-                Next
-              </Button>
-            </Grid>
-          </Grid>
-          {/* ------------------------------------------Dependent Modal----------------------------------------------------- */}
-          {showdept && (
-            <ModalBox open={showdept} onClose={() => setShowdept(false)}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12}>
-                  <ModalHeader text={'Dependents'} />
-                  <p>
-                    Add dependents by filling out the form below to get started.
-                  </p>
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} mt={3}>
-                <Grid item xs={12} sm={12}>
-                  <McText
-                    txt={'Spouse'}
-                    color={'#0064CC'}
-                    type={'p'}
-                    bold={'700'}
-                    size={'18px'}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  alignItems: 'center',
-                }}
-              >
-                <Grid item xs={12} sm={4}>
-                  <BasicDatePicker
-                    name="spouseDob"
-                    label="Date of Birth"
-                    register={register('spouseDob')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <RadioButton
-                    name="spouseGender"
-                    title="Gender"
-                    options={[
-                      {
-                        label: 'Male',
-                        value: 'male',
-                      },
-                      {
-                        label: 'Female',
-                        value: 'female',
-                      },
-                    ]}
-                    register={register('spouseGender')}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} mt={3}>
-                <Grid item xs={12} sm={12}>
-                  <McText
-                    txt={'Child 1'}
-                    color={'#0064CC'}
-                    type={'p'}
-                    bold={'700'}
-                    size={'18px'}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  alignItems: 'center',
-                }}
-              >
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child1firstName"
-                    label="First Name"
-                    register={register('child1firstName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child1MiddleName"
-                    label="Middle Name"
-                    register={register('child1MiddleName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child1LastName"
-                    label="Last Name"
-                    register={register('child1LastName')}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <BasicDatePicker
-                    name="child1Dob"
-                    label="Date of Birth"
-                    register={register('child1Dob')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <RadioButton
-                    name="child1Gender"
-                    title="Gender"
-                    options={[
-                      {
-                        label: 'Male',
-                        value: 'male',
-                      },
-                      {
-                        label: 'Female',
-                        value: 'female',
-                      },
-                    ]}
-                    register={register('child1Gender')}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} mt={3}>
-                <Grid item xs={12} sm={12}>
-                  <McText
-                    txt={'Child 2'}
-                    color={'#0064CC'}
-                    type={'p'}
-                    bold={'700'}
-                    size={'18px'}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  alignItems: 'center',
-                }}
-              >
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child2firstName"
-                    label="First Name"
-                    register={register('child2firstName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child2MiddleName"
-                    label="Middle Name"
-                    register={register('child2MiddleName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child2LastName"
-                    label="Last Name"
-                    register={register('child2LastName')}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <BasicDatePicker
-                    name="child2Dob"
-                    label="Date of Birth"
-                    register={register('child2Dob')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <RadioButton
-                    name="child2Gender"
-                    title="Gender"
-                    options={[
-                      {
-                        label: 'Male',
-                        value: 'male',
-                      },
-                      {
-                        label: 'Female',
-                        value: 'female',
-                      },
-                    ]}
-                    register={register('child2Gender')}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} mt={3}>
-                <Grid item xs={12} sm={12}>
-                  <McText
-                    txt={'Child 3'}
-                    color={'#0064CC'}
-                    type={'p'}
-                    bold={'700'}
-                    size={'18px'}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  alignItems: 'center',
-                }}
-              >
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child3firstName"
-                    label="First Name"
-                    register={register('child3firstName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child3MiddleName"
-                    label="Middle Name"
-                    register={register('child3MiddleName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child3LastName"
-                    label="Last Name"
-                    register={register('child3LastName')}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <BasicDatePicker
-                    name="child3Dob"
-                    label="Date of Birth"
-                    register={register('child3Dob')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <RadioButton
-                    name="child3Gender"
-                    title="Gender"
-                    options={[
-                      {
-                        label: 'Male',
-                        value: 'male',
-                      },
-                      {
-                        label: 'Female',
-                        value: 'female',
-                      },
-                    ]}
-                    register={register('child3Gender')}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} mt={3}>
-                <Grid item xs={12} sm={12}>
-                  <McText
-                    txt={'Child 4'}
-                    color={'#0064CC'}
-                    type={'p'}
-                    bold={'700'}
-                    size={'18px'}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  alignItems: 'center',
-                }}
-              >
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child4firstName"
-                    label="First Name"
-                    register={register('child4firstName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child4MiddleName"
-                    label="Middle Name"
-                    register={register('child4MiddleName')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Input
-                    name="child4LastName"
-                    label="Last Name"
-                    register={register('child4LastName')}
-                  />
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  alignItems: 'center',
-                }}
-              >
-                <Grid item xs={12} sm={6}>
-                  <BasicDatePicker
-                    name="child4Dob"
-                    label="Date of Birth"
-                    register={register('child4Dob')}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <RadioButton
-                    name="child4Gender"
-                    title="Gender"
-                    options={[
-                      {
-                        label: 'Male',
-                        value: 'male',
-                      },
-                      {
-                        label: 'Female',
-                        value: 'female',
-                      },
-                    ]}
-                    register={register('child4Gender')}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} mt={2}>
-                <Grid item xs={12} sm={12} md={4} lg={3}>
-                  <Button
-                    type="button"
-                    onClick={(e) => e.target.reset()}
-                    style={{
-                      backgroundColor: '#ffffff',
-                      width: '100%',
-                      color: '#0364FF',
-                      border: '1px solid #0364FF',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={12} md={4} lg={3}>
-                  <Button
-                    type="submit"
-                    style={{
-                      backgroundColor: '#0364FF',
-                      width: '100%',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-              </Grid>
-            </ModalBox>
-          )}
+          <BottomWrapper>
+            <Button
+              label="Close"
+              background="#FFE9E9"
+              color="#ED0423"
+              onClick={() => setOpen(false)}
+            />
+            <Button label="Save Form" type="submit" />
+          </BottomWrapper>
         </form>
       </div>
     </>
