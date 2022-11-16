@@ -66,7 +66,7 @@ export default function Dispense() {
         onClose={handleCloseCreateModal}
         header="Point of Sale: Sales, Dispense, Audit, Transfer out"
       >
-        <ProductExitCreate />
+        <ProductExitCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
     </section>
   );
