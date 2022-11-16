@@ -32,6 +32,7 @@ import DataTable from "react-data-table-component";
 import { customStyles } from "../../components/customtable/styles";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import ClientFinInfo from "./ClientFinInfo";
+import { AppointmentCreate } from "./Appointments";
 
 const ClientView = ({ open, setOpen, user }) => {
   const ClientServ = client.service("client");
@@ -257,12 +258,12 @@ const ClientView = ({ open, setOpen, user }) => {
       >
         <ClientFinInfo />
       </ModalBox>
-      <ModalBox
+      {/* <ModalBox
         open={appointmentModal}
         onClose={() => setAppointmentModal(false)}
       >
         <AppointmentCreate />
-      </ModalBox>
+      </ModalBox> */}
 
       <div style={{ height: "80vh", overflowY: "scroll" }}>
         <HeadWrapper>
