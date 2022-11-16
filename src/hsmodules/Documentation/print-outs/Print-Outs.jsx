@@ -10,11 +10,9 @@ export const PrintOutFixedInformation = ({Clinic}) => {
   const {state, setState} = useContext(ObjectContext);
 
   const patient = state.ClientModule.selectedClient;
+  const facility = state.facilityModule.selectedFacility;
 
-  //console.log(patient);
-
-  //  {Clinic.documentname} by {Clinic.createdByname} at{" "}
-  //                       {Clinic.location},{Clinic.facilityname} -{" "}
+  //console.log(Clinic);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -252,28 +250,29 @@ export const PrintOutFixedInformation = ({Clinic}) => {
             </Grid>
           )}
 
-          {patient.address && (
-            <Grid item xs={12}>
-              <Box sx={{display: "flex"}}>
-                <Typography
-                  sx={{
-                    fontSize: "0.75rem",
-                    fontWeight: "600",
-                    color: "#03045e",
-                    marginRight: "5px",
-                  }}
-                >
-                  Address:
-                </Typography>
+          <Grid item xs={12}>
+            <Box sx={{display: "flex"}}>
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color: "#03045e",
+                  marginRight: "5px",
+                }}
+              >
+                Address:
+              </Typography>
 
-                <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                  {patient.address}
-                </Typography>
-              </Box>
-            </Grid>
-          )}
+              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                {patient.address}
+                {patient.address && ","} {patient.city}
+                {patient.city && ","} {patient.state}
+                {patient.state && ","} {patient.country}.
+              </Typography>
+            </Box>
+          </Grid>
 
-          {patient.city && (
+          {/* {patient.city && (
             <Grid item xs={4}>
               <Box sx={{display: "flex"}}>
                 <Typography
@@ -292,8 +291,8 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                 </Typography>
               </Box>
             </Grid>
-          )}
-
+          )} */}
+          {/* 
           {patient.state && (
             <Grid item xs={4}>
               <Box sx={{display: "flex"}}>
@@ -313,9 +312,9 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                 </Typography>
               </Box>
             </Grid>
-          )}
+          )} */}
 
-          {patient.country && (
+          {/* {patient.country && (
             <Grid item xs={4}>
               <Box sx={{display: "flex"}}>
                 <Typography
@@ -334,7 +333,7 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                 </Typography>
               </Box>
             </Grid>
-          )}
+          )} */}
         </Grid>
       </Box>
 
@@ -394,7 +393,7 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                     marginRight: "5px",
                   }}
                 >
-                  Time Create:
+                  Time Created:
                 </Typography>
 
                 <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
