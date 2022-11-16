@@ -40,6 +40,14 @@ export default function SLA() {
   return (
     <section className="section remPadTop">
       <SLAList showModal={showModal} setShowModal={setShowModal} />
+
+      <ModalBox
+        open={createModal}
+        onClose={() => setCreateModal(false)}
+        header="Create New Lead"
+      >
+        <SLACreate closeModal={() => setCreateModal(false)} />
+      </ModalBox>
     </section>
   );
 }
@@ -445,7 +453,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function SLAList({ showModal, setShowModal }) {
+export function SLAList({ openCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -767,7 +775,7 @@ export function SLAList({ showModal, setShowModal }) {
     }
   };
 
-  const LeadSchema = [
+  const SLASchema = [
     {
       name: "Company Name",
       key: "sn",
@@ -860,7 +868,7 @@ export function SLAList({ showModal, setShowModal }) {
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
-                    onClick={handleCreateNew}
+                    onClick={openCreateModal}
                   />
                 )}
               </TableMenu>
@@ -868,7 +876,7 @@ export function SLAList({ showModal, setShowModal }) {
                 {value === "list" ? (
                   <CustomTable
                     title={""}
-                    columns={LeadSchema}
+                    columns={SLASchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover
