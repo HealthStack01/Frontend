@@ -10,6 +10,7 @@ import { Box, Button, Collapse, Grid } from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Input from "../../components/inputs/basic/Input";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import CustomTable from "./ui-components/customtable";
 
 export default function ClientFinInfo({ closeModal }) {
   const { user } = useContext(UserContext);
@@ -288,10 +289,74 @@ export default function ClientFinInfo({ closeModal }) {
       value: "Company",
     },
   ];
+  const PaymentSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Type",
+      key: "paymentmode",
+      description: "First Name",
+      selector: (row) => row.paymentmode,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Principal",
+      key: "principalName",
+      description: "First Name",
+      selector: (row) => row.principalName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Organization",
+      key: "organizationName",
+      description: "First Name",
+      selector: (row) => row.organizationName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "HMO Agent",
+      key: "agentName",
+      description: "First Name",
+      selector: (row) => row.agentName,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Plan",
+      key: "plan",
+      description: "First Name",
+      selector: (row) => row.plan,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Active",
+      key: "active",
+      description: "First Name",
+      selector: (row) => (row.active ? "Yes" : "No"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
 
   return (
     <>
-      <Box sx={{ width: "500px" }}>
+      <Box sx={{ width: "750px" }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <CustomSelect
@@ -311,13 +376,18 @@ export default function ClientFinInfo({ closeModal }) {
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <input
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Input
                 className="input is-small"
                 name="clientid"
                 value={clientId}
                 type="text"
                 onChange={(e) => setClientId(e.target.value)}
                 style={{ display: "none" }}
+                label="Organization's client identifier"
               />
             </Grid>
           </Grid>
@@ -446,85 +516,37 @@ export default function ClientFinInfo({ closeModal }) {
             </Grid>
           </Grid>
         </Collapse>
-      </Box>
-
-      <div className="card card-overflow">
-        <div className="card-content ">
+        <Box style={{ overflow: "auto" }}>
           {productItem.length > 0 && (
-            <>
-              <label>Payment Options:</label>
-              <div className="vscrollable-acc">
-                <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                  <thead>
-                    <tr>
-                      <th>
-                        <abbr title="Serial No">S/No</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Type">Type</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Principal">Principal</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Organization">Organization</abbr>
-                      </th>
-                      <th>
-                        <abbr title="HMO">HMO Agent</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Plan">Plan</abbr>
-                      </th>
-                      <th>
-                        <abbr title="Active">Active</abbr>
-                      </th>
-                      {/*  */}
-                      {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                    </tr>
-                  </thead>
-                  <tfoot></tfoot>
-                  <tbody>
-                    {productItem.map((ProductEntry, i) => (
-                      <tr key={i}>
-                        <th>{i + 1}</th>
-                        <th>{ProductEntry.paymentmode}</th>
-                        <td>{ProductEntry.principalName}</td>
-                        <td>{ProductEntry.organizationName}</td>
-                        <td>{ProductEntry.agentName}</td>
-                        <td>{ProductEntry.plan}</td>
-                        <td>{ProductEntry.active ? "Yes" : "No"}</td>
-
-                        {/* <td>{ProductEntry.amount}</td> */}
-                        {/*  <td><span className="showAction"  >x</span></td> */}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="field mt-2 is-grouped">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={handlePayment}
-                  >
-                    Update
-                  </button>
-                </p>
-                <p className="control">
-                  <button
-                    className="button is-warning is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
-                  >
-                    Cancel
-                  </button>
-                </p>
-              </div>
-            </>
+            <CustomTable
+              title={""}
+              columns={PaymentSchema}
+              data={productItem}
+              pointerOnHover
+              highlightOnHover
+              striped
+              progressPending={false}
+            />
           )}
-        </div>
-      </div>
+        </Box>
+
+        <Button
+          variant="outlined"
+          onClick={handlePayment}
+          style={{ marginTop: "30px" }}
+          success={closeModal}
+        >
+          Update
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={onSubmit}
+          disabled={!productItem.length > 0}
+          style={{ marginTop: "30px" }}
+        >
+          Cancel
+        </Button>
+      </Box>
     </>
   );
 }
