@@ -1,152 +1,222 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
 import client from "../../feathers";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
-import { toast } from "bulma-toast";
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from "../../context";
-import { FacilitySearch } from "../helpers/FacilitySearch";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import FilterMenu from "../../components/utilities/FilterMenu";
+import Switch from "../../components/switch";
+import { BsFillGridFill, BsList } from "react-icons/bs";
+import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
+import { Box, Grid } from "@mui/material";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import { MdCancel } from "react-icons/md";
 
-export default function CorporateClient() {
+// eslint-disable-next-line
+const searchfacility = {};
+
+export default function Corporate() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
-  const [selectedFacility, setSelectedFacility] = useState();
-  const [success, setSuccess] = useState(false);
-
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
 
-  //console.log("Organization parent", state)
-
-  //corporate sponsors pay premium and not claims
-  //company pays claims and not premium
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Organization  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <CorporateList />
-        </div>
-        <div className="column is-4 ">
-          {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
-          {state.facilityModule.show === "detail" && <OrganizationDetail />}
-          {state.facilityModule.show === "modify" && (
-            <OrganizationModify facility={selectedFacility} />
-          )}
-        </div>
-      </div>
+      <CorporateList openCreateModal={() => setCreateModal(true)} />
     </section>
   );
 }
 
-//corporate sponsors pay premium and not claims
-//company pays claims and not premium
-
-export function CorporateCreate() {
-  const { register, handleSubmit } = useForm(); //, watch, errors, reset
+export function AppointmentCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [success1, setSuccess1] = useState(false);
+  const [success2, setSuccess2] = useState(false);
   const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
-  const [chosen, setChosen] = useState("");
-  const [band, setBand] = useState("");
-  const BandsServ = client.service("bands");
-  const [providerBand, setProviderBand] = useState([]);
+  const [clientId, setClientId] = useState();
+  const [locationId, setLocationId] = useState();
+  const [practionerId, setPractionerId] = useState();
+  const [type, setType] = useState();
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  // const [appointment_reason,setAppointment_reason]= useState()
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
+  const [billingModal, setBillingModal] = useState(false);
 
-  const handleChangeMode = async (e) => {
-    await setBand(e.target.value);
+  const [chosen, setChosen] = useState();
+  const [chosen1, setChosen1] = useState();
+  const [chosen2, setChosen2] = useState();
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+
+  let appointee; //  =state.ClientModule.selectedClient
+  /*  const getSearchfacility=(obj)=>{
+        setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+    } */
+  const handleChangeType = async (e) => {
+    await setAppointment_type(e.target.value);
   };
-  /* const onSubmit = (data,e) =>{
-        e.preventDefault();
-        setMessage("")
-        setError(false)
-        setSuccess(false)
-          data.createdby=user._id
-          //console.log(data);
-          
-        facilityServ.create(data)
-        .then((res)=>{
-                //console.log(JSON.stringify(res))
-                e.target.reset();
-                setMessage("Created Organization successfully")
-                setSuccess(true)
-            })
-            .catch((err)=>{
-                setMessage("Error creating facility, probable network issues "+ err )
-                setError(true)
-            })
 
-      }  */
-  const getProviderBand = async () => {
-    if (user.currentEmployee) {
-      const findServices = await BandsServ.find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          bandType: "Corporate Sponsor",
+  const handleChangeStatus = async (e) => {
+    await setAppointment_status(e.target.value);
+  };
 
-          // storeId:state.StoreModule.selectedStore._id,
-          // $limit:20,
-          //   paginate:false,
-          $sort: {
-            category: 1,
-          },
+  const getSearchfacility = (obj) => {
+    setClientId(obj._id);
+    setChosen(obj);
+    //handleRow(obj)
+    if (!obj) {
+      //"clear stuff"
+      setClientId();
+      setChosen();
+    }
+
+    /*  setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        }) */
+  };
+  const getSearchfacility1 = (obj) => {
+    setLocationId(obj._id);
+    setChosen1(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setLocationId();
+      setChosen1();
+    }
+  };
+  const getSearchfacility2 = (obj) => {
+    setPractionerId(obj._id);
+    setChosen2(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setPractionerId();
+      setChosen2();
+    }
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
+    }
+  });
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: "list",
         },
-      });
-      // console.log(findServices)
-      await setProviderBand(findServices.data);
-      // console.log(findServices)
-    }
-  };
+      }));
 
-  const handleClick = () => {
-    //check band selected
-    if (band === "") {
-      toast({
-        message: "Band not selected, Please select band",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
-      return;
+    // data.createdby=user._id
+    console.log(data);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
+    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
+    data.practitionerId = practionerId;
+    data.appointment_type = appointment_type;
+    // data.appointment_reason=appointment_reason
+    data.appointment_status = appointment_status;
+    data.clientId = clientId;
+    data.firstname = chosen.firstname;
+    data.middlename = chosen.middlename;
+    data.lastname = chosen.lastname;
+    data.dob = chosen.dob;
+    data.gender = chosen.gender;
+    data.phone = chosen.phone;
+    data.email = chosen.email;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_profession = chosen2.profession;
+    data.practitioner_department = chosen2.department;
+    data.location_name = chosen1.name;
+    data.location_type = chosen1.locationType;
+    data.actions = [
+      {
+        action: appointment_status,
+        actor: user.currentEmployee._id,
+      },
+    ];
+    console.log(data);
 
-    console.log(chosen);
-    let stuff = {
-      // possible to swap this nased on context
-      facility: user.currentEmployee.facilityDetail._id,
-      organization: chosen._id,
-      relationshiptype: "sponsor",
-      band,
-    };
-    orgServ
-      .create(stuff)
+    ClientServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        // e.target.reset();
+        e.target.reset();
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
+        /*  setMessage("Created Client successfully") */
         setSuccess(true);
+        setSuccess1(true);
+        setSuccess2(true);
         toast({
-          message: "Organization added succesfully",
+          message:
+            "Appointment created succesfully, Kindly bill patient if required",
           type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
-        setBand("");
+        setSuccess1(false);
+        setSuccess2(false);
+        // showBilling()
       })
       .catch((err) => {
         toast({
-          message: "Error adding organization " + err,
+          message: "Error creating Appointment " + err,
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
@@ -155,79 +225,228 @@ export function CorporateCreate() {
   };
 
   useEffect(() => {
-    // console.log("starting...")
-    getProviderBand();
+    getSearchfacility(state.ClientModule.selectedClient);
+
+    /* appointee=state.ClientModule.selectedClient 
+        console.log(appointee.firstname) */
     return () => {};
-  }, []);
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
+  }, [state.ClientModule.selectedClient]);
 
-    /*  setCategoryName(obj.categoryname)
-        setChosen2(obj) */
+  /*   const showBilling = () =>{
+        setBillingModal(true)
+       //history.push('/app/finance/billservice')
+        }
+        const  handlecloseModal1 = () =>{
+            setBillingModal(false)
+            }
 
-    if (!obj) {
-      //"clear stuff"
-      /*  setCategoryName("")
-             setChosen2() */
-    }
-  };
+
+            const handleRow= async(Client)=>{
+              //  await setSelectedClient(Client)
+                const    newClientModule={
+                    selectedClient:Client,
+                    show :'detail'
+                }
+               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
+            } */
 
   return (
     <>
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div
-            className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-          >
-            <FacilitySearch
-              getSearchfacility={getSearchfacility}
-              clear={success}
-            />
-            <p className="control has-icons-left " style={{ display: "none" }}>
-              <input
-                className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
+      <div className="card ">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={"Create Appointment"} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState((prevstate) => ({
+                      ...prevstate,
+                      AppointmentModule: {
+                        selectedAppointment: {},
+                        show: "list",
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: "2rem",
+                  color: "crimson",
+                  cursor: "pointer",
+                  float: "right",
+                }}
               />
-              <span className="icon is-small is-left">
-                <i className="fas  fa-map-marker-alt"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <div className="control">
-              <div className="select is-small ">
-                <select
-                  name="bandType"
-                  value={band}
-                  onChange={(e) => handleChangeMode(e)}
-                  className="selectadd"
-                >
-                  <option value="">Choose Corporate Sponsorship Type </option>
-                  {providerBand.map((option, i) => (
-                    <option key={i} value={option.name}>
-                      {" "}
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <ClientSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <LocationSearch
+                getSearchfacility={getSearchfacility1}
+                clear={success1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <div className="field ml-3 ">
+                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+                {appClass.map((c, i) => (
+                  <label
+                    className=" is-small"
+                    key={c}
+                    style={{ fontSize: "16px", fontWeight: "bold" }}
+                  >
+                    <input
+                      type="radio"
+                      value={c}
+                      name="appointmentClass"
+                      {...register("appointmentClass", { required: true })}
+                      style={{
+                        border: "1px solid #0364FF",
+                        transform: "scale(1.5)",
+                        color: "#0364FF",
+                        margin: ".5rem",
+                      }}
+                    />
+                    {c + " "}
+                  </label>
+                ))}
               </div>
-            </div>
-          </div>
-          <div className="field">
-            <p className="control">
-              <button className="button is-success is-small selectadd">
-                <span className="is-small" onClick={handleClick}>
-                  Add
-                </span>
-              </button>
-            </p>
-          </div>
-        </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <div className="field">
+                <input
+                  name="start_time"
+                  {...register("start_time", { required: true })}
+                  type="datetime-local"
+                  style={{
+                    border: "1px solid #0364FF",
+                    padding: "1rem",
+                    color: " #979DAC",
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="type"
+                value={type}
+                onChange={handleChangeType}
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                }}
+              >
+                <option defaultChecked>Choose Appointment Type </option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
+              </select>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="appointment_status"
+                value={appointment_status}
+                onChange={handleChangeStatus}
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                }}
+              >
+                <option defaultChecked>Appointment Status </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Checked In">Checked In</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
+                <option value="No Show">No Show</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                {...register("appointment_reason", { required: true })}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="10"
+                cols="50"
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                  width: "100%",
+                }}
+              >
+                {" "}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: "#0364FF",
+                  width: "100%",
+                  cursor: "pointer",
+                }}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                onClick={(e) => e.target.reset()}
+                style={{
+                  backgroundColor: "#ffffff",
+                  width: "100%",
+                  color: "#0364FF",
+                  border: "1px solid #0364FF",
+                  cursor: "pointer",
+                }}
+              >
+                Clear
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </div>
     </>
   );
 }
 
-export function CorporateList() {
+export function CorporateList({ openCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -235,813 +454,533 @@ export function CorporateList() {
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading] = useState(false);
-
   // eslint-disable-next-line
-  const [selectedFacility, setSelectedFacility] = useState(); //
+  const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
-  const { user } = useContext(UserContext);
+  // eslint-disable-next-line
+  const { user, setUser } = useContext(UserContext);
+  const [startDate, setStartDate] = useState(new Date());
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState("list");
 
   const handleCreateNew = async () => {
-    const newfacilityModule = {
-      selectedFacility: {},
+    const newClientModule = {
+      selectedAppointment: {},
       show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
-      facilityModule: newfacilityModule,
+      AppointmentModule: newClientModule,
     }));
     //console.log(state)
+    const newClient = {
+      selectedClient: {},
+      show: "create",
+    };
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(true);
   };
-  const handleRow = async (facility) => {
-    //console.log("b4",state)
 
-    //console.log("handlerow",facility)
-
-    await setSelectedFacility(facility.organizationDetail);
-
-    const newfacilityModule = {
-      selectedFacility: facility,
+  const handleRow = async (Client) => {
+    setShowModal(true);
+    await setSelectedAppointment(Client);
+    const newClientModule = {
+      selectedAppointment: Client,
       show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
-      facilityModule: newfacilityModule,
+      AppointmentModule: newClientModule,
     }));
-    //console.log(state)
   };
+  //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = "facilityName";
-    console.log(val);
-    if (val.length > 0) {
-      orgServ
-        .find({
+    const field = "firstname";
+    //  console.log(val)
+
+    let query = {
+      $or: [
+        {
+          firstname: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          lastname: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          middlename: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          phone: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_type: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_status: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_reason: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          location_type: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          location_name: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_department: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_profession: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_name: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+      ],
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    if (state.employeeLocation.locationType !== "Front Desk") {
+      query.locationId = state.employeeLocation.locationId;
+    }
+
+    ClientServ.find({ query: query })
+      .then((res) => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(" Client  fetched successfully");
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage("Error fetching Client, probable network issues " + err);
+        setError(true);
+      });
+  };
+
+  const getFacilities = async () => {
+    console.log(user);
+    if (user.currentEmployee) {
+      let stuff = {
+        facility: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findClient = await ClientServ.find({ query: stuff });
+
+      await setFacilities(findClient.data);
+      console.log(findClient.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
           query: {
-            /* [field]: {
-                    $regex:val,
-                    $options:'i'
-                   
-                }, */
-            facility: user.currentEmployee.facilityDetail._id,
-            relationshiptype: "sponsor",
-            $search: val,
-            $limit: 10,
+            $limit: 100,
             $sort: {
               createdAt: -1,
             },
           },
-        })
-        .then((res) => {
-          console.log(res);
-          setFacilities(res.data);
-          setMessage(" Organization  fetched successfully");
-          setSuccess(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          setMessage("Error creating facility, probable network issues " + err);
-          setError(true);
         });
-    } else {
-      getFacilities();
+
+        await setFacilities(findClient.data);
+      }
     }
   };
 
-  /*  if (val.length>2){
-                console.log("in")
-               
-            }
+  useEffect(() => {
+    if (user) {
+      handleCalendarClose();
+    } else {
+      /* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
+    }
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
+    const newClient = {
+      selectedClient: {},
+      show: "create",
+    };
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    return () => {};
+  }, []);
+  const handleCalendarClose = async () => {
+    let query = {
+      start_time: {
+        $gt: subDays(startDate, 1),
+        $lt: addDays(startDate, 1),
+      },
+      facility: user.currentEmployee.facilityDetail._id,
 
-        }
-     */
-  const getFacilities = () => {
-    orgServ
-      .find({
-        query: {
-          facility: user.currentEmployee.facilityDetail._id,
-          relationshiptype: "sponsor",
-          $limit: 1000,
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
-        setSuccess(true);
-      })
-      .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
-        setError(true);
-      });
+      $limit: 100,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    // if (state.employeeLocation.locationType !== "Front Desk") {
+    //   query.locationId = state.employeeLocation.locationId;
+    // }
+
+    const findClient = await ClientServ.find({ query: query });
+
+    await setFacilities(findClient.data);
+  };
+
+  const handleDate = async (date) => {
+    setStartDate(date);
   };
 
   useEffect(() => {
-    getFacilities();
+    if (!!startDate) {
+      handleCalendarClose();
+    } else {
+      getFacilities();
+    }
 
-    orgServ.on("created", (obj) => getFacilities());
-    orgServ.on("updated", (obj) => getFacilities());
-    orgServ.on("patched", (obj) => getFacilities());
-    orgServ.on("removed", (obj) => getFacilities());
     return () => {};
-  }, []);
-
+  }, [startDate]);
   //todo: pagination and vertical scroll bar
+
+  const onRowClicked = () => {};
+
+  const mapFacilities = () => {
+    let mapped = [];
+    facilities.map((facility, i) => {
+      mapped.push({
+        title: facility?.firstname + " " + facility?.lastname,
+        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        end: facility?.end_time,
+        id: i,
+      });
+    });
+    return mapped;
+  };
+
+  const activeStyle = {
+    backgroundColor: "#0064CC29",
+    border: "none",
+    padding: "0 .8rem",
+  };
+
+  const dummyData = [
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+    {
+      s_n: "S/N",
+      organization_name: "Organization Name",
+      band: "abc",
+      address: "1 Rufai Street, Off Oyo Road, Sango Ota",
+      city: "Ibadan",
+      phone: "08036648712",
+      email: "foremost@gmail.com",
+      type: "Hospital",
+      category: "Secondary",
+    },
+  ];
+
+  const returnCell = (status) => {
+    // if (status === "approved") {
+    //   return <span style={{color: "green"}}>{status}</span>;
+    // }
+    // else if
+    switch (status.toLowerCase()) {
+      case "active":
+        return <span style={{ color: "#17935C" }}>{status}</span>;
+
+      case "inactive":
+        return <span style={{ color: "#0364FF" }}>{status}</span>;
+
+      default:
+        break;
+    }
+  };
 
   const CorporateSchema = [
     {
       name: "S/N",
-      key: "sn",
-      description: "SN",
-      selector: (row) => row.sn,
+      key: "s_n",
+      description: "Enter s/n",
+      selector: (row, i) => i + 1,
       sortable: true,
+      required: true,
       inputType: "HIDDEN",
+      
     },
     {
+
       name: "Organization Name",
-      key: "facilityName",
-      description: "Organization Name",
-      selector: (row) => row?.organizationDetail?.facilityName,
+      key: "organization_name",
+      description: "Enter organization name",
+      selector: (row) => row.organization_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
+    
     {
       name: "Band",
       key: "band",
-      description: "Band",
-      selector: (row) => row.Band,
+      description: "Enter band",
+      selector: (row) => row.band,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
       name: "Address",
       key: "address",
-      description: "Address",
-      selector: (row) => row?.organizationDetail?.facilityAddress,
+      description: "Enter address",
+      selector: (row) => row.address,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-
     {
       name: "City",
       key: "city",
-      description: "City",
-      selector: (row) => row?.organizationDetail?.facilityCity,
+      description: "Enter city",
+      selector: (row, i) => row.city,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: "DATE",
     },
-
     {
       name: "Phone",
       key: "phone",
-      description: "Phone",
-      selector: (row) => row?.organizationDetail?.facilityContactPhone,
+      description: "Enter your phone number",
+      selector: (row, i) => row.phone,
       sortable: true,
       required: true,
-      inputType: "PHONE",
+      inputType: "DATE",
     },
-
     {
       name: "Email",
       key: "email",
-      description: "Email",
-      selector: (row) => row?.organizationDetail?.facilityEmail,
-      sortable: true,
-      required: true,
-      // inputType: "SELECT_LIST",
-      // options: ["Male", "Female"],
-    },
-
-    {
-      name: "Email",
-      key: "email",
-      description: "Email",
-      selector: (row) => row?.organizationDetail?.facilityEmail,
-      sortable: true,
-      required: true,
-      // inputType: "SELECT_LIST",
-      // options: ["Single", "Married"],
-    },
-
-    {
-      name: "Type",
-      key: "type",
-      description: "johndoe@mail.com",
-      selector: (row) => row?.organizationDetail?.facilityType,
-      sortable: true,
-      required: true,
-      inputType: "EMAIL",
-    },
-
-    {
-      name: "Category",
-      key: "category",
-      description: "Category",
-      selector: (row) => row?.organizationDetail?.facilityCategory,
+      description: "Enter your email",
+      selector: (row, i) => row.email,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
+    {
+      name: "Type",
+      key: "type",
+      description: "Enter type",
+      selector: (row, i) => row.type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Category",
+      key: "category",
+      description: "Enter category",
+      selector: (row, i) => row.category,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
   ];
 
   return (
     <>
-      {" "}
-      <ModalBox>
-        <CorporateCreate />
-      </ModalBox>
-      <div className="level">
-        <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
-        >
-          <TableMenu>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              {handleSearch && (
-                <div className="inner-table">
-                  <FilterMenu onSearch={handleSearch} />
+      {user ? (
+        <>
+          <div className="level">
+            <PageWrapper
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            >
+              <TableMenu>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                    Corporate
+                  </h2>
+
+                  
                 </div>
-              )}
-              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
-                List of Clients
-              </h2>
-            </div>
-            {handleCreateNew && (
-              <Button
-                style={{ fontSize: "14px", fontWeight: "600px" }}
-                label="Add New"
-                onClick={handleCreateNew}
-                showicon={true}
-              />
-            )}
-          </TableMenu>
-          <div
-            style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
-            }}
-          >
-            <CustomTable
-              title={""}
-              columns={CorporateSchema}
-              data={facilities}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleCreateNew}
-              progressPending={loading}
-            />
-          </div>
-        </PageWrapper>
-      </div>
-      {/* {!!facilities[1] && */}{" "}
-    </>
-  );
-}
 
-export function OrganizationDetail() {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
-  // eslint-disable-next-line
-  const [error, setError] = useState(false); //,
-  //const [success, setSuccess] =useState(false)
-  // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
-  //const facilityServ=client.service('/facility')
-  //const navigate=useNavigate()
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
-
-  const facility = state.facilityModule.selectedFacility;
-
-  const handleEdit = async () => {
-    const newfacilityModule = {
-      selectedFacility: facility,
-      show: "modify",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      facilityModule: newfacilityModule,
-    }));
-    //console.log(state)
-  };
-  const closeForm = async () => {
-    const newfacilityModule = {
-      selectedFacility: facility,
-      show: "create",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      facilityModule: newfacilityModule,
-    }));
-    console.log("close form");
-  };
-
-  return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Organization Details</p>
-          <button
-            className="delete pushleft"
-            aria-label="close"
-            onClick={() => closeForm()}
-          ></button>
-        </div>
-        <div className="card-content vscrollable">
-          <fieldset>
-            <div className="field ">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-                Name:{" "}
-                <span className="is-small ">
-                  {" "}
-                  {facility.organizationDetail.facilityName}{" "}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-                Address:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityAddress}{" "}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-marker-alt"></i>
-                </span>
-                City:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityCity}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-phone-alt"></i>
-                </span>
-                Phone:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityContactPhone}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-                Email:{" "}
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityEmail}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-user-md"></i>
-                </span>
-                CEO:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityOwner}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital-symbol"></i>
-                </span>
-                Type:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityType}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-clinic-medical"></i>
-                </span>
-                Category:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityCategory}
-                </span>
-              </label>
-            </div>
-            {user.stacker && (
-              <div className="field">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    onClick={handleEdit}
-                  >
-                    Edit
-                  </button>
-                </p>
+                {handleCreateNew && (
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600" }}
+                    label="Add new "
+                    onClick={openCreateModal}
+                  />
+                )}
+              </TableMenu>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+                {value === "list" ? (
+                  <CustomTable
+                    title={""}
+                    columns={CorporateSchema}
+                    data={dummyData}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={handleRow}
+                    progressPending={loading}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                ) : (
+                  <CalendarGrid appointments={mapFacilities()} />
+                )}
               </div>
-            )}
-            {error && <div className="message"> {message}</div>}
-          </fieldset>
-        </div>
-        <div className="table-container pullup ">
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="S/No">S/No</abbr>
-                </th>
-                <th>Organization Name</th>
-                <th>
-                  <abbr title="Band"> Band</abbr>
-                </th>
-                <th>
-                  <abbr title="Address"> Address</abbr>
-                </th>
-                <th>
-                  <abbr title="City">City</abbr>
-                </th>
-                <th>
-                  <abbr title="Phone">Phone</abbr>
-                </th>
-                <th>
-                  <abbr title="Email">Email</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Type</abbr>
-                </th>
-                <th>
-                  <abbr title="Category">Category</abbr>
-                </th>
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facility.map(
-                (facility, i) =>
-                  facility.hasOwnProperty("organizationDetail") && (
-                    <>
-                      <tr
-                        key={i}
-                        onClick={() => handleRow(facility)}
-                        className={
-                          facility.organizationDetail?._id ===
-                          (selectedFacility?._id || null)
-                            ? "is-selected"
-                            : ""
-                        }
-                      >
-                        <th>{i + 1}</th>
-                        <th>{facility.organizationDetail.facilityName}</th>
-                        <td>{facility.band}</td>
-                        <td>{facility.organizationDetail.facilityAddress}</td>
-                        <td>{facility.organizationDetail.facilityCity}</td>
-                        <td>
-                          {facility.organizationDetail.facilityContactPhone}
-                        </td>
-                        <td>{facility.organizationDetail.facilityEmail}</td>
-                        <td>{facility.organizationDetail.facilityType}</td>
-                        <td>{facility.organizationDetail.facilityCategory}</td>
-
-                        {/*  <td><span   className="showAction"  >...</span></td> */}
-                      </tr>
-                    </>
-                  )
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </>
-  );
-}
-
-export function OrganizationModify() {
-  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("/facility");
-  //const navigate=useNavigate()
-  // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
-
-  const facility = state.facilityModule.selectedFacility;
-
-  useEffect(() => {
-    setValue("facilityName", facility.facilityName, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityAddress", facility.facilityAddress, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityCity", facility.facilityCity, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityContactPhone", facility.facilityContactPhone, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityEmail", facility.facilityEmail, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityOwner", facility.facilityOwner, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityType", facility.facilityType, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setValue("facilityCategory", facility.facilityCategory, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-
-    return () => {};
-  });
-
-  const handleCancel = async () => {
-    const newfacilityModule = {
-      selectedFacility: {},
-      show: "create",
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      facilityModule: newfacilityModule,
-    }));
-    //console.log(state)
-  };
-
-  const changeState = () => {
-    const newfacilityModule = {
-      selectedFacility: {},
-      show: "create",
-    };
-    setState((prevstate) => ({
-      ...prevstate,
-      facilityModule: newfacilityModule,
-    }));
-  };
-  const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
-
-    const dleteId = facility._id;
-    if (conf) {
-      facilityServ
-        .remove(dleteId)
-        .then((res) => {
-          //console.log(JSON.stringify(res))
-          reset();
-          setMessage("Deleted Organization successfully");
-          setSuccess(true);
-          changeState();
-          setTimeout(() => {
-            setSuccess(false);
-          }, 200);
-          changeState();
-        })
-        .catch((err) => {
-          setMessage("Error deleting facility, probable network issues " + err);
-          setError(true);
-          setTimeout(() => {
-            setError(false);
-          }, 200);
-        });
-    }
-  };
-
-  /* ()=> setValue("firstName", "Bill", , {
-            shouldValidate: true,
-            shouldDirty: true
-          })) */
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    setMessage("");
-    setError(false);
-    setSuccess(false);
-    console.log(data);
-    //data.createdby=user._id
-    //console.log(data);
-
-    facilityServ
-      .update(facility._id, data)
-      .then((res) => {
-        //console.log(JSON.stringify(res))
-        // e.target.reset();
-        setMessage("updated Organization successfully");
-        setSuccess(true);
-        changeState();
-      })
-      .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
-        setError(true);
-      });
-  };
-
-  return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Organization Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          {success && <div className="message"> {message}</div>}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", { required: true })}
-                    name="facilityName"
-                    type="text"
-                    placeholder="Name of Facility"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Address
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityAddress"
-                    type="text"
-                    placeholder="Address of Facility"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                City
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityCity"
-                    type="text"
-                    placeholder="City/Town"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Phone
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityContactPhone"
-                    type="text"
-                    placeholder="Contact Phone No"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Email
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityEmail"
-                    type="email"
-                    placeholder="Organization Email"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                CEO
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityOwner"
-                    type="text"
-                    placeholder="Organization Owner"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Type
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityType"
-                    type="text"
-                    placeholder="Organization Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Category
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", { required: true })}
-                    name="facilityCategory"
-                    type="text"
-                    placeholder="Organization Category"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field  is-grouped">
-              <p className="control">
-                <button className="button is-success is-small">Save</button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-warning is-small"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-danger is-small"
-                  onClick={handleDelete}
-                >
-                  Delete
-                </button>
-              </p>
-            </div>
-            {error && <div className="message"> {message}</div>}
-          </form>
-        </div>
-      </div>
+            </PageWrapper>
+          </div>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
     </>
   );
 }

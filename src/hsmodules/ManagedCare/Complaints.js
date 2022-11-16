@@ -1,239 +1,1002 @@
 /* eslint-disable */
-import React from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import client from "../../feathers";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
+//import {useNavigate} from 'react-router-dom'
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function ComplaintsInventoryReport() {
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import Switch from "../../components/switch";
+import { BsFillGridFill, BsList } from "react-icons/bs";
+import CalendarGrid from "../../components/calender";
+import ModalBox from "../../components/modal";
+import { Box, Grid } from "@mui/material";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import { MdCancel } from "react-icons/md";
+
+// eslint-disable-next-line
+const searchfacility = {};
+
+export default function Complaints() {
+  const { state } = useContext(ObjectContext); //,setState
+  // eslint-disable-next-line
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
+
   return (
     <section className="section remPadTop">
-      <div className="level">
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            Inventory Report
-          </span>
-        </div>
-      </div>
-      <div className="columns ">
-        <div className="column is-9">
-          <div class="field">
-            <p class="control has-icons-left  ">
-              <input
-                class="input is-small sz2"
-                type="text"
-                placeholder="Search Inventory"
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-              </span>
-            </p>
-          </div>
-          <div class="table-container">
-            <table class="table is-striped is-narrow is-hoverable is-fullwidth">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="S/No">S/No</abbr>
-                  </th>
-                  <th>Product</th>
-                  <th>
-                    <abbr title="Quantity">Qtty</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Unit">Unit</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Cost Price">CP</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Selling Price">SP</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Stock">Stock Amount</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Reorder Level">Reorder</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Expiry">Expiry</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Actions">Actions</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                <tr>
-                  <th>1</th>
-                  <td>Tab Omiprazole (Evans)</td>
-                  <td>3000</td>
-                  <td>packets</td>
-                  <td>12.00</td>
-                  <td>315.00</td>
-                  <td>6,000</td>
-                  <td>30</td>
-                  <td>-</td>
-                  <td>
-                    <span className="showAction">...</span>
-                  </td>
-                </tr>
-                <tr>
-                  <th>2</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Arsenal_F.C."
-                      title="Arsenal F.C."
-                    >
-                      Arsenal
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>20</td>
-                  <td>11</td>
-                  <td>7</td>
-                  <td>65</td>
-                  <td>36</td>
-                  <td>+29</td>
-                  <td>71</td>
-                </tr>
-                <tr>
-                  <th>3</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Tottenham_Hotspur_F.C."
-                      title="Tottenham Hotspur F.C."
-                    >
-                      Tottenham Hotspur
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>19</td>
-                  <td>13</td>
-                  <td>6</td>
-                  <td>69</td>
-                  <td>35</td>
-                  <td>+34</td>
-                  <td>70</td>
-                </tr>
-                <tr class="is-selected">
-                  <th>4</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Manchester_City_F.C."
-                      title="Manchester City F.C."
-                    >
-                      Manchester City
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>19</td>
-                  <td>9</td>
-                  <td>10</td>
-                  <td>71</td>
-                  <td>41</td>
-                  <td>+30</td>
-                  <td>66</td>
-                </tr>
-                <tr>
-                  <th>5</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Manchester_United_F.C."
-                      title="Manchester United F.C."
-                    >
-                      Manchester United
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>19</td>
-                  <td>9</td>
-                  <td>10</td>
-                  <td>49</td>
-                  <td>35</td>
-                  <td>+14</td>
-                  <td>66</td>
-                </tr>
-                <tr>
-                  <th>6</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Southampton_F.C."
-                      title="Southampton F.C."
-                    >
-                      Southampton
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>18</td>
-                  <td>9</td>
-                  <td>11</td>
-                  <td>59</td>
-                  <td>41</td>
-                  <td>+18</td>
-                  <td>63</td>
-                </tr>
-                <tr>
-                  <th>7</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/West_Ham_United_F.C."
-                      title="West Ham United F.C."
-                    >
-                      West Ham United
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>16</td>
-                  <td>14</td>
-                  <td>8</td>
-                  <td>65</td>
-                  <td>51</td>
-                  <td>+14</td>
-                  <td>62</td>
-                </tr>
-                <tr>
-                  <th>8</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Liverpool_F.C."
-                      title="Liverpool F.C."
-                    >
-                      Liverpool
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>16</td>
-                  <td>12</td>
-                  <td>10</td>
-                  <td>63</td>
-                  <td>50</td>
-                  <td>+13</td>
-                  <td>60</td>
-                </tr>
-                <tr>
-                  <th>9</th>
-                  <td>
-                    <a
-                      href="https://en.wikipedia.org/wiki/Stoke_City_F.C."
-                      title="Stoke City F.C."
-                    >
-                      Stoke City
-                    </a>
-                  </td>
-                  <td>38</td>
-                  <td>14</td>
-                  <td>9</td>
-                  <td>15</td>
-                  <td>41</td>
-                  <td>55</td>
-                  <td>−14</td>
-                  <td>51</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="column is-3 has-background-white">right</div>
-      </div>
+      <ComplaintsList openCreateModal={() => setCreateModal(true)} />
     </section>
+  );
+}
+
+export function AppointmentCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [success1, setSuccess1] = useState(false);
+  const [success2, setSuccess2] = useState(false);
+  const [message, setMessage] = useState("");
+  const [clientId, setClientId] = useState();
+  const [locationId, setLocationId] = useState();
+  const [practionerId, setPractionerId] = useState();
+  const [type, setType] = useState();
+  // eslint-disable-next-line
+  const [facility, setFacility] = useState();
+  const ClientServ = client.service("appointments");
+  //const navigate=useNavigate()
+  const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  // const [appointment_reason,setAppointment_reason]= useState()
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
+  const [billingModal, setBillingModal] = useState(false);
+
+  const [chosen, setChosen] = useState();
+  const [chosen1, setChosen1] = useState();
+  const [chosen2, setChosen2] = useState();
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+
+  let appointee; //  =state.ClientModule.selectedClient
+  /*  const getSearchfacility=(obj)=>{
+        setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+    } */
+  const handleChangeType = async (e) => {
+    await setAppointment_type(e.target.value);
+  };
+
+  const handleChangeStatus = async (e) => {
+    await setAppointment_status(e.target.value);
+  };
+
+  const getSearchfacility = (obj) => {
+    setClientId(obj._id);
+    setChosen(obj);
+    //handleRow(obj)
+    if (!obj) {
+      //"clear stuff"
+      setClientId();
+      setChosen();
+    }
+
+    /*  setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        }) */
+  };
+  const getSearchfacility1 = (obj) => {
+    setLocationId(obj._id);
+    setChosen1(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setLocationId();
+      setChosen1();
+    }
+  };
+  const getSearchfacility2 = (obj) => {
+    setPractionerId(obj._id);
+    setChosen2(obj);
+
+    if (!obj) {
+      //"clear stuff"
+      setPractionerId();
+      setChosen2();
+    }
+  };
+
+  useEffect(() => {
+    setCurrentUser(user);
+    //console.log(currentUser)
+    return () => {};
+  }, [user]);
+
+  //check user for facility or get list of facility
+  useEffect(() => {
+    //setFacility(user.activeClient.FacilityId)//
+    if (!user.stacker) {
+      /*    console.log(currentUser)
+        setValue("facility", user.currentEmployee.facilityDetail._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })  */
+    }
+  });
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+    setSuccess(false);
+    setShowModal(false),
+      setState((prevstate) => ({
+        ...prevstate,
+        AppointmentModule: {
+          selectedAppointment: {},
+          show: "list",
+        },
+      }));
+
+    // data.createdby=user._id
+    console.log(data);
+    if (user.currentEmployee) {
+      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
+    }
+    data.locationId = locationId; //state.ClinicModule.selectedClinic._id
+    data.practitionerId = practionerId;
+    data.appointment_type = appointment_type;
+    // data.appointment_reason=appointment_reason
+    data.appointment_status = appointment_status;
+    data.clientId = clientId;
+    data.firstname = chosen.firstname;
+    data.middlename = chosen.middlename;
+    data.lastname = chosen.lastname;
+    data.dob = chosen.dob;
+    data.gender = chosen.gender;
+    data.phone = chosen.phone;
+    data.email = chosen.email;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_profession = chosen2.profession;
+    data.practitioner_department = chosen2.department;
+    data.location_name = chosen1.name;
+    data.location_type = chosen1.locationType;
+    data.actions = [
+      {
+        action: appointment_status,
+        actor: user.currentEmployee._id,
+      },
+    ];
+    console.log(data);
+
+    ClientServ.create(data)
+      .then((res) => {
+        //console.log(JSON.stringify(res))
+        e.target.reset();
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
+        /*  setMessage("Created Client successfully") */
+        setSuccess(true);
+        setSuccess1(true);
+        setSuccess2(true);
+        toast({
+          message:
+            "Appointment created succesfully, Kindly bill patient if required",
+          type: "is-success",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+        setSuccess(false);
+        setSuccess1(false);
+        setSuccess2(false);
+        // showBilling()
+      })
+      .catch((err) => {
+        toast({
+          message: "Error creating Appointment " + err,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+        });
+      });
+  };
+
+  useEffect(() => {
+    getSearchfacility(state.ClientModule.selectedClient);
+
+    /* appointee=state.ClientModule.selectedClient 
+        console.log(appointee.firstname) */
+    return () => {};
+  }, [state.ClientModule.selectedClient]);
+
+  /*   const showBilling = () =>{
+        setBillingModal(true)
+       //history.push('/app/finance/billservice')
+        }
+        const  handlecloseModal1 = () =>{
+            setBillingModal(false)
+            }
+
+
+            const handleRow= async(Client)=>{
+              //  await setSelectedClient(Client)
+                const    newClientModule={
+                    selectedClient:Client,
+                    show :'detail'
+                }
+               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
+            } */
+
+  return (
+    <>
+      <div className="card ">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ModalHeader text={"Create Appointment"} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <MdCancel
+                onClick={() => {
+                  setShowModal(false),
+                    setState((prevstate) => ({
+                      ...prevstate,
+                      AppointmentModule: {
+                        selectedAppointment: {},
+                        show: "list",
+                      },
+                    }));
+                }}
+                style={{
+                  fontSize: "2rem",
+                  color: "crimson",
+                  cursor: "pointer",
+                  float: "right",
+                }}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <ClientSearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <LocationSearch
+                getSearchfacility={getSearchfacility1}
+                clear={success1}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <EmployeeSearch
+                getSearchfacility={getSearchfacility2}
+                clear={success2}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <div className="field ml-3 ">
+                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+                {appClass.map((c, i) => (
+                  <label
+                    className=" is-small"
+                    key={c}
+                    style={{ fontSize: "16px", fontWeight: "bold" }}
+                  >
+                    <input
+                      type="radio"
+                      value={c}
+                      name="appointmentClass"
+                      {...register("appointmentClass", { required: true })}
+                      style={{
+                        border: "1px solid #0364FF",
+                        transform: "scale(1.5)",
+                        color: "#0364FF",
+                        margin: ".5rem",
+                      }}
+                    />
+                    {c + " "}
+                  </label>
+                ))}
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <div className="field">
+                <input
+                  name="start_time"
+                  {...register("start_time", { required: true })}
+                  type="datetime-local"
+                  style={{
+                    border: "1px solid #0364FF",
+                    padding: "1rem",
+                    color: " #979DAC",
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="type"
+                value={type}
+                onChange={handleChangeType}
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                }}
+              >
+                <option defaultChecked>Choose Appointment Type </option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
+              </select>
+            </Grid>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <select
+                name="appointment_status"
+                value={appointment_status}
+                onChange={handleChangeStatus}
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                }}
+              >
+                <option defaultChecked>Appointment Status </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Checked In">Checked In</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
+                <option value="No Show">No Show</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                {...register("appointment_reason", { required: true })}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="10"
+                cols="50"
+                style={{
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                  width: "100%",
+                }}
+              >
+                {" "}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: "#0364FF",
+                  width: "100%",
+                  cursor: "pointer",
+                }}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} lg={3}>
+              <Button
+                type="button"
+                onClick={(e) => e.target.reset()}
+                style={{
+                  backgroundColor: "#ffffff",
+                  width: "100%",
+                  color: "#0364FF",
+                  border: "1px solid #0364FF",
+                  cursor: "pointer",
+                }}
+              >
+                Clear
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </>
+  );
+}
+
+export function ComplaintsList({ openCreateModal }) {
+  // const { register, handleSubmit, watch, errors } = useForm();
+  // eslint-disable-next-line
+  const [error, setError] = useState(false);
+  // eslint-disable-next-line
+  const [success, setSuccess] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
+  //const navigate=useNavigate()
+  // const {user,setUser} = useContext(UserContext)
+  const [facilities, setFacilities] = useState([]);
+  // eslint-disable-next-line
+  const [selectedClient, setSelectedClient] = useState(); //
+  // eslint-disable-next-line
+  const { state, setState } = useContext(ObjectContext);
+  // eslint-disable-next-line
+  const { user, setUser } = useContext(UserContext);
+  const [startDate, setStartDate] = useState(new Date());
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState("list");
+
+  const handleCreateNew = async () => {
+    const newClientModule = {
+      selectedAppointment: {},
+      show: "create",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: newClientModule,
+    }));
+    //console.log(state)
+    const newClient = {
+      selectedClient: {},
+      show: "create",
+    };
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(true);
+  };
+
+  const handleRow = async (Client) => {
+    setShowModal(true);
+    await setSelectedAppointment(Client);
+    const newClientModule = {
+      selectedAppointment: Client,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      AppointmentModule: newClientModule,
+    }));
+  };
+  //console.log(state.employeeLocation)
+
+  const handleSearch = (val) => {
+    const field = "firstname";
+    //  console.log(val)
+
+    let query = {
+      $or: [
+        {
+          firstname: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          lastname: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          middlename: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          phone: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_type: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_status: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_reason: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          location_type: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          location_name: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_department: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_profession: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_name: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+      ],
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    if (state.employeeLocation.locationType !== "Front Desk") {
+      query.locationId = state.employeeLocation.locationId;
+    }
+
+    ClientServ.find({ query: query })
+      .then((res) => {
+        console.log(res);
+        setFacilities(res.data);
+        setMessage(" Client  fetched successfully");
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage("Error fetching Client, probable network issues " + err);
+        setError(true);
+      });
+  };
+
+  const getFacilities = async () => {
+    console.log(user);
+    if (user.currentEmployee) {
+      let stuff = {
+        facility: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
+
+      const findClient = await ClientServ.find({ query: stuff });
+
+      await setFacilities(findClient.data);
+      console.log(findClient.data);
+    } else {
+      if (user.stacker) {
+        const findClient = await ClientServ.find({
+          query: {
+            $limit: 100,
+            $sort: {
+              createdAt: -1,
+            },
+          },
+        });
+
+        await setFacilities(findClient.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      handleCalendarClose();
+    } else {
+      /* const localUser= localStorage.getItem("user")
+                    const user1=JSON.parse(localUser)
+                    console.log(localUser)
+                    console.log(user1)
+                    fetchUser(user1)
+                    console.log(user)
+                    getFacilities(user) */
+    }
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
+    const newClient = {
+      selectedClient: {},
+      show: "create",
+    };
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    return () => {};
+  }, []);
+  const handleCalendarClose = async () => {
+    let query = {
+      start_time: {
+        $gt: subDays(startDate, 1),
+        $lt: addDays(startDate, 1),
+      },
+      facility: user.currentEmployee.facilityDetail._id,
+
+      $limit: 100,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    // if (state.employeeLocation.locationType !== "Front Desk") {
+    //   query.locationId = state.employeeLocation.locationId;
+    // }
+
+    const findClient = await ClientServ.find({ query: query });
+
+    await setFacilities(findClient.data);
+  };
+
+  const handleDate = async (date) => {
+    setStartDate(date);
+  };
+
+  useEffect(() => {
+    if (!!startDate) {
+      handleCalendarClose();
+    } else {
+      getFacilities();
+    }
+
+    return () => {};
+  }, [startDate]);
+  //todo: pagination and vertical scroll bar
+
+  const onRowClicked = () => {};
+
+  const mapFacilities = () => {
+    let mapped = [];
+    facilities.map((facility, i) => {
+      mapped.push({
+        title: facility?.firstname + " " + facility?.lastname,
+        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        end: facility?.end_time,
+        id: i,
+      });
+    });
+    return mapped;
+  };
+
+  const activeStyle = {
+    backgroundColor: "#0064CC29",
+    border: "none",
+    padding: "0 .8rem",
+  };
+
+  const dummyData = [
+    {
+      s_n: "S/N",
+      product: "Stoke City",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+    {
+      s_n: "S/N",
+      product: "Stoke City",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+    {
+      s_n: "S/N",
+      product: "Stoke City",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+
+    {
+      s_n: "S/N",
+      product: "Stoke City",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+    {
+      s_n: "S/N",
+      product: "Stoke City",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+    {
+      s_n: "S/N",
+      product: "Stoke City",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+    {
+      s_n: "S/N",
+      product: "West Ham United",
+      qtty: "38",
+      unit: "14",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-14",
+      actions: "51",
+    },
+    {
+      s_n: "S/N",
+      product: "Southampton",
+      qtty: "38",
+      unit: "12",
+      cp: "9",
+      sp: "15",
+      stock_amount: "41",
+      reorder: "55",
+      expiry: "-12",
+      actions: "41",
+    },
+    {
+      s_n: "S/N",
+      product: "Liverpool",
+      qtty: "38",
+      unit: "14",
+      cp: "12",
+      sp: "10",
+      stock_amount: "63",
+      reorder: "50",
+      expiry: "+13",
+      actions: "60",
+    },
+  ];
+
+  const returnCell = (status) => {
+    // if (status === "approved") {
+    //   return <span style={{color: "green"}}>{status}</span>;
+    // }
+    // else if
+    switch (status.toLowerCase()) {
+      case "active":
+        return <span style={{ color: "#17935C" }}>{status}</span>;
+
+      case "inactive":
+        return <span style={{ color: "#0364FF" }}>{status}</span>;
+
+      default:
+        break;
+    }
+  };
+
+  const ComplaintsSchema = [
+    {
+      name: "S/N",
+      key: "s_n",
+      description: "Enter s/n",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      
+    },
+    {
+
+      name: "Product",
+      key: "product",
+      description: "Enter product name",
+      selector: (row) => row.product,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Qtty",
+      key: "qtty",
+      description: "Enter quantity",
+      selector: (row) => row.qtty,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Unit",
+      key: "unit",
+      description: "Enter unit",
+      selector: (row) => row.unit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "CP",
+      key: "cp",
+      description: "Enter cp",
+      selector: (row, i) => row.cp,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+    },
+    {
+      name: "SP",
+      key: "sp",
+      description: "Enter sp",
+      selector: (row, i) => row.sp,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+    {
+      name: "Stock Amount",
+      key: "stock_amount",
+      description: "Enter your stock amount",
+      selector: (row, i) => row.stock_amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Reorder",
+      key: "reorder",
+      description: "Enter reorder",
+      selector: (row, i) => row.reorder,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Expiry",
+      key: "expiry",
+      description: "Enter expiry",
+      selector: (row, i) => row.expiry,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Actions",
+      key: "actions",
+      description: "Enter actions",
+      selector: (row, i) => row.actions,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  return (
+    <>
+      {user ? (
+        <>
+          <div className="level">
+            <PageWrapper
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+            >
+              <TableMenu>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                    Complaints
+                  </h2>
+
+                  
+                </div>
+
+                {/* {handleCreateNew && (
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600" }}
+                    label="Add new "
+                    onClick={openCreateModal}
+                  />
+                )} */}
+              </TableMenu>
+              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+                {value === "list" ? (
+                  <CustomTable
+                    title={""}
+                    columns={ComplaintsSchema}
+                    data={dummyData}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    onRowClicked={handleRow}
+                    progressPending={loading}
+                    //conditionalRowStyles={conditionalRowStyles}
+                  />
+                ) : (
+                  <CalendarGrid appointments={mapFacilities()} />
+                )}
+              </div>
+            </PageWrapper>
+          </div>
+        </>
+      ) : (
+        <div>loading</div>
+      )}
+    </>
   );
 }

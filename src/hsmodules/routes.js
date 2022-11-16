@@ -159,7 +159,7 @@ import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
-import CheckIn from "./ManagedCare/Checkin";
+import CheckIn from "./ManagedCare/CheckIn";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
@@ -192,6 +192,7 @@ import ReferralIncoming from "./Appointment/referralWorkflow";
 import BloodBankLab from "./Bloodbank/Lab";
 import ImmunizationInventory from "./Immunization/Inventory";
 import PageLoaderComponent from "../components/page-loader/page-loader";
+// import Corporate from "./ManagedCare/Corporate";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -650,7 +651,7 @@ const AppRoutes = () => {
             {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
 
-            <Route path="/app/managed-care/fundmanagement" />
+            <Route path="/app/managed-care/fundmanagement" element={<FundsManagement/>}   />
             <Route path="/app/managed-care/providerpayment" />
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
