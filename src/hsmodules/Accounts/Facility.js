@@ -1,13 +1,13 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
+import { UserContext, ObjectContext } from "../../context";
 
 export default function Facility() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -36,13 +36,13 @@ export default function Facility() {
 }
 
 export function FacilityCreate() {
-  const {register, handleSubmit} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const facilityServ = client.service("/facility");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -54,13 +54,13 @@ export function FacilityCreate() {
 
     facilityServ
       .create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setMessage("Created Organization successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -68,7 +68,7 @@ export function FacilityCreate() {
 
   return (
     <>
-      <div className="card ">
+      <div className="card">
         <div className="card-header">
           <p className="card-header-title">Create Facility</p>
         </div>
@@ -79,7 +79,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityName"
                   type="text"
                   placeholder="Name of Facility"
@@ -93,7 +93,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityAddress"
                   type="text"
                   placeholder="Address of Facility"
@@ -107,7 +107,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityCity"
                   type="text"
                   placeholder="City/Town"
@@ -121,7 +121,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityContactPhone"
                   type="text"
                   placeholder="Contact Phone No"
@@ -136,7 +136,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityEmail"
                   type="email"
                   placeholder="Organization Email"
@@ -150,7 +150,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityOwner"
                   type="text"
                   placeholder="Organization CEO"
@@ -164,7 +164,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityType"
                   type="text"
                   placeholder="Organization Type"
@@ -178,7 +178,7 @@ export function FacilityCreate() {
               <p className="control has-icons-left">
                 <input
                   className="input is-small"
-                  {...register("x", {required: true})}
+                  {...register("x", { required: true })}
                   name="facilityCategory"
                   type="text"
                   placeholder="Organization Category"
@@ -216,20 +216,20 @@ export function FacilityList() {
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
   };
-  const handleRow = async facility => {
+  const handleRow = async (facility) => {
     //console.log("b4",state)
 
     //console.log("handlerow",facility)
@@ -240,14 +240,14 @@ export function FacilityList() {
       selectedFacility: facility,
       show: "detail",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
   };
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "facilityName";
     console.log(val);
     facilityServ
@@ -263,13 +263,13 @@ export function FacilityList() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
@@ -293,13 +293,13 @@ export function FacilityList() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Organization  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -308,10 +308,10 @@ export function FacilityList() {
   useEffect(() => {
     getFacilities();
 
-    facilityServ.on("created", obj => getFacilities());
-    facilityServ.on("updated", obj => getFacilities());
-    facilityServ.on("patched", obj => getFacilities());
-    facilityServ.on("removed", obj => getFacilities());
+    facilityServ.on("created", (obj) => getFacilities());
+    facilityServ.on("updated", (obj) => getFacilities());
+    facilityServ.on("patched", (obj) => getFacilities());
+    facilityServ.on("removed", (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -330,7 +330,7 @@ export function FacilityList() {
                   placeholder="Search Facilities"
                   minLength={3}
                   debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-search"></i>
@@ -427,8 +427,8 @@ export function FacilityDetail() {
   const [message, setMessage] = useState(""); //,
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -437,7 +437,7 @@ export function FacilityDetail() {
       selectedFacility: facility,
       show: "modify",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -565,15 +565,15 @@ export function FacilityDetail() {
 }
 
 export function FacilityModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const facilityServ = client.service("/facility");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -619,7 +619,7 @@ export function FacilityModify() {
       selectedFacility: {},
       show: "create",
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -631,7 +631,10 @@ export function FacilityModify() {
       selectedFacility: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, facilityModule: newfacilityModule}));
+    setState((prevstate) => ({
+      ...prevstate,
+      facilityModule: newfacilityModule,
+    }));
   };
   const handleDelete = async () => {
     let conf = window.confirm("Are you sure you want to delete this data?");
@@ -640,7 +643,7 @@ export function FacilityModify() {
     if (conf) {
       facilityServ
         .remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
           setMessage("Deleted Organization successfully");
@@ -651,7 +654,7 @@ export function FacilityModify() {
           }, 200);
           changeState();
         })
-        .catch(err => {
+        .catch((err) => {
           setMessage("Error deleting facility, probable network issues " + err);
           setError(true);
           setTimeout(() => {
@@ -676,14 +679,14 @@ export function FacilityModify() {
 
     facilityServ
       .update(facility._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setMessage("updated Organization successfully");
         setSuccess(true);
         changeState();
       })
-      .catch(err => {
+      .catch((err) => {
         setMessage("Error creating facility, probable network issues " + err);
         setError(true);
       });
@@ -704,7 +707,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityName"
                     type="text"
                     placeholder="Name of Facility"
@@ -721,7 +724,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityAddress"
                     type="text"
                     placeholder="Address of Facility"
@@ -738,7 +741,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityCity"
                     type="text"
                     placeholder="City/Town"
@@ -755,7 +758,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityContactPhone"
                     type="text"
                     placeholder="Contact Phone No"
@@ -772,7 +775,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityEmail"
                     type="email"
                     placeholder="Organization Email"
@@ -789,7 +792,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityOwner"
                     type="text"
                     placeholder="Organization Owner"
@@ -806,7 +809,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityType"
                     type="text"
                     placeholder="Organization Type"
@@ -823,7 +826,7 @@ export function FacilityModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", {required: true})}
+                    {...register("x", { required: true })}
                     name="facilityCategory"
                     type="text"
                     placeholder="Organization Category"

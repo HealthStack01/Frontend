@@ -1,9 +1,10 @@
+import EmptyPage from '../../ui/EmptyPage';
 import { PageWrapper } from './styles';
 
 function Overview() {
   return (
     <PageWrapper>
-      <h2>Overview</h2>
+      <EmptyPage />
     </PageWrapper>
   );
 }

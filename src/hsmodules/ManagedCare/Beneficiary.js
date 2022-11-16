@@ -1,29 +1,32 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict } from "date-fns";
-import ClientFinInfo from "./ClientFinInfo";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Appointment/generalAppointment";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ClientBilledPrescription from "../Finance/ClientBill";
-import ClientGroup from "./ClientGroup";
-import DatePicker from "react-datepicker";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Navigate } from 'react-router-dom'; //Route, Switch,Link, NavLink,
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict } from 'date-fns';
+import ClientFinInfo from './ClientFinInfo';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import { AppointmentCreate } from '../Appointment/generalAppointment';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClientBilledPrescription from '../Finance/ClientBill';
+import ClientGroup from './ClientGroup';
+import DatePicker from 'react-datepicker';
 
-import "react-datepicker/dist/react-datepicker.css";
-import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-var random = require("random-string-generator");
+import 'react-datepicker/dist/react-datepicker.css';
+import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import ModalBox from '../../components/modal';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import { Grid } from '@mui/material';
+var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -32,22 +35,23 @@ export default function Beneficiary() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <div className="columns ">
-        <div className="column is-6 ">
-          <ClientList />
-        </div>
-        <div className="column is-6 ">
-          {state.ClientModule.show === "List" && <ClientList />}
-          {state.ClientModule.show === "create" && <BeneficiaryCreate />}
-          {state.ClientModule.show === "detail" && <ClientDetail />}
-          {state.ClientModule.show === "modify" && (
-            <ClientModify Client={selectedClient} />
-          )}
-        </div>
-      </div>
+      <ClientList showModal={showModal} setShowModal={setShowModal} />
+      {state.ClientModule.show === 'create' && <BeneficiaryCreate />}
+      {showModal && (
+        <ModalBox
+          open={state.ClientModule.show === 'detail'}
+          onClose={() => setShowModal(false)}
+        >
+          <ClientDetail />
+        </ModalBox>
+      )}
+      {state.ClientModule.show === 'modify' && (
+        <ClientModify Client={selectedClient} />
+      )}
     </section>
   );
 }
@@ -59,11 +63,11 @@ export function ClientCreate({ closeModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const mpiServ = client.service("mpi");
+  const ClientServ = client.service('client');
+  const mpiServ = client.service('mpi');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
@@ -76,7 +80,7 @@ export function ClientCreate({ closeModal }) {
 
   // eslint-disable-next-line
   const getSearchfacility = (obj) => {
-    setValue("facility", obj._id, {
+    setValue('facility', obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -137,7 +141,7 @@ export function ClientCreate({ closeModal }) {
 
     if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
       // console.log("simpa")
-      data.middlename = data.middlename || "";
+      data.middlename = data.middlename || '';
       (query.gender = data.gender),
         (query.dob = data.dob),
         (query.$or = [
@@ -229,8 +233,8 @@ export function ClientCreate({ closeModal }) {
   };
   const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
+      message: 'Client previously registered in this facility',
+      type: 'is-danger',
       dismissible: true,
       pauseOnHover: true,
     });
@@ -256,16 +260,16 @@ export function ClientCreate({ closeModal }) {
         .create(newPat)
         .then((resp) => {
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -282,8 +286,8 @@ export function ClientCreate({ closeModal }) {
   const onSubmit = async (data, e) => {
     if (!date) {
       toast({
-        message: "Please enter Date of Birth! ",
-        type: "is-danger",
+        message: 'Please enter Date of Birth! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -291,7 +295,7 @@ export function ClientCreate({ closeModal }) {
       return;
     }
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     checkClient();
@@ -323,8 +327,8 @@ export function ClientCreate({ closeModal }) {
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -335,20 +339,20 @@ export function ClientCreate({ closeModal }) {
           let newClientModule = {};
           //add to context
           // if principal
-          if (state.currBeneficiary === "principal") {
+          if (state.currBeneficiary === 'principal') {
             newClientModule = {
               principal: res,
               dependent: state.Beneficiary.dependent,
               others: state.Beneficiary.others,
-              show: "create",
+              show: 'create',
             };
           }
-          if (state.currBeneficiary === "dependent") {
+          if (state.currBeneficiary === 'dependent') {
             newClientModule = {
               principal: state.Beneficiary.principal,
               dependent: [...state.Beneficiary.dependent, res],
               others: state.Beneficiary.others,
-              show: "create",
+              show: 'create',
             };
           }
 
@@ -367,8 +371,8 @@ export function ClientCreate({ closeModal }) {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -396,7 +400,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left has-icons-right">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", { required: true })}
+                      // {...register('x', { required: true })}
                       name="firstname"
                       type="text"
                       placeholder="First Name"
@@ -428,7 +432,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", { required: true })}
+                      // {...register('x', { required: true })}
                       name="lastname"
                       type="text"
                       placeholder="Last Name"
@@ -539,7 +543,7 @@ export function ClientCreate({ closeModal }) {
                   <p className="control has-icons-left">
                     <input
                       className="input is-small is-danger"
-                      {...register("x", { required: true })}
+                      // {...register('x', { required: true })}
                       name="phone"
                       type="text"
                       placeholder=" Phone No"
@@ -836,7 +840,7 @@ export function ClientCreate({ closeModal }) {
           </form>
         </div>
       </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
+      <div className={`modal ${billModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card modalbkgrnd z10">
           <header className="modal-card-head selectadd">
@@ -866,7 +870,7 @@ export function ClientCreate({ closeModal }) {
                     </footer> */}
         </div>
       </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
+      <div className={`modal ${billModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card modalbkgrnd z10">
           <header className="modal-card-head selectadd">
@@ -907,21 +911,21 @@ export function BeneficiaryCreate() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const policyServ = client.service("policy");
+  const ClientServ = client.service('client');
+  const policyServ = client.service('policy');
   //const history = useHistory()
-  const [chosen, setChosen] = useState("");
+  const [chosen, setChosen] = useState('');
   const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [clientModal, setClientModal] = useState(false);
   const [showCorp, setShowCorp] = useState(false);
-  const [planHMO, setPlanHMO] = useState("");
-  const [plan, setPlan] = useState("");
-  const [price, setPrice] = useState("");
-  const [patient, setPatient] = useState("");
+  const [planHMO, setPlanHMO] = useState('');
+  const [plan, setPlan] = useState('');
+  const [price, setPrice] = useState('');
+  const [patient, setPatient] = useState('');
   const [patList, setPatList] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [dependant, setDependant] = useState(false);
@@ -930,15 +934,15 @@ export function BeneficiaryCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
-  const [type, setType] = useState("Sales ");
+  const [type, setType] = useState('Sales ');
   const [chosenPlan, setChosenPlan] = useState();
   const { state, setState } = useContext(ObjectContext);
-  const [documentNo, setDocumentNo] = useState("");
-  const hMO = ["simpa", "dania"];
+  const [documentNo, setDocumentNo] = useState('');
+  const hMO = ['simpa', 'dania'];
   const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-  const ServicesServ = client.service("billing");
+  const ServicesServ = client.service('billing');
   const [productEntry, setProductEntry] = useState();
-  const sponsorlist = ["Self", "SME", "Corporate", "Government", "others"];
+  const sponsorlist = ['Self', 'SME', 'Corporate', 'Government', 'others'];
 
   // eslint-disable-next-line
   /*   const getSearchfacility=(obj)=>{
@@ -983,9 +987,9 @@ export function BeneficiaryCreate() {
       const findServices = await ServicesServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          "contracts.source_org": user.currentEmployee.facilityDetail._id,
-          "contracts.dest_org": user.currentEmployee.facilityDetail._id,
-          category: "Managed Care",
+          'contracts.source_org': user.currentEmployee.facilityDetail._id,
+          'contracts.dest_org': user.currentEmployee.facilityDetail._id,
+          category: 'Managed Care',
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
           //   paginate:false,
@@ -1009,15 +1013,15 @@ export function BeneficiaryCreate() {
 
   const handleChangeMode = (mode) => {
     setMessage(mode);
-    if (mode == "Corporate") {
+    if (mode == 'Corporate') {
       setShowCorp(true);
     }
   };
 
   const handleChangePlan = async (value) => {
     console.log(value);
-    if (value == "") {
-      setPrice("");
+    if (value == '') {
+      setPrice('');
       return;
     }
     console.log(benefittingPlans1);
@@ -1064,8 +1068,8 @@ export function BeneficiaryCreate() {
   };
   const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
+      message: 'Client previously registered in this facility',
+      type: 'is-danger',
       dismissible: true,
       pauseOnHover: true,
     });
@@ -1091,16 +1095,16 @@ export function BeneficiaryCreate() {
         .create(newPat)
         .then((resp) => {
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1120,11 +1124,11 @@ export function BeneficiaryCreate() {
       {
         //productId:,
         name: chosenPlan.name,
-        quantity: "1",
+        quantity: '1',
         sellingprice: price.price,
         amount: price.price, //||qamount
-        baseunit: "",
-        costprice: "",
+        baseunit: '',
+        costprice: '',
         category: chosenPlan.category,
         billingId: chosenPlan._id,
         billingContract: price,
@@ -1158,33 +1162,33 @@ export function BeneficiaryCreate() {
     }
     document.documentdetail = productItem;
     console.log(document.documentdetail);
-    document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
+    document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = patient._id;
     document.clientname =
-      patient.firstname + " " + patient.middlename + " " + patient.lastname;
+      patient.firstname + ' ' + patient.middlename + ' ' + patient.lastname;
     document.clientobj = patient;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
     console.log(document);
 
     //order
     document.documentdetail.forEach(async (element) => {
       let orderinfo = {
         //for reach document
-        documentationId: "", //tbf
+        documentationId: '', //tbf
         order_category: element.category, //category
         order: element.name, //name
-        instruction: "",
+        instruction: '',
         destination_name: document.facilityname, //facilityname
         destination: document.facility, //facility id
-        order_status: "Billed",
+        order_status: 'Billed',
         payer: element.billMode.organizationName,
         paymentmode: element.billMode.paymentmode,
 
@@ -1206,7 +1210,7 @@ export function BeneficiaryCreate() {
 
       let billInfo = {
         orderInfo: {
-          orderId: "", //tbf
+          orderId: '', //tbf
           orderObj: orderinfo,
         },
         serviceInfo: {
@@ -1235,7 +1239,7 @@ export function BeneficiaryCreate() {
           paymentmode: element.billMode,
         },
         createdBy: user._id,
-        billing_status: "Unpaid",
+        billing_status: 'Unpaid',
       };
       let items = {
         orderinfo,
@@ -1245,7 +1249,7 @@ export function BeneficiaryCreate() {
       serviceList.push(items);
     });
 
-    console.log("==================");
+    console.log('==================');
     console.log(document, serviceList);
 
     let confirm = window.confirm(
@@ -1259,8 +1263,8 @@ export function BeneficiaryCreate() {
         .then((res) => {
           setSuccess(true);
           toast({
-            message: "Billed Orders created succesfully",
-            type: "is-success",
+            message: 'Billed Orders created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1270,13 +1274,13 @@ export function BeneficiaryCreate() {
           const today = new Date().toLocaleString();
           //console.log(today)
           setDate(today);
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = random(6, 'uppernumeric');
           setDocumentNo(invoiceNo);
         })
         .catch((err) => {
           toast({
-            message: "Error creating Billed Orders " + err,
-            type: "is-danger",
+            message: 'Error creating Billed Orders ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1306,14 +1310,14 @@ export function BeneficiaryCreate() {
             return
         } */
 
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     //state.Beneficiary?.principal._id
     if (!state.Beneficiary.principal._id) {
       toast({
-        message: "Please add principal! ",
-        type: "is-danger",
+        message: 'Please add principal! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -1330,7 +1334,7 @@ export function BeneficiaryCreate() {
     let confirm = window.confirm(`You are about to register a new policy ?`);
     if (confirm) {
       let policy = {
-        policyNo: "CVGBH/2022/098",
+        policyNo: 'CVGBH/2022/098',
         organizationType: user.currentEmployee.facilityDetail.facilityType,
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
@@ -1367,8 +1371,8 @@ export function BeneficiaryCreate() {
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1390,8 +1394,8 @@ export function BeneficiaryCreate() {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1402,14 +1406,14 @@ export function BeneficiaryCreate() {
   };
 
   const handleClickProd = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
-    setDependant("principal");
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: 'principal' }));
+    setDependant('principal');
     console.log(state.Beneficiary);
     setClientModal(true);
   };
   const handleClickProd2 = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
-    setDependant("dependent");
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: 'dependent' }));
+    setDependant('dependent');
     setClientModal(true);
   };
   const handleHMO = (e) => {
@@ -1440,7 +1444,7 @@ export function BeneficiaryCreate() {
                   <p className="control">
                     <button className="button is-info is-small btnheight ">
                       <span className="is-small" onClick={handleClickProd}>
-                        {" "}
+                        {' '}
                         +
                       </span>
                     </button>
@@ -1491,8 +1495,8 @@ export function BeneficiaryCreate() {
                     className={
                       state.Beneficiary?.principal._id ===
                       (selectedClient?._id || null)
-                        ? "is-selected"
-                        : ""
+                        ? 'is-selected'
+                        : ''
                     }
                   >
                     <td>{1}</td>
@@ -1532,7 +1536,7 @@ export function BeneficiaryCreate() {
               <p className="control">
                 <button className="button is-info is-small btnheight ">
                   <span className="is-small" onClick={handleClickProd2}>
-                    {" "}
+                    {' '}
                     +
                   </span>
                 </button>
@@ -1583,8 +1587,8 @@ export function BeneficiaryCreate() {
                       onClick={() => handleRow(Client)}
                       className={
                         Client._id === (selectedClient?._id || null)
-                          ? "is-selected"
-                          : ""
+                          ? 'is-selected'
+                          : ''
                       }
                     >
                       <td>{i + 1}</td>
@@ -1594,8 +1598,8 @@ export function BeneficiaryCreate() {
                       <td>
                         {Client.paymentinfo.map((pay, i) => (
                           <>
-                            {pay.paymentmode}{" "}
-                            {pay.paymentmode === "Cash" ? "" : ":"}{" "}
+                            {pay.paymentmode}{' '}
+                            {pay.paymentmode === 'Cash' ? '' : ':'}{' '}
                             {pay.organizationName}
                             <br></br>
                           </>
@@ -1619,7 +1623,7 @@ export function BeneficiaryCreate() {
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <label className="label is-size-7 my-0" name="dob" type="text">
-              Primary Provider{" "}
+              Primary Provider{' '}
             </label>
             <div
               className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
@@ -1630,7 +1634,7 @@ export function BeneficiaryCreate() {
               />
               <p
                 className="control has-icons-left "
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
               >
                 <input
                   className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
@@ -1648,13 +1652,13 @@ export function BeneficiaryCreate() {
                     name="dob"
                     type="text"
                   >
-                    Sponsor{" "}
+                    Sponsor{' '}
                   </label>
                   <div className="control">
                     <div className="select is-small ">
                       <select
                         name="sponsortype"
-                        ref={register({ required: true })}
+                        // ref={register({ required: true })}
                         onChange={(e) => handleChangeMode(e.target.value)}
                         className="selectadd"
                       >
@@ -1667,14 +1671,14 @@ export function BeneficiaryCreate() {
                 </div>
                 <div
                   className="field"
-                  style={!showCorp ? { display: "none" } : {}}
+                  style={!showCorp ? { display: 'none' } : {}}
                 >
                   <label
                     className="label is-size-7 my-0"
                     name="dob"
                     type="text"
                   >
-                    Corporate Sponsor{" "}
+                    Corporate Sponsor{' '}
                   </label>
                   <div
                     className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
@@ -1685,7 +1689,7 @@ export function BeneficiaryCreate() {
                     />
                     <p
                       className="control has-icons-left "
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     >
                       <input
                         className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
@@ -1700,7 +1704,7 @@ export function BeneficiaryCreate() {
             </div>
 
             <label className="label is-size-7 my-0" name="dob" type="text">
-              Plan{" "}
+              Plan{' '}
             </label>
 
             <div className="field">
@@ -1708,14 +1712,14 @@ export function BeneficiaryCreate() {
                 <div className="select is-small ">
                   <select
                     name="plan"
-                    {...register("x", { required: true })}
+                    // {...register('x', { required: true })}
                     onChange={(e, i) => handleChangePlan(e.target.value)}
                     className="selectadd"
                   >
                     <option value=""> Choose Plan </option>
                     {benefittingPlans1.map((option, i) => (
                       <option key={i} value={option.name}>
-                        {" "}
+                        {' '}
                         {option.name}
                       </option>
                     ))}
@@ -1760,7 +1764,7 @@ export function BeneficiaryCreate() {
           </form>
         </div>
       </div>
-      <div className={`modal ${clientModal ? "is-active" : ""}`}>
+      <div className={`modal ${clientModal ? 'is-active' : ''}`}>
         <div className="modal-background"></div>
         <div className="modal-card modalbkgrnd z10">
           <header className="modal-card-head selectadd">
@@ -1786,16 +1790,16 @@ export function BeneficiaryCreate() {
   );
 }
 
-export function ClientList() {
+export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("client");
-  //const history = useHistory()
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('client');
+  // const history = useHistory();
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1812,7 +1816,7 @@ export function ClientList() {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -1825,17 +1829,18 @@ export function ClientList() {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
+    setShowModal(true);
   };
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
-    const field = "firstname";
+    const field = 'firstname';
     console.log(val);
     ClientServ.find({
       query: {
@@ -1843,55 +1848,55 @@ export function ClientList() {
           {
             firstname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             lastname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             middlename: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             phone: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             clientTags: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             mrn: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             email: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             specificDetails: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           { gender: val },
         ],
 
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+        'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
         $limit: limit,
         $sort: {
           createdAt: -1,
@@ -1901,12 +1906,12 @@ export function ClientList() {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -1963,10 +1968,10 @@ export function ClientList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on('created', (obj) => rest());
+    ClientServ.on('updated', (obj) => rest());
+    ClientServ.on('patched', (obj) => rest());
+    ClientServ.on('removed', (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1990,91 +1995,91 @@ export function ClientList() {
 
   const BeneficiarySchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row) => row.sn,
       sortable: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
+      name: 'First Name',
+      key: 'firstname',
+      description: 'First Name',
       selector: (row) => row.firstname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
+      name: 'Last Name',
+      key: 'lastname',
+      description: 'Last Name',
       selector: (row) => row.lastname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Midlle Name",
-      key: "middlename",
-      description: "Midlle Name",
+      name: 'Midlle Name',
+      key: 'middlename',
+      description: 'Midlle Name',
       selector: (row) => row.middlename,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Payment Mode",
-      key: "paymentmode",
-      description: "Payment Mode",
+      name: 'Payment Mode',
+      key: 'paymentmode',
+      description: 'Payment Mode',
       selector: (row) => row.paymentmode,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Age",
-      key: "dob",
-      description: "Age",
+      name: 'Age',
+      key: 'dob',
+      description: 'Age',
       selector: (row) => row.dob,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Gender",
-      key: "gender",
-      description: "Male",
+      name: 'Gender',
+      key: 'gender',
+      description: 'Male',
       selector: (row) => row.gender,
       sortable: true,
       required: true,
-      inputType: "SELECT_LIST",
-      options: ["Male", "Female"],
+      inputType: 'SELECT_LIST',
+      options: ['Male', 'Female'],
     },
 
     {
-      name: "Email",
-      key: "email",
-      description: "johndoe@mail.com",
+      name: 'Email',
+      key: 'email',
+      description: 'johndoe@mail.com',
       selector: (row) => row.email,
       sortable: true,
       required: true,
-      inputType: "EMAIL",
+      inputType: 'EMAIL',
     },
 
     {
-      name: "Tags",
-      key: "clientTags",
-      description: "Tags",
+      name: 'Tags',
+      key: 'clientTags',
+      description: 'Tags',
       selector: (row) => row.clientTags,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
@@ -2082,22 +2087,22 @@ export function ClientList() {
     <>
       <div className="level">
         <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
         >
           <TableMenu>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                 List of Beneficiary
               </h2>
             </div>
             {handleCreateNew && (
               <Button
-                style={{ fontSize: "14px", fontWeight: "600px" }}
+                style={{ fontSize: '14px', fontWeight: '600px' }}
                 label="Add New"
                 onClick={handleCreateNew}
                 showicon={true}
@@ -2107,19 +2112,19 @@ export function ClientList() {
 
           <div
             style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
+              width: '100%',
+              height: 'calc(100vh-90px)',
+              overflow: 'auto',
             }}
           >
             <CustomTable
-              title={""}
+              title={''}
               columns={BeneficiarySchema}
               data={facilities}
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={handleCreateNew}
+              onRowClicked={handleRow}
               progressPending={loading}
             />
           </div>
@@ -2129,12 +2134,12 @@ export function ClientList() {
   );
 }
 
-export function ClientDetail() {
+export function ClientDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const history = useHistory();
+  // const history = useHistory();
   // eslint-disable-next-line
-  let { path, url } = useRouteMatch();
+  // let { path, url } = useRouteMatch();
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
@@ -2142,9 +2147,9 @@ export function ClientDetail() {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
-  //const navigate=useNavigate()
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
 
@@ -2154,7 +2159,7 @@ export function ClientDetail() {
   const handleEdit = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -2201,667 +2206,152 @@ export function ClientDetail() {
     }, [billingModal]) */
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details</p>
-          {(user.currentEmployee?.roles.includes("Bill Client") ||
-            user.currentEmployee?.roles.length === 0 ||
-            user.stacker) && (
-            <button
-              className="button is-success is-small btnheight mt-2"
-              onClick={showBilling}
+      <div
+        className="card "
+        style={{
+          height: '50vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
+            <ModalHeader text={'Client Details'} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            {(user.currentEmployee?.roles.includes('Bill Client') ||
+              user.currentEmployee?.roles.length === 0 ||
+              user.stacker) && (
+              <Button
+                className="button is-success is-small btnheight mt-2"
+                onClick={showBilling}
+              >
+                Bill Client
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item md={4}>
+            <p>First Name:{Client?.firstname}</p>
+          </Grid>
+          <Grid item md={4}>
+            <p>Middle Name: {Client?.middleName}</p>
+          </Grid>
+          <Grid item md={4}>
+            <p>Last Name: {Client?.lastname}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>
+              Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
+            </p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Gender: {Client?.gender}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Marital Status: {Client?.maritalStatus}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Medical Records Number: {Client?.mrn}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Religion: {Client?.religion}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Profession: {Client?.profession}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Phone Number: {Client?.phone}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Email: {Client?.email}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Address: {Client?.address}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Town/City: {Client?.city}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>LGA: {Client?.lga}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>State: {Client?.state}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Country: {Client?.country}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Blood Group: {Client?.bloodGroup}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Genotype: {Client?.genotype}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Disabilities: {Client?.disabilities}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Allergies: {Client?.allergies}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Co-morbidities: {Client?.comorbidities}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Tags: {Client?.clientTags}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Specific Details: {Client?.specificDetails}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Name: {Client?.nok_name}</p>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Email: {Client?.nok_email}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>NOK Relationship: {Client?.nok_relationship}</p>
+          </Grid>
+        </Grid>
+        <Grid container mt={1}>
+          <Grid item xs={12} sm={12} md={3}>
+            <Button onClick={handleEdit}>Edit Details</Button>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Button onClick={handleFinancialInfo}>Payment Info</Button>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Button onClick={handleSchedule}>Schedule Appointment</Button>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <Button
+              onClick={() => navigate('/app/beneficiary/documentation')}
+              fullwidth
             >
-              Bill Client
-            </button>
-          )}
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.firstname && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0 "
-                      name="firstname"
-                      type="text"
-                    >
-                      First Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0 ">
-                      {Client.firstname}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.middlename && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="middlename"
-                      type="text"
-                    >
-                      {" "}
-                      Middle Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.middlename}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lastname && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lastname"
-                      type="text"
-                    >
-                      Last Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lastname}</label>
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.dob && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="dob"
-                      type="text"
-                    >
-                      Date of Birth{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.gender && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="gender"
-                      type="text"
-                    >
-                      Gender{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.gender}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.maritalstatus && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="maritalstatus"
-                      type="text"
-                    >
-                      Marital Status{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.maritalstatus}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.mrn && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="mrn"
-                      type="text"
-                    >
-                      Medical Records Number{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.mrn}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.religion && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="religion"
-                      type="text"
-                    >
-                      Religion{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.religion}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.profession && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="profession"
-                      type="text"
-                    >
-                      Profession{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.profession}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.phone && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="phone"
-                      type="text"
-                    >
-                      {" "}
-                      Phone No
-                    </label>
-                    <label className="is-size-7 my-0">{Client.phone}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="email"
-                      type="email"
-                    >
-                      Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {Client.address && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="address"
-                  type="text"
-                >
-                  Residential Address{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.address}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.city && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="city"
-                      type="text"
-                    >
-                      Town/City{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.city}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lga && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lga"
-                      type="text"
-                    >
-                      Local Govt Area{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lga}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.state && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="state"
-                      type="text"
-                    >
-                      State{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.state}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.country && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="country"
-                      type="text"
-                    >
-                      Country{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.country}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.bloodgroup && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="bloodgroup"
-                      type="text"
-                    >
-                      Blood Group{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.bloodgroup}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.genotype && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="genotype"
-                      type="text"
-                    >
-                      Genotype{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.genotype}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.disabilities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="disabilities"
-                      type="text"
-                    >
-                      Disabilities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.disabilities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.allergies && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="allergies"
-                      type="text"
-                    >
-                      Allergies{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.allergies}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.comorbidities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="comorbidities"
-                      type="text"
-                    >
-                      Co-mobidities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.comorbidities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          {Client.clientTags && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="clientTags"
-                  type="text"
-                >
-                  Tags{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.clientTags}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          {Client.specificDetails && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="specificDetails"
-                  type="text"
-                >
-                  Specific Details about Client{" "}
-                </label>
-                <label className="is-size-7 my-0">
-                  {Client.specificDetails}
-                </label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.nok_name && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_name"
-                      type="text"
-                    >
-                      Next of Kin Full Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_name}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_phoneno && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_phoneno"
-                      type="text"
-                    >
-                      Next of Kin Phone Number
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_phoneno}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_email"
-                      type="email"
-                    >
-                      Next of Kin Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_relationship && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_relationship"
-                      type="text"
-                    >
-                      Next of Kin Relationship"{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_relationship}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-grouped  mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit Details
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-info is-small"
-                onClick={handleFinancialInfo}
-              >
-                Payment Info
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleSchedule}
-              >
-                Schedule appointment
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" >
-                        Check into Clinic 
-                    </button>
-                </p> */}
-            <p className="control">
-              <button
-                className="button is-link is-small"
-                onClick={() => {
-                  history.push("/app/clinic/encounter");
-                }}
-              >
-                Attend to Client
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Financial Information</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientFinInfo closeModal={handlecloseModal} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                <button className="button is-success">Save changes</button>
-                <button className="button">Cancel</button>
-                </footer> */}
-        </div>
-      </div>
-
-      <div className={`modal ${billingModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal2}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <AppointmentCreate closeModal={handlecloseModal2} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientBilledPrescription
-              selectedClient={Client._id}
-              closeModal={handlecloseModal3}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+              View History
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     </>
   );
@@ -2874,9 +2364,9 @@ export function ClientModify() {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
   //const history = useHistory()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
@@ -2885,99 +2375,99 @@ export function ClientModify() {
   const Client = state.ClientModule.selectedClient;
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("profession", Client.profession, {
+    setValue('profession', Client.profession, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("address", Client.address, {
+    setValue('address', Client.address, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("city", Client.city, {
+    setValue('city', Client.city, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("state", Client.state, {
+    setValue('state', Client.state, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("country", Client.country, {
+    setValue('country', Client.country, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_name", Client.nok_name, {
+    setValue('nok_name', Client.nok_name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_email", Client.nok_email, {
+    setValue('nok_email', Client.nok_email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_phoneno", Client.nokphoneno, {
+    setValue('nok_phoneno', Client.nokphoneno, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lga", Client.lga, {
+    setValue('lga', Client.lga, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("bloodgroup", Client.bloodgroup, {
+    setValue('bloodgroup', Client.bloodgroup, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("genotype", Client.genotype, {
+    setValue('genotype', Client.genotype, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("disabilities", Client.disabilities, {
+    setValue('disabilities', Client.disabilities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("specificDetails", Client.specificDetails, {
+    setValue('specificDetails', Client.specificDetails, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("clientTags", Client.clientTags, {
+    setValue('clientTags', Client.clientTags, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("mrn", Client.mrn, {
+    setValue('mrn', Client.mrn, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("comorbidities", Client.comorbidities, {
+    setValue('comorbidities', Client.comorbidities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("allergies", Client.allergies, {
+    setValue('allergies', Client.allergies, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -2988,7 +2478,7 @@ export function ClientModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -3000,13 +2490,13 @@ export function ClientModify() {
   const changeState = () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
@@ -3021,8 +2511,8 @@ export function ClientModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
+            message: 'Client deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -3032,8 +2522,8 @@ export function ClientModify() {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
+            message: 'Error deleting Client, probable network issues or ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -3059,8 +2549,8 @@ export function ClientModify() {
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: "Client updated succesfully",
-          type: "is-success",
+          message: 'Client updated succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -3071,8 +2561,8 @@ export function ClientModify() {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
+          message: 'Error updating Client, probable network issues or ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -3091,7 +2581,7 @@ export function ClientModify() {
               <div className="field-body">
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7">First Name </label>{" "}
+                    <label className="label is-size-7">First Name </label>{' '}
                     <input
                       className="input is-small"
                       ref={register()}
@@ -3450,7 +2940,7 @@ export function ClientModify() {
             <div className="field">
               <p className="control has-icons-left">
                 <label className="label is-size-7">
-                  Specific Details about client{" "}
+                  Specific Details about client{' '}
                 </label>
                 <input
                   className="input is-small"
@@ -3501,7 +2991,7 @@ export function ClientModify() {
                 <div className="field">
                   <p className="control has-icons-left">
                     <label className="label is-size-7">
-                      Next of Kin Email{" "}
+                      Next of Kin Email{' '}
                     </label>
                     <input
                       className="input is-small"
@@ -3569,7 +3059,7 @@ export function ClientModify() {
 }
 
 export function InputSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -3577,9 +3067,9 @@ export function InputSearch({ getSearchfacility, clear }) {
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
@@ -3605,7 +3095,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -3622,7 +3112,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(inputEl.current) */
   };
   const handleSearch = async (val) => {
-    const field = "facilityName"; //field variable
+    const field = 'facilityName'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -3630,7 +3120,7 @@ export function InputSearch({ getSearchfacility, clear }) {
           //service
           [field]: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
           $limit: 10,
           $sort: {
@@ -3639,20 +3129,20 @@ export function InputSearch({ getSearchfacility, clear }) {
         },
       })
         .then((res) => {
-          console.log("facility  fetched successfully");
+          console.log('facility  fetched successfully');
           setFacilities(res.data);
-          setSearchMessage(" facility  fetched successfully");
+          setSearchMessage(' facility  fetched successfully');
           setShowPanel(true);
         })
         .catch((err) => {
           console.log(err);
           setSearchMessage(
-            "Error searching facility, probable network issues " + err
+            'Error searching facility, probable network issues ' + err
           );
           setSearchError(true);
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -3661,7 +3151,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      setSimpa("");
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -3669,7 +3159,7 @@ export function InputSearch({ getSearchfacility, clear }) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
+          <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "
