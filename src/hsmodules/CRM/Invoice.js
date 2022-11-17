@@ -26,6 +26,7 @@ import ModalBox from "../../components/modal";
 import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
+import InvoiceCreate from "./components/InvoiceCreate";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -35,11 +36,18 @@ export default function Invoice() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <InvoiceList showModal={showModal} setShowModal={setShowModal} />
+      <InvoiceList openCreateModal={() => setCreateModal(true)} />
+      <ModalBox
+        open={createModal}
+        onClose={() => setCreateModal(false)}
+        header="Create New Invoice"
+      >
+        <InvoiceCreate closeModal={() => setCreateModal(false)} />
+      </ModalBox>
     </section>
   );
 }
@@ -445,7 +453,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function InvoiceList({ showModal, setShowModal }) {
+export function InvoiceList({ openCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -862,7 +870,7 @@ export function InvoiceList({ showModal, setShowModal }) {
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
-                    onClick={handleCreateNew}
+                    onClick={openCreateModal}
                   />
                 )}
               </TableMenu>
@@ -875,7 +883,7 @@ export function InvoiceList({ showModal, setShowModal }) {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    onRowClicked={handleRow}
+                    onRowClicked={handleCreateNew}
                     progressPending={loading}
                     //conditionalRowStyles={conditionalRowStyles}
                   />
