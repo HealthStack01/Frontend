@@ -18,6 +18,7 @@ import PulmonologyIntake from "./Pulmonology";
 import NewPatientConsult from "./NewPatientConsult";
 import ProgressNote from "./ProgressNote";
 import MedicationList from "./MedicationList";
+import Input from "../../components/inputs/basic/Input";
 import Dropzone from "react-dropzone-uploader";
 //import 'react-dropzone-uploader/dist/styles.css'
 
@@ -66,6 +67,14 @@ export default function Clerking() {
     <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
       <input {...register("input_name")} type="file" name="files" />
       <button>Submit</button>
+
+                <Input
+                  label="Other race"
+                  register={register("input_name")}
+                  name="files"
+                  type="file"
+                />
+       
     </form>
   );
 }

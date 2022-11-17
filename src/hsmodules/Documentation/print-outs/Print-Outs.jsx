@@ -1,20 +1,40 @@
-import {forwardRef, useContext} from "react";
+import {forwardRef, useContext, useState, useEffect, useCallback} from "react";
 import {Grid, Typography} from "@mui/material";
 import {Box} from "@mui/system";
 import {formatDistanceToNowStrict, format} from "date-fns";
+import client from "../../../feathers";
 
 import CustomTable from "../../../components/customtable";
 import {ObjectContext} from "../../../context";
 
 export const PrintOutFixedInformation = ({Clinic}) => {
   const {state, setState} = useContext(ObjectContext);
+  const [facility, setFacility] = useState({});
+
+  const facilityServ = client.service("facility");
 
   const patient = state.ClientModule.selectedClient;
+  //const facility = state.facilityModule.selectedFacility;
 
-  //console.log(patient);
+  const facilityId = Clinic.facility;
 
-  //  {Clinic.documentname} by {Clinic.createdByname} at{" "}
-  //                       {Clinic.location},{Clinic.facilityname} -{" "}
+  //console.log(Clinic);
+
+  const getFacilityDetail = useCallback(() => {
+    //console.log("");
+    facilityServ
+      .get(facilityId)
+      .then(data => {
+        setFacility(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [facilityId]);
+
+  useEffect(() => {
+    getFacilityDetail();
+  }, [getFacilityDetail]);
 
   return (
     <Box sx={{width: "100%", height: "100%"}}>
@@ -49,22 +69,22 @@ export const PrintOutFixedInformation = ({Clinic}) => {
             height: "30px",
             width: "auto",
           }}
-          src="https://healthstack.africa/wp-content/uploads/2021/10/Healthstack-logo1-300x92.png"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Hospital_sign.svg/800px-Hospital_sign.svg.png"
           alt=""
         />
 
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-          Healthstack Technologies
+          {facility?.facilityName},
         </Typography>
 
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-          1st Floor, Asabi House, NO. 108 Fajuyi Road,
+          {facility?.facilityAddress},
         </Typography>
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-          Adamasingba, Ibadan, Oyo State
+          {facility?.facilityCity},
         </Typography>
         <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-          hello@healthstack.africa, 0700-0-HSTACK (0700 047 8225)
+          {facility?.facilityEmail}, {facility?.facilityContactPhone}.
         </Typography>
       </Box>
 
@@ -252,28 +272,29 @@ export const PrintOutFixedInformation = ({Clinic}) => {
             </Grid>
           )}
 
-          {patient.address && (
-            <Grid item xs={12}>
-              <Box sx={{display: "flex"}}>
-                <Typography
-                  sx={{
-                    fontSize: "0.75rem",
-                    fontWeight: "600",
-                    color: "#03045e",
-                    marginRight: "5px",
-                  }}
-                >
-                  Address:
-                </Typography>
+          <Grid item xs={12}>
+            <Box sx={{display: "flex"}}>
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color: "#03045e",
+                  marginRight: "5px",
+                }}
+              >
+                Address:
+              </Typography>
 
-                <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
-                  {patient.address}
-                </Typography>
-              </Box>
-            </Grid>
-          )}
+              <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                {patient.address}
+                {patient.address && ","} {patient.city}
+                {patient.city && ","} {patient.state}
+                {patient.state && ","} {patient.country}.
+              </Typography>
+            </Box>
+          </Grid>
 
-          {patient.city && (
+          {/* {patient.city && (
             <Grid item xs={4}>
               <Box sx={{display: "flex"}}>
                 <Typography
@@ -292,8 +313,8 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                 </Typography>
               </Box>
             </Grid>
-          )}
-
+          )} */}
+          {/* 
           {patient.state && (
             <Grid item xs={4}>
               <Box sx={{display: "flex"}}>
@@ -313,9 +334,9 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                 </Typography>
               </Box>
             </Grid>
-          )}
+          )} */}
 
-          {patient.country && (
+          {/* {patient.country && (
             <Grid item xs={4}>
               <Box sx={{display: "flex"}}>
                 <Typography
@@ -334,7 +355,7 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                 </Typography>
               </Box>
             </Grid>
-          )}
+          )} */}
         </Grid>
       </Box>
 
@@ -394,7 +415,7 @@ export const PrintOutFixedInformation = ({Clinic}) => {
                     marginRight: "5px",
                   }}
                 >
-                  Time Create:
+                  Time Created:
                 </Typography>
 
                 <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
@@ -1127,13 +1148,23 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
       inputType: "HIDDEN",
     },
     {
-      name: "Test",
-      key: "test",
+      name: "Medication",
+      key: "medication",
       description: "Test",
-      selector: row => row.test,
+      selector: row => row.medication,
       sortable: true,
       required: true,
       inputType: "TEXT",
+    },
+    {
+      name: "Instruction",
+      key: "instruction",
+      description: "Test",
+      selector: row => (row.instruction ? row.instruction : "------"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
     },
 
     {
@@ -1171,7 +1202,7 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
 
       <Box>
         <Typography sx={{color: "#000000", fontSize: "0.75rem"}} mb={2}>
-          Tests :
+          Medications :
         </Typography>
       </Box>
 
@@ -1188,6 +1219,288 @@ export const PrescriptionPrintOut = forwardRef(({data, Clinic}, ref) => {
           />
         </Box>
       )}
+    </Box>
+  );
+});
+
+export const AdultQuestionnairePrintOut = forwardRef(({data, Clinic}, ref) => {
+  const columns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "70px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Allergine",
+      key: "allergine",
+      description: "Allergine",
+      selector: row => row.allergine,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Reaction",
+      key: "reaction",
+      description: "Reaction",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  return (
+    <Box sx={{width: "100%", height: "100%", padding: "2.5%"}} ref={ref}>
+      <PrintOutFixedInformation Clinic={Clinic} />
+      <Box
+        sx={{
+          width: "100%",
+          marginTop: "15px",
+          height: "35px",
+          backgroundColor: "#2b2d42",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "7.5px",
+          marginBottom: "15px",
+        }}
+      >
+        <Typography sx={{color: "#ffffff", fontSize: "0.75rem"}}>
+          REPORT DETAILS
+        </Typography>
+      </Box>
+
+      {Object.entries(data).map(([keys, value], i) => (
+        <Box key={i}>
+          {value.length > 0 &&
+            (keys !== "Allergy_Skin_Test" ? (
+              <Box>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Box sx={{display: "flex"}}>
+                      <Typography
+                        sx={{
+                          fontSize: "0.75rem",
+                          fontWeight: "600",
+                          color: "#03045e",
+                          marginRight: "5px",
+                        }}
+                      >
+                        {keys}:
+                      </Typography>
+
+                      <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+                        {value}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+            ) : (
+              <Box>
+                {data.Allergy_Skin_Test.length > 0 && (
+                  <Box sx={{height: "auto", width: "100%"}}>
+                    <CustomTable
+                      title="Tests"
+                      columns={columns}
+                      data={data.Allergy_Skin_Test}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      progressPending={false}
+                    />
+                  </Box>
+                )}
+              </Box>
+            ))}
+        </Box>
+      ))}
+    </Box>
+  );
+});
+
+export const PediatricPulmonologyList = forwardRef(({data, Clinic}, ref) => {
+  const columnsOne = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "70px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Allergine",
+      key: "allergine",
+      description: "Allergine",
+      selector: row => row.allergine,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Reaction",
+      key: "reaction",
+      description: "Reaction",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const columnsTwo = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      width: "70px",
+      center: true,
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Symptoms",
+      key: "symptom",
+      description: "Symptom",
+      selector: row => row.symptom,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Duration",
+      key: "duration",
+      description: "Duration",
+      selector: row => row.duration,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  return (
+    <Box sx={{width: "100%", height: "100%", padding: "2.5%"}} ref={ref}>
+      <PrintOutFixedInformation Clinic={Clinic} />
+      <Box
+        sx={{
+          width: "100%",
+          marginTop: "15px",
+          height: "35px",
+          backgroundColor: "#2b2d42",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "7.5px",
+          marginBottom: "15px",
+        }}
+      >
+        <Typography sx={{color: "#ffffff", fontSize: "0.75rem"}}>
+          REPORT DETAILS
+        </Typography>
+      </Box>
+
+      {Object.entries(data).map(([keys, value], i) => (
+        <Box key={i}>
+          {value.length > 0 && (
+            <>
+              {keys !== "Allergy_Skin_Test" &&
+                keys !== "Presenting_Complaints" && (
+                  <Box>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Box sx={{display: "flex"}}>
+                          <Typography
+                            sx={{
+                              fontSize: "0.75rem",
+                              fontWeight: "600",
+                              color: "#03045e",
+                              marginRight: "5px",
+                            }}
+                          >
+                            {keys}:
+                          </Typography>
+
+                          <Typography
+                            sx={{fontSize: "0.75rem", color: "#000000"}}
+                          >
+                            {value}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+
+              {keys === "Allergy_Skin_Test" && (
+                <Box>
+                  <Box>
+                    <Typography
+                      sx={{color: "#000000", fontSize: "0.75rem"}}
+                      mb={2}
+                    >
+                      Allergy_Skin_Test :
+                    </Typography>
+                  </Box>
+
+                  {data.Allergy_Skin_Test.length > 0 && (
+                    <Box sx={{height: "auto", width: "100%"}}>
+                      <CustomTable
+                        title="Tests"
+                        columns={columnsOne}
+                        data={data.Allergy_Skin_Test}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={false}
+                      />
+                    </Box>
+                  )}
+                </Box>
+              )}
+
+              {keys === "Presenting_Complaints" && (
+                <Box>
+                  <Box>
+                    <Typography
+                      sx={{color: "#000000", fontSize: "0.75rem"}}
+                      mb={2}
+                    >
+                      Presenting_Complaints :
+                    </Typography>
+                  </Box>
+
+                  {data.Presenting_Complaints.length > 0 && (
+                    <Box sx={{height: "auto", width: "100%"}}>
+                      <CustomTable
+                        title="Tests"
+                        columns={columnsTwo}
+                        data={data.Presenting_Complaints}
+                        pointerOnHover
+                        highlightOnHover
+                        striped
+                        progressPending={false}
+                      />
+                    </Box>
+                  )}
+                </Box>
+              )}
+            </>
+          )}
+        </Box>
+      ))}
     </Box>
   );
 });

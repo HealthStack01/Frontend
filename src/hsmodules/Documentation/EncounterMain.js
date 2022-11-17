@@ -837,6 +837,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
                           <DoctorsNotePrintOut
                             ref={el => (myRefs.current[i] = el)}
                             data={Clinic.documentdetail}
+                            Clinic={Clinic}
                           />
                         </Box>
                         {Array.isArray(Clinic.documentdetail) ? (
