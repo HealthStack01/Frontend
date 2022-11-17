@@ -6,6 +6,19 @@ import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
+import {Box, getValue} from "@mui/system";
+import RadioButton from "../../components/inputs/basic/Radio";
+import {Button,Typography} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import Textarea from "../../components/inputs/basic/Textarea";
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 
 export default function MedicationList() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
@@ -403,263 +416,152 @@ export default function MedicationList() {
                 <label className="label is-size-7">
                  Test:  {order.serviceInfo.name}
                 </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Date"
-                  type="text"
+          <form onSubmit={handleSubmit(onSubmit)}>  
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="date"
                   placeholder="Date"
                 />
-              </p>
-            </div>
-            <h4>
-              <b>Allergies</b>
-            </h4>
-            <input
-              className="input is-small is-hidden"
-              {...register("input_name")}
-              name="Allergies"
-              type="text"
-              placeholder="Specify"
-            />
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Allergine</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={allergine}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setAllergine(e.target.value);
-                      }}
-                      name="allergine"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Reaction</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={reaction}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setReaction(e.target.value);
-                      }}
-                      name="reaction"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div
-                  className="button is-info is-small selectadd is-pulled-right"
-                  onClick={handleAdd}
-                >
-                  Add
-                </div>
-              </div>
-            </div>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
+    </Box>
 
-                  <th>
-                    <abbr title="Type"> Allergine</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Destination">Reaction</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {allergies.map((ProductEntry, i) => (
-                  <tr key={i}>
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.allergine}</td>
-                    <td>{ProductEntry.reaction}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
 
-            <h4>
-              <b>Medication</b>
-            </h4>
-            <input
-              className="input is-small is-hidden"
-              {...register("input_name")}
-              name="Medications"
-              type="text"
-              placeholder="Specify"
-            />
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Drug Name</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={drugname}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setDrugName(e.target.value);
-                      }}
-                      name="Drugname"
-                      type="text"
-                      placeholder="Name"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Strength/Frequency</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={strengthfreq}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setStrengthFreq(e.target.value);
-                      }}
-                      name="strengthfreq"
-                      type="text"
-                      placeholder="Strength/Frequency"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Notes</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={notes}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setNotes(e.target.value);
-                      }}
-                      name="notes"
-                      type="text"
-                      placeholder="Notes"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <div
-                  className="button is-info is-small selectadd is-pulled-right"
-                  onClick={handleAddMedication}
-                >
-                  Add
-                </div>
-              </div>
-            </div>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-
-                  <th>
-                    <abbr title="Name"> Name</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Strength/Frequency">Strength/Frequency</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Notes"> Notes</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Action"> Action</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {symptoms.map((ProductEntry, i) => (
-                  <tr key={i}>
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.drugname}</td>
-                    <td>{ProductEntry.strengthfreq}</td>
-                    <td>{ProductEntry.notes} </td>
-                    <td onClick={() => onDelete(ProductEntry, i)}>x</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+    <Box> 
+       <Typography><b>Allergies</b></Typography> 
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Specify"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
+    </Box>
+      <Box>
+       <Typography>Allergine</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Specify"
                 />
-                <span> Final </span>
-              </label>
-            </div>
+    </Box>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button type="reset" className="button is-warning is-small">
-                  Cancel
-                </button>
-              </p>
-            </div>
+      <Box>
+       <Typography>Reaction</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+    </Box> 
+  <Box>
+    <Button variant="contained" type="button" onClick={handleAdd}>Add</Button>
+  </Box>
+  <Box sx={{marginBlock:"1rem"}}>
+      <Table sx={{ minWidth: 150 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>S/No</TableCell>
+            <TableCell align="right">ALLERGINE</TableCell> 
+            <TableCell align="right">REACTION</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {allergies.map((ProductEntry, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {i + 1}
+              </TableCell>
+              <TableCell align="right">{ProductEntry.allergine}</TableCell>
+              <TableCell align="right">{ProductEntry.reaction}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+  </Box>
+         
+    <Box> 
+       <Typography><b>Medication</b></Typography> 
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Specify"
+                />
+    </Box>
+
+      <Box>
+       <Typography>Drug Name</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Name"
+                />
+    </Box> 
+
+      <Box>
+       <Typography>Strength/Frequency</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Strength/Frequency"
+                />
+    </Box> 
+      <Box>
+       <Typography>Notes</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Specify"
+                />
+    </Box> 
+  <Box>
+    <Button variant="contained" type="button" onClick={handleAdd}>Add</Button>
+  </Box>
+  <Box sx={{marginBlock:"1rem"}}>
+      <Table sx={{ minWidth: 150 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>S/No</TableCell>
+            <TableCell align="right">ALLERGINE</TableCell> 
+            <TableCell align="right">REACTION</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {allergies.map((ProductEntry, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {i + 1}
+              </TableCell>
+              <TableCell align="right">{ProductEntry.allergine}</TableCell>
+              <TableCell align="right">{ProductEntry.reaction}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+  </Box>
+    <Box> 
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Draft",
+                "Final",
+              ]}
+            />
+</Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>

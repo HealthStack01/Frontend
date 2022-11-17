@@ -7,6 +7,12 @@ import {DocumentClassList} from "./DocumentClass";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import Roaster from "../Admin/Roaster";
+import {Box, getValue} from "@mui/system";
+import RadioButton from "../../components/inputs/basic/Radio";
+import {Button,Typography} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import Textarea from "../../components/inputs/basic/Textarea";
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
 
 export default function NewPatientConsult() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
@@ -546,811 +552,1032 @@ export default function NewPatientConsult() {
                  Test:  {order.serviceInfo.name}
                 </label> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Name"
+
+
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="name"
                   type="text"
                   placeholder="Name"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="DOB"
+    </Box>
+
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="date"
                   type="text"
                   placeholder="Date of birth"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="DOS"
+    </Box>
+
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="DOS"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="PCP"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="PCP"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Physician"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="Physician"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Age"
+    </Box>
+   
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="Age"
                 />
-              </p>
-            </div>
-
-            <div className="field">
-              <label>Gender</label>
-              <label className=" is-small ml-2">
-                <input
-                  type="radio"
-                  {...register("input_name")}
-                  name="Gender"
-                  value="Male"
-                  onChange={e => {
-                    handleChangePart(e);
-                  }}
-                />
-                <span> Male</span>
-              </label>
-              <label className=" is-small ml-2">
-                <input
-                  type="radio"
-                  {...register("input_name")}
-                  name="Gender"
-                  value="Female"
-                  onChange={e => handleChangePart(e)}
-                />
-                <span>Female</span>
-              </label>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Requesting_Physician"
+    </Box>  
+    <Box>   
+    <Typography>Gender</Typography>     
+            <RadioButton
+              register={register("input_name")}
+              options={[
+                "Male",
+                "Female"
+              ]}
+            /> 
+  </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="Requesting Physician"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Reason"
+    </Box>
+
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="Reason"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="HPI"
+    </Box>
+    <Box>
+                <Textarea
+                  register={register("input_name")}
+                  name="findings"
                   type="text"
                   placeholder="HPI"
                 />
-              </p>
-            </div>
+  </Box>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Medication list filled",
+              "Patient not taking medications"
+            ]}
+          />
 
-            <div className="field">
-              {/*    <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Marital_Status" type="text" placeholder="Marital Status" />
-                                      
-                        </p> */}
-              <label className=" is-small">
-                <input
-                  type="checkbox"
-                  name="Medication_list_filled"
-                  {...register("input_name")}
-                />{" "}
-                Medication list filled
-              </label>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="checkbox"
-                  name="Not_Taking_Meds"
-                  {...register("input_name")}
-                />{" "}
-                Patient not taking medications
-              </label>
-            </div>
-
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Allergies"
+    <Box>
+                <Input
+                  register={register("input_text")}
+                  name="text"
                   type="text"
                   placeholder="Allergies"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="checkbox"
-                  name="NKDA"
-                  {...register("input_name")}
-                />{" "}
-                NKDA
-              </label>
-            </div>
-            <b> Review of Systems </b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
+    </Box>
+
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "NKDA"
+            ]}
+          />
+           <Box> 
+          <Typography><b>Review of Systems</b></Typography>
               {ROS.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="checkbox"
-                    /* value={c + ", "} */ name="ROS"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="ROS_comments"
-                  type="text"
-                  placeholder="Comments/Other"
+                  <CheckboxInput
+                    key={i}
+                    name="ROS"
+                    register={register("input_name")}
+                  options={[c + " "]}
                 />
-              </p>
-            </div>
-            <b> Risk Factors </b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
+              ))}
+             </Box>
+
+    <Box>
+      <Textarea
+                  register={register("input_name")}
+                  name="findings"
+                  type="text"
+                  placeholder="Comments/Others"
+           />
+  </Box>
+ <Box sx={{paddingBlock:"1rem"}}> 
+          <Typography><b>Risk Factors</b></Typography>
               {risk.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Risk_Factors"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
+                  <CheckboxInput
+                    key={i}
+                    name="Risk"
+                    register={register("input_name")}
+                  options={[c + " "]}
+                />
               ))}
-            </div>
+             </Box>
+    <Box>
+       <Typography><b>Social History </b></Typography>
+    <Box>  
+       <Typography>Smoker</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Smoker details"
+                />
+    </Box>
 
-            <b> Social History </b>
+    <Box>  
+       <Typography>Alchol</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Alchol details"
+                />
+    </Box>
 
-            {socialhistory.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {yesno.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name={`${x}_detail`}
-                    type="text"
-                    placeholder={`${x} detail`}
-                  />
-                </p>
-              </div>
-            ))}
-            <b> Family History </b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {familyHx.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
-              ))}
-            </div>
-            <b> Past Medical History </b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
+    <Box>  
+       <Typography>Caffeine</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Caffeine details"
+                />
+    </Box>
+
+    <Box>  
+       <Typography>Ocupation</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Ocupation details"
+                />
+    </Box>
+
+    <Box>  
+       <Typography>Hobbies</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Hobbies details"
+                />
+    </Box>
+    <Box>  
+       <Typography>Other Substances</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Other Substances"
+                />
+    </Box>
+
+    <Box>  
+       <Typography>Exercise</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Exercise detail"
+                />
+    </Box>
+    <Box>  
+       <Typography>Marital Status</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Marital Status detail"
+                />
+    </Box>
+
+    <Box>  
+       <Typography>Other detail</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Other detail"
+                />
+    </Box>
+    </Box>
+    <Box> 
+       <Typography><b>Family History</b></Typography>
+    <Box> 
+       <Typography>Sibling</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Dad</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Mom</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Others</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    </Box>
+           <Box> 
+          <Typography><b>Past Medical History</b></Typography>
               {PMH.map((c, i) => (
-                <span>
-                  <label className=" is-small mr-1 " key={c}>
-                    <input
-                      type="checkbox"
-                      value={c + ", "}
-                      name="PMH"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                </span>
-              ))}
-              <p className="control  mt-1">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Past_Medical_History_Comments"
-                  type="text"
-                  placeholder="Comments/Other"
+                  <CheckboxInput
+                    key={i}
+                    name="ROS"
+                    register={register("input_name")}
+                  options={[c + " "]}
                 />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {hx.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
               ))}
-            </div>
-            <b> Physical Examination </b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {physicalexam.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>General Examination:</b>
-              </label>
-              {appear.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="cvs"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <b> Eyes</b>
-            {eyes.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {abn.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name={`${x}_detail`}
-                    type="text"
-                    placeholder={`${x} detail`}
-                  />
-                </p>
-              </div>
-            ))}
-            <b> ENMT </b>
-            {ENMT.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {abn.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name={`${x}_detail`}
-                    type="text"
-                    placeholder={`${x} detail`}
-                  />
-                </p>
-              </div>
-            ))}
-            <b> Neck </b>
-            {Neck.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {abn.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name={`${x}_detail`}
-                    type="text"
-                    placeholder={`${x} detail`}
-                  />
-                </p>
-              </div>
-            ))}
-            <b>Respiratory </b>
-            {Resp.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {abn.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name={`${x}_detail`}
-                    type="text"
-                    placeholder={`${x} detail`}
-                  />
-                </p>
-              </div>
-            ))}
-            <b> GI </b>
-            {GI.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {abn.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-                <p className="control ">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name={`${x}_detail`}
-                    type="text"
-                    placeholder={`${x} detail`}
-                  />
-                </p>
-              </div>
-            ))}
+             </Box>
 
-            <b>Vascular System Examination </b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {vasc.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
-              ))}
-            </div>
-            {vasc2.map((x, i) => (
-              <div className="field ml-3 ">
-                <label className="mr-2 ">{x}</label>
-                {yesno.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c + ", "}
-                      name={x}
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-            ))}
-
-            <b>Musculoskeletal System Examination </b>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">{MS[0]}</label>
-              {abn.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name={MS[0]}
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name={`${MS[0]}_detail`}
+    <Box>
+      <Textarea
+                  register={register("input_name")}
+                  name="findings"
                   type="text"
-                  placeholder={`${MS[0]} detail`}
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">{MS[1]}</label>
-              {presnt.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name={MS[1]}
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name={`${MS[1]}_detail`}
+                  placeholder="Comments/Others"
+           />
+  </Box>
+    <Box> 
+       <Typography>Past Cardiac Hx</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder={`${MS[1]} detail`}
                 />
-              </p>
-            </div>
+    </Box>
+    <Box> 
+       <Typography>Past Cardiac Surgery</Typography>
 
-            <b>Skin System Examination </b>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">{skinex[0]}</label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name={skinex[0]}
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">{skinex[1]}</label>
-              {poor.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name={skinex[1]}
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Past Cardiac Procedure</Typography>
 
-            <b>neurological System Examination </b>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">{neu[0]}</label>
-              {abn.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name={neu[0]}
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name={`${neu[0]}_detail`}
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder={`${neu[0]} detail`}
                 />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">{neu[1]}</label>
-              {affect.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name={neu[0]}
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name={`${neu[0]}_detail`}
+    </Box>
+
+    <Box> 
+       <Typography>Past Cardiac Testing</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder={`${neu[0]} detail`}
                 />
-              </p>
-            </div>
-            <b>Cardiac </b>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="Cardiac Examination"
+    </Box>
+
+    <Box> 
+       <Typography>Past Surgical Hx</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Others</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+
+    <Box> 
+     <Typography><b>Physical Examination</b></Typography>
+    <Box> 
+       <Typography>BP Sitting</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>BS Standing</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>BS Supine</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+
+    <Box> 
+       <Typography>HR</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+
+    <Box> 
+       <Typography>RR</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+
+    <Box> 
+       <Typography>Height</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Weight</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>Change</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box> 
+       <Typography>BMI</Typography>
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    </Box>
+
+
+<Box>
+       <Typography><b>General Examination</b></Typography>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Well developed",
+              "ill Appearing",
+              "Cachetic",
+              "Obese"
+            ]}
+          />
+    </Box>
+
+    <Box>  
+       <Typography><b>Eyes</b></Typography>
+       <Typography>Conjunctiva</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Conjunctiva details"
+                />
+    <Box>
+       <Typography>Lids</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Lids details"
+                />
+    </Box>
+    </Box>
+    <Box>  
+       <Typography><b>ENMT</b></Typography>
+       <Typography>Teeth</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Teeth details"
+                />
+    <Box>
+       <Typography>Gums</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Gums details"
+                />
+    </Box>
+    <Box>
+       <Typography>Palate</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Palate details"
+                />
+    </Box>
+    <Box>
+       <Typography>Oral mucosa</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Oral mucosa details"
+                />
+    </Box>
+    </Box>
+
+    <Box>  
+       <Typography><b>Neck</b></Typography>
+       <Typography>Jugular Veins</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Jugular Veins details"
+                />
+    <Box>
+       <Typography>Bruits</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Bruits detail"
+                />
+    </Box>
+    </Box>
+    <Box>  
+       <Typography><b>Respiratory</b></Typography>
+       <Typography>Effort</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Effort detail"
+                />
+    <Box>  
+       <Typography>Breath Sound</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Breath Sound detail"
+                />
+    </Box>
+    </Box>
+    <Box>  
+       <Typography><b>GI</b></Typography>
+       <Typography>Tenderness</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Tenderness detail"
+                />
+    <Box>  
+       <Typography>Hepatosplenomegaly</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+            
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Hepatosplenomegaly detail"
+                />
+    </Box>
+    <Box>  
+
+       <Typography>Abdominal Aorta(size,bruits)</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Abdominal Aorta detail"
+                />
+    </Box>
+    </Box>
+
+    <Box>       
+       <Typography><b>Vascular System Examination</b></Typography>
+    <Box>
+       <Typography>radial</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box>
+       <Typography>femoral</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    <Box>
+       <Typography>pedal</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                />
+    </Box>
+    </Box>
+
+              <Box>         
+       <Typography>edema</Typography>
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Yes",
+                "No"
+              ]}
+            /> 
+            </Box>
+
+              <Box>
+       <Typography>bruits</Typography>
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Yes",
+                "No"
+              ]}
+            /> 
+               </Box>
+<Box>
+       <Typography><b>Musculoskeletal System Examination</b></Typography>
+              <Box>   
+       <Typography>Gait</Typography>
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Normal",
+                "Abdominal"
+              ]}
+            /> 
+               </Box>
+  
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="gait detail"
+                />
+
+              <Box>   
+       <Typography>Kyphosis/Scoliosis</Typography>
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Absent",
+                "Present"
+              ]}
+            /> 
+               </Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Kyphosis/Scoliosis detail"
+                />
+</Box>
+
+
+              <Box>   
+       <Typography><b>Skin System Examination</b></Typography>
+       <Typography>Xanthoma</Typography>
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Yes",
+                "No"
+              ]}
+            /> 
+            </Box>
+
+              <Box>
+       <Typography>Tugor</Typography>
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "good",
+                "poor"
+              ]}
+            /> 
+               </Box>
+    <Box>
+       <Typography><b>neurological System Examination</b></Typography>
+    <Box>  
+       <Typography>Affect</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Abnormal"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="A&O x3 detail"
+                />
+    </Box>
+    <Box> 
+
+       <Typography>Affect</Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "anxious",
+                "flat",
+                "appropriate"
+              ]}
+            />
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Abdominal Aorta detail"
+                />
+    </Box>
+    </Box>
+
+    <Box> 
+       <Typography><b>Cardiac</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="Cardiac Examination"
-                />
-              </p>
-            </div>
+           />
+  </Box>
 
-            <b>Other Examination </b>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="Others_Examination"
+    <Box>  
+       <Typography><b>Other Examination</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="Other Examination"
-                />
-              </p>
-            </div>
-            <b>Patient's EKG interpretation </b>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="EKG_Interpretation"
+           />
+  </Box>
+    <Box>  
+       <Typography><b>Patient EKG Interpretation</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
                   type="text"
                   placeholder="EKG Interpretation"
-                />
-              </p>
-            </div>
-            <b>Laboratory Results </b>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="Others_Examination"
+           />
+  </Box>
+    <Box>  
+        <Typography><b>Laboratory Result</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Labratory results"
-                />
-              </p>
-            </div>
-            {clerk.map((c, i) => (
-              <>
-                <b>{c}</b>
-                <div className="field ml-3 ">
-                  <p className="control ">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("input_name")}
-                      name={c}
-                      type="text"
-                      placeholder={c}
-                    />
-                  </p>
-                </div>
-              </>
-            ))}
+                  placeholder="Laboratory Result"
+           />
+  </Box>
 
-            <b>Test Ordered</b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
+
+    <Box>  
+       <Typography><b>Assessment</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Assessment"
+           />
+  </Box>
+
+    <Box>  
+       <Typography><b>Plan</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Plan"
+           />
+  </Box>
+
+
+           <Box> 
+          <Typography><b>Past Medical History</b></Typography>
               {tests.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Test_Ordered"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <label className=" is-size-7 mr-1">
-                  CT Details{" "}
-                  <input
-                    className="input is-small"
-                    type="text"
-                    /* value={c + ", "} */ name="CT_Details"
-                    {...register("input_name")}
-                  />
-                </label>
-              </p>
-            </div>
-            <b>Labs</b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {labo.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Labs"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <b>Followup in</b>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {followup.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Followup"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <b>Physician Sign Off</b>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                All information on this form has been reviewed by me, indictated
-                by ny name below:
-              </label>
-              {physiciandetails.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
-              ))}
-            </div>
-
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+                  <CheckboxInput
+                    key={i}
+                    name="tests"
+                    register={register("input_name")}
+                  options={[c + " "]}
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
-                />
-                <span> Final </span>
-              </label>
-            </div>
+              ))}
+             </Box>
+    <Box>  
+        <Typography>CT Details</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button type="reset" className="button is-warning is-small">
-                  Cancel
-                </button>
-              </p>
-            </div>
+           <Box> 
+          <Typography><b>Labs</b></Typography>
+                  <CheckboxInput
+                    name="tests"
+                    register={register("input_name")}
+                  options={["BMP","CBC","PT/INR","Fasting Lipids",
+                   "LFT","TSH","T3Uptake","T4"
+                  ]}
+                />
+             </Box>
+
+
+    <Box> 
+       <Typography><b>Followup In</b></Typography>
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "1-2 weeks",
+                "1-2 months",
+                "3-4 months",
+                "5-6 months",
+                "7-8 months",
+                "9-10 months",
+                "1 year"
+              ]}
+            />
+</Box>
+<Box>
+       <Typography><b>Physician Sign Off</b></Typography>
+    <Box sx={{paddingTop:"1.5rem"}}>
+    <Typography>
+    All information on this form has been reviewed by me, indictated by ny name below:
+    </Typography>
+    </Box>
+    <Box>  
+        <Typography>Attending_Physician_Name</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+
+    <Box>  
+        <Typography>Date_Seen</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+    </Box>
+
+    
+    <Box> 
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Draft",
+                "Final",
+              ]}
+            />
+</Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>
