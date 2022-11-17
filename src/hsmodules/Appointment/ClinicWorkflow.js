@@ -24,6 +24,8 @@ import ModalHeader from './ui-components/Heading/modalHeader';
 import { Box, Grid } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
+
+
 export default function ClinicCheckIn() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line

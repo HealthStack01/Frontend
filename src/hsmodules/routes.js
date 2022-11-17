@@ -202,6 +202,7 @@ import ReferralDashboard from './dashBoardUiComponent/@modules/ReferralDashboard
 import CommunicationDashboard from './dashBoardUiComponent/@modules/CommunicationDashboard';
 import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/ImmunizationDashboard';
 import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
+import ProviderPayment from './ManagedCare/ProviderPayment';
 
 const moduleLocationTypes = {
   clinic: 'Clinic',
@@ -686,7 +687,7 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/tarrifs" />
 
             <Route path="/app/managed-care/fundmanagement" element={<FundsManagement/>}   />
-            <Route path="/app/managed-care/providerpayment" />
+            <Route path="/app/managed-care/providerpayment" element={<ProviderPayment/>} />
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route
