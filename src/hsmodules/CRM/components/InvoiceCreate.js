@@ -33,19 +33,19 @@ const DatePickerCustomInput = forwardRef(({ value, onClick }, ref) => (
   </div>
 ));
 
-const LeadsCreate = ({ closeModal }) => {
+const InvoiceCreate = ({ closeModal }) => {
   const { register } = useForm();
   return (
     <Box
       container
       sx={{
-        width: "40vw",
-        height: "80vh",
+        width: "50vw",
+        height: "70vh",
       }}
     >
       {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
       <Box item>
-        <FormsHeaderText text="Customer Details" />
+        <FormsHeaderText text="Invoice Create" />
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Input
@@ -56,8 +56,8 @@ const LeadsCreate = ({ closeModal }) => {
           </Grid>
           <Grid item xs={6}>
             <Input
-              register={register("customer_number", { required: true })}
-              label="Customer Number"
+              register={register("phone_number", { required: true })}
+              label="Phone Number"
               //placeholder="Enter customer number"
             />
           </Grid>
@@ -80,7 +80,7 @@ const LeadsCreate = ({ closeModal }) => {
           <Grid item xs={4}>
             <Input
               register={register("local_govt", { required: true })}
-              label="Local Government"
+              label="Local Government Area"
               //placeholder="Enter customer number"
             />
           </Grid>
@@ -108,19 +108,20 @@ const LeadsCreate = ({ closeModal }) => {
       </Box>
 
       <Box>
-        <FormsHeaderText text="Contact Details" />
+        <FormsHeaderText text="Plan" />
         <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Input
-              register={register("contact_name", { required: true })}
-              label="Contact Name"
-              //placeholder="Enter customer name"
+          <Grid item xs={12}>
+            <CustomSelect
+              register={register("plan", { required: true })}
+              label="Plan Type"
+              options={["First", "Second", "Third", "Fourth"]}
+              //placeholder="Enter customer number"
             />
           </Grid>
           <Grid item xs={6}>
             <Input
-              register={register("contact_position", { required: true })}
-              label="Contact Position"
+              register={register("no_month", { required: true })}
+              label="No of Months"
               type="text"
               //placeholder="Enter customer number"
             />
@@ -132,102 +133,19 @@ const LeadsCreate = ({ closeModal }) => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Input
-              register={register("contact_phone", { required: true })}
-              label="Contact Phone No"
+              register={register("no_month", { required: true })}
+              label="No of Month"
               // placeholder="Enter customer name"
             />
           </Grid>
 
           <Grid item xs={6}>
             <Input
-              register={register("contact_email", { required: true })}
-              label="Contact Email"
-              type="email"
+              register={register("amount", { required: true })}
+              label="Amount"
+              type="NUMBER"
               //placeholder="Enter customer number"
             />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box>
-        <FormsHeaderText text="Lead Details" />
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Input
-              register={register("address", { required: true })}
-              label="Probability of deal"
-              //placeholder="Enter customer name"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Input
-              register={register("local_govt", { required: true })}
-              label="Size of deal"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-        </Grid>
-
-        {/* ***************************************************************************************** */}
-
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <CustomSelect
-              register={register("city", { required: true })}
-              label="Deal Status"
-              options={["Open", "Closed", "Pending"]}
-              // placeholder="Enter customer name"
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <CustomSelect
-              register={register("state", { required: true })}
-              label="Next Action"
-              options={["First", "Second", "Third", "Fourth"]}
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Input
-              register={register("local_govt", { required: true })}
-              label="Weight Forcast"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <MuiCustomDatePicker
-              //format="dd/MM/yyyy"
-              label="Projected closing Date"
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <MuiCustomDatePicker
-              //format="dd/MM/yyyy"
-              label="Date of submission"
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Textarea
-              label="Additional Information"
-              placeholder="Write here..."
-            />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box container>
-        <FormsHeaderText text="Staff Details" />
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Input label="Telestaff name" />
           </Grid>
         </Grid>
       </Box>
@@ -258,4 +176,4 @@ const LeadsCreate = ({ closeModal }) => {
   );
 };
 
-export default LeadsCreate;
+export default InvoiceCreate;
