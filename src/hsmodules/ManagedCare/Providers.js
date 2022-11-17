@@ -6,7 +6,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import LocationSearch from '../helpers/LocationSearch';
@@ -32,6 +32,11 @@ import { FacilitySearch } from '../helpers/FacilitySearch';
 import { McText } from './text';
 import CustomSelect from '../../components/inputs/basic/Select';
 import BasicDatePicker from '../../components/inputs/Date';
+import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
+import { IoLocationSharp } from 'react-icons/io5';
+import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
+import { MdEmail, MdLocalHospital } from 'react-icons/md';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -41,12 +46,22 @@ export default function Provider() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
-  console.log('state', showModal);
+  const [showModal, setShowModal] = useState(0);
   return (
     <section className="section remPadTop">
       <ProviderList showModal={showModal} setShowModal={setShowModal} />
-      {showModal && (
+      {showModal === 1 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <OrganizationCreate />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          {/* <NewOrganizationCreate /> */}
+          <OrganizationDetail setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+      {showModal === 3 && (
         <ModalBox open={showModal} onClose={() => setShowModal(false)}>
           <NewOrganizationCreate />
         </ModalBox>
@@ -520,12 +535,7 @@ export function OrganizationCreate() {
   const handleClick = () => {
     //check band selected
     if (band === '') {
-      toast({
-        message: 'Band not selected, Please select band',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error('Band not selected, Please select band');
       return;
     }
 
@@ -542,22 +552,12 @@ export function OrganizationCreate() {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
-        toast({
-          message: 'Organization added succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Organization added succesfully');
         setSuccess(false);
         setBand('');
       })
       .catch((err) => {
-        toast({
-          message: 'Error adding organization ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error adding organization ' + err);
       });
   };
 
@@ -581,72 +581,38 @@ export function OrganizationCreate() {
 
   return (
     <>
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div
-            className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-          >
-            <FacilitySearch
-              getSearchfacility={getSearchfacility}
-              clear={success}
-            />
-            <p className="control has-icons-left " style={{ display: 'none' }}>
-              <input
-                className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
-              />
-              <span className="icon is-small is-left">
-                <i className="fas  fa-map-marker-alt"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <div className="control">
-              <div className="select is-small ">
-                <select
-                  name="bandType"
-                  value={band}
-                  onChange={(e) => handleChangeMode(e)}
-                  className="selectadd"
-                  style={{
-                    width: '100%',
-                    padding: '1rem',
-                    margin: '1rem 0',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    border: '1px solid rgba(0, 0, 0, 0.6)',
-                  }}
-                >
-                  <option value="">
-                    {user.currentEmployee.facilityDetail.facilityType === 'HMO'
-                      ? 'Choose Provider Band'
-                      : 'Choose Company Band'}{' '}
-                  </option>
-                  {providerBand.map((option, i) => (
-                    <option key={i} value={option.name}>
-                      {' '}
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-          {/* <div className="field">
-            <p className="control">
-              <button className="button is-success is-small selectadd">
-                <span className="is-small" onClick={handleClick}>
-                  Add
-                </span>
-              </button>
-            </p>
-          </div> */}
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={12}>
-              <Button label="Add" type="submit" onClick={handleClick} />
-            </Grid>
-          </Grid>
-        </div>
-      </div>
+      <FacilitySearch getSearchfacility={getSearchfacility} clear={success} />
+      <select
+        name="bandType"
+        value={band}
+        onChange={(e) => handleChangeMode(e)}
+        className="selectadd"
+        style={{
+          width: '100%',
+          padding: '1rem',
+          margin: '1rem 0',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          border: '1px solid rgba(0, 0, 0, 0.6)',
+        }}
+      >
+        <option value="">
+          {user.currentEmployee.facilityDetail.facilityType === 'HMO'
+            ? 'Choose Provider Band'
+            : 'Choose Company Band'}{' '}
+        </option>
+        {providerBand.map((option, i) => (
+          <option key={i} value={option.name}>
+            {' '}
+            {option.name}
+          </option>
+        ))}
+      </select>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12} md={12}>
+          <Button label="Add" type="submit" onClick={handleClick} />
+        </Grid>
+      </Grid>
     </>
   );
 }
@@ -689,11 +655,11 @@ export function ProviderList({ showModal, setShowModal }) {
       show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
+    setShowModal(1);
   };
 
   const handleRow = async (Client) => {
-    setShowModal(true);
+    setShowModal(2);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
@@ -1616,49 +1582,6 @@ export function NewOrganizationCreate() {
     <>
       {currentPage === 1 && (
         <>
-          <FacilitySearch
-            getSearchfacility={getSearchfacility}
-            clear={success}
-          />
-          <select
-            name="bandType"
-            value={band}
-            onChange={(e) => handleChangeMode(e)}
-            className="selectadd"
-            style={{
-              width: '100%',
-              padding: '1rem',
-              margin: '1rem 0',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              border: '1px solid rgba(0, 0, 0, 0.6)',
-            }}
-          >
-            <option value="">
-              {user.currentEmployee.facilityDetail.facilityType === 'HMO'
-                ? 'Choose Provider Band'
-                : 'Choose Company Band'}{' '}
-            </option>
-            {providerBand.map((option, i) => (
-              <option key={i} value={option.name}>
-                {' '}
-                {option.name}
-              </option>
-            ))}
-          </select>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={12}>
-              <Button
-                label="Next"
-                type="submit"
-                onClick={() => setCurrentPage(2)}
-              />
-            </Grid>
-          </Grid>
-        </>
-      )}
-      {currentPage === 2 && (
-        <>
           <p style={{ fontWeight: '700' }}>
             HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
           </p>
@@ -1667,16 +1590,18 @@ export function NewOrganizationCreate() {
           </p>
           <McText txt={'PERSONAL DATA'} type={'p'} bold={700} />
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={12}>
               <Input
                 label={'NAME OF MEDICAL DIRECTOR (MD)'}
                 register={register('nameofmd')}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
               <Input label={'MCDN NO'} register={register('mcdnNo')} />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <Input label={'MD PHONE NO'} register={register('nmPhoneNo')} />
             </Grid>
           </Grid>
@@ -1717,21 +1642,21 @@ export function NewOrganizationCreate() {
             <Grid item xs={12} sm={4}>
               <Button
                 label={'Cancel'}
-                onClick={() => setCurrentPage(1)}
+                onClick={() => setCurrentPage(0)}
                 fullwidth
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <Button
                 label={'Next'}
-                onClick={() => setCurrentPage(3)}
+                onClick={() => setCurrentPage(2)}
                 fullwidth
               />
             </Grid>
           </Grid>
         </>
       )}
-      {currentPage === 3 && (
+      {currentPage === 2 && (
         <>
           <div
             style={{
@@ -2762,14 +2687,14 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={4}>
                 <Button
                   label={'Cancel'}
-                  onClick={() => setCurrentPage(2)}
+                  onClick={() => setCurrentPage(1)}
                   fullwidth
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Button
                   label={'Next'}
-                  onClick={() => setCurrentPage(4)}
+                  onClick={() => setCurrentPage(3)}
                   fullwidth
                 />
               </Grid>
@@ -2777,7 +2702,7 @@ export function NewOrganizationCreate() {
           </div>
         </>
       )}
-      {currentPage === 4 && (
+      {currentPage === 3 && (
         <>
           <div
             style={{
@@ -3380,14 +3305,14 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={4}>
                 <Button
                   label={'Cancel'}
-                  onClick={() => setCurrentPage(3)}
+                  onClick={() => setCurrentPage(2)}
                   fullwidth
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Button
                   label={'Next'}
-                  onClick={() => setCurrentPage(5)}
+                  onClick={() => setCurrentPage(4)}
                   fullwidth
                 />
               </Grid>
@@ -3395,7 +3320,7 @@ export function NewOrganizationCreate() {
           </div>
         </>
       )}
-      {currentPage === 5 && (
+      {currentPage === 4 && (
         <>
           <div
             style={{
@@ -3541,7 +3466,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={4}>
                 <Button
                   label={'Cancel'}
-                  onClick={() => setCurrentPage(1)}
+                  onClick={() => setCurrentPage(0)}
                   fullwidth
                 />
               </Grid>
@@ -3563,6 +3488,106 @@ export function NewOrganizationCreate() {
           <Button label="Add" type="submit" onClick={handleClick} />
         </Grid>
       </Grid> */}
+    </>
+  );
+}
+
+export function OrganizationDetail({ showModal, setShowModal }) {
+  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+  // eslint-disable-next-line
+  const [error, setError] = useState(false); //,
+  //const [success, setSuccess] =useState(false)
+  // eslint-disable-next-line
+  const [message, setMessage] = useState(''); //,
+  //const facilityServ=client.service('/facility')
+  //const history = useHistory()
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+
+  const facility = state.facilityModule.selectedFacility;
+
+  const handleEdit = async () => {
+    const newfacilityModule = {
+      selectedFacility: facility,
+      show: 'modify',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      facilityModule: newfacilityModule,
+    }));
+    //console.log(state)
+    setShowModal(3);
+  };
+  const closeForm = async () => {
+    // const newfacilityModule = {
+    //   selectedFacility: facility,
+    //   show: 'create',
+    // };
+    // await setState((prevstate) => ({
+    //   ...prevstate,
+    //   facilityModule: newfacilityModule,
+    // }));
+    // console.log('close form');
+    setShowModal(0);
+  };
+
+  return (
+    <>
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '20vw',
+          margin: '0 auto',
+        }}
+      >
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12}>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <FaHospital /> Name: St. Nicholas Hospital{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <FaAddressCard /> Address: 1234, 5th Avenue, New York, NY 10001{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <IoLocationSharp /> City: Lagos{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <BsFillTelephoneFill /> Phone: 08012345678{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <MdEmail /> Email: test@test.com{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <FaUserAlt /> CEO: Dr. John Doe{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <MdLocalHospital /> Type: HMO{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <BsHouseDoorFill />
+              Category: HMO
+            </p>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex' }}>
+            <Button label="Edit" onClick={handleEdit} />
+            <Button label="Associate" />
+            <Button label="Close" onClick={closeForm} />
+            <Button label="Delete" />
+          </Grid>
+        </Grid>
+      </div>
     </>
   );
 }

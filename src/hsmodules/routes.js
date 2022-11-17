@@ -173,35 +173,37 @@ import PreAuth from "./ManagedCare/PreAuth";
 
 // import Provider from "./ManagedCare/Providers";
 
-import CRMHome from "./CRM/CrmHome";
-import Leads from "./CRM/Lead";
-import Proposal from "./CRM/Proposal";
-import Invoice from "./CRM/Invoice";
-import SLA from "./CRM/SLA";
-import CrmAppointment from "./CRM/Appointment";
-import Deal from "./CRM/Deal";
-import Complaint from "./Complaints/Complaint";
-import ImmunizationHome from "./Immunization/ImmunizationHome";
-import VaccineProfile from "./Immunization/VaccineProfile";
-import BloodBankInventory from "./Bloodbank/Inventory";
-import BloodBankHome from "./Bloodbank/BloodBankHome";
-import PremiumPayment from "./ManagedCare/PremiumPayment";
-import BloodBankAppointments from "./Appointment/bloodBankAppoinment";
-import ImmunizationAppointments from "./Appointment/immunizationAppoinment";
-import ImmunizationCheckIn from "./Immunization/Checkin";
-import ReferralIncoming from "./Appointment/referralWorkflow";
-import BloodBankLab from "./Bloodbank/Lab";
-import ImmunizationInventory from "./Immunization/Inventory";
-import PageLoaderComponent from "../components/page-loader/page-loader";
-import AccountDashboard from "./dashBoardUiComponent/@modules/AccountDashboard";
-import AdminDashboard from "./dashBoardUiComponent/@modules/AdminDashboard";
-import RadiologyDashboard from "./dashBoardUiComponent/@modules/RadiologyDashboard";
-import TheatreDashboard from "./dashBoardUiComponent/@modules/TheatreDashboard";
-import CrmDashboard from "./dashBoardUiComponent/@modules/CrmDashboard";
-import ReferralDashboard from "./dashBoardUiComponent/@modules/ReferralDashboard";
-import CommunicationDashboard from "./dashBoardUiComponent/@modules/CommunicationDashboard";
-import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/ImmunizationDashboard";
-import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
+import CRMHome from './CRM/CrmHome';
+import Leads from './CRM/Lead';
+import Proposal from './CRM/Proposal';
+import Invoice from './CRM/Invoice';
+import SLA from './CRM/SLA';
+import CrmAppointment from './CRM/Appointment';
+import Deal from './CRM/Deal';
+import Complaint from './Complaints/Complaint';
+import ImmunizationHome from './Immunization/ImmunizationHome';
+import VaccineProfile from './Immunization/VaccineProfile';
+import BloodBankInventory from './Bloodbank/Inventory';
+import BloodBankHome from './Bloodbank/BloodBankHome';
+import PremiumPayment from './ManagedCare/PremiumPayment';
+import BloodBankAppointments from './Appointment/bloodBankAppoinment';
+import ImmunizationAppointments from './Appointment/immunizationAppoinment';
+import ImmunizationCheckIn from './Immunization/Checkin';
+import ReferralIncoming from './Appointment/referralWorkflow';
+import BloodBankLab from './Bloodbank/Lab';
+import ImmunizationInventory from './Immunization/Inventory';
+import PageLoaderComponent from '../components/page-loader/page-loader';
+import AccountDashboard from './dashBoardUiComponent/@modules/AccountDashboard';
+import AdminDashboard from './dashBoardUiComponent/@modules/AdminDashboard';
+import RadiologyDashboard from './dashBoardUiComponent/@modules/RadiologyDashboard';
+import TheatreDashboard from './dashBoardUiComponent/@modules/TheatreDashboard';
+import CrmDashboard from './dashBoardUiComponent/@modules/CrmDashboard';
+import ReferralDashboard from './dashBoardUiComponent/@modules/ReferralDashboard';
+import CommunicationDashboard from './dashBoardUiComponent/@modules/CommunicationDashboard';
+import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/ImmunizationDashboard';
+import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
+import OrganizationClient from './ManagedCare/OrganizationClient';
+import ProviderPayment from './ManagedCare/ProviderPayment';
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -668,7 +670,7 @@ const AppRoutes = () => {
             />
             <Route
               path="/app/managed-care/organisation"
-              element={<OrgList />}
+              element={<OrganizationClient />}
             />
             <Route
               path="/app/managed-care/complaints"
@@ -685,11 +687,14 @@ const AppRoutes = () => {
             {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
 
+
+            <Route path="/app/managed-care/providerpayment" element={<ProviderPayment/>} />
+
             <Route
               path="/app/managed-care/fundmanagement"
               element={<FundsManagement />}
             />
-            <Route path="/app/managed-care/providerpayment" />
+       
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route

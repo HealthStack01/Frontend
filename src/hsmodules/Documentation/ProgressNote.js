@@ -7,6 +7,13 @@ import {DocumentClassList} from "./DocumentClass";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import Roaster from "../Admin/Roaster";
+import {Box, getValue} from "@mui/system";
+import RadioButton from "../../components/inputs/basic/Radio";
+import {Button,Typography} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import Textarea from "../../components/inputs/basic/Textarea";
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 
 export default function ProgressNote() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
@@ -549,158 +556,152 @@ export default function ProgressNote() {
         </div>
         <div className="card-content vscrollable remPad1">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Date"
+
+    <Box>
+    <MuiCustomDatePicker label="Date" register={register("Date")} />
+    </Box>
+<Box>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "New",
+              "Return",
+              "Periodic"
+            ]}
+          />
+    </Box>
+
+    <Box>  
+       <Typography><b>Subjective</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Date"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {progtype.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Progress Note Type"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
+                  placeholder="Subjective"
+           />
+  </Box>
 
-            {SOAP.map((c, i) => (
-              <>
-                <b>{c}</b>
-                <div className="field ml-3 ">
-                  <p className="control ">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("input_name")}
-                      name={c}
-                      type="text"
-                      placeholder={c}
-                    />
-                  </p>
-                </div>
-              </>
-            ))}
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                Next appointment to be scheduled for
-              </label>
-
-              <p className="control ">
-                <input
-                  className="input is-small"
+    <Box sx={{paddingTop:"1rem"}}>  
+       <Typography><b>Objective</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  /* value={c + ", "} */ name="Next Appontment Schedule"
-                  {...register("input_name")}
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Needs next appointment for</b>
-              </label>
-              {appointgoal.map((c, i) => (
-                <label className=" is-small mr-1" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="ROS"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
+                  placeholder="Objective"
+           />
+  </Box>
 
-            <div className="field ml-3 ">
-              {/* <label className= "mr-2 "> <b>Cough nature:</b></label> */}
-              {progreq.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
-              ))}
-            </div>
+    <Box sx={{paddingTop:"1rem"}}>  
+       <Typography><b>Assessment</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Assessment"
+           />
+  </Box>
 
-            <b>Physician Sign Off</b>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                All information on this form has been reviewed by me, indictated
-                by ny name below:
-              </label>
-              {physiciandetails.map((c, i) => (
-                <p className="control ">
-                  <label className=" is-size-7 mr-1" key={c}>
-                    {c + " "}{" "}
-                    <input
-                      className="input is-small"
-                      type="text"
-                      /* value={c + ", "} */ name={c}
-                      {...register("input_name")}
-                    />
-                  </label>
-                </p>
-              ))}
-            </div>
+    <Box sx={{paddingTop:"1rem"}}>  
+       <Typography><b>Plan</b></Typography>
+      <Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Plan"
+           />
+  </Box>
 
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
-                />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
-                />
-                <span> Final </span>
-              </label>
-            </div>
+    <Box sx={{paddingTop:"1rem"}}>  
+        <Typography>Next appontment to be scheduled for</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button type="reset" className="button is-warning is-small">
-                  Cancel
-                </button>
-              </p>
-            </div>
+
+<Box>
+       <Typography><b>Needs next appointment for</b></Typography>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Decrease Symptoms",
+              "Improve Functioning",
+              "Consolidate Gains",
+              "Improve compliance"
+            ]}
+          />
+    </Box>
+
+    <Box>  
+        <Typography>Prepare for Discharge</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+
+    <Box>  
+        <Typography>Other</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+    <Box>  
+        <Typography>Next Review Plan Date</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+<Box sx={{paddingTop:"1rem"}}>
+       <Typography><b>Physician Sign Off</b></Typography>
+    <Box >
+    <Typography>
+    All information on this form has been reviewed by me, indictated by ny name below:
+    </Typography>
+    </Box>
+    <Box sx={{paddingTop:"1rem"}}>  
+        <Typography>Attending_Physician_Name</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+
+    <Box>  
+        <Typography>Date_Seen</Typography>
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+           />
+  </Box>
+    </Box> 
+    <Box> 
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Draft",
+                "Final",
+              ]}
+            />
+</Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>

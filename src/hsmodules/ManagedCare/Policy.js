@@ -988,42 +988,56 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 
   return (
     <>
-      <div className="card ">
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '30vw',
+          margin: '0 auto',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item md={6}>
-              <ModalHeader text={'Enrolle'} />
-            </Grid>
-            <Grid item md={6} style={{ display: 'flex' }}>
-              <Button
-                onClick={handleClickProd}
-                style={{
-                  float: 'right',
-                  width: '50%',
-                }}
-              >
-                Add Principal
-              </Button>
-              <Button
-                onClick={handleClickProd2}
-                style={{
-                  float: 'right',
-                  width: '50%',
-                }}
-              >
-                Add Dependent
-              </Button>
-            </Grid>
-          </Grid>
+          <ModalHeader text={'Policy'} />
+          <p>
+            Add Principal
+            <button
+              onClick={handleClickProd}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              +
+            </button>
+          </p>
+          <p>
+            Add Dependant
+            <button
+              onClick={handleClickProd2}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              +
+            </button>
+          </p>
 
           <Grid container spacing={2}>
-            <Grid item md={4} my={2}>
+            <Grid item md={12} mt={2}>
               <OrgFacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
             </Grid>
-            <Grid item md={4}>
+            <Grid item md={12} my={1}>
               <select
                 name="sponsortype"
                 {...register('sponsortype', { required: true })}
@@ -1032,7 +1046,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 style={{
                   width: '100%',
                   padding: '1rem',
-                  margin: '1rem 0',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   border: '1px solid rgba(0, 0, 0, 0.6)',
@@ -1043,7 +1056,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 <option value="Company">Company</option>
               </select>
             </Grid>
-            <Grid item md={4}>
+            <Grid item md={12} my={1}>
               <select
                 name="plan"
                 {...register('plan', { required: true })}
@@ -1052,7 +1065,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 style={{
                   width: '100%',
                   padding: '1rem',
-                  margin: '1rem 0',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   border: '1px solid rgba(0, 0, 0, 0.6)',
@@ -1069,7 +1081,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item md={4}>
+            <Grid item md={4} my={1}>
               <Input value={price.price} disabled label="Price" />
             </Grid>
             <Grid item md={4} my={1.5}>
@@ -1106,6 +1118,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               progressPending={loading}
             />
           )}
+          <Button label="submit" text="Save" />
         </form>
       </div>
     </>
