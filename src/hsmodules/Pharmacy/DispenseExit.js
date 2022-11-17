@@ -5,7 +5,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 var random = require("random-string-generator");
 // eslint-disable-next-line
@@ -96,8 +96,7 @@ export function ProductExitCreate({closeModal}) {
   let calcamount1;
   let hidestatus;
 
-  let medication = state.financeModule.selectedFinance;
-  console.log("medication", medication);
+  //console.log("medication", medication);
 
   const [productEntry, setProductEntry] = useState({
     productitems: [],
@@ -278,23 +277,13 @@ export function ProductExitCreate({closeModal}) {
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast({
-        message: "You can not remove inventory from any organization",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You can not remove inventory from any organization");
       return;
     }
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-      toast({
-        message: "You need to select a store before removing inventory",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You need to select a store before removing inventory");
       return;
     }
     console.log("b4 create", productEntry);
@@ -304,12 +293,7 @@ export function ProductExitCreate({closeModal}) {
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
         setSuccess(true);
-        toast({
-          message: "ProductExit created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("ProductExit created succesfully");
         setSuccess(false);
         setProductItem([]);
         const today = new Date().toLocaleString();
@@ -320,12 +304,7 @@ export function ProductExitCreate({closeModal}) {
         setType("Sales");
       })
       .catch(err => {
-        toast({
-          message: "Error creating ProductExit " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Error creating ProductExit ${err}`);
       });
   };
 
@@ -351,6 +330,9 @@ export function ProductExitCreate({closeModal}) {
     return () => {};
   }, [quantity]);
 
+  let medication = state.financeModule.selectedFinance;
+  const dispenseProducts = state.financeModule.selectedBills;
+
   useEffect(() => {
     if (!!medication) {
       const oldname =
@@ -363,6 +345,18 @@ export function ProductExitCreate({closeModal}) {
           " " +
           medication.participantInfo.client.lastname
       );
+
+      const updatedDispenseProducts = dispenseProducts.map(item => {
+        let newItem = item;
+        newItem.serviceInfo.sellingprice = newItem.serviceInfo.price;
+        newItem.serviceInfo.billinfo = {
+          billid: newItem._id,
+          bill_status: newItem.billing_status,
+          orderId: newItem.orderInfo.orderId,
+        };
+
+        return newItem.serviceInfo;
+      });
 
       const newname = source;
       // console.log("newname",newname)
@@ -389,8 +383,8 @@ export function ProductExitCreate({closeModal}) {
           orderId: medication.orderInfo.orderId,
         };
 
-        setProductItem(prevProd => prevProd.concat(medication.serviceInfo));
-        console.log(state.financeModule.selectedBills);
+        setProductItem(prevProd => prevProd.concat(updatedDispenseProducts));
+        //console.log(state.financeModule.selectedBills);
       } else {
         if (productItem.length > 0) {
           setProductItem(prevProd =>
@@ -502,7 +496,7 @@ export function ProductExitCreate({closeModal}) {
     <>
       <Box
         sx={{
-          width: "780px",
+          width: "850px",
           maxHeight: "600px",
           overflowY: "auto",
         }}
