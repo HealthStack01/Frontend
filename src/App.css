@@ -308,3 +308,9 @@ div::-webkit-scrollbar-thumb {
 .linechart2 {
   min-height: 130px !important;
 }
+
+/* remove scrollbar button*/
+*::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
