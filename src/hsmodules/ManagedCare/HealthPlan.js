@@ -39,14 +39,19 @@ export default function HealthPlan() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [createModal, setCreateModal] = useState(false);
+  const [showModal, setShowModal] = useState(0);
 
   return (
     <section className="section remPadTop">
-      <HealthPlanList openCreateModal={() => setCreateModal(true)} />
-      {createModal && (
-        <ModalBox open={createModal} onClose={() => setShowModal(false)}>
+      <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
+      {showModal === 1 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
           <HealthPlanCreate showModal={showModal} setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <HealthPlanDetails />
         </ModalBox>
       )}
     </section>
@@ -449,7 +454,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
   );
 }
 
-export function HealthPlanList({ openCreateModal }) {
+export function HealthPlanList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -487,11 +492,11 @@ export function HealthPlanList({ openCreateModal }) {
       show: 'create',
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
-    setShowModal(true);
+    setShowModal(1);
   };
 
   const handleRow = async (Client) => {
-    setShowModal(true);
+    setShowModal(2);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
@@ -864,7 +869,7 @@ export function HealthPlanList({ openCreateModal }) {
                   <Button
                     style={{ fontSize: '14px', fontWeight: '600' }}
                     label="Add new "
-                    onClick={openCreateModal}
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
@@ -891,6 +896,288 @@ export function HealthPlanList({ openCreateModal }) {
       ) : (
         <div>loading</div>
       )}
+    </>
+  );
+}
+
+export function HealthPlanDetails() {
+  const [deny, setDeny] = useState(false);
+  const [approve, setApprove] = useState(false);
+  const [viewBenefit, setViewBenefit] = useState(false);
+
+  const tableData = [
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: false,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: false,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: true,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: false,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: true,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+  ];
+  const HealthPlanSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Drugs',
+      key: 'drugs',
+      description: 'Drugs',
+      selector: (row) => row.drugs,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Code',
+      key: 'code',
+      description: 'Code',
+      selector: (row) => row.code,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Capitation',
+      key: 'capitation',
+      description: 'Capitation',
+      selector: (row) => (row.capitation ? 'Yes' : 'No'),
+      sortable: true,
+      required: true,
+      inputType: 'CHECKBOX',
+    },
+    {
+      name: 'Fee of Service',
+      key: 'feeOfService',
+      description: 'Fee of Service',
+      selector: (row) => (row.feeOfService ? 'Yes' : 'No'),
+      sortable: true,
+      required: true,
+      inputType: 'CHECKBOX',
+    },
+    {
+      name: 'Fee',
+      key: 'fee',
+      description: 'Fee',
+      selector: (row) => row.fee,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  const benefitDate = [
+    {
+      benefitId: '1637',
+      benefitDescription: 'Dental Care',
+      benefitPrice: 'N20,000',
+    },
+    {
+      benefitId: '1637',
+      benefitDescription: 'Dental Care',
+      benefitPrice: 'N20,000',
+    },
+    {
+      benefitId: '1637',
+      benefitDescription: 'Dental Care',
+      benefitPrice: 'N20,000',
+    },
+  ];
+
+  const benefitSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Benefit ID',
+      key: 'benefitId',
+      description: 'Benefit ID',
+      selector: (row) => row.benefitId,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Benefit Description',
+      key: 'benefitDescription',
+      description: 'Benefit Description',
+      selector: (row) => row.benefitDescription,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Benefit Price',
+      key: 'benefitPrice',
+      description: 'Benefit Price',
+      selector: (row) => row.benefitPrice,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+  return (
+    <>
+      <div
+        className="card"
+        style={{
+          height: '50vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <ModalHeader text={'Anti Fungal'} />
+        <div style={{ backgroundColor: '#EBEBEB', padding: '.5rem 1rem' }}>
+          <p>Details</p>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <p>Premium Due: 08/06/2015</p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ textAlign: 'right' }}>
+                Status: <span style={{ color: '#17935C' }}>Active</span>
+              </p>
+            </Grid>
+          </Grid>
+        </div>
+        <div
+          style={{
+            marginTop: '10px',
+            border: '1px solid #8F8F8F',
+            padding: '1rem',
+          }}
+        >
+          <Grid container spacing={2} style={{ alignItems: 'top' }}>
+            <Grid item xs={3}>
+              <div
+                style={{ width: '100px', height: 'auto', borderRadius: '50%' }}
+              >
+                <img
+                  src="/img_avatar.png"
+                  alt="avatar"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: '700', marginTop: 0 }}>
+                Lagos State University Teaching Hospital
+              </p>
+              <p> 1, Oba Akinjobi Way, Ikeja, Lagos</p>
+              <p>08012345678</p>
+            </Grid>
+            <Grid item xs={3}>
+              <div style={{ marginLeft: 'auto' }}>
+                <Button
+                  label="View Benefit"
+                  style={{ marginLeft: 'auto' }}
+                  onClick={() => setViewBenefit(true)}
+                />
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  borderBottom: '1px solid #E4EAF0',
+                  margin: '1rem 0',
+                }}
+              ></div>
+            </Grid>
+          </Grid>
+
+          <p>Details</p>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <p>Type: Formal Sector</p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ textAlign: 'right' }}>Utilized By: LASHMA</p>
+            </Grid>
+          </Grid>
+        </div>
+        <div
+          style={{
+            width: '100%',
+            height: 'auto',
+            overflow: 'auto',
+            marginTop: '1rem',
+          }}
+        >
+          <CustomTable
+            tableData={''}
+            columns={HealthPlanSchema}
+            data={tableData}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+        </div>
+        {viewBenefit && (
+          <ModalBox open={viewBenefit} onClose={() => setViewBenefit(false)}>
+            <div
+              style={{
+                width: '100%',
+                height: 'auto',
+                overflow: 'auto',
+                marginTop: '1rem',
+              }}
+            >
+              <ModalHeader text={'Benefit'} />
+              <CustomTable
+                tableData={'Benefits'}
+                columns={benefitSchema}
+                data={benefitDate}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
+            </div>
+          </ModalBox>
+        )}
+      </div>
     </>
   );
 }

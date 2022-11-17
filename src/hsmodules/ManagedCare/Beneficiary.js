@@ -26,6 +26,24 @@ import CustomTable from '../../components/customtable';
 import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import { Grid } from '@mui/material';
+import Input from '../../components/inputs/basic/Input/index';
+import ToggleButton from '../../components/toggleButton';
+import RadioButton from '../../components/inputs/basic/Radio';
+import BasicDatePicker from '../../components/inputs/Date';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
+import { MdCancel, MdAddCircle } from 'react-icons/md';
+import { EnrolleSchema } from './schema';
+import ClientForm from '../Client/ClientForm';
+import {
+  BottomWrapper,
+  GridWrapper,
+  HeadWrapper,
+  ViewBox,
+} from '../app/styles';
+import ClinicAppointments from '../Appointment/clinicAppointments';
+import PharmacyBillService from '../Finance/BillService';
 var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
@@ -35,22 +53,33 @@ export default function Beneficiary() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(0);
+  const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
 
   return (
     <section className="section remPadTop">
       <ClientList showModal={showModal} setShowModal={setShowModal} />
-      {state.ClientModule.show === 'create' && <BeneficiaryCreate />}
-      {showModal && (
-        <ModalBox
-          open={state.ClientModule.show === 'detail'}
-          onClose={() => setShowModal(false)}
-        >
-          <ClientDetail />
+      {/* {state.ClientModule.show === 'create' && <BeneficiaryCreate />} */}
+      {showModal === 1 && (
+        <ModalBox open onClose={() => setShowModal(false)}>
+          <ClientDetail setShowModal={setShowModal3} />
         </ModalBox>
       )}
-      {state.ClientModule.show === 'modify' && (
-        <ClientModify Client={selectedClient} />
+      {showModal === 2 && (
+        <ModalBox open onClose={() => setShowModal(false)}>
+          <BeneficiaryCreate openCreate={setShowModal2} />
+        </ModalBox>
+      )}
+      {showModal2 && (
+        <ModalBox open={showModal2} onClose={() => setShowModal2(false)}>
+          <ClientCreate />
+        </ModalBox>
+      )}
+      {showModal3 && (
+        <ModalBox open={showModal3} onClose={() => setShowModal3(false)}>
+          <ClientModify showModal={showModal3} setShowModal={setShowModal3} />
+        </ModalBox>
       )}
     </section>
   );
@@ -384,527 +413,155 @@ export function ClientCreate({ closeModal }) {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Client</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          {/*  <p className=" is-small">
-                    Kindly search Client list before creating new Clients!
-                </p> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <p className=" is-small">Names</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small is-danger"
-                      // {...register('x', { required: true })}
-                      name="firstname"
-                      type="text"
-                      placeholder="First Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
+      <div
+        style={{
+          height: '80vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Names Section */}
 
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="middlename"
-                      type="text"
-                      placeholder="Middle Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
+          <ViewBox>
+            <h2>Names</h2>
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      // {...register('x', { required: true })}
-                      name="lastname"
-                      type="text"
-                      placeholder="Last Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" fas fa-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Biodata</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left is-danger">
-                    {/*   <input className="input is-small is-danger" ref={register({ required: true })} name="dob" type="text" placeholder="Date of Birth"  onBlur={checkClient}/>
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span> */}
-                    <DatePicker
-                      className="is-danger"
-                      selected={date}
-                      onChange={(date) => handleDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="Enter date with dd/MM/yyyy format "
-                      //isClearable
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="gender"
-                      type="text"
-                      placeholder="Gender"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="maritalstatus"
-                      type="text"
-                      placeholder="Marital Status"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="mrn"
-                      type="text"
-                      placeholder="Medical Records Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="religion"
-                      type="text"
-                      placeholder="Religion"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="profession"
-                      type="text"
-                      placeholder="Profession"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      // {...register('x', { required: true })}
-                      name="phone"
-                      type="text"
-                      placeholder=" Phone No"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
+            <GridWrapper>
+              <Input
+                label="First Name"
+                register={register('firstname')}
+                // errorText={errors?.firstname?.message}
+              />
+              <Input
+                label="Middle Name"
+                register={register('middlename')}
+                // errorText={errors?.middlename?.message}
+              />
+              <Input
+                label="Last Name"
+                register={register('lastname')}
+                // errorText={errors?.lastname?.message}
+              />
+              <BasicDatePicker
+                label="Date of Birth"
+                register={register('dob')}
+                onChange={(date) => handleDate(date)}
+                // errorText={errors?.dob?.message}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Biodata Section */}
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small "
-                      ref={register()}
-                      name="email"
-                      type="email"
-                      placeholder="Email"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="clientTags"
-                  type="text"
-                  placeholder="Tags"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <p className=" is-small">Address</p>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="address"
-                  type="text"
-                  placeholder="Residential Address"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="city"
-                      type="text"
-                      placeholder="Town/City"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="lga"
-                      type="text"
-                      placeholder="Local Govt Area"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="state"
-                      type="text"
-                      placeholder="State"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="country"
-                      type="text"
-                      placeholder="Country"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Medical Data</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="bloodgroup"
-                      type="text"
-                      placeholder="Blood Group"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="genotype"
-                      type="text"
-                      placeholder="Genotype"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="disabilities"
-                      type="text"
-                      placeholder="Disabilities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+          <ViewBox>
+            <h2>Biodata</h2>
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="allergies"
-                      type="text"
-                      placeholder="Allergies"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="comorbidities"
-                      type="text"
-                      placeholder="Co-mobidities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <CustomSelect
+                label="Gender"
+                register={register('gender')}
+                options={[
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female' },
+                ]}
+              />
+              <CustomSelect
+                label="Marital Status"
+                register={register('maritalstatus')}
+                options={[
+                  { label: 'Single', value: 'Single' },
+                  { label: 'Married', value: 'Married' },
+                ]}
+              />
+              <Input label="Medical record Number" register={register('mrn')} />
+              <Input label="Religion" register={register('religion')} />
+              <Input label="Profession" register={register('profession')} />
+              <Input
+                label="Phone No"
+                register={register('phone')}
+                // errorText={errors?.phone?.message}
+              />
+              <Input
+                label="Email"
+                register={register('email')}
+                // errorText={errors?.email?.message}
+              />
+              <Input label="Tags" register={register('clientTags')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Address */}
+          <ViewBox>
+            <h2>Addresses</h2>
 
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="specificDetails"
-                  type="text"
-                  placeholder="Specific Details about patient"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <p className=" is-small">Next of Kin Information</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_name"
-                      type="text"
-                      placeholder="Next of Kin Full Name"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_phoneno"
-                      type="text"
-                      placeholder="Next of Kin Phone Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_email"
-                      type="email"
-                      placeholder="Next of Kin Email"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_relationship"
-                      type="text"
-                      placeholder="Next of Kin Relationship"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  type="reset"
-                  className="button is-warning is-small" /* onClick={(e)=>e.target.reset()} */
-                >
-                  Reset
-                </button>
-              </p>
-              {/*  <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className={`modal ${billModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">
-              Similar Client Already Exist?
-            </p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientGroup
-              list={patList}
-              closeModal={handlecloseModal3}
-              choosen={choosen}
-              dupl={dupl}
-              reg={reg}
-              depen={depen}
+            <GridWrapper>
+              <Input
+                label="Residential Address"
+                register={register('address')}
+              />
+              <Input label="Town/City" register={register('city')} />
+              <Input label="Local Govt Area" register={register('lga')} />
+              <Input label="State" register={register('state')} />
+              <Input label="Country" register={register('country')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Medical Data */}
+          <ViewBox>
+            <h2>Medical Data</h2>
+
+            <GridWrapper>
+              <Input label="Blood Group" register={register('bloodgroup')} />
+              <Input label="Genotype" register={register('genotype')} />
+              <Input label="Disabilities" register={register('disabilities')} />
+              <Input label="Allergies" register={register('allergies')} />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Next of Kin Information */}
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
+
+            <GridWrapper>
+              <Input label="Full Name" register={register('nok_name')} />
+              <Input label="Phone Number" register={register('nok_phoneno')} />
+              <Input label=" Email" register={register('nok_email')} />
+              <Input
+                label="Relationship"
+                register={register('nok_relationship')}
+              />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+
+          <BottomWrapper>
+            <Button
+              label="Close"
+              background="#FFE9E9"
+              color="#ED0423"
+              onClick={() => setOpen(false)}
             />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">
-              Similar Client Already Exist?
-            </p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientGroup
-              list={patList}
-              closeModal={handlecloseModal3}
-              choosen={choosen}
-              dupl={dupl}
-              reg={reg}
-              depen={depen}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+            <Button label="Save Form" type="submit" />
+          </BottomWrapper>
+        </form>
       </div>
     </>
   );
 }
 
-export function BeneficiaryCreate() {
+export function BeneficiaryCreate({ openCreate }) {
   const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1410,11 +1067,13 @@ export function BeneficiaryCreate() {
     setDependant('principal');
     console.log(state.Beneficiary);
     setClientModal(true);
+    setOpenCreate(true);
   };
   const handleClickProd2 = () => {
     setState((prevstate) => ({ ...prevstate, currBeneficiary: 'dependent' }));
     setDependant('dependent');
     setClientModal(true);
+    setOpenCreate(true);
   };
   const handleHMO = (e) => {
     console.log(e);
@@ -1429,362 +1088,138 @@ export function BeneficiaryCreate() {
   };
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Beneficiary</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <div>
-            <div className="field is-horizontal">
-              <div className="field ">
-                <label className="label is-size-7 my-0">Principal </label>
-              </div>
-              <div className="field ml-2">
-                {!state.Beneficiary?.principal._id && (
-                  <p className="control">
-                    <button className="button is-info is-small btnheight ">
-                      <span className="is-small" onClick={handleClickProd}>
-                        {' '}
-                        +
-                      </span>
-                    </button>
-                  </p>
-                )}
-              </div>
-            </div>
-            {!!state.Beneficiary?.principal._id && (
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Last Name">Last Name</abbr>
-                    </th>
-                    <th>First Name</th>
-                    <th>
-                      <abbr title="Middle Name">Middle Name</abbr>
-                    </th>
-                    {/* <th><abbr title="Age">Payment Mode</abbr></th> */}
-                    <th>
-                      <abbr title="Age">Age</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Gender">Gender</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Tags">Tags</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {/* {facilities.map((Client, i)=>( */}
-
-                  <tr
-                    key={state.Beneficiary?.principal._id}
-                    onClick={() => handleRow(state.Beneficiary?.principal)}
-                    className={
-                      state.Beneficiary?.principal._id ===
-                      (selectedClient?._id || null)
-                        ? 'is-selected'
-                        : ''
-                    }
-                  >
-                    <td>{1}</td>
-                    <th>{state.Beneficiary?.principal.lastname}</th>
-                    <td>{state.Beneficiary?.principal.firstname}</td>
-                    <td>{state.Beneficiary?.principal.middlename}</td>
-                    {/* <td>{state.Beneficiary?.principal.paymentinfo.map((pay,i)=>(
-                                                <>
-                                                {pay.paymentmode} {pay.paymentmode==="Cash"?"":":" } {pay.organizationName}<br></br>
-                                                </>
-                                            ))}</td> */}
-                    <td>
-                      {state.Beneficiary?.principal.dob && (
-                        <>
-                          {formatDistanceToNowStrict(
-                            new Date(state.Beneficiary?.principal.dob)
-                          )}
-                        </>
-                      )}
-                    </td>
-                    <td>{state.Beneficiary?.principal.gender}</td>
-                    <td>{state.Beneficiary?.principal.phone}</td>
-                    <td>{state.Beneficiary?.principal.email}</td>
-                    <td>{state.Beneficiary?.principal.clientTags}</td>
-                    {/*  <td><span   className="showAction"  >...</span></td> */}
-                  </tr>
-                  {/*   ))} */}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <div className="field is-horizontal">
-            <div className="field ">
-              <label className="label is-size-7 my-0">Dependents </label>
-            </div>
-            <div className="field ml-2">
-              <p className="control">
-                <button className="button is-info is-small btnheight ">
-                  <span className="is-small" onClick={handleClickProd2}>
-                    {' '}
-                    +
-                  </span>
-                </button>
-              </p>
-            </div>
-          </div>
-          <div>
-            {state.Beneficiary.dependent.length > 0 && (
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Last Name">Last Name</abbr>
-                    </th>
-                    <th>First Name</th>
-                    <th>
-                      <abbr title="Middle Name">Middle Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Age">Payment Mode</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Age">Age</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Gender">Gender</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Tags">Tags</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {state.Beneficiary.dependent.map((Client, i) => (
-                    <tr
-                      key={Client._id}
-                      onClick={() => handleRow(Client)}
-                      className={
-                        Client._id === (selectedClient?._id || null)
-                          ? 'is-selected'
-                          : ''
-                      }
-                    >
-                      <td>{i + 1}</td>
-                      <th>{Client.lastname}</th>
-                      <td>{Client.firstname}</td>
-                      <td>{Client.middlename}</td>
-                      <td>
-                        {Client.paymentinfo.map((pay, i) => (
-                          <>
-                            {pay.paymentmode}{' '}
-                            {pay.paymentmode === 'Cash' ? '' : ':'}{' '}
-                            {pay.organizationName}
-                            <br></br>
-                          </>
-                        ))}
-                      </td>
-                      <td>
-                        {Client.dob && (
-                          <>{formatDistanceToNowStrict(new Date(Client.dob))}</>
-                        )}
-                      </td>
-                      <td>{Client.gender}</td>
-                      <td>{Client.phone}</td>
-                      <td>{Client.email}</td>
-                      <td>{Client.clientTags}</td>
-                      {/*  <td><span   className="showAction"  >...</span></td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Primary Provider{' '}
-            </label>
-            <div
-              className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '30vw',
+          margin: '0 auto',
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader text={'Beneficiary'} />
+          <p>
+            Add Principal
+            <button
+              onClick={handleClickProd}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
             >
+              +
+            </button>
+          </p>
+          <p>
+            Add Dependant
+            <button
+              onClick={handleClickProd2}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              +
+            </button>
+          </p>
+
+          <Grid container spacing={2}>
+            <Grid item md={12} mt={2}>
               <OrgFacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: 'none' }}
+            </Grid>
+            <Grid item md={12} my={1}>
+              <select
+                name="sponsortype"
+                {...register('sponsortype', { required: true })}
+                onChange={(e) => handleChangeMode(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
               >
-                <input
-                  className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
+                <option value=""> Choose Sponsor </option>
+                <option value="Self">Self</option>
+                <option value="Company">Company</option>
+              </select>
+            </Grid>
+            <Grid item md={12} my={1}>
+              <select
+                name="plan"
+                {...register('plan', { required: true })}
+                onChange={(e, i) => handleChangePlan(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Plan </option>
+                {benefittingPlans1.map((option, i) => (
+                  <option key={i} value={option.name}>
+                    {' '}
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item md={4} my={1}>
+              <Input value={price.price} disabled label="Price" />
+            </Grid>
+            <Grid item md={4} my={1.5}>
+              {showCorp && (
+                <SponsorSearch
+                  getSearchfacility={getSearchfacility1}
+                  clear={success}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <label
-                    className="label is-size-7 my-0"
-                    name="dob"
-                    type="text"
-                  >
-                    Sponsor{' '}
-                  </label>
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="sponsortype"
-                        // ref={register({ required: true })}
-                        onChange={(e) => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value=""> Choose Sponsor </option>
-                        <option value="Self">Self</option>
-                        <option value="Corporate">Corporate</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="field"
-                  style={!showCorp ? { display: 'none' } : {}}
-                >
-                  <label
-                    className="label is-size-7 my-0"
-                    name="dob"
-                    type="text"
-                  >
-                    Corporate Sponsor{' '}
-                  </label>
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <SponsorSearch
-                      getSearchfacility={getSearchfacility1}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{ display: 'none' }}
-                    >
-                      <input
-                        className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+              )}
+            </Grid>
+          </Grid>
 
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Plan{' '}
-            </label>
-
-            <div className="field">
-              <div className="control">
-                <div className="select is-small ">
-                  <select
-                    name="plan"
-                    // {...register('x', { required: true })}
-                    onChange={(e, i) => handleChangePlan(e.target.value)}
-                    className="selectadd"
-                  >
-                    <option value=""> Choose Plan </option>
-                    {benefittingPlans1.map((option, i) => (
-                      <option key={i} value={option.name}>
-                        {' '}
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Premium:{price.price}
-            </label>
-
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="is-size-7 my-0"></label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  type="reset"
-                  className="button is-warning is-small" /* onClick={(e)=>e.target.reset()} */
-                >
-                  Reset
-                </button>
-              </p>
-              {/*  <p className="control">
-                        <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                        Delete
-                        </button>
-                    </p> */}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className={`modal ${clientModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">Create Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal4}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            {/*  <ClientGroup  list={patList}  closeModal={handlecloseModal3} choosen={choosen} dupl ={dupl} reg={reg} depen={depen}/>  */}
-            <ClientCreate closeModal={handlecloseModal4} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+          {!!state.Beneficiary?.principal._id && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema}
+              data={state.Beneficiary?.principal}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => handleRow(state.Beneficiary?.principal)}
+              progressPending={loading}
+            />
+          )}
+          {state.Beneficiary.dependent.length > 0 && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema}
+              data={state.Beneficiary.dependent}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => handleRow()}
+              progressPending={loading}
+            />
+          )}
+          <Button label="submit" text="Save" />
+        </form>
       </div>
     </>
   );
@@ -1823,6 +1258,7 @@ export function ClientList({ showModal, setShowModal }) {
       ClientModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(2);
   };
 
   const handleRow = async (Client) => {
@@ -1835,7 +1271,7 @@ export function ClientList({ showModal, setShowModal }) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
-    setShowModal(true);
+    setShowModal(1);
   };
 
   const handleSearch = (val) => {
@@ -2154,6 +1590,8 @@ export function ClientDetail({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
 
   let Client = state.ClientModule.selectedClient;
+
+  console.log(Client);
   // eslint-disable-next-line
   const client = Client;
   const handleEdit = async () => {
@@ -2166,6 +1604,7 @@ export function ClientDetail({ showModal, setShowModal }) {
       ClientModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(true);
   };
 
   const handleFinancialInfo = () => {
@@ -2211,153 +1650,187 @@ export function ClientDetail({ showModal, setShowModal }) {
         style={{
           height: '50vh',
           overflowY: 'scroll',
-          width: '40vw',
+          width: '30vw',
           margin: '0 auto',
         }}
       >
         <Grid container>
           <Grid item xs={12} sm={12} md={6}>
-            <ModalHeader text={'Client Details'} />
+            <ModalHeader text={'Beneficiary Details'} />
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             {(user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
               user.stacker) && (
-              <Button
+              <button
                 className="button is-success is-small btnheight mt-2"
                 onClick={showBilling}
+                style={{
+                  border: 'none',
+                  backgroundColor: '#48c774',
+                  padding: ' .5rem 1rem',
+                  marginLeft: '.5rem',
+                  cursor: 'pointer',
+                  color: 'white',
+                  float: 'right',
+                }}
               >
                 Bill Client
-              </Button>
+              </button>
             )}
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item md={4}>
+          <Grid item md={6}>
             <p>First Name:{Client?.firstname}</p>
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={6}>
             <p>Middle Name: {Client?.middleName}</p>
-          </Grid>
-          <Grid item md={4}>
-            <p>Last Name: {Client?.lastname}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item md={6}>
+            <p>Last Name: {Client?.lastname}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
             <p>
               Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
             </p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Gender: {Client?.gender}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Marital Status: {Client?.maritalStatus}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Medical Records Number: {Client?.mrn}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Religion: {Client?.religion}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Profession: {Client?.profession}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
+            <p>Profession: {Client?.profession}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Phone Number: {Client?.phone}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Email: {Client?.email}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Address: {Client?.address}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Town/City: {Client?.city}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>LGA: {Client?.lga}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>State: {Client?.state}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
+            <p>State: {Client?.state}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Country: {Client?.country}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Blood Group: {Client?.bloodGroup}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Genotype: {Client?.genotype}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Disabilities: {Client?.disabilities}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Allergies: {Client?.allergies}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Co-morbidities: {Client?.comorbidities}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
+            <p>Co-morbidities: {Client?.comorbidities}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Tags: {Client?.clientTags}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Specific Details: {Client?.specificDetails}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Next of Kin Name: {Client?.nok_name}</p>
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <p>Next of Kin Email: {Client?.nok_email}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={4}>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
             <p>NOK Relationship: {Client?.nok_relationship}</p>
           </Grid>
         </Grid>
-        <Grid container mt={1}>
-          <Grid item xs={12} sm={12} md={3}>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={3} style={{ display: 'flex' }}>
             <Button onClick={handleEdit}>Edit Details</Button>
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
             <Button onClick={handleFinancialInfo}>Payment Info</Button>
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
             <Button onClick={handleSchedule}>Schedule Appointment</Button>
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
-            <Button
-              onClick={() => navigate('/app/beneficiary/documentation')}
-              fullwidth
-            >
+            <Button onClick={() => navigate('/app/beneficiary/documentation')}>
               View History
             </Button>
           </Grid>
         </Grid>
+        {finacialInfoModal && (
+          <>
+            <ModalBox open onClose={() => setFinacialInfoModal(false)}>
+              <ModalHeader text="Financial Information" />
+              <ClientFinInfo />
+            </ModalBox>
+          </>
+        )}
+        {appointmentModal && (
+          <>
+            <ModalBox open onClose={() => setAppointmentModal(false)}>
+              <ModalHeader text="Schedule Appointment" />
+              <AppointmentCreate />
+            </ModalBox>
+          </>
+        )}
+        {billingModal && (
+          <>
+            <ModalBox open onClose={() => setBillingModal(false)}>
+              <ModalHeader text="Bill Beneficiary" />
+              <BillServiceCreate />
+            </ModalBox>
+          </>
+        )}
       </div>
     </>
   );
 }
 
-export function ClientModify() {
+export function ClientModify({ showModal, setShowModal }) {
   const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -2485,6 +1958,7 @@ export function ClientModify() {
       ClientModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(false);
   };
 
   const changeState = () => {
@@ -2571,488 +2045,151 @@ export function ClientModify() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details-Modify</p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7">First Name </label>{' '}
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="firstname"
-                      type="text"
-                      placeholder="First Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
+      <div
+        style={{
+          height: '80vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Names Section */}
+          <ModalHeader text={'Modify Beneficiary'} />
 
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7"> Middle Name </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="middlename"
-                      type="text"
-                      placeholder="Middle Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
+          <ViewBox>
+            <h2>Names</h2>
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Last Name</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="lastname"
-                      type="text"
-                      placeholder="Last Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <Input
+                label="First Name"
+                register={register('firstname')}
+                // errorText={errors?.firstname?.message}
+              />
+              <Input
+                label="Middle Name"
+                register={register('middlename')}
+                // errorText={errors?.middlename?.message}
+              />
+              <Input
+                label="Last Name"
+                register={register('lastname')}
+                // errorText={errors?.lastname?.message}
+              />
+              <BasicDatePicker
+                label="Date of Birth"
+                register={register('dob')}
+                onChange={(date) => handleDate(date)}
+                // errorText={errors?.dob?.message}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Biodata Section */}
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Date of Birth </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="dob"
-                      type="text"
-                      placeholder="Date of Birth "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Gender </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="gender"
-                      type="text"
-                      placeholder="Gender  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Marital Status </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="maritalstatus"
-                      type="text"
-                      placeholder="Marital Status  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7"> Records Number </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="mrn"
-                      type="text"
-                      placeholder="Records Number  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Religion</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="religion"
-                      type="text"
-                      placeholder="Religion "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Profession </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="profession"
-                      type="text"
-                      placeholder="Profession"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7"> Phone No</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="phone"
-                      type="text"
-                      placeholder=" Phone No "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
+          <ViewBox>
+            <h2>Biodata</h2>
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Email </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="email"
-                      type="email"
-                      placeholder="Email  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <CustomSelect
+                label="Gender"
+                register={register('gender')}
+                options={[
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female' },
+                ]}
+              />
+              <CustomSelect
+                label="Marital Status"
+                register={register('maritalstatus')}
+                options={[
+                  { label: 'Single', value: 'Single' },
+                  { label: 'Married', value: 'Married' },
+                ]}
+              />
+              <Input label="Medical record Number" register={register('mrn')} />
+              <Input label="Religion" register={register('religion')} />
+              <Input label="Profession" register={register('profession')} />
+              <Input
+                label="Phone No"
+                register={register('phone')}
+                // errorText={errors?.phone?.message}
+              />
+              <Input
+                label="Email"
+                register={register('email')}
+                // errorText={errors?.email?.message}
+              />
+              <Input label="Tags" register={register('clientTags')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Address */}
+          <ViewBox>
+            <h2>Addresses</h2>
 
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="label is-size-7">Residential Address </label>
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="address"
-                  type="text"
-                  placeholder="Residential Address  "
-                />
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Town/City </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="city"
-                      type="text"
-                      placeholder="Town/City  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Local Govt Area </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="lga"
-                      type="text"
-                      placeholder="Local Govt Area  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">State </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="state"
-                      type="text"
-                      placeholder="State"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Country </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="country"
-                      type="text"
-                      placeholder="Country  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Blood Group </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="bloodgroup"
-                      type="text"
-                      placeholder="Blood Group "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Genotype </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="genotype"
-                      type="text"
-                      placeholder="Genotype "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Disabilities </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="disabilities"
-                      type="text"
-                      placeholder="Disabilities  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <Input
+                label="Residential Address"
+                register={register('address')}
+              />
+              <Input label="Town/City" register={register('city')} />
+              <Input label="Local Govt Area" register={register('lga')} />
+              <Input label="State" register={register('state')} />
+              <Input label="Country" register={register('country')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Medical Data */}
+          <ViewBox>
+            <h2>Medical Data</h2>
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Allergies </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="allergies"
-                      type="text"
-                      placeholder="Allergies  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Co-mobidities </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="comorbidities"
-                      type="text"
-                      placeholder="Co-mobidities "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="label is-size-7">Tags </label>
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="clientTags"
-                  type="text"
-                  placeholder="Tags "
-                />
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="label is-size-7">
-                  Specific Details about client{' '}
-                </label>
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="specificDetails"
-                  type="text"
-                  placeholder="Specific Details about client "
-                />
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">
-                      Next of Kin Full Name
-                    </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_name"
-                      type="text"
-                      placeholder="Next of Kin Full Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Phone Number</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_phoneno"
-                      type="text"
-                      placeholder=" "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">
-                      Next of Kin Email{' '}
-                    </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_email"
-                      type="email"
-                      placeholder="Next of Kin Email  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7"> Relationship </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_relationship"
-                      type="text"
-                      placeholder="Next of Kin Relationship"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
+            <GridWrapper>
+              <Input label="Blood Group" register={register('bloodgroup')} />
+              <Input label="Genotype" register={register('genotype')} />
+              <Input label="Disabilities" register={register('disabilities')} />
+              <Input label="Allergies" register={register('allergies')} />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Next of Kin Information */}
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-danger is-small"
-                onClick={() => handleDelete()}
-                type="delete"
-              >
-                Delete
-              </button>
-            </p>
-          </div>
-        </div>
+            <GridWrapper>
+              <Input label="Full Name" register={register('nok_name')} />
+              <Input label="Phone Number" register={register('nok_phoneno')} />
+              <Input label=" Email" register={register('nok_email')} />
+              <Input
+                label="Relationship"
+                register={register('nok_relationship')}
+              />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+
+          <BottomWrapper>
+            <Button
+              label="Close"
+              background="#FFE9E9"
+              color="#ED0423"
+              onClick={() => setShowModal(false)}
+            />
+            <Button label="Save Form" type="submit" />
+            <Button label="Delete" onClick={() => handleDelete()} />
+          </BottomWrapper>
+        </form>
       </div>
     </>
   );

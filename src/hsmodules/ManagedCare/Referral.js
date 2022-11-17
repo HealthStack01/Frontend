@@ -470,13 +470,13 @@ export function ReferralList({ openCreateModal }) {
   const [value, setValue] = useState("list");
 
   const handleCreateNew = async () => {
-    const newClientModule = {
-      selectedAppointment: {},
-      show: "create",
+    const newInventoryModule = {
+      selectedClient: {},
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      ClientModule: newInventoryModule,
     }));
     //console.log(state)
     const newClient = {
@@ -487,17 +487,22 @@ export function ReferralList({ openCreateModal }) {
     setShowModal(true);
   };
 
-  const handleRow = async (Client) => {
-    setShowModal(true);
-    await setSelectedAppointment(Client);
-    const newClientModule = {
-      selectedAppointment: Client,
-      show: "detail",
+  const handleRow = async (Inventory) => {
+    //console.log("b4",state)
+
+    //console.log("handlerow",Inventory)
+
+    await setSelectedClient(Inventory);
+    const newInventoryModule = {
+      selectedClient: Inventory,
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      ClientModule: newInventoryModule,
     }));
+    console.log(newInventoryModule);
+    setShowModal(true);
   };
   //console.log(state.employeeLocation)
 
@@ -928,22 +933,24 @@ export function ReferralList({ openCreateModal }) {
                   />
                 )} */}
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
-                {value === "list" ? (
-                  <CustomTable
-                    title={""}
-                    columns={ReferralSchema}
-                    data={dummyData}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                ) : (
-                  <CalendarGrid appointments={mapFacilities()} />
-                )}
+
+              <div
+                style={{
+                  width: '100%',
+                  height: 'calc(100vh-90px)',
+                  overflow: 'auto',
+                }}
+              >
+                <CustomTable
+                  title={''}
+                  columns={ReferralSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                />
               </div>
             </PageWrapper>
           </div>
