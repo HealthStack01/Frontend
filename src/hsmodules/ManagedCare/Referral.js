@@ -846,7 +846,7 @@ export function CollectionList({ showModal, setShowModal }) {
   const [loading, setLoadig] = useState(false);
 
   // eslint-disable-next-line
-  const [selectedInventory, setSelectedInventory] = useState(); //
+  const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -854,12 +854,12 @@ export function CollectionList({ showModal, setShowModal }) {
 
   const handleCreateNew = async () => {
     const newInventoryModule = {
-      selectedInventory: {},
+      selectedClient: {},
       show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      InventoryModule: newInventoryModule,
+      ClientModule: newInventoryModule,
     }));
     //console.log(state)
     setShowModal(true);
@@ -870,17 +870,17 @@ export function CollectionList({ showModal, setShowModal }) {
 
     //console.log("handlerow",Inventory)
 
-    await setSelectedInventory(Inventory);
-
+    await setSelectedClient(Inventory);
     const newInventoryModule = {
-      client: Inventory,
+      selectedClient: Inventory,
       show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
-      SelectedClient: newInventoryModule,
+      ClientModule: newInventoryModule,
     }));
-    //console.log(state)
+    console.log(newInventoryModule);
+    setShowModal(true);
   };
 
   const handleSearch = (val) => {
@@ -1085,7 +1085,7 @@ export function CollectionList({ showModal, setShowModal }) {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={handleCreateNew}
+                  onRowClicked={handleRow}
                   progressPending={loading}
                 />
               </div>
