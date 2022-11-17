@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { formatDistanceToNowStrict } from "date-fns";
 import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Clinic/Appointments";
+// import { AppointmentCreate } from "../Clinic/Appointments";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
@@ -41,6 +41,7 @@ import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
 import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
+import { AppointmentCreate } from "./Appointments";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -794,7 +795,7 @@ export function ClientList({ showModal, openDetailModal }) {
     <>
       {user ? (
         <>
-          <ModalBox open={open} onClose={handleCloseModal} width='75%'>
+          <ModalBox open={open} onClose={handleCloseModal} width="75%">
             <ClientView
               user={selectedClient}
               open={open}

@@ -39,10 +39,8 @@ const LeadsCreate = ({closeModal}) => {
     <Box
       container
       sx={{
-        width: "800px",
-        maxHeight: "95vh",
-        overflowY: "auto",
-        padding: "10px",
+        width: "40vw",
+        height: "80vh",
       }}
     >
       {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
@@ -72,26 +70,26 @@ const LeadsCreate = ({closeModal}) => {
         <FormsHeaderText text="Address" />
 
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Input
               register={register("address", {required: true})}
               label="Residential Address"
               //placeholder="Enter customer name"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Input
               register={register("local_govt", {required: true})}
-              label="Local Government Area"
+              label="Local Government"
               //placeholder="Enter customer number"
             />
           </Grid>
-        </Grid>
+          {/* </Grid> */}
 
-        {/* ***************************************************************************************** */}
+          {/* ***************************************************************************************** */}
 
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
+          {/* <Grid container spacing={2}> */}
+          <Grid item xs={4}>
             <Input
               register={register("city", {required: true})}
               label="City"
@@ -99,7 +97,7 @@ const LeadsCreate = ({closeModal}) => {
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Input
               register={register("state", {required: true})}
               label="State"

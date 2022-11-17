@@ -78,6 +78,7 @@
     "socket.io-client": "^2.4.0",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.2",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "scripts": {
@@ -122,6 +123,7 @@
     "prettier": "^2.5.1",
     "typescript": "^3.3.4000"
   },
+ 
   "engines": {
     "node": "16.x",
     "yarn": "1.x"

@@ -170,11 +170,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
   useEffect(() => {
     //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
     }
   });
 
@@ -1062,34 +1057,6 @@ export function ClaimsList({ showModal, setShowModal }) {
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Claim
                   </h2>
-                  {/* <DatePicker
-                    selected={startDate}
-                    onChange={date => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  /> */}
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('list');
-                      }}
-                      style={value === 'list' ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: '1rem' }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('grid');
-                      }}
-                      style={value === 'grid' ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: '1rem' }} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (

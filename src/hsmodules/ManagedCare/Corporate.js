@@ -28,8 +28,9 @@ export default function OrganizationClient() {
   const [success, setSuccess] = useState(false);
   const [showModal, setShowModal] = useState(0);
 
-  //const [showState,setShowState]=useState() //create|modify|detail
 
+  //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
   //console.log("Organization parent", state)
 
   return (
@@ -72,7 +73,6 @@ export default function OrganizationClient() {
     </section>
   );
 }
-
 export function OrganizationCreate() {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -86,30 +86,34 @@ export function OrganizationCreate() {
   const [providerBand, setProviderBand] = useState([]);
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
+  // eslint-disable-next-line
+  const [currentUser, setCurrentUser] = useState();
+  const [selectedClient, setSelectedClient] = useState();
+  const [selectedAppointment, setSelectedAppointment] = useState();
+  // const [appointment_reason,setAppointment_reason]= useState()
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
+  const [billingModal, setBillingModal] = useState(false);
 
-  const handleChangeMode = async (e) => {
-    await setBand(e.target.value);
+  const [chosen, setChosen] = useState();
+  const [chosen1, setChosen1] = useState();
+  const [chosen2, setChosen2] = useState();
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+
+  let appointee; //  =state.ClientModule.selectedClient
+  /*  const getSearchfacility=(obj)=>{
+        setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+    } */
+  const handleChangeType = async (e) => {
+    await setAppointment_type(e.target.value);
   };
-  /* const onSubmit = (data,e) =>{
-        e.preventDefault();
-        setMessage("")
-        setError(false)
-        setSuccess(false)
-          data.createdby=user._id
-          //console.log(data);
-          
-        facilityServ.create(data)
-        .then((res)=>{
-                //console.log(JSON.stringify(res))
-                e.target.reset();
-                setMessage("Created Organization successfully")
-                setSuccess(true)
-            })
-            .catch((err)=>{
-                setMessage("Error creating facility, probable network issues "+ err )
-                setError(true)
-            })
 
+  const handleChangeStatus = async (e) => {
+    await setAppointment_status(e.target.value);
+  };
       }  */
   const getProviderBand = async () => {
     if (user.currentEmployee) {
@@ -120,20 +124,25 @@ export function OrganizationCreate() {
             user.currentEmployee.facilityDetail.facilityType === 'HMO'
               ? 'Provider'
               : 'Company',
+    /*  setValue("facility", obj._id,  {
+            shouldValidate: true,
+            shouldDirty: true
+        }) */
+  };
+  const getSearchfacility1 = (obj) => {
+    setLocationId(obj._id);
+    setChosen1(obj);
 
-          // storeId:state.StoreModule.selectedStore._id,
-          // $limit:20,
-          //   paginate:false,
-          $sort: {
-            category: 1,
-          },
-        },
-      });
-      // console.log(findServices)
-      await setProviderBand(findServices.data);
-      // console.log(findServices)
+    if (!obj) {
+      //"clear stuff"
+      setLocationId();
+      setChosen1();
     }
   };
+  const getSearchfacility2 = (obj) => {
+    setPractionerId(obj._id);
+    setChosen2(obj);
+
 
   const handleClick = () => {
     //check band selected
@@ -146,6 +155,7 @@ export function OrganizationCreate() {
       });
       return;
     }
+  };
 
     console.log(chosen);
     let stuff = {
@@ -158,8 +168,15 @@ export function OrganizationCreate() {
       .create(stuff)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        // e.target.reset();
+        e.target.reset();
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
+        /*  setMessage("Created Client successfully") */
         setSuccess(true);
+        setSuccess1(true);
+        setSuccess2(true);
         toast({
           message: 'Organization added succesfully',
           type: 'is-success',
@@ -180,22 +197,30 @@ export function OrganizationCreate() {
   };
 
   useEffect(() => {
-    // console.log("starting...")
-    getProviderBand();
+    getSearchfacility(state.ClientModule.selectedClient);
+
+    /* appointee=state.ClientModule.selectedClient 
+        console.log(appointee.firstname) */
     return () => {};
-  }, []);
-  const getSearchfacility = (obj) => {
-    setChosen(obj);
+  }, [state.ClientModule.selectedClient]);
 
-    /*  setCategoryName(obj.categoryname)
-        setChosen2(obj) */
+  /*   const showBilling = () =>{
+        setBillingModal(true)
+       //history.push('/app/finance/billservice')
+        }
+        const  handlecloseModal1 = () =>{
+            setBillingModal(false)
+            }
 
-    if (!obj) {
-      //"clear stuff"
-      /*  setCategoryName("")
-             setChosen2() */
-    }
-  };
+
+            const handleRow= async(Client)=>{
+              //  await setSelectedClient(Client)
+                const    newClientModule={
+                    selectedClient:Client,
+                    show :'detail'
+                }
+               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
+            } */
 
   return (
     <>
@@ -250,7 +275,7 @@ export function OrganizationList({ showModal, setShowModal }) {
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
-  const [selectedFacility, setSelectedFacility] = useState(); //
+  const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
   const { state, setState } = useContext(ObjectContext);
   const { user } = useContext(UserContext);
@@ -263,7 +288,7 @@ export function OrganizationList({ showModal, setShowModal }) {
     };
     await setState((prevstate) => ({
       ...prevstate,
-      facilityModule: newfacilityModule,
+      AppointmentModule: newClientModule,
     }));
     //console.log(state)
     setShowModal(1);
@@ -281,11 +306,12 @@ export function OrganizationList({ showModal, setShowModal }) {
     };
     await setState((prevstate) => ({
       ...prevstate,
-      facilityModule: newfacilityModule,
+      AppointmentModule: newClientModule,
     }));
     //console.log(state)
     setShowModal(2);
   };
+  //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
     const field = 'facilityName';
@@ -339,7 +365,78 @@ export function OrganizationList({ showModal, setShowModal }) {
             createdAt: -1,
           },
         },
-      })
+        {
+          middlename: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          phone: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_type: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_status: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          appointment_reason: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          location_type: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          location_name: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_department: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_profession: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+        {
+          practitioner_name: {
+            $regex: val,
+            $options: "i",
+          },
+        },
+      ],
+      facility: user.currentEmployee.facilityDetail._id, // || "",
+      $limit: 20,
+      $sort: {
+        createdAt: -1,
+      },
+    };
+    if (state.employeeLocation.locationType !== "Front Desk") {
+      query.locationId = state.employeeLocation.locationId;
+    }
+
+    ClientServ.find({ query: query })
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
@@ -352,8 +449,20 @@ export function OrganizationList({ showModal, setShowModal }) {
       });
   };
 
-  useEffect(() => {
-    getFacilities();
+  const getFacilities = async () => {
+    console.log(user);
+    if (user.currentEmployee) {
+      let stuff = {
+        facility: user.currentEmployee.facilityDetail._id,
+        // locationId:state.employeeLocation.locationId,
+        $limit: 100,
+        $sort: {
+          createdAt: -1,
+        },
+      };
+      // if (state.employeeLocation.locationType !== "Front Desk") {
+      //   stuff.locationId = state.employeeLocation.locationId;
+      // }
 
     orgServ.on('created', (obj) => getFacilities());
     orgServ.on('updated', (obj) => getFacilities());
@@ -388,7 +497,6 @@ export function OrganizationList({ showModal, setShowModal }) {
       required: true,
       inputType: 'TEXT',
     },
-
     {
       name: 'Address',
       key: 'facilityAddress',
@@ -398,7 +506,6 @@ export function OrganizationList({ showModal, setShowModal }) {
       required: true,
       inputType: 'TEXT',
     },
-
     {
       name: 'City',
       key: 'facilityCity',
@@ -408,7 +515,6 @@ export function OrganizationList({ showModal, setShowModal }) {
       required: true,
       inputType: 'TEXT',
     },
-
     {
       name: 'Phone',
       key: 'phone',
@@ -428,7 +534,6 @@ export function OrganizationList({ showModal, setShowModal }) {
       required: true,
       inputType: 'EMAIL',
     },
-
     {
       name: 'Type',
       key: 'facilityType',
@@ -438,7 +543,6 @@ export function OrganizationList({ showModal, setShowModal }) {
       required: true,
       inputType: 'TEXT',
     },
-
     {
       name: 'Category',
       key: 'facilityCategory',
@@ -448,6 +552,7 @@ export function OrganizationList({ showModal, setShowModal }) {
       required: true,
       inputType: 'TEXT',
     },
+
   ];
 
   return (

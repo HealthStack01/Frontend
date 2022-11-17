@@ -4,10 +4,12 @@ import {forwardRef} from "react";
 import CustomTable from "../../../components/customtable";
 import {
   AdmissionOrderPrintOut,
+  AdultQuestionnairePrintOut,
   BilledOrdersPrintOut,
   DischargeOrderPrintOut,
   LaboratoryOrdersPrintOut,
   MedicationListPrintOut,
+  PediatricPulmonologyList,
   PrescriptionPrintOut,
   RadiologyOrdersPrintOut,
 } from "../print-outs/Print-Outs";
@@ -22,8 +24,8 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
       <Box sx={{display: "none"}}>
         <AdmissionOrderPrintOut
           data={Clinic.documentdetail}
-          ref={ref}
           Clinic={Clinic}
+          ref={ref}
         />
       </Box>
       <div>
@@ -202,6 +204,14 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       }
       ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <PediatricPulmonologyList
+          ref={ref}
+          Clinic={Clinic}
+          data={Clinic.documentdetail}
+        />
+      </Box>
+
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
           {value.length > 0 && (
@@ -311,8 +321,15 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <AdultQuestionnairePrintOut
+          Clinic={Clinic}
+          data={Clinic.documentdetail}
+          ref={ref}
+        />
+      </Box>
+
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
           {value.length > 0 && (

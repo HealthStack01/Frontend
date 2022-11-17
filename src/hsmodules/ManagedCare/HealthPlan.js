@@ -861,7 +861,7 @@ export function HealthPlanList({ showModal, setShowModal }) {
                   )}
 
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
-                    Lead
+                    Health Plan
                   </h2>
                 </div>
 
