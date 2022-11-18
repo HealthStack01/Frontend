@@ -15,7 +15,7 @@ const FormsHeaderText = ({text}) => {
         lineHeight: "28px",
       }}
     >
-      {text}:
+      {text}
     </Typography>
   );
 };

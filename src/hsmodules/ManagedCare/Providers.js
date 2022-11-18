@@ -1161,7 +1161,7 @@ export function ProviderList({ showModal, setShowModal }) {
                     isClearable
                   /> */}
                   {/* <SwitchButton /> */}
-                  <Switch>
+                  {/* <Switch>
                     <button
                       value={value}
                       onClick={() => {
@@ -1180,7 +1180,7 @@ export function ProviderList({ showModal, setShowModal }) {
                     >
                       <BsFillGridFill style={{ fontSize: '1rem' }} />
                     </button>
-                  </Switch>
+                  </Switch> */}
                 </div>
 
                 {handleCreateNew && (

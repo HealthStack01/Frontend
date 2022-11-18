@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import { FacilitySearch } from '../helpers/FacilitySearch';
@@ -805,10 +805,12 @@ export function OrganizationModify() {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setMessage('updated Organization successfully');
+        toast.success('updated Organization successfully');
         setSuccess(true);
         changeState();
       })
       .catch((err) => {
+        toast.error('Error updating facility, probable network issues ' + err);
         setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
