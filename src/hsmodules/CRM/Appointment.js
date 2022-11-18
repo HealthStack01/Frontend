@@ -28,6 +28,7 @@ import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
 import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 import { ClientSearch } from "../helpers/ClientSearch";
+import CrmAppointmentCreate from "./components/AppointmentCreate";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -44,7 +45,10 @@ export default function CrmAppointment() {
       <CrmAppointmentList openCreateModal={() => setCreateModal(true)} />
 
       <ModalBox open={createModal} onClose={() => setCreateModal(false)}>
-        <AppointmentCreate closeModal={() => setCreateModal(false)} header="" />
+        <CrmAppointmentCreate
+          closeModal={() => setCreateModal(false)}
+          header=""
+        />
       </ModalBox>
     </section>
   );
