@@ -1568,14 +1568,6 @@ export function ClientCreate({ closeModal }) {
                 label="Relationship"
                 register={register('nok_relationship')}
               />
-              <Input
-                label="Co-mobidities"
-                register={register('comorbidities')}
-              />
-              <Input
-                label="Specific Details "
-                register={register('specificDetails')}
-              />
             </GridWrapper>
           </ViewBox>
 
