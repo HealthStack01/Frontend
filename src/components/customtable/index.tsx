@@ -19,6 +19,7 @@ interface Props {
   noHeader?: boolean;
   conditionalRowStyles?: [];
   selectableRowsComponent?: any;
+  CustomEmptyData?: React.ReactNode | "";
 }
 
 const CustomLoader = () => (
@@ -42,6 +43,7 @@ const CustomTable: React.FC<Props> = ({
   noHeader = true,
   conditionalRowStyles = [],
   selectableRowsComponent,
+  CustomEmptyData,
 }) => {
   return (
     <DataTable
@@ -65,7 +67,7 @@ const CustomTable: React.FC<Props> = ({
       }}
       progressComponent={<CustomLoader />}
       progressPending={progressPending}
-      noDataComponent={<EmptyData />}
+      noDataComponent={CustomEmptyData ? CustomEmptyData : <EmptyData />}
       conditionalRowStyles={conditionalRowStyles}
       noHeader={noHeader}
     />
