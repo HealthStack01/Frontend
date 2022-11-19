@@ -623,12 +623,20 @@ export function SponsorSearch({ getSearchfacility, clear }) {
             style={{ width: '100%' }}
           >
             <div className="dropdown-trigger" style={{ width: '100%' }}>
-              <DebouncedInput
-                label="Search Organization"
+              <DebounceInput
+                label="Search Sponsor"
                 value={simpa}
                 minLength={3}
-                onBlur={handleBlur}
-                onChangeValue={handleSearch}
+                debounceTimeout={400}
+                onBlur={(e) => handleBlur(e)}
+                onChange={(e) => handleSearch(e.target.value)}
+                inputRef={inputEl}
+                style={{
+                  width: '100%',
+                  padding: '1rem .5rem',
+                  borderRadius: '4px',
+                  border: '1.5px solid rgba(0, 0, 0, 0.6)',
+                }}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
@@ -637,16 +645,16 @@ export function SponsorSearch({ getSearchfacility, clear }) {
             {/* {searchError&&<div>{searchMessage}</div>} */}
             <div className="dropdown-menu" style={{ width: '100%' }}>
               <div className="dropdown-content">
-                {facilities.length > 0 ? (
+                {/* {facilities.length > 0 ? (
                   ''
                 ) : (
                   <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
+                    className="dropdown-item" onClick={handleAddproduct} 
                   >
                     {' '}
                     <span>{val} is not on your Sponsor list</span>{' '}
                   </div>
-                )}
+                )} */}
 
                 {facilities.map((facility, i) => (
                   <div
