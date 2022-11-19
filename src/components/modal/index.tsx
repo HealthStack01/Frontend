@@ -91,7 +91,12 @@ const ModalBox: React.FC<ModalProps> = ({
                   )}
                 </Box>
               )}
-              <Box sx={{overflowY: "scroll", padding: "0 10px"}}>
+              <Box
+                sx={{
+                  overflowY: "scroll",
+                  padding: "0 10px",
+                }}
+              >
                 {children}
               </Box>
             </div>
