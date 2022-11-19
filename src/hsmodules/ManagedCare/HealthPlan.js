@@ -1,80 +1,93 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Route, useNavigate, Link, NavLink} from "react-router-dom";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
-import DatePicker from "react-datepicker";
-import LocationSearch from "../helpers/LocationSearch";
-import EmployeeSearch from "../helpers/EmployeeSearch";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import "react-datepicker/dist/react-datepicker.css";
-
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import Switch from "../../components/switch";
-import {BsFillGridFill, BsList} from "react-icons/bs";
-import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
-import {Box, Grid, Button as MuiButton} from "@mui/material";
-import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import {MdCancel} from "react-icons/md";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import LocationSearch from '../helpers/LocationSearch';
+import EmployeeSearch from '../helpers/EmployeeSearch';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import 'react-datepicker/dist/react-datepicker.css';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import Switch from '../../components/switch';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
+import CalendarGrid from '../../components/calender';
+import ModalBox from '../../components/modal';
+import { Box, Grid, Button as MuiButton } from '@mui/material';
+import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import { MdCancel } from 'react-icons/md';
+import Input from '../../components/inputs/basic/Input';
+import CustomSelect from '../../components/inputs/basic/Select';
+import { McText } from './text';
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function HealthPlan() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(0);
 
   return (
     <section className="section remPadTop">
       <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
+      {showModal === 1 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <HealthPlanCreate showModal={showModal} setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <HealthPlanDetails />
+        </ModalBox>
+      )}
     </section>
   );
 }
 
-export function AppointmentCreate({showModal, setShowModal}) {
-  const {state, setState} = useContext(ObjectContext);
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+export function HealthPlanCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue, reset } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("appointments");
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState("");
-  const [appointment_type, setAppointment_type] = useState("");
+  const [appointment_status, setAppointment_status] = useState('');
+  const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
-
+  const [showBenefit, setShowBenefit] = useState(false);
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
+  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -83,15 +96,15 @@ export function AppointmentCreate({showModal, setShowModal}) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -106,7 +119,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -116,7 +129,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
       setChosen1();
     }
   };
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -147,15 +160,15 @@ export function AppointmentCreate({showModal, setShowModal}) {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState(prevstate => ({
+      setState((prevstate) => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
-          show: "list",
+          show: 'list',
         },
       }));
 
@@ -177,7 +190,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -191,21 +204,21 @@ export function AppointmentCreate({showModal, setShowModal}) {
     console.log(data);
 
     ClientServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type("");
-        setAppointment_status("");
-        setClientId("");
-        setLocationId("");
+        setAppointment_type('');
+        setAppointment_status('');
+        setClientId('');
+        setLocationId('');
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast({
           message:
-            "Appointment created succesfully, Kindly bill patient if required",
-          type: "is-success",
+            'Appointment created succesfully, Kindly bill patient if required',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -214,15 +227,17 @@ export function AppointmentCreate({showModal, setShowModal}) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
-          message: "Error creating Appointment " + err,
-          type: "is-danger",
+          message: 'Error creating Appointment ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
       });
   };
+
+  const submitbenefit = () => {};
 
   useEffect(() => {
     getSearchfacility(state.ClientModule.selectedClient);
@@ -239,6 +254,8 @@ export function AppointmentCreate({showModal, setShowModal}) {
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
             }
+
+
             const handleRow= async(Client)=>{
               //  await setSelectedClient(Client)
                 const    newClientModule={
@@ -250,189 +267,182 @@ export function AppointmentCreate({showModal, setShowModal}) {
 
   return (
     <>
-      <div className="card ">
+      <div
+        className="card "
+        style={{
+          minWidth: '600px',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
+          <McText
+            txt={'Create Health Plan'}
+            type={'p'}
+            bold={'700'}
+            size={'16px'}
+          />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <ModalHeader text={"Create Appointment"} />
+              <Input
+                name="plan"
+                label="Name of Plan"
+                register={register('plan')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} my={1.5}>
+              <CustomSelect
+                name="planCategory"
+                label="Category"
+                register={register('planCategory')}
+                options={[
+                  { value: 'Individual', label: 'Individual' },
+                  { value: 'Family', label: 'Family' },
+                ]}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={6} my={1.5}>
+              <CustomSelect
+                name="planType"
+                label="Type"
+                register={register('planType')}
+                options={[
+                  { value: 'Individual', label: 'Individual' },
+                  { value: 'Family', label: 'Family' },
+                ]}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState(prevstate => ({
-                      ...prevstate,
-                      AppointmentModule: {
-                        selectedAppointment: {},
-                        show: "list",
-                      },
-                    }));
-                }}
+              <Input
+                name="planAmount"
+                label="Premium Amount"
+                register={register('planAmount')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={6} my={1}>
+              <Button
+                type="button"
+                variant="contained"
                 style={{
-                  fontSize: "2rem",
-                  color: "crimson",
-                  cursor: "pointer",
-                  float: "right",
+                  backgroundColor: '#3f51b5',
                 }}
-              />
+                onClick={() => setShowBenefit(true)}
+              >
+                Add Benefit
+              </Button>
             </Grid>
           </Grid>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <ClientSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <LocationSearch
-                getSearchfacility={getSearchfacility1}
-                clear={success1}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <EmployeeSearch
-                getSearchfacility={getSearchfacility2}
-                clear={success2}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
-                {appClass.map((c, i) => (
-                  <label
-                    className=" is-small"
-                    key={c}
-                    style={{fontSize: "16px", fontWeight: "bold"}}
-                  >
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register("appointmentClass", {required: true})}
-                      style={{
-                        border: "1px solid #0364FF",
-                        transform: "scale(1.5)",
-                        color: "#0364FF",
-                        margin: ".5rem",
-                      }}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <div className="field">
-                <input
-                  name="start_time"
-                  {...register("start_time", {required: true})}
-                  type="datetime-local"
-                  style={{
-                    border: "1px solid #0364FF",
-                    padding: "1rem",
-                    color: " #979DAC",
-                  }}
+          {showBenefit && (
+            <>
+              <ModalBox
+                open={showBenefit}
+                onClose={() => setShowBenefit(false)}
+              >
+                <McText
+                  txt={'Add Benefits'}
+                  type={'p'}
+                  bold={'700'}
+                  size={'16px'}
                 />
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="type"
-                value={type}
-                onChange={handleChangeType}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New</option>
-                <option value="Followup">Followup</option>
-                <option value="Readmission with 24hrs">
-                  Readmission with 24hrs
-                </option>
-                <option value="Annual Checkup">Annual Checkup</option>
-                <option value="Walk in">Walk-in</option>
-              </select>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
-              <select
-                name="appointment_status"
-                value={appointment_status}
-                onChange={handleChangeStatus}
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                }}
-              >
-                <option defaultChecked>Appointment Status </option>
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Checked In">Checked In</option>
-                <option value="Vitals Taken">Vitals Taken</option>
-                <option value="With Nurse">With Nurse</option>
-                <option value="With Doctor">With Doctor</option>
-                <option value="No Show">No Show</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Billed">Billed</option>
-              </select>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <textarea
-                className="input is-small"
-                name="appointment_reason"
-                {...register("appointment_reason", {required: true})}
-                type="text"
-                placeholder="Appointment Reason"
-                rows="10"
-                cols="50"
-                style={{
-                  border: "1px solid #0364FF",
-                  padding: "1rem",
-                  color: " #979DAC",
-                  width: "100%",
-                }}
-              >
-                {" "}
-              </textarea>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceName"
+                      label="Service Name"
+                      register={register('serviceName')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} my={1.5}>
+                    <CustomSelect
+                      name="serviceCategory"
+                      label="Category"
+                      register={register('serviceCategory')}
+                      options={[
+                        { value: 'Individual', label: 'Individual' },
+                        { value: 'Family', label: 'Family' },
+                      ]}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceDscrp"
+                      label="Description"
+                      register={register('serviceDscrp')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="serviceprice"
+                      label="Price"
+                      register={register('serviceprice')}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} my={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="capitationPrice"
+                      label="Capitation Price"
+                      register={register('capitationPrice')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Input
+                      name="feeForService"
+                      label="Fee for Servcice"
+                      register={register('feeForService')}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} mt={1}>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <Button
+                      type="button"
+                      style={{
+                        backgroundColor: '#0364FF',
+                        width: '100%',
+                        cursor: 'pointer',
+                      }}
+                      onClick={submitbenefit}
+                      fullWidth
+                    >
+                      Save
+                    </Button>
+                  </Grid>
+                </Grid>
+              </ModalBox>
+            </>
+          )}
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={12} md={3}>
               <Button
                 type="submit"
                 style={{
-                  backgroundColor: "#0364FF",
-                  width: "100%",
-                  cursor: "pointer",
+                  backgroundColor: '#0364FF',
+                  width: '100%',
+                  cursor: 'pointer',
                 }}
+                fullwidth
               >
                 Save
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
+            <Grid item xs={12} sm={12} md={3}>
               <Button
                 type="button"
-                onClick={e => e.target.reset()}
+                onClick={(e) => e.target.reset()}
                 style={{
-                  backgroundColor: "#ffffff",
-                  width: "100%",
-                  color: "#0364FF",
-                  border: "1px solid #0364FF",
-                  cursor: "pointer",
+                  backgroundColor: '#ffffff',
+                  width: '100%',
+                  color: '#0364FF',
+                  border: '1px solid #0364FF',
+                  cursor: 'pointer',
                 }}
+                fullwidth
               >
                 Clear
               </Button>
@@ -444,63 +454,63 @@ export function AppointmentCreate({showModal, setShowModal}) {
   );
 }
 
-export function HealthPlanList({showModal, setShowModal}) {
+export function HealthPlanList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("appointments");
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('appointments');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("list");
+  const [value, setValue] = useState('list');
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
-    setShowModal(true);
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setShowModal(1);
   };
 
-  const handleRow = async Client => {
-    setShowModal(true);
+  const handleRow = async (Client) => {
+    setShowModal(2);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: "detail",
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
-    const field = "firstname";
+  const handleSearch = (val) => {
+    const field = 'firstname';
     //  console.log(val)
 
     let query = {
@@ -508,73 +518,73 @@ export function HealthPlanList({showModal, setShowModal}) {
         {
           firstname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           phone: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
         },
       ],
@@ -584,20 +594,20 @@ export function HealthPlanList({showModal, setShowModal}) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== "Front Desk") {
+    if (state.employeeLocation.locationType !== 'Front Desk') {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -617,7 +627,7 @@ export function HealthPlanList({showModal, setShowModal}) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -649,15 +659,15 @@ export function HealthPlanList({showModal, setShowModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on('created', (obj) => handleCalendarClose());
+    ClientServ.on('updated', (obj) => handleCalendarClose());
+    ClientServ.on('patched', (obj) => handleCalendarClose());
+    ClientServ.on('removed', (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -666,7 +676,7 @@ export function HealthPlanList({showModal, setShowModal}) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user?.currentEmployee?.facilityDetail?._id,
+      facility: user.currentEmployee.facilityDetail._id,
 
       $limit: 100,
       $sort: {
@@ -677,12 +687,12 @@ export function HealthPlanList({showModal, setShowModal}) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({query: query});
+    const findClient = await ClientServ.find({ query: query });
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setStartDate(date);
   };
 
@@ -703,204 +713,134 @@ export function HealthPlanList({showModal, setShowModal}) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + " " + facility?.lastname,
-        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
+        title: facility?.firstname + ' ' + facility?.lastname,
+        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
         end: facility?.end_time,
         id: i,
       });
     });
     return mapped;
   };
+
   const activeStyle = {
-    backgroundColor: "#0064CC29",
-    border: "none",
-    padding: "0 .8rem",
+    backgroundColor: '#0064CC29',
+    border: 'none',
+    padding: '0 .8rem',
   };
 
   const dummyData = [
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
+      patients_name: 'Patients Name',
+      name_of_plan: 'Family plan',
+      category: 'Titanium series',
+      plan_type: 'Agriculture',
+      premium: '27/10/21',
+      status: 'Active',
     },
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
+      patients_name: 'Patients Name',
+      name_of_plan: 'Family plan',
+      category: 'Titanium series',
+      plan_type: 'Agriculture',
+      premium: '27/10/21',
+      status: 'Active',
     },
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
+      patients_name: 'Patients Name',
+      name_of_plan: 'Family plan',
+      category: 'Titanium series',
+      plan_type: 'Agriculture',
+      premium: '27/10/21',
+      status: 'Active',
     },
+
     {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
-    },
-    {
-      patients_name: "Tejiri Tabir",
-      name_of_plan: "Family Plan",
-      category: "family",
-      category: "Tatanium Series",
-      premium: "27-10-21",
-      status: "Active",
+      patients_name: 'Patients Name',
+      name_of_plan: 'Family plan',
+      category: 'Titanium series',
+      plan_type: 'Agriculture',
+      premium: '27/10/21',
+      status: 'Active',
     },
   ];
 
-  const returnCell = status => {
+  const returnCell = (status) => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
     switch (status.toLowerCase()) {
-      case "active":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+      case 'active':
+        return <span style={{ color: '#17935C' }}>{status}</span>;
 
-      case "ongoing":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
-
-      case "declined":
-        return <span style={{color: "#ED0423"}}>{status}</span>;
-
-      case "pending":
-        return <span style={{color: "#EF9645"}}>{status}</span>;
+      case 'inactive':
+        return <span style={{ color: '#0364FF' }}>{status}</span>;
 
       default:
         break;
     }
   };
 
-  const preAuthSchema = [
+  const HealthPlanSchema = [
     {
-      name: "Patients Name",
-      key: "patients_name",
-      description: "Enter Patients Name",
-      selector: (row, i) => row.patients_name,
+      name: 'Patients Name',
+      key: 'patients_name',
+      description: 'Enter patients name',
+      selector: (row) => row.patients_name,
       sortable: true,
       required: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "Name of Plan",
-      key: "name_of_plan",
-      description: "Name of Plan",
-      selector: row => row.name_of_plan,
+      name: 'Name of Plan',
+      key: 'name_of_plan',
+
+      description: 'Enter name of plan',
+
+      selector: (row) => row.name_of_plan,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Category",
-      key: "category",
-      description: "Category",
-      selector: row => row.category,
+      name: 'Category',
+      key: 'category',
+
+      description: 'Enter category series',
+      selector: (row) => row.category,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Premium",
-      key: "premium",
-      description: "Premium",
+      name: 'Plan Type',
+      key: 'plan_type',
+      description: 'Enter plan type',
+      selector: (row) => row.plan_type,
+
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Premium',
+      key: 'premium',
+      description: 'Enter premium',
       selector: (row, i) => row.premium,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: 'DATE',
     },
     {
-      name: "Status",
-      key: "status",
-      description: "Status",
-      selector: "status",
-      cell: (row, i) => returnCell(row.status),
+      name: 'Status',
+      key: 'status',
+      description: 'Enter bills',
+      selector: 'status',
+      cell: (row) => returnCell(row.status),
       sortable: true,
       required: true,
-      inputType: "NUMBER",
-    },
-  ];
 
-  const conditionalRowStyles = [
-    {
-      when: row => row.status === "approved",
-      style: {
-        color: "red",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: row => row.status === "ongoing",
-      style: {
-        color: "rgba(0,0,0,.54)",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: row => row.status === "pending",
-      style: {
-        color: "pink",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: row => row.status === "declined",
-      style: {
-        color: "purple",
-        backgroundColor: "green",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
+      inputType: 'TEXT',
     },
   ];
 
@@ -910,72 +850,34 @@ export function HealthPlanList({showModal, setShowModal}) {
         <>
           <div className="level">
             <PageWrapper
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
             >
               <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  {/* <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Pre-Authorization
-                  </h2> */}
-                  {/* <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  /> */}
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{fontSize: "1rem"}} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{fontSize: "1rem"}} />
-                    </button>
-                  </Switch>
+
+                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+                    Health Plan
+                  </h2>
                 </div>
 
                 {handleCreateNew && (
-                  <MuiButton
-                    variant="contained"
-                    sx={{
-                      widh: "fit",
-                      textTransform: "capitalize",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
+                  <Button
+                    style={{ fontSize: '14px', fontWeight: '600' }}
+                    label="Add new "
                     onClick={handleCreateNew}
-                  >
-                    <AddCircleOutlineIcon
-                      sx={{marginRight: "5px"}}
-                      fontSize="small"
-                    />
-                    Add Health plan
-                  </MuiButton>
+                  />
                 )}
               </TableMenu>
-              <div style={{width: "100%", height: "700px", overflow: "auto"}}>
-                {value === "list" ? (
+              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+                {value === 'list' ? (
                   <CustomTable
-                    title={""}
-                    columns={preAuthSchema}
+                    title={''}
+                    columns={HealthPlanSchema}
                     data={dummyData}
                     pointerOnHover
                     highlightOnHover
@@ -994,6 +896,288 @@ export function HealthPlanList({showModal, setShowModal}) {
       ) : (
         <div>loading</div>
       )}
+    </>
+  );
+}
+
+export function HealthPlanDetails() {
+  const [deny, setDeny] = useState(false);
+  const [approve, setApprove] = useState(false);
+  const [viewBenefit, setViewBenefit] = useState(false);
+
+  const tableData = [
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: false,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: false,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: true,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: false,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+    {
+      drugs: 'Paracetamol',
+      code: 'V1201',
+      capitation: true,
+      feeOfService: true,
+      fee: 'N20,000',
+    },
+  ];
+  const HealthPlanSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Drugs',
+      key: 'drugs',
+      description: 'Drugs',
+      selector: (row) => row.drugs,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Code',
+      key: 'code',
+      description: 'Code',
+      selector: (row) => row.code,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Capitation',
+      key: 'capitation',
+      description: 'Capitation',
+      selector: (row) => (row.capitation ? 'Yes' : 'No'),
+      sortable: true,
+      required: true,
+      inputType: 'CHECKBOX',
+    },
+    {
+      name: 'Fee of Service',
+      key: 'feeOfService',
+      description: 'Fee of Service',
+      selector: (row) => (row.feeOfService ? 'Yes' : 'No'),
+      sortable: true,
+      required: true,
+      inputType: 'CHECKBOX',
+    },
+    {
+      name: 'Fee',
+      key: 'fee',
+      description: 'Fee',
+      selector: (row) => row.fee,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
+  const benefitDate = [
+    {
+      benefitId: '1637',
+      benefitDescription: 'Dental Care',
+      benefitPrice: 'N20,000',
+    },
+    {
+      benefitId: '1637',
+      benefitDescription: 'Dental Care',
+      benefitPrice: 'N20,000',
+    },
+    {
+      benefitId: '1637',
+      benefitDescription: 'Dental Care',
+      benefitPrice: 'N20,000',
+    },
+  ];
+
+  const benefitSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Benefit ID',
+      key: 'benefitId',
+      description: 'Benefit ID',
+      selector: (row) => row.benefitId,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Benefit Description',
+      key: 'benefitDescription',
+      description: 'Benefit Description',
+      selector: (row) => row.benefitDescription,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Benefit Price',
+      key: 'benefitPrice',
+      description: 'Benefit Price',
+      selector: (row) => row.benefitPrice,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+  return (
+    <>
+      <div
+        className="card"
+        style={{
+          height: '50vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <ModalHeader text={'Anti Fungal'} />
+        <div style={{ backgroundColor: '#EBEBEB', padding: '.5rem 1rem' }}>
+          <p>Details</p>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <p>Premium Due: 08/06/2015</p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ textAlign: 'right' }}>
+                Status: <span style={{ color: '#17935C' }}>Active</span>
+              </p>
+            </Grid>
+          </Grid>
+        </div>
+        <div
+          style={{
+            marginTop: '10px',
+            border: '1px solid #8F8F8F',
+            padding: '1rem',
+          }}
+        >
+          <Grid container spacing={2} style={{ alignItems: 'top' }}>
+            <Grid item xs={3}>
+              <div
+                style={{ width: '100px', height: 'auto', borderRadius: '50%' }}
+              >
+                <img
+                  src="/img_avatar.png"
+                  alt="avatar"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: '700', marginTop: 0 }}>
+                Lagos State University Teaching Hospital
+              </p>
+              <p> 1, Oba Akinjobi Way, Ikeja, Lagos</p>
+              <p>08012345678</p>
+            </Grid>
+            <Grid item xs={3}>
+              <div style={{ marginLeft: 'auto' }}>
+                <Button
+                  label="View Benefit"
+                  style={{ marginLeft: 'auto' }}
+                  onClick={() => setViewBenefit(true)}
+                />
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  borderBottom: '1px solid #E4EAF0',
+                  margin: '1rem 0',
+                }}
+              ></div>
+            </Grid>
+          </Grid>
+
+          <p>Details</p>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <p>Type: Formal Sector</p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ textAlign: 'right' }}>Utilized By: LASHMA</p>
+            </Grid>
+          </Grid>
+        </div>
+        <div
+          style={{
+            width: '100%',
+            height: 'auto',
+            overflow: 'auto',
+            marginTop: '1rem',
+          }}
+        >
+          <CustomTable
+            tableData={''}
+            columns={HealthPlanSchema}
+            data={tableData}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+        </div>
+        {viewBenefit && (
+          <ModalBox open={viewBenefit} onClose={() => setViewBenefit(false)}>
+            <div
+              style={{
+                width: '100%',
+                height: 'auto',
+                overflow: 'auto',
+                marginTop: '1rem',
+              }}
+            >
+              <ModalHeader text={'Benefit'} />
+              <CustomTable
+                tableData={'Benefits'}
+                columns={benefitSchema}
+                data={benefitDate}
+                pointerOnHover
+                highlightOnHover
+                striped
+              />
+            </div>
+          </ModalBox>
+        )}
+      </div>
     </>
   );
 }

@@ -31,6 +31,9 @@ import {maxHeight} from "@mui/system";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import ProductSearchHelper from "../helpers/ProductSearch";
 import moment from "moment";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import XLSX from "xlsx";
+import UploadExcelSheet from "../../components/excel-upload/Excel-Upload";
 //import MuiButton from "@mui/material/Button";
 
 // eslint-disable-next-line
@@ -169,29 +172,32 @@ export function ProductEntryCreate({closeModal}) {
   const handleChangeType = async e => {
     await setType(e.target.value);
   };
-  const handleClickProd = async () => {
-    if (!productId || !quantity || !costprice) {
-      toast.error("Kindly choose Product,price and quantity");
-      return;
-    }
-    await setSuccess(false);
-    setProductItem(prevProd => prevProd.concat(productItemI));
-    setType("");
-    setProductId("");
-    setName("");
-    setQuantity("");
-    setBaseunit("");
-    setCostprice("");
-    setSource("");
-    setTotalamount("");
-    setDate("");
-    setDocumentNo("");
-    setStoreId("");
 
-    await setSuccess(true);
-    // console.log(success)
-    //  console.log(productItem)
+  const handleClickProd = async () => {
+    console.log(productId, quantity, costprice);
+    console.log("product-item", productItemI);
+
+    // if (!productId || !quantity || !costprice) {
+    //   toast.error("Kindly choose Product,price and quantity");
+    //   return;
+    // }
+    // await setSuccess(false);
+    // setProductItem(prevProd => prevProd.concat(productItemI));
+    // setType("");
+    // setProductId("");
+    // setName("");
+    // setQuantity("");
+    // setBaseunit("");
+    // setCostprice("");
+    // setSource("");
+    // setTotalamount("");
+    // setDate("");
+    // setDocumentNo("");
+    // setStoreId("");
+
+    // await setSuccess(true);
   };
+
   const handleDate = async date => {
     setDate(date);
   };
@@ -273,6 +279,8 @@ export function ProductEntryCreate({closeModal}) {
     {
       name: "S/N",
       key: "sn",
+      width: "70px",
+      center: true,
       description: "SN",
       selector: row => row.sn,
       sortable: true,
@@ -288,13 +296,15 @@ export function ProductEntryCreate({closeModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Quantity",
+      name: "QTY",
+      width: "70px",
       key: "quanity",
       description: "Enter quantity",
       selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      center: true,
     },
 
     {
@@ -315,6 +325,7 @@ export function ProductEntryCreate({closeModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      center: true,
     },
 
     {
@@ -370,8 +381,8 @@ export function ProductEntryCreate({closeModal}) {
   return (
     <Box
       sx={{
-        width: "780px",
-        maxHeight: "600px",
+        width: "850px",
+        maxHeight: "700px",
         overflowY: "auto",
       }}
     >
@@ -445,7 +456,9 @@ export function ProductEntryCreate({closeModal}) {
             <Typography>Add Product Items</Typography>
           </Box>
 
-          <Box item>
+          <Box item sx={{display: "flex"}}>
+            <UploadExcelSheet updateState={setProductItem} />
+
             <MuiButton
               variant="outlined"
               sx={{width: "100px", textTransform: "capitalize"}}
@@ -500,7 +513,7 @@ export function ProductEntryCreate({closeModal}) {
       </Box>
 
       {productItem.length > 0 && (
-        <Box sx={{height: "200px", widht: "300%"}}>
+        <Box sx={{height: "300px", widht: "300%"}}>
           <CustomTable
             title={""}
             columns={productCreateSchema}

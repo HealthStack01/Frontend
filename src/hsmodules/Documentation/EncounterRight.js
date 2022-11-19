@@ -43,6 +43,11 @@ import VitalSignsRecord from "../clientForm/forms/vitalSignsRecord";
 import VitalSignsChart from "../clientForm/forms/vitalSignChart";
 import SurgicalBookletConsentForm from "../clientForm/forms/surgicalBookletConsentForm";
 import {usePosition} from "../../components/hooks/getUserLocation";
+import Textarea from "../../components/inputs/basic/Textarea";
+import {Box, getValue} from "@mui/system";
+import RadioButton from "../../components/inputs/basic/Radio";
+import {Button} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
@@ -383,215 +388,95 @@ export function VitalSignCreate() {
                     Kindly search Client list before creating new Clients!
                 </p> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      {...register("Temperature")}
-                      name="Temperature"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Temperature"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Pulse"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Pulse"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Respiratory_rate"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Respiratory rate"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" fas fa-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Random_glucose"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Blood Glucose"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Systolic_BP"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Systolic BP"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Diastolic_BP"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Diastolic_BP"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="SPO2"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="SPO2"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Pain"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Pain"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Height"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Height (m)"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      {...register("x")}
-                      name="Weight"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Weight (Kg)"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+<Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Temperature"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
-                />
-                <span> Final </span>
-              </label>
-            </div>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-warning is-small" type="reset">
-                  Cancel
-                </button>
-              </p>
-            </div>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Pulse"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Respiratory rate"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Blood Glucose"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Systolic_BP"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Diastolic_BP"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="SPO2"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Pain"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Height(m)"
+                />
+
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  placeholder="Weight(Kg)"
+                />
+    </Box>
+    <Box> 
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Draft",
+                "Final",
+              ]}
+            />
+</Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>
@@ -782,116 +667,57 @@ export function ClinicalNoteCreate() {
                     Kindly search Client list before creating new Clients!
                 </p> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Symptoms"
-                      type="text"
-                      placeholder="Symptoms"
-                      spellCheck="true"
-                    />
-                    {/*  <span className="icon is-small is-left">
-                                <i className="fas fa-hospital"></i>
-                            </span>   */}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Clinical Findings"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Clinical Findings"
-                    />
-                    {/* <span className="icon is-small is-left">
-                            <i className="fas fa-map-signs"></i>
-                        </span> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Diagnosis"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Diagnosis"
-                    />
-                    {/* <span className="icon is-small is-left">
-                        <i className=" fas fa-user-md "></i>
-                        </span> */}
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* <div className="field is-horizontal">
-            <div className="field-body"> */}
-            <div className="field">
-              <div className="control has-icons-left">
-                <textarea
-                  className="textarea is-small "
-                  {...register("x")}
+             
+       <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="Symptoms"
+                  type="text"
+                  placeholder="Symptoms"
+                /> 
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="clinical_findings"
+                  type="text"
+                  placeholder="Clinical Findings"
+                />
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="diagnosis"
+                  type="text"
+                  placeholder="Diagnosis"
+                />
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
                   name="Plan"
                   type="text"
-                  spellCheck="true"
                   placeholder="Plan"
                 />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
-                />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
-                />
-                <span> Final </span>
-              </label>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-warning is-small" type="reset">
-                  Cancel
-                </button>
-              </p>
-            </div>
+              </Box>  
+              <Box>   
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Draft",
+                "Final"
+              ]}
+            /> 
+               </Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>
@@ -1072,98 +898,49 @@ export function LabNoteCreate() {
           <p className="card-header-title">Lab Result</p>
         </div>
         <div className="card-content vscrollable remPad1">
-          {/*   <label className="label is-size-7">
-                  Client:  {order.orderInfo.orderObj.clientname}
-                </label>
-                <label className="label is-size-7">
-                 Test:  {order.serviceInfo.name}
-                </label> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="Investigation"
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Input
+                  register={register("input_text")}
+                  name="text"
                   type="text"
-                  spellCheck="true"
                   placeholder="Investigation"
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Finding"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Findings"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Recommendation"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Recommendation"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="findings"
+                  type="text"
+                  placeholder="Findings"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="text"
+                  type="text"
+                  placeholder="Recommendation"
                 />
-                <span> Final </span>
-              </label>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-warning is-small" type="reset">
-                  Cancel
-                </button>
-              </p>
-            </div>
+              </Box>  
+              <Box>   
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Draft",
+                "Final"
+              ]}
+            /> 
+               </Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>
@@ -1351,91 +1128,50 @@ export function NursingNoteCreate() {
                  Test:  {order.serviceInfo.name}
                 </label> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="Title"
+               
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Input
+                  register={register("input_text")}
+                  name="text"
                   type="text"
-                  spellCheck="true"
                   placeholder="Title"
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Documentation"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Documentation"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Recommendation"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Recommendation"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="findings"
+                  type="text"
+                  placeholder="Documentation"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="text"
+                  type="text"
+                  placeholder="Recommendation"
                 />
-                <span> Final </span>
-              </label>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-warning is-small" type="reset">
-                  Cancel
-                </button>
-              </p>
-            </div>
+              </Box>  
+              <Box>   
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Draft",
+                "Final"
+              ]}
+            /> 
+               </Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
+          
           </form>
         </div>
       </div>
@@ -1623,91 +1359,49 @@ export function DoctorsNoteCreate() {
                  Test:  {order.serviceInfo.name}
                 </label> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x")}
-                  name="Title"
+               
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Input
+                  register={register("input_text")}
+                  name="text"
                   type="text"
-                  spellCheck="true"
                   placeholder="Title"
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Documentation"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Documentation"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register("x")}
-                      name="Recommendation"
-                      type="text"
-                      spellCheck="true"
-                      placeholder="Recommendation"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="findings"
+                  type="text"
+                  placeholder="Documentation"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="text"
+                  type="text"
+                  placeholder="Recommendation"
                 />
-                <span> Final </span>
-              </label>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-warning is-small" type="reset">
-                  Cancel
-                </button>
-              </p>
-            </div>
+              </Box>  
+              <Box>   
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Draft",
+                "Final"
+              ]}
+            /> 
+               </Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>
@@ -1818,6 +1512,50 @@ export function PrescriptionCreate() {
                     Kindly search Client list before creating new Clients!
                 </p> */}
           <form onSubmit={handleSubmit(onSubmit)}>
+                
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Input
+                  register={register("input_text")}
+                  name="text"
+                  type="text"
+                  placeholder="Title"
+                />
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="findings"
+                  type="text"
+                  placeholder="Documentation"
+                />
+    </Box>
+    <Box sx={{paddingBlock:"1rem"}}>
+                <Textarea
+                  register={register("input_text")}
+                  name="text"
+                  type="text"
+                  placeholder="Recommendation"
+                />
+              </Box>  
+              <Box>   
+            <RadioButton
+              register={register("input_text")}
+              options={[
+                "Draft",
+                "Final"
+              ]}
+            /> 
+               </Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
+              
             <div className="field is-horizontal">
               <div className="field-body">
                 <div className="field">

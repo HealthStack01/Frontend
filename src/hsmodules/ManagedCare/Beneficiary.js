@@ -1,29 +1,50 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import {} from "react-router-dom"; //Route, Switch,Link, NavLink,
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-//import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict } from "date-fns";
-import ClientFinInfo from "./ClientFinInfo";
-import BillServiceCreate from "../Finance/BillServiceCreate";
-import { AppointmentCreate } from "../Appointment/generalAppointment";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ClientBilledPrescription from "../Finance/ClientBill";
-import ClientGroup from "./ClientGroup";
-import DatePicker from "react-datepicker";
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Navigate } from 'react-router-dom'; //Route, Switch,Link, NavLink,
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { UserContext, ObjectContext } from '../../context';
+import { toast } from 'bulma-toast';
+import { formatDistanceToNowStrict } from 'date-fns';
+import ClientFinInfo from './ClientFinInfo';
+import BillServiceCreate from '../Finance/BillServiceCreate';
+import { AppointmentCreate } from '../Appointment/generalAppointment';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClientBilledPrescription from '../Finance/ClientBill';
+import ClientGroup from './ClientGroup';
+import DatePicker from 'react-datepicker';
 
-import "react-datepicker/dist/react-datepicker.css";
-import { OrgFacilitySearch, SponsorSearch } from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-var random = require("random-string-generator");
+import 'react-datepicker/dist/react-datepicker.css';
+import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import ModalBox from '../../components/modal';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import { Grid } from '@mui/material';
+import Input from '../../components/inputs/basic/Input/index';
+import ToggleButton from '../../components/toggleButton';
+import RadioButton from '../../components/inputs/basic/Radio';
+import BasicDatePicker from '../../components/inputs/Date';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
+import CustomSelect from '../../components/inputs/basic/Select';
+import Textarea from '../../components/inputs/basic/Textarea';
+import { MdCancel, MdAddCircle } from 'react-icons/md';
+import { EnrolleSchema } from './schema';
+import ClientForm from '../Client/ClientForm';
+import {
+  BottomWrapper,
+  GridWrapper,
+  HeadWrapper,
+  ViewBox,
+} from '../app/styles';
+import ClinicAppointments from '../Appointment/clinicAppointments';
+import PharmacyBillService from '../Finance/BillService';
+var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -32,22 +53,34 @@ export default function Beneficiary() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
+  const [showModal, setShowModal] = useState(0);
+  const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <div className="columns ">
-        <div className="column is-6 ">
-          <ClientList />
-        </div>
-        <div className="column is-6 ">
-          {state.ClientModule.show === "List" && <ClientList />}
-          {state.ClientModule.show === "create" && <BeneficiaryCreate />}
-          {state.ClientModule.show === "detail" && <ClientDetail />}
-          {state.ClientModule.show === "modify" && (
-            <ClientModify Client={selectedClient} />
-          )}
-        </div>
-      </div>
+      <ClientList showModal={showModal} setShowModal={setShowModal} />
+      {/* {state.ClientModule.show === 'create' && <BeneficiaryCreate />} */}
+      {showModal === 1 && (
+        <ModalBox open onClose={() => setShowModal(false)}>
+          <ClientDetail setShowModal={setShowModal3} />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox open onClose={() => setShowModal(false)}>
+          <BeneficiaryCreate openCreate={setShowModal2} />
+        </ModalBox>
+      )}
+      {showModal2 && (
+        <ModalBox open={showModal2} onClose={() => setShowModal2(false)}>
+          <ClientCreate />
+        </ModalBox>
+      )}
+      {showModal3 && (
+        <ModalBox open={showModal3} onClose={() => setShowModal3(false)}>
+          <ClientModify showModal={showModal3} setShowModal={setShowModal3} />
+        </ModalBox>
+      )}
     </section>
   );
 }
@@ -59,11 +92,11 @@ export function ClientCreate({ closeModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const mpiServ = client.service("mpi");
+  const ClientServ = client.service('client');
+  const mpiServ = client.service('mpi');
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
@@ -76,7 +109,7 @@ export function ClientCreate({ closeModal }) {
 
   // eslint-disable-next-line
   const getSearchfacility = (obj) => {
-    setValue("facility", obj._id, {
+    setValue('facility', obj._id, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -137,7 +170,7 @@ export function ClientCreate({ closeModal }) {
 
     if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
       // console.log("simpa")
-      data.middlename = data.middlename || "";
+      data.middlename = data.middlename || '';
       (query.gender = data.gender),
         (query.dob = data.dob),
         (query.$or = [
@@ -229,8 +262,8 @@ export function ClientCreate({ closeModal }) {
   };
   const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
+      message: 'Client previously registered in this facility',
+      type: 'is-danger',
       dismissible: true,
       pauseOnHover: true,
     });
@@ -256,16 +289,16 @@ export function ClientCreate({ closeModal }) {
         .create(newPat)
         .then((resp) => {
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -282,8 +315,8 @@ export function ClientCreate({ closeModal }) {
   const onSubmit = async (data, e) => {
     if (!date) {
       toast({
-        message: "Please enter Date of Birth! ",
-        type: "is-danger",
+        message: 'Please enter Date of Birth! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -291,7 +324,7 @@ export function ClientCreate({ closeModal }) {
       return;
     }
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     checkClient();
@@ -323,8 +356,8 @@ export function ClientCreate({ closeModal }) {
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -335,20 +368,20 @@ export function ClientCreate({ closeModal }) {
           let newClientModule = {};
           //add to context
           // if principal
-          if (state.currBeneficiary === "principal") {
+          if (state.currBeneficiary === 'principal') {
             newClientModule = {
               principal: res,
               dependent: state.Beneficiary.dependent,
               others: state.Beneficiary.others,
-              show: "create",
+              show: 'create',
             };
           }
-          if (state.currBeneficiary === "dependent") {
+          if (state.currBeneficiary === 'dependent') {
             newClientModule = {
               principal: state.Beneficiary.principal,
               dependent: [...state.Beneficiary.dependent, res],
               others: state.Beneficiary.others,
-              show: "create",
+              show: 'create',
             };
           }
 
@@ -367,8 +400,8 @@ export function ClientCreate({ closeModal }) {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -380,548 +413,176 @@ export function ClientCreate({ closeModal }) {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Client</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          {/*  <p className=" is-small">
-                    Kindly search Client list before creating new Clients!
-                </p> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <p className=" is-small">Names</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small is-danger"
-                      {...register("x", { required: true })}
-                      name="firstname"
-                      type="text"
-                      placeholder="First Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
+      <div
+        style={{
+          height: '80vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Names Section */}
 
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="middlename"
-                      type="text"
-                      placeholder="Middle Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
+          <ViewBox>
+            <h2>Names</h2>
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      {...register("x", { required: true })}
-                      name="lastname"
-                      type="text"
-                      placeholder="Last Name"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" fas fa-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Biodata</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left is-danger">
-                    {/*   <input className="input is-small is-danger" ref={register({ required: true })} name="dob" type="text" placeholder="Date of Birth"  onBlur={checkClient}/>
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span> */}
-                    <DatePicker
-                      className="is-danger"
-                      selected={date}
-                      onChange={(date) => handleDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="Enter date with dd/MM/yyyy format "
-                      //isClearable
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="gender"
-                      type="text"
-                      placeholder="Gender"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="maritalstatus"
-                      type="text"
-                      placeholder="Marital Status"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="mrn"
-                      type="text"
-                      placeholder="Medical Records Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="religion"
-                      type="text"
-                      placeholder="Religion"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="profession"
-                      type="text"
-                      placeholder="Profession"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small is-danger"
-                      {...register("x", { required: true })}
-                      name="phone"
-                      type="text"
-                      placeholder=" Phone No"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
+            <GridWrapper>
+              <Input
+                label="First Name"
+                register={register('firstname')}
+                // errorText={errors?.firstname?.message}
+              />
+              <Input
+                label="Middle Name"
+                register={register('middlename')}
+                // errorText={errors?.middlename?.message}
+              />
+              <Input
+                label="Last Name"
+                register={register('lastname')}
+                // errorText={errors?.lastname?.message}
+              />
+              <BasicDatePicker
+                label="Date of Birth"
+                register={register('dob')}
+                onChange={(date) => handleDate(date)}
+                // errorText={errors?.dob?.message}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Biodata Section */}
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small "
-                      ref={register()}
-                      name="email"
-                      type="email"
-                      placeholder="Email"
-                      onBlur={checkClient}
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="clientTags"
-                  type="text"
-                  placeholder="Tags"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <p className=" is-small">Address</p>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="address"
-                  type="text"
-                  placeholder="Residential Address"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="city"
-                      type="text"
-                      placeholder="Town/City"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="lga"
-                      type="text"
-                      placeholder="Local Govt Area"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="state"
-                      type="text"
-                      placeholder="State"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="country"
-                      type="text"
-                      placeholder="Country"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p className=" is-small">Medical Data</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="bloodgroup"
-                      type="text"
-                      placeholder="Blood Group"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="genotype"
-                      type="text"
-                      placeholder="Genotype"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="disabilities"
-                      type="text"
-                      placeholder="Disabilities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+          <ViewBox>
+            <h2>Biodata</h2>
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="allergies"
-                      type="text"
-                      placeholder="Allergies"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="comorbidities"
-                      type="text"
-                      placeholder="Co-mobidities"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <CustomSelect
+                label="Gender"
+                register={register('gender')}
+                options={[
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female' },
+                ]}
+              />
+              <CustomSelect
+                label="Marital Status"
+                register={register('maritalstatus')}
+                options={[
+                  { label: 'Single', value: 'Single' },
+                  { label: 'Married', value: 'Married' },
+                ]}
+              />
+              <Input label="Medical record Number" register={register('mrn')} />
+              <Input label="Religion" register={register('religion')} />
+              <Input label="Profession" register={register('profession')} />
+              <Input
+                label="Phone No"
+                register={register('phone')}
+                // errorText={errors?.phone?.message}
+              />
+              <Input
+                label="Email"
+                register={register('email')}
+                // errorText={errors?.email?.message}
+              />
+              <Input label="Tags" register={register('clientTags')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Address */}
+          <ViewBox>
+            <h2>Addresses</h2>
 
-            <div className="field">
-              <p className="control has-icons-left">
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="specificDetails"
-                  type="text"
-                  placeholder="Specific Details about patient"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <p className=" is-small">Next of Kin Information</p>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_name"
-                      type="text"
-                      placeholder="Next of Kin Full Name"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_phoneno"
-                      type="text"
-                      placeholder="Next of Kin Phone Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_email"
-                      type="email"
-                      placeholder="Next of Kin Email"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_relationship"
-                      type="text"
-                      placeholder="Next of Kin Relationship"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  type="reset"
-                  className="button is-warning is-small" /* onClick={(e)=>e.target.reset()} */
-                >
-                  Reset
-                </button>
-              </p>
-              {/*  <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">
-              Similar Client Already Exist?
-            </p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientGroup
-              list={patList}
-              closeModal={handlecloseModal3}
-              choosen={choosen}
-              dupl={dupl}
-              reg={reg}
-              depen={depen}
+            <GridWrapper>
+              <Input
+                label="Residential Address"
+                register={register('address')}
+              />
+              <Input label="Town/City" register={register('city')} />
+              <Input label="Local Govt Area" register={register('lga')} />
+              <Input label="State" register={register('state')} />
+              <Input label="Country" register={register('country')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Medical Data */}
+          <ViewBox>
+            <h2>Medical Data</h2>
+
+            <GridWrapper>
+              <Input label="Blood Group" register={register('bloodgroup')} />
+              <Input label="Genotype" register={register('genotype')} />
+              <Input label="Disabilities" register={register('disabilities')} />
+              <Input label="Allergies" register={register('allergies')} />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Next of Kin Information */}
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
+
+            <GridWrapper>
+              <Input label="Full Name" register={register('nok_name')} />
+              <Input label="Phone Number" register={register('nok_phoneno')} />
+              <Input label=" Email" register={register('nok_email')} />
+              <Input
+                label="Relationship"
+                register={register('nok_relationship')}
+              />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+
+          <BottomWrapper>
+            <Button
+              label="Close"
+              background="#FFE9E9"
+              color="#ED0423"
+              onClick={() => setOpen(false)}
             />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">
-              Similar Client Already Exist?
-            </p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientGroup
-              list={patList}
-              closeModal={handlecloseModal3}
-              choosen={choosen}
-              dupl={dupl}
-              reg={reg}
-              depen={depen}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+            <Button label="Save Form" type="submit" />
+          </BottomWrapper>
+        </form>
       </div>
     </>
   );
 }
 
-export function BeneficiaryCreate() {
+export function BeneficiaryCreate({ openCreate }) {
   const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service("client");
-  const policyServ = client.service("policy");
+  const ClientServ = client.service('client');
+  const policyServ = client.service('policy');
   //const history = useHistory()
-  const [chosen, setChosen] = useState("");
+  const [chosen, setChosen] = useState('');
   const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [clientModal, setClientModal] = useState(false);
   const [showCorp, setShowCorp] = useState(false);
-  const [planHMO, setPlanHMO] = useState("");
-  const [plan, setPlan] = useState("");
-  const [price, setPrice] = useState("");
-  const [patient, setPatient] = useState("");
+  const [planHMO, setPlanHMO] = useState('');
+  const [plan, setPlan] = useState('');
+  const [price, setPrice] = useState('');
+  const [patient, setPatient] = useState('');
   const [patList, setPatList] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [dependant, setDependant] = useState(false);
@@ -930,15 +591,15 @@ export function BeneficiaryCreate() {
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
-  const [type, setType] = useState("Sales ");
+  const [type, setType] = useState('Sales ');
   const [chosenPlan, setChosenPlan] = useState();
   const { state, setState } = useContext(ObjectContext);
-  const [documentNo, setDocumentNo] = useState("");
-  const hMO = ["simpa", "dania"];
+  const [documentNo, setDocumentNo] = useState('');
+  const hMO = ['simpa', 'dania'];
   const [benefittingPlans1, setBenefittingPlans1] = useState([]);
-  const ServicesServ = client.service("billing");
+  const ServicesServ = client.service('billing');
   const [productEntry, setProductEntry] = useState();
-  const sponsorlist = ["Self", "SME", "Corporate", "Government", "others"];
+  const sponsorlist = ['Self', 'SME', 'Corporate', 'Government', 'others'];
 
   // eslint-disable-next-line
   /*   const getSearchfacility=(obj)=>{
@@ -983,9 +644,9 @@ export function BeneficiaryCreate() {
       const findServices = await ServicesServ.find({
         query: {
           facility: user.currentEmployee.facilityDetail._id,
-          "contracts.source_org": user.currentEmployee.facilityDetail._id,
-          "contracts.dest_org": user.currentEmployee.facilityDetail._id,
-          category: "Managed Care",
+          'contracts.source_org': user.currentEmployee.facilityDetail._id,
+          'contracts.dest_org': user.currentEmployee.facilityDetail._id,
+          category: 'Managed Care',
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
           //   paginate:false,
@@ -1009,15 +670,15 @@ export function BeneficiaryCreate() {
 
   const handleChangeMode = (mode) => {
     setMessage(mode);
-    if (mode == "Corporate") {
+    if (mode == 'Corporate') {
       setShowCorp(true);
     }
   };
 
   const handleChangePlan = async (value) => {
     console.log(value);
-    if (value == "") {
-      setPrice("");
+    if (value == '') {
+      setPrice('');
       return;
     }
     console.log(benefittingPlans1);
@@ -1064,8 +725,8 @@ export function BeneficiaryCreate() {
   };
   const dupl = (client) => {
     toast({
-      message: "Client previously registered in this facility",
-      type: "is-danger",
+      message: 'Client previously registered in this facility',
+      type: 'is-danger',
       dismissible: true,
       pauseOnHover: true,
     });
@@ -1091,16 +752,16 @@ export function BeneficiaryCreate() {
         .create(newPat)
         .then((resp) => {
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1120,11 +781,11 @@ export function BeneficiaryCreate() {
       {
         //productId:,
         name: chosenPlan.name,
-        quantity: "1",
+        quantity: '1',
         sellingprice: price.price,
         amount: price.price, //||qamount
-        baseunit: "",
-        costprice: "",
+        baseunit: '',
+        costprice: '',
         category: chosenPlan.category,
         billingId: chosenPlan._id,
         billingContract: price,
@@ -1158,33 +819,33 @@ export function BeneficiaryCreate() {
     }
     document.documentdetail = productItem;
     console.log(document.documentdetail);
-    document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
+    document.documentname = 'Billed Orders'; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
       state.employeeLocation.locationName +
-      " " +
+      ' ' +
       state.employeeLocation.locationType;
     document.locationId = state.employeeLocation.locationId;
     document.client = patient._id;
     document.clientname =
-      patient.firstname + " " + patient.middlename + " " + patient.lastname;
+      patient.firstname + ' ' + patient.middlename + ' ' + patient.lastname;
     document.clientobj = patient;
     document.createdBy = user._id;
-    document.createdByname = user.firstname + " " + user.lastname;
-    document.status = "completed";
+    document.createdByname = user.firstname + ' ' + user.lastname;
+    document.status = 'completed';
     console.log(document);
 
     //order
     document.documentdetail.forEach(async (element) => {
       let orderinfo = {
         //for reach document
-        documentationId: "", //tbf
+        documentationId: '', //tbf
         order_category: element.category, //category
         order: element.name, //name
-        instruction: "",
+        instruction: '',
         destination_name: document.facilityname, //facilityname
         destination: document.facility, //facility id
-        order_status: "Billed",
+        order_status: 'Billed',
         payer: element.billMode.organizationName,
         paymentmode: element.billMode.paymentmode,
 
@@ -1206,7 +867,7 @@ export function BeneficiaryCreate() {
 
       let billInfo = {
         orderInfo: {
-          orderId: "", //tbf
+          orderId: '', //tbf
           orderObj: orderinfo,
         },
         serviceInfo: {
@@ -1235,7 +896,7 @@ export function BeneficiaryCreate() {
           paymentmode: element.billMode,
         },
         createdBy: user._id,
-        billing_status: "Unpaid",
+        billing_status: 'Unpaid',
       };
       let items = {
         orderinfo,
@@ -1245,7 +906,7 @@ export function BeneficiaryCreate() {
       serviceList.push(items);
     });
 
-    console.log("==================");
+    console.log('==================');
     console.log(document, serviceList);
 
     let confirm = window.confirm(
@@ -1259,8 +920,8 @@ export function BeneficiaryCreate() {
         .then((res) => {
           setSuccess(true);
           toast({
-            message: "Billed Orders created succesfully",
-            type: "is-success",
+            message: 'Billed Orders created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1270,13 +931,13 @@ export function BeneficiaryCreate() {
           const today = new Date().toLocaleString();
           //console.log(today)
           setDate(today);
-          const invoiceNo = random(6, "uppernumeric");
+          const invoiceNo = random(6, 'uppernumeric');
           setDocumentNo(invoiceNo);
         })
         .catch((err) => {
           toast({
-            message: "Error creating Billed Orders " + err,
-            type: "is-danger",
+            message: 'Error creating Billed Orders ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1306,14 +967,14 @@ export function BeneficiaryCreate() {
             return
         } */
 
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     //state.Beneficiary?.principal._id
     if (!state.Beneficiary.principal._id) {
       toast({
-        message: "Please add principal! ",
-        type: "is-danger",
+        message: 'Please add principal! ',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -1330,7 +991,7 @@ export function BeneficiaryCreate() {
     let confirm = window.confirm(`You are about to register a new policy ?`);
     if (confirm) {
       let policy = {
-        policyNo: "CVGBH/2022/098",
+        policyNo: 'CVGBH/2022/098',
         organizationType: user.currentEmployee.facilityDetail.facilityType,
         organizationId: user.currentEmployee.facilityDetail._id,
         organizationName: user.currentEmployee.facilityDetail.facilityName,
@@ -1367,8 +1028,8 @@ export function BeneficiaryCreate() {
           /*  setMessage("Created Client successfully") */
           setSuccess(true);
           toast({
-            message: "Client created succesfully",
-            type: "is-success",
+            message: 'Client created succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1390,8 +1051,8 @@ export function BeneficiaryCreate() {
         })
         .catch((err) => {
           toast({
-            message: "Error creating Client " + err,
-            type: "is-danger",
+            message: 'Error creating Client ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -1402,15 +1063,17 @@ export function BeneficiaryCreate() {
   };
 
   const handleClickProd = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "principal" }));
-    setDependant("principal");
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: 'principal' }));
+    setDependant('principal');
     console.log(state.Beneficiary);
     setClientModal(true);
+    setOpenCreate(true);
   };
   const handleClickProd2 = () => {
-    setState((prevstate) => ({ ...prevstate, currBeneficiary: "dependent" }));
-    setDependant("dependent");
+    setState((prevstate) => ({ ...prevstate, currBeneficiary: 'dependent' }));
+    setDependant('dependent');
     setClientModal(true);
+    setOpenCreate(true);
   };
   const handleHMO = (e) => {
     console.log(e);
@@ -1425,377 +1088,151 @@ export function BeneficiaryCreate() {
   };
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Beneficiary</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <div>
-            <div className="field is-horizontal">
-              <div className="field ">
-                <label className="label is-size-7 my-0">Principal </label>
-              </div>
-              <div className="field ml-2">
-                {!state.Beneficiary?.principal._id && (
-                  <p className="control">
-                    <button className="button is-info is-small btnheight ">
-                      <span className="is-small" onClick={handleClickProd}>
-                        {" "}
-                        +
-                      </span>
-                    </button>
-                  </p>
-                )}
-              </div>
-            </div>
-            {!!state.Beneficiary?.principal._id && (
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Last Name">Last Name</abbr>
-                    </th>
-                    <th>First Name</th>
-                    <th>
-                      <abbr title="Middle Name">Middle Name</abbr>
-                    </th>
-                    {/* <th><abbr title="Age">Payment Mode</abbr></th> */}
-                    <th>
-                      <abbr title="Age">Age</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Gender">Gender</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Tags">Tags</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {/* {facilities.map((Client, i)=>( */}
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '30vw',
+          margin: '0 auto',
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader text={'Policy'} />
 
-                  <tr
-                    key={state.Beneficiary?.principal._id}
-                    onClick={() => handleRow(state.Beneficiary?.principal)}
-                    className={
-                      state.Beneficiary?.principal._id ===
-                      (selectedClient?._id || null)
-                        ? "is-selected"
-                        : ""
-                    }
-                  >
-                    <td>{1}</td>
-                    <th>{state.Beneficiary?.principal.lastname}</th>
-                    <td>{state.Beneficiary?.principal.firstname}</td>
-                    <td>{state.Beneficiary?.principal.middlename}</td>
-                    {/* <td>{state.Beneficiary?.principal.paymentinfo.map((pay,i)=>(
-                                                <>
-                                                {pay.paymentmode} {pay.paymentmode==="Cash"?"":":" } {pay.organizationName}<br></br>
-                                                </>
-                                            ))}</td> */}
-                    <td>
-                      {state.Beneficiary?.principal.dob && (
-                        <>
-                          {formatDistanceToNowStrict(
-                            new Date(state.Beneficiary?.principal.dob)
-                          )}
-                        </>
-                      )}
-                    </td>
-                    <td>{state.Beneficiary?.principal.gender}</td>
-                    <td>{state.Beneficiary?.principal.phone}</td>
-                    <td>{state.Beneficiary?.principal.email}</td>
-                    <td>{state.Beneficiary?.principal.clientTags}</td>
-                    {/*  <td><span   className="showAction"  >...</span></td> */}
-                  </tr>
-                  {/*   ))} */}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <div className="field is-horizontal">
-            <div className="field ">
-              <label className="label is-size-7 my-0">Dependents </label>
-            </div>
-            <div className="field ml-2">
-              <p className="control">
-                <button className="button is-info is-small btnheight ">
-                  <span className="is-small" onClick={handleClickProd2}>
-                    {" "}
-                    +
-                  </span>
-                </button>
-              </p>
-            </div>
-          </div>
-          <div>
-            {state.Beneficiary.dependent.length > 0 && (
-              <table className="table is-striped is-narrow is-hoverable is-fullwidth  ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Last Name">Last Name</abbr>
-                    </th>
-                    <th>First Name</th>
-                    <th>
-                      <abbr title="Middle Name">Middle Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Age">Payment Mode</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Age">Age</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Gender">Gender</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Phone">Phone</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Email">Email</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Tags">Tags</abbr>
-                    </th>
-                    {/* <th><abbr title="Actions">Actions</abbr></th> */}
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {state.Beneficiary.dependent.map((Client, i) => (
-                    <tr
-                      key={Client._id}
-                      onClick={() => handleRow(Client)}
-                      className={
-                        Client._id === (selectedClient?._id || null)
-                          ? "is-selected"
-                          : ""
-                      }
-                    >
-                      <td>{i + 1}</td>
-                      <th>{Client.lastname}</th>
-                      <td>{Client.firstname}</td>
-                      <td>{Client.middlename}</td>
-                      <td>
-                        {Client.paymentinfo.map((pay, i) => (
-                          <>
-                            {pay.paymentmode}{" "}
-                            {pay.paymentmode === "Cash" ? "" : ":"}{" "}
-                            {pay.organizationName}
-                            <br></br>
-                          </>
-                        ))}
-                      </td>
-                      <td>
-                        {Client.dob && (
-                          <>{formatDistanceToNowStrict(new Date(Client.dob))}</>
-                        )}
-                      </td>
-                      <td>{Client.gender}</td>
-                      <td>{Client.phone}</td>
-                      <td>{Client.email}</td>
-                      <td>{Client.clientTags}</td>
-                      {/*  <td><span   className="showAction"  >...</span></td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Primary Provider{" "}
-            </label>
-            <div
-              className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-            >
+          <Grid container spacing={2} mt={2}>
+            <Grid item md={12}>
+              <select
+                name="plan"
+                {...register('plan', { required: true })}
+                onChange={(e, i) => handleChangePlan(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Plan </option>
+                {benefittingPlans1.map((option, i) => (
+                  <option key={i} value={option.name}>
+                    {' '}
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+            <Grid item md={12}>
+              <Input value={price.price} disabled label="Price" />
+            </Grid>
+            <Grid item md={12}>
+              <select
+                name="sponsortype"
+                {...register('sponsortype', { required: true })}
+                onChange={(e) => handleChangeMode(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Sponsor </option>
+                <option value="Self">Self</option>
+                <option value="Company">Company</option>
+              </select>
+            </Grid>
+            <Grid item md={12}>
+              {showCorp && (
+                <SponsorSearch
+                  getSearchfacility={getSearchfacility1}
+                  clear={success}
+                />
+              )}
+            </Grid>
+            <Grid item md={12}>
               <OrgFacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
-              <p
-                className="control has-icons-left "
-                style={{ display: "none" }}
-              >
-                <input
-                  className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <label
-                    className="label is-size-7 my-0"
-                    name="dob"
-                    type="text"
-                  >
-                    Sponsor{" "}
-                  </label>
-                  <div className="control">
-                    <div className="select is-small ">
-                      <select
-                        name="sponsortype"
-                        ref={register({ required: true })}
-                        onChange={(e) => handleChangeMode(e.target.value)}
-                        className="selectadd"
-                      >
-                        <option value=""> Choose Sponsor </option>
-                        <option value="Self">Self</option>
-                        <option value="Corporate">Corporate</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="field"
-                  style={!showCorp ? { display: "none" } : {}}
-                >
-                  <label
-                    className="label is-size-7 my-0"
-                    name="dob"
-                    type="text"
-                  >
-                    Corporate Sponsor{" "}
-                  </label>
-                  <div
-                    className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-                  >
-                    <SponsorSearch
-                      getSearchfacility={getSearchfacility1}
-                      clear={success}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{ display: "none" }}
-                    >
-                      <input
-                        className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Plan{" "}
-            </label>
-
-            <div className="field">
-              <div className="control">
-                <div className="select is-small ">
-                  <select
-                    name="plan"
-                    {...register("x", { required: true })}
-                    onChange={(e, i) => handleChangePlan(e.target.value)}
-                    className="selectadd"
-                  >
-                    <option value=""> Choose Plan </option>
-                    {benefittingPlans1.map((option, i) => (
-                      <option key={i} value={option.name}>
-                        {" "}
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <label className="label is-size-7 my-0" name="dob" type="text">
-              Premium:{price.price}
-            </label>
-
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="is-size-7 my-0"></label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  type="reset"
-                  className="button is-warning is-small" /* onClick={(e)=>e.target.reset()} */
-                >
-                  Reset
-                </button>
-              </p>
-              {/*  <p className="control">
-                        <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                        Delete
-                        </button>
-                    </p> */}
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className={`modal ${clientModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card modalbkgrnd z10">
-          <header className="modal-card-head selectadd">
-            <p className="modal-card-title redu">Create Client</p>
+            </Grid>
+          </Grid>
+          <p style={{ display: 'flex' }}>
+            Add Principal
             <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal4}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            {/*  <ClientGroup  list={patList}  closeModal={handlecloseModal3} choosen={choosen} dupl ={dupl} reg={reg} depen={depen}/>  */}
-            <ClientCreate closeModal={handlecloseModal4} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+              onClick={handleClickProd}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              +
+            </button>
+          </p>
+          <p>
+            Add Dependant
+            <button
+              onClick={handleClickProd2}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              +
+            </button>
+          </p>
+          {!!state.Beneficiary?.principal._id && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema}
+              data={state.Beneficiary?.principal}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => handleRow(state.Beneficiary?.principal)}
+              progressPending={loading}
+            />
+          )}
+          {state.Beneficiary.dependent.length > 0 && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema}
+              data={state.Beneficiary.dependent}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => handleRow()}
+              progressPending={loading}
+            />
+          )}
+
+          <Button label="submit" text="Save" />
+        </form>
       </div>
     </>
   );
 }
 
-export function ClientList() {
+export function ClientList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const ClientServ = client.service("client");
-  //const history = useHistory()
+  const [message, setMessage] = useState('');
+  const ClientServ = client.service('client');
+  // const history = useHistory();
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1812,30 +1249,32 @@ export function ClientList() {
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(2);
   };
 
   const handleRow = async (Client) => {
     await setSelectedClient(Client);
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
+    setShowModal(1);
   };
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
-    const field = "firstname";
+    const field = 'firstname';
     console.log(val);
     ClientServ.find({
       query: {
@@ -1843,55 +1282,55 @@ export function ClientList() {
           {
             firstname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             lastname: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             middlename: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             phone: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             clientTags: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             mrn: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             email: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           {
             specificDetails: {
               $regex: val,
-              $options: "i",
+              $options: 'i',
             },
           },
           { gender: val },
         ],
 
-        "relatedfacilities.facility": user.currentEmployee.facilityDetail._id, // || "",
+        'relatedfacilities.facility': user.currentEmployee.facilityDetail._id, // || "",
         $limit: limit,
         $sort: {
           createdAt: -1,
@@ -1901,12 +1340,12 @@ export function ClientList() {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
+        setMessage(' Client  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
+        setMessage('Error fetching Client, probable network issues ' + err);
         setError(true);
       });
   };
@@ -1963,10 +1402,10 @@ export function ClientList() {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => rest());
-    ClientServ.on("updated", (obj) => rest());
-    ClientServ.on("patched", (obj) => rest());
-    ClientServ.on("removed", (obj) => rest());
+    ClientServ.on('created', (obj) => rest());
+    ClientServ.on('updated', (obj) => rest());
+    ClientServ.on('patched', (obj) => rest());
+    ClientServ.on('removed', (obj) => rest());
     return () => {};
     // eslint-disable-next-line
   }, []);
@@ -1990,91 +1429,91 @@ export function ClientList() {
 
   const BeneficiarySchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row) => row.sn,
       sortable: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "First Name",
-      key: "firstname",
-      description: "First Name",
+      name: 'First Name',
+      key: 'firstname',
+      description: 'First Name',
       selector: (row) => row.firstname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Last Name",
-      key: "lastname",
-      description: "Last Name",
+      name: 'Last Name',
+      key: 'lastname',
+      description: 'Last Name',
       selector: (row) => row.lastname,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Midlle Name",
-      key: "middlename",
-      description: "Midlle Name",
+      name: 'Midlle Name',
+      key: 'middlename',
+      description: 'Midlle Name',
       selector: (row) => row.middlename,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Payment Mode",
-      key: "paymentmode",
-      description: "Payment Mode",
+      name: 'Payment Mode',
+      key: 'paymentmode',
+      description: 'Payment Mode',
       selector: (row) => row.paymentmode,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Age",
-      key: "dob",
-      description: "Age",
+      name: 'Age',
+      key: 'dob',
+      description: 'Age',
       selector: (row) => row.dob,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Gender",
-      key: "gender",
-      description: "Male",
+      name: 'Gender',
+      key: 'gender',
+      description: 'Male',
       selector: (row) => row.gender,
       sortable: true,
       required: true,
-      inputType: "SELECT_LIST",
-      options: ["Male", "Female"],
+      inputType: 'SELECT_LIST',
+      options: ['Male', 'Female'],
     },
 
     {
-      name: "Email",
-      key: "email",
-      description: "johndoe@mail.com",
+      name: 'Email',
+      key: 'email',
+      description: 'johndoe@mail.com',
       selector: (row) => row.email,
       sortable: true,
       required: true,
-      inputType: "EMAIL",
+      inputType: 'EMAIL',
     },
 
     {
-      name: "Tags",
-      key: "clientTags",
-      description: "Tags",
+      name: 'Tags',
+      key: 'clientTags',
+      description: 'Tags',
       selector: (row) => row.clientTags,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
@@ -2082,22 +1521,22 @@ export function ClientList() {
     <>
       <div className="level">
         <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
         >
           <TableMenu>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                 List of Beneficiary
               </h2>
             </div>
             {handleCreateNew && (
               <Button
-                style={{ fontSize: "14px", fontWeight: "600px" }}
+                style={{ fontSize: '14px', fontWeight: '600px' }}
                 label="Add New"
                 onClick={handleCreateNew}
                 showicon={true}
@@ -2107,19 +1546,19 @@ export function ClientList() {
 
           <div
             style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
+              width: '100%',
+              height: 'calc(100vh-90px)',
+              overflow: 'auto',
             }}
           >
             <CustomTable
-              title={""}
+              title={''}
               columns={BeneficiarySchema}
               data={facilities}
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={handleCreateNew}
+              onRowClicked={handleRow}
               progressPending={loading}
             />
           </div>
@@ -2129,12 +1568,12 @@ export function ClientList() {
   );
 }
 
-export function ClientDetail() {
+export function ClientDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
-  const history = useHistory();
+  // const history = useHistory();
   // eslint-disable-next-line
-  let { path, url } = useRouteMatch();
+  // let { path, url } = useRouteMatch();
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   const [finacialInfoModal, setFinacialInfoModal] = useState(false);
@@ -2142,25 +1581,28 @@ export function ClientDetail() {
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
-  //const navigate=useNavigate()
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
 
   let Client = state.ClientModule.selectedClient;
+
+  console.log(Client);
   // eslint-disable-next-line
   const client = Client;
   const handleEdit = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(true);
   };
 
   const handleFinancialInfo = () => {
@@ -2201,682 +1643,182 @@ export function ClientDetail() {
     }, [billingModal]) */
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details</p>
-          {(user.currentEmployee?.roles.includes("Bill Client") ||
-            user.currentEmployee?.roles.length === 0 ||
-            user.stacker) && (
-            <button
-              className="button is-success is-small btnheight mt-2"
-              onClick={showBilling}
-            >
-              Bill Client
-            </button>
-          )}
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.firstname && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0 "
-                      name="firstname"
-                      type="text"
-                    >
-                      First Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0 ">
-                      {Client.firstname}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.middlename && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="middlename"
-                      type="text"
-                    >
-                      {" "}
-                      Middle Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.middlename}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lastname && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lastname"
-                      type="text"
-                    >
-                      Last Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lastname}</label>
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.dob && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="dob"
-                      type="text"
-                    >
-                      Date of Birth{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.gender && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="gender"
-                      type="text"
-                    >
-                      Gender{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.gender}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.maritalstatus && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="maritalstatus"
-                      type="text"
-                    >
-                      Marital Status{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.maritalstatus}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.mrn && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="mrn"
-                      type="text"
-                    >
-                      Medical Records Number{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.mrn}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.religion && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="religion"
-                      type="text"
-                    >
-                      Religion{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.religion}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.profession && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="profession"
-                      type="text"
-                    >
-                      Profession{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.profession}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.phone && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="phone"
-                      type="text"
-                    >
-                      {" "}
-                      Phone No
-                    </label>
-                    <label className="is-size-7 my-0">{Client.phone}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="email"
-                      type="email"
-                    >
-                      Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {Client.address && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="address"
-                  type="text"
-                >
-                  Residential Address{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.address}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.city && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="city"
-                      type="text"
-                    >
-                      Town/City{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.city}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lga && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lga"
-                      type="text"
-                    >
-                      Local Govt Area{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lga}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.state && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="state"
-                      type="text"
-                    >
-                      State{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.state}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.country && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="country"
-                      type="text"
-                    >
-                      Country{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.country}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.bloodgroup && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="bloodgroup"
-                      type="text"
-                    >
-                      Blood Group{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.bloodgroup}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-
-              {Client.genotype && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="genotype"
-                      type="text"
-                    >
-                      Genotype{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.genotype}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.disabilities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="disabilities"
-                      type="text"
-                    >
-                      Disabilities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.disabilities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.allergies && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="allergies"
-                      type="text"
-                    >
-                      Allergies{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.allergies}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.comorbidities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="comorbidities"
-                      type="text"
-                    >
-                      Co-mobidities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.comorbidities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          {Client.clientTags && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="clientTags"
-                  type="text"
-                >
-                  Tags{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.clientTags}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          {Client.specificDetails && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="specificDetails"
-                  type="text"
-                >
-                  Specific Details about Client{" "}
-                </label>
-                <label className="is-size-7 my-0">
-                  {Client.specificDetails}
-                </label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.nok_name && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_name"
-                      type="text"
-                    >
-                      Next of Kin Full Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_name}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_phoneno && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_phoneno"
-                      type="text"
-                    >
-                      Next of Kin Phone Number
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_phoneno}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_email"
-                      type="email"
-                    >
-                      Next of Kin Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_relationship && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_relationship"
-                      type="text"
-                    >
-                      Next of Kin Relationship"{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_relationship}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-grouped  mt-2">
-            <p className="control">
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '50vw',
+          margin: '0 auto',
+        }}
+      >
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
+            <ModalHeader text={'Beneficiary Details'} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            {(user.currentEmployee?.roles.includes('Bill Client') ||
+              user.currentEmployee?.roles.length === 0 ||
+              user.stacker) && (
               <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit Details
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-info is-small"
-                onClick={handleFinancialInfo}
-              >
-                Payment Info
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleSchedule}
-              >
-                Schedule appointment
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" >
-                        Check into Clinic 
-                    </button>
-                </p> */}
-            <p className="control">
-              <button
-                className="button is-link is-small"
-                onClick={() => {
-                  history.push("/app/clinic/encounter");
+                className="button is-success is-small btnheight mt-2"
+                onClick={showBilling}
+                style={{
+                  border: 'none',
+                  backgroundColor: '#48c774',
+                  padding: ' .5rem 1rem',
+                  marginLeft: '.5rem',
+                  cursor: 'pointer',
+                  color: 'white',
+                  float: 'right',
                 }}
               >
-                Attend to Client
+                Bill Client
               </button>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item md={4}>
+            <p>First Name:{Client?.firstname}</p>
+          </Grid>
+          <Grid item md={4}>
+            <p>Middle Name: {Client?.middlename}</p>
+          </Grid>
+          <Grid item md={4}>
+            <p>Last Name: {Client?.lastname}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>
+              Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
             </p>
-          </div>
-        </div>
-      </div>
-      <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Financial Information</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientFinInfo closeModal={handlecloseModal} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                <button className="button is-success">Save changes</button>
-                <button className="button">Cancel</button>
-                </footer> */}
-        </div>
-      </div>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Gender: {Client?.gender}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Marital Status: {Client?.maritalstatus}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Medical Records Number: {Client?.mrn}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Religion: {Client?.religion}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Profession: {Client?.profession}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Phone Number: {Client?.phone}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Email: {Client?.email}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Address: {Client?.address}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Town/City: {Client?.city}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>LGA: {Client?.lga}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>State: {Client?.state}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Country: {Client?.country}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Blood Group: {Client?.bloodgroup}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Genotype: {Client?.genotype}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Disabilities: {Client?.disabilities}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Allergies: {Client?.allergies}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Co-morbidities: {Client?.comorbidities}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Tags: {Client?.clientTags}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Specific Details: {Client?.specificDetails}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Name: {Client?.nok_name}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Email: {Client?.nok_email}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>NOK Relationship: {Client?.nok_relationship}</p>
+          </Grid>
+        </Grid>
 
-      <div className={`modal ${billingModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Bill Client</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal1}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <BillServiceCreate closeModal={handlecloseModal1} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal2}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <AppointmentCreate closeModal={handlecloseModal2} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientBilledPrescription
-              selectedClient={Client._id}
-              closeModal={handlecloseModal3}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            mt={1}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <Button onClick={handleEdit}>Edit Details</Button>
+            <Button onClick={handleFinancialInfo}>Payment Info</Button>
+            <Button onClick={handleSchedule}>Schedule Appointment</Button>
+            <Button onClick={() => navigate('/app/beneficiary/documentation')}>
+              View History
+            </Button>
+          </Grid>
+        </Grid>
+        {finacialInfoModal && (
+          <>
+            <ModalBox open onClose={() => setFinacialInfoModal(false)}>
+              <ModalHeader text="Financial Information" />
+              <ClientFinInfo />
+            </ModalBox>
+          </>
+        )}
+        {appointmentModal && (
+          <>
+            <ModalBox open onClose={() => setAppointmentModal(false)}>
+              <AppointmentCreate />
+            </ModalBox>
+          </>
+        )}
+        {billingModal && (
+          <>
+            <ModalBox open onClose={() => setBillingModal(false)}>
+              <ModalHeader text="Bill Beneficiary" />
+              <BillServiceCreate />
+            </ModalBox>
+          </>
+        )}
       </div>
     </>
   );
 }
 
-export function ClientModify() {
+export function ClientModify({ showModal, setShowModal }) {
   const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,, errors
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   // eslint-disable-next-line
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
   //const history = useHistory()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
@@ -2885,99 +1827,99 @@ export function ClientModify() {
   const Client = state.ClientModule.selectedClient;
 
   useEffect(() => {
-    setValue("firstname", Client.firstname, {
+    setValue('firstname', Client.firstname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("middlename", Client.middlename, {
+    setValue('middlename', Client.middlename, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lastname", Client.lastname, {
+    setValue('lastname', Client.lastname, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("phone", Client.phone, {
+    setValue('phone', Client.phone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("email", Client.email, {
+    setValue('email', Client.email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("dob", Client.dob, {
+    setValue('dob', Client.dob, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("gender", Client.gender, {
+    setValue('gender', Client.gender, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("profession", Client.profession, {
+    setValue('profession', Client.profession, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("address", Client.address, {
+    setValue('address', Client.address, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("city", Client.city, {
+    setValue('city', Client.city, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("state", Client.state, {
+    setValue('state', Client.state, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("country", Client.country, {
+    setValue('country', Client.country, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_name", Client.nok_name, {
+    setValue('nok_name', Client.nok_name, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_email", Client.nok_email, {
+    setValue('nok_email', Client.nok_email, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("nok_phoneno", Client.nokphoneno, {
+    setValue('nok_phoneno', Client.nokphoneno, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("lga", Client.lga, {
+    setValue('lga', Client.lga, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("bloodgroup", Client.bloodgroup, {
+    setValue('bloodgroup', Client.bloodgroup, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("genotype", Client.genotype, {
+    setValue('genotype', Client.genotype, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("disabilities", Client.disabilities, {
+    setValue('disabilities', Client.disabilities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("specificDetails", Client.specificDetails, {
+    setValue('specificDetails', Client.specificDetails, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("clientTags", Client.clientTags, {
+    setValue('clientTags', Client.clientTags, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("mrn", Client.mrn, {
+    setValue('mrn', Client.mrn, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("comorbidities", Client.comorbidities, {
+    setValue('comorbidities', Client.comorbidities, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("allergies", Client.allergies, {
+    setValue('allergies', Client.allergies, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -2988,25 +1930,26 @@ export function ClientModify() {
   const handleCancel = async () => {
     const newClientModule = {
       selectedClient: Client,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
     //console.log(state)
+    setShowModal(false);
   };
 
   const changeState = () => {
     const newClientModule = {
       selectedClient: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClientModule }));
   };
   // eslint-disable-next-line
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = Client._id;
     if (conf) {
@@ -3021,8 +1964,8 @@ export function ClientModify() {
                 setSuccess(false)
                 }, 200); */
           toast({
-            message: "Client deleted succesfully",
-            type: "is-success",
+            message: 'Client deleted succesfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -3032,8 +1975,8 @@ export function ClientModify() {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
-            message: "Error deleting Client, probable network issues or " + err,
-            type: "is-danger",
+            message: 'Error deleting Client, probable network issues or ' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -3059,8 +2002,8 @@ export function ClientModify() {
         // e.target.reset();
         // setMessage("updated Client successfully")
         toast({
-          message: "Client updated succesfully",
-          type: "is-success",
+          message: 'Client updated succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -3071,8 +2014,8 @@ export function ClientModify() {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
-          message: "Error updating Client, probable network issues or " + err,
-          type: "is-danger",
+          message: 'Error updating Client, probable network issues or ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -3081,495 +2024,158 @@ export function ClientModify() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details-Modify</p>
-        </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7">First Name </label>{" "}
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="firstname"
-                      type="text"
-                      placeholder="First Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
+      <div
+        style={{
+          height: '80vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Names Section */}
+          <ModalHeader text={'Modify Beneficiary'} />
 
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label className="label is-size-7"> Middle Name </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="middlename"
-                      type="text"
-                      placeholder="Middle Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
+          <ViewBox>
+            <h2>Names</h2>
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Last Name</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="lastname"
-                      type="text"
-                      placeholder="Last Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <Input
+                label="First Name"
+                register={register('firstname')}
+                // errorText={errors?.firstname?.message}
+              />
+              <Input
+                label="Middle Name"
+                register={register('middlename')}
+                // errorText={errors?.middlename?.message}
+              />
+              <Input
+                label="Last Name"
+                register={register('lastname')}
+                // errorText={errors?.lastname?.message}
+              />
+              <BasicDatePicker
+                label="Date of Birth"
+                register={register('dob')}
+                onChange={(date) => handleDate(date)}
+                // errorText={errors?.dob?.message}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Biodata Section */}
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Date of Birth </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="dob"
-                      type="text"
-                      placeholder="Date of Birth "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Gender </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="gender"
-                      type="text"
-                      placeholder="Gender  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Marital Status </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="maritalstatus"
-                      type="text"
-                      placeholder="Marital Status  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7"> Records Number </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="mrn"
-                      type="text"
-                      placeholder="Records Number  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Religion</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="religion"
-                      type="text"
-                      placeholder="Religion "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Profession </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="profession"
-                      type="text"
-                      placeholder="Profession"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7"> Phone No</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="phone"
-                      type="text"
-                      placeholder=" Phone No "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
+          <ViewBox>
+            <h2>Biodata</h2>
 
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Email </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="email"
-                      type="email"
-                      placeholder="Email  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <CustomSelect
+                label="Gender"
+                register={register('gender')}
+                options={[
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female' },
+                ]}
+              />
+              <CustomSelect
+                label="Marital Status"
+                register={register('maritalstatus')}
+                options={[
+                  { label: 'Single', value: 'Single' },
+                  { label: 'Married', value: 'Married' },
+                ]}
+              />
+              <Input label="Medical record Number" register={register('mrn')} />
+              <Input label="Religion" register={register('religion')} />
+              <Input label="Profession" register={register('profession')} />
+              <Input
+                label="Phone No"
+                register={register('phone')}
+                // errorText={errors?.phone?.message}
+              />
+              <Input
+                label="Email"
+                register={register('email')}
+                // errorText={errors?.email?.message}
+              />
+              <Input label="Tags" register={register('clientTags')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Address */}
+          <ViewBox>
+            <h2>Addresses</h2>
 
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="label is-size-7">Residential Address </label>
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="address"
-                  type="text"
-                  placeholder="Residential Address  "
-                />
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Town/City </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="city"
-                      type="text"
-                      placeholder="Town/City  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Local Govt Area </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="lga"
-                      type="text"
-                      placeholder="Local Govt Area  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">State </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="state"
-                      type="text"
-                      placeholder="State"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Country </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="country"
-                      type="text"
-                      placeholder="Country  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Blood Group </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="bloodgroup"
-                      type="text"
-                      placeholder="Blood Group "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Genotype </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="genotype"
-                      type="text"
-                      placeholder="Genotype "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Disabilities </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="disabilities"
-                      type="text"
-                      placeholder="Disabilities  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <GridWrapper>
+              <Input
+                label="Residential Address"
+                register={register('address')}
+              />
+              <Input label="Town/City" register={register('city')} />
+              <Input label="Local Govt Area" register={register('lga')} />
+              <Input label="State" register={register('state')} />
+              <Input label="Country" register={register('country')} />
+            </GridWrapper>
+          </ViewBox>
+          {/* Medical Data */}
+          <ViewBox>
+            <h2>Medical Data</h2>
 
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Allergies </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="allergies"
-                      type="text"
-                      placeholder="Allergies  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Co-mobidities </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="comorbidities"
-                      type="text"
-                      placeholder="Co-mobidities "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="label is-size-7">Tags </label>
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="clientTags"
-                  type="text"
-                  placeholder="Tags "
-                />
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left">
-                <label className="label is-size-7">
-                  Specific Details about client{" "}
-                </label>
-                <input
-                  className="input is-small"
-                  ref={register()}
-                  name="specificDetails"
-                  type="text"
-                  placeholder="Specific Details about client "
-                />
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">
-                      Next of Kin Full Name
-                    </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_name"
-                      type="text"
-                      placeholder="Next of Kin Full Name "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">Phone Number</label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_phoneno"
-                      type="text"
-                      placeholder=" "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7">
-                      Next of Kin Email{" "}
-                    </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_email"
-                      type="email"
-                      placeholder="Next of Kin Email  "
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label className="label is-size-7"> Relationship </label>
-                    <input
-                      className="input is-small"
-                      ref={register()}
-                      name="nok_relationship"
-                      type="text"
-                      placeholder="Next of Kin Relationship"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
+            <GridWrapper>
+              <Input label="Blood Group" register={register('bloodgroup')} />
+              <Input label="Genotype" register={register('genotype')} />
+              <Input label="Disabilities" register={register('disabilities')} />
+              <Input label="Allergies" register={register('allergies')} />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+          {/* Next of Kin Information */}
+          <ViewBox>
+            <h2>Next of Kin Information</h2>
 
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-danger is-small"
-                onClick={() => handleDelete()}
-                type="delete"
-              >
-                Delete
-              </button>
-            </p>
-          </div>
-        </div>
+            <GridWrapper>
+              <Input label="Full Name" register={register('nok_name')} />
+              <Input label="Phone Number" register={register('nok_phoneno')} />
+              <Input label=" Email" register={register('nok_email')} />
+              <Input
+                label="Relationship"
+                register={register('nok_relationship')}
+              />
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
+              />
+              <Input
+                label="Specific Details "
+                register={register('specificDetails')}
+              />
+            </GridWrapper>
+          </ViewBox>
+
+          <BottomWrapper>
+            <Button
+              label="Close"
+              background="#FFE9E9"
+              color="#ED0423"
+              onClick={() => setShowModal(false)}
+            />
+            <Button label="Save Form" type="submit" />
+            <Button label="Delete" onClick={() => handleDelete()} />
+          </BottomWrapper>
+        </form>
       </div>
     </>
   );
 }
 
 export function InputSearch({ getSearchfacility, clear }) {
-  const ClientServ = client.service("client");
+  const ClientServ = client.service('client');
   // const facilityServ=client.service('facility')
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -3577,9 +2183,9 @@ export function InputSearch({ getSearchfacility, clear }) {
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchMessage, setSearchMessage] = useState('');
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState("");
+  const [simpa, setSimpa] = useState('');
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
@@ -3605,7 +2211,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   };
   const handleBlur = async (e) => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      console.log('stuff was chosen');
     }
 
     /*  console.log("blur")
@@ -3622,7 +2228,7 @@ export function InputSearch({ getSearchfacility, clear }) {
         console.log(inputEl.current) */
   };
   const handleSearch = async (val) => {
-    const field = "facilityName"; //field variable
+    const field = 'facilityName'; //field variable
 
     if (val.length >= 3) {
       ClientServ.find({
@@ -3630,7 +2236,7 @@ export function InputSearch({ getSearchfacility, clear }) {
           //service
           [field]: {
             $regex: val,
-            $options: "i",
+            $options: 'i',
           },
           $limit: 10,
           $sort: {
@@ -3639,20 +2245,20 @@ export function InputSearch({ getSearchfacility, clear }) {
         },
       })
         .then((res) => {
-          console.log("facility  fetched successfully");
+          console.log('facility  fetched successfully');
           setFacilities(res.data);
-          setSearchMessage(" facility  fetched successfully");
+          setSearchMessage(' facility  fetched successfully');
           setShowPanel(true);
         })
         .catch((err) => {
           console.log(err);
           setSearchMessage(
-            "Error searching facility, probable network issues " + err
+            'Error searching facility, probable network issues ' + err
           );
           setSearchError(true);
         });
     } else {
-      console.log("less than 3 ");
+      console.log('less than 3 ');
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -3661,7 +2267,7 @@ export function InputSearch({ getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      setSimpa("");
+      setSimpa('');
     }
     return () => {};
   }, [clear]);
@@ -3669,7 +2275,7 @@ export function InputSearch({ getSearchfacility, clear }) {
     <div>
       <div className="field">
         <div className="control has-icons-left  ">
-          <div className={`dropdown ${showPanel ? "is-active" : ""}`}>
+          <div className={`dropdown ${showPanel ? 'is-active' : ''}`}>
             <div className="dropdown-trigger">
               <DebounceInput
                 className="input is-small "

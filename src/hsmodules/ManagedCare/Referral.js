@@ -1,53 +1,53 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect, useRef} from "react";
-import {Route, useNavigate, Link, NavLink} from "react-router-dom";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
 import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "bulma-toast";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
 
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import Switch from "../../components/switch";
-import {BsFillGridFill, BsList} from "react-icons/bs";
+import { BsFillGridFill, BsList } from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
-import {Box, Grid, Button as MuiButton} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import {MdCancel} from "react-icons/md";
+import { MdCancel } from "react-icons/md";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Referral() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <ReferralList showModal={showModal} setShowModal={setShowModal} />
+      <ReferralList openCreateModal={() => setCreateModal(true)} />
     </section>
   );
 }
 
-export function AppointmentCreate({showModal, setShowModal}) {
-  const {state, setState} = useContext(ObjectContext);
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+export function AppointmentCreate({ showModal, setShowModal }) {
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -61,7 +61,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
@@ -83,15 +83,15 @@ export function AppointmentCreate({showModal, setShowModal}) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async e => {
+  const handleChangeType = async (e) => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async e => {
+  const handleChangeStatus = async (e) => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -106,7 +106,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = obj => {
+  const getSearchfacility1 = (obj) => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -116,7 +116,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
       setChosen1();
     }
   };
-  const getSearchfacility2 = obj => {
+  const getSearchfacility2 = (obj) => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -151,7 +151,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState(prevstate => ({
+      setState((prevstate) => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
@@ -191,7 +191,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
     console.log(data);
 
     ClientServ.create(data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
@@ -214,7 +214,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
           message: "Error creating Appointment " + err,
           type: "is-danger",
@@ -262,7 +262,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
-                    setState(prevstate => ({
+                    setState((prevstate) => ({
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
@@ -310,13 +310,13 @@ export function AppointmentCreate({showModal, setShowModal}) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{fontSize: "16px", fontWeight: "bold"}}
+                    style={{ fontSize: "16px", fontWeight: "bold" }}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", {required: true})}
+                      {...register("appointmentClass", { required: true })}
                       style={{
                         border: "1px solid #0364FF",
                         transform: "scale(1.5)",
@@ -335,7 +335,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", {required: true})}
+                  {...register("start_time", { required: true })}
                   type="datetime-local"
                   style={{
                     border: "1px solid #0364FF",
@@ -395,7 +395,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", {required: true})}
+                {...register("appointment_reason", { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -427,7 +427,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
                 type="button"
-                onClick={e => e.target.reset()}
+                onClick={(e) => e.target.reset()}
                 style={{
                   backgroundColor: "#ffffff",
                   width: "100%",
@@ -446,7 +446,7 @@ export function AppointmentCreate({showModal, setShowModal}) {
   );
 }
 
-export function ReferralList({showModal, setShowModal}) {
+export function ReferralList({ openCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -461,47 +461,52 @@ export function ReferralList({showModal, setShowModal}) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
+  const { state, setState } = useContext(ObjectContext);
   // eslint-disable-next-line
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("list");
 
   const handleCreateNew = async () => {
-    const newClientModule = {
-      selectedAppointment: {},
-      show: "create",
+    const newInventoryModule = {
+      selectedClient: {},
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      ClientModule: newInventoryModule,
     }));
     //console.log(state)
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     setShowModal(true);
   };
 
-  const handleRow = async Client => {
-    setShowModal(true);
-    await setSelectedAppointment(Client);
-    const newClientModule = {
-      selectedAppointment: Client,
-      show: "detail",
+  const handleRow = async (Inventory) => {
+    //console.log("b4",state)
+
+    //console.log("handlerow",Inventory)
+
+    await setSelectedClient(Inventory);
+    const newInventoryModule = {
+      selectedClient: Inventory,
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
-      AppointmentModule: newClientModule,
+      ClientModule: newInventoryModule,
     }));
+    console.log(newInventoryModule);
+    setShowModal(true);
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = val => {
+  const handleSearch = (val) => {
     const field = "firstname";
     //  console.log(val)
 
@@ -590,14 +595,14 @@ export function ReferralList({showModal, setShowModal}) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({query: query})
-      .then(res => {
+    ClientServ.find({ query: query })
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -619,7 +624,7 @@ export function ReferralList({showModal, setShowModal}) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({query: stuff});
+      const findClient = await ClientServ.find({ query: stuff });
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -651,15 +656,15 @@ export function ReferralList({showModal, setShowModal}) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", obj => handleCalendarClose());
-    ClientServ.on("updated", obj => handleCalendarClose());
-    ClientServ.on("patched", obj => handleCalendarClose());
-    ClientServ.on("removed", obj => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState(prevstate => ({...prevstate, ClientModule: newClient}));
+    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -668,7 +673,7 @@ export function ReferralList({showModal, setShowModal}) {
         $gt: subDays(startDate, 1),
         $lt: addDays(startDate, 1),
       },
-      facility: user?.currentEmployee?.facilityDetail?._id,
+      facility: user.currentEmployee.facilityDetail._id,
 
       $limit: 100,
       $sort: {
@@ -679,12 +684,12 @@ export function ReferralList({showModal, setShowModal}) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({query: query});
+    const findClient = await ClientServ.find({ query: query });
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async date => {
+  const handleDate = async (date) => {
     setStartDate(date);
   };
 
@@ -713,6 +718,7 @@ export function ReferralList({showModal, setShowModal}) {
     });
     return mapped;
   };
+
   const activeStyle = {
     backgroundColor: "#0064CC29",
     border: "none",
@@ -721,233 +727,179 @@ export function ReferralList({showModal, setShowModal}) {
 
   const dummyData = [
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
       status: "Approved",
-      reasons_for_request: "Lorem ipsum dolor",
+      reason_for_request: "Lorem ipsum dolor",
     },
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
       status: "Approved",
-      reasons_for_request: "Lorem ipsum dolor",
+      reason_for_request: "Lorem ipsum dolor",
     },
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Requested",
-      reasons_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27-10-21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
       status: "Approved",
-      reasons_for_request: "Lorem ipsum dolor",
+      reason_for_request: "Lorem ipsum dolor",
     },
+
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
       status: "Approved",
-      reasons_for_request: "Lorem ipsum dolor",
+      reason_for_request: "Lorem ipsum dolor",
     },
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
       status: "Approved",
-      reasons_for_request: "Lorem ipsum dolor",
+      reason_for_request: "Lorem ipsum dolor",
     },
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Requested",
-      reasons_for_request: "Lorem ipsum dolor",
-    },
-    {
-      date: "27-10-21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
       status: "Approved",
-      reasons_for_request: "Lorem ipsum dolor",
+      reason_for_request: "Lorem ipsum dolor",
     },
     {
-      date: "27-10-21",
+      date: "27/10/21",
       patients_name: "Tejiri Tabor",
-      policy_id: "234.75.4301",
-      referrals_code: "324234-AC",
-      referrals_provider: "Creek Hospital",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
       destination_provider: "Creek Hospital",
-      status: "Rejected",
-      reasons_for_request: "Lorem ipsum dolor",
+      status: "Approved",
+      reason_for_request: "Lorem ipsum dolor",
+    },
+    {
+      date: "27/10/21",
+      patients_name: "Tejiri Tabor",
+      policy_id: "234.75.43.01",
+      referral_code: "324234 - AC",
+      referral_provider: "Creek Hospital",
+      destination_provider: "Creek Hospital",
+      status: "Approved",
+      reason_for_request: "Lorem ipsum dolor",
     },
   ];
 
-  const returnCell = status => {
+  const returnCell = (status) => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
     switch (status.toLowerCase()) {
-      case "approved":
-        return <span style={{color: "#17935C"}}>{status}</span>;
+      case "active":
+        return <span style={{ color: "#17935C" }}>{status}</span>;
 
-      case "requested":
-        return <span style={{color: "#0364FF"}}>{status}</span>;
-
-      case "rejected":
-        return <span style={{color: "#ED0423"}}>{status}</span>;
-
-      case "pending":
-        return <span style={{color: "#EF9645"}}>{status}</span>;
+      case "inactive":
+        return <span style={{ color: "#0364FF" }}>{status}</span>;
 
       default:
         break;
     }
   };
 
-  const preAuthSchema = [
+  const ReferralSchema = [
     {
       name: "Date",
       key: "date",
-      description: "Date",
-      selector: (row, i) => row.date,
+      description: "Enter date",
+      selector: (row) => row.date,
       sortable: true,
       required: true,
-      inputType: "HIDDEN",
+      inputType: "DATE",
+      
     },
     {
+
       name: "Patients Name",
       key: "patients_name",
-      description: "Patients Name",
-      selector: row => row.patients_name,
+      description: "Enter patients name",
+      selector: (row) => row.patients_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Policy Id",
+      name: "Policy ID",
       key: "policy_id",
-      description: "Policy Id",
-      selector: row => row.policy_id,
+      description: "Enter policy ID",
+      selector: (row) => row.policy_id,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Referrals Code",
-      key: "referrals_code",
-      description: "Referrals Code",
-      selector: row => row.referrals_code,
+      name: "Referral Code",
+      key: "referral_code",
+      description: "Enter referral code",
+      selector: (row) => row.referral_code,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Referrals Provider",
-      key: "referrals_provider",
-      description: "Referrals Provider",
-      selector: (row, i) => row.referrals_provider,
+      name: "Referral Provider",
+      key: "referral_provider",
+      description: "Enter referral provider",
+      selector: (row, i) => row.referral_provider,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: "DATE",
     },
     {
       name: "Destination Provider",
       key: "destination_provider",
-      description: "Destination Provider",
+      description: "Enter destination provider",
       selector: (row, i) => row.destination_provider,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: "TEXT",
     },
     {
       name: "Status",
       key: "status",
-      description: "Status",
-      selector: "status",
-      cell: (row, i) => returnCell(row.status),
+      description: "Enter your status",
+      selector: (row, i) => row.status,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
+      inputType: "TEXT",
     },
     {
-      name: "Reasons For Request",
-      key: "reasons_for_request",
-      description: "Reasons For Request",
-      selector: (row, i) => row.reasons_for_request,
+      name: "Reason for Request",
+      key: "reason_for_request",
+      description: "Enter the reason for the request",
+      selector: (row, i) => row.reason_for_request,
       sortable: true,
       required: true,
-      inputType: "NUMBER",
-    },
-  ];
-
-  const conditionalRowStyles = [
-    {
-      when: row => row.status === "approved",
-      style: {
-        color: "red",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: row => row.status === "ongoing",
-      style: {
-        color: "rgba(0,0,0,.54)",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: row => row.status === "pending",
-      style: {
-        color: "pink",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-    {
-      when: row => row.status === "declined",
-      style: {
-        color: "purple",
-        backgroundColor: "green",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
+      inputType: "TEXT",
     },
   ];
 
@@ -957,83 +909,48 @@ export function ReferralList({showModal, setShowModal}) {
         <>
           <div className="level">
             <PageWrapper
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  {/* <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
-                    Pre-Authorization
-                  </h2> */}
-                  {/* <DatePicker
-                    selected={startDate}
-                    onChange={(date) => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  /> */}
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("list");
-                      }}
-                      style={value === "list" ? activeStyle : {}}
-                    >
-                      <BsList style={{fontSize: "1rem"}} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue("grid");
-                      }}
-                      style={value === "grid" ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{fontSize: "1rem"}} />
-                    </button>
-                  </Switch>
+                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+                    Referral
+                  </h2>
+
+                  
                 </div>
 
-                {handleCreateNew && (
-                  <MuiButton
-                    variant="contained"
-                    sx={{
-                      widh: "fit",
-                      textTransform: "capitalize",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                    onClick={handleCreateNew}
-                  >
-                    <AddCircleOutlineIcon
-                      sx={{marginRight: "5px"}}
-                      fontSize="small"
-                    />
-                    Referrals
-                  </MuiButton>
-                )}
-              </TableMenu>
-              <div style={{width: "100%", height: "700px", overflow: "auto"}}>
-                {value === "list" ? (
-                  <CustomTable
-                    title={""}
-                    columns={preAuthSchema}
-                    data={dummyData}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                    //conditionalRowStyles={conditionalRowStyles}
+                {/* {handleCreateNew && (
+                  <Button
+                    style={{ fontSize: "14px", fontWeight: "600" }}
+                    label="Add new "
+                    onClick={openCreateModal}
                   />
-                ) : (
-                  <CalendarGrid appointments={mapFacilities()} />
-                )}
+                )} */}
+              </TableMenu>
+
+              <div
+                style={{
+                  width: '100%',
+                  height: 'calc(100vh-90px)',
+                  overflow: 'auto',
+                }}
+              >
+                <CustomTable
+                  title={''}
+                  columns={ReferralSchema}
+                  data={facilities}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                />
               </div>
             </PageWrapper>
           </div>

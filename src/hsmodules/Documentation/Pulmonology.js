@@ -6,6 +6,21 @@ import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
+import {Box, getValue} from "@mui/system";
+import RadioButton from "../../components/inputs/basic/Radio";
+import {Button,Typography} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import Textarea from "../../components/inputs/basic/Textarea";
+import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+// import RadioButton from "../../components/inputs/basic/Radio";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 
 export default function PulmonologyIntake() {
   const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
@@ -373,3403 +388,1967 @@ export default function PulmonologyIntake() {
                  Test:  {order.serviceInfo.name}
                 </label> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Name"
-                  type="text"
-                  placeholder="Name"
-                />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Age"
-                  type="text"
-                  placeholder="Age"
-                />
-              </p>
-            </div>
 
-            <div className="field">
-              <label>Gender</label>
-              <label className=" is-small ml-2">
-                <input
-                  type="radio"
-                  {...register("input_name")}
-                  name="Gender"
-                  value="Male"
-                  onChange={e => {
-                    handleChangePart(e);
-                  }}
-                />
-                <span> Male</span>
-              </label>
-              <label className=" is-small ml-2">
-                <input
-                  type="radio"
-                  {...register("input_name")}
-                  name="Gender"
-                  value="Female"
-                  onChange={e => handleChangePart(e)}
-                />
-                <span>Female</span>
-              </label>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Occupation"
+          <Box>
+                <Input
+                  register={register("input_name")}
+                  name="name"
                   type="text"
-                  placeholder="Occupation"
+                 label="Name"
                 />
-              </p>
-            </div>
+    </Box>
 
-            {/*  <div className="field">
-                    <label >5. Race</label> 
-                    <label className=" is-small ml-2">
-                            <input  type="radio" {...register("input_name")} name="Race"  value="African"  onChange={(e)=>{handleChangePart(e)}}/>
-                                <span > African</span>
-                    </label> 
-                    <label className=" is-small ml-2">
-                        <input type="radio" {...register("input_name")} name="Race"   value="Caucasian"  onChange={(e)=>handleChangePart(e)}/>
-                        <span>Caucasian</span>
-                    </label>
-                    <label className=" is-small ml-2">
-                        <input type="radio" {...register("input_name")} name="Race"   value="Indian"  onChange={(e)=>handleChangePart(e)}/>
-                        <span>Indian </span>
-                    </label>
-                    <label className=" is-small ml-2">
-                        <input type="radio" {...register("input_name")} name="Race"   value="Others"   onChange={(e)=>handleChangePart(e)}/>
-                        <span>Others </span>
-                    </label>
-                    <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Others_race" type="text" placeholder="Highest Level of Education" />           
-                        </p>
-                </div> */}
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Marital_Status"
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="date"
                   type="text"
-                  placeholder="Marital Status"
+                 label="Age"
                 />
-              </p>
-            </div>
+    </Box>
+    <Box>   
+    <Typography>Gender</Typography>     
+            <RadioButton
+              register={register("input_name")}
+              options={[
+                "Male",
+                "Female"
+              ]}
+            /> 
+  </Box>
 
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Address"
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Address"
+                 label="Occupation"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Tribe"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Tribe"
+                 label="Marital Status"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Informants"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Informants"
+                 label="Address"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Religion"
+    </Box>
+   
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Religion"
+                 label="Tribe"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Father_Phone_Number"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Father's Phone Number"
+                 label="Informants"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Mother_Phone_Number"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Mother's Phone Number"
+                 label="Religion"
                 />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Next_of_Kin"
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
                   type="text"
-                  placeholder="Next of Kin"
+                 label="Father's Phone Number"
                 />
-              </p>
-            </div>
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Mother's Phone Number"
+                />
+    </Box>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Next of Kin"
+                />
+    </Box>
+    <Box>       
+       <Typography><b>Vascular System Examination</b></Typography>
+    <Box>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Specify"
+                />
+    </Box>
+    <Box>
+       <Typography>Symptom</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Symptom"
+                />
+    </Box>
+    <Box>
+       <Typography>Duration</Typography>
+                <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Duration"
+                />
+    </Box>
 
-            {/*  <div className="field ">
-                       
-                        <label >8. Highest Level of Education</label> 
-                                <label className=" is-small ml-2">
-                                        <input  type="radio" {...register("input_name")} name="Education" value="Uneducated" onChange={(e)=>{handleChangePart(e)}}/>
-                                            <span > Uneducated</span>
-                                </label> 
-                                <label className=" is-small ml-2">
-                                    <input type="radio" {...register("input_name")} name="Education"  value="Primary School" onChange={(e)=>handleChangePart(e)}/>
-                                    <span>Primary School</span>
-                                </label>
-                                <label className=" is-small ml-2">
-                                    <input type="radio" {...register("input_name")} name="Education"  value="Secondary School" onChange={(e)=>handleChangePart(e)}/>
-                                    <span>Secondary School </span>
-                                </label>
-                                <label className=" is-small ml-2">
-                                    <input type="radio" {...register("input_name")} name="Education"  value="Post-Secondary School (Diploma /Degree)" onChange={(e)=>handleChangePart(e)}/>
-                                    <span>Post-Secondary School (Diploma /Degree) </span>
-                                </label>
-                                <label className=" is-small ml-2">
-                                    <input type="radio" {...register("input_name")} name="Education"  value="Others" onChange={(e)=>handleChangePart(e)}/>
-                                    <span>Others (Specify) </span>
-                                </label>
-                        <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="others_education" type="text" placeholder="Highest Level of Education" />           
-                        </p>
-                </div> */}
-            <h3>
-              <b>Presentation Complaints</b>
-            </h3>
-            <input
-              className="input is-small is-hidden"
-              {...register("input_name")}
-              name="Presenting_Complaints"
-              type="text"
-              placeholder="Specify"
+    </Box>
+
+    <Box sx={{
+            marginBlock: "1rem"
+          }}> 
+          <Button variant="contained" type="button" onClick={handleAddSymptoms}>Add</Button>
+  </Box>
+  <Box sx={{marginBlock:"1rem"}}>
+      <Table sx={{ minWidth: 150 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>S/No</TableCell>
+            <TableCell align="right">Symptom</TableCell> 
+            <TableCell align="right">Duration</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {symptoms.map((ProductEntry, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {i + 1}
+              </TableCell>
+              <TableCell align="right">{ProductEntry.symptom}</TableCell>
+              <TableCell align="right">{ProductEntry.duration}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+  </Box>
+<Box sx={{gap:"1.5rem"}}>
+<Typography><b>Review of Systems</b></Typography>
+<Typography><b>i. Respiratory</b></Typography>
+<Box>
+<Typography>(a) Cough</Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
             />
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> Symptom</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={symptom}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setSymptom(e.target.value);
-                      }}
-                      name="symptom"
-                      type="text"
-                      placeholder="Symptom"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Duration</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={duration}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setDuration(e.target.value);
-                      }}
-                      name="durationn"
-                      type="text"
-                      placeholder="Duration"
-                    />
-                  </p>
-                </div>
-              </div>
-              <div className="field">
-                <div className="control">
-                  <div
-                    className="button is-success is-small selectadd"
-                    onClick={handleAddSymptoms}
-                  >
-                    Add
-                  </div>
-                </div>
-              </div>
-            </div>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
-
-                  <th>
-                    <abbr title="Type"> Symptom</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Destination">Duration</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {symptoms.map((ProductEntry, i) => (
-                  <tr key={i}>
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.symptom}</td>
-                    <td>{ProductEntry.duration}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <h3>
-              <b>Review of Systems</b>
-            </h3>
-
-            <h4>i. Respiratory</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> (a) Cough</label>
-                </div>
-                <div className="field">
-                  <label className=" is-small">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Cough"
-                      value="Yes"
-                      onChange={e => {
-                        handleChangePart(e);
-                      }}
-                    />
-                    <span> Yes</span>
-                  </label>
-                  <label className=" is-small ml-2">
-                    <input
-                      type="radio"
-                      {...register("input_name")}
-                      name="Cough"
-                      value="No"
-                      onChange={e => handleChangePart(e)}
-                    />
-                    <span>No </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Cough nature:</b>
-              </label>
-              {coughinfo.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="cough_nature"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Associated symptoms with cough:</b>
-              </label>
-              {coughsymptoms.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="cough_associated_symptoms"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Sputum Colour:</b>
-              </label>
-              {coughsputum.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="cough_sputum_colour"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                <b>Other Respiratory Symptoms:</b>
-              </label>
-              {resp.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Other_Respiratory"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <h4>ii. CVS</h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>CVS Symptoms:</b>
-              </label>
-              {cvs.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="cvs"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-
-            <h4>iii. GIT</h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Abdominal pain</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Abdominal_pain"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Abdominal_Pain_details"
-                  type="text"
-                  placeholder="Abdominal Pain details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Abdominal swelling</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Abdominal_swelling"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Abdominal_Swelling_details"
-                  type="text"
-                  placeholder="Abdominal Swelling details"
-                />
-              </p>
-              [onset? Progressive, swelling in other part of the body]
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Diarrhea</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Diarrhea"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Diarrhea_details"
-                  type="text"
-                  placeholder="Diarrhea details"
-                />
-              </p>
-              [onset, frequency, consistency, duration, blood stained, colour
-              (r.g rice water colour), mucoid]
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b> Nausea</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Nausea"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Nausea_details"
-                  type="text"
-                  placeholder="Nausea details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Vomitting</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Vomitting"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Vomitting_details"
-                  type="text"
-                  placeholder="Vomitting details"
-                />
-              </p>
-              [projectile? Content? Episodes?]
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Constipation</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c + ", "}
-                    name="Constipation"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Constipation_details"
-                  type="text"
-                  placeholder="Constipation details"
-                />
-              </p>
-              [onset]
-            </div>
-            <h4>iv. Urinary</h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Urinary findings:</b>
-              </label>
-              {urinary.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Urinary"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Urinary_others"
-                  type="text"
-                  placeholder="Urinary others Specify"
-                />
-              </p>
-            </div>
-
-            <h4>v. CNS</h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Headache</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Headache"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {headache.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Headache_info"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Headache_details"
-                  type="text"
-                  placeholder="Headache details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Neck Pain</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Neck_pain"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Neck_pain_details"
-                  type="text"
-                  placeholder="Neck Pain details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Neck Stiffness</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Neck_Stiffness"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Neck_Stiffness_details"
-                  type="text"
-                  placeholder="Neck_Stiffness details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b> Vertigo</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Vertigo"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Vertigo_details"
-                  type="text"
-                  placeholder="Vertigo details"
-                />
-              </p>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Dizziness</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Dizziness"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Dizziness_details"
-                  type="text"
-                  placeholder="Dizziness details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Fainting spells</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Fainting_spells"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Fainting_spells_details"
-                  type="text"
-                  placeholder="Fainting spells details"
-                />
-              </p>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Akward Gait</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Akward_Gait"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Akward_Gait_details"
-                  type="text"
-                  placeholder="Akward Gait details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Weakness of Upper Limbs</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Weakness_Upper_Limbs"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {limbs.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Weakness_Upper_Limbs_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Weakness_Upper_Limbs_details"
-                  type="text"
-                  placeholder="Weakness Upper Limbs"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Weakness Lower Limbs</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Weakness_Lower_Limbs"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <div className="field">
-                {limbs.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Weakness_Lower_Limbs_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Weakness_Lower_Limbs_details"
-                  type="text"
-                  placeholder="Weakness Lower Limbs details"
-                />
-              </p>
-            </div>
-            <h4>vi. ENT</h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Eye pain</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Eye_pain"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {side.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Eye_pain_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Eye_pain_details"
-                  type="text"
-                  placeholder="Eye pain details"
-                />
-              </p>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Eye Discharge</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Eye_discharge"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {side.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Eye_discharge_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Eye_discharge_details"
-                  type="text"
-                  placeholder="Eye discharge details"
-                />
-              </p>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Eye Swelling</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Eye_swelling"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {side.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Eye_swelling_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Eye_swelling_details"
-                  type="text"
-                  placeholder="Eye swelling details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Ear pain</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Ear_pain"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {side.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c}
-                      name="Ear_pain_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ear_pain_details"
-                  type="text"
-                  placeholder="Ear pain details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Ear Discharge</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Ear_Discharge"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                {eardis.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c + ", "}
-                      name="Ear_Discharge_side"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ear_Discharge_details"
-                  type="text"
-                  placeholder="Ear Discharge details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Other ENT Findings</b>
-              </label>
-
-              <div className="field">
-                {ent.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c + ", "}
-                      name="other_ENT"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Other_ENT_details"
-                  type="text"
-                  placeholder="Other ENT findings details"
-                />
-              </p>
-            </div>
-            <h4>vii. Endocrinology</h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Endocrinology Findings</b>
-              </label>
-
-              <div className="field">
-                {endo.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="checkbox"
-                      value={c + ", "}
-                      name="Endocrinology"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <p className="control pullups">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Other_Endocrinology_finding"
-                  type="text"
-                  placeholder="Other Endocrinology findings details"
-                />
-              </p>
-            </div>
-            <h4>viii. Other Systems</h4>
-            <p className="control ">
-              <textarea
-                className="textarea is-small"
-                {...register("input_name")}
-                name="Other_System_finding"
-                type="text"
-                placeholder="Other Systems findings details"
-              />
-            </p>
-
-            <h3 className="field mt-2 ">
-              <b>SECTION D: Past Medical History</b>
-            </h3>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Previous surgery</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Previous_surgery"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Previous_surgery_details"
-                  type="text"
-                  placeholder="Previous surgery details"
-                />
-              </p>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Previous admission</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Previous_admission"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Previous_admission_details"
-                  type="text"
-                  placeholder="Previous admission details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Blood transfusion</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Blood_transfusion"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Blood_transfusion_details"
-                  type="text"
-                  placeholder="Blood transfusion details"
-                />
-              </p>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Diabetes</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Diabetes"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Diabetes_details"
-                  type="text"
-                  placeholder="Diabetes details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Hypertension</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Hypertension"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Hypertension_details"
-                  type="text"
-                  placeholder="Hypertension details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Sickcle cell disease</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Sickcle_cell_disease"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Sickcle_cell_disease_details"
-                  type="text"
-                  placeholder="Sickcle cell disease details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Peptic Ulcer</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Peptic_Ulcer"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Peptic_Ulcer_details"
-                  type="text"
-                  placeholder="Peptic Ulcer details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Seizure</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Seizure"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Seizure_details"
-                  type="text"
-                  placeholder="Seizure details"
-                />
-              </p>
-            </div>
-
-            <h3 className="field mt-2 ">
-              <b>SECTION E: Pregnancy, Birth and Neonatal history</b>
-            </h3>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Pregnancy term?</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Pregnancy_term"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*   <div className="field">
-                        {
-                            side.map((c,i) => 
-                                <label  className=" is-small" key={c}>
-                                    <input type="checkbox" value={c } name="Eye_pain_side" {...register("input_name")} />{c + " "}
-                                </label>
-                            )
-                        }
-                        </div> */}
-              <p className="control">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Pregnancy_details"
-                  type="text"
-                  placeholder="Pregnancy details"
-                />
-              </p>
-              [any eventful conditions during pregancy e.g maternal illnesss or
-              admission]
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Birth</b>
-              </label>
-              {birthmode.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Birth"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <div className="field">
-                <label className="mr-2 ">
-                  {" "}
-                  <b>Cried at birth</b>
-                </label>
-                {yesno.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="Birth_Cry"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <div className="field">
-                <p className="control">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="Birth_weight"
-                    type="text"
-                    placeholder="Birth Weight"
-                  />
-                </p>
-              </div>
-              <div className="field">
-                <p className="control">
-                  <input
-                    className="input is-small"
-                    {...register("input_name")}
-                    name="APGAR_score"
-                    type="text"
-                    placeholder="APGAR Score"
-                  />
-                </p>
-              </div>
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Neonatal admission</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Neonatal_admission"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Neonatal_admission_details"
-                  type="text"
-                  placeholder="Neonatal admission details"
-                />
-              </p>
-              [if yes what was wrong with the child?]
-              <div className="field">
-                <label className="mr-2 ">
-                  {" "}
-                  <b> Had phototherapy?</b>
-                </label>
-                {yesno.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="phototherapy"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <div className="field">
-                <label className="mr-2 ">
-                  {" "}
-                  <b> Exchange blood transfusion??</b>
-                </label>
-                {yesno.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="Exchange_blood_transfusion?"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-              <div className="field">
-                <label className="mr-2 ">
-                  {" "}
-                  <b> Received oxygen?</b>
-                </label>
-                {yesno.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="Received_Oxygen"
-                      {...register("input_name")}
-                    />
-                    {c + " "}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <h3 className="field mt-2 ">
-              <b>SECTION F: Nutritional history</b>
-            </h3>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Exclusive Breastfed</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Exclusive_Breastfed"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Breastfed_duration"
-                  type="text"
-                  placeholder="Breast fed for how long"
-                />
-              </p>
-            </div>
-            <h3 className="field mt-2 ">
-              <b>SECTION G: Immunization history</b>
-            </h3>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Fully vacinated</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Fully_vacinated"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>BCG scar seen</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="BCG_Scar"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Vaccination history</b>
-              </label>
-              {vachist.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Vaccination_history"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <h3 className="field mt-2 ">
-              <b>SECTION H: DEVELOPMENTAL MILESTONE</b>
-            </h3>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Had delayed developmental milestones?</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Delayed_milestones"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Delayed_milestones_detail"
-                  type="text"
-                  placeholder="Delayed Milestones detail"
-                />
-              </p>
-            </div>
-            <h3 className="field mt-2 ">
-              <b>SECTION I: FAMILY AND SOCIAL HISTORY</b>
-            </h3>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="family_social_history"
-                  type="text"
-                  placeholder="Family and Social History"
-                />
-              </p>
-            </div>
-            <h3 className="field mt-2 ">
-              <b>SECTION J: DRUG HISTORY AND ALLERGY</b>
-            </h3>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <textarea
-                  className="textarea is-small"
-                  {...register("input_name")}
-                  name="drug_history_allergy"
-                  type="text"
-                  placeholder="DRUG HISTORY AND ALLERGY"
-                />
-              </p>
-            </div>
-            <h3 className="field mt-2 ">
-              <b>Examination Findings</b>
-            </h3>
-            <h4 className="field mt-2 ">
-              <b>1. General Examination</b>
-            </h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Pallor</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Pallor"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*   <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Delayed_milestones_detail" type="text" placeholder="Delayed Milestones detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Febrile</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Febrile"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Delayed_milestones_detail" type="text" placeholder="Delayed Milestones detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Cyanosed</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Cyanosed"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Delayed_milestones_detail" type="text" placeholder="Delayed Milestones detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Icteric</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Icteric"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Delayed_milestones_detail" type="text" placeholder="Delayed Milestones detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Lyphm node enlargement</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Lyphm_node_enlargement"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Lyphm_node_enlargements_detail"
-                  type="text"
-                  placeholder="Lyphm node enlargement description"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Temperature</b>
-              </label>
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Temperature"
-                  type="text"
-                  placeholder="Temperature"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Pedal edema</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Pedal_edema"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Pedal_edema_detail"
-                  type="text"
-                  placeholder="Pedal edema detail"
-                />
-              </p>
-              [Describe if present: pitting, extent]
-            </div>
-
-            <h4 className="field mt-2 ">
-              <b>2. RESPIRATORY SYSTEM</b>
-            </h4>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Respiratory_rate"
-                  type="text"
-                  placeholder="Respiratory rate"
-                />
-              </p>
-              <label className="mr-2 ">
-                {" "}
-                <b>Fast breathing</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Fast_breathing"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Dyspneic</b>
-              </label>
-
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Dyspneic"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*   <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Delayed_milestones_detail" type="text" placeholder="Delayed Milestones detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Respiratory distress</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Respiratory_distress"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Respiratory_distress_evidence"
-                  type="text"
-                  placeholder="Respiratory distress evidence"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Lower chest wall indrawing</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Lower_chest_wall_indrawing"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Delayed_milestones_detail" type="text" placeholder="Delayed Milestones detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Audible wheeze</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Audible_wheeze"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*    <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Lyphm_node_enlargements_detail" type="text" placeholder="Lyphm node enlargement description"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Chest symetrical</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Chest_symetrical"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/* <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Chest_symetrical" type="text" placeholder="Chest symetrical"/>           
-                        </p>  */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Equal chest expansion</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Equal_chest_expansion"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Pedal_edema_detail" type="text" placeholder="Pedal edema detail"/>           
-                        </p> */}
-            </div>
-
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Trachea central</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Trachea_central"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Pedal_edema_detail" type="text" placeholder="Pedal edema detail"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Percussion note</b>
-              </label>
-              {pernotes.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Percussion_note"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Pedal_edema_detail" type="text" placeholder="Pedal edema detail"/>           
-                        </p> */}
-            </div>
-            <h4>
-              <b>Auscultatory findings</b>
-            </h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Air entry</b>
-              </label>
-              {/*  {
-                            yesno.map((c,i) => 
-                                <label  className=" is-small" key={c}>
-                                    <input type="radio" value={c } name="Equal_chest_expansion" {...register("input_name")} />{c + " "}
-                                </label>
-                            )
-                        } */}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ausc_Air_entry"
-                  type="text"
-                  placeholder="Describe"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Breath sound</b>
-              </label>
-              {/*    {
-                            yesno.map((c,i) => 
-                                <label  className=" is-small" key={c}>
-                                    <input type="radio" value={c } name="Equal_chest_expansion" {...register("input_name")} />{c + " "}
-                                </label>
-                            )
-                        } */}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ausc_Breath_Sound"
-                  type="text"
-                  placeholder="Describe"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Crackles</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Ausc_Crackles"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ausc_Crackles_detail"
-                  type="text"
-                  placeholder="Crackles detail"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Stridor</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Ausc_Stridor"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ausc_Stridor_detail"
-                  type="text"
-                  placeholder="Stridor  detail"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Wheeze</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Ausc_Wheeze"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Ausc_Wheeze_detail"
-                  type="text"
-                  placeholder="Wheeze detail"
-                />
-              </p>
-            </div>
-            <h4 className="field mt-2 ">
-              <b>3. CARDIOVASCULAR SYSTEM</b>
-            </h4>
-            <div className="field ml-3 ">
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Pulse_rate"
-                  type="text"
-                  placeholder="Pulse rate"
-                />
-              </p>
-              <label className="mr-2 ">
-                {" "}
-                <b>Pulse Character</b>
-              </label>
-              {pulsenature.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Pulse_Character"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Jugular vein distended</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Jugular_Vein_distended"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Pulse_rate" type="text" placeholder="Pulse rate"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Precordium hyperactive?</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Precordium_hyperactive"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Pulse_rate" type="text" placeholder="Pulse rate"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Blood Pressure Value</b>
-              </label>
-              {/*   {
-                            yesno.map((c,i) => 
-                                <label  className=" is-small" key={c}>
-                                    <input type="radio" value={c } name="Precordium_hyperactive" {...register("input_name")} />{c + " "}
-                                </label>
-                            )
-                        } */}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Blood_Pressure"
-                  type="text"
-                  placeholder="Blood pressure value"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Apex beat location</b>
-              </label>
-
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Apex_beat_location"
-                  type="text"
-                  placeholder="Apex beat location"
-                />
-              </p>
-              {/*   {
-                            yesno.map((c,i) => 
-                                <label  className=" is-small" key={c}>
-                                    <input type="radio" value={c } name="Precordium_hyperactive" {...register("input_name")} />{c + " "}
-                                </label>
-                            )
-                        } */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Apex beat Displaced?</b>
-              </label>
-
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Apex_beat_location" type="text" placeholder="Apex beat location"/>           
-                        </p>  */}
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Apex_beat_displaced"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Apex beat located?</b>
-              </label>
-
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Apex_beat_location" type="text" placeholder="Apex beat location"/>           
-                        </p>  */}
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Apex_beat_located"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Thrills</b>
-              </label>
-
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Apex_beat_location" type="text" placeholder="Apex beat location"/>           
-                        </p>  */}
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Thrills"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Heart Sound</b>
-              </label>
-              {heartsound.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Heart_Sound"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Heart_Sound_description"
-                  type="text"
-                  placeholder="Heart Sound description"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Murmur</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Heart_Sound"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Murmur_description"
-                  type="text"
-                  placeholder="Murmur description"
-                />
-              </p>
-            </div>
-            <h4 className="field mt-2 ">
-              <b>4. ABDOMINAL SYSTEM</b>
-            </h4>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Abdomen</b>
-              </label>
-              {abd.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="checkbox"
-                    value={c + ", "}
-                    name="Pulse_Character"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Pulse_rate" type="text" placeholder="Pulse rate"/>           
-                        </p> */}
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Abdominal tenderness</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Abdominal_tenderness"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Abdominal_tenderness_details"
-                  type="text"
-                  placeholder="Abdominal tenderness details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Liver enlarged</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Liver_enlarged"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Liver_enlarged_details"
-                  type="text"
-                  placeholder="Liver enlarged details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Kidney enlarged</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Kidney_enlarged"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Kidney_enlarged_details"
-                  type="text"
-                  placeholder="Kidney enlarged details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Spleen enlarged</b>
-              </label>
-              {yesno.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Spleen_enlarged"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              <p className="control ">
-                <input
-                  className="input is-small"
-                  {...register("input_name")}
-                  name="Spleen_enlarged_details"
-                  type="text"
-                  placeholder="Spleen enlarged details"
-                />
-              </p>
-            </div>
-            <div className="field ml-3 ">
-              <label className="mr-2 ">
-                {" "}
-                <b>Bowel Sound</b>
-              </label>
-              {bowelsound.map((c, i) => (
-                <label className=" is-small" key={c}>
-                  <input
-                    type="radio"
-                    value={c}
-                    name="Bowel_Sound"
-                    {...register("input_name")}
-                  />
-                  {c + " "}
-                </label>
-              ))}
-              {/* <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Spleen_enlarged_details" type="text" placeholder="Spleen enlarged details"/>           
-                        </p>  */}
-            </div>
-
-            <h4>
-              <b>5. Other Systemic Findings</b>
-            </h4>
-            <p className="control ">
-              <textarea
-                className="textarea is-small"
-                {...register("input_name")}
-                name="Other_Systemic_examination_findings"
-                type="text"
-                placeholder="Describe other findings"
-              />
-            </p>
-
-            <h3>
-              <b>Investigations</b>
-            </h3>
-            <h4>Full blood count</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ml-6">
-                {" "}
-                <div className="field ml-2">
-                  <h4>ABSOLUTE</h4>
-                </div>
-              </div>
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>PERCENTAGE</h4>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> PCV</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PCV_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PCV_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> WBC</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="WBC_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="WBC_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">NEUTROPHIL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="NEUTROPHIL_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="NEUTROPHIL_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">LYMPHOCYTE</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="LYMPHOCYTE_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="LYMPHOCYTE_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">EOSINOPHIL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EOSINOPHIL_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EOSINOPHIL_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> BASOPHIL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="BASOPHIL_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="BASOPHIL_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">MONOCYTE</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="MONOCYTE_absolute"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="MONOCYTE_percentage"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <h4>SPIROMETRY</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ml-6">
-                {" "}
-                <div className="field ml-2">
-                  <h4>VALUE</h4>
-                </div>
-              </div>
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>PERCENTAGE PREDICTED</h4>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FEV1</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FVC</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FVC_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FVC_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FEV1%</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_percent_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEV1_precent_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">FEF25-75</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEF25-75_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="FEF25-75_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">PEFR</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PEFR_value"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="PEFR_percentage_predicted"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <h4>ALLERGY SKIN TESTING</h4>
-            <input
-              className="input is-small is-hidden"
-              {...register("input_name")}
-              name="Allergy_Skin_Test"
-              type="text"
-              placeholder="Specify"
+</Box>
+</Box>
+<Box>
+  <Typography><b>Cough nature:</b></Typography>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "productive",
+              "dry",
+              "barking",
+              "paroxysimal",
+              "post-tusive vomiting",
+              "worse at night",
+              "worse at any time of the day",
+              "worse in certain posture",
+              "progressive",
+            ]}
+          />
+</Box>
+<Box>
+  <Typography><b>Associated symptoms with cough::</b></Typography>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "feveer",
+              "catarrh",
+              "night sweats",
+              "weight loss",
+              "contact with someone with chronic cough",
+              "facial swelling",
+              "leg swelling"
+            ]}
+          />
+</Box>
+<Box>
+  <Typography><b>Sputum Colour:</b></Typography>
+  <RadioButton
+        register={register("input_name")}
+        options={[
+                "creamy",
+                "brown",
+                "blood stained",
+                "whitish"
+              ]}
             />
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small"> ALLERGINE</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={allergine}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setAllergine(e.target.value);
-                      }}
-                      name="allergine"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">REACTION</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      value={reaction}
-                      /* {...register("input_name")} */ onChange={e => {
-                        setReaction(e.target.value);
-                      }}
-                      name="reaction"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-              <div className="field">
-                <div className="control">
-                  <div
-                    className="button is-success is-small selectadd"
-                    onClick={handleAdd}
-                  >
-                    Add
-                  </div>
-                </div>
-              </div>
-            </div>
-            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-              <thead>
-                <tr>
-                  <th>
-                    <abbr title="Serial No">S/No</abbr>
-                  </th>
+</Box>
+<Box>
+  <Typography><b>Other Respiratory Symptoms::</b></Typography>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Difficulty breathing",
+              "fast breathing",
+              "excessive sneezing",
+              "allergy salute",
+              "chest pain",
+              "atopy",
+              "family history of atopy"
+            ]}
+          />
+</Box>
+<Box sx={{gap:"1.5rem"}}>
+<Typography><b>ii. CVS</b></Typography>
+<Box>
+<Typography>(a) Cough</Typography>
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "cough",
+              "easy defatigability",
+              "breathelessness",
+              "breathelessness at rest",
+              "breathelessness on exertion",
+              "Othopnea",
+              "Paroxymal nocturnal orthopnea",
+              "palpitation",
+              "chest pain"
+            ]}
+          />
+</Box>
+</Box>
+<Box sx={{gap:"1.5rem"}}>
 
-                  <th>
-                    <abbr title="Type"> ALLERGINE</abbr>
-                  </th>
-                  <th>
-                    <abbr title="Destination">REACTION</abbr>
-                  </th>
-                </tr>
-              </thead>
-              <tfoot></tfoot>
-              <tbody>
-                {allergies.map((ProductEntry, i) => (
-                  <tr key={i}>
-                    <th>{i + 1}</th>
-                    <td>{ProductEntry.allergine}</td>
-                    <td>{ProductEntry.reaction}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">SERUM IGE LEVEL</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="IGE_Level"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* <div className="field is-horizontal">
-                        <div className="field-body ml-3">  
-                            <div className="field">
-                                <label className="is-small">FRACTION EXHALED NITRIC OXIDE (FeNO)</label>
-                            </div>
-                            <div className="field">
-                                <p className="control ">
-                                    <input className="input is-small"   {...register("input_name")} name="FeNo" type="text" placeholder="Specify" />           
-                                </p>
-                            </div>
-                           
-                        </div>
-                    </div> */}
+<Typography><b>iii. GIT</b></Typography>
+<Box>
+<Typography><b>Abdominal Pain</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Abdominal Pain details"
+                />      
+</Box>
+<Box>
+<Typography><b>Abdominal swelling</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Abdominal swelling details"
+                />   
+                <Typography>[onset? Progressive, swelling in other part of the body]</Typography>   
+</Box>
+<Box>
+<Typography><b>Diarrhea</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Diarrhea details"
+                />   
+                <Typography>[onset, frequency, consistency, duration, blood stained, colour (r.g rice water colour), mucoid]</Typography>   
+</Box>
+<Box>
+<Typography><b>Nausea</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Nausea details"
+                />      
+</Box>
+<Box>
+<Typography><b>Vomitting</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Vomitting details"
+                />   
+                <Typography>[projectile? Content? Episodes?]</Typography>   
+</Box>
+<Box>
+<Typography><b>Constipation</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Constipation details"
+                /> 
+          <Typography>[onset]</Typography>     
+</Box>
+</Box>
+<Box sx={{gap:"1.5rem"}}>
+<Typography><b>iv. Urinary</b></Typography>
+<Box>
+<Typography><b>Urinary findings:</b></Typography>
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "frequency",
+              "nocturia",
+              "polyuria",
+              "poor stream",
+              "incomplete bladder empty",
+              "urgency",
+              "hesistancy"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Urinary findings Specify"
+                />      
+</Box>
+</Box>
+<Box sx={{gap:"1.5rem"}}>
+<Typography><b>v. CNS</b></Typography>
+<Box>
+<Typography><b>Headache:</b></Typography>
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "throbing",
+              "dull",
+              "generalised",
+              "frontal",
+              "right-sided",
+              "left sided",
+              "photophia"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Headache details"
+                />      
+</Box>
+<Box>
+<Typography><b>Neck Pain</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Neck Pain details"
+                />     
+</Box>
+<Box>
+<Typography><b>Neck Stiffness</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Neck Stiffness details"
+                /> 
+              
+</Box>
+<Box>
+<Typography><b>Vertigo</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Vertigo details"
+                /> 
+               
+</Box>
+<Box>
+<Typography><b>Dizziness</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Dizziness details"
+                /> 
+               
+</Box>
+<Box>
+<Typography><b>Fainting spells</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Fainting spells details"
+                /> 
+              
+</Box>
+<Box>
+<Typography><b>Akward Gait</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Akward Gait details"
+                /> 
+               
+</Box>
+<Box>
+<Typography><b>Weakness Upper Limbs</b></Typography>
+<CheckboxInput
+        register={register("input_name")}
+        options={[
+                "Right Limb",
+                "Left Limb",
+                "Both Limbs"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Weakness Upper Limbs details"
+                /> 
+             
+</Box>
+<Box>
+<Typography><b>Weakness Lower Limbs</b></Typography>
+<CheckboxInput
+        register={register("input_name")}
+        options={[
+                "Right Limb",
+                "Left Limb",
+                "Both Limbs"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Weakness Lower Limbs details"
+                /> 
+             
+</Box>
+</Box>
+<Box sx={{gap:"1.5rem"}}>
+<Typography><b>vi. ENT</b></Typography>
+<Box>
+<Typography><b>Eye pain:</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Right",
+              "Left",
+              "Both"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Headache details"
+                />      
+</Box>
+<Box>
+<Typography><b>Eye Discharge:</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Right",
+              "Left",
+              "Both"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Eye discharge details"
+                />      
+</Box>
+<Box>
+<Typography><b>Eye swelling:</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Right",
+              "Left",
+              "Both"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Eye swelling details"
+                />      
+</Box>
+<Box>
+<Typography><b>Ear pain:</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Right",
+              "Left",
+              "Both"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Ear pain details"
+                />      
+</Box>
+<Box>
+<Typography><b>Ear Discharge:</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Right",
+              "Left",
+              "Both",
+              "Purulent",
+              "Bloody"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Ear Discharge details"
+                />      
+</Box>
+<Box>
+<Typography><b>Other ENT Findings:</b></Typography>
 
-            <h4>URINALYSIS</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>PARAMETERS</h4>
-                </div>
-              </div>
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>VALUE</h4>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Colour</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_color"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Specific gravity</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Specific_gravity"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Leucocyte</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Leucocyte"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Protein</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Protein"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Blood</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Blood"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Glucose</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Glucose"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Urobilinogen</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Urobilinogen"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Ketones</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="urinalysis_Ketones"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <h4>Electrolyte, Urea and Creatinine</h4>
-            <div className="field is-horizontal">
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>PARAMETERS</h4>
-                </div>
-              </div>
-              <div className="field-body ">
-                {" "}
-                <div className="field ml-2">
-                  <h4>VALUE</h4>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Sodium</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Sodium"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Potassium</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Potassium"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Chloride</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Chloride"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Bicarbonate</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Bicarbonate"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Urea</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Urea"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Creatinine</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Creatinine"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body ml-3">
-                <div className="field">
-                  <label className="is-small">Anion Gap</label>
-                </div>
-                <div className="field">
-                  <p className="control ">
-                    <input
-                      className="input is-small"
-                      {...register("input_name")}
-                      name="EUCR_Anion_Gap"
-                      type="text"
-                      placeholder="Specify"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/*  <p className="control ">
-                            <input className="input is-small"   {...register("input_name")} name="Education" type="text" placeholder="Hihest Level of Education" />           
-                        </p> */}
-
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Draft"}
-                  name="status"
-                  value="Draft"
-                  onChange={e => {
-                    handleChangeStatus(e);
-                  }}
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Sore throat",
+              "change in voice",
+              "nasal discharge",
+              "excessive sneezing",
+              "allergy salute"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Other ENT Findings"
+                />      
+</Box>
+</Box>
+<Box>
+<Box>
+<Typography><b>vii. Endocrinology</b></Typography>
+<Typography><b>Endocrinology Findings</b></Typography>
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "heat intolerance",
+              "apathy",
+              "excessive sweating",
+              "excessive hair growth",
+              "weight gain",
+              "weight loss",
+              "menstral irregularity"
+            ]}
+          />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Other Endocrinology findings"
+                />      
+</Box>
+</Box>
+<Box>
+<Typography><b>vii. Other Systems</b></Typography>
+<Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Other Systems findings details"
+           />
+</Box>
+<Box>
+<Typography><b>SECTION D: Past Medical History</b></Typography>
+<Box>
+<Typography><b>Previous admission</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Previous admission details"
+                /> 
+</Box>
+<Box>
+<Typography><b>Blood transfusion</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Blood transfusion details"
+                /> 
+</Box>
+<Box>
+<Typography><b>Diabetes</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Diabetes details"
+                /> 
+</Box>
+<Box>
+<Typography><b>Hypertension</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Hypertension details"
+                /> 
+</Box>
+<Box>
+<Typography><b>Sickcle cell disease</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Sickcle cell disease details"
+                /> 
+</Box>
+<Box>
+<Typography><b>Peptic Ulcer</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Peptic Ulcer details"
+                /> 
+</Box>
+<Box>
+<Typography><b>Seizure</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Seizure details"
+                /> 
+</Box>
+</Box>
+<Box>
+<Typography><b>SECTION E: Pregnancy, Birth and Neonatal history</b></Typography>
+<Box>
+<Typography><b>Pregnancy term</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Pregnancy details"
+                /> 
+                <Typography>[any eventful conditions during pregancy e.g maternal illnesss or admission]</Typography>
+</Box>
+<Box>
+<Typography><b>Birth</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Spontenous varginal delivery",
+                "Elective Sureqery",
+                "Emergency Surgery"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Cried at birth</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+     <Box sx={{gap:"1.5rem"}}>
+     <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Birth Weight"
                 />
-                <span> Draft</span>
-              </label>{" "}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  checked={docStatus === "Final"}
-                  name="status"
-                  value="Final"
-                  onChange={e => handleChangeStatus(e)}
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="APGAR Score"
                 />
-                <span> Final </span>
-              </label>
-            </div>
+      </Box>         
+</Box>
+<Box>
+<Typography><b>Neonatal admission</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Neonatal admission details"
+                /> 
+                <Typography>[[if yes what was wrong with the child?]]</Typography>
+</Box>
+<Box>
+<Box>
+<Typography><b>Had phototherapy</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Exchange blood transfusion</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Received oxygen?</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+</Box>
+</Box>
+<Box>
+<Typography><b>SECTION F: Nutritional History</b></Typography>
+<Box>
+<Typography><b>Exclusive Breastfed</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+      <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Breastfed how long"
+                /> 
+</Box>
+</Box>
+<Box>
+<Box>
+<Typography><b>SECTION G: Immunization History</b></Typography>
+<Box>
+<Typography><b>Fully vacinated</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>BCG scar seen</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Vaccination history</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+</Box>
+</Box>
+<Box>
+<Typography><b>SECTION H: DEVELOPMENTAL MILESTONE</b></Typography>
+<Box>
+<Typography><b>Had delayed developmental milestones</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+              <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Delayed Milestones detail"
+                />
+</Box>
+</Box>
+<Box>
+<Typography><b>SECTION I: FAMILY AND SOCIAL HISTORY</b></Typography>
+<Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="FAMILY AND SOCIAL HISTORY"
+                />
+</Box>
+<Box>
+<Typography><b>SECTION J: DRUG HISTORY AND ALLERGY</b></Typography>
+<Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="DRUG HISTORY AND ALLERGY"
+                />
+</Box>
+<Box>
+<Box>
+<Typography><b>Examination Findings</b></Typography>
+<Typography><b>1. General Examination</b></Typography>
+</Box>
+<Box>
+<Typography><b>Pallor</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Febrile</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Cyanosed</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Icteric</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Lyphm node enlargement</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Lyphm node enlargement detail"
+                />    
+</Box>
+<Box>
+<Typography><b>Temperature</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Temperature detail"
+                />    
+</Box>
+<Box>
+<Typography><b>Pedal edema</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Pedal edema detail"
+                />    
+</Box>
+</Box>
+<Box>
+<Typography>[Describe if present: pitting, extent]</Typography>
+<Box>
+<Typography><b>2. RESPIRATORY SYSTEM</b></Typography>
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Respiratory system"
+                />    
+</Box>
+<Box>
+<Typography><b>Fast breathing</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+</Box>
+<Box>
+<Typography><b>Dyspneic</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Respiratory distress</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />
+     <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Respiratory distress evidence"
+                />  
+</Box>
+<Box>
+<Typography><b>Lower chest wall indrawing</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Audible wheeze</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Chest symetrical</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Equal chest expansion</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Trachea central</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Percussion note</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "dull",
+                "resonant",
+                "hyper-resonant"
+              ]}
+            />    
+</Box>
+<Box>
+<Typography><b>Auscultatory findings</b></Typography>
+<Typography><b>Air entry</b></Typography>
+<Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Requesting Physician"
+                />
+</Box>
+<Box>
+<Typography><b>Breath sound</b></Typography>
+<Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Describe"
+                />
+</Box>
+<Box>
+<Typography><b>Crackles</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />   
+     <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Crackles detail"
+                />
+</Box>
+<Box>
+<Typography><b>Stridor</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />   
+     <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Stridor detail"
+                />
+</Box>
+<Box>
+<Typography><b>Wheeze</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />   
+     <Input
+       register={register("input_name")}
+       name="text"
+       type="text"
+      label="Wheeze detail"
+     />           
+</Box>
+</Box>
+<Box>
+<Box>
+<Typography><b>3. CARDIOVASCULAR SYSTEM</b></Typography>  
+     <Input
+       register={register("input_name")}
+       name="text"
+       type="text"
+      label="Pulse rate"
+     />           
+</Box>
+<Box>
+<Typography><b>Pulse Character</b></Typography>  
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Regular",
+              "Irregular",
+              "Normal volume",
+              "pounding",
+              "Synchronous",
+              "Asynchronous"
+            ]}
+          />      
+</Box>
+<Box>
+<Typography><b>Jugular Vein distended</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />           
+</Box>
+<Box>
+<Typography><b>Precordium hyperactive</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />           
+</Box>
+<Box>
+<Typography><b>Blood Pressure Value</b></Typography>  
+     <Input
+       register={register("input_name")}
+       name="text"
+       type="text"
+      label="Blood pressure value"
+     />           
+</Box>
+<Box>
+<Typography><b>Apex beat location</b></Typography>  
+     <Input
+       register={register("input_name")}
+       name="text"
+       type="text"
+      label="Apex beat location"
+     />           
+</Box>
+<Box>
+<Typography><b>Apex beat Displaced?</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />           
+</Box>
+<Box>
+<Typography><b>Apex beat located?</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />           
+</Box>
+<Box>
+<Typography><b>Thrills</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />           
+</Box>
+<Box>
+<Typography><b>Heart Sound</b></Typography>
+<CheckboxInput
+            register={register("input_name")}
+            options={[
+              "S1",
+              "S2",
+              "S3",
+              "S4",
+            ]}
+          />   
+          <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Heart Sound description"
+                />     
+</Box>
+<Box>
+<Typography><b>Murmur</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />  
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Murmur description"
+                />      
+</Box>
+</Box>
+<Box>
+<Box>
+  <Typography><b>ABDOMINAL SYSTEM</b></Typography>
+  <Typography><b>Abdomen</b></Typography>
+  <CheckboxInput
+            register={register("input_name")}
+            options={[
+              "Full",
+              "Distended",
+              "Flat",
+              "moves with respiration",
+              "Abdominal vein visible"
+            ]}
+          />   
+</Box>
+<Box>
+<Typography><b>Abdominal tenderness</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />  
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Abdominal tenderness detail"
+                />      
+</Box>
+<Box>
+<Typography><b>Liver enlarged</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />  
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Liver enlarged detail"
+                />      
+</Box>
+<Box>
+<Typography><b>Kidney enlarged</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />  
+        <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Kidney enlarged detail"
+                />      
+</Box>
+<Box>
+<Typography><b>Spleen enlarged</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Yes",
+                "No",
+              ]}
+            />  
+     <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Spleen enlarged detail"
+                />          
+</Box>
+<Box>
+<Typography><b>Bowel Sound</b></Typography>
+<RadioButton
+        register={register("input_name")}
+        options={[
+                "Normal",
+                "Absent",
+                "Hyperactive",
+                "Reduced or Hypoactive"
+              ]}
+            />  
+</Box>
+</Box>
+<Box>
+<Typography><b>5. Other System Findings</b></Typography>
+<Textarea
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                 label="Describe other findings"
+                />
+</Box>
+<Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>Investigations</b></Typography>
+  <Typography><b>Full blood count</b></Typography>
+  <Typography><b>ABSOLUTE</b></Typography>
+  <Typography><b>PERCENTAGE</b></Typography>
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>PCV</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>WBC</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>NEUTROPHIL</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>LYMPHOCYTE</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>EOSINOPHIL</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>BASOPHIL</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>MONOCYTE</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+</Box>
+<Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>SPIROMETRY VALUE</b></Typography>
+  <Typography><b>PERCENTAGE PREDICTED</b></Typography>
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>FEV1</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>FVC</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>FEV1%</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>FEF25-75</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box sx={{gap:"1.5rem"}}>
+  <Typography><b>PEFR</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+         <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />       
+  </Box>
+  <Box>
+              <Typography variant='subtitle1'>ALLERGY SKIN TESTING</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>ALLERGINE</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+              <Box>
+              <Typography variant='subtitle1'>REACTION</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+          <Box sx={{
+            marginBlock: "1rem"
+          }}> 
+          <Button variant="contained" type="button" onClick={handleAdd}>Add</Button>
+  </Box>
+  <Box sx={{marginBlock:"1rem"}}>
+      <Table sx={{ minWidth: 150 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>S/No</TableCell>
+            <TableCell align="right">ALLERGINE</TableCell> 
+            <TableCell align="right">REACTION</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {allergies.map((ProductEntry, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {i + 1}
+              </TableCell>
+              <TableCell align="right">{ProductEntry.allergine}</TableCell>
+              <TableCell align="right">{ProductEntry.reaction}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+  </Box>
+              <Box>
+              <Typography variant='subtitle1'>SERUM IGE LEVEL</Typography> 
+                <Box>
+                <Input
+                  label="Specify"
+                  register={register("input_name")}
+                  name="oxygen_saturation"
+                  type="text"
+                />
+                </Box>
+            </Box>
+</Box>
 
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button type="submit" className="button is-success is-small">
-                  Save
-                </button>
-              </p>
-              <p className="control">
-                <button type="reset" className="button is-warning is-small">
-                  Cancel
-                </button>
-              </p>
-            </div>
+<Box sx={{gap:"1.5rem"}}>
+  <Box >
+  <Typography><b>URINALYSIS</b></Typography>
+  <Typography><b>PARAMETERS VALUE</b></Typography>
+  </Box>
+  <Box>
+  <Typography><b>Colour</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Specific gravity</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Leucocyte</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Protein</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Blood</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Glucose</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Urobilinogen</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Ketones</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+</Box>
+
+<Box sx={{gap:"1.5rem"}}>
+  <Box >
+  <Typography><b>Electrolyte, Urea and Creatinine</b></Typography>
+  <Typography><b>PARAMETERS VALUE</b></Typography>
+  </Box>
+  <Box>
+  <Typography><b>Sodium</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Potassium</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Chloride</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Bicarbonate</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Urea</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Creatinine</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+<Box>
+  <Typography><b>Anion Gap</b></Typography>
+  <Input
+                  register={register("input_name")}
+                  name="text"
+                  type="text"
+                  label="Specify"
+                />
+</Box>
+
+</Box>
+    <Box> 
+      <RadioButton
+        register={register("input_name")}
+        options={[
+                "Draft",
+                "Final",
+              ]}
+            />
+</Box>
+         <Box  
+        spacing={1}
+        sx={{
+          display: "flex",
+          gap: "2rem",
+        }}>
+          <Button variant="contained" type="button">Save</Button>
+          <Button variant="outlined" type="button">Cancel</Button>
+        </Box>
           </form>
         </div>
       </div>

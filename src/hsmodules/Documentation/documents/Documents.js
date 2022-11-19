@@ -1,7 +1,18 @@
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {forwardRef} from "react";
 
 import CustomTable from "../../../components/customtable";
+import {
+  AdmissionOrderPrintOut,
+  AdultQuestionnairePrintOut,
+  BilledOrdersPrintOut,
+  DischargeOrderPrintOut,
+  LaboratoryOrdersPrintOut,
+  MedicationListPrintOut,
+  PediatricPulmonologyList,
+  PrescriptionPrintOut,
+  RadiologyOrdersPrintOut,
+} from "../print-outs/Print-Outs";
 
 export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
   return (
@@ -9,8 +20,14 @@ export const AdmissionOrderDocument = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <AdmissionOrderPrintOut
+          data={Clinic.documentdetail}
+          Clinic={Clinic}
+          ref={ref}
+        />
+      </Box>
       <div>
         <div className="ml-4">
           <p>
@@ -35,8 +52,14 @@ export const DischargeOrderComponent = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <DischargeOrderPrintOut
+          data={Clinic.documentdetail}
+          ref={ref}
+          Clinic={Clinic}
+        />
+      </Box>
       <div>
         <div className="ml-4">
           <p>
@@ -61,8 +84,14 @@ export const MedicationListDocument = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <MedicationListPrintOut
+          ref={ref}
+          data={Clinic.documentdetail}
+          Clinic={Clinic}
+        />
+      </Box>
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
           {value.length > 0 && (
@@ -175,6 +204,14 @@ export const PediatricPulmonologyForm = forwardRef(({Clinic}, ref) => {
       }
       ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <PediatricPulmonologyList
+          ref={ref}
+          Clinic={Clinic}
+          data={Clinic.documentdetail}
+        />
+      </Box>
+
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
           {value.length > 0 && (
@@ -284,8 +321,15 @@ export const AdultAthsmaQuestionaire = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <AdultQuestionnairePrintOut
+          Clinic={Clinic}
+          data={Clinic.documentdetail}
+          ref={ref}
+        />
+      </Box>
+
       {Object.entries(Clinic.documentdetail).map(([keys, value], i) => (
         <>
           {value.length > 0 && (
@@ -354,8 +398,15 @@ export const PrescriptionDocument = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <PrescriptionPrintOut
+          data={Clinic.documentdetail}
+          ref={ref}
+          Clinic={Clinic}
+        />
+      </Box>
+
       {Clinic.documentdetail.length > 0 && (
         <div>
           <label>Medications:</label>
@@ -404,8 +455,15 @@ export const RadiologyOrdersDocument = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <RadiologyOrdersPrintOut
+          data={Clinic.documentdetail}
+          ref={ref}
+          Clinic={Clinic}
+        />
+      </Box>
+
       {Clinic.documentdetail.length > 0 && (
         <div>
           <label>Tests:</label>
@@ -452,8 +510,14 @@ export const LabOrdersDocument = forwardRef(({Clinic}, ref) => {
       className={
         Clinic.show ? "card-content p-1" : "card-content p-1 is-hidden"
       }
-      ref={ref}
     >
+      <Box sx={{display: "none"}}>
+        <LaboratoryOrdersPrintOut
+          data={Clinic.documentdetail}
+          ref={ref}
+          Clinic={Clinic}
+        />
+      </Box>
       {Clinic.documentdetail.length > 0 && (
         <div>
           <label>Tests:</label>
@@ -585,7 +649,14 @@ export const BilledOrdersDocument = forwardRef(({Clinic}, ref) => {
   ];
   return (
     <>
-      <Box sx={{height: "auto"}} ref={ref}>
+      <Box sx={{display: "none"}}>
+        <BilledOrdersPrintOut
+          data={Clinic.documentdetail}
+          ref={ref}
+          Clinic={Clinic}
+        />
+      </Box>
+      <Box sx={{height: "auto"}}>
         <CustomTable
           title={"Bill Orders:"}
           columns={columns}

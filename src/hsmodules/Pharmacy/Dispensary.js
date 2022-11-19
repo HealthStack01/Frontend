@@ -25,6 +25,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {InventoryStoreSchema} from "./ui-components/schema";
 import ModalBox from "../../components/modal";
+import {Button as MuiButton} from "@mui/material";
 
 export default function Dispense() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -65,7 +66,7 @@ export default function Dispense() {
         onClose={handleCloseCreateModal}
         header="Point of Sale: Sales, Dispense, Audit, Transfer out"
       >
-        <ProductExitCreate />
+        <ProductExitCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
     </section>
   );
@@ -134,7 +135,7 @@ export function DispenseList({openCreateModal}) {
         ...prev,
         financeModule: {
           ...prev.financeModule,
-          selectedBills: prev.financeModule.selectedBills.concat(order),
+          selectedBills: prev?.financeModule?.selectedBills?.concat(order),
         },
       }));
       await setSelectedOrders(prevstate => prevstate.concat(order));
@@ -384,51 +385,39 @@ export function DispenseList({openCreateModal}) {
     return () => {};
   }, [state.financeModule.show]);
 
-  useEffect(() => {
-    const productItem = selectedOrders;
+  const getTotal = async () => {
+    console.log(selectedOrders[0]);
     setTotalAmount(0);
-    productItem.forEach(el => {
-      if (el.show === "none") {
-        if (el.billing_status === "Unpaid") {
-          setTotalAmount(
-            prevtotal => Number(prevtotal) + Number(el.serviceInfo.amount)
-          );
-        } else {
-          setTotalAmount(
-            prevtotal => Number(prevtotal) + Number(el.paymentInfo.balance)
-          );
-        }
-      }
-      if (el.show === "flex") {
-        setTotalAmount(prevtotal => Number(prevtotal) + Number(el.partPay));
-      }
-
-      //
+    selectedOrders.forEach(el => {
+      setTotalAmount(
+        prevtotal => Number(prevtotal) + Number(el?.paymentInfo?.amountDue)
+      );
     });
+  };
+
+  useEffect(() => {
+    getTotal();
   }, [selectedOrders]);
 
-  const DispensorySummary = [
-    {name: "S/N", selector: row => row.sn},
-    {name: "Client Name", selector: row => row.clientname},
-    {
-      name: "Bill Items",
-      selector: row => row.bills.map(obj => obj.order).flat().length,
-    },
-  ];
+  // const DispensorySummary = [
+  //   {name: "S/N", selector: row => row.sn},
+  //   {name: "Client Name", selector: row => row.clientname},
+  //   {
+  //     name: "Bill Items",
+  //     selector: row => row.bills.map(obj => obj.order).flat().length,
+  //   },
+  // ];
 
   const dispensarySchema = [
     {
       name: "S/NO",
-      headerStyle: (selector, id) => {
-        return {textAlign: "center"}; // removed partial line here
-      },
-
       key: "sn",
       description: "Enter name of Disease",
-      selector: row => row.sn,
+      selector: (row, i) => i + 1,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      center: true,
     },
     {
       name: "Client Name",
@@ -438,23 +427,26 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
+      center: true,
     },
     {
-      name: "Bill Items",
+      name: "Prescription(s)",
       key: "bills",
       description: "Enter bills",
       selector: row => row.bills.map(obj => obj.order).flat().length,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      center: true,
     },
   ];
 
   const selectedClientSchema = [
     {
       name: "S/NO",
-      width: "70px",
+      width: "80px",
       key: "sn",
+      center: true,
       description: "Enter name of Disease",
       selector: row => (
         <div style={{display: "flex", alignItems: "center"}}>
@@ -480,6 +472,8 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "DATE",
+      width: "100px",
+      center: true,
     },
     {
       name: "Description",
@@ -507,6 +501,8 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      width: "100px",
+      center: true,
     },
   ];
 
@@ -540,11 +536,15 @@ export function DispenseList({openCreateModal}) {
           )}
 
           {selectedOrders.length > 0 && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label={`Make Payment`}
+            <MuiButton
+              variant="contained"
+              sx={{
+                textTransform: "capitalize",
+              }}
               onClick={openCreateModal}
-            />
+            >
+              Sell Product(s)
+            </MuiButton>
           )}
         </TableMenu>
 
@@ -561,7 +561,7 @@ export function DispenseList({openCreateModal}) {
             style={{
               height: "calc(100% - 70px)",
               transition: "width 0.5s ease-in",
-              width: selectedClient ? "49.5%" : "100%",
+              width: selectedClient ? "40%" : "100%",
             }}
           >
             <CustomTable
@@ -581,7 +581,7 @@ export function DispenseList({openCreateModal}) {
               <div
                 style={{
                   height: "calc(100% - 70px)",
-                  width: "49.5%",
+                  width: "59%",
                   transition: "width 0.5s ease-in",
                 }}
               >

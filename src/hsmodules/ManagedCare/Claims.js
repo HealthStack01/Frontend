@@ -15,7 +15,6 @@ import LocationSearch from '../helpers/LocationSearch';
 import EmployeeSearch from '../helpers/EmployeeSearch';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
-
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
@@ -24,7 +23,7 @@ import CustomTable from '../../components/customtable';
 import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
-import ModalBox from './modal/index';
+import ModalBox from '../../components/modal';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { McText } from './text';
 import Input from '../../components/inputs/basic/Input/index';
@@ -36,6 +35,7 @@ import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import PatientProfile from '../Client/PatientProfile';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -52,8 +52,26 @@ export default function Claims() {
     <section className="section remPadTop">
       <ClaimsList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
+        <ModalBox
+          open={state.AppointmentModule.show === 'create'}
+          onClose={() => setShowModal(false)}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <PatientProfile />
+            </Grid>
+            <Grid item xs={8}>
+              <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
+      {showModal && (
+        <ModalBox
+          open={state.AppointmentModule.show === 'detail'}
+          onClose={() => setShowModal(false)}
+        >
+          <ClaimsDetails />
         </ModalBox>
       )}
     </section>
@@ -152,11 +170,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
   useEffect(() => {
     //setFacility(user.activeClient.FacilityId)//
     if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
     }
   });
 
@@ -294,7 +307,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <McText
+          {/* <McText
             txt={`Employer's Details`}
             color={'#0064CC'}
             type={'p'}
@@ -331,10 +344,10 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={6}>
               <Input name="authCode" label="Authorozation Code" type="text" />
             </Grid>
-          </Grid>
+          </Grid> */}
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <RadioButton
                 name="patient"
                 title="Patient"
@@ -400,6 +413,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="diagnosis"
                 label="Diagnosis"
                 register={register('diagnosis')}
+                rows={3}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -429,6 +443,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="investigation"
                 label="Investigation"
                 register={register('investigation')}
+                rows={3}
               />
             </Grid>
 
@@ -471,6 +486,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="drugs"
                 label="Drugs"
                 register={register('drugs')}
+                rows={3}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -500,6 +516,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                 name="therapy"
                 label="Therapy"
                 register={register('therapy')}
+                rows={3}
               />
             </Grid>
             {/* <Grid item xs={12} sm={6}>
@@ -1040,34 +1057,6 @@ export function ClaimsList({ showModal, setShowModal }) {
                   <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
                     Claim
                   </h2>
-                  {/* <DatePicker
-                    selected={startDate}
-                    onChange={date => handleDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Filter By Date"
-                    isClearable
-                  /> */}
-                  {/* <SwitchButton /> */}
-                  <Switch>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('list');
-                      }}
-                      style={value === 'list' ? activeStyle : {}}
-                    >
-                      <BsList style={{ fontSize: '1rem' }} />
-                    </button>
-                    <button
-                      value={value}
-                      onClick={() => {
-                        setValue('grid');
-                      }}
-                      style={value === 'grid' ? activeStyle : {}}
-                    >
-                      <BsFillGridFill style={{ fontSize: '1rem' }} />
-                    </button>
-                  </Switch>
                 </div>
 
                 {handleCreateNew && (
@@ -1111,6 +1100,227 @@ export function ClaimsList({ showModal, setShowModal }) {
         </>
       ) : (
         <div>loading</div>
+      )}
+    </>
+  );
+}
+export function ClaimsDetails() {
+  const [deny, setDeny] = useState(false);
+  const [approve, setApprove] = useState(false);
+  return (
+    <>
+      <div
+        className="card"
+        style={{
+          height: '50vh',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <ModalHeader text={'Claim Details - 13322BA'} />
+        <McText txt={'Patient Details'} />
+        <div style={{ backgroundColor: '#EBEBEB' }}>
+          <Grid container spacing={2} mt={1} px={2}>
+            <Grid item xs={12} style={{ width: 'fit-content' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    maxWidth: '100px',
+                    height: '100px',
+                  }}
+                >
+                  <img
+                    src="/img_avatar.png"
+                    alt="avatar"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </div>
+                <div style={{ marginLeft: '10px' }}>
+                  <p style={{ fontWeight: 'bold', margin: 0 }}>Tejiri Tabor</p>
+                  <p style={{ fontWeight: 'bold', margin: 0 }}>
+                    +2348123456789
+                  </p>
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={1} px={2}>
+            <Grid item xs={4}>
+              <p style={{ fontWeight: 'bold' }}>DOB: 23/06/2022</p>
+            </Grid>
+            <Grid item xs={4}>
+              <p style={{ fontWeight: 'bold' }}>Age: 52</p>
+            </Grid>
+            <Grid item xs={4}>
+              <p style={{ fontWeight: 'bold' }}>Gender: Male</p>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} px={2}>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: 'bold' }}>
+                Hospital Name: Lagos State Clinic{' '}
+              </p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: 'bold' }}>
+                Health Plan: Former sector plan
+              </p>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} px={2}>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: 'bold' }}>
+                Date of Admission: 23/06/2022
+              </p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: 'bold' }}>
+                Date of Discharge: 23/06/2022
+              </p>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} px={2}>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: 'bold' }}>Capitation: Filed</p>
+            </Grid>
+            <Grid item xs={6}>
+              <p style={{ fontWeight: 'bold' }}>Fee of Service: Filed</p>
+            </Grid>
+          </Grid>
+        </div>
+        <div
+          style={{
+            marginTop: '10px',
+            border: '1px solid #8F8F8F',
+            padding: '1rem',
+          }}
+        >
+          <p>Request Sent 08/05/2022 9:45pm</p>
+          <McText txt={'Clinical Information'} />
+          <Grid container spacing={2} mb={1}>
+            <Grid item xs={12}>
+              <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt
+              </p>
+            </Grid>
+          </Grid>
+
+          <McText txt={'Clinical Findings'} />
+          <Grid container spacing={2} mb={1}>
+            <Grid item xs={12}>
+              <p style={{ fontWeight: 'bold' }}>Examination Findings:</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt
+              </p>
+
+              <p style={{ fontWeight: 'bold' }}>Diagonsis:</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt
+              </p>
+              <p style={{ fontWeight: 'bold' }}>Investigations:</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt
+              </p>
+            </Grid>
+          </Grid>
+
+          <McText txt={'Amount'} />
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Input label={'Amount'} />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt
+              </p>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
+              <p>Dr. John Doe</p>
+              <p>Lagos State Hospital</p>
+            </Grid>
+          </Grid>
+        </div>
+        <div style={{ display: 'flex', marginTop: '1rem' }}>
+          <Button onClick={() => setApprove(true)}>Approve</Button>
+          <Button>On Hold</Button>
+          <Button onClick={() => setDeny(true)}>Reject</Button>
+        </div>
+      </div>
+      {approve && (
+        <>
+          <ModalBox open={approve} onClose={() => setApprove(false)}>
+            <form>
+              <ModalHeader text={`Approve Claim  13229-BA`} />
+
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Input label={'Name of Referral'} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Input label={'Institution'} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Input label={'Reason'} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Button>OK</Button>
+                </Grid>
+              </Grid>
+            </form>
+          </ModalBox>
+        </>
+      )}
+      {deny && (
+        <>
+          <ModalBox open={deny} onClose={() => setDeny(false)}>
+            <form>
+              <ModalHeader text={`Deny Claim  13229-BA`} />
+
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Input label={'Name of Referral'} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Input label={'Institution'} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Input label={'Reason'} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Button>OK</Button>
+                </Grid>
+              </Grid>
+            </form>
+          </ModalBox>
+        </>
       )}
     </>
   );

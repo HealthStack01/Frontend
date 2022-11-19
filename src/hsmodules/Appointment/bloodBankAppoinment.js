@@ -6,7 +6,7 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import LocationSearch from '../helpers/LocationSearch';
@@ -216,25 +216,16 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
-        toast({
-          message:
-            'Appointment created succesfully, Kindly bill patient if required',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success(
+          'Appointment created succesfully, Kindly bill patient if required'
+        );
         setSuccess(false);
         setSuccess1(false);
         setSuccess2(false);
         // showBilling()
       })
       .catch((err) => {
-        toast({
-          message: 'Error creating Appointment ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error creating Appointment ' + err);
       });
   };
 
@@ -406,13 +397,16 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
+              <label className="label" htmlFor="appointment_reason">
+                Reason for Appointment
+              </label>
               <textarea
                 className="input is-small"
                 name="appointment_reason"
                 {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="10"
+                rows="3"
                 cols="50"
                 style={{
                   border: '1px solid #0364FF',
@@ -1841,7 +1835,7 @@ export function ClientModify({ showModal, setShowModal }) {
                setTimeout(() => {
                 setSuccess(false)
                 }, 200); */
-          toast({
+          toast.info({
             message: 'Client deleted succesfully',
             type: 'is-success',
             dismissible: true,
@@ -1852,12 +1846,9 @@ export function ClientModify({ showModal, setShowModal }) {
         .catch((err) => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
-          toast({
-            message: 'Error deleting Client, probable network issues or ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            'Error deleting Client, probable network issues or ' + err
+          );
         });
     }
   };
@@ -1897,24 +1888,14 @@ export function ClientModify({ showModal, setShowModal }) {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
-        toast({
-          message: 'Client updated succesfully',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Client updated succesfully');
 
         changeState();
       })
       .catch((err) => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
-        toast({
-          message: 'Error updating Client, probable network issues or ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error updating Client, probable network issues or ' + err);
       });
   };
 
@@ -2002,7 +1983,7 @@ export function ClientModify({ showModal, setShowModal }) {
             </Grid>
           </Grid>
           <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <div className="field">
                 <input
                   name="start_time"
@@ -2020,7 +2001,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 />
               </div>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="type"
                 onChange={handleChangeType}
@@ -2041,7 +2022,7 @@ export function ClientModify({ showModal, setShowModal }) {
                 <option value="Walk in">Walk-in</option>
               </select>
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <select
                 name="appointment_status"
                 onChange={handleChangeStatus}
@@ -2067,13 +2048,16 @@ export function ClientModify({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
+              <label className="label" htmlFor="appointment_reason">
+                Reason for Appointment
+              </label>
               <textarea
                 className="input is-small"
                 name="appointment_reason"
                 {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="10"
+                rows="3"
                 cols="50"
                 style={{
                   border: '1px solid #0364FF',
@@ -2265,12 +2249,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
           setShowPanel(true);
         })
         .catch((err) => {
-          toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error('Error creating ProductEntry ' + err);
         });
     } else {
       console.log('less than 3 ');

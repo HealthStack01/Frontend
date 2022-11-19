@@ -1,22 +1,32 @@
 /* eslint-disable */
-import React, {useState, useContext, useEffect} from "react";
-import client from "../../feathers";
-import {DebounceInput} from "react-debounce-input";
-import {useForm} from "react-hook-form";
-import {toast} from "bulma-toast";
+import React, { useState, useContext, useEffect } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { toast } from 'bulma-toast';
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {FacilitySearch} from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import Button from "../../components/buttons/Button";
-import CustomTable from "../../components/customtable";
-import FilterMenu from "../../components/utilities/FilterMenu";
+import { UserContext, ObjectContext } from '../../context';
+import { FacilitySearch } from '../helpers/FacilitySearch';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import Button from '../../components/buttons/Button';
+import CustomTable from '../../components/customtable';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import { Box, Grid, Button as MuiButton } from '@mui/material';
+import ModalBox from '../../components/modal';
+import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
+import { IoLocationSharp } from 'react-icons/io5';
+import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
+import { MdEmail, MdLocalHospital } from 'react-icons/md';
+import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
+import Input from '../../components/inputs/basic/Input';
+
 export default function OrganizationClient() {
-  const {state} = useContext(ObjectContext); //,setState
+  const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
+  const [showModal, setShowModal] = useState(0);
 
   //const [showState,setShowState]=useState() //create|modify|detail
 
@@ -24,40 +34,60 @@ export default function OrganizationClient() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Organization  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <OrganizationList />
-        </div>
-        <div className="column is-4 ">
-          {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
-          {state.facilityModule.show === "detail" && <OrganizationDetail />}
-          {state.facilityModule.show === "modify" && (
-            <OrganizationModify facility={selectedFacility} />
-          )}
-        </div>
-      </div>
+      <OrganizationList showModal={showModal} setShowModal={setShowModal} />
+
+      {showModal === 1 && (
+        <ModalBox
+          open={state.facilityModule.show === 'create'}
+          onClose={() => setShowModal(0)}
+        >
+          <OrganizationCreate />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox
+          open={state.facilityModule.show === 'detail'}
+          onClose={() => setShowModal(0)}
+        >
+          <OrganizationDetail
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        </ModalBox>
+      )}
+      {showModal === 3 && (
+        <ModalBox
+          open={state.facilityModule.show === 'modify'}
+          onClose={() => setShowModal(0)}
+        >
+          <OrganizationModify
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        </ModalBox>
+      )}
+      {/* {state.facilityModule.show === 'modify' && (
+        <OrganizationModify facility={selectedFacility} />
+      )} */}
     </section>
   );
 }
 
 export function OrganizationCreate() {
-  const {register, handleSubmit} = useForm(); //, watch, errors, reset
+  const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
-  const [chosen, setChosen] = useState("");
-  const [band, setBand] = useState("");
-  const BandsServ = client.service("bands");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
+  const [chosen, setChosen] = useState('');
+  const [band, setBand] = useState('');
+  const BandsServ = client.service('bands');
   const [providerBand, setProviderBand] = useState([]);
   //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
+  const { user } = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async e => {
+  const handleChangeMode = async (e) => {
     await setBand(e.target.value);
   };
   /* const onSubmit = (data,e) =>{
@@ -87,9 +117,9 @@ export function OrganizationCreate() {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           bandType:
-            user.currentEmployee.facilityDetail.facilityType === "HMO"
-              ? "Provider"
-              : "Company",
+            user.currentEmployee.facilityDetail.facilityType === 'HMO'
+              ? 'Provider'
+              : 'Company',
 
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
@@ -107,10 +137,10 @@ export function OrganizationCreate() {
 
   const handleClick = () => {
     //check band selected
-    if (band === "") {
+    if (band === '') {
       toast({
-        message: "Band not selected, Please select band",
-        type: "is-danger",
+        message: 'Band not selected, Please select band',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -121,28 +151,28 @@ export function OrganizationCreate() {
     let stuff = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
-      relationshiptype: "managedcare",
+      relationshiptype: 'managedcare',
       band,
     };
     orgServ
       .create(stuff)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
         toast({
-          message: "Organization added succesfully",
-          type: "is-success",
+          message: 'Organization added succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
-        setBand("");
+        setBand('');
       })
-      .catch(err => {
+      .catch((err) => {
         toast({
-          message: "Error adding organization " + err,
-          type: "is-danger",
+          message: 'Error adding organization ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -154,7 +184,7 @@ export function OrganizationCreate() {
     getProviderBand();
     return () => {};
   }, []);
-  const getSearchfacility = obj => {
+  const getSearchfacility = (obj) => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -169,114 +199,96 @@ export function OrganizationCreate() {
 
   return (
     <>
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div
-            className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-          >
-            <FacilitySearch
-              getSearchfacility={getSearchfacility}
-              clear={success}
-            />
-            <p className="control has-icons-left " style={{display: "none"}}>
-              <input
-                className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
-              />
-              <span className="icon is-small is-left">
-                <i className="fas  fa-map-marker-alt"></i>
-              </span>
-            </p>
-          </div>
-          <div className="field">
-            <div className="control">
-              <div className="select is-small ">
-                <select
-                  name="bandType"
-                  value={band}
-                  onChange={e => handleChangeMode(e)}
-                  className="selectadd"
-                >
-                  <option value="">
-                    {user.currentEmployee.facilityDetail.facilityType === "HMO"
-                      ? "Choose Provider Band"
-                      : "Choose Company Band"}{" "}
-                  </option>
-                  {providerBand.map((option, i) => (
-                    <option key={i} value={option.name}>
-                      {" "}
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <p className="control">
-              <button className="button is-success is-small selectadd">
-                <span className="is-small" onClick={handleClick}>
-                  Add
-                </span>
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
+      <ModalHeader text="Add Organization" />
+      <FacilitySearch getSearchfacility={getSearchfacility} clear={success} />
+      <select
+        name="bandType"
+        value={band}
+        onChange={(e) => handleChangeMode(e)}
+        className="selectadd"
+        style={{
+          width: '100%',
+          padding: '1rem',
+          margin: '1rem 0',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          border: '1px solid rgba(0, 0, 0, 0.6)',
+        }}
+      >
+        <option value="">
+          {user.currentEmployee.facilityDetail.facilityType === 'HMO'
+            ? 'Choose Provider Band'
+            : 'Choose Company Band'}{' '}
+        </option>
+        {providerBand.map((option, i) => (
+          <option key={i} value={option.name}>
+            {' '}
+            {option.name}
+          </option>
+        ))}
+      </select>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12} md={12}>
+          <Button label="Add" type="submit" onClick={handleClick} />
+        </Grid>
+      </Grid>
     </>
   );
 }
 
-export function OrganizationList() {
+export function OrganizationList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
-  const [loading, SetLoading] = useState(false)
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState(); //
   // eslint-disable-next-line
-  const {state, setState} = useContext(ObjectContext);
-  const {user} = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    setShowModal(1);
   };
-  const handleRow = async facility => {
+  const handleRow = async (facility) => {
     //console.log("b4",state)
 
     //console.log("handlerow",facility)
 
-    await setSelectedFacility(facility.organizationDetail);
+    await setSelectedFacility(facility?.organizationDetail);
 
     const newfacilityModule = {
-      selectedFacility: facility,
-      show: "detail",
+      selectedFacility: facility?.organizationDetail,
+      show: 'detail',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    setShowModal(2);
   };
 
-  const handleSearch = val => {
-    const field = "facilityName";
+  const handleSearch = (val) => {
+    const field = 'facilityName';
     console.log(val);
     if (val.length > 0) {
       orgServ
@@ -287,7 +299,6 @@ export function OrganizationList() {
                     $options:'i'
                    
                 }, */
-            facility: user.currentEmployee.facilityDetail._id,
             $search: val,
             $limit: 10,
             $sort: {
@@ -295,15 +306,15 @@ export function OrganizationList() {
             },
           },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res);
           setFacilities(res.data);
-          setMessage(" Organization  fetched successfully");
+          setMessage(' Organization  fetched successfully');
           setSuccess(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
-          setMessage("Error creating facility, probable network issues " + err);
+          setMessage('Error creating facility, probable network issues ' + err);
           setError(true);
         });
     } else {
@@ -329,14 +340,14 @@ export function OrganizationList() {
           },
         },
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
+        setMessage(' Organization  fetched successfully');
         setSuccess(true);
       })
-      .catch(err => {
-        setMessage("Error creating facility, probable network issues " + err);
+      .catch((err) => {
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -344,358 +355,290 @@ export function OrganizationList() {
   useEffect(() => {
     getFacilities();
 
-    orgServ.on("created", obj => getFacilities());
-    orgServ.on("updated", obj => getFacilities());
-    orgServ.on("patched", obj => getFacilities());
-    orgServ.on("removed", obj => getFacilities());
+    orgServ.on('created', (obj) => getFacilities());
+    orgServ.on('updated', (obj) => getFacilities());
+    orgServ.on('patched', (obj) => getFacilities());
+    orgServ.on('removed', (obj) => getFacilities());
     return () => {};
   }, []);
-
-  //todo: pagination and vertical scroll bar
-
   const OrganizationClientSchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row) => row.sn,
       sortable: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
     {
-      name: "Organization",
-      key: "facilityName",
-      description: "Organization",
-      selector: (row) => row.organizationDetail.facilityName,
+      name: 'Organization',
+      key: 'facilityName',
+      description: 'Organization',
+      selector: (row) => row?.organizationDetail?.facilityName,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Band",
-      key: "band",
-      description: "Band",
+      name: 'Band',
+      key: 'band',
+      description: 'Band',
       selector: (row) => row.Band,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
+
     {
-      name: "Address",
-      key: "facilityAddress",
-      description: "Address",
-      selector: (row) => row.organizationDetail.facilityAddress,
+      name: 'Address',
+      key: 'facilityAddress',
+      description: 'Address',
+      selector: (row) => row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
+
     {
-      name: "City",
-      key: "facilityCity",
-      description: "City",
-      selector: (row) => row.organizationDetail.facilityCity,
+      name: 'City',
+      key: 'facilityCity',
+      description: 'City',
+      selector: (row) => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
+
     {
-      name: "Phone",
-      key: "phone",
-      description: "Phone",
-      selector: (row) => row.organizationDetail.facilityContactPhone,
+      name: 'Phone',
+      key: 'phone',
+      description: 'Phone',
+      selector: (row) => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
-      inputType: "PHONE",
+      inputType: 'PHONE',
     },
-  
+
     {
-      name: "Email",
-      key: "facilityEmail",
-      description: "simpa@gmail.com",
-      selector: (row) => row.organizationDetail.facilityEmail,
+      name: 'Email',
+      key: 'facilityEmail',
+      description: 'simpa@gmail.com',
+      selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
-      inputType:"EMAIL"
-      
+      inputType: 'EMAIL',
     },
-  
-  
+
     {
-      name: "Type",
-      key: "facilityType",
-      description: "Facility Type",
-      selector: (row) => row.organizationDetail.facilityType,
+      name: 'Type',
+      key: 'facilityType',
+      description: 'Facility Type',
+      selector: (row) => row?.organizationDetail?.facilityType,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
-  
+
     {
-      name: "Category",
-      key: "facilityCategory",
-      description: "Category",
-      selector: (row) => row.organizationDetail.facilityCategory,
+      name: 'Category',
+      key: 'facilityCategory',
+      description: 'Category',
+      selector: (row) => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
-
   return (
     <>
-      {" "}
-      <OrganizationCreate />
-      <div className="level">
-      <PageWrapper>
+      {' '}
+      {/* <OrganizationCreate /> */}
+      <div className="level" style={{ padding: '1rem' }}>
+        <PageWrapper
+          style={{ flexDirection: 'column', padding: '0.6rem,1rem' }}
+        >
           <TableMenu>
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2>List of Contracted Organization</h2>
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
+                List of Contracted Organization
+              </h2>
             </div>
             {handleCreateNew && (
-              <Button style={{ fontSize: "14px", fontWeight: "600px" }} />
+              <Button
+                style={{ fontSize: '14px', fontWeight: '600px' }}
+                label="Add New"
+                onClick={handleCreateNew}
+              />
             )}
-            label="Add New" onClick={handleCreateNew}
-            showicon={true}
           </TableMenu>
 
-          <div
-            style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
-            }}
-          >
-            <CustomTable title={""} 
+          <CustomTable
+            title={''}
             columns={OrganizationClientSchema}
             data={facilities}
             pointerOnHover
             highlightOnHover
             striped
-            onRowClicked={handleCreateNew}
-            progressPending={loading}/>
-          </div>
+            onRowClicked={handleRow}
+            progressPending={loading}
+          />
         </PageWrapper>
       </div>
-   
     </>
   );
-          }
+}
 
-
-export function OrganizationDetail() {
+export function OrganizationDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
-  const {user, setUser} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
+
+  console.log('Facility', facility);
 
   const handleEdit = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "modify",
+      show: 'modify',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    setShowModal(3);
   };
   const closeForm = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
-    console.log("close form");
+    console.log('close form');
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Organization Details</p>
-          <button
-            className="delete pushleft"
-            aria-label="close"
-            onClick={() => closeForm()}
-          ></button>
-        </div>
-        <div className="card-content vscrollable">
-          <fieldset>
-            <div className="field ">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-                Name:{" "}
-                <span className="is-small ">
-                  {" "}
-                  {facility.organizationDetail.facilityName}{" "}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-                Address:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityAddress}{" "}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-marker-alt"></i>
-                </span>
-                City:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityCity}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-phone-alt"></i>
-                </span>
-                Phone:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityContactPhone}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-                Email:{" "}
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityEmail}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-user-md"></i>
-                </span>
-                CEO:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityOwner}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital-symbol"></i>
-                </span>
-                Type:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityType}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-clinic-medical"></i>
-                </span>
-                Category:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityCategory}
-                </span>
-              </label>
-            </div>
-            {user.stacker && (
-              <div className="field">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    onClick={handleEdit}
-                  >
-                    Edit
-                  </button>
-                </p>
-              </div>
-            )}
-            {error && <div className="message"> {message}</div>}
-          </fieldset>
-        </div>
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '20vw',
+          margin: '0 auto',
+        }}
+      >
+        <ModalHeader text={'Organization Details'} />
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12}>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <FaHospital /> Name: {facility?.facilityName}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <FaAddressCard /> Address: {facility?.facilityAddress}{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <IoLocationSharp /> City: {facility?.facilityCity}{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <BsFillTelephoneFill /> Phone: {
+                facility?.facilityContactPhone
+              }{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <MdEmail /> Email: {facility?.facilityEmail}{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <FaUserAlt /> CEO: {facility?.facilityOwner}{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <MdLocalHospital /> Type: {facility?.facilityType}{' '}
+            </p>
+            <p style={{ margin: '1rem 0' }}>
+              {' '}
+              <BsHouseDoorFill />
+              Category: {facility?.facilityCategory}
+            </p>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex' }}>
+            <Button label="Edit" onClick={handleEdit} />
+            <Button label="Close" onClick={closeForm} />
+          </Grid>
+        </Grid>
       </div>
     </>
   );
 }
 
 export function OrganizationModify() {
-  const {register, handleSubmit, setValue, reset} = useForm(); //watch, errors,
+  const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("/facility");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('/facility');
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const {user} = useContext(UserContext);
-  const {state, setState} = useContext(ObjectContext);
+  const { user } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
 
   const facility = state.facilityModule.selectedFacility;
 
   useEffect(() => {
-    setValue("facilityName", facility.facilityName, {
+    setValue('facilityName', facility.facilityName, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityAddress", facility.facilityAddress, {
+    setValue('facilityAddress', facility.facilityAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCity", facility.facilityCity, {
+    setValue('facilityCity', facility.facilityCity, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityContactPhone", facility.facilityContactPhone, {
+    setValue('facilityContactPhone', facility.facilityContactPhone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityEmail", facility.facilityEmail, {
+    setValue('facilityEmail', facility.facilityEmail, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityOwner", facility.facilityOwner, {
+    setValue('facilityOwner', facility.facilityOwner, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityType", facility.facilityType, {
+    setValue('facilityType', facility.facilityType, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCategory", facility.facilityCategory, {
+    setValue('facilityCategory', facility.facilityCategory, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -706,9 +649,9 @@ export function OrganizationModify() {
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
-    await setState(prevstate => ({
+    await setState((prevstate) => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
@@ -718,21 +661,24 @@ export function OrganizationModify() {
   const changeState = () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
-    setState(prevstate => ({...prevstate, facilityModule: newfacilityModule}));
+    setState((prevstate) => ({
+      ...prevstate,
+      facilityModule: newfacilityModule,
+    }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = facility._id;
     if (conf) {
       facilityServ
         .remove(dleteId)
-        .then(res => {
+        .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
-          setMessage("Deleted Organization successfully");
+          setMessage('Deleted Organization successfully');
           setSuccess(true);
           changeState();
           setTimeout(() => {
@@ -740,8 +686,8 @@ export function OrganizationModify() {
           }, 200);
           changeState();
         })
-        .catch(err => {
-          setMessage("Error deleting facility, probable network issues " + err);
+        .catch((err) => {
+          setMessage('Error deleting facility, probable network issues ' + err);
           setError(true);
           setTimeout(() => {
             setError(false);
@@ -756,7 +702,7 @@ export function OrganizationModify() {
           })) */
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     console.log(data);
@@ -765,188 +711,100 @@ export function OrganizationModify() {
 
     facilityServ
       .update(facility._id, data)
-      .then(res => {
+      .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
-        setMessage("updated Organization successfully");
+        setMessage('updated Organization successfully');
         setSuccess(true);
         changeState();
       })
-      .catch(err => {
-        setMessage("Error creating facility, probable network issues " + err);
+      .catch((err) => {
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Organization Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          {success && <div className="message"> {message}</div>}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", {required: true})}
-                    name="facilityName"
-                    type="text"
-                    placeholder="Name of Facility"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Address
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityAddress"
-                    type="text"
-                    placeholder="Address of Facility"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                City
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityCity"
-                    type="text"
-                    placeholder="City/Town"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Phone
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityContactPhone"
-                    type="text"
-                    placeholder="Contact Phone No"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Email
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityEmail"
-                    type="email"
-                    placeholder="Organization Email"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                CEO
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityOwner"
-                    type="text"
-                    placeholder="Organization Owner"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Type
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityType"
-                    type="text"
-                    placeholder="Organization Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                Category
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register("x", {required: true})}
-                    name="facilityCategory"
-                    type="text"
-                    placeholder="Organization Category"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div className="field  is-grouped">
-              <p className="control">
-                <button className="button is-success is-small">Save</button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-warning is-small"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
-              </p>
-              <p className="control">
-                <button
-                  className="button is-danger is-small"
-                  onClick={handleDelete}
-                >
-                  Delete
-                </button>
-              </p>
-            </div>
-            {error && <div className="message"> {message}</div>}
-          </form>
-        </div>
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '40vw',
+          margin: '0 auto',
+        }}
+      >
+        <ModalHeader text={'Modify Organization'} />
+        {success && <div className="message"> {message}</div>}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityName"
+                label="Name"
+                register={register('facilityName')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityAddress"
+                label="Address"
+                register={register('facilityAddress')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityCity"
+                label="City"
+                register={register('facilityCity')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityContactPhone"
+                label="Phone"
+                register={register('facilityContactPhone')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityEmail"
+                label="Email"
+                register={register('facilityEmail')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityOwner"
+                label="CEO"
+                register={register('facilityOwner')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityType"
+                label="Type"
+                register={register('facilityType')}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Input
+                name="facilityCategory"
+                label="Category"
+                register={register('facilityCategory')}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={12} md={12} style={{ display: 'flex' }}>
+              <Button type="submit" label="Save" />
+              <Button type="button" label="Cancel" onClick={handleCancel} />
+              <Button type="button" label="Delete" onClick={handleDelete} />
+            </Grid>
+          </Grid>
+          {error && <div className="message"> {message}</div>}
+        </form>
       </div>
     </>
   );
