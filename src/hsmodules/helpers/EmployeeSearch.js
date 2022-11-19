@@ -1,45 +1,52 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, {useState, useContext, useEffect, useRef} from "react";
 //import {Route, Switch,   Link, NavLink, } from 'react-router-dom'
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
+import client from "../../feathers";
+import {DebounceInput} from "react-debounce-input";
 //import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
-import { formatDistanceToNowStrict, format } from 'date-fns';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format} from "date-fns";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 // eslint-disable-next-line
 //const searchfacility={};
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-export default function EmployeeSearch({ id, getSearchfacility, clear }) {
-  const ClientServ = client.service('employee');
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+
+const filter = createFilterOptions();
+
+export default function EmployeeSearch({id, getSearchfacility, clear}) {
+  const ClientServ = client.service("employee");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
   const [searchError, setSearchError] = useState(false);
   // eslint-disable-next-line
   const [showPanel, setShowPanel] = useState(false);
   // eslint-disable-next-line
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searchMessage, setSearchMessage] = useState("");
   // eslint-disable-next-line
-  const [simpa, setSimpa] = useState('');
+  const [simpa, setSimpa] = useState("");
   // eslint-disable-next-line
   const [chosen, setChosen] = useState(false);
   // eslint-disable-next-line
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
-  const [val, setVal] = useState('');
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const [val, setVal] = useState("");
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
   const [closeDropdown, setCloseDropdown] = useState(false);
 
-  const getInitial = async (id) => {
+  const getInitial = async id => {
     if (!!id) {
       await ClientServ.get(id)
-        .then((resp) => {
+        .then(resp => {
           handleRow(resp);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   };
 
@@ -48,19 +55,19 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
     return () => {};
   }, []);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
 
     await setSimpa(
       obj.firstname +
-        ' ' +
+        " " +
         obj.lastname +
-        '  (' +
+        "  (" +
         obj.profession +
-        ', ' +
+        ", " +
         obj.department +
-        ' Department )'
+        " Department )"
     );
     getSearchfacility(obj);
     // setSelectedFacility(obj)
@@ -72,10 +79,10 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
-    setCloseDropdown(true)
+    setCloseDropdown(true);
   };
 
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     /*   if (count===2){
              console.log("stuff was chosen")
          } */
@@ -92,14 +99,14 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     setVal(val);
-    if (val === '') {
+    if (val === "") {
       setShowPanel(false);
       getSearchfacility(false);
       return;
     }
-    const field = 'name'; //field variable
+    const field = "name"; //field variable
     /* name: { type: String, required: true },
         locationType: { type: String }, */
 
@@ -110,25 +117,25 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
             {
               firstname: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               lastname: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               profession: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             {
               department: {
                 $regex: val,
-                $options: 'i',
+                $options: "i",
               },
             },
             /* { clientTags: {
@@ -153,23 +160,23 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
-          console.log('employees  fetched successfully');
+        .then(res => {
+          console.log("employees  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
-          setSearchMessage(' Employees  fetched successfully');
+          setSearchMessage(" Employees  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
-            message: 'Error searching Employees ' + err,
-            type: 'is-danger',
+            message: "Error searching Employees " + err,
+            type: "is-danger",
             dismissible: true,
             pauseOnHover: true,
           });
         });
     } else {
-      console.log('less than 3 ');
+      console.log("less than 3 ");
       console.log(val);
       setShowPanel(false);
       await setFacilities([]);
@@ -186,81 +193,63 @@ export default function EmployeeSearch({ id, getSearchfacility, clear }) {
   };
   useEffect(() => {
     if (clear) {
-      console.log('success has changed', clear);
-      setSimpa('');
+      console.log("success has changed", clear);
+      setSimpa("");
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? 'is-active' : ''}`}
-            style={{ width: '100%' }}
-          >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
-              <DebouncedInput
-                label={'Search for Employee'}
-                value={simpa}
-                minLength={3}
-                onBlur={handleBlur}
-                onChangeValue={handleSearch}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            <div className="dropdown-menu expanded" style={{ width: '100%' }}>
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ''
-                ) : (
-                  <div
-                    className="dropdown-item selectadd" /* onClick={handleAddproduct} */
-                  >
-                    {' '}
-                    <span> {val} is not an employee</span>{' '}
-                  </div>
-                )}
-
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item selectadd "
-                    key={facility._id}
-                    onClick={() => {
-                      handleRow(facility);
-                    }}
-                  >
-                    <div style={{ cursor: 'pointer' }}>
-                      {closeDropdown ? (
-                        <></>
-                      ) : (
-                        <>
-                          <span>{facility.lastname}</span>
-                          <span className="padleft">{facility.firstname}</span>
-                          <span className="padleft">{facility.profession}</span>
-                          <span className="padleft">
-                            {facility.department} Department
-                          </span>
-                          {/* <span className="padleft"> {facility.dob && formatDistanceToNowStrict(new Date(facility.dob))}</span>
-                                       
-                                        <span className="padleft">{facility.profession}</span>
-                                        <span className="padleft">{facility.phone}</span> */}
-                          {/* <span className="padleft">{facility.email}</span> */}
-                        </>
-                      )}
-                    </div>
-
-                    <br />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Autocomplete
+        value={simpa}
+        //loading={loading}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.firstname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No option"
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.firstname}, {option.profession}, {option.department}{" "}
+            department.
+          </li>
+        )}
+        sx={{width: "100%", margin: "0.75rem 0"}}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label="Search for Employee"
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem !important",
+              backgroundColor: "#ffffff !important",
+            }}
+            size="small"
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
     </div>
   );
 }

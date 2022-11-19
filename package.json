@@ -53,6 +53,7 @@
     "react-datepicker": "^4.8.0",
     "react-debounce-input": "^3.2.5",
     "react-dom": "^18.2.0",
+    "react-drag-drop-files": "^2.3.7",
     "react-draggable": "^4.4.5",
     "react-dropzone-uploader": "^2.11.0",
     "react-hook-form": "^7.38.0",
@@ -123,7 +124,6 @@
     "prettier": "^2.5.1",
     "typescript": "^3.3.4000"
   },
- 
   "engines": {
     "node": "16.x",
     "yarn": "1.x"

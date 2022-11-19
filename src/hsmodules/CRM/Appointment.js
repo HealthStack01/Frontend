@@ -26,6 +26,9 @@ import ModalBox from "../../components/modal";
 import { Box, Grid } from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import { MdCancel } from "react-icons/md";
+import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
+import { ClientSearch } from "../helpers/ClientSearch";
+import CrmAppointmentCreate from "./components/AppointmentCreate";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -35,11 +38,18 @@ export default function CrmAppointment() {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
-  const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <CrmAppointmentList showModal={showModal} setShowModal={setShowModal} />
+      <CrmAppointmentList openCreateModal={() => setCreateModal(true)} />
+
+      <ModalBox open={createModal} onClose={() => setCreateModal(false)}>
+        <CrmAppointmentCreate
+          closeModal={() => setCreateModal(false)}
+          header=""
+        />
+      </ModalBox>
     </section>
   );
 }
@@ -445,7 +455,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function CrmAppointmentList({ showModal, setShowModal }) {
+export function CrmAppointmentList({ openCreateModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -877,7 +887,7 @@ export function CrmAppointmentList({ showModal, setShowModal }) {
                   <Button
                     style={{ fontSize: "14px", fontWeight: "600" }}
                     label="Add new "
-                    onClick={handleCreateNew}
+                    onClick={openCreateModal}
                   />
                 )}
               </TableMenu>
