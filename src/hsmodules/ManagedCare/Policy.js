@@ -1118,7 +1118,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               progressPending={loading}
             />
           )}
-
           <Button label="submit" text="Save" />
         </form>
       </div>
