@@ -21,6 +21,7 @@ export default function FinacneHome({children}) {
   //   console.log(state.showStoreModal);
 
   useEffect(() => {
+    console.log(state.financeModule.selectedFinance);
     const notSelected = Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
