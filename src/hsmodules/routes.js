@@ -166,7 +166,7 @@ import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
 import {OrgList} from "./ManagedCare/OrgClientList";
-import ComplaintsInventoryReport from "./ManagedCare/Complaints";
+import ComplaintsInventoryReport, { ComplaintDetail } from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
@@ -204,6 +204,8 @@ import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/Immu
 import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
 import OrganizationClient from './ManagedCare/OrganizationClient';
 import ProviderPayment from './ManagedCare/ProviderPayment';
+import ComplaintDetails from "./ManagedCare/ComplaintDetails";
+
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -661,11 +663,9 @@ const AppRoutes = () => {
             />
             <Route
               path="/app/managed-care/referrals"
-              element={<ReferralsCollections />}
-            />
+              element={<Referral/>}           />
             <Route
               path="/app/managed-care/claims"
-              // element={<ClientBilledPrescription />}
               element={<Claims />}
             />
             <Route
@@ -681,11 +681,10 @@ const AppRoutes = () => {
               element={<PreAuth />}
             />
 
-            <Route path="/app/managed-care/checkin" />
             <Route path="/app/managed-care/tariff" element={<TarrifList />} />
 
-            {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
+            <Route path="/app/managed-care/complaintDetails"  element={<ComplaintDetails/>} />
 
 
             <Route path="/app/managed-care/providerpayment" element={<ProviderPayment/>} />

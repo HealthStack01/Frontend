@@ -73,6 +73,7 @@
     "rsuite": "^5.8.1",
     "semantic-ui-react": "^2.1.2",
     "serve": "^13.0.2",
+    "slate": "^0.86.0",
     "smooth-scrollbar": "^8.7.2",
     "smooth-scrollbar-react": "^2.3.0",
     "socket.io-client": "^2.4.0",
