@@ -1,9 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
 
-import { UserContext, ObjectContext } from "../context";
 import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
@@ -73,17 +70,8 @@ import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
-import PharmacyReport from "./Pharmacy/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
-import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
-import PharmacyTransfer from "./Pharmacy/Transfer";
-import useRepository from "../components/hooks/repository";
-import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
-import HMOauth from "./Finance/HMOauth";
-import InventoryHome from "./inventory/InventoryHome";
-import InventoryReport from "./inventory/InventoryReport";
 import PharmacyReport from "./Pharmacy/InventoryReport";
-import InventorySetup from "./inventory/InventorySetup";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
 
 /* import InventorySetup from './Pharmacy/InventorySetup' */
@@ -136,13 +124,7 @@ import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
 import { Models } from "./app/Constants";
-import TheatreHome from "./Theatre/TheatreHome";
-import TheatrePayment from "./Theatre/TheatrePayment";
-import TheatreReport from "./Theatre/TheatreReport";
-import { Models } from "./app/Constants";
 
-import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
-import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
@@ -181,38 +163,8 @@ import FundsManagement from "./ManagedCare/FundsManagement";
 import CheckIn from "./ManagedCare/Checkin";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
-import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
-import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
-import LandingPageDashboard from "./dashBoardUiComponent/@modules/LandingPageDashboard";
-import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
-import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
-import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
-import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
-import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
-import ForgotPassword from "./auth/ForgotPassword";
-import CreatePassword from "./auth/CreatePassword";
-import ManagedCareHome from "./ManagedCare/ManagedCareHome";
-import Policy from "./ManagedCare/Policy";
-import Beneficiary from "./ManagedCare/Beneficiary";
-import ReferralsCollections from "./ManagedCare/Referral";
-import TarrifList from "./ManagedCare/Tarrifs";
-import HealthPlan from "./ManagedCare/HealthPlan";
-import Referral from "./ManagedCare/Referral";
-import Provider from "./ManagedCare/Providers";
-import Product from "./ManagedCare/UserManagement";
-import ProductEntry from "./ManagedCare/HealthPlan";
-import HiaOrganizationClient from "./ManagedCare/HIA";
-import CorporateClient from "./ManagedCare/Corporate";
-import Claims from "./ManagedCare/Claims";
-import FundsManagement from "./ManagedCare/FundsManagement";
-import CheckIn from "./ManagedCare/Checkin";
-import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
-import ProviderOrganizationClient from "./ManagedCare/Providers";
+
 // import DispensaryMain from "./ManagedCare/Checkin";
-import ClientBilledPrescription from "./ManagedCare/Claims";
-import { OrgList } from "./ManagedCare/OrgClientList";
-import ComplaintsInventoryReport from "./ManagedCare/Complaints";
-import ReferralHome from "./Referral/ReferralHome";
 import ClientBilledPrescription from "./ManagedCare/Claims";
 import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
