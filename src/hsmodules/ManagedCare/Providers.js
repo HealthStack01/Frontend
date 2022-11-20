@@ -1,41 +1,41 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
-import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
-import { useForm } from 'react-hook-form';
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import client from "../../feathers";
+import { DebounceInput } from "react-debounce-input";
+import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
-import DatePicker from 'react-datepicker';
-import LocationSearch from '../helpers/LocationSearch';
-import EmployeeSearch from '../helpers/EmployeeSearch';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import 'react-datepicker/dist/react-datepicker.css';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import CustomTable from '../../components/customtable';
-import Switch from '../../components/switch';
-import { BsFillGridFill, BsList } from 'react-icons/bs';
-import CalendarGrid from '../../components/calender';
-import ModalBox from '../../components/modal';
-import { Box, Grid, Button as MuiButton } from '@mui/material';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import Input from '../../components/inputs/basic/Input/index';
-import { MdCancel } from 'react-icons/md';
-import { FacilitySearch } from '../helpers/FacilitySearch';
-import { McText } from './text';
-import CustomSelect from '../../components/inputs/basic/Select';
-import BasicDatePicker from '../../components/inputs/Date';
-import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
-import { IoLocationSharp } from 'react-icons/io5';
-import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
-import { MdEmail, MdLocalHospital } from 'react-icons/md';
+import { UserContext, ObjectContext } from "../../context";
+import { toast } from "react-toastify";
+import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import DatePicker from "react-datepicker";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import BillServiceCreate from "../Finance/BillServiceCreate";
+import "react-datepicker/dist/react-datepicker.css";
+import { PageWrapper } from "../../ui/styled/styles";
+import { TableMenu } from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import Switch from "../../components/switch";
+import { BsFillGridFill, BsList } from "react-icons/bs";
+import CalendarGrid from "../../components/calender";
+import ModalBox from "../../components/modal";
+import { Box, Grid, Button as MuiButton, TextField } from "@mui/material";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+import Input from "../../components/inputs/basic/Input/index";
+import { MdCancel } from "react-icons/md";
+import { FacilitySearch } from "../helpers/FacilitySearch";
+import { McText } from "./text";
+import CustomSelect from "../../components/inputs/basic/Select";
+import BasicDatePicker from "../../components/inputs/Date";
+import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
+import { IoLocationSharp } from "react-icons/io5";
+import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
+import { MdEmail, MdLocalHospital } from "react-icons/md";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -77,14 +77,14 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
   const [success2, setSuccess2] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [clientId, setClientId] = useState();
   const [locationId, setLocationId] = useState();
   const [practionerId, setPractionerId] = useState();
   const [type, setType] = useState();
   // eslint-disable-next-line
   const [facility, setFacility] = useState();
-  const ClientServ = client.service('appointments');
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
   // eslint-disable-next-line
@@ -92,14 +92,14 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   // const [appointment_reason,setAppointment_reason]= useState()
-  const [appointment_status, setAppointment_status] = useState('');
-  const [appointment_type, setAppointment_type] = useState('');
+  const [appointment_status, setAppointment_status] = useState("");
+  const [appointment_type, setAppointment_type] = useState("");
   const [billingModal, setBillingModal] = useState(false);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
-  const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const appClass = ["On-site", "Teleconsultation", "Home Visit"];
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -172,7 +172,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setError(false);
     setSuccess(false);
     setShowModal(false),
@@ -180,7 +180,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
-          show: 'list',
+          show: "list",
         },
       }));
 
@@ -202,7 +202,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     data.gender = chosen.gender;
     data.phone = chosen.phone;
     data.email = chosen.email;
-    data.practitioner_name = chosen2.firstname + ' ' + chosen2.lastname;
+    data.practitioner_name = chosen2.firstname + " " + chosen2.lastname;
     data.practitioner_profession = chosen2.profession;
     data.practitioner_department = chosen2.department;
     data.location_name = chosen1.name;
@@ -219,18 +219,18 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       .then((res) => {
         //console.log(JSON.stringify(res))
         e.target.reset();
-        setAppointment_type('');
-        setAppointment_status('');
-        setClientId('');
-        setLocationId('');
+        setAppointment_type("");
+        setAppointment_status("");
+        setClientId("");
+        setLocationId("");
         /*  setMessage("Created Client successfully") */
         setSuccess(true);
         setSuccess1(true);
         setSuccess2(true);
         toast({
           message:
-            'Appointment created succesfully, Kindly bill patient if required',
-          type: 'is-success',
+            "Appointment created succesfully, Kindly bill patient if required",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -241,8 +241,8 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       })
       .catch((err) => {
         toast({
-          message: 'Error creating Appointment ' + err,
-          type: 'is-danger',
+          message: "Error creating Appointment " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -281,7 +281,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <ModalHeader text={'Create Appointment'} />
+              <ModalHeader text={"Create Appointment"} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <MdCancel
@@ -291,15 +291,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
-                        show: 'list',
+                        show: "list",
                       },
                     }));
                 }}
                 style={{
-                  fontSize: '2rem',
-                  color: 'crimson',
-                  cursor: 'pointer',
-                  float: 'right',
+                  fontSize: "2rem",
+                  color: "crimson",
+                  cursor: "pointer",
+                  float: "right",
                 }}
               />
             </Grid>
@@ -335,21 +335,21 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{ fontSize: '16px', fontWeight: 'bold' }}
+                    style={{ fontSize: "16px", fontWeight: "bold" }}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
+                      {...register("appointmentClass", { required: true })}
                       style={{
-                        border: '1px solid #0364FF',
-                        transform: 'scale(1.5)',
-                        color: '#0364FF',
-                        margin: '.5rem',
+                        border: "1px solid #0364FF",
+                        transform: "scale(1.5)",
+                        color: "#0364FF",
+                        margin: ".5rem",
                       }}
                     />
-                    {c + ' '}
+                    {c + " "}
                   </label>
                 ))}
               </div>
@@ -360,12 +360,12 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register('start_time', { required: true })}
+                  {...register("start_time", { required: true })}
                   type="datetime-local"
                   style={{
-                    border: '1px solid #0364FF',
-                    padding: '1rem',
-                    color: ' #979DAC',
+                    border: "1px solid #0364FF",
+                    padding: "1rem",
+                    color: " #979DAC",
                   }}
                 />
               </div>
@@ -376,9 +376,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 value={type}
                 onChange={handleChangeType}
                 style={{
-                  border: '1px solid #0364FF',
-                  padding: '1rem',
-                  color: ' #979DAC',
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
@@ -397,9 +397,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 value={appointment_status}
                 onChange={handleChangeStatus}
                 style={{
-                  border: '1px solid #0364FF',
-                  padding: '1rem',
-                  color: ' #979DAC',
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
                 }}
               >
                 <option defaultChecked>Appointment Status </option>
@@ -420,19 +420,19 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register('appointment_reason', { required: true })}
+                {...register("appointment_reason", { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
                 cols="50"
                 style={{
-                  border: '1px solid #0364FF',
-                  padding: '1rem',
-                  color: ' #979DAC',
-                  width: '100%',
+                  border: "1px solid #0364FF",
+                  padding: "1rem",
+                  color: " #979DAC",
+                  width: "100%",
                 }}
               >
-                {' '}
+                {" "}
               </textarea>
             </Grid>
           </Grid>
@@ -441,9 +441,9 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <Button
                 type="submit"
                 style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
+                  backgroundColor: "#0364FF",
+                  width: "100%",
+                  cursor: "pointer",
                 }}
               >
                 Save
@@ -454,11 +454,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                 type="button"
                 onClick={(e) => e.target.reset()}
                 style={{
-                  backgroundColor: '#ffffff',
-                  width: '100%',
-                  color: '#0364FF',
-                  border: '1px solid #0364FF',
-                  cursor: 'pointer',
+                  backgroundColor: "#ffffff",
+                  width: "100%",
+                  color: "#0364FF",
+                  border: "1px solid #0364FF",
+                  cursor: "pointer",
                 }}
               >
                 Clear
@@ -474,12 +474,12 @@ export function OrganizationCreate() {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState('');
-  const facilityServ = client.service('facility');
-  const orgServ = client.service('organizationclient');
-  const [chosen, setChosen] = useState('');
-  const [band, setBand] = useState('');
-  const BandsServ = client.service('bands');
+  const [message, setMessage] = useState("");
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
+  const [chosen, setChosen] = useState("");
+  const [band, setBand] = useState("");
+  const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   //const history = useHistory()
   const { user } = useContext(UserContext); //,setUser
@@ -514,9 +514,9 @@ export function OrganizationCreate() {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           bandType:
-            user.currentEmployee.facilityDetail.facilityType === 'HMO'
-              ? 'Provider'
-              : 'Company',
+            user.currentEmployee.facilityDetail.facilityType === "HMO"
+              ? "Provider"
+              : "Company",
 
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
@@ -534,8 +534,8 @@ export function OrganizationCreate() {
 
   const handleClick = () => {
     //check band selected
-    if (band === '') {
-      toast.error('Band not selected, Please select band');
+    if (band === "") {
+      toast.error("Band not selected, Please select band");
       return;
     }
 
@@ -543,7 +543,7 @@ export function OrganizationCreate() {
     let stuff = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
-      relationshiptype: 'managedcare',
+      relationshiptype: "managedcare",
       band,
     };
     orgServ
@@ -552,12 +552,12 @@ export function OrganizationCreate() {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
-        toast.success('Organization added succesfully');
+        toast.success("Organization added succesfully");
         setSuccess(false);
-        setBand('');
+        setBand("");
       })
       .catch((err) => {
-        toast.error('Error adding organization ' + err);
+        toast.error("Error adding organization " + err);
       });
   };
 
@@ -588,22 +588,22 @@ export function OrganizationCreate() {
         onChange={(e) => handleChangeMode(e)}
         className="selectadd"
         style={{
-          width: '100%',
-          padding: '1rem',
-          margin: '1rem 0',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          border: '1px solid rgba(0, 0, 0, 0.6)',
+          width: "100%",
+          padding: "1rem",
+          margin: "1rem 0",
+          borderRadius: "4px",
+          cursor: "pointer",
+          border: "1px solid rgba(0, 0, 0, 0.6)",
         }}
       >
         <option value="">
-          {user.currentEmployee.facilityDetail.facilityType === 'HMO'
-            ? 'Choose Provider Band'
-            : 'Choose Company Band'}{' '}
+          {user.currentEmployee.facilityDetail.facilityType === "HMO"
+            ? "Choose Provider Band"
+            : "Choose Company Band"}{" "}
         </option>
         {providerBand.map((option, i) => (
           <option key={i} value={option.name}>
-            {' '}
+            {" "}
             {option.name}
           </option>
         ))}
@@ -624,8 +624,8 @@ export function ProviderList({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState('');
-  const ClientServ = client.service('appointments');
+  const [message, setMessage] = useState("");
+  const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -638,12 +638,12 @@ export function ProviderList({ showModal, setShowModal }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('list');
+  const [value, setValue] = useState("list");
 
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedAppointment: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -652,7 +652,7 @@ export function ProviderList({ showModal, setShowModal }) {
     //console.log(state)
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     setShowModal(1);
@@ -663,7 +663,7 @@ export function ProviderList({ showModal, setShowModal }) {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
-      show: 'detail',
+      show: "detail",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -673,7 +673,7 @@ export function ProviderList({ showModal, setShowModal }) {
   //console.log(state.employeeLocation)
 
   const handleSearch = (val) => {
-    const field = 'firstname';
+    const field = "firstname";
     //  console.log(val)
 
     let query = {
@@ -681,73 +681,73 @@ export function ProviderList({ showModal, setShowModal }) {
         {
           firstname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           lastname: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           middlename: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           phone: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_status: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           appointment_reason: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_type: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           location_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_department: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_profession: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
         {
           practitioner_name: {
             $regex: val,
-            $options: 'i',
+            $options: "i",
           },
         },
       ],
@@ -757,7 +757,7 @@ export function ProviderList({ showModal, setShowModal }) {
         createdAt: -1,
       },
     };
-    if (state.employeeLocation.locationType !== 'Front Desk') {
+    if (state.employeeLocation.locationType !== "Front Desk") {
       query.locationId = state.employeeLocation.locationId;
     }
 
@@ -765,12 +765,12 @@ export function ProviderList({ showModal, setShowModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(' Client  fetched successfully');
+        setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
       .catch((err) => {
         console.log(err);
-        setMessage('Error fetching Client, probable network issues ' + err);
+        setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
       });
   };
@@ -822,13 +822,13 @@ export function ProviderList({ showModal, setShowModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on('created', (obj) => handleCalendarClose());
-    ClientServ.on('updated', (obj) => handleCalendarClose());
-    ClientServ.on('patched', (obj) => handleCalendarClose());
-    ClientServ.on('removed', (obj) => handleCalendarClose());
+    ClientServ.on("created", (obj) => handleCalendarClose());
+    ClientServ.on("updated", (obj) => handleCalendarClose());
+    ClientServ.on("patched", (obj) => handleCalendarClose());
+    ClientServ.on("removed", (obj) => handleCalendarClose());
     const newClient = {
       selectedClient: {},
-      show: 'create',
+      show: "create",
     };
     setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
     return () => {};
@@ -876,8 +876,8 @@ export function ProviderList({ showModal, setShowModal }) {
     let mapped = [];
     facilities.map((facility, i) => {
       mapped.push({
-        title: facility?.firstname + ' ' + facility?.lastname,
-        start: format(new Date(facility?.start_time), 'yyyy-MM-ddTHH:mm'),
+        title: facility?.firstname + " " + facility?.lastname,
+        start: format(new Date(facility?.start_time), "yyyy-MM-ddTHH:mm"),
         end: facility?.end_time,
         id: i,
       });
@@ -885,111 +885,111 @@ export function ProviderList({ showModal, setShowModal }) {
     return mapped;
   };
   const activeStyle = {
-    backgroundColor: '#0064CC29',
-    border: 'none',
-    padding: '0 .8rem',
+    backgroundColor: "#0064CC29",
+    border: "none",
+    padding: "0 .8rem",
   };
 
   const dummyData = [
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'primary',
-      grade: 'A',
-      status: 'Authorized',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "primary",
+      grade: "A",
+      status: "Authorized",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'B',
-      status: 'Requested',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "B",
+      status: "Requested",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Both',
-      grade: 'A',
-      status: 'Authorized',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Both",
+      grade: "A",
+      status: "Authorized",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Pending',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Pending",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'primary',
-      grade: 'A',
-      status: 'Authorized',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "primary",
+      grade: "A",
+      status: "Authorized",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Suspended",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Suspended",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Suspended",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Expired',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Expired",
     },
     {
-      sn: '1',
-      name_provider: 'St. Nicholas Hospital',
-      lga: 'Ajeromi-Ifelodun',
-      contact_person: 'Rose mwangi',
-      phone_number: '+23480123456789',
-      classification: 'Secondary',
-      grade: 'A',
-      status: 'Suspended',
+      sn: "1",
+      name_provider: "St. Nicholas Hospital",
+      lga: "Ajeromi-Ifelodun",
+      contact_person: "Rose mwangi",
+      phone_number: "+23480123456789",
+      classification: "Secondary",
+      grade: "A",
+      status: "Suspended",
     },
   ];
 
@@ -999,20 +999,20 @@ export function ProviderList({ showModal, setShowModal }) {
     // }
     // else if
     switch (status.toLowerCase()) {
-      case 'authorized':
-        return <span style={{ color: '#17935C' }}>{status}</span>;
+      case "authorized":
+        return <span style={{ color: "#17935C" }}>{status}</span>;
 
-      case 'requested':
-        return <span style={{ color: '#0364FF' }}>{status}</span>;
+      case "requested":
+        return <span style={{ color: "#0364FF" }}>{status}</span>;
 
-      case 'expired':
-        return <span style={{ color: '#ED0423' }}>{status}</span>;
+      case "expired":
+        return <span style={{ color: "#ED0423" }}>{status}</span>;
 
-      case 'pending':
-        return <span style={{ color: '#EF9645' }}>{status}</span>;
+      case "pending":
+        return <span style={{ color: "#EF9645" }}>{status}</span>;
 
-      case 'suspended':
-        return <span style={{ color: '#936A03' }}>{status}</span>;
+      case "suspended":
+        return <span style={{ color: "#936A03" }}>{status}</span>;
 
       default:
         break;
@@ -1021,115 +1021,115 @@ export function ProviderList({ showModal, setShowModal }) {
 
   const preAuthSchema = [
     {
-      name: 'S/N',
-      key: 'sn',
-      description: 'Enter Serial Number',
+      name: "S/N",
+      key: "sn",
+      description: "Enter Serial Number",
       selector: (row, i) => i + 1,
       sortable: true,
       required: true,
-      inputType: 'HIDDEN',
+      inputType: "HIDDEN",
     },
     {
-      name: 'Name Provider',
-      key: 'name_provider',
-      description: 'Name Provider',
+      name: "Name Provider",
+      key: "name_provider",
+      description: "Name Provider",
       selector: (row) => row.name_provider,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'LGA',
-      key: 'lga',
-      description: 'LGA',
+      name: "LGA",
+      key: "lga",
+      description: "LGA",
       selector: (row) => row.lga,
       sortable: true,
       required: true,
-      inputType: 'TEXT',
+      inputType: "TEXT",
     },
     {
-      name: 'Contact person',
-      key: 'contact_person',
-      description: 'Contact person',
+      name: "Contact person",
+      key: "contact_person",
+      description: "Contact person",
       selector: (row, i) => row.contact_person,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: "NUMBER",
     },
     {
-      name: 'Phone Number',
-      key: 'phone_number',
-      description: 'Phone Number',
+      name: "Phone Number",
+      key: "phone_number",
+      description: "Phone Number",
       selector: (row, i) => row.phone_number,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: "NUMBER",
     },
     {
-      name: 'Classification',
-      key: 'classification',
-      description: 'Classification',
+      name: "Classification",
+      key: "classification",
+      description: "Classification",
       selector: (row, i) => row.classification,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: "NUMBER",
     },
     {
-      name: 'Grade',
-      key: 'grade',
-      description: 'Grade',
+      name: "Grade",
+      key: "grade",
+      description: "Grade",
       selector: (row, i) => row.grade,
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: "NUMBER",
     },
     {
-      name: 'Status',
-      key: 'status',
-      description: 'Status',
-      selector: 'status',
+      name: "Status",
+      key: "status",
+      description: "Status",
+      selector: "status",
       cell: (row, i) => returnCell(row.status),
       sortable: true,
       required: true,
-      inputType: 'NUMBER',
+      inputType: "NUMBER",
     },
   ];
 
   const conditionalRowStyles = [
     {
-      when: (row) => row.status === 'approved',
+      when: (row) => row.status === "approved",
       style: {
-        color: 'red',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "red",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
     {
-      when: (row) => row.status === 'ongoing',
+      when: (row) => row.status === "ongoing",
       style: {
-        color: 'rgba(0,0,0,.54)',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "rgba(0,0,0,.54)",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
     {
-      when: (row) => row.status === 'pending',
+      when: (row) => row.status === "pending",
       style: {
-        color: 'pink',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "pink",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
     {
-      when: (row) => row.status === 'declined',
+      when: (row) => row.status === "declined",
       style: {
-        color: 'purple',
-        backgroundColor: 'green',
-        '&:hover': {
-          cursor: 'pointer',
+        color: "purple",
+        backgroundColor: "green",
+        "&:hover": {
+          cursor: "pointer",
         },
       },
     },
@@ -1141,10 +1141,10 @@ export function ProviderList({ showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
             >
               <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
@@ -1188,16 +1188,16 @@ export function ProviderList({ showModal, setShowModal }) {
                     <MuiButton
                       variant="outlined"
                       sx={{
-                        widh: 'fit',
-                        textTransform: 'capitalize',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        marginRight: '20px',
+                        widh: "fit",
+                        textTransform: "capitalize",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        marginRight: "20px",
                       }}
                       onClick={handleCreateNew}
                     >
                       <FileUploadIcon
-                        sx={{ marginRight: '5px' }}
+                        sx={{ marginRight: "5px" }}
                         fontSize="small"
                       />
                       Upload Provider
@@ -1205,15 +1205,15 @@ export function ProviderList({ showModal, setShowModal }) {
                     <MuiButton
                       variant="contained"
                       sx={{
-                        widh: 'fit',
-                        textTransform: 'capitalize',
-                        fontSize: '14px',
-                        fontWeight: '600',
+                        widh: "fit",
+                        textTransform: "capitalize",
+                        fontSize: "14px",
+                        fontWeight: "600",
                       }}
                       onClick={handleCreateNew}
                     >
                       <AddCircleOutlineIcon
-                        sx={{ marginRight: '5px' }}
+                        sx={{ marginRight: "5px" }}
                         fontSize="small"
                       />
                       Register Provider
@@ -1221,10 +1221,10 @@ export function ProviderList({ showModal, setShowModal }) {
                   </div>
                 )}
               </TableMenu>
-              <div style={{ width: '100%', height: '700px', overflow: 'auto' }}>
-                {value === 'list' ? (
+              <div style={{ width: "100%", height: "700px", overflow: "auto" }}>
+                {value === "list" ? (
                   <CustomTable
-                    title={''}
+                    title={""}
                     columns={preAuthSchema}
                     data={dummyData}
                     pointerOnHover
@@ -1252,35 +1252,35 @@ export function NewOrganizationCreate() {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState('');
-  const facilityServ = client.service('facility');
-  const orgServ = client.service('organizationclient');
-  const [chosen, setChosen] = useState('');
-  const [band, setBand] = useState('');
-  const BandsServ = client.service('bands');
+  const [message, setMessage] = useState("");
+  const facilityServ = client.service("facility");
+  const orgServ = client.service("organizationclient");
+  const [chosen, setChosen] = useState("");
+  const [band, setBand] = useState("");
+  const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectDiv, setSelectDiv] = useState([{ selectValue: '' }]);
-  const [selectDiv2, setSelectDiv2] = useState([{ selectValue: '' }]);
-  const [selectDiv3, setSelectDiv3] = useState([{ selectValue: '' }]);
-  const [selectDiv4, setSelectDiv4] = useState([{ selectValue: '' }]);
-  const [selectDiv5, setSelectDiv5] = useState([{ selectValue: '' }]);
-  const [selectDiv6, setSelectDiv6] = useState([{ selectValue: '' }]);
-  const [selectDiv7, setSelectDiv7] = useState([{ selectValue: '' }]);
-  const [selectDiv8, setSelectDiv8] = useState([{ selectValue: '' }]);
-  const [selectDiv9, setSelectDiv9] = useState([{ selectValue: '' }]);
-  const [selectDiv10, setSelectDiv10] = useState([{ selectValue: '' }]);
-  const [selectDiv11, setSelectDiv11] = useState([{ selectValue: '' }]);
-  const [selectDiv12, setSelectDiv12] = useState([{ selectValue: '' }]);
-  const [selectDiv13, setSelectDiv13] = useState([{ selectValue: '' }]);
-  const [nonMedDiv, setNonMedDiv] = useState([{ selectValue: '' }]);
-  const [nonMedDiv2, setNonMedDiv2] = useState([{ selectValue: '' }]);
-  const [nonMedDiv3, setNonMedDiv3] = useState([{ selectValue: '' }]);
-  const [nonMedDiv4, setNonMedDiv4] = useState([{ selectValue: '' }]);
-  const [nonMedDiv5, setNonMedDiv5] = useState([{ selectValue: '' }]);
-  const [nonMedDiv6, setNonMedDiv6] = useState([{ selectValue: '' }]);
-  const [nonMedDiv7, setNonMedDiv7] = useState([{ selectValue: '' }]);
-  const [nonMedDiv8, setNonMedDiv8] = useState([{ selectValue: '' }]);
+  const [selectDiv, setSelectDiv] = useState([{ selectValue: "" }]);
+  const [selectDiv2, setSelectDiv2] = useState([{ selectValue: "" }]);
+  const [selectDiv3, setSelectDiv3] = useState([{ selectValue: "" }]);
+  const [selectDiv4, setSelectDiv4] = useState([{ selectValue: "" }]);
+  const [selectDiv5, setSelectDiv5] = useState([{ selectValue: "" }]);
+  const [selectDiv6, setSelectDiv6] = useState([{ selectValue: "" }]);
+  const [selectDiv7, setSelectDiv7] = useState([{ selectValue: "" }]);
+  const [selectDiv8, setSelectDiv8] = useState([{ selectValue: "" }]);
+  const [selectDiv9, setSelectDiv9] = useState([{ selectValue: "" }]);
+  const [selectDiv10, setSelectDiv10] = useState([{ selectValue: "" }]);
+  const [selectDiv11, setSelectDiv11] = useState([{ selectValue: "" }]);
+  const [selectDiv12, setSelectDiv12] = useState([{ selectValue: "" }]);
+  const [selectDiv13, setSelectDiv13] = useState([{ selectValue: "" }]);
+  const [nonMedDiv, setNonMedDiv] = useState([{ selectValue: "" }]);
+  const [nonMedDiv2, setNonMedDiv2] = useState([{ selectValue: "" }]);
+  const [nonMedDiv3, setNonMedDiv3] = useState([{ selectValue: "" }]);
+  const [nonMedDiv4, setNonMedDiv4] = useState([{ selectValue: "" }]);
+  const [nonMedDiv5, setNonMedDiv5] = useState([{ selectValue: "" }]);
+  const [nonMedDiv6, setNonMedDiv6] = useState([{ selectValue: "" }]);
+  const [nonMedDiv7, setNonMedDiv7] = useState([{ selectValue: "" }]);
+  const [nonMedDiv8, setNonMedDiv8] = useState([{ selectValue: "" }]);
 
   //const history = useHistory()
   const { user } = useContext(UserContext); //,setUser
@@ -1315,9 +1315,9 @@ export function NewOrganizationCreate() {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           bandType:
-            user.currentEmployee.facilityDetail.facilityType === 'HMO'
-              ? 'Provider'
-              : 'Company',
+            user.currentEmployee.facilityDetail.facilityType === "HMO"
+              ? "Provider"
+              : "Company",
 
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
@@ -1335,10 +1335,10 @@ export function NewOrganizationCreate() {
 
   const handleClick = () => {
     //check band selected
-    if (band === '') {
+    if (band === "") {
       toast({
-        message: 'Band not selected, Please select band',
-        type: 'is-danger',
+        message: "Band not selected, Please select band",
+        type: "is-danger",
         dismissible: true,
         pauseOnHover: true,
       });
@@ -1349,7 +1349,7 @@ export function NewOrganizationCreate() {
     let stuff = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
-      relationshiptype: 'managedcare',
+      relationshiptype: "managedcare",
       band,
     };
     orgServ
@@ -1359,18 +1359,18 @@ export function NewOrganizationCreate() {
         // e.target.reset();
         setSuccess(true);
         toast({
-          message: 'Organization added succesfully',
-          type: 'is-success',
+          message: "Organization added succesfully",
+          type: "is-success",
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
-        setBand('');
+        setBand("");
       })
       .catch((err) => {
         toast({
-          message: 'Error adding organization ' + err,
-          type: 'is-danger',
+          message: "Error adding organization " + err,
+          type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
         });
@@ -1397,67 +1397,67 @@ export function NewOrganizationCreate() {
   const handleAddClick = (Type) => {
     switch (Type) {
       case 1:
-        setSelectDiv([...selectDiv, { selectValue: '' }]);
+        setSelectDiv([...selectDiv, { selectValue: "" }]);
         break;
       case 2:
-        setSelectDiv2([...selectDiv2, { selectValue: '' }]);
+        setSelectDiv2([...selectDiv2, { selectValue: "" }]);
         break;
       case 3:
-        setSelectDiv3([...selectDiv3, { selectValue: '' }]);
+        setSelectDiv3([...selectDiv3, { selectValue: "" }]);
         break;
       case 4:
-        setSelectDiv4([...selectDiv4, { selectValue: '' }]);
+        setSelectDiv4([...selectDiv4, { selectValue: "" }]);
         break;
       case 5:
-        setSelectDiv5([...selectDiv5, { selectValue: '' }]);
+        setSelectDiv5([...selectDiv5, { selectValue: "" }]);
         break;
       case 6:
-        setSelectDiv6([...selectDiv6, { selectValue: '' }]);
+        setSelectDiv6([...selectDiv6, { selectValue: "" }]);
         break;
       case 7:
-        setSelectDiv7([...selectDiv7, { selectValue: '' }]);
+        setSelectDiv7([...selectDiv7, { selectValue: "" }]);
         break;
       case 8:
-        setSelectDiv8([...selectDiv8, { selectValue: '' }]);
+        setSelectDiv8([...selectDiv8, { selectValue: "" }]);
         break;
       case 9:
-        setSelectDiv9([...selectDiv9, { selectValue: '' }]);
+        setSelectDiv9([...selectDiv9, { selectValue: "" }]);
         break;
       case 10:
-        setSelectDiv10([...selectDiv10, { selectValue: '' }]);
+        setSelectDiv10([...selectDiv10, { selectValue: "" }]);
         break;
       case 11:
-        setSelectDiv11([...selectDiv11, { selectValue: '' }]);
+        setSelectDiv11([...selectDiv11, { selectValue: "" }]);
         break;
       case 12:
-        setSelectDiv12([...selectDiv12, { selectValue: '' }]);
+        setSelectDiv12([...selectDiv12, { selectValue: "" }]);
         break;
       case 13:
-        setSelectDiv13([...selectDiv13, { selectValue: '' }]);
+        setSelectDiv13([...selectDiv13, { selectValue: "" }]);
         break;
       case 21:
-        setNonMedDiv([...nonMedDiv, { selectValue: '' }]);
+        setNonMedDiv([...nonMedDiv, { selectValue: "" }]);
         break;
       case 22:
-        setNonMedDiv2([...nonMedDiv2, { selectValue: '' }]);
+        setNonMedDiv2([...nonMedDiv2, { selectValue: "" }]);
         break;
       case 23:
-        setNonMedDiv3([...nonMedDiv3, { selectValue: '' }]);
+        setNonMedDiv3([...nonMedDiv3, { selectValue: "" }]);
         break;
       case 24:
-        setNonMedDiv4([...nonMedDiv4, { selectValue: '' }]);
+        setNonMedDiv4([...nonMedDiv4, { selectValue: "" }]);
         break;
       case 25:
-        setNonMedDiv5([...nonMedDiv5, { selectValue: '' }]);
+        setNonMedDiv5([...nonMedDiv5, { selectValue: "" }]);
         break;
       case 26:
-        setNonMedDiv6([...nonMedDiv6, { selectValue: '' }]);
+        setNonMedDiv6([...nonMedDiv6, { selectValue: "" }]);
         break;
       case 27:
-        setNonMedDiv7([...nonMedDiv7, { selectValue: '' }]);
+        setNonMedDiv7([...nonMedDiv7, { selectValue: "" }]);
         break;
       case 28:
-        setNonMedDiv8([...nonMedDiv8, { selectValue: '' }]);
+        setNonMedDiv8([...nonMedDiv8, { selectValue: "" }]);
         break;
       default:
         break;
@@ -1575,80 +1575,80 @@ export function NewOrganizationCreate() {
     }
   };
   const selectdata = [
-    { value: 'test', label: 'test' },
-    { value: 'test2', label: 'test2' },
+    { value: "test", label: "test" },
+    { value: "test2", label: "test2" },
   ];
   return (
     <>
       {currentPage === 1 && (
         <>
-          <p style={{ fontWeight: '700' }}>
+          <p style={{ fontWeight: "700" }}>
             HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
           </p>
-          <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
+          <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
             (PRIVATE SCHEME)
           </p>
-          <McText txt={'PERSONAL DATA'} type={'p'} bold={700} />
+          <McText txt={"PERSONAL DATA"} type={"p"} bold={700} />
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12}>
               <Input
-                label={'NAME OF MEDICAL DIRECTOR (MD)'}
-                register={register('nameofmd')}
+                label={"NAME OF MEDICAL DIRECTOR (MD)"}
+                register={register("nameofmd")}
               />
             </Grid>
           </Grid>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-              <Input label={'MCDN NO'} register={register('mcdnNo')} />
+              <Input label={"MCDN NO"} register={register("mcdnNo")} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Input label={'MD PHONE NO'} register={register('nmPhoneNo')} />
-            </Grid>
-          </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <Input
-                label={'SPECIALIZATION'}
-                register={register('specialization')}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input label={'MD EMAIL'} register={register('mdEmail')} />
+              <Input label={"MD PHONE NO"} register={register("nmPhoneNo")} />
             </Grid>
           </Grid>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Input
-                label={'NAME OF CHIEF MATRON'}
-                register={register('nameofChiefMatron')}
+                label={"SPECIALIZATION"}
+                register={register("specialization")}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Input label={'TEL'} register={register('chiefMatronTel')} />
+              <Input label={"MD EMAIL"} register={register("mdEmail")} />
             </Grid>
           </Grid>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Input
-                label={'NAME OF HMO OFFICER'}
-                register={register('nameofHmoOfficer')}
+                label={"NAME OF CHIEF MATRON"}
+                register={register("nameofChiefMatron")}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Input label={'TEL'} register={register('hmoOfficerTel')} />
+              <Input label={"TEL"} register={register("chiefMatronTel")} />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <Input
+                label={"NAME OF HMO OFFICER"}
+                register={register("nameofHmoOfficer")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input label={"TEL"} register={register("hmoOfficerTel")} />
             </Grid>
           </Grid>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={4}>
               <Button
-                label={'Cancel'}
+                label={"Cancel"}
                 onClick={() => setCurrentPage(0)}
                 fullwidth
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <Button
-                label={'Next'}
+                label={"Next"}
                 onClick={() => setCurrentPage(2)}
                 fullwidth
               />
@@ -1660,25 +1660,25 @@ export function NewOrganizationCreate() {
         <>
           <div
             style={{
-              height: '80vh',
-              overflowY: 'scroll',
-              width: '40vw',
-              margin: '0 auto',
+              height: "80vh",
+              overflowY: "scroll",
+              width: "40vw",
+              margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: '700' }}>
+            <p style={{ fontWeight: "700" }}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
+            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
               (PRIVATE SCHEME)
             </p>
-            <McText txt={'HOSPITAL ASSESSMENT'} type={'p'} bold={700} />
+            <McText txt={"HOSPITAL ASSESSMENT"} type={"p"} bold={700} />
 
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   1. GENERAL OUTLOOK & INFRASTRUCTURE
@@ -1688,43 +1688,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 1)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -1733,7 +1733,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(1)}
                             />
                           )}
@@ -1751,7 +1751,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   2. OPD / FRONT DESK
@@ -1761,43 +1761,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv2.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 2)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -1806,7 +1806,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv2.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(2)}
                             />
                           )}
@@ -1824,7 +1824,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   3. CASUALTY AND EMERGENCY
@@ -1834,43 +1834,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv3.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 3)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -1879,7 +1879,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv3.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(3)}
                             />
                           )}
@@ -1897,7 +1897,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   4. PHARMACY
@@ -1907,43 +1907,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv4.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 4)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -1952,7 +1952,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv4.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(4)}
                             />
                           )}
@@ -1970,7 +1970,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   5. LABORATORY/ RADIOLOGICAL EQUIPMENTS
@@ -1980,43 +1980,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv5.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 5)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2025,7 +2025,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv5.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(5)}
                             />
                           )}
@@ -2043,7 +2043,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   6. WARDS
@@ -2053,43 +2053,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv6.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 6)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2098,7 +2098,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv6.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(6)}
                             />
                           )}
@@ -2116,7 +2116,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   7. LABOUR ROOM
@@ -2126,43 +2126,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv7.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 7)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2171,7 +2171,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv7.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(7)}
                             />
                           )}
@@ -2189,7 +2189,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   8. THEATRE
@@ -2199,43 +2199,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv8.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 8)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2244,7 +2244,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv8.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(8)}
                             />
                           )}
@@ -2262,7 +2262,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   9. ADDITIONAL FACILITIES
@@ -2272,43 +2272,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv9.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 9)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2317,7 +2317,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv9.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(9)}
                             />
                           )}
@@ -2335,7 +2335,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   10. ADMINISTRATION
@@ -2345,43 +2345,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv10.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 10)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2390,7 +2390,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv10.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(10)}
                             />
                           )}
@@ -2408,7 +2408,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   11. QUALITY MANAGEMENT PROCESSES
@@ -2418,43 +2418,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv11.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 11)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2463,7 +2463,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv11.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(11)}
                             />
                           )}
@@ -2481,7 +2481,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   12. OTHER PARAMETERS
@@ -2491,43 +2491,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv12.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 12)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2536,7 +2536,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv12.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(12)}
                             />
                           )}
@@ -2554,7 +2554,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   13. MEDICAL PERSONNEL /STAFF
@@ -2564,43 +2564,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {selectDiv13.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 13)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2609,7 +2609,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {selectDiv13.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(13)}
                             />
                           )}
@@ -2623,62 +2623,62 @@ export function NewOrganizationCreate() {
 
             <Grid container spacing={3} mt={2}>
               <Grid item xs={12} sm={6} md={12}>
-                <McText txt={'FOR OFFICIAL USE'} type={'p'} bold={700} />
+                <McText txt={"FOR OFFICIAL USE"} type={"p"} bold={700} />
               </Grid>
             </Grid>
             <Grid container spacing={3} mb={2}>
               <Grid item xs={12} sm={6} md={6}>
                 <Input
-                  label={'REVIEW OF CREDEINTIALS'}
-                  register={register('name')}
+                  label={"REVIEW OF CREDEINTIALS"}
+                  register={register("name")}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6} mt={1.5}>
                 <BasicDatePicker
-                  label={'DATE OF REVIEW'}
-                  register={register('date')}
+                  label={"DATE OF REVIEW"}
+                  register={register("date")}
                 />
               </Grid>
             </Grid>
 
             <Grid container spacing={3} mb={1}>
               <Grid item xs={12} sm={6} md={12}>
-                <McText txt={'RECOMMENDATION SUMMARY'} type={'p'} />
+                <McText txt={"RECOMMENDATION SUMMARY"} type={"p"} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={6}>
-                <Input label={'A APRROVE'} register={register('name')} />
+                <Input label={"A APRROVE"} register={register("name")} />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
                 <Input
-                  label={'B. DENY OUTRIGHTLY'}
-                  register={register('name')}
+                  label={"B. DENY OUTRIGHTLY"}
+                  register={register("name")}
                 />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={6}>
-                <McText txt={'C. GIVE PROBATION FOR'} type={'p'} />
+                <McText txt={"C. GIVE PROBATION FOR"} type={"p"} />
                 <CustomSelect
                   options={selectdata}
-                  register={register('inspectionParameters')}
+                  register={register("inspectionParameters")}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6} mt={1.5}>
-                <BasicDatePicker label={'DATE'} register={register('date')} />
+                <BasicDatePicker label={"DATE"} register={register("date")} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={6}>
-                <McText txt={'SIGNATURE'} type={'p'} />
+                <McText txt={"SIGNATURE"} type={"p"} />
                 <div
                   style={{
-                    width: '100%',
-                    height: '40px',
-                    border: '1px solid #D2D2D2',
-                    borderRadius: '5px',
-                    padding: '.8rem',
+                    width: "100%",
+                    height: "40px",
+                    border: "1px solid #D2D2D2",
+                    borderRadius: "5px",
+                    padding: ".8rem",
                   }}
                 ></div>
               </Grid>
@@ -2686,14 +2686,14 @@ export function NewOrganizationCreate() {
             <Grid container spacing={3} mt={1}>
               <Grid item xs={12} sm={4}>
                 <Button
-                  label={'Cancel'}
+                  label={"Cancel"}
                   onClick={() => setCurrentPage(1)}
                   fullwidth
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Button
-                  label={'Next'}
+                  label={"Next"}
                   onClick={() => setCurrentPage(3)}
                   fullwidth
                 />
@@ -2706,25 +2706,25 @@ export function NewOrganizationCreate() {
         <>
           <div
             style={{
-              height: '80vh',
-              overflowY: 'scroll',
-              width: '40vw',
-              margin: '0 auto',
+              height: "80vh",
+              overflowY: "scroll",
+              width: "40vw",
+              margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: '700' }}>
+            <p style={{ fontWeight: "700" }}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
+            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
               (PRIVATE SCHEME)
             </p>
-            <McText txt={'NON-MEDICAL STAFF'} type={'p'} bold={700} />
+            <McText txt={"NON-MEDICAL STAFF"} type={"p"} bold={700} />
 
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   1. ADMINNISRATIVE STAFF
@@ -2734,43 +2734,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 21)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2779,7 +2779,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(21)}
                             />
                           )}
@@ -2797,7 +2797,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   2. ACCOUNTS AND FINANACE
@@ -2807,43 +2807,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv2.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 22)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2852,7 +2852,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv2.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(22)}
                             />
                           )}
@@ -2870,7 +2870,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   3. OTHER STAFF
@@ -2880,43 +2880,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv3.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 23)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2925,7 +2925,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv3.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(23)}
                             />
                           )}
@@ -2943,7 +2943,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   4. SPECIALISTS /FELLOWS
@@ -2953,43 +2953,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv4.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 24)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -2998,7 +2998,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv4.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(24)}
                             />
                           )}
@@ -3016,7 +3016,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   5. INTERPRETATION OF SCORES (0,1,2,3,4,5)
@@ -3026,43 +3026,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv5.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 25)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -3071,7 +3071,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv5.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(25)}
                             />
                           )}
@@ -3089,7 +3089,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   6. TOTAL COMPUTED SCORES
@@ -3099,43 +3099,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv6.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 26)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -3144,7 +3144,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv6.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(26)}
                             />
                           )}
@@ -3162,7 +3162,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   7. TOTAL SCORE (%)
@@ -3172,43 +3172,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv7.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 27)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -3217,7 +3217,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv7.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(27)}
                             />
                           )}
@@ -3235,7 +3235,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={6} md={12}>
                 <p
                   style={{
-                    fontSize: '.8rem',
+                    fontSize: ".8rem",
                   }}
                 >
                   8. HOSPITAL RATING BASED ON SCORE
@@ -3245,43 +3245,43 @@ export function NewOrganizationCreate() {
                     <div className="box">
                       <Grid container spacing={3} mb={1}>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
+                          <McText txt={"Findings"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('findings')}
+                            register={register("findings")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
+                          <McText txt={"Inspection Parameters"} type={"p"} />
                           <CustomSelect
                             options={selectdata}
-                            register={register('inspectionParameters')}
+                            register={register("inspectionParameters")}
                           />
                           {nonMedDiv8.length !== 1 && (
                             <p
                               onClick={() => handleRemoveClick(i, 28)}
                               style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
+                                padding: "0",
+                                margin: "0",
+                                float: "right",
+                                cursor: "pointer",
+                                border: "1px solid crimson",
+                                borderRadius: "50%",
+                                width: "20px",
+                                height: "20px",
+                                textAlign: "center",
+                                marginTop: ".2rem",
                               }}
                             >
-                              {' '}
-                              -{' '}
+                              {" "}
+                              -{" "}
                             </p>
                           )}
                         </Grid>
@@ -3290,7 +3290,7 @@ export function NewOrganizationCreate() {
                         <Grid item xs={12} sm={6} md={3}>
                           {nonMedDiv8.length - 1 === i && (
                             <Button
-                              label={'Add'}
+                              label={"Add"}
                               onClick={() => handleAddClick(28)}
                             />
                           )}
@@ -3304,14 +3304,14 @@ export function NewOrganizationCreate() {
             <Grid container spacing={3} mt={1}>
               <Grid item xs={12} sm={4}>
                 <Button
-                  label={'Cancel'}
+                  label={"Cancel"}
                   onClick={() => setCurrentPage(2)}
                   fullwidth
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Button
-                  label={'Next'}
+                  label={"Next"}
                   onClick={() => setCurrentPage(4)}
                   fullwidth
                 />
@@ -3324,156 +3324,156 @@ export function NewOrganizationCreate() {
         <>
           <div
             style={{
-              height: '80vh',
-              overflowY: 'scroll',
-              width: '40vw',
-              margin: '0 auto',
+              height: "80vh",
+              overflowY: "scroll",
+              width: "40vw",
+              margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: '700' }}>
+            <p style={{ fontWeight: "700" }}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
+            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
               (PRIVATE SCHEME)
             </p>
             <McText
               txt={
-                'GENERAL OBSERVATIONS BY HMO REPRESENTATIVE / ASSESSMENT OFFICER'
+                "GENERAL OBSERVATIONS BY HMO REPRESENTATIVE / ASSESSMENT OFFICER"
               }
-              type={'p'}
+              type={"p"}
               bold={700}
             />
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={12}>
                 <Input
-                  label={'Observations'}
-                  register={register('observations')}
+                  label={"Observations"}
+                  register={register("observations")}
                 />
               </Grid>
             </Grid>
 
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={4}>
-                <Input label={'Name'} register={register('name')} />
+                <Input label={"Name"} register={register("name")} />
               </Grid>
               <Grid item xs={12} sm={4} md={4}>
                 <Input
-                  label={'Designation'}
-                  register={register('designation')}
+                  label={"Designation"}
+                  register={register("designation")}
                 />
               </Grid>
               <Grid item xs={12} sm={4} md={4}>
-                <Input label={'Date'} register={register('date')} />
+                <Input label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
-                <McText txt={'Signature'} type={'p'} />
-                <Input register={register('signature')} />
+                <McText txt={"Signature"} type={"p"} />
+                <Input register={register("signature")} />
               </Grid>
             </Grid>
 
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} md={6}>
                 <Input
-                  label={'Provider Representative Name'}
-                  register={register('name')}
+                  label={"Provider Representative Name"}
+                  register={register("name")}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
                 <Input
-                  label={'Designation'}
-                  register={register('designation')}
+                  label={"Designation"}
+                  register={register("designation")}
                 />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
-                <Input label={'Phone'} register={register('phone')} />
+                <Input label={"Phone"} register={register("phone")} />
               </Grid>
               <Grid item xs={12} sm={4} md={6} mt={1.5}>
-                <BasicDatePicker label={'Date'} register={register('date')} />
+                <BasicDatePicker label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
-                <McText txt={'Signature'} type={'p'} />
-                <Input label={'Signature'} register={register('signature')} />
+                <McText txt={"Signature"} type={"p"} />
+                <Input label={"Signature"} register={register("signature")} />
               </Grid>
             </Grid>
             <Grid container spacing={3} mt={1}>
               <Grid item xs={12} sm={4} md={12}>
-                <McText txt={'FOR OFFICIAL USE'} type={'p'} bold={700} />
+                <McText txt={"FOR OFFICIAL USE"} type={"p"} bold={700} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={12}>
                 <Input
                   label={`Med. Officer's Review of Credentials`}
-                  register={register('name')}
+                  register={register("name")}
                 />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
                 <Input
-                  label={'Name of Reviewing Officer'}
-                  register={register('name')}
+                  label={"Name of Reviewing Officer"}
+                  register={register("name")}
                 />
               </Grid>
               <Grid item xs={12} sm={4} md={6} mt={1.5}>
                 <BasicDatePicker
-                  label={'Date of Review'}
-                  register={register('date')}
+                  label={"Date of Review"}
+                  register={register("date")}
                 />
               </Grid>
             </Grid>
 
             <Grid container spacing={3} mt={1}>
               <Grid item xs={12} sm={4} md={12}>
-                <McText txt={'RECOMMENDATION SUMMARY'} type={'p'} bold={700} />
+                <McText txt={"RECOMMENDATION SUMMARY"} type={"p"} bold={700} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
-                <Input label={'A Approve'} register={register('name')} />
+                <Input label={"A Approve"} register={register("name")} />
               </Grid>
               <Grid item xs={12} sm={4} md={6}>
                 <Input
-                  label={'B Deny Outrightly'}
-                  register={register('name')}
+                  label={"B Deny Outrightly"}
+                  register={register("name")}
                 />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
                 <Input
-                  label={'C Give Probation For'}
-                  register={register('name')}
+                  label={"C Give Probation For"}
+                  register={register("name")}
                 />
               </Grid>
               <Grid item xs={12} sm={4} md={6} mt={1.5}>
-                <BasicDatePicker label={'Date'} register={register('date')} />
+                <BasicDatePicker label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4} md={6}>
-                <McText txt={'Signature'} type={'p'} />
-                <Input register={register('signature')} />
+                <McText txt={"Signature"} type={"p"} />
+                <Input register={register("signature")} />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>
                 <Button
-                  label={'Cancel'}
+                  label={"Cancel"}
                   onClick={() => setCurrentPage(0)}
                   fullwidth
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Button
-                  type={'submit'}
-                  label={'Submit'}
+                  type={"submit"}
+                  label={"Submit"}
                   onClick={() => handleClick()}
                   fullwidth
                 />
@@ -3498,18 +3498,19 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
+  const [message, setMessage] = useState(""); //,
   //const facilityServ=client.service('/facility')
   //const history = useHistory()
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue, reset } = useForm();
 
   const facility = state.facilityModule.selectedFacility;
 
   const handleEdit = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: 'modify',
+      show: "modify",
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -3530,64 +3531,117 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     // console.log('close form');
     setShowModal(0);
   };
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+
+    //  console.log(data);
+
+    //  setSuccess(false);
+
+    //  ClientServ.patch(Client._id, data)
+    //    .then((res) => {
+    //      toast("Client updated succesfully");
+    //      changeState();
+    //      closeDetailModal();
+    //    })
+    //    .catch((err) => {
+    //      toast(`Error updating Client, probable network issues or ${err}`);
+    //    });
+  };
 
   return (
     <>
-      <div
-        className="card "
-        style={{
-          height: 'auto',
-          overflowY: 'scroll',
-          width: '20vw',
-          margin: '0 auto',
+      <Box
+        sx={{
+          maxheight: "80vh",
+          width: "800px",
         }}
       >
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12}>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <FaHospital /> Name: St. Nicholas Hospital{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <FaAddressCard /> Address: 1234, 5th Avenue, New York, NY 10001{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <IoLocationSharp /> City: Lagos{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <BsFillTelephoneFill /> Phone: 08012345678{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <MdEmail /> Email: test@test.com{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <FaUserAlt /> CEO: Dr. John Doe{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <MdLocalHospital /> Type: HMO{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <BsHouseDoorFill />
-              Category: HMO
-            </p>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex' }}>
-            <Button label="Edit" onClick={handleEdit} />
-            <Button label="Associate" />
-            <Button label="Close" onClick={closeForm} />
-            <Button label="Delete" />
-          </Grid>
-        </Grid>
-      </div>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+          }}
+          mb={2}
+        >
+          <Button label="Edit" onClick={handleEdit} />
+          <Button label="Associate" />
+          <Button label="Close" onClick={closeForm} />
+          <Button label="Delete" />
+        </Box>
+        <Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Input
+                  register={register("name_provider")}
+                  label="Hospital Name"
+                  value="St.Nicholas Hospital"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="Address"
+                  value="1234,5th Avenue,New York"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="City"
+                  value="Lagos"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="Phone"
+                  value="09123802410"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="Email"
+                  value="motun6@gmail.com"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="CEO"
+                  value="Dr. Simpa"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="Type"
+                  value="HMO"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register("lga")}
+                  label="Category"
+                  value="HMO"
+                  disabled
+                />
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Box>
     </>
   );
 }
