@@ -1,7 +1,10 @@
-import {useEffect, useState, useContext} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +69,16 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
+import HMOauth from "./Finance/HMOauth";
+import InventoryHome from "./inventory/InventoryHome";
+import InventoryReport from "./inventory/InventoryReport";
+import PharmacyReport from "./Pharmacy/InventoryReport";
+import InventorySetup from "./inventory/InventorySetup";
+import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
+import PharmacyTransfer from "./Pharmacy/Transfer";
+import useRepository from "../components/hooks/repository";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -123,9 +135,15 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
+import TheatreHome from "./Theatre/TheatreHome";
+import TheatrePayment from "./Theatre/TheatrePayment";
+import TheatreReport from "./Theatre/TheatreReport";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
+import TheatreCheckedin from "./Theatre/TheatreCheckedin";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -163,10 +181,41 @@ import FundsManagement from "./ManagedCare/FundsManagement";
 import CheckIn from "./ManagedCare/CheckIn";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
+import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
+import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
+import LandingPageDashboard from "./dashBoardUiComponent/@modules/LandingPageDashboard";
+import WardDashboard from "./dashBoardUiComponent/@modules/WardDashboard";
+import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard";
+import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
+import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
+import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
+import ForgotPassword from "./auth/ForgotPassword";
+import CreatePassword from "./auth/CreatePassword";
+import ManagedCareHome from "./ManagedCare/ManagedCareHome";
+import Policy from "./ManagedCare/Policy";
+import Beneficiary from "./ManagedCare/Beneficiary";
+import ReferralsCollections from "./ManagedCare/Referral";
+import TarrifList from "./ManagedCare/Tarrifs";
+import HealthPlan from "./ManagedCare/HealthPlan";
+import Referral from "./ManagedCare/Referral";
+import Provider from "./ManagedCare/Providers";
+import Product from "./ManagedCare/UserManagement";
+import ProductEntry from "./ManagedCare/HealthPlan";
+import HiaOrganizationClient from "./ManagedCare/HIA";
+import CorporateClient from "./ManagedCare/Corporate";
+import Claims from "./ManagedCare/Claims";
+import FundsManagement from "./ManagedCare/FundsManagement";
+import CheckIn from "./ManagedCare/CheckIn";
+import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
+import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
-import ComplaintsInventoryReport, { ComplaintDetail } from "./ManagedCare/Complaints";
+import { OrgList } from "./ManagedCare/OrgClientList";
+import ComplaintsInventoryReport from "./ManagedCare/Complaints";
+import ReferralHome from "./Referral/ReferralHome";
+import ClientBilledPrescription from "./ManagedCare/Claims";
+import { OrgList } from "./ManagedCare/OrgClientList";
+import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
@@ -204,7 +253,6 @@ import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/Immu
 import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
 import OrganizationClient from './ManagedCare/OrganizationClient';
 import ProviderPayment from './ManagedCare/ProviderPayment';
-import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
 
 const moduleLocationTypes = {
@@ -219,7 +267,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -235,7 +283,7 @@ const AppRoutes = () => {
     }
   }, [location]);
 
-  const {authenticatingUser} = useContext(UserContext);
+  const { authenticatingUser } = useContext(UserContext);
 
   if (authenticatingUser) return <PageLoaderComponent />;
   return (
@@ -686,14 +734,16 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/tarrifs" />
             <Route path="/app/managed-care/complaintDetails"  element={<ComplaintDetails/>} />
 
-
-            <Route path="/app/managed-care/providerpayment" element={<ProviderPayment/>} />
+            <Route
+              path="/app/managed-care/providerpayment"
+              element={<ProviderPayment />}
+            />
 
             <Route
               path="/app/managed-care/fundmanagement"
               element={<FundsManagement />}
             />
-       
+
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route
