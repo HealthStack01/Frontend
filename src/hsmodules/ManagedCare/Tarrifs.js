@@ -233,11 +233,17 @@ const TariffCreate = () => {
 
         <Input placeholder='Tariff Name' label='Tariff Name' />
 
-        <SearchSelect service={ServicesServ} data={data} setData={setData} />
+        <SearchSelect
+          service={ServicesServ}
+          data={data}
+          setData={setData}
+          placeholder='Search Services'
+        />
         <SearchSelect
           service={ServicesServ}
           data={catergory}
           setData={setCategory}
+          placeholder='Search Services Category'
         />
         <Textarea label='Comments' />
         <Input label='Price' />

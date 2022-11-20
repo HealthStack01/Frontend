@@ -6,7 +6,7 @@ export const CustomButton = styled(BaseButton)`
   width: ${props => (props.fullwidth ? '100%' : 'auto')};
   color: ${props => (props.color ? props.color : '#FFF')};
   background: ${props => (props.background ? props.background : '#0364FF')};
-  max-height: 50px;
+  max-height: 42px;
   display: flex;
   justify-content: center;
   align-items: center;

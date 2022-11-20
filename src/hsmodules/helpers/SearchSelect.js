@@ -36,6 +36,7 @@ export default function SearchSelect({
   CreateModal,
   data,
   setData,
+  placeholder,
 }) {
   const { user } = useContext(UserContext);
   const [results, setResults] = useState([]);
@@ -162,7 +163,7 @@ export default function SearchSelect({
               <DebounceInput
                 className='input is-small '
                 type='text'
-                placeholder='Search Services'
+                placeholder={placeholder}
                 value={data?.name}
                 minLength={3}
                 debounceTimeout={400}

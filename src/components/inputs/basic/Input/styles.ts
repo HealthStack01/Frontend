@@ -1,22 +1,22 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const InputField = styled.input`
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0.9rem;
+  padding: 0.4rem 1rem;
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  border: 1.5px solid ${({theme}) => theme.grayTwo};
+  border: 1.5px solid ${({ theme }) => theme.grayTwo};
   width: 100%;
   &:focus {
-    border: 2px solid ${({theme}) => theme.blueTwo};
+    border: 2px solid ${({ theme }) => theme.blueTwo};
   }
   &:focus + label {
     /* top: -0.5rem;
     left: 0.8rem; */
-    color: ${({theme}) => theme.blueTwo};
+    color: ${({ theme }) => theme.blueTwo};
     font-weight: 500;
     z-index: 10;
   }
@@ -31,14 +31,14 @@ export const InputField = styled.input`
 
 export const InputBox = styled.div`
   position: relative;
-  height: 48px;
+  height: 40px;
   width: 100%;
-  margin: 0.75rem 0;
+  margin: 0.5rem 0;
   text-align: left;
   & i {
     position: absolute;
-    right: 1rem;
-    top: 0.25rem;
+    right: 0.4rem;
+    top: 0.12rem;
     font-size: 22px;
     padding: 0.25rem;
     transition: 0.4s;
@@ -65,12 +65,12 @@ export const BlueInputField = styled.input`
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  border: 1.5px solid ${({theme}) => theme.grayTwo};
+  border: 1.5px solid ${({ theme }) => theme.grayTwo};
   width: 100%;
   &:focus + label {
     /* top: -0.5rem;
     left: 0.8rem; */
-    color: ${({theme}) => theme.blueTwo};
+    color: ${({ theme }) => theme.blueTwo};
     font-weight: 500;
     z-index: 10;
   }
