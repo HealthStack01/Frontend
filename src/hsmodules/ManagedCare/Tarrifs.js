@@ -5,13 +5,22 @@ import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../dashBoardUiComponent/core-ui/styles';
 import client from '../../feathers';
 import CustomTable from '../../components/customtable';
-import { Box, Portal } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Portal,
+  Radio,
+} from '@mui/material';
 import ModalBox from '../../components/modal';
 import ServiceSearch from '../helpers/ServiceSearch';
 import { BottomWrapper, GridBox } from '../app/styles';
 import ViewText from '../../components/viewtext';
 import { useForm } from 'react-hook-form';
 import Input from '../../components/inputs/basic/Input';
+import Textarea from '../../components/inputs/basic/Textarea';
+import CustomSelect from '../../components/inputs/basic/Select';
 
 const tariffSchema = [
   {
@@ -139,13 +148,208 @@ const TarrifList = () => {
 };
 
 const TariffCreate = () => {
+  const [state, setState] = useState({
+    bronze: false,
+    gold: false,
+    silver: false,
+    platinium: false,
+  });
+
+  const handleChange = event => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
   return (
-    <Box>
+    <Box sx={{ overflowY: 'auto', height: '800px' }}>
       <Box py={4}>
         <h2>Create Tariff</h2>
       </Box>
       <Box>
         <ServiceSearch />
+        <ServiceSearch />
+        <Textarea label='Comments' />
+        {/* <CustomSelect label='Company Band' /> */}
+        <Input label='Price' />
+
+        <Box>
+          <h2>Benefiting Plans</h2>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox onChange={handleChange} />}
+              label='Bronze'
+              name='bronze'
+            />
+            {state.bronze && (
+              <Box>
+                <Input placeholder='Co-pay payout' />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      py: 2,
+                    }}
+                  >
+                    <FormControlLabel
+                      control={<Radio />}
+                      value='capitation'
+                      label='Capitation'
+                    />
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      value='feeForService'
+                      label='Fee for Service'
+                    />
+                  </Box>
+
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label='Requires Pre-Authorization Code'
+                  />
+                </Box>
+              </Box>
+            )}
+            <FormControlLabel
+              control={<Checkbox onChange={handleChange} />}
+              label='Gold'
+              name='gold'
+            />
+            {state.gold && (
+              <Box>
+                <Input placeholder='Co-pay payout' />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      py: 2,
+                    }}
+                  >
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      label='Capitation'
+                      name='payment'
+                    />
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      label='Fee for Service'
+                      name='payment'
+                    />
+                  </Box>
+
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label='Requires Pre-Authorization Code'
+                  />
+                </Box>
+              </Box>
+            )}
+            <FormControlLabel
+              control={<Checkbox onChange={handleChange} />}
+              label='Silver'
+              name='silver'
+            />
+            {state.silver && (
+              <Box>
+                <Input placeholder='Co-pay payout' />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      py: 2,
+                    }}
+                  >
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      label='Capitation'
+                      name='payment'
+                    />
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      label='Fee for Service'
+                      name='payment'
+                    />
+                  </Box>
+
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label='Requires Pre-Authorization Code'
+                  />
+                </Box>
+              </Box>
+            )}
+            <FormControlLabel
+              control={<Checkbox onChange={handleChange} />}
+              label='Platinium'
+              name='platinium'
+            />
+            {state.platinium && (
+              <Box>
+                <Input placeholder='Co-pay payout' />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      py: 2,
+                    }}
+                  >
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      label='Capitation'
+                      name='payment'
+                    />
+                    <FormControlLabel
+                      control={<Radio onChange={handleChange} />}
+                      label='Fee for Service'
+                      name='payment'
+                    />
+                  </Box>
+
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleChange} />}
+                    label='Requires Pre-Authorization Code'
+                  />
+                </Box>
+              </Box>
+            )}
+          </FormGroup>
+        </Box>
+        <BottomWrapper>
+          <Button label='Create Tariff' type='submit' />
+        </BottomWrapper>
       </Box>
     </Box>
   );
