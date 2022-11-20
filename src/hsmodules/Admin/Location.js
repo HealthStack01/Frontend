@@ -511,6 +511,7 @@ export function LocationDetail({ showModifyModal }) {
   const [showSub, setShowSub] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const { state, setState } = useContext(ObjectContext);
+  const [editClient, setEditClient] = useState(false);
 
   const LocationServ = client.service("location");
 
