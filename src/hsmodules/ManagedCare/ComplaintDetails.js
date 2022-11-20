@@ -1,6 +1,7 @@
 import React from 'react'
 import { Avatar} from "@mui/material";
 import {BiChevronDown} from 'react-icons/bi';
+// import
 
 const ComplaintDetails = () => {
 
@@ -73,7 +74,7 @@ const ComplaintDetails = () => {
                     </div>
                 ))
               }
-              
+
             </div>
      </div>
     </div>
