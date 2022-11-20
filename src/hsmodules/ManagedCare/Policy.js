@@ -3,7 +3,7 @@ import {} from 'react-router-dom'; //Route, Switch,Link, NavLink,
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'react-toastify';
 import { formatDistanceToNowStrict, format } from 'date-fns';
@@ -49,15 +49,12 @@ export default function Policy() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(0);
   const [showModal2, setShowModal2] = useState(false);
-
-  console.log(showModal2, 'showModal2');
-
   return (
     <section className="section remPadTop">
       <PolicyList showModal={showModal} setShowModal={setShowModal} />
-      {showModal && (
+      {showModal === 1 && (
         <ModalBox
           open={state.ManagedCareModule.show === 'create'}
           onClose={() => setShowModal(false)}
@@ -72,6 +69,11 @@ export default function Policy() {
       {showModal2 && (
         <ModalBox open={showModal2} onClose={() => setShowModal2(false)}>
           <ClientCreate />
+        </ModalBox>
+      )}
+      {showModal === 2 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <PolicyDetail />
         </ModalBox>
       )}
     </section>
@@ -111,7 +113,7 @@ export function PolicyList({ showModal, setShowModal }) {
       ManagedCareModule: newClientModule,
     }));
     //console.log(state)
-    setShowModal(true);
+    setShowModal(1);
     console.log('test');
   };
 
@@ -125,6 +127,7 @@ export function PolicyList({ showModal, setShowModal }) {
       ...prevstate,
       ManagedCareModule: newClientModule,
     }));
+    setShowModal(2);
   };
 
   const handleSearch = (val) => {
@@ -426,7 +429,7 @@ export function PolicyList({ showModal, setShowModal }) {
                 </div>
               )}
               <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
-                List of Clients
+                List of Policies
               </h2>
             </div>
 
@@ -999,7 +1002,69 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader text={'Policy'} />
-          <p>
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item md={12}>
+              <select
+                name="plan"
+                {...register('plan', { required: true })}
+                onChange={(e, i) => handleChangePlan(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Plan </option>
+                {benefittingPlans1.map((option, i) => (
+                  <option key={i} value={option.name}>
+                    {' '}
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+            <Grid item md={12}>
+              <Input value={price.price} disabled label="Price" />
+            </Grid>
+            <Grid item md={12}>
+              <select
+                name="sponsortype"
+                {...register('sponsortype', { required: true })}
+                onChange={(e) => handleChangeMode(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Sponsor </option>
+                <option value="Self">Self</option>
+                <option value="Company">Company</option>
+              </select>
+            </Grid>
+            <Grid item md={12}>
+              {showCorp && (
+                <SponsorSearch
+                  getSearchfacility={getSearchfacility1}
+                  clear={success}
+                />
+              )}
+            </Grid>
+            <Grid item md={12}>
+              <OrgFacilitySearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+          </Grid>
+          <p style={{ display: 'flex' }}>
             Add Principal
             <button
               onClick={handleClickProd}
@@ -1029,71 +1094,6 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               +
             </button>
           </p>
-
-          <Grid container spacing={2}>
-            <Grid item md={12} mt={2}>
-              <OrgFacilitySearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item md={12} my={1}>
-              <select
-                name="sponsortype"
-                {...register('sponsortype', { required: true })}
-                onChange={(e) => handleChangeMode(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Sponsor </option>
-                <option value="Self">Self</option>
-                <option value="Company">Company</option>
-              </select>
-            </Grid>
-            <Grid item md={12} my={1}>
-              <select
-                name="plan"
-                {...register('plan', { required: true })}
-                onChange={(e, i) => handleChangePlan(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Plan </option>
-                {benefittingPlans1.map((option, i) => (
-                  <option key={i} value={option.name}>
-                    {' '}
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item md={4} my={1}>
-              <Input value={price.price} disabled label="Price" />
-            </Grid>
-            <Grid item md={4} my={1.5}>
-              {showCorp && (
-                <SponsorSearch
-                  getSearchfacility={getSearchfacility1}
-                  clear={success}
-                />
-              )}
-            </Grid>
-          </Grid>
-
           {!!state.Beneficiary?.principal._id && (
             <CustomTable
               title={''}
@@ -1568,14 +1568,6 @@ export function ClientCreate({ closeModal }) {
                 label="Relationship"
                 register={register('nok_relationship')}
               />
-              <Input
-                label="Co-mobidities"
-                register={register('comorbidities')}
-              />
-              <Input
-                label="Specific Details "
-                register={register('specificDetails')}
-              />
             </GridWrapper>
           </ViewBox>
 
@@ -1589,6 +1581,247 @@ export function ClientCreate({ closeModal }) {
             <Button label="Save Form" type="submit" />
           </BottomWrapper>
         </form>
+      </div>
+    </>
+  );
+}
+
+export function PolicyDetail({ showModal, setShowModal }) {
+  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+  // eslint-disable-next-line
+  // const history = useHistory();
+  // eslint-disable-next-line
+  // let { path, url } = useRouteMatch();
+  // eslint-disable-next-line
+  const [error, setError] = useState(false); //,
+  const [finacialInfoModal, setFinacialInfoModal] = useState(false);
+  const [billingModal, setBillingModal] = useState(false);
+  const [billModal, setBillModal] = useState(false);
+  const [appointmentModal, setAppointmentModal] = useState(false);
+  // eslint-disable-next-line
+  const [message, setMessage] = useState(''); //,
+  //const ClientServ=client.service('/Client')
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+
+  let Client = state.ClientModule.selectedClient;
+
+  console.log(Client);
+  // eslint-disable-next-line
+  const client = Client;
+  const handleEdit = async () => {
+    const newClientModule = {
+      selectedClient: Client,
+      show: 'modify',
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      ClientModule: newClientModule,
+    }));
+    //console.log(state)
+    setShowModal(true);
+  };
+
+  const handleFinancialInfo = () => {
+    setFinacialInfoModal(true);
+  };
+  const handlecloseModal = () => {
+    setFinacialInfoModal(false);
+  };
+
+  const handlecloseModal1 = () => {
+    setBillingModal(false);
+  };
+
+  const handlecloseModal2 = () => {
+    setAppointmentModal(false);
+  };
+
+  const showBilling = () => {
+    setBillingModal(true);
+    //history.push('/app/finance/billservice')
+  };
+
+  const handleSchedule = () => {
+    setAppointmentModal(true);
+  };
+  const handleBill = () => {
+    setBillModal(true);
+  };
+  const handlecloseModal3 = () => {
+    setBillModal(false);
+  };
+
+  /*  useEffect(() => {
+        Client =state.ClientModule.selectedClient
+        return () => {
+           
+        }
+    }, [billingModal]) */
+  return (
+    <>
+      <div
+        className="card "
+        style={{
+          height: 'auto',
+          overflowY: 'scroll',
+          width: '50vw',
+          margin: '0 auto',
+        }}
+      >
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6}>
+            <ModalHeader text={'Policy Details'} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            {(user.currentEmployee?.roles.includes('Bill Client') ||
+              user.currentEmployee?.roles.length === 0 ||
+              user.stacker) && (
+              <button
+                className="button is-success is-small btnheight mt-2"
+                onClick={showBilling}
+                style={{
+                  border: 'none',
+                  backgroundColor: '#48c774',
+                  padding: ' .5rem 1rem',
+                  marginLeft: '.5rem',
+                  cursor: 'pointer',
+                  color: 'white',
+                  float: 'right',
+                }}
+              >
+                Bill Client
+              </button>
+            )}
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item md={4}>
+            <p>First Name:{Client?.firstname}</p>
+          </Grid>
+          <Grid item md={4}>
+            <p>Middle Name: {Client?.middlename}</p>
+          </Grid>
+          <Grid item md={4}>
+            <p>Last Name: {Client?.lastname}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>
+              Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
+            </p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Gender: {Client?.gender}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Marital Status: {Client?.maritalstatus}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Medical Records Number: {Client?.mrn}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Religion: {Client?.religion}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Profession: {Client?.profession}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Phone Number: {Client?.phone}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Email: {Client?.email}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Address: {Client?.address}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Town/City: {Client?.city}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>LGA: {Client?.lga}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>State: {Client?.state}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Country: {Client?.country}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Blood Group: {Client?.bloodgroup}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Genotype: {Client?.genotype}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Disabilities: {Client?.disabilities}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Allergies: {Client?.allergies}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Co-morbidities: {Client?.comorbidities}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Tags: {Client?.clientTags}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Specific Details: {Client?.specificDetails}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Name: {Client?.nok_name}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Next of Kin Email: {Client?.nok_email}</p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>NOK Relationship: {Client?.nok_relationship}</p>
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            mt={1}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <Button onClick={handleEdit}>Edit Details</Button>
+            <Button onClick={handleFinancialInfo}>Payment Info</Button>
+            <Button onClick={handleSchedule}>Schedule Appointment</Button>
+            <Button onClick={() => navigate('/app/beneficiary/documentation')}>
+              View History
+            </Button>
+          </Grid>
+        </Grid>
+        {finacialInfoModal && (
+          <>
+            <ModalBox open onClose={() => setFinacialInfoModal(false)}>
+              <ModalHeader text="Financial Information" />
+              <ClientFinInfo />
+            </ModalBox>
+          </>
+        )}
+        {appointmentModal && (
+          <>
+            <ModalBox open onClose={() => setAppointmentModal(false)}>
+              <AppointmentCreate />
+            </ModalBox>
+          </>
+        )}
+        {billingModal && (
+          <>
+            <ModalBox open onClose={() => setBillingModal(false)}>
+              <ModalHeader text="Bill Beneficiary" />
+              <BillServiceCreate />
+            </ModalBox>
+          </>
+        )}
       </div>
     </>
   );
