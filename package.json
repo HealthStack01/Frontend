@@ -83,7 +83,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start NODE_OPTIONS=--max-old-space-size=4096",
+    "start": "react-scripts start",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
     "build": "CI=false react-scripts build",
