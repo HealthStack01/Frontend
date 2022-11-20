@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const token = "4865616c7468737461636b"
+const token = process.env.POUCHII_WALLET
 
 export default axios.create({
     baseURL: "https://walletdemo.remita.net/api",
