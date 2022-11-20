@@ -1098,8 +1098,70 @@ export function BeneficiaryCreate({ openCreate }) {
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader text={'Beneficiary'} />
-          <p>
+          <ModalHeader text={'Policy'} />
+
+          <Grid container spacing={2} mt={2}>
+            <Grid item md={12}>
+              <select
+                name="plan"
+                {...register('plan', { required: true })}
+                onChange={(e, i) => handleChangePlan(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Plan </option>
+                {benefittingPlans1.map((option, i) => (
+                  <option key={i} value={option.name}>
+                    {' '}
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </Grid>
+            <Grid item md={12}>
+              <Input value={price.price} disabled label="Price" />
+            </Grid>
+            <Grid item md={12}>
+              <select
+                name="sponsortype"
+                {...register('sponsortype', { required: true })}
+                onChange={(e) => handleChangeMode(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Sponsor </option>
+                <option value="Self">Self</option>
+                <option value="Company">Company</option>
+              </select>
+            </Grid>
+            <Grid item md={12}>
+              {showCorp && (
+                <SponsorSearch
+                  getSearchfacility={getSearchfacility1}
+                  clear={success}
+                />
+              )}
+            </Grid>
+            <Grid item md={12}>
+              <OrgFacilitySearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+          </Grid>
+          <p style={{ display: 'flex' }}>
             Add Principal
             <button
               onClick={handleClickProd}
@@ -1129,71 +1191,6 @@ export function BeneficiaryCreate({ openCreate }) {
               +
             </button>
           </p>
-
-          <Grid container spacing={2}>
-            <Grid item md={12} mt={2}>
-              <OrgFacilitySearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
-            <Grid item md={12} my={1}>
-              <select
-                name="sponsortype"
-                {...register('sponsortype', { required: true })}
-                onChange={(e) => handleChangeMode(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Sponsor </option>
-                <option value="Self">Self</option>
-                <option value="Company">Company</option>
-              </select>
-            </Grid>
-            <Grid item md={12} my={1}>
-              <select
-                name="plan"
-                {...register('plan', { required: true })}
-                onChange={(e, i) => handleChangePlan(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Plan </option>
-                {benefittingPlans1.map((option, i) => (
-                  <option key={i} value={option.name}>
-                    {' '}
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item md={4} my={1}>
-              <Input value={price.price} disabled label="Price" />
-            </Grid>
-            <Grid item md={4} my={1.5}>
-              {showCorp && (
-                <SponsorSearch
-                  getSearchfacility={getSearchfacility1}
-                  clear={success}
-                />
-              )}
-            </Grid>
-          </Grid>
-
           {!!state.Beneficiary?.principal._id && (
             <CustomTable
               title={''}
@@ -1218,6 +1215,7 @@ export function BeneficiaryCreate({ openCreate }) {
               progressPending={loading}
             />
           )}
+
           <Button label="submit" text="Save" />
         </form>
       </div>
@@ -1648,9 +1646,9 @@ export function ClientDetail({ showModal, setShowModal }) {
       <div
         className="card "
         style={{
-          height: '50vh',
+          height: 'auto',
           overflowY: 'scroll',
-          width: '30vw',
+          width: '50vw',
           margin: '0 auto',
         }}
       >
@@ -1681,118 +1679,100 @@ export function ClientDetail({ showModal, setShowModal }) {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item md={6}>
+          <Grid item md={4}>
             <p>First Name:{Client?.firstname}</p>
           </Grid>
-          <Grid item md={6}>
-            <p>Middle Name: {Client?.middleName}</p>
+          <Grid item md={4}>
+            <p>Middle Name: {Client?.middlename}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item md={6}>
+          <Grid item md={4}>
             <p>Last Name: {Client?.lastname}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>
               Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
             </p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Gender: {Client?.gender}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <p>Marital Status: {Client?.maritalStatus}</p>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Marital Status: {Client?.maritalstatus}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Medical Records Number: {Client?.mrn}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Religion: {Client?.religion}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Profession: {Client?.profession}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Phone Number: {Client?.phone}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Email: {Client?.email}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Address: {Client?.address}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Town/City: {Client?.city}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>LGA: {Client?.lga}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>State: {Client?.state}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Country: {Client?.country}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
-            <p>Blood Group: {Client?.bloodGroup}</p>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Blood Group: {Client?.bloodgroup}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Genotype: {Client?.genotype}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Disabilities: {Client?.disabilities}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Allergies: {Client?.allergies}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Co-morbidities: {Client?.comorbidities}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Tags: {Client?.clientTags}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Specific Details: {Client?.specificDetails}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Next of Kin Name: {Client?.nok_name}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>Next of Kin Email: {Client?.nok_email}</p>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <p>NOK Relationship: {Client?.nok_relationship}</p>
           </Grid>
         </Grid>
+
         <Grid container>
-          <Grid item xs={12} sm={12} md={3} style={{ display: 'flex' }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            mt={1}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Button onClick={handleEdit}>Edit Details</Button>
             <Button onClick={handleFinancialInfo}>Payment Info</Button>
             <Button onClick={handleSchedule}>Schedule Appointment</Button>
@@ -1812,7 +1792,6 @@ export function ClientDetail({ showModal, setShowModal }) {
         {appointmentModal && (
           <>
             <ModalBox open onClose={() => setAppointmentModal(false)}>
-              <ModalHeader text="Schedule Appointment" />
               <AppointmentCreate />
             </ModalBox>
           </>

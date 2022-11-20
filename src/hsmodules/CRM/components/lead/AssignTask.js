@@ -11,8 +11,20 @@ import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicke
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 
-const LeadAssignStaff = ({closeModal}) => {
-  const {register} = useForm();
+const LeadAssignTask = ({closeModal, addTask}) => {
+  const {register, handleSubmit, reset} = useForm();
+
+  const formDefaultValues = {
+    title: "",
+    type: "",
+    priority: "",
+    information: "",
+  };
+
+  const onSubmit = data => {
+    addTask(data);
+    reset(formDefaultValues);
+  };
 
   return (
     <Box
@@ -21,14 +33,6 @@ const LeadAssignStaff = ({closeModal}) => {
         maxHeight: "80vh",
       }}
     >
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <EmployeeSearch />
-          </Grid>
-        </Grid>
-      </Box>
-
       <Box>
         <FormsHeaderText text="Create Task" />
       </Box>
@@ -40,7 +44,7 @@ const LeadAssignStaff = ({closeModal}) => {
 
         <Grid item xs={8}>
           <CustomSelect
-            register={register("city", {required: true})}
+            register={register("type", {required: true})}
             label="Type"
             options={["Open", "Closed", "Pending"]}
             // placeholder="Enter customer name"
@@ -49,7 +53,7 @@ const LeadAssignStaff = ({closeModal}) => {
 
         <Grid item xs={4}>
           <CustomSelect
-            register={register("city", {required: true})}
+            register={register("priority", {required: true})}
             label="Priority"
             options={["Open", "Closed", "Pending"]}
             // placeholder="Enter customer name"
@@ -60,6 +64,7 @@ const LeadAssignStaff = ({closeModal}) => {
           <Textarea
             label="Additional Information"
             placeholder="Write here..."
+            register={register("information", {required: true})}
           />
         </Grid>
       </Grid>
@@ -74,6 +79,7 @@ const LeadAssignStaff = ({closeModal}) => {
             marginRight: "10px",
           }}
           color="success"
+          onClick={handleSubmit(onSubmit)}
         >
           Done
         </Button>
@@ -92,4 +98,4 @@ const LeadAssignStaff = ({closeModal}) => {
   );
 };
 
-export default LeadAssignStaff;
+export default LeadAssignTask;
