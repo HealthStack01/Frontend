@@ -160,7 +160,7 @@ import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
-import CheckIn from "./ManagedCare/CheckIn";
+import CheckIn from "./ManagedCare/Checkin";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
@@ -204,6 +204,7 @@ import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/Immu
 import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
 import OrganizationClient from './ManagedCare/OrganizationClient';
 import ProviderPayment from './ManagedCare/ProviderPayment';
+import CreateWallet from "./PouchiiWallet/CreateWallet";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -842,6 +843,8 @@ const AppRoutes = () => {
               element={<BloodbankDashboard />}
             />
           </Route>
+           {/**************************Pouchii Wallet *************************************** */}
+           {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
         </Route>
       </Routes>
     </>
