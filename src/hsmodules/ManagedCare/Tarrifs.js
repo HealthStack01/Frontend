@@ -22,6 +22,8 @@ import { useForm } from 'react-hook-form';
 import Input from '../../components/inputs/basic/Input';
 import Textarea from '../../components/inputs/basic/Textarea';
 import CustomSelect from '../../components/inputs/basic/Select';
+import SearchSelect from '../helpers/SearchSelect';
+import { toast, ToastContainer } from 'react-toastify';
 
 const tariffSchema = [
   {
@@ -149,12 +151,63 @@ const TarrifList = () => {
 };
 
 const TariffCreate = () => {
+  const { user } = useContext(UserContext);
+
   const [state, setState] = useState({
     bronze: false,
     gold: false,
     silver: false,
     platinium: false,
   });
+  const [loading, setLoading] = useState(false);
+  const [services, setServices] = useState([]);
+  const [bands, setBands] = useState([]);
+  const ServicesServ = client.service('billing');
+  const BandsServ = client.service('bands');
+  const [data, setData] = useState(null);
+  const [catergory, setCategory] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm({
+    defaultValues: {
+      facility: user.currentEmployee.facility,
+    },
+  });
+  const onSubmit = async (data, e) => {
+    setLoading(true);
+    e.preventDefault();
+
+    await setServices
+      .create(data)
+      .then(res => {
+        toast.success(`Client successfully created`);
+
+        setLoading(false);
+      })
+      .catch(err => {
+        toast.error(`Sorry, You weren't able to create an client. ${err}`);
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const findServices = await ServicesServ.find();
+        const findBands = await BandsServ.find();
+        setServices(findServices?.data);
+        setBands(findBands?.data);
+      } catch (err) {}
+      setLoading(false);
+    };
+
+    getData();
+  }, []);
 
   const handleChange = event => {
     setState({
@@ -163,17 +216,32 @@ const TariffCreate = () => {
     });
   };
 
+  const reformedBands = bands.map(band => ({
+    label: band.name,
+    value: band._id,
+  }));
+
   return (
     <Box sx={{ overflowY: 'auto', height: '800px' }}>
       <Box py={4}>
         <h2>Create Tariff</h2>
       </Box>
       <Box>
-        <ServiceSearch />
-        <ServiceSearch />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ToastContainer theme='colored' />
+        </form>
+
+        <Input placeholder='Tariff Name' label='Tariff Name' />
+
+        <SearchSelect service={ServicesServ} data={data} setData={setData} />
+        <SearchSelect
+          service={ServicesServ}
+          data={catergory}
+          setData={setCategory}
+        />
         <Textarea label='Comments' />
-        {/* <CustomSelect label='Company Band' /> */}
         <Input label='Price' />
+        {/* <CustomSelect label='Company Band' options={reformedBands} /> */}
 
         <Box>
           <h2>Benefiting Plans</h2>
@@ -185,7 +253,7 @@ const TariffCreate = () => {
             />
             {state.bronze && (
               <Box>
-                <Input placeholder='Co-pay payout' />
+                <Input placeholder='Co-pay payout' label='Co-pay payout' />
                 <Box
                   sx={{
                     display: 'flex',
@@ -229,7 +297,7 @@ const TariffCreate = () => {
             />
             {state.gold && (
               <Box>
-                <Input placeholder='Co-pay payout' />
+                <Input placeholder='Co-pay payout' label='Co-pay payout' />
                 <Box
                   sx={{
                     display: 'flex',
@@ -273,7 +341,7 @@ const TariffCreate = () => {
             />
             {state.silver && (
               <Box>
-                <Input placeholder='Co-pay payout' />
+                <Input placeholder='Co-pay payout' label='Co-pay payout' />
                 <Box
                   sx={{
                     display: 'flex',
@@ -317,7 +385,7 @@ const TariffCreate = () => {
             />
             {state.platinium && (
               <Box>
-                <Input placeholder='Co-pay payout' />
+                <Input placeholder='Co-pay payout' label='Co-pay payout' />
                 <Box
                   sx={{
                     display: 'flex',
@@ -380,7 +448,7 @@ const TariffView = tariff => {
   return (
     <Box>
       <Box py={4}>
-        <h2>Tariff {tariff?.tariff?.name}</h2>
+        <h2>{tariff?.tariff?.name} Tariff</h2>
       </Box>
       <Box>
         <GridBox>
