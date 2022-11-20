@@ -12,6 +12,7 @@ import {
   FormGroup,
   Portal,
   Radio,
+  RadioGroup,
 } from '@mui/material';
 import ModalBox from '../../components/modal';
 import ServiceSearch from '../helpers/ServiceSearch';
@@ -192,25 +193,27 @@ const TariffCreate = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Box
+                  <RadioGroup
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    defaultValue='capitation'
+                    name='radio-buttons-group'
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      py: 2,
+                      display: 'flex !important',
+                      justifyContent: 'space-between',
+                      flexDirection: 'row !important',
                     }}
                   >
                     <FormControlLabel
-                      control={<Radio />}
                       value='capitation'
+                      control={<Radio />}
                       label='Capitation'
                     />
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
                       value='feeForService'
+                      control={<Radio />}
                       label='Fee for Service'
                     />
-                  </Box>
+                  </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
@@ -234,25 +237,27 @@ const TariffCreate = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Box
+                  <RadioGroup
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    defaultValue='capitation'
+                    name='radio-buttons-group'
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      py: 2,
+                      display: 'flex !important',
+                      justifyContent: 'space-between',
+                      flexDirection: 'row !important',
                     }}
                   >
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
+                      value='capitation'
+                      control={<Radio />}
                       label='Capitation'
-                      name='payment'
                     />
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
+                      value='feeForService'
+                      control={<Radio />}
                       label='Fee for Service'
-                      name='payment'
                     />
-                  </Box>
+                  </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
@@ -276,25 +281,27 @@ const TariffCreate = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Box
+                  <RadioGroup
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    defaultValue='capitation'
+                    name='radio-buttons-group'
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      py: 2,
+                      display: 'flex !important',
+                      justifyContent: 'space-between',
+                      flexDirection: 'row !important',
                     }}
                   >
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
+                      value='capitation'
+                      control={<Radio />}
                       label='Capitation'
-                      name='payment'
                     />
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
+                      value='feeForService'
+                      control={<Radio />}
                       label='Fee for Service'
-                      name='payment'
                     />
-                  </Box>
+                  </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
@@ -318,25 +325,27 @@ const TariffCreate = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Box
+                  <RadioGroup
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    defaultValue='capitation'
+                    name='radio-buttons-group'
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      py: 2,
+                      display: 'flex !important',
+                      justifyContent: 'space-between',
+                      flexDirection: 'row !important',
                     }}
                   >
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
+                      value='capitation'
+                      control={<Radio />}
                       label='Capitation'
-                      name='payment'
                     />
                     <FormControlLabel
-                      control={<Radio onChange={handleChange} />}
+                      value='feeForService'
+                      control={<Radio />}
                       label='Fee for Service'
-                      name='payment'
                     />
-                  </Box>
+                  </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
