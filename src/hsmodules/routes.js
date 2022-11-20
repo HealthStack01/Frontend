@@ -179,8 +179,6 @@ import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
 import CheckIn from "./ManagedCare/Checkin";
-<<<<<<< HEAD
-=======
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
@@ -208,7 +206,6 @@ import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
 import CheckIn from "./ManagedCare/Checkin";
->>>>>>> eb4ded48510cb32b82467afeac54d1f1f52dc08a
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
@@ -225,40 +222,6 @@ import PreAuth from "./ManagedCare/PreAuth";
 
 // import Provider from "./ManagedCare/Providers";
 
-<<<<<<< HEAD
-import CRMHome from './CRM/CrmHome';
-import Leads from './CRM/Lead';
-import Proposal from './CRM/Proposal';
-import Invoice from './CRM/Invoice';
-import SLA from './CRM/SLA';
-import CrmAppointment from './CRM/Appointment';
-import Deal from './CRM/Deal';
-import Complaint from './Complaints/Complaint';
-import ImmunizationHome from './Immunization/ImmunizationHome';
-import VaccineProfile from './Immunization/VaccineProfile';
-import BloodBankInventory from './Bloodbank/Inventory';
-import BloodBankHome from './Bloodbank/BloodBankHome';
-import PremiumPayment from './ManagedCare/PremiumPayment';
-import BloodBankAppointments from './Appointment/bloodBankAppoinment';
-import ImmunizationAppointments from './Appointment/immunizationAppoinment';
-import ImmunizationCheckIn from './Immunization/Checkin';
-import ReferralIncoming from './Appointment/referralWorkflow';
-import BloodBankLab from './Bloodbank/Lab';
-import ImmunizationInventory from './Immunization/Inventory';
-import PageLoaderComponent from '../components/page-loader/page-loader';
-import AccountDashboard from './dashBoardUiComponent/@modules/AccountDashboard';
-import AdminDashboard from './dashBoardUiComponent/@modules/AdminDashboard';
-import RadiologyDashboard from './dashBoardUiComponent/@modules/RadiologyDashboard';
-import TheatreDashboard from './dashBoardUiComponent/@modules/TheatreDashboard';
-import CrmDashboard from './dashBoardUiComponent/@modules/CrmDashboard';
-import ReferralDashboard from './dashBoardUiComponent/@modules/ReferralDashboard';
-import CommunicationDashboard from './dashBoardUiComponent/@modules/CommunicationDashboard';
-import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/ImmunizationDashboard';
-import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
-import OrganizationClient from './ManagedCare/OrganizationClient';
-import ProviderPayment from './ManagedCare/ProviderPayment';
-import CreateWallet from "./PouchiiWallet/CreateWallet";
-=======
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
 import Proposal from "./CRM/Proposal";
@@ -290,7 +253,6 @@ import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/Immu
 import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
 import OrganizationClient from "./ManagedCare/OrganizationClient";
 import ProviderPayment from "./ManagedCare/ProviderPayment";
->>>>>>> eb4ded48510cb32b82467afeac54d1f1f52dc08a
 
 const moduleLocationTypes = {
   clinic: "Clinic",
