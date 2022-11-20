@@ -1,7 +1,7 @@
-import {useEffect, useState, useContext} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import {UserContext, ObjectContext} from "../context";
+import { UserContext, ObjectContext } from "../context";
 
 import AccountHome from "./Accounts/AccountHome";
 import ClinicAppointments from "./Appointment/clinicAppointments";
@@ -66,7 +66,7 @@ import Transfer from "./Ward/Transfer";
 
 import PharmacyTransfer from "./Pharmacy/Transfer";
 import useRepository from "../components/hooks/repository";
-import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
+import FrontDesk, { FrontDeskList } from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
@@ -123,9 +123,9 @@ import TheatreAppointments from "./Appointment/TheatreAppointments";
 import TheatreHome from "./Theatre/TheatreHome";
 import TheatrePayment from "./Theatre/TheatrePayment";
 import TheatreReport from "./Theatre/TheatreReport";
-import {Models} from "./app/Constants";
+import { Models } from "./app/Constants";
 
-import Store, {StoreList, StoreListStandalone} from "./inventory/Store";
+import Store, { StoreList, StoreListStandalone } from "./inventory/Store";
 import TheatreCheckedin from "./Theatre/TheatreCheckedin";
 
 //import ClientPayment from "./Client/Payment";
@@ -160,12 +160,12 @@ import HiaOrganizationClient from "./ManagedCare/HIA";
 import CorporateClient from "./ManagedCare/Corporate";
 import Claims from "./ManagedCare/Claims";
 import FundsManagement from "./ManagedCare/FundsManagement";
-import CheckIn from "./ManagedCare/CheckIn";
+import CheckIn from "./ManagedCare/Checkin";
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
 import ProviderOrganizationClient from "./ManagedCare/Providers";
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
+import { OrgList } from "./ManagedCare/OrgClientList";
 import ComplaintsInventoryReport from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
@@ -173,37 +173,37 @@ import PreAuth from "./ManagedCare/PreAuth";
 
 // import Provider from "./ManagedCare/Providers";
 
-import CRMHome from './CRM/CrmHome';
-import Leads from './CRM/Lead';
-import Proposal from './CRM/Proposal';
-import Invoice from './CRM/Invoice';
-import SLA from './CRM/SLA';
-import CrmAppointment from './CRM/Appointment';
-import Deal from './CRM/Deal';
-import Complaint from './Complaints/Complaint';
-import ImmunizationHome from './Immunization/ImmunizationHome';
-import VaccineProfile from './Immunization/VaccineProfile';
-import BloodBankInventory from './Bloodbank/Inventory';
-import BloodBankHome from './Bloodbank/BloodBankHome';
-import PremiumPayment from './ManagedCare/PremiumPayment';
-import BloodBankAppointments from './Appointment/bloodBankAppoinment';
-import ImmunizationAppointments from './Appointment/immunizationAppoinment';
-import ImmunizationCheckIn from './Immunization/Checkin';
-import ReferralIncoming from './Appointment/referralWorkflow';
-import BloodBankLab from './Bloodbank/Lab';
-import ImmunizationInventory from './Immunization/Inventory';
-import PageLoaderComponent from '../components/page-loader/page-loader';
-import AccountDashboard from './dashBoardUiComponent/@modules/AccountDashboard';
-import AdminDashboard from './dashBoardUiComponent/@modules/AdminDashboard';
-import RadiologyDashboard from './dashBoardUiComponent/@modules/RadiologyDashboard';
-import TheatreDashboard from './dashBoardUiComponent/@modules/TheatreDashboard';
-import CrmDashboard from './dashBoardUiComponent/@modules/CrmDashboard';
-import ReferralDashboard from './dashBoardUiComponent/@modules/ReferralDashboard';
-import CommunicationDashboard from './dashBoardUiComponent/@modules/CommunicationDashboard';
-import ImmunizationDashboardComponent from './dashBoardUiComponent/@modules/ImmunizationDashboard';
-import BloodbankDashboard from './dashBoardUiComponent/@modules/BloodbankDashboard';
-import OrganizationClient from './ManagedCare/OrganizationClient';
-import ProviderPayment from './ManagedCare/ProviderPayment';
+import CRMHome from "./CRM/CrmHome";
+import Leads from "./CRM/Lead";
+import Proposal from "./CRM/Proposal";
+import Invoice from "./CRM/Invoice";
+import SLA from "./CRM/SLA";
+import CrmAppointment from "./CRM/Appointment";
+import Deal from "./CRM/Deal";
+import Complaint from "./Complaints/Complaint";
+import ImmunizationHome from "./Immunization/ImmunizationHome";
+import VaccineProfile from "./Immunization/VaccineProfile";
+import BloodBankInventory from "./Bloodbank/Inventory";
+import BloodBankHome from "./Bloodbank/BloodBankHome";
+import PremiumPayment from "./ManagedCare/PremiumPayment";
+import BloodBankAppointments from "./Appointment/bloodBankAppoinment";
+import ImmunizationAppointments from "./Appointment/immunizationAppoinment";
+import ImmunizationCheckIn from "./Immunization/Checkin";
+import ReferralIncoming from "./Appointment/referralWorkflow";
+import BloodBankLab from "./Bloodbank/Lab";
+import ImmunizationInventory from "./Immunization/Inventory";
+import PageLoaderComponent from "../components/page-loader/page-loader";
+import AccountDashboard from "./dashBoardUiComponent/@modules/AccountDashboard";
+import AdminDashboard from "./dashBoardUiComponent/@modules/AdminDashboard";
+import RadiologyDashboard from "./dashBoardUiComponent/@modules/RadiologyDashboard";
+import TheatreDashboard from "./dashBoardUiComponent/@modules/TheatreDashboard";
+import CrmDashboard from "./dashBoardUiComponent/@modules/CrmDashboard";
+import ReferralDashboard from "./dashBoardUiComponent/@modules/ReferralDashboard";
+import CommunicationDashboard from "./dashBoardUiComponent/@modules/CommunicationDashboard";
+import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/ImmunizationDashboard";
+import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
+import OrganizationClient from "./ManagedCare/OrganizationClient";
+import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -217,7 +217,7 @@ const moduleLocationTypes = {
 };
 
 const AppRoutes = () => {
-  const {setLocationType} = useRepository(Models.LOCATION);
+  const { setLocationType } = useRepository(Models.LOCATION);
 
   const [currentModule, setCurrentModule] = useState("");
   const location = useLocation();
@@ -233,7 +233,7 @@ const AppRoutes = () => {
     }
   }, [location]);
 
-  const {authenticatingUser} = useContext(UserContext);
+  const { authenticatingUser } = useContext(UserContext);
 
   if (authenticatingUser) return <PageLoaderComponent />;
   return (
@@ -687,14 +687,16 @@ const AppRoutes = () => {
             {/* <Route path="/app/managed-care/checkin" element={<CheckIn />} /> */}
             <Route path="/app/managed-care/tarrifs" />
 
-
-            <Route path="/app/managed-care/providerpayment" element={<ProviderPayment/>} />
+            <Route
+              path="/app/managed-care/providerpayment"
+              element={<ProviderPayment />}
+            />
 
             <Route
               path="/app/managed-care/fundmanagement"
               element={<FundsManagement />}
             />
-       
+
             <Route path="/app/managed-care/usermgt" />
             <Route path="/app/managed-care/report" />
             <Route
