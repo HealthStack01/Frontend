@@ -10,6 +10,8 @@ import ModalBox from '../../components/modal';
 import ServiceSearch from '../helpers/ServiceSearch';
 import { BottomWrapper, GridBox } from '../app/styles';
 import ViewText from '../../components/viewtext';
+import { useForm } from 'react-hook-form';
+import Input from '../../components/inputs/basic/Input';
 
 const tariffSchema = [
   {
@@ -43,7 +45,7 @@ const tariffSchema = [
     name: 'Price',
     key: 'price',
     description: 'price',
-    selector: (row, i) => row.contracts[0].price,
+    selector: (row, i) => `₦${row.contracts[0].price} `,
     sortable: true,
     required: true,
     inputType: 'NUMBER',
@@ -116,7 +118,7 @@ const TarrifList = () => {
           <div
             style={{
               width: '100%',
-              height: 'calc(100vh - 80px)',
+              height: 'calc(100vh - 120px)',
               overflow: 'auto',
             }}
           >
@@ -127,7 +129,7 @@ const TarrifList = () => {
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={handleRow}
+              onRowClicked={row => handleRow(row)}
             />
           </div>
         </Box>
@@ -150,16 +152,40 @@ const TariffCreate = () => {
 };
 
 const TariffView = tariff => {
+  const [editing, setEditing] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    defaultValues: {
+      name: tariff?.tariff?.name,
+      category: tariff.tariff.category,
+    },
+  });
   return (
     <Box>
       <Box py={4}>
-        <h2>View Tariff</h2>
+        <h2>Tariff {tariff?.tariff?.name}</h2>
       </Box>
       <Box>
         <GridBox>
-          <ViewText label='ID' text={tariff?.name} />
-          <ViewText label='Catergory' text={tariff?.categories} />
-          {/* <ViewText label='Price' text={tariff?.contracts[0]?.price} /> */}
+          {!editing ? (
+            <ViewText label='Name' text={tariff?.tariff?.name} />
+          ) : (
+            <Input label='Name' register={register('name')} />
+          )}
+          {!editing ? (
+            <ViewText label='Category' text={tariff.tariff.category} />
+          ) : (
+            <Input label='Name' register={register('category')} />
+          )}
+          <ViewText label='Facility Name' text={tariff?.tariff?.facilityname} />
+          <ViewText
+            label='Price'
+            text={`₦${tariff?.tariff?.contracts[0]?.price}`}
+          />
         </GridBox>
         <BottomWrapper>
           <Button label='Save Form' type='submit' />
