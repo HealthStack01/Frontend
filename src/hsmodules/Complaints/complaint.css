@@ -5,7 +5,13 @@
     margin-bottom: 15px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
 }
-
+.complaint_wrapper2{
+    padding: 8px 10px;
+    border: 2px solid #CCCCCC;
+    width: 100%;
+    margin-bottom: 0px;
+    /* box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6); */
+}
 .complaint_head, .complaint_foot{
     display: flex;
     align-items: center;

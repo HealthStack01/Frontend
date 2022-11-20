@@ -922,6 +922,8 @@ export function ClientDetail({ closeDetailModal }) {
     setBillModal(false);
   };
 
+
+
   useEffect(() => {
     setValue('firstname', Client.firstname, {
       shouldValidate: true,
@@ -1084,6 +1086,26 @@ export function ClientDetail({ closeDetailModal }) {
     }
   };
 
+  const handleCreateWallet = async () => {
+    try {
+      const res = await api.post(
+        'https://walletdemo.remita.net/api/register',
+        {
+          firstName: Client.firstname,
+          lastName: Client.lastname,
+          phoneNumber:"09123802410",
+          password:"kennis022876",
+        }
+      );
+    console.log(res)
+        toast.success('Wallet Created Successfully');
+        return res.data
+  } catch (error) {
+    toast.error(error);
+    console.log(error)
+  }
+  }
+
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -1147,6 +1169,18 @@ export function ClientDetail({ closeDetailModal }) {
               Bill Client
             </MuiButton>
           )}
+
+          <MuiButton
+            variant='contained'
+            size='small'
+            sx={{
+              textTransform: 'capitalize',
+              marginLeft: '10px',
+            }}
+            onClick={handleFinancialInfo}
+          >
+            Create Wallet
+          </MuiButton>
 
           <MuiButton
             variant='contained'
