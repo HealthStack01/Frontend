@@ -15,8 +15,9 @@ import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import api from "../../utils/api";
 import dayjs from "dayjs";
+import axios from "axios"
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
@@ -873,7 +874,7 @@ export function ClientDetail({ closeDetailModal }) {
   const [editClient, setEditClient] = useState(false);
 
   const ClientServ = client.service("client");
-
+  // const createWallet = client.service("register")
   const [success, setSuccess] = useState(false);
 
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -921,6 +922,8 @@ export function ClientDetail({ closeDetailModal }) {
   const handlecloseModal3 = () => {
     setBillModal(false);
   };
+
+
 
   useEffect(() => {
     setValue("firstname", Client.firstname, {
@@ -1084,6 +1087,26 @@ export function ClientDetail({ closeDetailModal }) {
     }
   };
 
+  const handleCreateWallet = async () => {
+    try {
+      const res = await api.post(
+        'https://walletdemo.remita.net/api/register',
+        {
+          firstName: Client.firstname,
+          lastName: Client.lastname,
+          phoneNumber:"09123802410",
+          password:"kennis022876",
+        }
+      );
+    console.log(res)
+        toast.success('Wallet Created Successfully');
+        return res.data
+  } catch (error) {
+    toast.error(error);
+    console.log(error)
+  }
+  }
+
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -1147,6 +1170,18 @@ export function ClientDetail({ closeDetailModal }) {
               Bill Client
             </MuiButton>
           )}
+
+<MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              marginLeft: "10px",
+            }}
+            onClick={handleCreateWallet}
+          >
+            Create Wallet
+          </MuiButton>
 
           <MuiButton
             variant="contained"

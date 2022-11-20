@@ -893,6 +893,8 @@ const AppRoutes = () => {
               element={<BloodbankDashboard />}
             />
           </Route>
+           {/**************************Pouchii Wallet *************************************** */}
+           {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
         </Route>
       </Routes>
     </>
