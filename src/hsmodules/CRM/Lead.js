@@ -28,7 +28,7 @@ import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import {MdCancel} from "react-icons/md";
 
 import LeadsCreate from "./components/lead/LeadCreate";
-import LeadAssignStaff from "./components/lead/AssignStaff";
+import LeadAssignStaff from "./components/lead/AssignTask";
 import LeadDetail from "./components/lead/LeadDetail";
 // eslint-disable-next-line
 const searchfacility = {};

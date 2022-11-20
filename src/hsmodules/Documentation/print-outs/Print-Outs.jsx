@@ -26,6 +26,7 @@ export const PrintOutFixedInformation = ({Clinic}) => {
       .get(facilityId)
       .then(data => {
         setFacility(data);
+        console.log(data);
       })
       .catch(error => {
         console.log(error);

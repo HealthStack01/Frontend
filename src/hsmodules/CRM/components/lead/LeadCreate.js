@@ -17,33 +17,14 @@ import LeadAddContact from "./AddContact";
 import CustomTable from "../../../../components/customtable";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
 
-const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
-  <div
-    onClick={onClick}
-    ref={ref}
-    style={{
-      width: "100%",
-      height: "48px",
-      border: "1.5px solid #BBBBBB",
-      borderRadius: "4px",
-      display: "flex",
-      alignItems: "center",
-      margin: "0.75rem 0",
-      fontSize: "0.85rem",
-      padding: "0 15px",
-      color: "#000000",
-      backgroundColor: "#fff",
-    }}
-  >
-    {value === "" ? "Pick Date" : value}
-  </div>
-));
+import {getContactColumns, getStaffColumns} from "../colums/columns";
 
 const LeadsCreate = ({closeModal}) => {
-  const {register} = useForm();
+  const {register, handleSubmit, control} = useForm();
   const [contactModal, setContactModal] = useState(false);
   const [contacts, setContacts] = useState([]);
   const [staffs, setStaffs] = useState([]);
+  const [selectedStaff, setSelectedStaff] = useState(null);
 
   const handleAddContact = contact => {
     setContacts(prev => [contact, ...prev]);
@@ -55,140 +36,26 @@ const LeadsCreate = ({closeModal}) => {
     );
   };
 
-  const handleAddStaff = staff => {
-    setStaffs(prev => [staff, ...prev]);
-    console.log(staff);
+  const handleSelectedStaff = staff => {
+    setSelectedStaff(staff);
+  };
+
+  const handleAddStaff = () => {
+    setStaffs(prev => [selectedStaff, ...prev]);
+    setSelectedStaff(null);
   };
 
   const handleRemoveStaff = staff => {
     setStaffs(prev => prev.filter(item => item._id !== staff._id));
   };
 
-  const staffColumns = [
-    {
-      name: "Name",
-      key: "contact_name",
-      description: "Enter Date",
-      selector: row => `${row.firstname} ${row.lastname}`,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Profession",
-      style: {color: "#0364FF"},
-      key: "contact_position",
-      description: "Enter Date",
-      selector: row => row.profession,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Email",
-      style: {color: "#0364FF"},
-      key: "contact_phone",
-      description: "Enter Date",
-      selector: row => row.email,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Phone NO",
-      key: "contact_email",
-      description: "Enter Date",
-      selector: row => row.phone,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-    {
-      name: "Del",
-      width: "50px",
-      center: true,
-      key: "contact_email",
-      description: "Enter Date",
-      selector: row => (
-        <DeleteIcon
-          onClick={() => handleRemoveStaff(row)}
-          sx={{color: "#D12A0B"}}
-          fontSize="small"
-        />
-      ),
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-  ];
+  const staffColumns = getStaffColumns(handleRemoveStaff);
 
-  const contactColumns = [
-    // {
-    //   name: "S/N",
-    //   key: "sn",
-    //   description: "SN",
-    //   selector: row => row.sn,
-    //   sortable: true,
-    //   inputType: "HIDDEN",
-    //   width: "60px",
-    //   center: true,
-    // },
-    {
-      name: "Name",
-      key: "contact_name",
-      description: "Enter Date",
-      selector: row => row.contact_name,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Position",
-      style: {color: "#0364FF"},
-      key: "contact_position",
-      description: "Enter Date",
-      selector: row => row.contact_position,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Phone No",
-      style: {color: "#0364FF"},
-      key: "contact_phone",
-      description: "Enter Date",
-      selector: row => row.contact_phone,
-      sortable: true,
-      required: true,
-      inputType: "DATE",
-    },
-    {
-      name: "Email",
-      key: "contact_email",
-      description: "Enter Date",
-      selector: row => row.contact_email,
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-    {
-      name: "Del",
-      width: "50px",
-      center: true,
-      key: "contact_email",
-      description: "Enter Date",
-      selector: row => (
-        <DeleteIcon
-          onClick={() => handleRemoveContact(row)}
-          sx={{color: "#D12A0B"}}
-          fontSize="small"
-        />
-      ),
-      sortable: true,
-      required: true,
-      inputType: "NUMBER",
-    },
-  ];
+  const contactColumns = getContactColumns(handleRemoveContact);
+
+  const onSubmit = data => {
+    console.log(data);
+  };
 
   return (
     <Box
@@ -239,11 +106,9 @@ const LeadsCreate = ({closeModal}) => {
               //placeholder="Enter customer number"
             />
           </Grid>
-          {/* </Grid> */}
 
           {/* ***************************************************************************************** */}
 
-          {/* <Grid container spacing={2}> */}
           <Grid item xs={4}>
             <Input
               register={register("city", {required: true})}
@@ -313,14 +178,14 @@ const LeadsCreate = ({closeModal}) => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Input
-              register={register("address", {required: true})}
+              register={register("deal_probability", {required: true})}
               label="Probability of deal"
               //placeholder="Enter customer name"
             />
           </Grid>
           <Grid item xs={6}>
             <Input
-              register={register("local_govt", {required: true})}
+              register={register("deal_size", {required: true})}
               label="Size of deal"
               //placeholder="Enter customer number"
             />
@@ -332,18 +197,20 @@ const LeadsCreate = ({closeModal}) => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <CustomSelect
-              register={register("city", {required: true})}
+              register={register("deal_status", {required: true})}
               label="Deal Status"
               options={["Open", "Closed", "Pending"]}
+              defaultValue="Open"
               // placeholder="Enter customer name"
             />
           </Grid>
 
           <Grid item xs={6}>
             <CustomSelect
-              register={register("state", {required: true})}
+              register={register("deal_next_action", {required: true})}
               label="Next Action"
               options={["First", "Second", "Third", "Fourth"]}
+              defaultValue="First"
               //placeholder="Enter customer number"
             />
           </Grid>
@@ -352,22 +219,24 @@ const LeadsCreate = ({closeModal}) => {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Input
-              register={register("local_govt", {required: true})}
+              register={register("weight_forcast", {required: true})}
               label="Weight Forcast"
               //placeholder="Enter customer number"
             />
           </Grid>
           <Grid item xs={4}>
             <MuiCustomDatePicker
-              //format="dd/MM/yyyy"
               label="Closing Date"
+              name="closing_date"
+              control={control}
             />
           </Grid>
 
           <Grid item xs={4}>
             <MuiCustomDatePicker
-              //format="dd/MM/yyyy"
               label="Submission Date"
+              name="submission_date"
+              control={control}
             />
           </Grid>
         </Grid>
@@ -377,16 +246,35 @@ const LeadsCreate = ({closeModal}) => {
             <Textarea
               label="Additional Information"
               placeholder="Write here..."
+              register={register("additional_info")}
             />
           </Grid>
         </Grid>
       </Box>
 
       <Box container>
-        <FormsHeaderText text="Staff Details" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <FormsHeaderText text="Staff Details" />
+          <Button
+            sx={{textTransform: "capitalize"}}
+            variant="contained"
+            onClick={handleAddStaff}
+            size="small"
+            disabled={!selectedStaff}
+          >
+            <AddCircleOutlineOutlinedIcon />
+            Add Staff
+          </Button>
+        </Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <EmployeeSearch getSearchfacility={handleAddStaff} />
+            <EmployeeSearch getSearchfacility={handleSelectedStaff} />
           </Grid>
         </Grid>
 
@@ -409,9 +297,8 @@ const LeadsCreate = ({closeModal}) => {
         <Button
           variant="outlined"
           color="error"
+          size="small"
           sx={{
-            width: "150px",
-            height: "40px",
             textTransform: "capitalize",
             marginRight: "15px",
           }}
@@ -422,7 +309,9 @@ const LeadsCreate = ({closeModal}) => {
 
         <Button
           variant="contained"
-          sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
+          sx={{textTransform: "capitalize"}}
+          onClick={handleSubmit(onSubmit)}
+          size="small"
         >
           Submit
         </Button>

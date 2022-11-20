@@ -14,13 +14,24 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import ModalBox from "../../components/modal";
 import HiaCreate from "./components/HIAcreate";
+import ViewText from "../../components/viewtext";
+import { Box, Grid, Button as MuiButton } from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
+import {
+  BottomWrapper,
+  GrayWrapper,
+  GridWrapper,
+  HeadWrapper,
+} from "../app/styles";
 
 export default function HiaOrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
-  const [createModal,setCreateModal] = useState(false)
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
 
   //const [showState,setShowState]=useState() //create|modify|detail
 
@@ -33,27 +44,44 @@ export default function HiaOrganizationClient() {
             </div> */}
       <div className="columns ">
         <div className="column is-8 ">
-          <OrganizationList openCreateModal={()=> setCreateModal(true)} />
+          <OrganizationList
+            openCreateModal={() => setCreateModal(true)}
+            openDetailModal={() => setDetailModal(true)}
+          />
 
-          <ModalBox open={createModal}
-          onClose={() => setCreateModal(false)}
-          header="HIA Emplanelment">
-          <HiaCreate closeModal={() => setCreateModal(false)}/>
+          <ModalBox
+            open={createModal}
+            onClose={() => setCreateModal(false)}
+            header="HIA Emplanelment"
+          >
+            <HiaCreate closeModal={() => setCreateModal(false)} />
+          </ModalBox>
+
+          <ModalBox open={detailModal} onClose={() => setDetailModal(false)}>
+            <OrganizationDetail
+              closeModal={() => setDetailModal(false)}
+              closeDetailModal={() => setDetailModal(false)}
+              openModifyModal={() => setModifyModal(true)}
+            />
+          </ModalBox>
+
+          <ModalBox open={modifyModal} onClose={() => setModifyModal(false)}>
+            <OrganizationModify />
           </ModalBox>
         </div>
         <div className="column is-4 ">
           {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
-          {state.facilityModule.show === "detail" && <OrganizationDetail />}
-          {state.facilityModule.show === "modify" && (
+          {/* {state.facilityModule.show === "detail" && <OrganizationDetail />} */}
+          {/* {state.facilityModule.show === "modify" && (
             <OrganizationModify facility={selectedFacility} />
-          )}
+          )} */}
         </div>
       </div>
     </section>
   );
 }
 
-export function OrganizationCreate({showModal,setShowModal}) {
+export function OrganizationCreate({ showModal, setShowModal }) {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -236,7 +264,7 @@ export function OrganizationCreate({showModal,setShowModal}) {
   );
 }
 
-export function OrganizationList({openCreateModal}) {
+export function OrganizationList({ openCreateModal, openDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -283,6 +311,7 @@ export function OrganizationList({openCreateModal}) {
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    openDetailModal();
   };
 
   const handleSearch = (val) => {
@@ -509,7 +538,7 @@ export function OrganizationList({openCreateModal}) {
   );
 }
 
-export function OrganizationDetail() {
+export function OrganizationDetail({ openModifyModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -520,6 +549,8 @@ export function OrganizationDetail() {
   //const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+  const [editHia, setEditHia] = useState(false);
+  const { register, handleSubmit, setValue, reset } = useForm();
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -533,6 +564,7 @@ export function OrganizationDetail() {
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    openModifyModal();
   };
   const closeForm = async () => {
     const newfacilityModule = {
@@ -543,130 +575,258 @@ export function OrganizationDetail() {
       ...prevstate,
       facilityModule: newfacilityModule,
     }));
-    console.log("close form");
+
+    // console.log("close form");
+  };
+  const handleCancel = async () => {
+    const newfacilityModule = {
+      selectedFacility: facility,
+      show: "detail",
+    };
+    await setState((prevstate) => ({
+      ...prevstate,
+      facilityModule: newfacilityModule,
+    }));
+    setEditHia(false);
+  };
+
+  const handleDelete = async () => {
+    let conf = window.confirm("Are you sure you want to delete this data?");
+    const dleteId = facility._id;
+    if (conf) {
+      orgServ
+        .remove(dleteId)
+        .then((res) => {
+          reset();
+          toast({
+            message: "Hia deleted successfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+          changeState();
+        })
+        .catch((err) => {
+          toast({
+            message: "Error deleting Hia,probably network issue or" + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
+  };
+  useEffect(() => {
+    setValue("facilityName", facility.organizationDetail.facilityName, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("facilityAddress", facility.organizationDetail.facilityAddress, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("facilityCity", facility.organizationDetail.facilityCity, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue(
+      "facilityContactPhone",
+      facility.organizationDetail.facilityContactPhone,
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      }
+    );
+
+    setValue("facilityEmail", facility.organizationDetail.facilityEmail, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("facilityOwner", facility.organizationDetail.facilityOwner, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("facilityType", facility.organizationDetail.facilityType, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue("facilityCategory", facility.organizationDetail.facilityCategory, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  });
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+
+    console.log(data);
+
+    setSuccess(false);
+
+    orgServ
+      .patch(facility._id, data)
+
+      .then((res) => {
+        toast("Hia updated succesfully");
+        changeState();
+        closeDetailModal();
+      })
+      .catch((err) => {
+        toast(`Error updating Client, probable network issues or ${err}`);
+      });
   };
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Organization Details</p>
-          <button
-            className="delete pushleft"
-            aria-label="close"
-            onClick={() => closeForm()}
-          ></button>
-        </div>
-        <div className="card-content vscrollable">
-          <fieldset>
-            <div className="field ">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital"></i>
-                </span>
-                Name:{" "}
-                <span className="is-small ">
-                  {" "}
-                  {facility.organizationDetail.facilityName}{" "}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-                Address:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityAddress}{" "}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-marker-alt"></i>
-                </span>
-                City:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityCity}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-phone-alt"></i>
-                </span>
-                Phone:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityContactPhone}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-envelope"></i>
-                </span>
-                Email:{" "}
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityEmail}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-user-md"></i>
-                </span>
-                CEO:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityOwner}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                <span className="icon is-small is-left">
-                  <i className="fas fa-hospital-symbol"></i>
-                </span>
-                Type:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityType}
-                </span>
-              </label>
-            </div>
-            <div className="field">
-              <label className="label is-small">
-                <span className="icon is-small is-left">
-                  <i className="fas fa-clinic-medical"></i>
-                </span>
-                Category:
-                <span className="is-small ">
-                  {facility.organizationDetail.facilityCategory}
-                </span>
-              </label>
-            </div>
-            {user.stacker && (
-              <div className="field">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    onClick={handleEdit}
-                  >
-                    Edit
-                  </button>
-                </p>
-              </div>
+      <Box
+        sx={{
+          width: "800px",
+          maxHeight: "80vh",
+        }}
+      >
+        <HeadWrapper>
+          <Box>
+            <h2>Hia Detail</h2>
+            <span>
+              Hia Detail of {facility.organizationDetail.facilityName}
+            </span>
+          </Box>
+          <BottomWrapper>
+            <MuiButton
+              variant="contained"
+              size="small"
+              sx={{
+                textTransform: "capitalize",
+                marginLeft: "10px",
+              }}
+              onClick={() => setEditHia(true)}
+            >
+              Edit Hia
+            </MuiButton>
+          </BottomWrapper>
+        </HeadWrapper>
+      </Box>
+
+      <Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={6}>
+            {(facility.organizationDetail.facilityName || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityName")}
+                  label="Name"
+                  disabled={!editHia}
+                />
+              </Grid>
             )}
-            {error && <div className="message"> {message}</div>}
-          </fieldset>
-        </div>
-      </div>
+            {(facility.organizationDetail.facilityAddress || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityAddress")}
+                  label="Address"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+
+            {(facility.organizationDetail.facilityCity || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityCity")}
+                  label="City"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+            {(facility.organizationDetail.facilityContactPhone || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityContactPhone")}
+                  label="Phone"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+
+            {(facility.organizationDetail.facilityEmail || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityEmail")}
+                  label="Email"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+
+            {(facility.organizationDetail.facilityOwner || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityOwner")}
+                  label="CEO"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+
+            {(facility.organizationDetail.facilityType || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityType")}
+                  label="Type"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+
+            {(facility.organizationDetail.facilityCategory || editHia) && (
+              <Grid item xs={4}>
+                <Input
+                  register={register("facilityCategory")}
+                  label="Category"
+                  disabled={!editHia}
+                />
+              </Grid>
+            )}
+          </Grid>
+        </form>
+      </Box>
+      {editHia && (
+        <Box
+          sx={{ width: "100%", display: "flex", alignItems: "center" }}
+          mt={2}
+        >
+          <MuiButton
+            variant="contained"
+            color="success"
+            sx={{ textTransform: "capitalize", marginRight: "10px" }}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Update Hia
+          </MuiButton>
+
+          <MuiButton
+            variant="contained"
+            color="error"
+            sx={{ textTransform: "capitalize", marginRight: "10px" }}
+            onClick={handleDelete}
+          >
+            Delete Hia
+          </MuiButton>
+
+          <MuiButton
+            variant="contained"
+            color="warning"
+            sx={{ textTransform: "capitalize", marginRight: "10px" }}
+            onClick={handleCancel}
+          >
+            Cancel Update
+          </MuiButton>
+        </Box>
+      )}
     </>
   );
 }

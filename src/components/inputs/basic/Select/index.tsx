@@ -15,7 +15,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   defaultValue?: string;
   readonly?: boolean;
   register?: any;
-  disable?: boolean;
+  disabled?: boolean;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -27,7 +27,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   errorText,
   readonly,
   register,
-  disable = false,
+  disabled = false,
 }) => {
   console.log(options);
 
@@ -37,7 +37,7 @@ const CustomSelect: React.FC<SelectProps> = ({
       <Select
         labelId="demo-simple-select-autowidth-label"
         id="demo-simple-select-autowidth"
-        disabled={disable}
+        disabled={disabled}
         label={label}
         name={name}
         //defaultValue={defaultValue || "Cash"}
