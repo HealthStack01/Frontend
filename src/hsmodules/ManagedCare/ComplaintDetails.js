@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Avatar} from "@mui/material";
 import {BiChevronDown} from 'react-icons/bi';
-// import
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const ComplaintDetails = () => {
+    const [text, setText] = useState('')
 
     const dummyComplaints = [
         {
@@ -50,7 +52,7 @@ const ComplaintDetails = () => {
               style={{
                 width: '80%',
                 // height: 'calc(100vh - 90px)',
-                height: '450px',
+                height: '600px',
                 overflow: 'auto',
                 margin: '0 auto',
                 marginTop: '3rem',
@@ -68,12 +70,21 @@ const ComplaintDetails = () => {
                         <div className="complaint_foot">
                             <p style={{color: "#979DAC", width: "60%"}}>{data.description}</p>
                             <p style={{color: data.status == 'Pending' ? "#17935C" : "#F1A153", fontWeight: 700, margin: '0.5rem'}}>{data.status}</p>
+                            {/* <img src={<BiChevronDown/>} alt='' style={{color: 'blue', height: '1rem', width: '1rem', margin: '0', marginTop: '-2rem'}} /> */}
                         </div>
                         <p style={{color:"#979DAC", margin: '0 0 0 50px'}}>{data.date}</p>
                         
                     </div>
                 ))
               }
+              <CKEditor 
+                editor={ClassicEditor}
+                data={text}
+                onChange={(event, editor) => {
+                const data = editor.getData()
+                setText(data)
+            }}
+            />   
 
             </div>
      </div>

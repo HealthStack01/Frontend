@@ -1,9 +1,11 @@
-import {forwardRef} from "react";
+import {forwardRef, useState, Component} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
 import {BiChevronDown} from 'react-icons/bi';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
   <div
@@ -28,6 +30,8 @@ const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
 ));
 
 const HiaCreate = ({closeModal}) => {
+  const [text, setText] = useState('')
+
   const {register} = useForm();
   return (
     <Box
@@ -81,13 +85,17 @@ const HiaCreate = ({closeModal}) => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{marginBottom: '1.3rem'}}>
           <Grid item xs={10}>
             <label>Complaint</label>
-            <Input
-              register={register("address", {required: true})}
-              placeholder="Type here"
-            />
+            <CKEditor 
+            editor={ClassicEditor}
+            data={text}
+            onChange={(event, editor) => {
+              const data = editor.getData()
+              setText(data)
+            }}
+            />           
           </Grid>
         </Grid>
       </Box>
@@ -98,7 +106,7 @@ const HiaCreate = ({closeModal}) => {
           variant="contained"
           sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
         >
-          OK
+          Submit
         </Button>
       </Box>
     </Box>
