@@ -29,7 +29,7 @@ import {MdCancel} from "react-icons/md";
 
 import LeadsCreate from "./components/lead/LeadCreate";
 import LeadAssignStaff from "./components/lead/AssignTask";
-import LeadDetail from "./components/lead/LeadDetail";
+import LeadDetail from "./components/lead/LeadDetailView";
 // eslint-disable-next-line
 const searchfacility = {};
 

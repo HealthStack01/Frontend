@@ -29,7 +29,7 @@ export const staffsData = [
   {
     firstname: "Staff",
     lastname: "One",
-    profession: "",
+    profession: "Doctor",
     email: "staffone@mail.com",
     phone: "23738473893",
   },

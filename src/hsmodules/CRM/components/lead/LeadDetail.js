@@ -21,6 +21,7 @@ import {
   getContactColumns,
   getStaffColumns,
   getTaskColumns,
+  getUploadColumns,
 } from "../colums/columns";
 import LeadAssignTask from "./AssignTask";
 import AdditionalInformationCard from "./AdditionalInfo";
