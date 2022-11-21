@@ -5,7 +5,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {FacilityCreate} from "../Admin/Facility";
 import ModalBox from "../../components/modal";
 
@@ -111,12 +111,7 @@ export function FacilitySearch({getSearchfacility, clear}) {
           setShowPanel(true);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Services " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(`Error Creating Service due to ${err}`);
         });
     } else {
       // console.log("less than 3 ")
@@ -216,9 +211,9 @@ export function FacilitySearch({getSearchfacility, clear}) {
       <ModalBox
         open={productModal}
         onClose={handlecloseModal}
-        header="Create Facility"
+        header="Create Organization"
       >
-        <FacilityCreate />
+        <FacilityCreate closeModal={handlecloseModal} />
       </ModalBox>
     </div>
   );
@@ -319,12 +314,7 @@ export function OrgFacilitySearch({getSearchfacility, clear}) {
           setShowPanel(true);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Services " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(`Error creating Service due to ${err}`);
         });
     } else {
       // console.log("less than 3 ")
@@ -534,12 +524,7 @@ export function SponsorSearch({getSearchfacility, clear}) {
           setShowPanel(true);
         })
         .catch(err => {
-          toast({
-            message: "Error creating Services " + err,
-            type: "is-danger",
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(`Error creating Service due to ${err}`);
         });
     } else {
       // console.log("less than 3 ")
@@ -573,20 +558,20 @@ export function SponsorSearch({getSearchfacility, clear}) {
             className={`dropdown ${showPanel ? "is-active" : ""}`}
             style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: '100%' }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 label="Search Sponsor"
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
                 style={{
-                  width: '100%',
-                  padding: '1rem .5rem',
-                  borderRadius: '4px',
-                  border: '1.5px solid rgba(0, 0, 0, 0.6)',
+                  width: "100%",
+                  padding: "1rem .5rem",
+                  borderRadius: "4px",
+                  border: "1.5px solid rgba(0, 0, 0, 0.6)",
                 }}
               />
               <span className="icon is-small is-left">

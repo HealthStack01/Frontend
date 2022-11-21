@@ -10,6 +10,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import ClientFinInfo from './ClientFinInfo';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 // import { AppointmentCreate } from "../Clinic/Appointments";
+<<<<<<< HEAD
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ClientBilledPrescription from '../Finance/ClientBill';
 import ClientGroup from './ClientGroup';
@@ -17,6 +18,24 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import dayjs from 'dayjs';
+||||||| ec2a6fa
+import InfiniteScroll from "react-infinite-scroll-component";
+import ClientBilledPrescription from "../Finance/ClientBill";
+import ClientGroup from "./ClientGroup";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import dayjs from "dayjs";
+=======
+import InfiniteScroll from "react-infinite-scroll-component";
+import ClientBilledPrescription from "../Finance/ClientBill";
+import ClientGroup from "./ClientGroup";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import api from "../../utils/api";
+import dayjs from "dayjs";
+import axios from "axios"
+>>>>>>> 1181bcb09a36b313fe96f26f5030a25cc1b93f5e
 
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
@@ -872,8 +891,16 @@ export function ClientDetail({ closeDetailModal }) {
   const { state, setState } = useContext(ObjectContext);
   const [editClient, setEditClient] = useState(false);
 
+<<<<<<< HEAD
   const ClientServ = client.service('client');
 
+||||||| ec2a6fa
+  const ClientServ = client.service("client");
+
+=======
+  const ClientServ = client.service("client");
+  // const createWallet = client.service("register")
+>>>>>>> 1181bcb09a36b313fe96f26f5030a25cc1b93f5e
   const [success, setSuccess] = useState(false);
 
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -921,6 +948,8 @@ export function ClientDetail({ closeDetailModal }) {
   const handlecloseModal3 = () => {
     setBillModal(false);
   };
+
+
 
   useEffect(() => {
     setValue('firstname', Client.firstname, {
@@ -1084,6 +1113,26 @@ export function ClientDetail({ closeDetailModal }) {
     }
   };
 
+  const handleCreateWallet = async () => {
+    try {
+      const res = await api.post(
+        'https://walletdemo.remita.net/api/register',
+        {
+          firstName: Client.firstname,
+          lastName: Client.lastname,
+          phoneNumber:"09123802410",
+          password:"kennis022876",
+        }
+      );
+    console.log(res)
+        toast.success('Wallet Created Successfully');
+        return res.data
+  } catch (error) {
+    toast.error(error);
+    console.log(error)
+  }
+  }
+
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -1147,6 +1196,18 @@ export function ClientDetail({ closeDetailModal }) {
               Bill Client
             </MuiButton>
           )}
+
+<MuiButton
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              marginLeft: "10px",
+            }}
+            onClick={handleCreateWallet}
+          >
+            Create Wallet
+          </MuiButton>
 
           <MuiButton
             variant='contained'

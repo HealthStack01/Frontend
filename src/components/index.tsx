@@ -24,6 +24,21 @@ const TopMenu = ({isOpen, handleClick}) => {
 
   const {state, setState} = useContext(ObjectContext);
 
+  const handleChangeLocation = (location: string) => {
+    switch (location.toLowerCase()) {
+      case "finance":
+        // setState(prev => ({
+        //   ...prev,
+        //   financeModule: {...prev.financeModule, selectedFinance: {}},
+        // }));
+        console.log("work in progress");
+        break;
+
+      default:
+        break;
+    }
+  };
+
   /*                                                                                                                                                                                                                                          */
 
   /*  useEffect(() => {
@@ -74,23 +89,8 @@ const TopMenu = ({isOpen, handleClick}) => {
         </span>
       </div>
 
-      {state.employeeLocation.locationName && (
-        <Box sx={{display: "flex", alignItems: "center"}}>
-          <Typography
-            sx={{color: "#000000"}}
-          >{`@ ${state.employeeLocation.locationName} ${state.employeeLocation.locationType}`}</Typography>
-          <Button
-            size="medium"
-            variant="contained"
-            sx={{textTransform: "capitalize", marginLeft: "10px"}}
-          >
-            Change {state.employeeLocation.locationType}
-          </Button>
-        </Box>
-      )}
-
       <Profile>
-        <div className="location-selector">
+        {/* <div className="location-selector">
           <LocationSelect
             defaultLocationId={selectedLocation?._id || ""}
             locations={locationOptions}
@@ -104,7 +104,25 @@ const TopMenu = ({isOpen, handleClick}) => {
               setOpen={setOpen}
             />
           }
-        </div>
+        </div> */}
+
+        {state.employeeLocation.locationName && (
+          <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
+            <Typography
+              sx={{color: "#000000"}}
+            >{`@ ${state.employeeLocation.locationName} ${state.employeeLocation.locationType}`}</Typography>
+            <Button
+              size="medium"
+              variant="contained"
+              sx={{textTransform: "capitalize", marginLeft: "10px"}}
+              onClick={() =>
+                handleChangeLocation(state.employeeLocation.locationType)
+              }
+            >
+              Change {state.employeeLocation.locationType}
+            </Button>
+          </Box>
+        )}
 
         <div className="profile-item">
           <i className="bi bi-bell-fill" />
