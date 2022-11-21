@@ -17,7 +17,7 @@ import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
+import { Button } from '@mui/material';
 import moment from 'moment';
 import ModalBox from '../../components/modal/';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
@@ -439,10 +439,16 @@ export function PolicyList({ showModal, setShowModal }) {
                   fontSize: '14px',
                   fontWeight: '600',
                 }}
-                label="Add new"
+                color="primary"
+                variant="contained"
+                size="small"
+                sx={{ textTransform: 'capitalize' }}
                 onClick={handleCreateNew}
                 showicon={true}
-              />
+              >
+                {' '}
+                Add New
+              </Button>
             )}
           </TableMenu>
           <div
@@ -1118,7 +1124,15 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
               progressPending={loading}
             />
           )}
-          <Button label="submit" text="Save" />
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            color="primary"
+          >
+            {' '}
+            Save{' '}
+          </Button>
         </form>
       </div>
     </>
@@ -1674,7 +1688,52 @@ export function PolicyDetail({ showModal, setShowModal }) {
           <Grid item xs={12} sm={12} md={6}>
             <ModalHeader text={'Policy Details'} />
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+        </Grid>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            my={1}
+          >
+            <Button
+              onClick={handleEdit}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="secondary"
+            >
+              Edit Details
+            </Button>
+            <Button
+              onClick={handleFinancialInfo}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="info"
+            >
+              Payment Info
+            </Button>
+            <Button
+              onClick={handleSchedule}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="success"
+            >
+              Schedule Appointment
+            </Button>
+            <Button
+              onClick={() => navigate('/app/beneficiary/documentation')}
+              variant="outlined"
+              size="small"
+              sx={{ textTransform: 'capitalize' }}
+            >
+              View History
+            </Button>
+
             {(user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
               user.stacker) && (
@@ -1698,7 +1757,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
         </Grid>
         <Grid container>
           <Grid item md={4}>
-            <p>First Name:{Client?.firstname}</p>
+            <p>First Name: {Client?.firstname}</p>
           </Grid>
           <Grid item md={4}>
             <p>Middle Name: {Client?.middlename}</p>
@@ -1780,25 +1839,17 @@ export function PolicyDetail({ showModal, setShowModal }) {
           <Grid item xs={12} sm={12} md={4}>
             <p>NOK Relationship: {Client?.nok_relationship}</p>
           </Grid>
-        </Grid>
-
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            mt={1}
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <Button onClick={handleEdit}>Edit Details</Button>
-            <Button onClick={handleFinancialInfo}>Payment Info</Button>
-            <Button onClick={handleSchedule}>Schedule Appointment</Button>
-            <Button onClick={() => navigate('/app/beneficiary/documentation')}>
-              View History
-            </Button>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Sponsor: </p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Plan Type: </p>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <p>Organization: </p>
           </Grid>
         </Grid>
+
         {finacialInfoModal && (
           <>
             <ModalBox open onClose={() => setFinacialInfoModal(false)}>
