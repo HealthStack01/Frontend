@@ -61,6 +61,7 @@ export default function Provider() {
           <OrganizationDetail setShowModal={setShowModal} />
         </ModalBox>
       )}
+      
       {showModal === 3 && (
         <ModalBox open={showModal} onClose={() => setShowModal(false)}>
           <NewOrganizationCreate />

@@ -33,14 +33,14 @@ const BasicDatePicker: React.FC<Props> = ({
   };
   return (
     <Box>
-      <FormControl style={{ width: '100%' }}>
-        <InputLabel className="form__label" htmlFor={name}>
+      <FormControl style={{ width: '100%' }} className='date-box'>
+        <InputLabel className='form__label' htmlFor={name}>
           {label}
         </InputLabel>
         <input
           {...register}
-          type="date"
-          className="date-picker"
+          type='date'
+          className='date-picker'
           defaultValue={defaultValue}
           selected={selected}
           onChange={onChange}

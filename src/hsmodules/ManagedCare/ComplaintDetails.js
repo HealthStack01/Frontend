@@ -3,9 +3,13 @@ import { Avatar} from "@mui/material";
 import {BiChevronDown} from 'react-icons/bi';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {BsArrowLeftShort} from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const ComplaintDetails = () => {
     const [text, setText] = useState('')
+
+
 
     const dummyComplaints = [
         {
@@ -41,12 +45,10 @@ const ComplaintDetails = () => {
             date: "27-10-21"
         },
       ]
-
+      const navigate = useNavigate();
   return (
     <div >
-     <div>
-
-     </div>
+     <h3 onClick={() => navigate("/app/managed-care/createlist")} style={{marginLeft: '4rem', fontSize: '1.3rem'}}><BsArrowLeftShort style={{height: '1rem', width: '1rem'}}/>Back</h3>
      <div>
      <div
               style={{

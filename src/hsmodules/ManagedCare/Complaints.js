@@ -36,7 +36,7 @@ import  ComplaintCreates from '../../hsmodules/ManagedCare/components/ComplaintC
 
 const searchfacility = {};
 
-export default function Complaint() {
+export default function Complaints() {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();

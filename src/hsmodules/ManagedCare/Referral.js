@@ -12,7 +12,7 @@ import LocationSearch from '../helpers/LocationSearch';
 import EmployeeSearch from '../helpers/EmployeeSearch';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { GridWrapper } from '../app/styles';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
@@ -23,7 +23,7 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import { Box, Grid, Typography } from '@mui/material';
+import { Radio, Grid, FormControlLabel, RadioGroup } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { McText } from './text';
 import Input from '../../components/inputs/basic/Input/index';
@@ -51,7 +51,7 @@ export default function GeneralAppointments() {
     <section className="section remPadTop">
       <ReferralList showModal={showModal} setShowModal={setShowModal} />
       {showModal === 1 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(0)}>
+        <ModalBox open={showModal} onClose={() => setShowModal(0)} width='80vw'>
           <Grid container spacing={2}>
             <Grid item xs={4}>
               <PatientProfile />
@@ -287,7 +287,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card " style={{overflowY: 'auto', height: '600px'}}>
+      <div className="card " style={{ height: '80vh', width: '100%', overflow: 'hidden'}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -314,84 +314,53 @@ export function ReferralCreate({ showModal, setShowModal }) {
               />
             </Grid>
           </Grid>
-
-          <McText
-            txt={'Patient Information'}
-            color={'#0064CC'}
-            type={'p'}
-            bold={'700'}
-            size={'18px'}
-
-          />
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input name="patientname" label="Patient Name" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <RadioButton
-                name="gender"
-                title="Gender"
-                options={[
-                  {
-                    label: 'Male',
-                    value: 'male',
-                  },
-                  {
-                    label: 'Female',
-                    value: 'female',
-                  },
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input name="address" label="Address" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input
+          <GridWrapper>
+          <Input
                 name="healthCareProvider"
                 label="Health Care Provider"
                 type="text"
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            
               <Input name="preAuthId" label="Pre-auth ID" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            
               <Input name="claimId" label="Claim ID" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
+           
               <BasicDateTimePicker
                 name="dateOfRequest"
                 label="Date of Request"
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <RadioButton
-                name="emergency"
-                title="Emergency"
-                options={[
-                  {
-                    label: 'Yes',
-                    value: 'yes',
-                  },
-                  {
-                    label: 'No',
-                    value: 'no',
-                  },
-                ]}
-              />
-            </Grid>
-          </Grid>
+              <div>
+              <RadioGroup
+                    aria-labelledby='demo-radio-buttons-group-label'
+                    defaultValue='emergency'
+                    name='emergency'
+                    sx={{
+                      display: 'flex !important',
+                      justifyContent: 'space-between !',
+                      flexDirection: 'row !important',
+                    }}
+                  >
+                    <FormControlLabel
+                      value='yes'
+                      control={<Radio />}
+                      label='Yes'
+                      
+                    />
+                    <FormControlLabel
+                      value='no'
+                      control={<Radio />}
+                      label='No'
 
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6}>
+                    />
+              </RadioGroup>
+              </div>
+             
+          
+          </GridWrapper>
+
+
+          <GridWrapper style={{marginTop: '-1rem'}}>
+            
               <McText
                 txt={'Clinical Information'}
                 color={'#0064CC'}
@@ -399,8 +368,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 bold={'700'}
                 size={'18px'}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            
               <button
                 style={{
                   float: 'right',
@@ -418,8 +386,8 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 />
                 Add complaints
               </button>
-            </Grid>
-          </Grid>
+           
+          </GridWrapper>
 
           <Grid container spacing={2} my={1}>
             <Grid item xs={12} sm={6}>
@@ -450,15 +418,13 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
+          <GridWrapper style={{overflow: 'hidden', }}>
               <CustomSelect
                 name="provisionalDiagnosis"
                 label="Provisional Diagnosis"
                 options={CustomSelectData}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+           
               <button
                 style={{
                   float: 'left',
@@ -476,18 +442,14 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 />
                 Add Diagnosis
               </button>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
+          
+             
               <CustomSelect
                 name="plannedDiagnosis"
                 label="Planned Procedure"
                 options={CustomSelectData}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+           
               <button
                 style={{
                   float: 'left',
@@ -505,18 +467,13 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 />
                 Add Procedure
               </button>
-            </Grid>
-          </Grid>
 
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
               <CustomSelect
                 name="plannedService"
                 label="Planned Service"
                 options={CustomSelectData}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+        
               <button
                 style={{
                   float: 'left',
@@ -534,8 +491,11 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 />
                 Add Service
               </button>
-            </Grid>
-          </Grid>
+          </GridWrapper>
+
+          
+
+         
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -558,7 +518,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} mt={2}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
                 type="submit"
