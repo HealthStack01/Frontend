@@ -585,7 +585,7 @@ const LeadDetail = () => {
   };
 
   return (
-    <Box sx={{width: "750px", minHeight: "300px", maxHeight: "80vh"}}>
+    <Box sx={{width: "800px", minHeight: "300px", maxHeight: "80vh"}}>
       <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2}>
         <Button
           variant="contained"

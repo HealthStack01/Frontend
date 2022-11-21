@@ -96,7 +96,7 @@
     "start": "react-scripts start",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
-    "build": "CI=false react-scripts build",
+    "build": "CI='' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tsc --noEmit && eslint 'src/**/*.{js,jsx,ts,tsx}'"

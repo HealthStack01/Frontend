@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const contactsData = [
   {
     contact_name: "Test Adetest",
@@ -54,4 +56,14 @@ export const informationData = [
   // "Vel autem quis sed doloribus voluptas sit omnis libero eos quia Quis. Ea architecto voluptates est assumenda itaque nam eius sunt est amet fugit. Sit mollitia repudiandae ut inventore ducimus sit quia ipsam et repudiandae aspernatur sit animi velit et temporibus accusantium!",
   // "In veniam officiis qui numquam quis et voluptas voluptatibus et nihil ipsam.",
   "Sed nulla aperiam id illo aperiam non nesciunt illo. Eum beatae voluptates cum quisquam veritatis et labore quisquam qui magnam voluptas aut maiores blanditiis quo repellendus ipsum. Cum commodi sunt sed debitis ipsam non molestiae quia non beatae tempore cum dolor veniam est nihil cupiditate. In praesentium magnam ut animi accusantium eum sint accusantium.",
+];
+
+export const additionalInformationData = [
+  {
+    created_by: "Test Testing",
+    created_at: moment.now(),
+    information:
+      "Sed nulla aperiam id illo aperiam non nesciunt illo. Eum beatae voluptates cum quisquam veritatis et labore quisquam qui magnam voluptas aut maiores blanditiis quo repellendus ipsum.",
+    _id: "1",
+  },
 ];
