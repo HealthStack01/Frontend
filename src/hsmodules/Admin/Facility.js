@@ -4,7 +4,10 @@ import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
+import {toast} from "react-toastify";
 import {UserContext, ObjectContext} from "../../context";
+import {Box, Button, Grid} from "@mui/material";
+import Input from "../../components/inputs/basic/Input";
 
 export default function Facility() {
   const {state} = useContext(ObjectContext); //,setState
@@ -35,7 +38,7 @@ export default function Facility() {
   );
 }
 
-export function FacilityCreate() {
+export function FacilityCreate({closeModal}) {
   const {register, handleSubmit} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -59,16 +62,109 @@ export function FacilityCreate() {
         e.target.reset();
         setMessage("Created Organization successfully");
         setSuccess(true);
+        toast.success(`${data.facilityName} Organaization Created`);
+        closeModal();
       })
       .catch(err => {
         setMessage("Error creating facility, probable network issues " + err);
+        toast.error(`Failed to create Organization due to ${err}`);
         setError(true);
       });
   };
 
   return (
     <>
-      <div className="card ">
+      <Box sx={{width: "500px", maxHeight: "80vh"}}>
+        <form>
+          <Grid container spacing={1}>
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Organization Name"
+                register={register("facilityName", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Organization CEO"
+                register={register("facilityOwner", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Organization Email"
+                register={register("facilityEmail", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Organization Phone No"
+                register={register("facilityContactPhone", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Organization Category"
+                register={register("facilityCategory", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Organization Type"
+                register={register("facilityType", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={12} md={12} sm={12} xs={12}>
+              <Input
+                label="Organization Address"
+                register={register("facilityAddress", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="State/City/Town"
+                register={register("facilityCity", {required: true})}
+              />
+            </Grid>
+
+            <Grid item lg={6} md={12} sm={12} xs={6}>
+              <Input
+                label="Country"
+                register={register("facilityCountry", {required: true})}
+              />
+            </Grid>
+          </Grid>
+
+          <Box sx={{display: "flex"}}>
+            <Button
+              color="success"
+              size="small"
+              variant="contained"
+              sx={{textTransform: "capitalize", marginRight: "15px"}}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Create
+            </Button>
+            <Button
+              color="warning"
+              size="small"
+              variant="outlined"
+              sx={{textTransform: "capitalize"}}
+              onClick={closeModal}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </form>
+      </Box>
+
+      {/* <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Create Facility</p>
         </div>
@@ -196,7 +292,7 @@ export function FacilityCreate() {
             {error && <div className="message"> {message}</div>}
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
