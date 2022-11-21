@@ -63,6 +63,7 @@
     "react-jutsu": "^3.0.3",
     "react-leaflet": "^4.1.0",
     "react-loader-spinner": "^5.3.4",
+    "react-otp-input": "^2.4.0",
     "react-pdf": "^6.1.0",
     "react-preloaders": "^3.0.3",
     "react-router-dom": "^6.4.3",
