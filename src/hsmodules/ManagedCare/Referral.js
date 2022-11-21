@@ -1116,7 +1116,7 @@ export function ReferralDetails() {
   return (
     <>
       <div
-        className="card"
+        // className="card"
         style={{
           height: '50vh',
           overflowY: 'scroll',
