@@ -27,26 +27,29 @@ const CustomLoader = () => (
 const customStyles = {
   rows: {
     style: {
-      minHeight: '64px', // override the row height
+      minHeight: '40px', // override the row height
       '&:not(:last-of-type)': {
         borderBottomWidth: '0px',
       },
-      padding: '0.75rem',
+      padding: '0.25rem',
       backgroundColor: '##F8F8F8',
     },
   },
   headRow: {
     style: {
       borderBottomWidth: '0px',
-      padding: '24px',
+      padding: '0.25rem',
       backgroundColor: '#F8F8F8',
       fontSize: '0.75rem',
     },
   },
   headCells: {
     style: {
-      paddingLeft: '8px', // override the cell padding for head cells
-      paddingRight: '8px',
+      padding: '0.25rem',
+      paddingLeft: '0.5rem', // override the cell padding for head cells
+      paddingRight: '0.5rem',
+      paddingTop: '0.2rem',
+      paddingBottom: '0.2rem',
       fontSize: '0.75rem',
       fontWeight: 'bold',
       color: '#000',
@@ -54,9 +57,11 @@ const customStyles = {
   },
   cells: {
     style: {
-      paddingLeft: '8px', // override the cell padding for data cells
-      paddingRight: '8px',
-      fontSize: 'o.75rem',
+      paddingLeft: '0.5rem', // override the cell padding for data cells
+      paddingRight: '0.5rem',
+      paddingTop: '0.2rem',
+      paddingBottom: '0.2rem',
+      fontSize: '0.8rem',
       color: '#000',
       fontWeight: '400',
     },
