@@ -30,6 +30,7 @@ import {MdCancel} from "react-icons/md";
 import LeadsCreate from "./components/lead/LeadCreate";
 import LeadAssignStaff from "./components/lead/AssignTask";
 import LeadDetail from "./components/lead/LeadDetailView";
+import OldLeadDetail from "./components/lead/LeadDetail";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -70,7 +71,7 @@ export default function Leads() {
         onClose={() => setDetailModal(false)}
         header="Lead Detail"
       >
-        <LeadDetail closeModal={() => setDetailModal(false)} />
+        <OldLeadDetail closeModal={() => setDetailModal(false)} />
       </ModalBox>
     </section>
   );

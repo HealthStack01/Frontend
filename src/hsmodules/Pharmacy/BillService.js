@@ -7,6 +7,8 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 // import PaymentCreate from "./PaymentCreate";
 import PaymentCreate from "./PharmacyPayment";
 import Payment from "./PharmacyPayment";
@@ -24,6 +26,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function PharmacyBillService() {
   const [createModal, setCreateModal] = useState(false);
@@ -458,10 +462,15 @@ export function BillsList({openCreateModal}) {
           </div>
 
           {handleCreateNew && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
+            <GlobalCustomButton
+              text="Add New"
               onClick={handleCreateNew}
+              MuiIcon={
+                <AddCircleOutlineOutlinedIcon
+                  sx={{marginRight: "5px"}}
+                  fontSize="small"
+                />
+              }
             />
           )}
         </TableMenu>

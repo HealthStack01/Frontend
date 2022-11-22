@@ -32,7 +32,14 @@ const CustomSelect: React.FC<SelectProps> = ({
   console.log(options);
 
   return (
-    <FormControl disabled={readonly} style={{width: "100%"}}>
+    <FormControl
+      disabled={readonly}
+      size="small"
+      sx={{
+        height: "38px",
+        width: "100%",
+      }}
+    >
       <InputLabel id="demo-simple-select-autowidth-label">{label}</InputLabel>
       <Select
         labelId="demo-simple-select-autowidth-label"
@@ -42,7 +49,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         name={name}
         //defaultValue={defaultValue || "Cash"}
         onChange={onChange}
-        sx={{background: "white", height: "48px"}}
+        sx={{background: "white", height: "38px"}}
         {...register}
         value={defaultValue}
       >
