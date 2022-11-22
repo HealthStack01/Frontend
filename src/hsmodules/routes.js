@@ -71,9 +71,9 @@ import FrontDesk, {FrontDeskList} from "./Client/FrontDesk";
 import HMOauth from "./Finance/HMOauth";
 import InventoryHome from "./inventory/InventoryHome";
 import InventoryReport from "./inventory/InventoryReport";
-import PharmacyReport from "./Pharmacy/InventoryReport";
 import InventorySetup from "./inventory/InventorySetup";
 import PharmacyInventoryStore from "./Pharmacy/InventoryStore";
+
 
 /* import InventorySetup from './Pharmacy/InventorySetup' */
 import PharmacyProductEntry from "./Pharmacy/ProductEntry";
@@ -170,9 +170,8 @@ import ProviderOrganizationClient from "./ManagedCare/Providers";
 
 // import DispensaryMain from "./ManagedCare/Checkin";
 import ClientBilledPrescription from "./ManagedCare/Claims";
-import {OrgList} from "./ManagedCare/OrgClientList";
-
-import ComplaintsInventoryReport from "./ManagedCare/Complaints";
+import { OrgList } from "./ManagedCare/OrgClientList";
+import ComplaintsInventoryReport, { ComplaintList } from "./ManagedCare/Complaints";
 import ReferralHome from "./Referral/ReferralHome";
 
 import PreAuth from "./ManagedCare/PreAuth";
@@ -212,6 +211,7 @@ import OrganizationClient from "./ManagedCare/OrganizationClient";
 import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
+import Complaints from "./ManagedCare/Complaints";
 
 import CreateWallet from "./PouchiiWallet/CreateWallet";
 
@@ -687,10 +687,7 @@ const AppRoutes = () => {
             <Route path="/app/managed-care/tariff" element={<TarrifList />} />
 
             <Route path="/app/managed-care/tarrifs" />
-            <Route
-              path="/app/managed-care/complaintDetails"
-              element={<ComplaintDetails />}
-            />
+            <Route path="/app/managed-care/complaintDetails"  element={<ComplaintDetails/>} />
 
             <Route
               path="/app/managed-care/providerpayment"

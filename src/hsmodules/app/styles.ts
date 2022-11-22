@@ -185,17 +185,17 @@ export const GridBox = styled.div`
 `;
 
 export const ViewBox = styled.div`
-  margin-top: 3.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 5rem;
 `;
 
 export const GridWrapper = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: flex-start;
   grid-gap: 2rem;
-  margin-top: 3.2rem;
+  margin-top: 1.6rem;
   overflow-y: auto;
   animation: divanimation 0.6s;
   -webkit-animation: divanimation 0.6s;
