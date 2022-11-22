@@ -1,60 +1,62 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
+import {BsFillGridFill, BsList} from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
-import { Box, Grid } from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import { MdCancel } from "react-icons/md";
+import {MdCancel} from "react-icons/md";
+import CreateSLA from "./components/SLA/CreateSLA";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function SLA() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <SLAList showModal={showModal} setShowModal={setShowModal} />
+      <SLAList openCreateModal={() => setCreateModal(true)} />
 
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
         header="Create New Lead"
       >
-        <SLACreate closeModal={() => setCreateModal(false)} />
+        <CreateSLA closeModal={() => setCreateModal(false)} />
       </ModalBox>
     </section>
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+export function AppointmentCreate({showModal, setShowModal}) {
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -68,7 +70,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
@@ -90,15 +92,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -113,7 +115,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -123,7 +125,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       setChosen1();
     }
   };
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -158,7 +160,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState((prevstate) => ({
+      setState(prevstate => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
@@ -198,7 +200,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     console.log(data);
 
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
@@ -221,7 +223,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Appointment " + err,
           type: "is-danger",
@@ -269,7 +271,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
-                    setState((prevstate) => ({
+                    setState(prevstate => ({
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
@@ -317,13 +319,13 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
+                    style={{fontSize: "16px", fontWeight: "bold"}}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
+                      {...register("appointmentClass", {required: true})}
                       style={{
                         border: "1px solid #0364FF",
                         transform: "scale(1.5)",
@@ -342,7 +344,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", { required: true })}
+                  {...register("start_time", {required: true})}
                   type="datetime-local"
                   style={{
                     border: "1px solid #0364FF",
@@ -402,7 +404,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
+                {...register("appointment_reason", {required: true})}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -434,7 +436,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
                 type="button"
-                onClick={(e) => e.target.reset()}
+                onClick={e => e.target.reset()}
                 style={{
                   backgroundColor: "#ffffff",
                   width: "100%",
@@ -453,7 +455,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 
-export function SLAList({ openCreateModal }) {
+export function SLAList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -468,9 +470,9 @@ export function SLAList({ openCreateModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -481,7 +483,7 @@ export function SLAList({ openCreateModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -490,25 +492,25 @@ export function SLAList({ openCreateModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
     setShowModal(true);
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -597,14 +599,14 @@ export function SLAList({ openCreateModal }) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -626,7 +628,7 @@ export function SLAList({ openCreateModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -658,15 +660,15 @@ export function SLAList({ openCreateModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -686,12 +688,12 @@ export function SLAList({ openCreateModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -758,17 +760,17 @@ export function SLAList({ openCreateModal }) {
     },
   ];
 
-  const returnCell = (status) => {
+  const returnCell = status => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
     switch (status.toLowerCase()) {
       case "active":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+        return <span style={{color: "#17935C"}}>{status}</span>;
 
       case "inactive":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+        return <span style={{color: "#0364FF"}}>{status}</span>;
 
       default:
         break;
@@ -780,7 +782,7 @@ export function SLAList({ openCreateModal }) {
       name: "Company Name",
       key: "sn",
       description: "Enter name of Company",
-      selector: (row) => row.company_name,
+      selector: row => row.company_name,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -789,7 +791,7 @@ export function SLAList({ openCreateModal }) {
       name: "Telestaff Name",
       key: "telestaff_name",
       description: "Enter Telestaff name",
-      selector: (row) => row.telestaff_name,
+      selector: row => row.telestaff_name,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -798,7 +800,7 @@ export function SLAList({ openCreateModal }) {
       name: "Probability Of Deal",
       key: "probability",
       description: "Enter bills",
-      selector: (row) => row.probability,
+      selector: row => row.probability,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -817,7 +819,7 @@ export function SLAList({ openCreateModal }) {
       key: "status",
       description: "Enter bills",
       selector: "status",
-      cell: (row) => returnCell(row.status),
+      cell: row => returnCell(row.status),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -830,16 +832,16 @@ export function SLAList({ openCreateModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{display: "flex", alignItems: "center"}}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>SLA</h2>
+                  <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>SLA</h2>
 
                   {/* <SwitchButton /> */}
                   <Switch>
@@ -850,7 +852,7 @@ export function SLAList({ openCreateModal }) {
                       }}
                       style={value === "list" ? activeStyle : {}}
                     >
-                      <BsList style={{ fontSize: "1rem" }} />
+                      <BsList style={{fontSize: "1rem"}} />
                     </button>
                     <button
                       value={value}
@@ -859,20 +861,20 @@ export function SLAList({ openCreateModal }) {
                       }}
                       style={value === "grid" ? activeStyle : {}}
                     >
-                      <BsFillGridFill style={{ fontSize: "1rem" }} />
+                      <BsFillGridFill style={{fontSize: "1rem"}} />
                     </button>
                   </Switch>
                 </div>
 
                 {handleCreateNew && (
                   <Button
-                    style={{ fontSize: "14px", fontWeight: "600" }}
+                    style={{fontSize: "14px", fontWeight: "600"}}
                     label="Add new "
                     onClick={openCreateModal}
                   />
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}

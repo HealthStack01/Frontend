@@ -21,7 +21,7 @@ import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
+import { Button } from '@mui/material';
 import CustomTable from '../../components/customtable';
 import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
@@ -1653,10 +1653,55 @@ export function ClientDetail({ showModal, setShowModal }) {
         }}
       >
         <Grid container>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={4}>
             <ModalHeader text={'Beneficiary Details'} />
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+        </Grid>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            my={1}
+          >
+            <Button
+              onClick={handleEdit}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="secondary"
+            >
+              Edit Details
+            </Button>
+            <Button
+              onClick={handleFinancialInfo}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="info"
+            >
+              Payment Info
+            </Button>
+            <Button
+              onClick={handleSchedule}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="success"
+            >
+              Schedule Appointment
+            </Button>
+            <Button
+              onClick={() => navigate('/app/beneficiary/documentation')}
+              variant="outlined"
+              size="small"
+              sx={{ textTransform: 'capitalize' }}
+            >
+              View History
+            </Button>
+
             {(user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
               user.stacker) && (
@@ -1764,23 +1809,6 @@ export function ClientDetail({ showModal, setShowModal }) {
           </Grid>
         </Grid>
 
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            mt={1}
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <Button onClick={handleEdit}>Edit Details</Button>
-            <Button onClick={handleFinancialInfo}>Payment Info</Button>
-            <Button onClick={handleSchedule}>Schedule Appointment</Button>
-            <Button onClick={() => navigate('/app/beneficiary/documentation')}>
-              View History
-            </Button>
-          </Grid>
-        </Grid>
         {finacialInfoModal && (
           <>
             <ModalBox open onClose={() => setFinacialInfoModal(false)}>
@@ -2160,13 +2188,35 @@ export function ClientModify({ showModal, setShowModal }) {
 
           <BottomWrapper>
             <Button
-              label="Close"
-              background="#FFE9E9"
-              color="#ED0423"
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="error"
               onClick={() => setShowModal(false)}
-            />
-            <Button label="Save Form" type="submit" />
-            <Button label="Delete" onClick={() => handleDelete()} />
+            >
+              {' '}
+              Close{' '}
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="success"
+            >
+              {' '}
+              Save{' '}
+            </Button>
+            <Button
+              onClick={() => handleDelete()}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="warning"
+            >
+              {' '}
+              Delete{' '}
+            </Button>
           </BottomWrapper>
         </form>
       </div>

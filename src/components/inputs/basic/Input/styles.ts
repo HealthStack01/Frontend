@@ -31,9 +31,10 @@ export const InputField = styled.input`
 
 export const InputBox = styled.div`
   position: relative;
-  height: 40px;
+
+  height: 38px;
   width: 100%;
-  margin: 0.5rem 0;
+
   text-align: left;
   & i {
     position: absolute;
@@ -85,9 +86,9 @@ export const BlueInputField = styled.input`
 
 export const BlueInputBox = styled.div`
   position: relative;
-  height: 48px;
+  height: 38px;
   width: 100%;
-  margin: 0.75rem 0;
+
   text-align: left;
   & i {
     position: absolute;

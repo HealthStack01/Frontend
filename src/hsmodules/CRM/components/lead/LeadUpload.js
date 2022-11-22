@@ -3,6 +3,7 @@ import {Box, Button, Typography} from "@mui/material";
 import {FileUploader} from "react-drag-drop-files";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import moment from "moment";
 
 const UploadComponent = ({}) => {
   return (
@@ -25,7 +26,7 @@ const UploadComponent = ({}) => {
   );
 };
 
-const LeadUpload = ({closeModal}) => {
+const LeadUpload = ({closeModal, addUpload}) => {
   const [fileType, setFileType] = useState("");
   const [file, setFile] = useState(null);
 
@@ -46,10 +47,25 @@ const LeadUpload = ({closeModal}) => {
     setFile(file);
   };
 
+  const onSubmit = () => {
+    const data = {
+      file_type: fileType,
+      file_name: file[0].name,
+      date: moment.now(),
+      file: file[0],
+    };
+
+    addUpload(data);
+  };
+
   return (
     <Box sx={{width: "400px", maxHeight: "600px"}}>
       <Box mt={1} mb={2}>
-        <CustomSelect options={selectOptions} label="File Type" />
+        <CustomSelect
+          options={selectOptions}
+          label="File Type"
+          onChange={e => setFileType(e.target.value)}
+        />
       </Box>
 
       <Box>
@@ -91,6 +107,7 @@ const LeadUpload = ({closeModal}) => {
           variant="contained"
           sx={{textTransform: "capitalize"}}
           //onClick={handleSubmit(onSubmit)}
+          onClick={onSubmit}
           size="small"
         >
           Submit
