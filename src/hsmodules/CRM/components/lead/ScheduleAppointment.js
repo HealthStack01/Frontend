@@ -15,7 +15,7 @@ const ScheduleAppointment = ({closeModal}) => {
 
   return (
     <Box sx={{width: "450px", maxHeight: "80vh"}}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <FacilitySearch />
         </Grid>
