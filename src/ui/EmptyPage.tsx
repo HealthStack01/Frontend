@@ -26,7 +26,7 @@ const EmptyPage = () => {
             Hello <span>{userName}</span>👋
           </Typography>
           <Typography variant='body1'>
-            Welcome to your compnay {facilityName}
+            Welcome to your company {facilityName}
           </Typography>
         </Box>
         <img src='/empty.png' alt='Empty Notifications' width={400} />

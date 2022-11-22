@@ -12,24 +12,20 @@ import ClientFinInfo from "./ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 
 // import { AppointmentCreate } from "../Clinic/Appointments";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ClientBilledPrescription from "../Finance/ClientBill";
-import ClientGroup from "./ClientGroup";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import api from "../../utils/api";
-import dayjs from "dayjs";
-import axios from "axios";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import ClientBilledPrescription from '../Finance/ClientBill';
+import ClientGroup from './ClientGroup';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
+import dayjs from 'dayjs';
 
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import {ClientMiniSchema} from "./schema";
-import {useForm} from "react-hook-form";
-
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import { ClientMiniSchema } from './schema';
+import { useForm } from 'react-hook-form';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -915,8 +911,8 @@ export function ClientDetail({closeDetailModal}) {
 
   const [editClient, setEditClient] = useState(false);
 
-  const ClientServ = client.service("client");
-  // const createWallet = client.service("register")
+  const ClientServ = client.service('client');
+
   const [success, setSuccess] = useState(false);
 
   const {register, handleSubmit, setValue, reset} = useForm();
@@ -1212,9 +1208,17 @@ export function ClientDetail({closeDetailModal}) {
             />
           )}
 
-          <GlobalCustomButton
-            text="Create Wallet"
-            onClick={handleCreateWallet}
+          <MuiButton
+            variant='contained'
+            size='small'
+            sx={{
+              textTransform: 'capitalize',
+              marginLeft: '10px',
+            }}
+            onClick={handleFinancialInfo}
+          >
+            Create Wallet
+          </MuiButton>
 
             customStyles={{
               marginRight: "5px",
