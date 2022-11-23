@@ -35,6 +35,7 @@ import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import PatientProfile from '../Client/PatientProfile';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -51,7 +52,7 @@ export default function GeneralAppointments() {
     <section className="section remPadTop">
       <ReferralList showModal={showModal} setShowModal={setShowModal} />
       {showModal === 1 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(0)} width='80vw'>
+        <ModalBox open={showModal} onClose={() => setShowModal(0)} width="80vw">
           <Grid container spacing={2}>
             <Grid item xs={4}>
               <PatientProfile />
@@ -287,7 +288,10 @@ export function ReferralCreate({ showModal, setShowModal }) {
 
   return (
     <>
-      <div className="card " style={{ height: '80vh', width: '100%', overflow: 'hidden'}}>
+      <div
+        className="card "
+        style={{ height: '80vh', width: '100%', overflow: 'hidden' }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -315,78 +319,60 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
           <GridWrapper>
-          <Input
-                name="healthCareProvider"
-                label="Health Care Provider"
-                type="text"
-              />
-            
-              <Input name="preAuthId" label="Pre-auth ID" type="text" />
-            
-              <Input name="claimId" label="Claim ID" type="text" />
-           
-              <BasicDateTimePicker
-                name="dateOfRequest"
-                label="Date of Request"
-              />
-              <div>
+            <Input
+              name="healthCareProvider"
+              label="Health Care Provider"
+              type="text"
+            />
+
+            <Input name="preAuthId" label="Pre-auth ID" type="text" />
+
+            <Input name="claimId" label="Claim ID" type="text" />
+
+            <BasicDateTimePicker name="dateOfRequest" label="Date of Request" />
+            <div>
               <RadioGroup
-                    aria-labelledby='demo-radio-buttons-group-label'
-                    defaultValue='emergency'
-                    name='emergency'
-                    sx={{
-                      display: 'flex !important',
-                      justifyContent: 'space-between !',
-                      flexDirection: 'row !important',
-                    }}
-                  >
-                    <FormControlLabel
-                      value='yes'
-                      control={<Radio />}
-                      label='Yes'
-                      
-                    />
-                    <FormControlLabel
-                      value='no'
-                      control={<Radio />}
-                      label='No'
-
-                    />
-              </RadioGroup>
-              </div>
-             
-          
-          </GridWrapper>
-
-
-          <GridWrapper style={{marginTop: '-1rem'}}>
-            
-              <McText
-                txt={'Clinical Information'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
-            
-              <button
-                style={{
-                  float: 'right',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="emergency"
+                name="emergency"
+                sx={{
+                  display: 'flex !important',
+                  justifyContent: 'space-between !',
+                  flexDirection: 'row !important',
                 }}
               >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add complaints
-              </button>
-           
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            </div>
+          </GridWrapper>
+
+          <GridWrapper style={{ marginTop: '-1rem' }}>
+            <McText
+              txt={'Clinical Information'}
+              color={'#0064CC'}
+              type={'p'}
+              bold={'700'}
+              size={'18px'}
+            />
+
+            <button
+              style={{
+                float: 'right',
+                backgroundColor: '#ECF3FF',
+                color: '#0064CC',
+                border: 'none',
+                padding: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              <MdAddCircle
+                style={{
+                  marginRight: '5px',
+                }}
+              />
+              Add complaints
+            </button>
           </GridWrapper>
 
           <Grid container spacing={2} my={1}>
@@ -418,84 +404,79 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <GridWrapper style={{overflow: 'hidden', }}>
-              <CustomSelect
-                name="provisionalDiagnosis"
-                label="Provisional Diagnosis"
-                options={CustomSelectData}
-              />
-           
-              <button
-                style={{
-                  float: 'left',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
-                }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add Diagnosis
-              </button>
-          
-             
-              <CustomSelect
-                name="plannedDiagnosis"
-                label="Planned Procedure"
-                options={CustomSelectData}
-              />
-           
-              <button
-                style={{
-                  float: 'left',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
-                }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add Procedure
-              </button>
+          <GridWrapper style={{ overflow: 'hidden' }}>
+            <CustomSelect
+              name="provisionalDiagnosis"
+              label="Provisional Diagnosis"
+              options={CustomSelectData}
+            />
 
-              <CustomSelect
-                name="plannedService"
-                label="Planned Service"
-                options={CustomSelectData}
-              />
-        
-              <button
+            <button
+              style={{
+                float: 'left',
+                backgroundColor: '#ECF3FF',
+                color: '#0064CC',
+                border: 'none',
+                padding: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              <MdAddCircle
                 style={{
-                  float: 'left',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
+                  marginRight: '5px',
                 }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add Service
-              </button>
+              />
+              Add Diagnosis
+            </button>
+
+            <CustomSelect
+              name="plannedDiagnosis"
+              label="Planned Procedure"
+              options={CustomSelectData}
+            />
+
+            <button
+              style={{
+                float: 'left',
+                backgroundColor: '#ECF3FF',
+                color: '#0064CC',
+                border: 'none',
+                padding: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              <MdAddCircle
+                style={{
+                  marginRight: '5px',
+                }}
+              />
+              Add Procedure
+            </button>
+
+            <CustomSelect
+              name="plannedService"
+              label="Planned Service"
+              options={CustomSelectData}
+            />
+
+            <button
+              style={{
+                float: 'left',
+                backgroundColor: '#ECF3FF',
+                color: '#0064CC',
+                border: 'none',
+                padding: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              <MdAddCircle
+                style={{
+                  marginRight: '5px',
+                }}
+              />
+              Add Service
+            </button>
           </GridWrapper>
-
-          
-
-         
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -531,7 +512,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 Submit
               </Button>
             </Grid>
-          </Grid> 
+          </Grid>
         </form>
       </div>
     </>
@@ -813,85 +794,85 @@ export function ReferralList({ showModal, setShowModal }) {
 
   const dummyData = [
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
 
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
     {
-      date: "27/10/21",
-      patients_name: "Tejiri Tabor",
-      policy_id: "234.75.43.01",
-      referral_code: "324234 - AC",
-      referral_provider: "Creek Hospital",
-      destination_provider: "Creek Hospital",
-      status: "Approved",
-      reason_for_request: "Lorem ipsum dolor",
+      date: '27/10/21',
+      patients_name: 'Tejiri Tabor',
+      policy_id: '234.75.43.01',
+      referral_code: '324234 - AC',
+      referral_provider: 'Creek Hospital',
+      destination_provider: 'Creek Hospital',
+      status: 'Approved',
+      reason_for_request: 'Lorem ipsum dolor',
     },
   ];
 
@@ -901,11 +882,11 @@ export function ReferralList({ showModal, setShowModal }) {
     // }
     // else if
     switch (status.toLowerCase()) {
-      case "active":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+      case 'active':
+        return <span style={{ color: '#17935C' }}>{status}</span>;
 
-      case "inactive":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+      case 'inactive':
+        return <span style={{ color: '#0364FF' }}>{status}</span>;
 
       default:
         break;
@@ -914,78 +895,76 @@ export function ReferralList({ showModal, setShowModal }) {
 
   const ReferralSchema = [
     {
-      name: "Date",
-      key: "date",
-      description: "Enter date",
+      name: 'Date',
+      key: 'date',
+      description: 'Enter date',
       selector: (row) => row.date,
       sortable: true,
       required: true,
-      inputType: "DATE",
-      
+      inputType: 'DATE',
     },
     {
-
-      name: "Patients Name",
-      key: "patients_name",
-      description: "Enter patients name",
+      name: 'Patients Name',
+      key: 'patients_name',
+      description: 'Enter patients name',
       selector: (row) => row.patients_name,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Policy ID",
-      key: "policy_id",
-      description: "Enter policy ID",
+      name: 'Policy ID',
+      key: 'policy_id',
+      description: 'Enter policy ID',
       selector: (row) => row.policy_id,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Referral Code",
-      key: "referral_code",
-      description: "Enter referral code",
+      name: 'Referral Code',
+      key: 'referral_code',
+      description: 'Enter referral code',
       selector: (row) => row.referral_code,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Referral Provider",
-      key: "referral_provider",
-      description: "Enter referral provider",
+      name: 'Referral Provider',
+      key: 'referral_provider',
+      description: 'Enter referral provider',
       selector: (row, i) => row.referral_provider,
       sortable: true,
       required: true,
-      inputType: "DATE",
+      inputType: 'DATE',
     },
     {
-      name: "Destination Provider",
-      key: "destination_provider",
-      description: "Enter destination provider",
+      name: 'Destination Provider',
+      key: 'destination_provider',
+      description: 'Enter destination provider',
       selector: (row, i) => row.destination_provider,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Status",
-      key: "status",
-      description: "Enter your status",
+      name: 'Status',
+      key: 'status',
+      description: 'Enter your status',
       selector: (row, i) => row.status,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Reason for Request",
-      key: "reason_for_request",
-      description: "Enter the reason for the request",
+      name: 'Reason for Request',
+      key: 'reason_for_request',
+      description: 'Enter the reason for the request',
       selector: (row, i) => row.reason_for_request,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
   const conditionalRowStyles = [
@@ -1077,9 +1056,8 @@ export function ReferralList({ showModal, setShowModal }) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label="Add new "
+                  <GlobalCustomButton
+                    text="Add new "
                     onClick={handleCreateNew}
                   />
                 )}
