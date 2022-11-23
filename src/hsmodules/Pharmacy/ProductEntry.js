@@ -390,8 +390,8 @@ export function ProductEntryCreate({closeModal}) {
     >
       <Grid container spacing={1}>
         <Grid item lg={6} md={6} sm={12}>
-          <Box mb={1}>
-            <FormsHeaderText text="Entry Information" />
+          <Box mb={1} sx={{height: "40px"}}>
+            <FormsHeaderText text="Product Entry Detail" />
           </Box>
           <Grid container spacing={1}>
             <Grid item xs={8}>
@@ -447,6 +447,7 @@ export function ProductEntryCreate({closeModal}) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              height: "40px",
             }}
             mb={1}
           >

@@ -47,7 +47,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         name={name}
         //defaultValue={defaultValue || "Cash"}
         onChange={onChange}
-        sx={{background: "white", height: "38px"}}
+        sx={{background: "white", height: "40px"}}
         {...register}
         value={defaultValue}
       >

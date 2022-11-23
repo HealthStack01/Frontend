@@ -117,6 +117,7 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
       }}
     >
       <Autocomplete
+        size="small"
         value={simpa}
         loading={loading}
         onChange={(event, newValue) => {
@@ -175,10 +176,8 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
             sx={{
               fontSize: "0.75rem !important",
             }}
-            size="small"
             InputLabelProps={{
               shrink: true,
-              style: {color: "#2d2d2d"},
             }}
           />
         )}
@@ -189,7 +188,7 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
         onClose={handlecloseModal}
         header="Create New Product"
       >
-        <ProductCreate />
+        <ProductCreate closeModal={handlecloseModal} />
       </ModalBox>
     </div>
   );

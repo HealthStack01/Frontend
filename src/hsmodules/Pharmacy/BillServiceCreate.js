@@ -830,7 +830,7 @@ export default function BillServiceCreate() {
         <Grid container spacing={2}>
           <Grid item lg={6} md={6} sm={12}>
             <Box>
-              <Box>
+              <Box mb={0.5} sx={{height: "40px"}}>
                 <FormsHeaderText text="Bill Information" />
               </Box>
               <Grid container spacing={1} mb={1}>
@@ -890,7 +890,9 @@ export default function BillServiceCreate() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
+                height: "40px",
               }}
+              mb={0.5}
             >
               <FormsHeaderText text="Choose Service Item" />
 
@@ -904,7 +906,7 @@ export default function BillServiceCreate() {
             </Box>
 
             <Box mb={1}>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 <Grid item xs={7}>
                   <Box
                     sx={{
