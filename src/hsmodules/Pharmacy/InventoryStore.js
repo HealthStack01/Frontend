@@ -1417,7 +1417,7 @@ export function InventoryBatches({closeModal}) {
       ref={ref}
       style={{
         width: "100%",
-        height: "38px",
+        height: "40px",
         border: "1.5px solid #BBBBBB",
         borderRadius: "4px",
         display: "flex",
@@ -1567,7 +1567,7 @@ export function InventoryBatches({closeModal}) {
                 value={quantity}
                 type="text"
                 onChange={e => setQuantity(e.target.value)}
-                placeholder="Quantity"
+                label="Quantity"
               />
             </Grid>
           </Grid>

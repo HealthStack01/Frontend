@@ -21,10 +21,6 @@ export const GlobalStyle = createGlobalStyle`
   z-index: 999999 !important;
 }
 
-.MuiInputBase-input {
-  height: 2rem !important;
-}
-
 *.dark::-webkit-scrollbar {
   width: 0.5rem;
 }

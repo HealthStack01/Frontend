@@ -508,8 +508,13 @@ export function ProductExitCreate({closeModal}) {
       >
         <Grid container spacing={1}>
           <Grid item lg={6} md={6} sm={12}>
-            <Box mb={1}>
-              <FormsHeaderText text="Product" />
+            <Box
+              mb={1}
+              sx={{
+                height: "40px",
+              }}
+            >
+              <FormsHeaderText text="Product Exit Detail" />
             </Box>
 
             <Grid container spacing={1}>
@@ -568,6 +573,7 @@ export function ProductExitCreate({closeModal}) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
+                height: "40px",
               }}
               mb={1}
             >
@@ -1547,69 +1553,8 @@ export function InventorySearch({getSearchfacility, clear}) {
 
   return (
     <div>
-      {/* <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
-          >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
-              <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
-
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div
-                    className="dropdown-item" 
-                  >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
-                  </div>
-                )}
-
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <div>
-                      <span>{facility.name}</span>
-                    </div>
-                    <div>
-                      <span>
-                        <strong>{facility.quantity}</strong>
-                      </span>
-                      <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
-                        <strong>Price:</strong> N{facility.sellingprice}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <Autocomplete
+        size="small"
         value={simpa}
         onChange={(event, newValue) => {
           handleRow(newValue);
@@ -1629,7 +1574,6 @@ export function InventorySearch({getSearchfacility, clear}) {
         id="free-solo-dialog-demo"
         options={facilities}
         getOptionLabel={option => {
-          // e.g value selected with enter, right from the input
           if (typeof option === "string") {
             return option;
           }
@@ -1664,7 +1608,7 @@ export function InventorySearch({getSearchfacility, clear}) {
                 <span>{option.baseunit}(s) remaining</span>
               </div>
               <div>
-                <span className="padleft">
+                <span>
                   <strong>Price:</strong> N{option.sellingprice}
                 </span>
               </div>
@@ -1682,7 +1626,7 @@ export function InventorySearch({getSearchfacility, clear}) {
             sx={{
               fontSize: "0.75rem !important",
             }}
-            size="small"
+            //size="small"
             InputLabelProps={{
               shrink: true,
               style: {color: "#2d2d2d"},
@@ -1698,23 +1642,6 @@ export function InventorySearch({getSearchfacility, clear}) {
       >
         <ProductCreate />
       </ModalBox>
-      {/* 
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <ProductCreate />
-          </section>
-        </div>
-      </div> */}
     </div>
   );
 }
