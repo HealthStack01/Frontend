@@ -1,20 +1,20 @@
-import React from "react";
-import {Button} from "@mui/material";
-import {SvgIconProps} from "@material-ui/core/SvgIcon";
+import React from 'react';
+import { Button } from '@mui/material';
+import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
 interface componentProps {
   text: string;
   onClick: () => void;
-  variant?: "contained" | "text" | "outlined";
-  size?: "small" | "medium" | "large";
+  variant?: 'contained' | 'text' | 'outlined';
+  size?: 'small' | 'medium' | 'large';
   color?:
-    | "inherit"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "error"
-    | "info"
-    | "warning";
+    | 'inherit'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning';
   bgColor?: string;
   customStyles?: React.CSSProperties;
   MuiIcon?: React.ReactElement<SvgIconProps>;
@@ -37,23 +37,20 @@ const GlobalCustomButton = ({
       size={size}
       color={color}
       onClick={onClick}
-      sx={{
-        textTransform: "capitalize",
-        ...customStyles,
-      }}
+      sx={{ ...customStyles, textTransform: 'capitalize' }}
     >
-      {MuiIcon && iconPosition === "start" && MuiIcon}
+      {MuiIcon && iconPosition === 'start' && MuiIcon}
       {text}
-      {MuiIcon && iconPosition === "end" && MuiIcon}
+      {MuiIcon && iconPosition === 'end' && MuiIcon}
     </Button>
   );
 };
 
 GlobalCustomButton.defaultProps = {
-  variant: "contained",
-  size: "small",
-  color: "primary",
-  iconPosition: "start",
+  variant: 'contained',
+  size: 'small',
+  color: 'primary',
+  iconPosition: 'start',
 };
 
 export default GlobalCustomButton;

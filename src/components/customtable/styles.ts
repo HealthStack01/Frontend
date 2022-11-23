@@ -1,38 +1,43 @@
 export const customStyles = {
   rows: {
     style: {
-      minHeight: "64px", // override the row height
-      "&:not(:last-of-type)": {
-        borderBottomWidth: "0px",
+      minHeight: '40px', // override the row height
+      '&:not(:last-of-type)': {
+        borderBottomWidth: '0px',
       },
-      padding: "0.75rem",
-      backgroundColor: "##F8F8F8",
+      padding: '0.25rem',
+      backgroundColor: '##F8F8F8',
     },
   },
   headRow: {
     style: {
-      borderBottomWidth: "0px",
-      padding: "24px",
-      backgroundColor: "#F8F8F8",
-      fontSize: "0.75rem",
+      borderBottomWidth: '0px',
+      padding: '0.25rem',
+      backgroundColor: '#F8F8F8',
+      fontSize: '0.75rem',
     },
   },
   headCells: {
     style: {
-      paddingLeft: "8px", // override the cell padding for head cells
-      paddingRight: "8px",
-      fontSize: "0.75rem",
-      fontWeight: "bold",
-      color: "#33415C",
+      padding: '0.25rem',
+      paddingLeft: '0.5rem', // override the cell padding for head cells
+      paddingRight: '0.5rem',
+      paddingTop: '0.2rem',
+      paddingBottom: '0.2rem',
+      fontSize: '0.75rem',
+      fontWeight: 'bold',
+      color: '#000',
     },
   },
   cells: {
     style: {
-      paddingLeft: "8px", // override the cell padding for data cells
-      paddingRight: "8px",
-      fontSize: "o.75rem",
-      color: "#2d2d2d",
-      fontWeight: "400",
+      paddingLeft: '0.5rem', // override the cell padding for data cells
+      paddingRight: '0.5rem',
+      paddingTop: '0.2rem',
+      paddingBottom: '0.2rem',
+      fontSize: '0.8rem',
+      color: '#000',
+      fontWeight: '400',
     },
   },
 };

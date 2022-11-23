@@ -37,6 +37,9 @@ const BasicDateTimePicker: React.FC<Props> = ({
           className="date-picker"
           value={value}
           onChange={onChange}
+          style={{
+            height: '38px',
+          }}
         />
         <InputLabel className="form__label" htmlFor={name}>
           {label}
