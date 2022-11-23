@@ -232,7 +232,7 @@ const LeadView = () => {
           />
         </Grid>
 
-        <Grid item xs={3} mt={1.5}>
+        <Grid item xs={3}>
           <CustomSelect
             register={register("deal_status", {required: true})}
             label="Status"
@@ -269,7 +269,7 @@ const LeadView = () => {
           />
         </Grid>
 
-        <Grid item xs={4} mt={1.5}>
+        <Grid item xs={4}>
           <CustomSelect
             register={register("deal_next_action", {required: true})}
             label="Next Action"

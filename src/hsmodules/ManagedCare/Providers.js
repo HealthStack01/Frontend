@@ -1,47 +1,47 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, useNavigate, Link, NavLink } from "react-router-dom";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, useNavigate, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "react-toastify";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "react-toastify";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import Switch from "../../components/switch";
-import { BsFillGridFill, BsList } from "react-icons/bs";
+import {BsFillGridFill, BsList} from "react-icons/bs";
 import CalendarGrid from "../../components/calender";
 import ModalBox from "../../components/modal";
-import { Box, Grid, Button as MuiButton, TextField } from "@mui/material";
+import {Box, Grid, Button as MuiButton, TextField} from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
 import Input from "../../components/inputs/basic/Input/index";
-import { MdCancel } from "react-icons/md";
-import { FacilitySearch } from "../helpers/FacilitySearch";
-import { McText } from "./text";
+import {MdCancel} from "react-icons/md";
+import {FacilitySearch} from "../helpers/FacilitySearch";
+import {McText} from "./text";
 import CustomSelect from "../../components/inputs/basic/Select";
 import BasicDatePicker from "../../components/inputs/Date";
-import { FaHospital, FaAddressCard, FaUserAlt } from "react-icons/fa";
-import { IoLocationSharp } from "react-icons/io5";
-import { BsFillTelephoneFill, BsHouseDoorFill } from "react-icons/bs";
-import { MdEmail, MdLocalHospital } from "react-icons/md";
+import {FaHospital, FaAddressCard, FaUserAlt} from "react-icons/fa";
+import {IoLocationSharp} from "react-icons/io5";
+import {BsFillTelephoneFill, BsHouseDoorFill} from "react-icons/bs";
+import {MdEmail, MdLocalHospital} from "react-icons/md";
 
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Provider() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
@@ -61,7 +61,7 @@ export default function Provider() {
           <OrganizationDetail setShowModal={setShowModal} />
         </ModalBox>
       )}
-      
+
       {showModal === 3 && (
         <ModalBox open={showModal} onClose={() => setShowModal(false)}>
           <NewOrganizationCreate />
@@ -71,9 +71,9 @@ export default function Provider() {
   );
 }
 
-export function AppointmentCreate({ showModal, setShowModal }) {
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
+export function AppointmentCreate({showModal, setShowModal}) {
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [success1, setSuccess1] = useState(false);
@@ -87,7 +87,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   const [facility, setFacility] = useState();
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [selectedClient, setSelectedClient] = useState();
@@ -109,15 +109,15 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })
     } */
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     await setAppointment_type(e.target.value);
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     await setAppointment_status(e.target.value);
   };
 
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setClientId(obj._id);
     setChosen(obj);
     //handleRow(obj)
@@ -132,7 +132,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         }) */
   };
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -142,7 +142,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
       setChosen1();
     }
   };
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -177,7 +177,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     setError(false);
     setSuccess(false);
     setShowModal(false),
-      setState((prevstate) => ({
+      setState(prevstate => ({
         ...prevstate,
         AppointmentModule: {
           selectedAppointment: {},
@@ -217,7 +217,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     console.log(data);
 
     ClientServ.create(data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         e.target.reset();
         setAppointment_type("");
@@ -240,7 +240,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         setSuccess2(false);
         // showBilling()
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error creating Appointment " + err,
           type: "is-danger",
@@ -288,7 +288,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <MdCancel
                 onClick={() => {
                   setShowModal(false),
-                    setState((prevstate) => ({
+                    setState(prevstate => ({
                       ...prevstate,
                       AppointmentModule: {
                         selectedAppointment: {},
@@ -336,13 +336,13 @@ export function AppointmentCreate({ showModal, setShowModal }) {
                   <label
                     className=" is-small"
                     key={c}
-                    style={{ fontSize: "16px", fontWeight: "bold" }}
+                    style={{fontSize: "16px", fontWeight: "bold"}}
                   >
                     <input
                       type="radio"
                       value={c}
                       name="appointmentClass"
-                      {...register("appointmentClass", { required: true })}
+                      {...register("appointmentClass", {required: true})}
                       style={{
                         border: "1px solid #0364FF",
                         transform: "scale(1.5)",
@@ -361,7 +361,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <div className="field">
                 <input
                   name="start_time"
-                  {...register("start_time", { required: true })}
+                  {...register("start_time", {required: true})}
                   type="datetime-local"
                   style={{
                     border: "1px solid #0364FF",
@@ -421,7 +421,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
               <textarea
                 className="input is-small"
                 name="appointment_reason"
-                {...register("appointment_reason", { required: true })}
+                {...register("appointment_reason", {required: true})}
                 type="text"
                 placeholder="Appointment Reason"
                 rows="10"
@@ -453,7 +453,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
                 type="button"
-                onClick={(e) => e.target.reset()}
+                onClick={e => e.target.reset()}
                 style={{
                   backgroundColor: "#ffffff",
                   width: "100%",
@@ -472,7 +472,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
   );
 }
 export function OrganizationCreate() {
-  const { register, handleSubmit } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -483,9 +483,9 @@ export function OrganizationCreate() {
   const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   //const history = useHistory()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async (e) => {
+  const handleChangeMode = async e => {
     await setBand(e.target.value);
   };
   /* const onSubmit = (data,e) =>{
@@ -549,7 +549,7 @@ export function OrganizationCreate() {
     };
     orgServ
       .create(stuff)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
@@ -557,7 +557,7 @@ export function OrganizationCreate() {
         setSuccess(false);
         setBand("");
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error("Error adding organization " + err);
       });
   };
@@ -567,7 +567,7 @@ export function OrganizationCreate() {
     getProviderBand();
     return () => {};
   }, []);
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -586,7 +586,7 @@ export function OrganizationCreate() {
       <select
         name="bandType"
         value={band}
-        onChange={(e) => handleChangeMode(e)}
+        onChange={e => handleChangeMode(e)}
         className="selectadd"
         style={{
           width: "100%",
@@ -618,7 +618,7 @@ export function OrganizationCreate() {
   );
 }
 
-export function ProviderList({ showModal, setShowModal }) {
+export function ProviderList({showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -633,9 +633,9 @@ export function ProviderList({ showModal, setShowModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -646,7 +646,7 @@ export function ProviderList({ showModal, setShowModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -655,25 +655,25 @@ export function ProviderList({ showModal, setShowModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
     setShowModal(1);
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(2);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -762,14 +762,14 @@ export function ProviderList({ showModal, setShowModal }) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -791,7 +791,7 @@ export function ProviderList({ showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
       console.log(findClient.data);
@@ -823,15 +823,15 @@ export function ProviderList({ showModal, setShowModal }) {
                     console.log(user)
                     getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -851,12 +851,12 @@ export function ProviderList({ showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -994,26 +994,26 @@ export function ProviderList({ showModal, setShowModal }) {
     },
   ];
 
-  const returnCell = (status) => {
+  const returnCell = status => {
     // if (status === "approved") {
     //   return <span style={{color: "green"}}>{status}</span>;
     // }
     // else if
     switch (status.toLowerCase()) {
       case "authorized":
-        return <span style={{ color: "#17935C" }}>{status}</span>;
+        return <span style={{color: "#17935C"}}>{status}</span>;
 
       case "requested":
-        return <span style={{ color: "#0364FF" }}>{status}</span>;
+        return <span style={{color: "#0364FF"}}>{status}</span>;
 
       case "expired":
-        return <span style={{ color: "#ED0423" }}>{status}</span>;
+        return <span style={{color: "#ED0423"}}>{status}</span>;
 
       case "pending":
-        return <span style={{ color: "#EF9645" }}>{status}</span>;
+        return <span style={{color: "#EF9645"}}>{status}</span>;
 
       case "suspended":
-        return <span style={{ color: "#936A03" }}>{status}</span>;
+        return <span style={{color: "#936A03"}}>{status}</span>;
 
       default:
         break;
@@ -1034,7 +1034,7 @@ export function ProviderList({ showModal, setShowModal }) {
       name: "Name Provider",
       key: "name_provider",
       description: "Name Provider",
-      selector: (row) => row.name_provider,
+      selector: row => row.name_provider,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1043,7 +1043,7 @@ export function ProviderList({ showModal, setShowModal }) {
       name: "LGA",
       key: "lga",
       description: "LGA",
-      selector: (row) => row.lga,
+      selector: row => row.lga,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -1098,7 +1098,7 @@ export function ProviderList({ showModal, setShowModal }) {
 
   const conditionalRowStyles = [
     {
-      when: (row) => row.status === "approved",
+      when: row => row.status === "approved",
       style: {
         color: "red",
         "&:hover": {
@@ -1107,7 +1107,7 @@ export function ProviderList({ showModal, setShowModal }) {
       },
     },
     {
-      when: (row) => row.status === "ongoing",
+      when: row => row.status === "ongoing",
       style: {
         color: "rgba(0,0,0,.54)",
         "&:hover": {
@@ -1116,7 +1116,7 @@ export function ProviderList({ showModal, setShowModal }) {
       },
     },
     {
-      when: (row) => row.status === "pending",
+      when: row => row.status === "pending",
       style: {
         color: "pink",
         "&:hover": {
@@ -1125,7 +1125,7 @@ export function ProviderList({ showModal, setShowModal }) {
       },
     },
     {
-      when: (row) => row.status === "declined",
+      when: row => row.status === "declined",
       style: {
         color: "purple",
         backgroundColor: "green",
@@ -1142,10 +1142,10 @@ export function ProviderList({ showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{display: "flex", alignItems: "center"}}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
@@ -1198,7 +1198,7 @@ export function ProviderList({ showModal, setShowModal }) {
                       onClick={handleCreateNew}
                     >
                       <FileUploadIcon
-                        sx={{ marginRight: "5px" }}
+                        sx={{marginRight: "5px"}}
                         fontSize="small"
                       />
                       Upload Provider
@@ -1214,7 +1214,7 @@ export function ProviderList({ showModal, setShowModal }) {
                       onClick={handleCreateNew}
                     >
                       <AddCircleOutlineIcon
-                        sx={{ marginRight: "5px" }}
+                        sx={{marginRight: "5px"}}
                         fontSize="small"
                       />
                       Register Provider
@@ -1222,7 +1222,7 @@ export function ProviderList({ showModal, setShowModal }) {
                   </div>
                 )}
               </TableMenu>
-              <div style={{ width: "100%", height: "700px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "700px", overflow: "auto"}}>
                 {value === "list" ? (
                   <CustomTable
                     title={""}
@@ -1250,7 +1250,7 @@ export function ProviderList({ showModal, setShowModal }) {
 }
 
 export function NewOrganizationCreate() {
-  const { register, handleSubmit } = useForm(); //, watch, errors, reset
+  const {register, handleSubmit} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -1261,32 +1261,32 @@ export function NewOrganizationCreate() {
   const BandsServ = client.service("bands");
   const [providerBand, setProviderBand] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectDiv, setSelectDiv] = useState([{ selectValue: "" }]);
-  const [selectDiv2, setSelectDiv2] = useState([{ selectValue: "" }]);
-  const [selectDiv3, setSelectDiv3] = useState([{ selectValue: "" }]);
-  const [selectDiv4, setSelectDiv4] = useState([{ selectValue: "" }]);
-  const [selectDiv5, setSelectDiv5] = useState([{ selectValue: "" }]);
-  const [selectDiv6, setSelectDiv6] = useState([{ selectValue: "" }]);
-  const [selectDiv7, setSelectDiv7] = useState([{ selectValue: "" }]);
-  const [selectDiv8, setSelectDiv8] = useState([{ selectValue: "" }]);
-  const [selectDiv9, setSelectDiv9] = useState([{ selectValue: "" }]);
-  const [selectDiv10, setSelectDiv10] = useState([{ selectValue: "" }]);
-  const [selectDiv11, setSelectDiv11] = useState([{ selectValue: "" }]);
-  const [selectDiv12, setSelectDiv12] = useState([{ selectValue: "" }]);
-  const [selectDiv13, setSelectDiv13] = useState([{ selectValue: "" }]);
-  const [nonMedDiv, setNonMedDiv] = useState([{ selectValue: "" }]);
-  const [nonMedDiv2, setNonMedDiv2] = useState([{ selectValue: "" }]);
-  const [nonMedDiv3, setNonMedDiv3] = useState([{ selectValue: "" }]);
-  const [nonMedDiv4, setNonMedDiv4] = useState([{ selectValue: "" }]);
-  const [nonMedDiv5, setNonMedDiv5] = useState([{ selectValue: "" }]);
-  const [nonMedDiv6, setNonMedDiv6] = useState([{ selectValue: "" }]);
-  const [nonMedDiv7, setNonMedDiv7] = useState([{ selectValue: "" }]);
-  const [nonMedDiv8, setNonMedDiv8] = useState([{ selectValue: "" }]);
+  const [selectDiv, setSelectDiv] = useState([{selectValue: ""}]);
+  const [selectDiv2, setSelectDiv2] = useState([{selectValue: ""}]);
+  const [selectDiv3, setSelectDiv3] = useState([{selectValue: ""}]);
+  const [selectDiv4, setSelectDiv4] = useState([{selectValue: ""}]);
+  const [selectDiv5, setSelectDiv5] = useState([{selectValue: ""}]);
+  const [selectDiv6, setSelectDiv6] = useState([{selectValue: ""}]);
+  const [selectDiv7, setSelectDiv7] = useState([{selectValue: ""}]);
+  const [selectDiv8, setSelectDiv8] = useState([{selectValue: ""}]);
+  const [selectDiv9, setSelectDiv9] = useState([{selectValue: ""}]);
+  const [selectDiv10, setSelectDiv10] = useState([{selectValue: ""}]);
+  const [selectDiv11, setSelectDiv11] = useState([{selectValue: ""}]);
+  const [selectDiv12, setSelectDiv12] = useState([{selectValue: ""}]);
+  const [selectDiv13, setSelectDiv13] = useState([{selectValue: ""}]);
+  const [nonMedDiv, setNonMedDiv] = useState([{selectValue: ""}]);
+  const [nonMedDiv2, setNonMedDiv2] = useState([{selectValue: ""}]);
+  const [nonMedDiv3, setNonMedDiv3] = useState([{selectValue: ""}]);
+  const [nonMedDiv4, setNonMedDiv4] = useState([{selectValue: ""}]);
+  const [nonMedDiv5, setNonMedDiv5] = useState([{selectValue: ""}]);
+  const [nonMedDiv6, setNonMedDiv6] = useState([{selectValue: ""}]);
+  const [nonMedDiv7, setNonMedDiv7] = useState([{selectValue: ""}]);
+  const [nonMedDiv8, setNonMedDiv8] = useState([{selectValue: ""}]);
 
   //const history = useHistory()
-  const { user } = useContext(UserContext); //,setUser
+  const {user} = useContext(UserContext); //,setUser
 
-  const handleChangeMode = async (e) => {
+  const handleChangeMode = async e => {
     await setBand(e.target.value);
   };
   /* const onSubmit = (data,e) =>{
@@ -1355,7 +1355,7 @@ export function NewOrganizationCreate() {
     };
     orgServ
       .create(stuff)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         setSuccess(true);
@@ -1368,7 +1368,7 @@ export function NewOrganizationCreate() {
         setSuccess(false);
         setBand("");
       })
-      .catch((err) => {
+      .catch(err => {
         toast({
           message: "Error adding organization " + err,
           type: "is-danger",
@@ -1383,7 +1383,7 @@ export function NewOrganizationCreate() {
     getProviderBand();
     return () => {};
   }, []);
-  const getSearchfacility = (obj) => {
+  const getSearchfacility = obj => {
     setChosen(obj);
 
     /*  setCategoryName(obj.categoryname)
@@ -1395,70 +1395,70 @@ export function NewOrganizationCreate() {
              setChosen2() */
     }
   };
-  const handleAddClick = (Type) => {
+  const handleAddClick = Type => {
     switch (Type) {
       case 1:
-        setSelectDiv([...selectDiv, { selectValue: "" }]);
+        setSelectDiv([...selectDiv, {selectValue: ""}]);
         break;
       case 2:
-        setSelectDiv2([...selectDiv2, { selectValue: "" }]);
+        setSelectDiv2([...selectDiv2, {selectValue: ""}]);
         break;
       case 3:
-        setSelectDiv3([...selectDiv3, { selectValue: "" }]);
+        setSelectDiv3([...selectDiv3, {selectValue: ""}]);
         break;
       case 4:
-        setSelectDiv4([...selectDiv4, { selectValue: "" }]);
+        setSelectDiv4([...selectDiv4, {selectValue: ""}]);
         break;
       case 5:
-        setSelectDiv5([...selectDiv5, { selectValue: "" }]);
+        setSelectDiv5([...selectDiv5, {selectValue: ""}]);
         break;
       case 6:
-        setSelectDiv6([...selectDiv6, { selectValue: "" }]);
+        setSelectDiv6([...selectDiv6, {selectValue: ""}]);
         break;
       case 7:
-        setSelectDiv7([...selectDiv7, { selectValue: "" }]);
+        setSelectDiv7([...selectDiv7, {selectValue: ""}]);
         break;
       case 8:
-        setSelectDiv8([...selectDiv8, { selectValue: "" }]);
+        setSelectDiv8([...selectDiv8, {selectValue: ""}]);
         break;
       case 9:
-        setSelectDiv9([...selectDiv9, { selectValue: "" }]);
+        setSelectDiv9([...selectDiv9, {selectValue: ""}]);
         break;
       case 10:
-        setSelectDiv10([...selectDiv10, { selectValue: "" }]);
+        setSelectDiv10([...selectDiv10, {selectValue: ""}]);
         break;
       case 11:
-        setSelectDiv11([...selectDiv11, { selectValue: "" }]);
+        setSelectDiv11([...selectDiv11, {selectValue: ""}]);
         break;
       case 12:
-        setSelectDiv12([...selectDiv12, { selectValue: "" }]);
+        setSelectDiv12([...selectDiv12, {selectValue: ""}]);
         break;
       case 13:
-        setSelectDiv13([...selectDiv13, { selectValue: "" }]);
+        setSelectDiv13([...selectDiv13, {selectValue: ""}]);
         break;
       case 21:
-        setNonMedDiv([...nonMedDiv, { selectValue: "" }]);
+        setNonMedDiv([...nonMedDiv, {selectValue: ""}]);
         break;
       case 22:
-        setNonMedDiv2([...nonMedDiv2, { selectValue: "" }]);
+        setNonMedDiv2([...nonMedDiv2, {selectValue: ""}]);
         break;
       case 23:
-        setNonMedDiv3([...nonMedDiv3, { selectValue: "" }]);
+        setNonMedDiv3([...nonMedDiv3, {selectValue: ""}]);
         break;
       case 24:
-        setNonMedDiv4([...nonMedDiv4, { selectValue: "" }]);
+        setNonMedDiv4([...nonMedDiv4, {selectValue: ""}]);
         break;
       case 25:
-        setNonMedDiv5([...nonMedDiv5, { selectValue: "" }]);
+        setNonMedDiv5([...nonMedDiv5, {selectValue: ""}]);
         break;
       case 26:
-        setNonMedDiv6([...nonMedDiv6, { selectValue: "" }]);
+        setNonMedDiv6([...nonMedDiv6, {selectValue: ""}]);
         break;
       case 27:
-        setNonMedDiv7([...nonMedDiv7, { selectValue: "" }]);
+        setNonMedDiv7([...nonMedDiv7, {selectValue: ""}]);
         break;
       case 28:
-        setNonMedDiv8([...nonMedDiv8, { selectValue: "" }]);
+        setNonMedDiv8([...nonMedDiv8, {selectValue: ""}]);
         break;
       default:
         break;
@@ -1576,17 +1576,17 @@ export function NewOrganizationCreate() {
     }
   };
   const selectdata = [
-    { value: "test", label: "test" },
-    { value: "test2", label: "test2" },
+    {value: "test", label: "test"},
+    {value: "test2", label: "test2"},
   ];
   return (
     <>
       {currentPage === 1 && (
         <>
-          <p style={{ fontWeight: "700" }}>
+          <p style={{fontWeight: "700"}}>
             HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
           </p>
-          <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+          <p style={{fontWeight: "700", marginBottom: "2rem"}}>
             (PRIVATE SCHEME)
           </p>
           <McText txt={"PERSONAL DATA"} type={"p"} bold={700} />
@@ -1667,10 +1667,10 @@ export function NewOrganizationCreate() {
               margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: "700" }}>
+            <p style={{fontWeight: "700"}}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+            <p style={{fontWeight: "700", marginBottom: "2rem"}}>
               (PRIVATE SCHEME)
             </p>
             <McText txt={"HOSPITAL ASSESSMENT"} type={"p"} bold={700} />
@@ -2634,7 +2634,7 @@ export function NewOrganizationCreate() {
                   register={register("name")}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} mt={1.5}>
+              <Grid item xs={12} sm={6} md={6}>
                 <BasicDatePicker
                   label={"DATE OF REVIEW"}
                   register={register("date")}
@@ -2666,7 +2666,7 @@ export function NewOrganizationCreate() {
                   register={register("inspectionParameters")}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} mt={1.5}>
+              <Grid item xs={12} sm={6} md={6}>
                 <BasicDatePicker label={"DATE"} register={register("date")} />
               </Grid>
             </Grid>
@@ -2713,10 +2713,10 @@ export function NewOrganizationCreate() {
               margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: "700" }}>
+            <p style={{fontWeight: "700"}}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+            <p style={{fontWeight: "700", marginBottom: "2rem"}}>
               (PRIVATE SCHEME)
             </p>
             <McText txt={"NON-MEDICAL STAFF"} type={"p"} bold={700} />
@@ -3331,10 +3331,10 @@ export function NewOrganizationCreate() {
               margin: "0 auto",
             }}
           >
-            <p style={{ fontWeight: "700" }}>
+            <p style={{fontWeight: "700"}}>
               HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
             </p>
-            <p style={{ fontWeight: "700", marginBottom: "2rem" }}>
+            <p style={{fontWeight: "700", marginBottom: "2rem"}}>
               (PRIVATE SCHEME)
             </p>
             <McText
@@ -3392,7 +3392,7 @@ export function NewOrganizationCreate() {
               <Grid item xs={12} sm={4} md={6}>
                 <Input label={"Phone"} register={register("phone")} />
               </Grid>
-              <Grid item xs={12} sm={4} md={6} mt={1.5}>
+              <Grid item xs={12} sm={4} md={6}>
                 <BasicDatePicker label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
@@ -3422,7 +3422,7 @@ export function NewOrganizationCreate() {
                   register={register("name")}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={6} mt={1.5}>
+              <Grid item xs={12} sm={4} md={6}>
                 <BasicDatePicker
                   label={"Date of Review"}
                   register={register("date")}
@@ -3453,7 +3453,7 @@ export function NewOrganizationCreate() {
                   register={register("name")}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={6} mt={1.5}>
+              <Grid item xs={12} sm={4} md={6}>
                 <BasicDatePicker label={"Date"} register={register("date")} />
               </Grid>
             </Grid>
@@ -3493,7 +3493,7 @@ export function NewOrganizationCreate() {
   );
 }
 
-export function OrganizationDetail({ showModal, setShowModal }) {
+export function OrganizationDetail({showModal, setShowModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -3502,9 +3502,9 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [message, setMessage] = useState(""); //,
   //const facilityServ=client.service('/facility')
   //const history = useHistory()
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const {user, setUser} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
+  const {register, handleSubmit, setValue, reset} = useForm();
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -3513,7 +3513,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       selectedFacility: facility,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       facilityModule: newfacilityModule,
     }));

@@ -16,7 +16,7 @@ import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import CustomSelect from "../../components/inputs/basic/Select";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
@@ -34,6 +34,8 @@ import moment from "moment";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import XLSX from "xlsx";
 import UploadExcelSheet from "../../components/excel-upload/Excel-Upload";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {FormsHeaderText} from "../../components/texts";
 //import MuiButton from "@mui/material/Button";
 
 // eslint-disable-next-line
@@ -362,12 +364,12 @@ export function ProductEntryCreate({closeModal}) {
       ref={ref}
       style={{
         width: "100%",
-        height: "48px",
+        height: "38px",
         border: "1.5px solid #BBBBBB",
         borderRadius: "4px",
         display: "flex",
         alignItems: "center",
-        margin: "0.75rem 0",
+        //margin: "0.75rem 0",
         fontSize: "0.85rem",
         padding: "0 15px",
         color: "#000000",
@@ -381,14 +383,17 @@ export function ProductEntryCreate({closeModal}) {
   return (
     <Box
       sx={{
-        width: "850px",
-        maxHeight: "700px",
+        width: "85vw",
+        maxHeight: "85vh",
         overflowY: "auto",
       }}
     >
-      <Box container>
-        <Box>
-          <Grid container spacing={2}>
+      <Grid container spacing={1}>
+        <Grid item lg={6} md={6} sm={12}>
+          <Box mb={1}>
+            <FormsHeaderText text="Entry Information" />
+          </Box>
+          <Grid container spacing={1}>
             <Grid item xs={8}>
               <Input
                 /* ref={register({ required: true })} */
@@ -399,7 +404,7 @@ export function ProductEntryCreate({closeModal}) {
                 label="Supplier"
               />
             </Grid>
-            <Grid item xs={4} sx={{margin: "0.75rem 0"}}>
+            <Grid item xs={4}>
               <CustomSelect
                 defaultValue={type}
                 name="type"
@@ -407,11 +412,6 @@ export function ProductEntryCreate({closeModal}) {
                 onChange={handleChangeType}
               />
             </Grid>
-          </Grid>
-        </Box>
-
-        <Box>
-          <Grid container spacing={2}>
             <Grid item xs={4}>
               <DatePicker
                 selected={date}
@@ -440,77 +440,66 @@ export function ProductEntryCreate({closeModal}) {
               />
             </Grid>
           </Grid>
-        </Box>
+        </Grid>
+        <Grid item lg={6} md={6} sm={12}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+            mb={1}
+          >
+            <FormsHeaderText text="Add Product Items" />
 
-        <Divider sx={{margin: "20px 0"}} />
-        <Box
-          container
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          mb={1}
-        >
-          <Box item>
-            <Typography>Add Product Items</Typography>
-          </Box>
-
-          <Box item sx={{display: "flex"}}>
-            <UploadExcelSheet updateState={setProductItem} />
-
-            <MuiButton
-              variant="outlined"
-              sx={{width: "100px", textTransform: "capitalize"}}
-              onClick={handleClickProd}
-            >
+            <GlobalCustomButton onClick={handleClickProd}>
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
               Add
-            </MuiButton>
+            </GlobalCustomButton>
           </Box>
-        </Box>
 
-        <Grid container spacing={2}>
-          <Grid item xs={7}>
-            <ProductSearchHelper
-              getSearchfacility={getSearchfacility}
-              clear={success}
-            />
-            <input
-              className="input is-small"
-              /* ref={register ({ required: true }) }  */ /* add array no */
-              value={productId}
-              name="productId"
-              type="text"
-              onChange={e => setProductId(e.target.value)}
-              placeholder="Product Id"
-              style={{display: "none"}}
-            />
-          </Grid>
+          <Grid container spacing={1}>
+            <Grid item lg={7} md={6} sm={8}>
+              <ProductSearchHelper
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+              <input
+                className="input is-small"
+                /* ref={register ({ required: true }) }  */ /* add array no */
+                value={productId}
+                name="productId"
+                type="text"
+                onChange={e => setProductId(e.target.value)}
+                placeholder="Product Id"
+                style={{display: "none"}}
+              />
+            </Grid>
 
-          <Grid item xs={2}>
-            <Input
-              /* ref={register({ required: true })} */
-              name="quantity"
-              value={quantity}
-              type="text"
-              onChange={e => setQuantity(e.target.value)}
-              label="Quantity"
-            />
-          </Grid>
+            <Grid item lg={2} md={3} sm={2}>
+              <Input
+                /* ref={register({ required: true })} */
+                name="quantity"
+                value={quantity}
+                type="text"
+                onChange={e => setQuantity(e.target.value)}
+                label="Quantity"
+              />
+            </Grid>
 
-          <Grid item xs={3}>
-            <Input
-              /* ref={register({ required: true })} */
-              name="costprice"
-              value={costprice}
-              type="text"
-              onChange={e => setCostprice(e.target.value)}
-              label="Cost Price"
-            />
+            <Grid item lg={3} md={3} sm={2}>
+              <Input
+                /* ref={register({ required: true })} */
+                name="costprice"
+                value={costprice}
+                type="text"
+                onChange={e => setCostprice(e.target.value)}
+                label="Cost Price"
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Box>
+      </Grid>
 
       {productItem.length > 0 && (
         <Box sx={{height: "300px", widht: "300%"}}>
@@ -533,27 +522,23 @@ export function ProductEntryCreate({closeModal}) {
         }}
         mt={2}
       >
-        <MuiButton
-          variant="contained"
+        <GlobalCustomButton
           disabled={!productItem.length > 0}
           onClick={onSubmit}
           sx={{
-            width: "150px",
-            height: "40px",
-            textTransform: "capitalize",
-            marginRight: "15px",
+            marginRight: "10px",
           }}
         >
           Add Product(s)
-        </MuiButton>
-        <MuiButton
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
           variant="outlined"
-          color="error"
-          sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
+          color="warning"
           onClick={closeModal}
         >
           Cancel
-        </MuiButton>
+        </GlobalCustomButton>
       </Box>
     </Box>
   );
@@ -940,11 +925,13 @@ export function ProductEntryList({openCreateModal, openDetailModal}) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  sx={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={openCreateModal}
-                />
+                <GlobalCustomButton onClick={openCreateModal}>
+                  <AddCircleOutline
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Add New
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -1069,11 +1056,12 @@ export function ProductEntryDetail({openModifyModal}) {
         container
         sx={{
           width: "100%",
-          maxHeight: "500px",
+          maxHeight: "85vh",
           overflowY: "auto",
         }}
+        pt={1}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={1} mb={1}>
           <Grid item xs={8}>
             <Input value={ProductEntry.source} label="Supplier" disabled />
           </Grid>
@@ -1083,7 +1071,7 @@ export function ProductEntryDetail({openModifyModal}) {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} mb={2}>
+        <Grid container spacing={1} mb={1}>
           <Grid item xs={4}>
             <Input
               value={
@@ -1113,7 +1101,7 @@ export function ProductEntryDetail({openModifyModal}) {
           </Grid>
         </Grid>
 
-        <Box sx={{width: "100%", height: "200px", overflowY: "auto"}}>
+        <Box sx={{width: "100%", overflowY: "auto"}}>
           <CustomTable
             title={""}
             columns={ProductDetailSchema}

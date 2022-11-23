@@ -275,7 +275,7 @@ const LeadDetail = () => {
 
               {/* ***************************************************************************************** */}
 
-              <Grid item lg={3} md={6} sm={6} mt={1.5}>
+              <Grid item lg={3} md={6} sm={6}>
                 <CustomSelect
                   register={register("deal_status", {required: true})}
                   label="Deal Status"
@@ -286,7 +286,7 @@ const LeadDetail = () => {
                 />
               </Grid>
 
-              <Grid item lg={3} md={6} sm={6} mt={1.5}>
+              <Grid item lg={3} md={6} sm={6}>
                 <CustomSelect
                   register={register("deal_next_action", {required: true})}
                   label="Next Action"

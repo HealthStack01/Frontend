@@ -21,6 +21,8 @@ const searchfacility = {};
 import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function BillServiceCreate() {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
@@ -824,9 +826,205 @@ export default function BillServiceCreate() {
   ];
   return (
     <>
+      <Box sx={{width: "85vw", maxHeight: "85vh"}}>
+        <Grid container spacing={2}>
+          <Grid item lg={6} md={6} sm={12}>
+            <Box>
+              <Box>
+                <FormsHeaderText text="Bill Information" />
+              </Box>
+              <Grid container spacing={1} mb={1}>
+                <Grid item xs={8}>
+                  <ClientSearch
+                    getSearchfacility={getSearchfacility1}
+                    clear={success1}
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <CustomSelect
+                    name="paymentmode"
+                    value={paymentmode}
+                    onChange={e => handleChangeMode(e.target.value)}
+                    options={paymentOptions.map(item => item.name)}
+                    initialOption="Payment option"
+                    placeholder="Billing Mode"
+                    //label="Billing Mode"
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <Input
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    name="date"
+                    label="Date and Time"
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <Input
+                    value={documentNo}
+                    onChange={e => setDocumentNo(e.target.value)}
+                    label="Invoice Number"
+                    type="text"
+                    disabled
+                  />
+                </Grid>
+
+                <Grid item xs={4} mb={1}>
+                  <Input
+                    value={totalamount}
+                    type="text"
+                    onChange={e => setTotalamount(e.target.value)}
+                    label=" Total Amount"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item lg={6} md={6} sm={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <FormsHeaderText text="Choose Service Item" />
+
+              <GlobalCustomButton onClick={handleClickProd}>
+                <AddCircleOutlineIcon
+                  fontSize="small"
+                  sx={{marginRight: "5px"}}
+                />{" "}
+                Add
+              </GlobalCustomButton>
+            </Box>
+
+            <Box mb={1}>
+              <Grid container spacing={2}>
+                <Grid item xs={7}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <ServiceSearch
+                      getSearchfacility={getSearchfacility}
+                      clear={success}
+                      mode={billMode}
+                    />
+                    <input
+                      className="input is-small"
+                      value={productId}
+                      name="productId"
+                      type="text"
+                      onChange={e => setProductId(e.target.value)}
+                      placeholder="Product Id"
+                      style={{display: "none"}}
+                    />
+                  </Box>
+                </Grid>
+
+                <Grid item xs={2}>
+                  <Input
+                    name="quantity"
+                    value={quantity}
+                    type="text"
+                    onChange={e => handleQtty(e)}
+                    label="Quantity"
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Input
+                      name="qamount"
+                      disabled={changeAmount}
+                      value={calcamount}
+                      type="text"
+                      onChange={async e => await setCalcAmount(e.target.value)}
+                      label="Amount"
+                    />
+
+                    <GlobalCustomButton
+                      disabled={
+                        user.currentEmployee?.roles.includes("Adjust Price") ||
+                        user.currentEmployee?.roles.length === 0 ||
+                        user.stacker
+                      }
+                      sx={{
+                        marginTop: "10px",
+                      }}
+                    >
+                      Adjust
+                    </GlobalCustomButton>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Collapse in={productItem.length > 0}>
+              <Box
+                sx={{
+                  width: "100%",
+
+                  overflowY: "auto",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={productSchema}
+                  //data={dummyData}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={row => onRowClicked(row)}
+                  progressPending={false}
+                />
+              </Box>
+            </Collapse>
+          </Grid>
+        </Grid>
+
+        <Box
+          sx={{
+            display: "flex",
+            marginTop: "15px",
+          }}
+        >
+          <GlobalCustomButton
+            variant="outlined"
+            disabled={!productItem.length > 0}
+            onClick={handleCreateBill}
+            sx={{
+              marginRight: "10px",
+            }}
+          >
+            Done
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
+            color="warning"
+            variant="outlined"
+            disabled={!productItem.length > 0}
+            //onClick={onSubmit}
+          >
+            Clear
+          </GlobalCustomButton>
+        </Box>
+      </Box>
       <div
         className="card card-overflow"
-        style={{width: "50vw", maxHeight: "70vh"}}
+        style={{width: "600px", maxHeight: "70vh"}}
       >
         <div className="card-content ">
           <form onSubmit={onSubmit}>
@@ -843,221 +1041,7 @@ export default function BillServiceCreate() {
                     </label>
                   </div>
                 ) : (
-                  <div className="field">
-                    <Box
-                      mb={1}
-                      sx={{
-                        width: "100%",
-                        height: "80px",
-                      }}
-                    >
-                      <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                          <ClientSearch
-                            getSearchfacility={getSearchfacility1}
-                            clear={success1}
-                          />
-                        </Grid>
-
-                        <Grid item xs={4} mt={1.5}>
-                          <CustomSelect
-                            name="paymentmode"
-                            defaultValue={paymentmode}
-                            onChange={e => handleChangeMode(e.target.value)}
-                            options={paymentOptions.map(item => item.name)}
-                            initialOption="Payment option"
-                            label="Billing Mode"
-                          />
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    <Box
-                      mb={1}
-                      sx={{
-                        width: "100%",
-                        height: "80px",
-                      }}
-                    >
-                      <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                          <Input
-                            value={date}
-                            onChange={e => setDate(e.target.value)}
-                            name="date"
-                            label="Date and Time"
-                            disabled
-                          />
-                        </Grid>
-
-                        <Grid item xs={4}>
-                          <Input
-                            value={documentNo}
-                            onChange={e => setDocumentNo(e.target.value)}
-                            label="Invoice Number"
-                            type="text"
-                            disabled
-                          />
-                        </Grid>
-
-                        <Grid item xs={4}>
-                          <Input
-                            value={totalamount}
-                            type="text"
-                            onChange={e => setTotalamount(e.target.value)}
-                            label=" Total Amount"
-                          />
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    <Divider
-                      sx={{
-                        marginBottom: "25px",
-                      }}
-                    />
-
-                    <Typography color="text.primary" mb={1}>
-                      Choose Service Item:
-                    </Typography>
-
-                    <Box mb={1}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={7}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <ServiceSearch
-                              getSearchfacility={getSearchfacility}
-                              clear={success}
-                              mode={billMode}
-                            />
-                            <input
-                              className="input is-small"
-                              value={productId}
-                              name="productId"
-                              type="text"
-                              onChange={e => setProductId(e.target.value)}
-                              placeholder="Product Id"
-                              style={{display: "none"}}
-                            />
-                            <Button
-                              variant="outlined"
-                              startIcon={<AddCircleOutlineIcon />}
-                              onClick={handleClickProd}
-                              sx={{
-                                marginTop: "10px",
-                                width: "50%",
-                                //textTransform: "capitalize",
-                              }}
-                            >
-                              Add
-                            </Button>
-                          </Box>
-                        </Grid>
-
-                        <Grid item xs={2}>
-                          <Input
-                            name="quantity"
-                            value={quantity}
-                            type="text"
-                            onChange={e => handleQtty(e)}
-                            label="Quantity"
-                          />
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Input
-                              name="qamount"
-                              disabled={changeAmount}
-                              value={calcamount}
-                              type="text"
-                              onChange={async e =>
-                                await setCalcAmount(e.target.value)
-                              }
-                              label="Amount"
-                            />
-
-                            <Button
-                              variant="contained"
-                              size="small"
-                              sx={{
-                                marginTop: "10px",
-                                //textTransform: "capitalize",
-                              }}
-                              disabled={
-                                user.currentEmployee?.roles.includes(
-                                  "Adjust Price"
-                                ) ||
-                                user.currentEmployee?.roles.length === 0 ||
-                                user.stacker
-                              }
-                              onClick={handleChangeAmount}
-                            >
-                              Adjust
-                            </Button>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    <Collapse in={productItem.length > 0}>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          maxHeight: "150px",
-                          overflowY: "auto",
-                        }}
-                      >
-                        <CustomTable
-                          title={""}
-                          columns={productSchema}
-                          //data={dummyData}
-                          data={productItem}
-                          pointerOnHover
-                          highlightOnHover
-                          striped
-                          onRowClicked={row => onRowClicked(row)}
-                          progressPending={false}
-                        />
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          marginTop: "15px",
-                        }}
-                      >
-                        <Button
-                          variant="outlined"
-                          disabled={!productItem.length > 0}
-                          onClick={handleCreateBill}
-                          sx={{
-                            marginRight: "20px",
-                          }}
-                        >
-                          Done
-                        </Button>
-
-                        <Button
-                          variant="contained"
-                          color="error"
-                          disabled={!productItem.length > 0}
-                          onClick={onSubmit}
-                        >
-                          Clear
-                        </Button>
-                      </Box>
-                    </Collapse>
-                  </div>
+                  <div className="field"></div>
                 )}
               </div>
             </div>

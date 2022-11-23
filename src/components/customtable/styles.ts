@@ -5,14 +5,14 @@ export const customStyles = {
       "&:not(:last-of-type)": {
         borderBottomWidth: "0px",
       },
-      padding: "0.75rem",
+      padding: "10px 10px",
       backgroundColor: "##F8F8F8",
     },
   },
   headRow: {
     style: {
       borderBottomWidth: "0px",
-      padding: "24px",
+      padding: "10px 10px",
       backgroundColor: "#F8F8F8",
       fontSize: "0.75rem",
     },

@@ -71,7 +71,7 @@ export default function Leads() {
         onClose={() => setDetailModal(false)}
         header="Lead Detail"
       >
-        <OldLeadDetail closeModal={() => setDetailModal(false)} />
+        <LeadDetail closeModal={() => setDetailModal(false)} />
       </ModalBox>
     </section>
   );

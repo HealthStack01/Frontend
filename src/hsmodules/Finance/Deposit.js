@@ -232,7 +232,7 @@ export default function MakeDeposit({closeModal, balance}) {
             />
           </Grid>
 
-          <Grid item xs={3} mt={1.5}>
+          <Grid item xs={3}>
             <CustomSelect
               options={["Cash", "Wallet", "Bank Transfer", "Card", "Cheque"]}
               placeholder="Payment Mode"

@@ -22,13 +22,14 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import EmptyData from "./ui-components/empty";
-import {InventoryStoreSchema} from "./ui-components/schema";
+import EmptyData from "../../components/empty";
+import {InventoryStoreSchema} from "./schema";
 import styled from "styled-components";
 import Input from "../../components/inputs/basic/Input";
 import {Box, Grid, Typography} from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import BasicDatePicker from "../../components/inputs/Date";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -890,82 +891,51 @@ export function InventoryDetail({openModals}) {
       <Box
         container
         sx={{
-          width: "550px",
+          width: "500px",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Box item mb={3}>
+        <Box item mb={2} pt={1}>
           <Input label="Inventory Name" value={Inventory.name} disabled />
         </Box>
 
-        <Box item mb={3}>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
-              <MuiButton
-                variant="contained"
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  background: "",
-                }}
-                onClick={handleEdit}
-              >
-                Set Price
-              </MuiButton>
-            </Grid>
+        <Box
+          item
+          mb={3}
+          sx={{display: "flex", alignItems: "center", flexWrap: "wrap"}}
+        >
+          <GlobalCustomButton onClick={handleEdit} sx={{marginRight: "10px"}}>
+            Set Price
+          </GlobalCustomButton>
 
-            <Grid item xs={3}>
-              <MuiButton
-                variant="contained"
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  background: "#17935C",
-                  "&:hover": {
-                    backgroundColor: "#17935C",
-                  },
-                }}
-                onClick={handleBatch}
-              >
-                Batches
-              </MuiButton>
-            </Grid>
+          <GlobalCustomButton
+            sx={{
+              textTransform: "capitalize",
+              background: "#17935C",
+              marginRight: "10px",
+              "&:hover": {
+                backgroundColor: "#17935C",
+              },
+            }}
+            onClick={handleBatch}
+          >
+            Batches
+          </GlobalCustomButton>
 
-            <Grid item xs={4}>
-              <MuiButton
-                variant="contained"
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  background: "#B6CCFE",
-                  "&:hover": {
-                    backgroundColor: "#B6CCFE",
-                  },
-                }}
-                onClick={handleReorder}
-              >
-                Reorder Level
-              </MuiButton>
-            </Grid>
+          <GlobalCustomButton
+            onClick={handleReorder}
+            sx={{marginRight: "10px"}}
+          >
+            Reorder Level
+          </GlobalCustomButton>
 
-            <Grid item xs={2}>
-              <MuiButton
-                variant="outlined"
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  background: "",
-                }}
-                onClick={handleAudit}
-              >
-                Audit
-              </MuiButton>
-            </Grid>
-          </Grid>
+          <GlobalCustomButton variant="outlined" onClick={handleAudit}>
+            Audit
+          </GlobalCustomButton>
         </Box>
 
-        {error && <Typography sx={{color: "red"}}>{"message"}</Typography>}
+        {error && <Typography sx={{color: "red"}}>{message}</Typography>}
       </Box>
     </>
   );
@@ -1116,7 +1086,7 @@ export function InventoryModify({closeModal}) {
       <Box
         container
         sx={{
-          width: "550px",
+          width: "500px",
         }}
       >
         <Box
@@ -1158,28 +1128,22 @@ export function InventoryModify({closeModal}) {
             display: "flex",
           }}
         >
-          <MuiButton
-            variant="contained"
+          <GlobalCustomButton
             sx={{
-              textTransform: "capitalize",
-              width: "163px",
               marginRight: "15px",
             }}
             onClick={handleSubmit(onSubmit)}
           >
             Save
-          </MuiButton>
+          </GlobalCustomButton>
 
-          <MuiButton
+          <GlobalCustomButton
             variant="outlined"
-            sx={{
-              textTransform: "capitalize",
-              width: "163px",
-            }}
+            color="warning"
             onClick={handleCancel}
           >
             Cancel
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
       </Box>
     </>
@@ -1314,28 +1278,22 @@ export function InventoryReorder({closeModal}) {
             display: "flex",
           }}
         >
-          <MuiButton
-            variant="contained"
+          <GlobalCustomButton
             sx={{
-              textTransform: "capitalize",
-              width: "163px",
               marginRight: "15px",
             }}
             onClick={handleSubmit(onSubmit)}
           >
             Save
-          </MuiButton>
+          </GlobalCustomButton>
 
-          <MuiButton
+          <GlobalCustomButton
             variant="outlined"
-            sx={{
-              textTransform: "capitalize",
-              width: "163px",
-            }}
             onClick={handleCancel}
+            color="warning"
           >
             Cancel
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
       </Box>
     </>
@@ -1459,16 +1417,16 @@ export function InventoryBatches({closeModal}) {
       ref={ref}
       style={{
         width: "100%",
-        height: "48px",
+        height: "38px",
         border: "1.5px solid #BBBBBB",
         borderRadius: "4px",
         display: "flex",
         alignItems: "center",
-        margin: "0.75rem 0",
         fontSize: "0.85rem",
         padding: "0 15px",
         color: "#000000",
         backgroundColor: "#fff",
+        cursor: "pointer",
       }}
     >
       {value === "" ? "Pick Date" : value}
@@ -1550,6 +1508,7 @@ export function InventoryBatches({closeModal}) {
       container
       sx={{
         width: "600px",
+        maxHeight: "80vh",
         overflowY: "auto",
       }}
     >
@@ -1566,6 +1525,7 @@ export function InventoryBatches({closeModal}) {
             alignItems: "center",
             justifyContent: "space-between",
           }}
+          mb={1}
         >
           <Typography
             sx={{
@@ -1574,17 +1534,13 @@ export function InventoryBatches({closeModal}) {
           >
             Batches for {Inventory.name}
           </Typography>
-          <MuiButton
-            variant="outlined"
-            sx={{width: "100px", textTransform: "capitalize"}}
-            onClick={handleClickProd}
-          >
+          <GlobalCustomButton onClick={handleClickProd}>
             <AddCircleOutlineIcon sx={{marginRight: "5px"}} fontSize="small" />
             Add
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
 
-        <Box item>
+        <Box item mb={2}>
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Input
@@ -1599,7 +1555,7 @@ export function InventoryBatches({closeModal}) {
               <DatePicker
                 selected={expirydate}
                 onChange={date => setExpiryDate(date)}
-                dateFormat="MM/yyyy"
+                dateFormat="dd/MM/yyyy"
                 placeholderText="Expiry Date"
                 customInput={<DatePickerCustomInput />}
                 wrapperClassName="date-picker-custom-style"
@@ -1622,10 +1578,9 @@ export function InventoryBatches({closeModal}) {
         <Box
           sx={{
             width: "100%",
-            height: "300px",
             overflowY: "auto",
           }}
-          mb={3}
+          mb={2}
         >
           <CustomTable
             title={""}
@@ -1642,28 +1597,22 @@ export function InventoryBatches({closeModal}) {
       )}
 
       <Box container>
-        <MuiButton
-          variant="contained"
+        <GlobalCustomButton
           sx={{
-            width: "150px",
-            textTransform: "capitalize",
             marginRight: "15px",
           }}
           onClick={handleSubmit(onSubmit)}
         >
           Save
-        </MuiButton>
+        </GlobalCustomButton>
 
-        <MuiButton
+        <GlobalCustomButton
           variant="outlined"
-          sx={{
-            width: "150px",
-            textTransform: "capitalize",
-          }}
+          color="warning"
           onClick={handleCancel}
         >
           Cancel
-        </MuiButton>
+        </GlobalCustomButton>
       </Box>
     </Box>
   );

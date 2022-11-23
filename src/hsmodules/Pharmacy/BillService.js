@@ -18,7 +18,7 @@ import Payment from "./PharmacyPayment";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -462,16 +462,13 @@ export function BillsList({openCreateModal}) {
           </div>
 
           {handleCreateNew && (
-            <GlobalCustomButton
-              text="Add New"
-              onClick={handleCreateNew}
-              MuiIcon={
-                <AddCircleOutlineOutlinedIcon
-                  sx={{marginRight: "5px"}}
-                  fontSize="small"
-                />
-              }
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutlineOutlinedIcon
+                sx={{marginRight: "5px"}}
+                fontSize="small"
+              />
+              Add New
+            </GlobalCustomButton>
           )}
         </TableMenu>
         <div

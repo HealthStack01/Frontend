@@ -8,6 +8,7 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 //import PaymentCreate from './PaymentCreate'
+import SellIcon from "@mui/icons-material/Sell";
 import PatientProfile from "../Client/PatientProfile";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -23,9 +24,10 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {InventoryStoreSchema} from "./ui-components/schema";
+import {InventoryStoreSchema} from "./schema";
 import ModalBox from "../../components/modal";
 import {Button as MuiButton} from "@mui/material";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function Dispense() {
   //const {state}=useContext(ObjectContext) //,setState
@@ -536,15 +538,10 @@ export function DispenseList({openCreateModal}) {
           )}
 
           {selectedOrders.length > 0 && (
-            <MuiButton
-              variant="contained"
-              sx={{
-                textTransform: "capitalize",
-              }}
-              onClick={openCreateModal}
-            >
+            <GlobalCustomButton onClick={openCreateModal}>
+              <SellIcon fontSize="small" sx={{marginRight: "5px"}} />
               Sell Product(s)
-            </MuiButton>
+            </GlobalCustomButton>
           )}
         </TableMenu>
 

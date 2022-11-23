@@ -163,7 +163,7 @@ export default function ProductSearchHelper({getSearchfacility, clear}) {
             {option.name} {option.baseunit}
           </li>
         )}
-        sx={{width: "100%", margin: "0.75rem 0"}}
+        sx={{width: "100%"}}
         freeSolo
         //size="small"
         renderInput={params => (

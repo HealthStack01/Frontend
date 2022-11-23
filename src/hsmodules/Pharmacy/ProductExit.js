@@ -37,6 +37,8 @@ import {
 
 import ProductSearchHelper from "../helpers/ProductSearch";
 import InventorySearchHelper from "../helpers/InventorySearch";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -479,7 +481,7 @@ export function ProductExitCreate({closeModal}) {
       ref={ref}
       style={{
         width: "100%",
-        height: "48px",
+        height: "38px",
         border: "1.5px solid #BBBBBB",
         borderRadius: "4px",
         display: "flex",
@@ -499,14 +501,18 @@ export function ProductExitCreate({closeModal}) {
     <>
       <Box
         sx={{
-          width: "780px",
-          maxHeight: "600px",
+          width: "85vw",
+          maxHeight: "80vh",
           overflowY: "auto",
         }}
       >
-        <Box container>
-          <Box>
-            <Grid container spacing={2}>
+        <Grid container spacing={1}>
+          <Grid item lg={6} md={6} sm={12}>
+            <Box mb={1}>
+              <FormsHeaderText text="Product" />
+            </Box>
+
+            <Grid container spacing={1}>
               <Grid item xs={8}>
                 <Input
                   /* ref={register({ required: true })} */
@@ -517,7 +523,7 @@ export function ProductExitCreate({closeModal}) {
                   label="Client"
                 />
               </Grid>
-              <Grid item xs={4} sx={{margin: "0.75rem 0"}}>
+              <Grid item xs={4}>
                 <CustomSelect
                   defaultValue={type}
                   name="type"
@@ -525,10 +531,6 @@ export function ProductExitCreate({closeModal}) {
                   onChange={handleChangeType}
                 />
               </Grid>
-            </Grid>
-          </Box>
-          <Box>
-            <Grid container spacing={2}>
               <Grid item xs={4}>
                 <Input
                   label="Date"
@@ -558,110 +560,99 @@ export function ProductExitCreate({closeModal}) {
                 />
               </Grid>
             </Grid>
-          </Box>
-          <Divider sx={{margin: "20px 0"}} />
-          <Box
-            container
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            mb={1}
-          >
-            <Box item>
-              <Typography>Add Product Items</Typography>
-            </Box>
+          </Grid>
 
-            <Box item>
-              <MuiButton
-                variant="outlined"
-                sx={{width: "100px", textTransform: "capitalize"}}
-                onClick={handleClickProd}
-              >
+          <Grid item lg={6} md={6} sm={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              mb={1}
+            >
+              <FormsHeaderText text="Add Product Items" />
+
+              <GlobalCustomButton onClick={handleClickProd}>
                 <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Add
-              </MuiButton>
+              </GlobalCustomButton>
             </Box>
-          </Box>
-          <Grid container spacing={2}>
-            <Grid item xs={7}>
-              <Box>
-                <>
-                  <InventorySearch
-                    getSearchfacility={getSearchfacility}
-                    clear={success}
-                  />
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */
-                    value={productId}
-                    name="productId"
-                    type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
-                    style={{display: "none"}}
-                  />
-                </>
 
-                <Typography style={{fontSize: "0.75rem"}}>
-                  {sellingprice && "N"}
-                  {sellingprice} {sellingprice && "per"} {baseunit}
-                  {invquantity} {sellingprice && "remaining"}
-                </Typography>
-              </Box>
-            </Grid>
+            <Grid container spacing={1}>
+              <Grid item xs={7}>
+                <Box>
+                  <>
+                    <InventorySearch
+                      getSearchfacility={getSearchfacility}
+                      clear={success}
+                    />
+                    <input
+                      className="input is-small"
+                      /* ref={register ({ required: true }) }  */ /* add array no */
+                      value={productId}
+                      name="productId"
+                      type="text"
+                      onChange={e => setProductId(e.target.value)}
+                      placeholder="Product Id"
+                      style={{display: "none"}}
+                    />
+                  </>
 
-            <Grid item xs={2}>
-              <Input
-                /* ref={register({ required: true })} */
-                name="quantity"
-                value={quantity}
-                type="text"
-                onChange={e => handleQtty(e)}
-                label="Quantity"
-              />
-            </Grid>
+                  <Typography style={{fontSize: "0.75rem"}}>
+                    {sellingprice && "N"}
+                    {sellingprice} {sellingprice && "per"} {baseunit}
+                    {invquantity} {sellingprice && "remaining"}
+                  </Typography>
+                </Box>
+              </Grid>
 
-            <Grid item xs={3}>
-              <Box container>
+              <Grid item xs={2}>
                 <Input
                   /* ref={register({ required: true })} */
-                  name="qamount"
-                  disabled={changeAmount}
-                  value={calcamount}
+                  name="quantity"
+                  value={quantity}
                   type="text"
-                  onChange={async e => await setCalcAmount(e.target.value)}
-                  label="Amount"
+                  onChange={e => handleQtty(e)}
+                  label="Quantity"
                 />
-                <MuiButton
-                  variant="contained"
-                  sx={{
-                    width: "100%",
-                    textTransform: "capitalize",
-                    fontSize: "0.75rem",
-                  }}
-                  onClick={handleChangeAmount}
-                >
-                  Adjust
-                </MuiButton>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+              </Grid>
 
-        {productItem.length > 0 && (
-          <Box sx={{height: "200px", widht: "300%"}}>
-            <CustomTable
-              title={""}
-              columns={productCreateSchema}
-              data={productItem}
-              pointerOnHover
-              highlightOnHover
-              striped
-            />
-          </Box>
-        )}
+              <Grid item xs={3}>
+                <Box container>
+                  <Input
+                    /* ref={register({ required: true })} */
+                    name="qamount"
+                    disabled={changeAmount}
+                    value={calcamount}
+                    type="text"
+                    onChange={async e => await setCalcAmount(e.target.value)}
+                    label="Amount"
+                  />
+                  <GlobalCustomButton
+                    onClick={handleChangeAmount}
+                    sx={{marginTop: "5px"}}
+                  >
+                    Adjust
+                  </GlobalCustomButton>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {productItem.length > 0 && (
+              <Box sx={{height: "200px", widht: "300%"}}>
+                <CustomTable
+                  title={""}
+                  columns={productCreateSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                />
+              </Box>
+            )}
+          </Grid>
+        </Grid>
 
         <Box
           container
@@ -671,27 +662,23 @@ export function ProductExitCreate({closeModal}) {
           }}
           mt={2}
         >
-          <MuiButton
-            variant="contained"
+          <GlobalCustomButton
             disabled={!productItem.length > 0}
             onClick={onSubmit}
             sx={{
-              width: "150px",
-              height: "40px",
-              textTransform: "capitalize",
               marginRight: "15px",
             }}
           >
             Add Product(s)
-          </MuiButton>
-          <MuiButton
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
             variant="outlined"
             color="error"
-            sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
             onClick={closeModal}
           >
             Cancel
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
       </Box>
     </>
@@ -962,11 +949,13 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={handleCreateNew}
-                />
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  <AddCircleOutline
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Add New
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -1080,11 +1069,11 @@ export function ProductExitDetail() {
         container
         sx={{
           width: "100%",
-          maxHeight: "500px",
-          overflowY: "auto",
+          maxHeight: "85vh",
         }}
+        pt={1}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={1} mb={1}>
           <Grid item xs={8}>
             <Input value={ProductEntry.source} label="Supplier" disabled />
           </Grid>
@@ -1094,7 +1083,7 @@ export function ProductExitDetail() {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} mb={2}>
+        <Grid container spacing={1} mb={1}>
           <Grid item xs={4}>
             <Input
               value={
@@ -1124,7 +1113,7 @@ export function ProductExitDetail() {
           </Grid>
         </Grid>
 
-        <Box sx={{width: "100%", height: "200px", overflowY: "auto"}}>
+        <Box sx={{width: "100%", overflowY: "auto"}}>
           <CustomTable
             title={""}
             columns={productItemsSchema}
@@ -1682,7 +1671,7 @@ export function InventorySearch({getSearchfacility, clear}) {
             </div>
           </div>
         )}
-        sx={{width: "100%", margin: "0.75rem 0"}}
+        sx={{width: "100%"}}
         freeSolo
         renderInput={params => (
           <TextField
