@@ -17,7 +17,7 @@ const ProfileMenu = () => {
   const anchorRef = useRef(null);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen(prevOpen => !prevOpen);
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {
@@ -54,20 +54,20 @@ const ProfileMenu = () => {
     <div style={{ position: 'relative', zIndex: '100' }}>
       <label
         ref={anchorRef}
-        id="composition-button"
+        id='composition-button'
         aria-controls={open ? 'composition-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         onClick={handleToggle}
       >
-        <Avatar src="/img_avatar.png" alt="" />
+        <Avatar src='/img_avatar.png' alt='' />
       </label>
 
       <Popper
         open={open}
         anchorEl={anchorRef.current}
         role={undefined}
-        placement="bottom-start"
+        placement='bottom-start'
         transition
         disablePortal
       >
@@ -91,14 +91,14 @@ const ProfileMenu = () => {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
+                  id='composition-menu'
+                  aria-labelledby='composition-button'
                   onKeyDown={handleListKeyDown}
                   sx={{ textAlign: 'center' }}
                 >
                   <Avatar
-                    src="/img_avatar.png"
-                    alt=""
+                    src='/img_avatar.png'
+                    alt=''
                     style={{ width: '80px', height: '80px' }}
                   />
                   <p>
@@ -115,7 +115,7 @@ const ProfileMenu = () => {
                         navigate('/');
                       }}
                     >
-                      <i className="bi bi-box-arrow-right"></i>Log out
+                      <i className='bi bi-box-arrow-right'></i>Log out
                     </p>
                   </div>
                 </MenuList>

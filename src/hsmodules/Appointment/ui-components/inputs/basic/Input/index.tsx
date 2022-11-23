@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         defaultValue={defaultValue}
         onKeyDown={onKeyDown}
-        placeholder={placeholder}
+        // placeholder={placeholder}
         disabled={disabled}
       />
       <InputLabel className="form__label" htmlFor={name}>
