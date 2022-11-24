@@ -7,9 +7,11 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 // import PaymentCreate from "./PaymentCreate";
-//import PaymentCreate from "./PharmacyPayment";
-//import Payment from "./PharmacyPayment";
+import PaymentCreate from "./Payment";
+import Payment from "./Payment";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -24,6 +26,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function PharmacyBillService() {
   const [createModal, setCreateModal] = useState(false);
@@ -48,9 +52,9 @@ export default function PharmacyBillService() {
       <ModalBox
         open={createModal}
         onClose={handleCloseCreateModal}
-        header="Bill Service/Client"
+        header="Create Bill Service"
       >
-        <BillServiceCreate />
+        <BillServiceCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
       {/* <BillServiceCreate /> */}
@@ -458,11 +462,13 @@ export function BillsList({openCreateModal}) {
           </div>
 
           {handleCreateNew && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutlineOutlinedIcon
+                sx={{marginRight: "5px"}}
+                fontSize="small"
+              />
+              Add New
+            </GlobalCustomButton>
           )}
         </TableMenu>
         <div
@@ -475,7 +481,7 @@ export function BillsList({openCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 100px)",
+              height: "calc(100% - 70px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "49%" : "100%",
             }}
@@ -496,7 +502,7 @@ export function BillsList({openCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 100px)",
+                  height: "calc(100% - 70px)",
                   width: "49%",
                 }}
               >
@@ -513,18 +519,6 @@ export function BillsList({openCreateModal}) {
               </div>
             </>
           )}
-
-          {/* {state.financeModule.show === "detail" && (
-            <div
-              style={{
-                height: "calc(100% - 70px)",
-                width: "51.5%",
-                transition: "width 0.5s ease-in",
-              }}
-            >
-              <PaymentCreate />
-            </div>
-          )} */}
         </div>
       </div>
     </>
