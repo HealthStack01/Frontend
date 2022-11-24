@@ -1180,17 +1180,14 @@ export function ClientDetail({closeDetailModal}) {
               color="info"
             />
           )}
-          <MuiButton
-            variant="contained"
-            size="small"
+
+          <GlobalCustomButton
             sx={{
-              textTransform: "capitalize",
               marginRight: "5px",
             }}
-            onClick={handleFinancialInfo}
           >
             Create Wallet
-          </MuiButton>
+          </GlobalCustomButton>
 
           <GlobalCustomButton
             text="Payment Information"
