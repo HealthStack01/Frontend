@@ -62,7 +62,7 @@ export default function ImmunizationCheckIn() {
             checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
           }
         >
-          <CheckDetails showModal={showModal} setShowModal={setShowModal} />
+          <CheckDetails checkState={checkinpage} />
         </ModalBox>
       )}
     </section>
@@ -807,7 +807,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckDetails({ showModal, setShowModal }) {
+export function CheckDetails({ checkState }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -822,6 +822,7 @@ export function CheckDetails({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
+  const [edit, setEdit] = useState(false);
 
   const Client = state.AppointmentModule.selectedAppointment;
   //const client=Client
@@ -835,6 +836,7 @@ export function CheckDetails({ showModal, setShowModal }) {
       AppointmentModule: newClientModule,
     }));
     //console.log(state)
+    setEdit(true);
   };
 
   return (
@@ -858,13 +860,25 @@ export function CheckDetails({ showModal, setShowModal }) {
       </Box>
       <Grid container spacing={1} mt={1}>
         <Grid item xs={12} md={4}>
-          <Input label="First Name" value={Client?.firstname} disabled />
+          <Input
+            label="First Name"
+            value={Client?.firstname}
+            disabled={edit ? false : true}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Input label="Middle Name" value={Client?.middlename} disabled />
+          <Input
+            label="Middle Name"
+            value={Client?.middlename}
+            disabled={edit ? false : true}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Input label="Last Name" value={Client?.lastname} disabled />
+          <Input
+            label="Last Name"
+            value={Client?.lastname}
+            disabled={edit ? false : true}
+          />
         </Grid>
       </Grid>
       <Grid container spacing={1} mt={1}>
@@ -872,19 +886,31 @@ export function CheckDetails({ showModal, setShowModal }) {
           <Input
             label="Age"
             value={formatDistanceToNowStrict(new Date(Client.dob))}
-            disabled
+            disabled={edit ? false : true}
           />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Input label="Gender" value={Client.gender} disabled />
+          <Input
+            label="Gender"
+            value={Client.gender}
+            disabled={edit ? false : true}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Input label="Phone Number" value={Client?.phone} disabled />
+          <Input
+            label="Phone Number"
+            value={Client?.phone}
+            disabled={edit ? false : true}
+          />
         </Grid>
       </Grid>
       <Grid container spacing={1} my={1}>
         <Grid item xs={12} md={4}>
-          <Input label="Email" value={Client?.email} disabled />
+          <Input
+            label="Email"
+            value={Client?.email}
+            disabled={edit ? false : true}
+          />
         </Grid>
       </Grid>
       <hr />
@@ -893,17 +919,30 @@ export function CheckDetails({ showModal, setShowModal }) {
           <Input
             label="Start Date"
             value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
-            disabled
+            disabled={edit ? false : true}
           />
         </Grid>
+        {checkState === 'checkout' && (
+          <Grid item xs={12} md={4}>
+            <Input
+              label="End Date"
+              value={format(new Date(Client?.updatedAt), 'dd/MM/yyyy HH:mm')}
+              disabled={edit ? false : true}
+            />
+          </Grid>
+        )}
         <Grid item xs={12} md={4}>
-          <Input label="Location" value={Client?.location_name} disabled />
+          <Input
+            label="Location"
+            value={Client?.location_name}
+            disabled={edit ? false : true}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
           <Input
             label="Professional"
             value={`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
-            disabled
+            disabled={edit ? false : true}
           />
         </Grid>
       </Grid>
@@ -912,21 +951,21 @@ export function CheckDetails({ showModal, setShowModal }) {
           <Input
             label="Appointment Status"
             value={Client?.appointment_status}
-            disabled
+            disabled={edit ? false : true}
           />
         </Grid>
         <Grid item xs={12} md={4}>
           <Input
             label="Appointment Class"
             value={Client?.appointmentClass}
-            disabled
+            disabled={edit ? false : true}
           />
         </Grid>
         <Grid item xs={12} md={4}>
           <Input
             label="Appointment Type"
             value={Client?.appointment_type}
-            disabled
+            disabled={edit ? false : true}
           />
         </Grid>
       </Grid>
@@ -939,7 +978,7 @@ export function CheckDetails({ showModal, setShowModal }) {
             className="input is-small"
             name="appointment_reason"
             value={Client?.appointment_reason}
-            disabled
+            disabled={edit ? false : true}
             type="text"
             placeholder="Appointment Reason"
             rows="3"
@@ -953,6 +992,14 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             {' '}
           </textarea>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          {!edit && (
+            <GlobalCustomButton text="Edit" onClick={() => setEdit(true)} />
+          )}
+          {edit && (
+            <GlobalCustomButton text="Save" onClick={() => handleEdit()} />
+          )}
         </Grid>
       </Grid>
     </>

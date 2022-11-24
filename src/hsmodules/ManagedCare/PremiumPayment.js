@@ -26,6 +26,7 @@ import ModalBox from '../../components/modal';
 import { Box, Grid } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -467,7 +468,7 @@ export function PremiumPaymentList({ showModal, setShowModal }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('list');
-  const [isPaid, setIsPaid] = useState(false);
+  const [isPaid, setIsPaid] = useState(true);
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -897,32 +898,28 @@ export function PremiumPaymentList({ showModal, setShowModal }) {
                     </div>
 
                     {handleCreateNew && (
-                      <Button
-                        style={{ fontSize: '14px', fontWeight: '600' }}
-                        label={isPaid ? 'Paid List' : 'Unpaid List'}
+                      <GlobalCustomButton
+                        text={isPaid ? 'Paid List' : 'Unpaid List'}
                         onClick={() => setIsPaid(false)}
                       />
                     )}
                   </TableMenu>
-                  <div
-                    style={{ width: '100%', height: '600px', overflow: 'auto' }}
-                  >
-                    {value === 'list' ? (
-                      <CustomTable
-                        title={''}
-                        columns={PremiumPaymentSchema}
-                        data={dummyData}
-                        pointerOnHover
-                        highlightOnHover
-                        striped
-                        onRowClicked={handleRow}
-                        progressPending={loading}
-                        //conditionalRowStyles={conditionalRowStyles}
-                      />
-                    ) : (
-                      <CalendarGrid appointments={mapFacilities()} />
-                    )}
-                  </div>
+
+                  {value === 'list' ? (
+                    <CustomTable
+                      title={''}
+                      columns={PremiumPaymentSchema}
+                      data={dummyData}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      onRowClicked={handleRow}
+                      progressPending={loading}
+                      //conditionalRowStyles={conditionalRowStyles}
+                    />
+                  ) : (
+                    <CalendarGrid appointments={mapFacilities()} />
+                  )}
                 </PageWrapper>
               </div>
             </>
@@ -945,32 +942,28 @@ export function PremiumPaymentList({ showModal, setShowModal }) {
                     </div>
 
                     {handleCreateNew && (
-                      <Button
-                        style={{ fontSize: '14px', fontWeight: '600' }}
-                        label={isPaid ? 'Paid List' : 'Unpaid List'}
+                      <GlobalCustomButton
+                        text={isPaid ? 'Paid List' : 'Unpaid List'}
                         onClick={() => setIsPaid(true)}
                       />
                     )}
                   </TableMenu>
-                  <div
-                    style={{ width: '100%', height: '600px', overflow: 'auto' }}
-                  >
-                    {value === 'list' ? (
-                      <CustomTable
-                        title={''}
-                        columns={PremiumPaymentSchema}
-                        data={dummyUnpaidData}
-                        pointerOnHover
-                        highlightOnHover
-                        striped
-                        onRowClicked={handleRow}
-                        progressPending={loading}
-                        //conditionalRowStyles={conditionalRowStyles}
-                      />
-                    ) : (
-                      <CalendarGrid appointments={mapFacilities()} />
-                    )}
-                  </div>
+
+                  {value === 'list' ? (
+                    <CustomTable
+                      title={''}
+                      columns={PremiumPaymentSchema}
+                      data={dummyUnpaidData}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      onRowClicked={handleRow}
+                      progressPending={loading}
+                      //conditionalRowStyles={conditionalRowStyles}
+                    />
+                  ) : (
+                    <CalendarGrid appointments={mapFacilities()} />
+                  )}
                 </PageWrapper>
               </div>
             </>

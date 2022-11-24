@@ -40,7 +40,7 @@ import PatientProfile from '../Client/PatientProfile';
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Claims() {
+export default function Claims({ standAlone }) {
   const { state } = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
@@ -49,32 +49,78 @@ export default function Claims() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="section remPadTop">
-      <ClaimsList showModal={showModal} setShowModal={setShowModal} />
-      {showModal && (
-        <ModalBox
-          open={state.AppointmentModule.show === 'create'}
-          onClose={() => setShowModal(false)}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <PatientProfile />
-            </Grid>
-            <Grid item xs={8}>
-              <ClaimsCreate showModal={showModal} setShowModal={setShowModal} />
-            </Grid>
-          </Grid>
-        </ModalBox>
+    <>
+      {!standAlone && (
+        <>
+          <section className="section remPadTop">
+            <ClaimsList showModal={showModal} setShowModal={setShowModal} />
+            {showModal && (
+              <ModalBox
+                open={state.AppointmentModule.show === 'create'}
+                onClose={() => setShowModal(false)}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <PatientProfile />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <ClaimsCreate
+                      showModal={showModal}
+                      setShowModal={setShowModal}
+                    />
+                  </Grid>
+                </Grid>
+              </ModalBox>
+            )}
+            {showModal && (
+              <ModalBox
+                open={state.AppointmentModule.show === 'detail'}
+                onClose={() => setShowModal(false)}
+              >
+                <ClaimsDetails />
+              </ModalBox>
+            )}
+          </section>
+        </>
       )}
-      {showModal && (
-        <ModalBox
-          open={state.AppointmentModule.show === 'detail'}
-          onClose={() => setShowModal(false)}
-        >
-          <ClaimsDetails />
-        </ModalBox>
+      {standAlone && (
+        <>
+          <section className="section remPadTop">
+            <ClaimsList
+              showModal={showModal}
+              setShowModal={setShowModal}
+              standAlone={standAlone}
+            />
+            {showModal && (
+              <ModalBox
+                open={state.AppointmentModule.show === 'create'}
+                onClose={() => setShowModal(false)}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <PatientProfile />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <ClaimsCreate
+                      showModal={showModal}
+                      setShowModal={setShowModal}
+                    />
+                  </Grid>
+                </Grid>
+              </ModalBox>
+            )}
+            {showModal && (
+              <ModalBox
+                open={state.AppointmentModule.show === 'detail'}
+                onClose={() => setShowModal(false)}
+              >
+                <ClaimsDetails />
+              </ModalBox>
+            )}
+          </section>
+        </>
       )}
-    </section>
+    </>
   );
 }
 
@@ -560,7 +606,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
   );
 }
 
-export function ClaimsList({ showModal, setShowModal }) {
+export function ClaimsList({ showModal, setShowModal, standAlone }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -1043,60 +1089,77 @@ export function ClaimsList({ showModal, setShowModal }) {
     <>
       {user ? (
         <>
-          <div className="level">
-            <PageWrapper
-              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
-            >
-              <TableMenu>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  {handleSearch && (
-                    <div className="inner-table">
-                      <FilterMenu onSearch={handleSearch} />
+          {!standAlone ? (
+            <>
+              <div className="level">
+                <PageWrapper
+                  style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+                >
+                  <TableMenu>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      {handleSearch && (
+                        <div className="inner-table">
+                          <FilterMenu onSearch={handleSearch} />
+                        </div>
+                      )}
+                      <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
+                        Claim
+                      </h2>
                     </div>
-                  )}
-                  <h2 style={{ margin: '0 10px', fontSize: '0.95rem' }}>
-                    Claim
-                  </h2>
-                </div>
 
-                {handleCreateNew && (
-                  <MuiButton
-                    variant="contained"
-                    sx={{
-                      width: 'fit',
-                      textTransform: 'capitalize',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                    }}
-                    onClick={handleCreateNew}
-                  >
-                    <AddCircleOutline
-                      sx={{ marginRight: '5px' }}
-                      fontSize="small"
+                    {handleCreateNew && (
+                      <MuiButton
+                        variant="contained"
+                        sx={{
+                          width: 'fit',
+                          textTransform: 'capitalize',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                        }}
+                        onClick={handleCreateNew}
+                      >
+                        <AddCircleOutline
+                          sx={{ marginRight: '5px' }}
+                          fontSize="small"
+                        />
+                        Add Claim
+                      </MuiButton>
+                    )}
+                  </TableMenu>
+
+                  {value === 'list' ? (
+                    <CustomTable
+                      title={''}
+                      columns={preAuthSchema}
+                      data={dummyData}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      onRowClicked={handleRow}
+                      progressPending={loading}
+                      //conditionalRowStyles={conditionalRowStyles}
                     />
-                    Add Claim
-                  </MuiButton>
-                )}
-              </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                {value === 'list' ? (
-                  <CustomTable
-                    title={''}
-                    columns={preAuthSchema}
-                    data={dummyData}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                ) : (
-                  <CalendarGrid appointments={mapFacilities()} />
-                )}
+                  ) : (
+                    <CalendarGrid appointments={mapFacilities()} />
+                  )}
+                </PageWrapper>
               </div>
-            </PageWrapper>
-          </div>
+            </>
+          ) : (
+            <>
+              <CustomTable
+                title={''}
+                columns={preAuthSchema}
+                data={dummyData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={handleRow}
+                progressPending={loading}
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </>
+          )}
         </>
       ) : (
         <div>loading</div>

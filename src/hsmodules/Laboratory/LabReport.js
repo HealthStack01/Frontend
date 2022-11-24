@@ -393,13 +393,13 @@ export function LabOrderList({ openReportFormModal }) {
             </h2>
           </div>
 
-          {handleCreate && (
+          {/* {handleCreate && (
             <Button
               style={{ fontSize: '14px', fontWeight: '600' }}
               label="Add new "
               onClick={handleCreate}
             />
-          )}
+          )} */}
         </TableMenu>
 
         <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
