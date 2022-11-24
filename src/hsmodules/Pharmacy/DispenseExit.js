@@ -33,6 +33,8 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
@@ -420,6 +422,7 @@ export function ProductExitCreate({closeModal}) {
     {
       name: "S/N",
       key: "sn",
+      width: "70px",
       description: "SN",
       selector: row => row.sn,
       sortable: true,
@@ -435,13 +438,15 @@ export function ProductExitCreate({closeModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Quantity",
+      name: "QTY",
+      width: "70px",
       key: "quanity",
       description: "Enter quantity",
       selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      center: true,
     },
 
     {
@@ -496,169 +501,163 @@ export function ProductExitCreate({closeModal}) {
     <>
       <Box
         sx={{
-          width: "850px",
-          maxHeight: "600px",
-          overflowY: "auto",
+          width: "90vw",
+          maxHeight: "80vh",
         }}
       >
         <Box container>
-          <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <Input
-                  /* ref={register({ required: true })} */
-                  value={source}
-                  name="client"
-                  type="text"
-                  onChange={e => setSource(e.target.value)}
-                  label="Client"
-                />
-              </Grid>
-              <Grid item xs={4} sx={{margin: "0.75rem 0"}}>
-                <CustomSelect
-                  defaultValue={type}
-                  name="type"
-                  options={["Sales", "In-house", "Dispense", "Audit"]}
-                  onChange={handleChangeType}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-          <Box>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Input
-                  label="Date"
-                  value={date}
-                  name="date"
-                  type="text"
-                  onChange={e => setDate(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <Input
-                  name="documentNo"
-                  value={documentNo}
-                  type="text"
-                  onChange={e => setDocumentNo(e.target.value)}
-                  label="Invoice Number"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <Input
-                  value={totalamount}
-                  name="totalamount"
-                  type="text"
-                  onChange={async e => await setTotalamount(e.target.value)}
-                  label="Total Amount"
-                />
-              </Grid>
-            </Grid>
-          </Box>
-          <Divider sx={{margin: "20px 0"}} />
-          <Box
-            container
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            mb={1}
-          >
-            <Box item>
-              <Typography>Add Product Items</Typography>
-            </Box>
+          <Grid container spacing={1}>
+            <Grid item lg={6} md={6} sm={12}>
+              <Box sx={{height: "40px"}} mb={1}>
+                <FormsHeaderText text="Product Detail" />
+              </Box>
 
-            <Box item>
-              <MuiButton
-                variant="outlined"
-                sx={{width: "100px", textTransform: "capitalize"}}
-                onClick={handleClickProd}
-              >
-                <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                Add
-              </MuiButton>
-            </Box>
-          </Box>
-          <Grid container spacing={2}>
-            <Grid item xs={7}>
-              <Box>
-                <>
-                  <InventorySearch
-                    getSearchfacility={getSearchfacility}
-                    clear={success}
-                  />
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */
-                    value={productId}
-                    name="productId"
+              <Grid container spacing={1}>
+                <Grid item xs={8}>
+                  <Input
+                    /* ref={register({ required: true })} */
+                    value={source}
+                    name="client"
                     type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
-                    style={{display: "none"}}
+                    onChange={e => setSource(e.target.value)}
+                    label="Client"
                   />
-                </>
-
-                <Typography style={{fontSize: "0.75rem"}}>
-                  {sellingprice && "N"}
-                  {sellingprice} {sellingprice && "per"} {baseunit}
-                  {invquantity} {sellingprice && "remaining"}
-                </Typography>
-              </Box>
+                </Grid>
+                <Grid item xs={4}>
+                  <CustomSelect
+                    defaultValue={type}
+                    name="type"
+                    options={["Sales", "In-house", "Dispense", "Audit"]}
+                    onChange={handleChangeType}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Input
+                    label="Date"
+                    value={date}
+                    name="date"
+                    type="text"
+                    onChange={e => setDate(e.target.value)}
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Input
+                    name="documentNo"
+                    value={documentNo}
+                    type="text"
+                    onChange={e => setDocumentNo(e.target.value)}
+                    label="Invoice Number"
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Input
+                    value={totalamount}
+                    name="totalamount"
+                    type="text"
+                    onChange={async e => await setTotalamount(e.target.value)}
+                    label="Total Amount"
+                  />
+                </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs={2}>
-              <Input
-                /* ref={register({ required: true })} */
-                name="quantity"
-                value={quantity}
-                type="text"
-                onChange={e => handleQtty(e)}
-                label="Quantity"
-              />
-            </Grid>
+            <Grid item lg={6} md={6} sm={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  height: "40px",
+                }}
+                mb={1}
+              >
+                <FormsHeaderText text="Add Product Items" />
 
-            <Grid item xs={3}>
-              <Box container>
-                <Input
-                  /* ref={register({ required: true })} */
-                  name="qamount"
-                  disabled={changeAmount}
-                  value={calcamount}
-                  type="text"
-                  onChange={async e => await setCalcAmount(e.target.value)}
-                  label="Amount"
-                />
-                <MuiButton
-                  variant="contained"
-                  sx={{
-                    width: "100%",
-                    textTransform: "capitalize",
-                    fontSize: "0.75rem",
-                  }}
-                  onClick={handleChangeAmount}
-                >
-                  Adjust
-                </MuiButton>
+                <GlobalCustomButton onClick={handleClickProd}>
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add
+                </GlobalCustomButton>
               </Box>
+
+              <Grid container spacing={1}>
+                <Grid item xs={7}>
+                  <Box>
+                    <>
+                      <InventorySearch
+                        getSearchfacility={getSearchfacility}
+                        clear={success}
+                      />
+                      <input
+                        className="input is-small"
+                        /* ref={register ({ required: true }) }  */ /* add array no */
+                        value={productId}
+                        name="productId"
+                        type="text"
+                        onChange={e => setProductId(e.target.value)}
+                        placeholder="Product Id"
+                        style={{display: "none"}}
+                      />
+                    </>
+
+                    <Typography style={{fontSize: "0.75rem"}}>
+                      {sellingprice && "N"}
+                      {sellingprice} {sellingprice && "per"} {baseunit}
+                      {invquantity} {sellingprice && "remaining"}
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={2}>
+                  <Input
+                    /* ref={register({ required: true })} */
+                    name="quantity"
+                    value={quantity}
+                    type="text"
+                    onChange={e => handleQtty(e)}
+                    label="Quantity"
+                  />
+                </Grid>
+
+                <Grid item xs={3}>
+                  <Box container>
+                    <Input
+                      /* ref={register({ required: true })} */
+                      name="qamount"
+                      disabled={changeAmount}
+                      value={calcamount}
+                      type="text"
+                      onChange={async e => await setCalcAmount(e.target.value)}
+                      label="Amount"
+                    />
+                    <GlobalCustomButton
+                      onClick={handleChangeAmount}
+                      sx={{marginTop: "5px"}}
+                    >
+                      Adjust
+                    </GlobalCustomButton>
+                  </Box>
+                </Grid>
+              </Grid>
+
+              {productItem.length > 0 && (
+                <Box sx={{width: "100%"}} mt={1}>
+                  <CustomTable
+                    title={""}
+                    columns={productCreateSchema}
+                    data={productItem}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  />
+                </Box>
+              )}
             </Grid>
           </Grid>
         </Box>
-
-        {productItem.length > 0 && (
-          <Box sx={{height: "200px", widht: "300%"}}>
-            <CustomTable
-              title={""}
-              columns={productCreateSchema}
-              data={productItem}
-              pointerOnHover
-              highlightOnHover
-              striped
-            />
-          </Box>
-        )}
 
         <Box
           container
@@ -668,27 +667,23 @@ export function ProductExitCreate({closeModal}) {
           }}
           mt={2}
         >
-          <MuiButton
-            variant="contained"
+          <GlobalCustomButton
             disabled={!productItem.length > 0}
             onClick={onSubmit}
             sx={{
-              width: "150px",
-              height: "40px",
-              textTransform: "capitalize",
               marginRight: "15px",
             }}
           >
-            Sell
-          </MuiButton>
-          <MuiButton
+            Complete sale
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
             variant="outlined"
             color="error"
-            sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
             onClick={closeModal}
           >
             Cancel
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
       </Box>
     </>
@@ -1613,69 +1608,8 @@ export function InventorySearch({getSearchfacility, clear}) {
 
   return (
     <div>
-      {/* <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
-          >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
-              <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
-
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div
-                    className="dropdown-item" 
-                  >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
-                  </div>
-                )}
-
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <div>
-                      <span>{facility.name}</span>
-                    </div>
-                    <div>
-                      <span>
-                        <strong>{facility.quantity}</strong>
-                      </span>
-                      <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
-                        <strong>Price:</strong> N{facility.sellingprice}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <Autocomplete
+        size="small"
         value={simpa}
         onChange={(event, newValue) => {
           handleRow(newValue);
@@ -1737,7 +1671,7 @@ export function InventorySearch({getSearchfacility, clear}) {
             </div>
           </div>
         )}
-        sx={{width: "100%", margin: "0.75rem 0"}}
+        sx={{width: "100%"}}
         freeSolo
         renderInput={params => (
           <TextField
@@ -1748,10 +1682,8 @@ export function InventorySearch({getSearchfacility, clear}) {
             sx={{
               fontSize: "0.75rem !important",
             }}
-            size="small"
             InputLabelProps={{
               shrink: true,
-              style: {color: "#2d2d2d"},
             }}
           />
         )}

@@ -283,7 +283,7 @@ export function ClientSearch({getSearchfacility, clear}) {
           <DebounceInput
             className="input is-small  is-expanded mb-0"
             type="text"
-            placeholder="Search for Client"
+            label="Search for Client"
             value={simpa}
             minLength={3}
             debounceTimeout={400}

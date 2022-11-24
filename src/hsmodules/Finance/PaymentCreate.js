@@ -9,6 +9,10 @@ import {toast} from "bulma-toast";
 import {ProductCreate} from "./Products";
 import Encounter from "../Documentation/Documentation";
 var random = require("random-string-generator");
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
@@ -18,6 +22,7 @@ import CustomTable from "../../components/customtable";
 import {Box, Button, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
 import MakeDeposit from "./Deposit";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -957,15 +962,11 @@ export default function PaymentCreate({closeModal}) {
           >
             Pay Bills for {source} #{documentNo}
           </Typography>
-          <Button
-            onClick={() => setDepositModal(true)}
-            variant="outlined"
-            sx={{
-              textTransform: "capitalize",
-            }}
-          >
+
+          <GlobalCustomButton onClick={() => setDepositModal(true)}>
+            <LocalAtmIcon fontSize="small" sx={{marginRight: "5px"}} />
             Make Deposit
-          </Button>
+          </GlobalCustomButton>
         </Box>
 
         <Box
@@ -993,7 +994,9 @@ export default function PaymentCreate({closeModal}) {
                 padding: "0 15px",
               }}
             >
-              <Typography>Total Amount Due</Typography>
+              <Typography sx={{display: "flex", alignItems: "center"}}>
+                <AccountBalanceWalletIcon color="primary" /> Total Amount Due
+              </Typography>
               <Typography
                 sx={{
                   fontSize: "24px",
@@ -1018,7 +1021,9 @@ export default function PaymentCreate({closeModal}) {
                 padding: "0 15px",
               }}
             >
-              <Typography>Current Balance</Typography>
+              <Typography sx={{display: "flex", alignItems: "center"}}>
+                <AccountBalanceIcon color="primary" /> Current Balance
+              </Typography>
               <Typography
                 sx={{
                   fontSize: "24px",
@@ -1098,20 +1103,13 @@ export default function PaymentCreate({closeModal}) {
             </div>
 
             <div className="control">
-              <button
-                style={{
-                  backgroundColor: "#3298dc",
-                  color: "#fff",
-                  fontSize: "0.75rem",
-                  borderRadius: "2px",
-                  padding: "0.4rem 1rem",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+              <GlobalCustomButton
                 onClick={e => handleBulkPayment(e)}
+                sx={{marginRight: "15px"}}
               >
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
                 Pay
-              </button>
+              </GlobalCustomButton>
             </div>
           </div>
         </div>
@@ -1137,55 +1135,29 @@ export default function PaymentCreate({closeModal}) {
                   progressPending={loading}
                 />
                 <div
-                  className="field mt-2 is-grouped"
                   style={{
                     width: "100%",
                     display: "flex",
-                    justifyContent: "space-between",
+                    marginTop: "10px",
                   }}
                 >
-                  <p className="control">
-                    <button
-                      className="button is-success is-small"
-                      disabled={!productItem.length > 0}
-                      onClick={handlePayment}
-                      style={{
-                        backgroundColor: "rgb(72, 199, 116)",
-                        color: "#fff",
-                        fontSize: "0.75rem",
-                        borderRadius: "2px",
-                        padding: "0.6rem 1.2rem",
-                        border: "none",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Pay
-                    </button>
-                  </p>
-                  {/* <p className="control">
-                     <button className="button is-info is-small" disabled={!productItem.length>0} onClick={onSubmit} >
-                         Generate Invoice
-                     </button>
-                 </p>  */}
+                  <GlobalCustomButton
+                    disabled={!productItem.length > 0}
+                    onClick={handlePayment}
+                    sx={{marginRight: "15px"}}
+                  >
+                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                    Pay
+                  </GlobalCustomButton>
 
-                  <p className="control">
-                    <button
-                      className="button is-success is-small"
-                      disabled={!productItem.length > 0}
-                      onClick={closeModal}
-                      style={{
-                        backgroundColor: "#808000",
-                        color: "#fff",
-                        fontSize: "0.75rem",
-                        borderRadius: "2px",
-                        padding: "0.6rem 1.2rem",
-                        border: "none",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </p>
+                  <GlobalCustomButton
+                    disabled={!productItem.length > 0}
+                    onClick={closeModal}
+                    variant="outlined"
+                    color="warning"
+                  >
+                    Cancel
+                  </GlobalCustomButton>
                 </div>
               </div>
             </>

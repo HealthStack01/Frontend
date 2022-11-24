@@ -859,7 +859,7 @@ export default function BillServiceCreate() {
                           />
                         </Grid>
 
-                        <Grid item xs={4} mt={1.5}>
+                        <Grid item xs={4}>
                           <CustomSelect
                             name="paymentmode"
                             defaultValue={paymentmode}

@@ -9,15 +9,17 @@ import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import PaymentCreate from "./PaymentCreate";
 import PatientProfile from "../Client/PatientProfile";
+import PaymentsIcon from "@mui/icons-material/Payments";
 
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 import {Box} from "@mui/material";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -65,7 +67,7 @@ export default function FinancePayment() {
       <BillingList openModal={handleOpenModal} />
 
       <ModalBox open={openModal} onClose={handleCloseModal}>
-        <Box sx={{width: "750px"}}>
+        <Box sx={{width: "800px"}}>
           <PaymentCreate closeModal={handleCloseModal} />
         </Box>
       </ModalBox>
@@ -488,23 +490,15 @@ export function BillingList({openModal}) {
       key: "bills",
       description: "Enter Grand Total",
       selector: row => (
-        <button
-          className="button is-info is-small"
-          style={{
-            backgroundColor: "#3298dc",
-            color: "#fff",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.4rem 1rem",
-            border: "none",
-            cursor: "pointer",
-          }}
+        <GlobalCustomButton
           onClick={() => {
             handlePay(row);
           }}
+          sx={{marginRight: "15px"}}
         >
-          PAY
-        </button>
+          <PaymentsIcon sx={{marginRight: "3px"}} fontSize="small" />
+          Pay
+        </GlobalCustomButton>
       ),
       sortable: true,
       required: true,
@@ -611,11 +605,10 @@ export function BillingList({openModal}) {
           )}
 
           {selectedOrders.length > 0 && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label={`Make Payment`}
-              onClick={openModal}
-            />
+            <GlobalCustomButton onClick={openModal}>
+              <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+              Make Payment
+            </GlobalCustomButton>
           )}
         </TableMenu>
 

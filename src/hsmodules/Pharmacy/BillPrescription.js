@@ -14,7 +14,6 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import AccordionBox from "./ui-components/accordion";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -50,16 +49,6 @@ export default function PharmacyBillPrescription() {
   const {user, setUser} = useContext(UserContext);
   const [createModal, setCreateModal] = useState(false);
 
-  /*  useEffect(() => {
-        const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
-        console.log("udatedone", updatedOne)
-        console.log("state", state.currentClients)
-        handleRow(updatedOne)
-         return () => {
-             
-         }
-     }, []) */
-
   const handleOpenCreateModal = () => {
     setCreateModal(true);
   };
@@ -70,10 +59,6 @@ export default function PharmacyBillPrescription() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-
       <BillPrescriptionList showCreateModal={handleOpenCreateModal} />
 
       <ModalBox
@@ -86,8 +71,8 @@ export default function PharmacyBillPrescription() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "900px",
-            height: "500px",
+            width: "85vw",
+            maxHeight: "85vh",
           }}
         >
           <Box

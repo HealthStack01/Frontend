@@ -12,9 +12,10 @@ const searchfacility = {};
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
-import CustomTable from "./ui-components/customtable";
+//import CustomTable from "../components/customtable";
 import ModalBox from "../../components/modal";
 import {Box} from "@mui/material";
+import CustomTable from "../../components/customtable";
 
 export default function Pharmacy() {
   const {state} = useContext(ObjectContext); //,setState

@@ -22,6 +22,8 @@ import {
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
 import CustomTable from "../../components/customtable";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -649,80 +651,78 @@ export default function BillPrescriptionCreate({closeModal}) {
   ];
   return (
     <>
-      <div className="card card-overflow" style={{width: "100%"}}>
-        <Box container sx={{width: "100%"}}>
-          <Box item sx={{width: "100%", padding: "15px 0"}}>
-            <Button onClick={showDocumentation} style={{fontSize: "0.8rem"}}>
-              Documentation
-            </Button>
-          </Box>
-
-          <form onSubmit={onSubmit} style={{width: "100%"}}>
-            <Box container sx={{width: "100%"}}>
-              <Grid container spacing={2}>
-                <Grid item xs={8}>
-                  <Input
-                    name="client"
-                    value={source}
-                    //register={register("client", {required: true})}
-                    type="text"
-                    onChange={e => setSource(e.target.value)}
-                    label="Client"
-                    disabled
-                  />
-                </Grid>
-
-                <Grid item xs={4} mt={1.5}>
-                  <CustomSelect
-                    name="paymentmode"
-                    defaultValue={paymentmode}
-                    onChange={e => handleChangeMode(e.target.value)}
-                    options={paymentOptions.map(item => item.name)}
-                    initialOption="Payment option"
-                    label="Billing Mode"
-                  />
-                </Grid>
-              </Grid>
+      <Box container sx={{width: "100%"}}>
+        <Grid container spacing={1}>
+          <Grid item lg={6} md={12} sm={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
+              <FormsHeaderText text="Bill Detail" />
+              <GlobalCustomButton onClick={showDocumentation}>
+                Documentation
+              </GlobalCustomButton>
             </Box>
 
-            <Box container>
-              <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  <Input
-                    className="input is-small"
-                    value={date}
-                    name="date"
-                    type="text"
-                    onChange={e => setDate(e.target.value)}
-                    placeholder="Date"
-                    disabled
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <Input
-                    name="documentNo"
-                    value={documentNo}
-                    type="text"
-                    onChange={e => setDocumentNo(e.target.value)}
-                    label="Invoice Number"
-                    disabled
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <Input
-                    value={totalamount}
-                    name="totalamount"
-                    type="text"
-                    onChange={e => setTotalamount(e.target.value)}
-                    label=" Total Amount"
-                  />
-                </Grid>
+            <Grid container spacing={1}>
+              <Grid item lg={8} md={8} sm={12}>
+                <Input
+                  name="client"
+                  value={source}
+                  //register={register("client", {required: true})}
+                  type="text"
+                  onChange={e => setSource(e.target.value)}
+                  label="Client"
+                  disabled
+                />
               </Grid>
-            </Box>
-          </form>
 
-          <Box>
-            <Grid container>
+              <Grid item lg={4} md={4} sm={6}>
+                <CustomSelect
+                  name="paymentmode"
+                  defaultValue={paymentmode}
+                  onChange={e => handleChangeMode(e.target.value)}
+                  options={paymentOptions.map(item => item.name)}
+                  initialOption="Payment option"
+                  label="Billing Mode"
+                />
+              </Grid>
+
+              <Grid item lg={4} md={4} sm={6}>
+                <Input
+                  className="input is-small"
+                  value={date}
+                  name="date"
+                  type="text"
+                  onChange={e => setDate(e.target.value)}
+                  placeholder="Date"
+                  disabled
+                />
+              </Grid>
+              <Grid item lg={4} md={4} sm={6}>
+                <Input
+                  name="documentNo"
+                  value={documentNo}
+                  type="text"
+                  onChange={e => setDocumentNo(e.target.value)}
+                  label="Invoice Number"
+                  disabled
+                />
+              </Grid>
+              <Grid item lg={4} md={4} sm={6}>
+                <Input
+                  value={totalamount}
+                  name="totalamount"
+                  type="text"
+                  onChange={e => setTotalamount(e.target.value)}
+                  label=" Total Amount"
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <Input
                   name="order"
@@ -732,73 +732,78 @@ export default function BillPrescriptionCreate({closeModal}) {
                   label="Medication"
                 />
               </Grid>
-
-              <Grid item>
-                <Box
-                  container
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      display: "inline",
-                      fontWeight: "bold",
-                      fontSize: "0.75rem",
-                    }}
-                    mr={0.5}
-                    component="h1"
-                  >
-                    Medication :
-                  </Typography>
-                  <Typography
-                    sx={{display: "inline", fontSize: "0.75rem"}}
-                    component="span"
-                  >
-                    {medication.instruction}
-                  </Typography>
-                </Box>
-
-                <Box
-                  container
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      display: "inline",
-                      fontWeight: "bold",
-                      fontSize: "0.75rem",
-                    }}
-                    mr={0.5}
-                    component="h1"
-                  >
-                    Billing Status :
-                  </Typography>
-                  <Typography
-                    sx={{display: "inline", fontSize: "0.75rem"}}
-                    component="span"
-                  >
-                    {medication.order_status}
-                  </Typography>
-                </Box>
-              </Grid>
             </Grid>
-          </Box>
 
-          <Box>
-            <Typography
-              sx={{display: "inline", fontWeight: "bold", fontSize: "0.8rem"}}
-              component="h1"
+            <Box
+              container
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              Choose Product Item:
-            </Typography>
+              <Typography
+                sx={{
+                  display: "inline",
+                  fontWeight: "bold",
+                  fontSize: "0.75rem",
+                }}
+                mr={0.5}
+                component="h1"
+              >
+                Medication :
+              </Typography>
+              <Typography
+                sx={{display: "inline", fontSize: "0.75rem"}}
+                component="span"
+              >
+                {medication.instruction}
+              </Typography>
+            </Box>
 
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
+            <Box
+              container
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "inline",
+                  fontWeight: "bold",
+                  fontSize: "0.75rem",
+                }}
+                mr={0.5}
+                component="h1"
+              >
+                Billing Status :
+              </Typography>
+              <Typography
+                sx={{display: "inline", fontSize: "0.75rem"}}
+                component="span"
+              >
+                {medication.order_status}
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item lg={6} md={12} sm={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px",
+              }}
+            >
+              <FormsHeaderText text="Choose Product Item" />
+              <GlobalCustomButton onClick={handleClickProd}>
+                Add
+              </GlobalCustomButton>
+            </Box>
+
+            <Grid container spacing={1}>
+              <Grid item lg={6} md={6} sm={12}>
                 <Box>
                   <InventorySearch
                     getSearchfacility={getSearchfacility}
@@ -827,37 +832,18 @@ export default function BillPrescriptionCreate({closeModal}) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
-                <Box>
-                  <Input
-                    className="input is-small"
-                    name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={e => handleQtty(e)}
-                    label="Quantity"
-                  />
-
-                  <Button
-                    variant="contained"
-                    onClick={handleClickProd}
-                    style={{
-                      width: "100%",
-                      fontSize: "0.8rem",
-                    }}
-                    // disabled={
-                    //   quantity === 0 ||
-                    //   quantity === "" ||
-                    //   productId === "" ||
-                    //   paymentmode === ""
-                    // }
-                  >
-                    Add
-                  </Button>
-                </Box>
+              <Grid item lg={3} md={3} sm={6}>
+                <Input
+                  className="input is-small"
+                  name="quantity"
+                  value={quantity}
+                  type="text"
+                  onChange={e => handleQtty(e)}
+                  label="Quantity"
+                />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item lg={3} md={3} sm={6}>
                 <Box>
                   <Input
                     className="input is-small"
@@ -868,62 +854,67 @@ export default function BillPrescriptionCreate({closeModal}) {
                     onChange={async e => await setCalcAmount(e.target.value)}
                     label="Amount"
                   />
-                  <Button
+                  <GlobalCustomButton
                     variant="contained"
                     onClick={handleChangeAmount}
-                    style={{
-                      width: "100%",
-                      fontSize: "0.8rem",
-                      //background: "#0364FF",
+                    sx={{
+                      marginTop: "5px",
                     }}
                   >
                     {!changeAmount ? "Done" : "Adjust"}
-                  </Button>
+                  </GlobalCustomButton>
                 </Box>
               </Grid>
             </Grid>
-          </Box>
-        </Box>
 
-        {productItem.length > 0 && (
-          <Box>
-            <div
-              style={{
-                width: "100%",
-                height: "200px",
-                overflowY: "scroll",
-              }}
-            >
-              <CustomTable
-                title={""}
-                columns={productSchema}
-                data={productItem}
-                pointerOnHover
-                highlightOnHover
-                striped
-                //onRowClicked={row => handleMedicationRow(row)}
-                progressPending={false}
-              />
-            </div>
-            <Button
-              disabled={!productItem.length > 0}
-              onClick={handleMedicationDone}
-              variant="contained"
-            >
-              Done
-            </Button>
-          </Box>
-        )}
-      </div>
+            {productItem.length > 0 && (
+              <Box>
+                <div
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <CustomTable
+                    title={""}
+                    columns={productSchema}
+                    data={productItem}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                    progressPending={false}
+                  />
+                </div>
+              </Box>
+            )}
+          </Grid>
+        </Grid>
+
+        <Box>
+          <GlobalCustomButton
+            disabled={!productItem.length > 0}
+            onClick={handleMedicationDone}
+            variant="contained"
+            sx={{marginTop: "10px"}}
+          >
+            Done
+          </GlobalCustomButton>
+        </Box>
+      </Box>
+      <div className="card card-overflow" style={{width: "100%"}}></div>
 
       <ModalBox
         open={productModal}
         onClose={handlecloseModal}
         header="Documentation"
       >
-        <section className="modal-card-body modalcolor">
+        <Box
+          sx={{
+            maxWidth: "85vw",
+            maxheight: "85vh",
+          }}
+        >
           <Encounter standalone={true} />
-        </section>
+        </Box>
       </ModalBox>
     </>
   );

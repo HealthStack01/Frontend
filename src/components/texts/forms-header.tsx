@@ -13,6 +13,7 @@ const FormsHeaderText = ({text}) => {
         fontWeight: "800",
         fontSize: "14px",
         lineHeight: "28px",
+        //marginBottom: "10px",
       }}
     >
       {text}
