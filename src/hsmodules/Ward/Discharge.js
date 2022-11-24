@@ -60,29 +60,20 @@ export default function Discharge() {
     <section className="section remPadTop">
       <DischargeList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
-        <ModalBox open={state.DischargeModule.show === 'detail'}>
-          <Grid container>
-            <Grid item xs={12}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AdmissionModule: {
-                        selectedAdmission: {},
-                        show: 'list',
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: '2rem',
-                  color: 'crimson',
-                  cursor: 'pointer',
-                  float: 'right',
-                }}
-              />
-            </Grid>
-          </Grid>
+        <ModalBox
+          open={state.DischargeModule.show === 'detail'}
+          header
+          onClose={() => {
+            setShowModal(false),
+              setState((prevstate) => ({
+                ...prevstate,
+                AdmissionModule: {
+                  selectedAdmission: {},
+                  show: 'list',
+                },
+              }));
+          }}
+        >
           <Grid container>
             <Grid item xs={6}>
               <DischargeCreate />
