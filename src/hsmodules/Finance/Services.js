@@ -36,6 +36,8 @@ import {
   Typography,
 } from "@mui/material";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {FormsHeaderText} from "../../components/texts";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -451,8 +453,8 @@ export function ServicesCreate({closeModal}) {
     <>
       <div
         style={{
-          width: "750px",
-          maxHeight: "500px",
+          width: "800px",
+          maxHeight: "80vh",
         }}
       >
         <div
@@ -464,6 +466,7 @@ export function ServicesCreate({closeModal}) {
             container
             sx={{
               width: "100%",
+              paddingTop: "10px",
             }}
           >
             <Grid container spacing={2}>
@@ -496,8 +499,6 @@ export function ServicesCreate({closeModal}) {
             </Grid>
           </Box>
 
-          <Divider sx={{marginBottom: "20px"}} />
-
           <Box
             container
             sx={{
@@ -505,17 +506,14 @@ export function ServicesCreate({closeModal}) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              margin: "10px 0",
             }}
           >
-            <Typography>Add Pricing Info</Typography>
-            <MuiButton
-              variant="outlined"
-              sx={{width: "120px", textTransform: "capitalize"}}
-              onClick={handleClickProd}
-            >
+            <FormsHeaderText text="Add Pricing Info" />
+            <GlobalCustomButton onClick={handleClickProd}>
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
               Add
-            </MuiButton>
+            </GlobalCustomButton>
           </Box>
 
           <Grid container spacing={2}>
@@ -566,32 +564,23 @@ export function ServicesCreate({closeModal}) {
             }}
             mt={2}
           >
-            <MuiButton
-              variant="contained"
+            <GlobalCustomButton
               disabled={!productItem.length > 0}
               onClick={onSubmit}
               style={{
-                fontSize: "0.75rem",
-                textTransform: "capitalize",
-                width: "150px",
                 marginRight: "15px",
               }}
             >
               Create Service
-            </MuiButton>
+            </GlobalCustomButton>
 
-            <MuiButton
+            <GlobalCustomButton
               variant="outlined"
-              color="error"
+              color="warning"
               onClick={closeModal}
-              style={{
-                fontSize: "0.75rem",
-                textTransform: "capitalize",
-                width: "150px",
-              }}
             >
               Cancel
-            </MuiButton>
+            </GlobalCustomButton>
           </Box>
         </div>
         {/* 
@@ -803,6 +792,8 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "100px",
+      center: true,
     },
     {
       name: "categoryname",
@@ -824,6 +815,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Name",
@@ -885,12 +877,13 @@ export function ServicesList({openCreateModal, openDetallModal}) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={handleCreateNew}
-                  showicon={true}
-                />
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  <AddCircleOutline
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Add New
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -1041,15 +1034,15 @@ export function ServicesDetail({openModifyModal, closeModal}) {
           overflowY: "auto",
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+        <Grid container spacing={1} pt={1}>
+          <Grid item xs={5}>
             <Input label="Category" value={Services.category} disabled />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             {" "}
             <Input label="Name" value={Services.name} disabled />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <Input
               label="Panel"
               value={Services.panel ? "Yes" : "No"}
@@ -1058,6 +1051,7 @@ export function ServicesDetail({openModifyModal, closeModal}) {
           </Grid>
         </Grid>
       </Box>
+
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Services Details</p>
@@ -1082,19 +1076,6 @@ export function ServicesDetail({openModifyModal, closeModal}) {
                   )}
                 </td>
               </tr>
-              {/*  <tr>
-                    <td>
-                
-                        <label className="label is-small"> <span className="icon is-small is-left">
-                        <i className="fas fa-hospital"></i>
-                    </span>            
-                        Total Amount:
-                    </label>
-                    </td>
-                    <td>
-                        <span className="is-size-7 padleft"   name="name"> {Services.totalamount} </span>
-                    </td>
-                </tr> */}
             </tbody>
           </table>
 
@@ -1129,31 +1110,22 @@ export function ServicesDetail({openModifyModal, closeModal}) {
             }}
             mt={2}
           >
-            <MuiButton
-              variant="contained"
+            <GlobalCustomButton
               onClick={handleEdit}
               style={{
-                fontSize: "0.75rem",
-                textTransform: "capitalize",
-                width: "150px",
                 marginRight: "15px",
               }}
             >
               Edit Service
-            </MuiButton>
+            </GlobalCustomButton>
 
-            <MuiButton
+            <GlobalCustomButton
               variant="outlined"
-              color="error"
+              color="warning"
               onClick={closeModal}
-              style={{
-                fontSize: "0.75rem",
-                textTransform: "capitalize",
-                width: "150px",
-              }}
             >
-              Cancel
-            </MuiButton>
+              Close
+            </GlobalCustomButton>
           </Box>
         </div>
       </div>
@@ -1670,12 +1642,11 @@ export function ServicesModify({closeModal}) {
       <Box
         container
         sx={{
-          width: "750px",
-          maxHeight: "500px",
-          overflowY: "auto",
+          width: "800px",
+          maxHeight: "80vh",
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={1} pt={1}>
           <Grid item xs={6}>
             <CategorySearch
               id={Services.category}
@@ -1720,7 +1691,7 @@ export function ServicesModify({closeModal}) {
         </Box>
 
         <Collapse in={panel}>
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             <Grid item xs={10}>
               <ServiceSearch
                 getSearchService={getSearchService}
@@ -1730,19 +1701,16 @@ export function ServicesModify({closeModal}) {
             </Grid>
 
             <Grid item xs={2}>
-              <MuiButton
-                variant="outlined"
+              <GlobalCustomButton
                 sx={{
                   width: "100%",
-                  height: "48px",
-                  margin: "0.75rem 0",
-                  textTransform: "capitalize",
+                  height: "38px",
                 }}
                 onClick={handleAddPanel}
               >
                 <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
                 Add
-              </MuiButton>
+              </GlobalCustomButton>
             </Grid>
           </Grid>
         </Collapse>
@@ -1760,11 +1728,11 @@ export function ServicesModify({closeModal}) {
           )}
         </Box>
 
-        <Typography sx={{margin: "0.50rem 0"}}>Add Pricing Info:</Typography>
+        <FormsHeaderText text="Add Pricing Info" />
 
         {productItem.length > 0 ? (
           <Box container>
-            <Grid container spacing={2}>
+            <Grid container spacing={1} mb={1}>
               <Grid item xs={7}>
                 <FacilitySearch
                   getSearchfacility={getSearchfacility}
@@ -1802,13 +1770,10 @@ export function ServicesModify({closeModal}) {
               </Grid>
 
               <Grid item xs={2}>
-                <MuiButton
-                  variant="outlined"
+                <GlobalCustomButton
                   sx={{
                     width: "100%",
-                    height: "48px",
-                    margin: "0.75rem 0",
-                    textTransform: "capitalize",
+                    height: "38px",
                   }}
                   onClick={handleClickProd}
                 >
@@ -1817,11 +1782,11 @@ export function ServicesModify({closeModal}) {
                     fontSize="small"
                   />
                   Add
-                </MuiButton>
+                </GlobalCustomButton>
               </Grid>
             </Grid>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               <Grid item xs={10}>
                 <Input
                   type="text"
@@ -1832,13 +1797,10 @@ export function ServicesModify({closeModal}) {
                 />
               </Grid>
               <Grid item xs={2}>
-                <MuiButton
-                  variant="outlined"
+                <GlobalCustomButton
                   sx={{
                     width: "100%",
-                    height: "48px",
-                    margin: "0.75rem 0",
-                    textTransform: "capitalize",
+                    height: "38px",
                   }}
                   onClick={e => handleBenefit(e)}
                 >
@@ -1847,7 +1809,7 @@ export function ServicesModify({closeModal}) {
                     fontSize="small"
                   />
                   Add
-                </MuiButton>
+                </GlobalCustomButton>
               </Grid>
             </Grid>
           </Box>
@@ -1899,7 +1861,7 @@ export function ServicesModify({closeModal}) {
           </Box>
         )}
 
-        <Box sx={{width: "100%", height: "150px", overflowY: "auto"}}>
+        <Box sx={{width: "100%", overflowY: "auto"}}>
           <CustomTable
             title={"Prices"}
             columns={pricesSchema}
@@ -1920,31 +1882,22 @@ export function ServicesModify({closeModal}) {
           }}
           mt={2}
         >
-          <MuiButton
-            variant="contained"
+          <GlobalCustomButton
             onClick={onSubmit}
             style={{
-              fontSize: "0.75rem",
-              textTransform: "capitalize",
-              width: "150px",
               marginRight: "15px",
             }}
           >
             Save
-          </MuiButton>
+          </GlobalCustomButton>
 
-          <MuiButton
+          <GlobalCustomButton
             variant="outlined"
             color="error"
             onClick={handleCancel}
-            style={{
-              fontSize: "0.75rem",
-              textTransform: "capitalize",
-              width: "150px",
-            }}
           >
             Cancel
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
       </Box>
     </>

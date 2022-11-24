@@ -38,6 +38,24 @@ const GlobalCustomButton = ({
   sx,
   style,
 }: componentProps) => {
+  if (text)
+    return (
+      <Button
+        variant={variant}
+        size={size}
+        color={color}
+        onClick={onClick}
+        sx={{
+          textTransform: "capitalize",
+          ...customStyles,
+          ...sx,
+          ...style,
+        }}
+        disabled={disabled}
+      >
+        {text}
+      </Button>
+    );
   return (
     <Button
       variant={variant}

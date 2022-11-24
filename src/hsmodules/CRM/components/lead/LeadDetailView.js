@@ -70,6 +70,7 @@ const CustomerView = () => {
           alignItem: "center",
           justifyContent: "space-between",
         }}
+        mb={1}
       >
         <FormsHeaderText text="Customer Details" />
 
@@ -114,42 +115,40 @@ const CustomerView = () => {
           />
         </Grid>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Input
-              register={register("address", {required: true})}
-              label="Residential Address"
-              disabled={!editCustomer}
-              //placeholder="Enter customer name"
-            />
-          </Grid>
+        <Grid item xs={12}>
+          <Input
+            register={register("address", {required: true})}
+            label="Residential Address"
+            disabled={!editCustomer}
+            //placeholder="Enter customer name"
+          />
+        </Grid>
 
-          <Grid item lg={4} md={4} sm={6}>
-            <Input
-              register={register("local_govt", {required: true})}
-              label="LGA"
-              disabled={!editCustomer}
-              //placeholder="Enter customer number"
-            />
-          </Grid>
+        <Grid item lg={4} md={4} sm={6}>
+          <Input
+            register={register("local_govt", {required: true})}
+            label="LGA"
+            disabled={!editCustomer}
+            //placeholder="Enter customer number"
+          />
+        </Grid>
 
-          <Grid item lg={4} md={4} sm={6}>
-            <Input
-              register={register("city", {required: true})}
-              label="City"
-              disabled={!editCustomer}
-              // placeholder="Enter customer name"
-            />
-          </Grid>
+        <Grid item lg={4} md={4} sm={6}>
+          <Input
+            register={register("city", {required: true})}
+            label="City"
+            disabled={!editCustomer}
+            // placeholder="Enter customer name"
+          />
+        </Grid>
 
-          <Grid item lg={4} md={4} sm={6}>
-            <Input
-              register={register("state", {required: true})}
-              label="State"
-              disabled={!editCustomer}
-              //placeholder="Enter customer number"
-            />
-          </Grid>
+        <Grid item lg={4} md={4} sm={6}>
+          <Input
+            register={register("state", {required: true})}
+            label="State"
+            disabled={!editCustomer}
+            //placeholder="Enter customer number"
+          />
         </Grid>
       </Grid>
     </Box>
@@ -187,6 +186,7 @@ const LeadView = () => {
           alignItem: "center",
           justifyContent: "space-between",
         }}
+        mb={1}
       >
         <FormsHeaderText text="Lead Details" />
 
@@ -379,6 +379,7 @@ const StaffsListView = () => {
           alignItem: "center",
           justifyContent: "space-between",
         }}
+        mb={1}
       >
         <FormsHeaderText text="Assigned Staffs" />
 
@@ -469,7 +470,7 @@ const TasksDetailView = () => {
       <ModalBox
         open={assignModal}
         onClose={() => setAssignModal(false)}
-        header="Assign Staff"
+        header="Assign Tasks"
       >
         <LeadAssignTask
           closeModal={() => setAssignModal(false)}
@@ -543,6 +544,8 @@ const AppointmentsView = () => {
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
 
   const appointmentColumns = [];
+
+  return <></>;
 };
 
 const LeadDetail = () => {
@@ -632,9 +635,9 @@ const LeadDetail = () => {
           sx={{textTransform: "capitalize", marginRight: "10px"}}
           color="info"
           //onClick={() => handleSetCurrentView("appointments")}
-          onClick={() => setScheduleAppointment(true)}
+          onClick={() => handleSetCurrentView("appointments")}
         >
-          Appointment
+          Appointments
         </Button>
 
         <Button

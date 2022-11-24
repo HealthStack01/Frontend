@@ -646,7 +646,7 @@ export function ProductExitCreate({closeModal}) {
             </Grid>
 
             {productItem.length > 0 && (
-              <Box sx={{height: "200px", widht: "300%"}}>
+              <Box sx={{width: "100%"}}>
                 <CustomTable
                   title={""}
                   columns={productCreateSchema}

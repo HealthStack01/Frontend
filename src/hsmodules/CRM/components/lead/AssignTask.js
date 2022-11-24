@@ -10,6 +10,7 @@ import BasicDatePicker from "../../../../components/inputs/Date";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../../components/inputs/basic/Textarea";
 import EmployeeSearch from "../../../helpers/EmployeeSearch";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 
 const LeadAssignTask = ({closeModal, addTask}) => {
   const {register, handleSubmit, reset} = useForm();
@@ -33,11 +34,11 @@ const LeadAssignTask = ({closeModal, addTask}) => {
         maxHeight: "80vh",
       }}
     >
-      <Box>
-        <FormsHeaderText text="Create Task" />
-      </Box>
+      <Grid container spacing={2} pt={1}>
+        <Grid item xs={12}>
+          <EmployeeSearch />
+        </Grid>
 
-      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Input register={register("title", {required: true})} label="Title" />
         </Grid>
@@ -70,29 +71,23 @@ const LeadAssignTask = ({closeModal, addTask}) => {
       </Grid>
 
       <Box mt={1}>
-        <Button
-          variant="contained"
-          size="small"
+        <GlobalCustomButton
           sx={{
-            minWidth: "120px",
-            textTransform: "capitalize",
             marginRight: "10px",
           }}
           color="success"
           onClick={handleSubmit(onSubmit)}
         >
-          Done
-        </Button>
+          Assign
+        </GlobalCustomButton>
 
-        <Button
+        <GlobalCustomButton
           variant="outlined"
-          size="small"
-          sx={{minWidth: "120px", textTransform: "capitalize"}}
           color="error"
           onClick={closeModal}
         >
           Cancel
-        </Button>
+        </GlobalCustomButton>
       </Box>
     </Box>
   );

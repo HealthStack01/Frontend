@@ -11,6 +11,8 @@ var random = require("random-string-generator");
 import {Box, Button, Grid, Typography} from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Input from "../../components/inputs/basic/Input";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -196,7 +198,10 @@ export default function MakeDeposit({closeModal, balance}) {
             padding: "0 15px",
           }}
         >
-          <Typography>Balance</Typography>
+          <Typography sx={{display: "flex", alignItems: "center"}}>
+            <AccountBalanceIcon color="primary" sx={{marginRight: "5px"}} />{" "}
+            Balance
+          </Typography>
           <Typography
             sx={{
               fontSize: "24px",
@@ -244,62 +249,9 @@ export default function MakeDeposit({closeModal, balance}) {
         </Grid>
       </Box>
 
-      <Button variant="outlined" onClick={handleAccept}>
-        Accept
-      </Button>
-
-      {/* <div className="card card-overflow mb-2 ">
-        <div className="card-content pb-1">
-          <div id="Deposit">
-            <div className="field is-horizontal pullup">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control"></div>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      name="order"
-                      value={amountPaid}
-                      type="text"
-                      onChange={e => setAmountPaid(e.target.value)}
-                      placeholder="Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hashtag"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control  ">
-                    <input
-                      className="input is-small"
-                      name="description"
-                      value={description}
-                      type="text"
-                      onChange={async e => await setDescription(e.target.value)}
-                      placeholder="Payment Details"
-                    />
-                  </p>
-                </div>
-                <div className="field ">
-                  <p className="control">
-                    <button
-                      className="button is-info is-small  is-pulled-left selectadd"
-                      disabled={buttonState}
-                    >
-                      <span className="is-small" onClick={handleAccept}>
-                        Accept
-                      </span>
-                    </button>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      <GlobalCustomButton onClick={handleAccept}>
+        Confirm Deposit
+      </GlobalCustomButton>
     </Box>
   );
 }

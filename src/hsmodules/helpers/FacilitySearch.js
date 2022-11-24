@@ -140,6 +140,7 @@ export function FacilitySearch({getSearchfacility, clear}) {
   return (
     <div style={{width: "100%"}}>
       <Autocomplete
+        size="small"
         value={simpa}
         //loading={loading}
         onChange={(event, newValue) => {
@@ -186,7 +187,7 @@ export function FacilitySearch({getSearchfacility, clear}) {
             {option.facilityName}
           </li>
         )}
-        sx={{width: "100%", margin: "0.75rem 0"}}
+        sx={{width: "100%"}}
         freeSolo
         //size="small"
         renderInput={params => (
@@ -199,10 +200,8 @@ export function FacilitySearch({getSearchfacility, clear}) {
               fontSize: "0.75rem !important",
               backgroundColor: "#ffffff !important",
             }}
-            size="small"
             InputLabelProps={{
               shrink: true,
-              style: {color: "#2d2d2d"},
             }}
           />
         )}
