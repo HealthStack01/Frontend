@@ -1,28 +1,28 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from "react";
-import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-import { toast } from "bulma-toast";
+import React, { useState, useContext, useEffect } from 'react';
+import client from '../../feathers';
+import { DebounceInput } from 'react-debounce-input';
+import { useForm } from 'react-hook-form';
+import { toast } from 'bulma-toast';
 //import {useNavigate} from 'react-router-dom'
-import { UserContext, ObjectContext } from "../../context";
-import { FacilitySearch } from "../helpers/FacilitySearch";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
-import CustomTable from "../../components/customtable";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
-import ModalBox from "../../components/modal";
-import HiaCreate from "./components/HIAcreate";
-import ViewText from "../../components/viewtext";
-import { Box, Grid, Button as MuiButton } from "@mui/material";
-import Input from "../../components/inputs/basic/Input";
+import { UserContext, ObjectContext } from '../../context';
+import { FacilitySearch } from '../helpers/FacilitySearch';
+import { PageWrapper } from '../../ui/styled/styles';
+import { TableMenu } from '../../ui/styled/global';
+import CustomTable from '../../components/customtable';
+import FilterMenu from '../../components/utilities/FilterMenu';
+import Button from '../../components/buttons/Button';
+import ModalBox from '../../components/modal';
+import HiaCreate from './components/HIAcreate';
+import ViewText from '../../components/viewtext';
+import { Box, Grid, Button as MuiButton } from '@mui/material';
+import Input from '../../components/inputs/basic/Input';
 import {
   BottomWrapper,
   GrayWrapper,
   GridWrapper,
   HeadWrapper,
-} from "../app/styles";
+} from '../app/styles';
 
 export default function HiaOrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -85,12 +85,12 @@ export function OrganizationCreate({ showModal, setShowModal }) {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
-  const [chosen, setChosen] = useState("");
-  const [band, setBand] = useState("");
-  const BandsServ = client.service("bands");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
+  const [chosen, setChosen] = useState('');
+  const [band, setBand] = useState('');
+  const BandsServ = client.service('bands');
   const [providerBand, setProviderBand] = useState([]);
   //const navigate=useNavigate()
   const { user } = useContext(UserContext); //,setUser
@@ -125,9 +125,9 @@ export function OrganizationCreate({ showModal, setShowModal }) {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           bandType:
-            user.currentEmployee.facilityDetail.facilityType === "HMO"
-              ? "Provider"
-              : "Company",
+            user.currentEmployee.facilityDetail.facilityType === 'HMO'
+              ? 'Provider'
+              : 'Company',
 
           // storeId:state.StoreModule.selectedStore._id,
           // $limit:20,
@@ -145,10 +145,10 @@ export function OrganizationCreate({ showModal, setShowModal }) {
 
   const handleClick = () => {
     //check band selected
-    if (band === "") {
+    if (band === '') {
       toast({
-        message: "Band not selected, Please select band",
-        type: "is-danger",
+        message: 'Band not selected, Please select band',
+        type: 'is-danger',
         dismissible: true,
         pauseOnHover: true,
       });
@@ -159,7 +159,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
     let stuff = {
       facility: user.currentEmployee.facilityDetail._id,
       organization: chosen._id,
-      relationshiptype: "managedcare",
+      relationshiptype: 'managedcare',
       band,
     };
     orgServ
@@ -169,18 +169,18 @@ export function OrganizationCreate({ showModal, setShowModal }) {
         // e.target.reset();
         setSuccess(true);
         toast({
-          message: "Organization added succesfully",
-          type: "is-success",
+          message: 'Organization added succesfully',
+          type: 'is-success',
           dismissible: true,
           pauseOnHover: true,
         });
         setSuccess(false);
-        setBand("");
+        setBand('');
       })
       .catch((err) => {
         toast({
-          message: "Error adding organization " + err,
-          type: "is-danger",
+          message: 'Error adding organization ' + err,
+          type: 'is-danger',
           dismissible: true,
           pauseOnHover: true,
         });
@@ -212,11 +212,11 @@ export function OrganizationCreate({ showModal, setShowModal }) {
           <div
             className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
           >
-            <FacilitySearch
+            {/* <FacilitySearch
               getSearchfacility={getSearchfacility}
               clear={success}
-            />
-            <p className="control has-icons-left " style={{ display: "none" }}>
+            /> */}
+            <p className="control has-icons-left " style={{ display: 'none' }}>
               <input
                 className="input is-small" /* ref={register ({ required: true }) }  */ /* add array no */ /* value={facilityId} name="facilityId" type="text" onChange={e=>setFacilityId(e.target.value)} placeholder="Product Id" */
               />
@@ -235,13 +235,13 @@ export function OrganizationCreate({ showModal, setShowModal }) {
                   className="selectadd"
                 >
                   <option value="">
-                    {user.currentEmployee.facilityDetail.facilityType === "HMO"
-                      ? "Choose Provider Band"
-                      : "Choose Company Band"}{" "}
+                    {user.currentEmployee.facilityDetail.facilityType === 'HMO'
+                      ? 'Choose Provider Band'
+                      : 'Choose Company Band'}{' '}
                   </option>
                   {providerBand.map((option, i) => (
                     <option key={i} value={option.name}>
-                      {" "}
+                      {' '}
                       {option.name}
                     </option>
                   ))}
@@ -271,9 +271,9 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("facility");
-  const orgServ = client.service("organizationclient");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('facility');
+  const orgServ = client.service('organizationclient');
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
@@ -287,7 +287,7 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
   const handleCreateNew = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -304,7 +304,7 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
 
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -315,7 +315,7 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
   };
 
   const handleSearch = (val) => {
-    const field = "facilityName";
+    const field = 'facilityName';
     console.log(val);
     if (val.length > 0) {
       orgServ
@@ -337,12 +337,12 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
         .then((res) => {
           console.log(res);
           setFacilities(res.data);
-          setMessage(" Organization  fetched successfully");
+          setMessage(' Organization  fetched successfully');
           setSuccess(true);
         })
         .catch((err) => {
           console.log(err);
-          setMessage("Error creating facility, probable network issues " + err);
+          setMessage('Error creating facility, probable network issues ' + err);
           setError(true);
         });
     } else {
@@ -371,11 +371,11 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
       .then((res) => {
         console.log(res);
         setFacilities(res.data);
-        setMessage(" Organization  fetched successfully");
+        setMessage(' Organization  fetched successfully');
         setSuccess(true);
       })
       .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -383,10 +383,10 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
   useEffect(() => {
     getFacilities();
 
-    orgServ.on("created", (obj) => getFacilities());
-    orgServ.on("updated", (obj) => getFacilities());
-    orgServ.on("patched", (obj) => getFacilities());
-    orgServ.on("removed", (obj) => getFacilities());
+    orgServ.on('created', (obj) => getFacilities());
+    orgServ.on('updated', (obj) => getFacilities());
+    orgServ.on('patched', (obj) => getFacilities());
+    orgServ.on('removed', (obj) => getFacilities());
     return () => {};
   }, []);
 
@@ -395,118 +395,118 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
 
   const HIASchema = [
     {
-      name: "S/N",
-      key: "sn",
-      description: "SN",
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
       selector: (row) => row.sn,
       sortable: true,
-      inputType: "HIDDEN",
+      inputType: 'HIDDEN',
     },
 
     {
-      name: "Organization Name",
-      key: "facilityName",
-      description: "Organization Name",
+      name: 'Organization Name',
+      key: 'facilityName',
+      description: 'Organization Name',
       selector: (row) => row?.organizationDetail?.facilityName,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
     {
-      name: "Band",
-      key: "band",
-      description: "Band",
+      name: 'Band',
+      key: 'band',
+      description: 'Band',
       selector: (row) => row.Band,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Address",
-      key: "address",
-      description: "Address",
+      name: 'Address',
+      key: 'address',
+      description: 'Address',
       selector: (row) => row?.organizationDetail?.facilityAddress,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "City",
-      key: "city",
-      description: "City",
+      name: 'City',
+      key: 'city',
+      description: 'City',
       selector: (row) => row?.organizationDetail?.facilityCity,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
 
     {
-      name: "Phone",
-      key: "phone",
-      description: "Phone",
+      name: 'Phone',
+      key: 'phone',
+      description: 'Phone',
       selector: (row) => row?.organizationDetail?.facilityContactPhone,
       sortable: true,
       required: true,
-      inputType: "PHONE",
+      inputType: 'PHONE',
     },
 
     {
-      name: "Email",
-      key: "email",
-      description: "Email",
+      name: 'Email',
+      key: 'email',
+      description: 'Email',
       selector: (row) => row?.organizationDetail?.facilityEmail,
       sortable: true,
       required: true,
-      inputType: "EMAIL",
+      inputType: 'EMAIL',
     },
 
     {
-      name: "Type",
-      key: "type",
-      description: "johndoe@mail.com",
+      name: 'Type',
+      key: 'type',
+      description: 'johndoe@mail.com',
       selector: (row) => row?.organizationDetail?.facilityType,
       sortable: true,
       required: true,
-      inputType: "EMAIL",
+      inputType: 'EMAIL',
     },
 
     {
-      name: "Category",
-      key: "category",
-      description: "Category",
+      name: 'Category',
+      key: 'category',
+      description: 'Category',
       selector: (row) => row?.organizationDetail?.facilityCategory,
       sortable: true,
       required: true,
-      inputType: "TEXT",
+      inputType: 'TEXT',
     },
   ];
 
   return (
     <>
-      {" "}
+      {' '}
       <ModalBox>
         <OrganizationCreate />
       </ModalBox>
       <div className="level">
         <PageWrapper
-          style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+          style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
         >
           <TableMenu>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {handleSearch && (
                 <div className="inner-table">
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+              <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                 List of HIA
               </h2>
             </div>
             {handleCreateNew && (
               <Button
-                style={{ fontSize: "14px", fontWeight: "600px" }}
+                style={{ fontSize: '14px', fontWeight: '600px' }}
                 label="Add New"
                 onClick={openCreateModal}
               />
@@ -515,13 +515,13 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
 
           <div
             style={{
-              width: "100%",
-              height: "calc(100vh-90px)",
-              overflow: "auto",
+              width: '100%',
+              height: 'calc(100vh-90px)',
+              overflow: 'auto',
             }}
           >
             <CustomTable
-              title={""}
+              title={''}
               columns={HIASchema}
               data={facilities}
               pointerOnHover
@@ -544,7 +544,7 @@ export function OrganizationDetail({ openModifyModal }) {
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
-  const [message, setMessage] = useState(""); //,
+  const [message, setMessage] = useState(''); //,
   //const facilityServ=client.service('/facility')
   //const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext);
@@ -557,7 +557,7 @@ export function OrganizationDetail({ openModifyModal }) {
   const handleEdit = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "modify",
+      show: 'modify',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -569,7 +569,7 @@ export function OrganizationDetail({ openModifyModal }) {
   const closeForm = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -581,7 +581,7 @@ export function OrganizationDetail({ openModifyModal }) {
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
-      show: "detail",
+      show: 'detail',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -591,7 +591,7 @@ export function OrganizationDetail({ openModifyModal }) {
   };
 
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
     const dleteId = facility._id;
     if (conf) {
       orgServ
@@ -599,8 +599,8 @@ export function OrganizationDetail({ openModifyModal }) {
         .then((res) => {
           reset();
           toast({
-            message: "Hia deleted successfully",
-            type: "is-success",
+            message: 'Hia deleted successfully',
+            type: 'is-success',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -608,8 +608,8 @@ export function OrganizationDetail({ openModifyModal }) {
         })
         .catch((err) => {
           toast({
-            message: "Error deleting Hia,probably network issue or" + err,
-            type: "is-danger",
+            message: 'Error deleting Hia,probably network issue or' + err,
+            type: 'is-danger',
             dismissible: true,
             pauseOnHover: true,
           });
@@ -617,22 +617,22 @@ export function OrganizationDetail({ openModifyModal }) {
     }
   };
   useEffect(() => {
-    setValue("facilityName", facility.organizationDetail.facilityName, {
+    setValue('facilityName', facility.organizationDetail.facilityName, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue("facilityAddress", facility.organizationDetail.facilityAddress, {
+    setValue('facilityAddress', facility.organizationDetail.facilityAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue("facilityCity", facility.organizationDetail.facilityCity, {
+    setValue('facilityCity', facility.organizationDetail.facilityCity, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
-      "facilityContactPhone",
+      'facilityContactPhone',
       facility.organizationDetail.facilityContactPhone,
       {
         shouldValidate: true,
@@ -640,22 +640,22 @@ export function OrganizationDetail({ openModifyModal }) {
       }
     );
 
-    setValue("facilityEmail", facility.organizationDetail.facilityEmail, {
+    setValue('facilityEmail', facility.organizationDetail.facilityEmail, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue("facilityOwner", facility.organizationDetail.facilityOwner, {
+    setValue('facilityOwner', facility.organizationDetail.facilityOwner, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue("facilityType", facility.organizationDetail.facilityType, {
+    setValue('facilityType', facility.organizationDetail.facilityType, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue("facilityCategory", facility.organizationDetail.facilityCategory, {
+    setValue('facilityCategory', facility.organizationDetail.facilityCategory, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -671,7 +671,7 @@ export function OrganizationDetail({ openModifyModal }) {
       .patch(facility._id, data)
 
       .then((res) => {
-        toast("Hia updated succesfully");
+        toast('Hia updated succesfully');
         changeState();
         closeDetailModal();
       })
@@ -684,8 +684,8 @@ export function OrganizationDetail({ openModifyModal }) {
     <>
       <Box
         sx={{
-          width: "800px",
-          maxHeight: "80vh",
+          width: '800px',
+          maxHeight: '80vh',
         }}
       >
         <HeadWrapper>
@@ -700,8 +700,8 @@ export function OrganizationDetail({ openModifyModal }) {
               variant="contained"
               size="small"
               sx={{
-                textTransform: "capitalize",
-                marginLeft: "10px",
+                textTransform: 'capitalize',
+                marginLeft: '10px',
               }}
               onClick={() => setEditHia(true)}
             >
@@ -717,7 +717,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityName || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityName")}
+                  register={register('facilityName')}
                   label="Name"
                   disabled={!editHia}
                 />
@@ -726,7 +726,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityAddress || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityAddress")}
+                  register={register('facilityAddress')}
                   label="Address"
                   disabled={!editHia}
                 />
@@ -736,7 +736,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityCity || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityCity")}
+                  register={register('facilityCity')}
                   label="City"
                   disabled={!editHia}
                 />
@@ -745,7 +745,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityContactPhone || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityContactPhone")}
+                  register={register('facilityContactPhone')}
                   label="Phone"
                   disabled={!editHia}
                 />
@@ -755,7 +755,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityEmail || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityEmail")}
+                  register={register('facilityEmail')}
                   label="Email"
                   disabled={!editHia}
                 />
@@ -765,7 +765,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityOwner || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityOwner")}
+                  register={register('facilityOwner')}
                   label="CEO"
                   disabled={!editHia}
                 />
@@ -775,7 +775,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityType || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityType")}
+                  register={register('facilityType')}
                   label="Type"
                   disabled={!editHia}
                 />
@@ -785,7 +785,7 @@ export function OrganizationDetail({ openModifyModal }) {
             {(facility.organizationDetail.facilityCategory || editHia) && (
               <Grid item xs={4}>
                 <Input
-                  register={register("facilityCategory")}
+                  register={register('facilityCategory')}
                   label="Category"
                   disabled={!editHia}
                 />
@@ -796,13 +796,13 @@ export function OrganizationDetail({ openModifyModal }) {
       </Box>
       {editHia && (
         <Box
-          sx={{ width: "100%", display: "flex", alignItems: "center" }}
+          sx={{ width: '100%', display: 'flex', alignItems: 'center' }}
           mt={2}
         >
           <MuiButton
             variant="contained"
             color="success"
-            sx={{ textTransform: "capitalize", marginRight: "10px" }}
+            sx={{ textTransform: 'capitalize', marginRight: '10px' }}
             onClick={handleSubmit(onSubmit)}
           >
             Update Hia
@@ -811,7 +811,7 @@ export function OrganizationDetail({ openModifyModal }) {
           <MuiButton
             variant="contained"
             color="error"
-            sx={{ textTransform: "capitalize", marginRight: "10px" }}
+            sx={{ textTransform: 'capitalize', marginRight: '10px' }}
             onClick={handleDelete}
           >
             Delete Hia
@@ -820,7 +820,7 @@ export function OrganizationDetail({ openModifyModal }) {
           <MuiButton
             variant="contained"
             color="warning"
-            sx={{ textTransform: "capitalize", marginRight: "10px" }}
+            sx={{ textTransform: 'capitalize', marginRight: '10px' }}
             onClick={handleCancel}
           >
             Cancel Update
@@ -835,8 +835,8 @@ export function OrganizationModify() {
   const { register, handleSubmit, setValue, reset } = useForm(); //watch, errors,
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  const facilityServ = client.service("/facility");
+  const [message, setMessage] = useState('');
+  const facilityServ = client.service('/facility');
   //const navigate=useNavigate()
   // eslint-disable-next-line
   const { user } = useContext(UserContext);
@@ -845,35 +845,35 @@ export function OrganizationModify() {
   const facility = state.facilityModule.selectedFacility;
 
   useEffect(() => {
-    setValue("facilityName", facility.facilityName, {
+    setValue('facilityName', facility.facilityName, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityAddress", facility.facilityAddress, {
+    setValue('facilityAddress', facility.facilityAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCity", facility.facilityCity, {
+    setValue('facilityCity', facility.facilityCity, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityContactPhone", facility.facilityContactPhone, {
+    setValue('facilityContactPhone', facility.facilityContactPhone, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityEmail", facility.facilityEmail, {
+    setValue('facilityEmail', facility.facilityEmail, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityOwner", facility.facilityOwner, {
+    setValue('facilityOwner', facility.facilityOwner, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityType", facility.facilityType, {
+    setValue('facilityType', facility.facilityType, {
       shouldValidate: true,
       shouldDirty: true,
     });
-    setValue("facilityCategory", facility.facilityCategory, {
+    setValue('facilityCategory', facility.facilityCategory, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -884,7 +884,7 @@ export function OrganizationModify() {
   const handleCancel = async () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
     await setState((prevstate) => ({
       ...prevstate,
@@ -896,7 +896,7 @@ export function OrganizationModify() {
   const changeState = () => {
     const newfacilityModule = {
       selectedFacility: {},
-      show: "create",
+      show: 'create',
     };
     setState((prevstate) => ({
       ...prevstate,
@@ -904,7 +904,7 @@ export function OrganizationModify() {
     }));
   };
   const handleDelete = async () => {
-    let conf = window.confirm("Are you sure you want to delete this data?");
+    let conf = window.confirm('Are you sure you want to delete this data?');
 
     const dleteId = facility._id;
     if (conf) {
@@ -913,7 +913,7 @@ export function OrganizationModify() {
         .then((res) => {
           //console.log(JSON.stringify(res))
           reset();
-          setMessage("Deleted Organization successfully");
+          setMessage('Deleted Organization successfully');
           setSuccess(true);
           changeState();
           setTimeout(() => {
@@ -922,7 +922,7 @@ export function OrganizationModify() {
           changeState();
         })
         .catch((err) => {
-          setMessage("Error deleting facility, probable network issues " + err);
+          setMessage('Error deleting facility, probable network issues ' + err);
           setError(true);
           setTimeout(() => {
             setError(false);
@@ -937,7 +937,7 @@ export function OrganizationModify() {
           })) */
   const onSubmit = (data, e) => {
     e.preventDefault();
-    setMessage("");
+    setMessage('');
     setError(false);
     setSuccess(false);
     console.log(data);
@@ -949,12 +949,12 @@ export function OrganizationModify() {
       .then((res) => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
-        setMessage("updated Organization successfully");
+        setMessage('updated Organization successfully');
         setSuccess(true);
         changeState();
       })
       .catch((err) => {
-        setMessage("Error creating facility, probable network issues " + err);
+        setMessage('Error creating facility, probable network issues ' + err);
         setError(true);
       });
   };
@@ -974,7 +974,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input  is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityName"
                     type="text"
                     placeholder="Name of Facility"
@@ -991,7 +991,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left has-icons-right">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityAddress"
                     type="text"
                     placeholder="Address of Facility"
@@ -1008,7 +1008,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityCity"
                     type="text"
                     placeholder="City/Town"
@@ -1025,7 +1025,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityContactPhone"
                     type="text"
                     placeholder="Contact Phone No"
@@ -1042,7 +1042,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityEmail"
                     type="email"
                     placeholder="Organization Email"
@@ -1059,7 +1059,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityOwner"
                     type="text"
                     placeholder="Organization Owner"
@@ -1076,7 +1076,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityType"
                     type="text"
                     placeholder="Organization Type"
@@ -1093,7 +1093,7 @@ export function OrganizationModify() {
                 <p className="control has-icons-left">
                   <input
                     className="input is-small"
-                    {...register("x", { required: true })}
+                    {...register('x', { required: true })}
                     name="facilityCategory"
                     type="text"
                     placeholder="Organization Category"

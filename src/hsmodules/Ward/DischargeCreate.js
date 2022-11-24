@@ -15,8 +15,9 @@ import ModalBox from '../../components/modal';
 import { MdCancel } from 'react-icons/md';
 import { Box, Grid } from '@mui/material';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import Input from './ui-components/inputs/basic/Input';
 import Button from './ui-components/buttons/Button';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Input from '../../components/inputs/basic/Input';
 const searchfacility = {};
 
 export default function DischargeCreate() {
@@ -758,7 +759,7 @@ export default function DischargeCreate() {
   // console.log("simpa")
   return (
     <>
-      <div>
+      <div style={{ padding: '1rem' }}>
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -772,19 +773,18 @@ export default function DischargeCreate() {
               <ModalHeader text={'Discharge Patient'} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button
+              <GlobalCustomButton
+                text="Documentation"
                 onClick={showDocumentation}
-                style={{
+                customStyles={{
                   float: 'right',
-                  backgroundColor: '#48c774',
-                  borderRadius: '5px',
+                  marginLeft: 'auto',
                 }}
-              >
-                Documentation
-              </Button>
+                color="success"
+              />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} my={1}>
             <Grid item xs={12} sm={8}>
               <Input
                 name="client"
@@ -801,11 +801,10 @@ export default function DischargeCreate() {
                 onChange={(e) => handleChangeMode(e.target.value)}
                 className="selectadd"
                 style={{
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
                   width: '100%',
-                  padding: '.9rem',
-                  marginTop: '.7rem',
-                  borderRadius: '5px',
-                  border: '1px solid #ccc',
                 }}
               >
                 <option value="">Billing Mode </option>
@@ -831,37 +830,59 @@ export default function DischargeCreate() {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} my={1}>
             <Grid item xs={12} sm={12}>
-              <p style={{ fontWeight: '700' }}>Instructions:</p>
-              <p>{medication.instruction}</p>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <p style={{ fontWeight: '700' }}>
-                Current Bed: {medication.client.bed}
-              </p>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <Button
-                onClick={handleDischarge}
+              <label className="label" htmlFor="appointment_reason">
+                Instructions:
+              </label>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                value={medication?.instruction}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="3"
+                cols="50"
                 style={{
-                  backgroundColor: '#48c774',
-                  borderRadius: '5px',
-                  width: '99%',
+                  border: '1px solid #b6b6b6',
+                  borderRadius: '4px',
+                  color: ' #979DAC',
+                  width: '100%',
                 }}
               >
-                Discharge
-              </Button>
+                {' '}
+              </textarea>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Input
+                name="Current Bed:"
+                type="text"
+                defaultValue={medication?.client?.bed}
+                disabled
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={12}>
+              <GlobalCustomButton
+                text="Discharge"
+                onClick={handleDischarge}
+                color="success"
+              />
             </Grid>
           </Grid>
         </form>
       </div>
       {productModal && (
-        <ModalBox open>
+        <ModalBox
+          open
+          header=""
+          onClose={() => {
+            setProductModal(false);
+          }}
+        >
           <MdCancel
             onClick={() => {
               setProductModal(false);

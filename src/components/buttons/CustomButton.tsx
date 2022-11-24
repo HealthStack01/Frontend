@@ -19,6 +19,7 @@ interface componentProps {
   customStyles?: React.CSSProperties;
   MuiIcon?: React.ReactElement<SvgIconProps>;
   iconPosition?: string;
+  disabled?: boolean;
 }
 
 const GlobalCustomButton = ({
@@ -30,6 +31,7 @@ const GlobalCustomButton = ({
   customStyles,
   MuiIcon,
   iconPosition,
+  disabled,
 }: componentProps) => {
   return (
     <Button
@@ -37,6 +39,7 @@ const GlobalCustomButton = ({
       size={size}
       color={color}
       onClick={onClick}
+      disabled={disabled}
       sx={{ ...customStyles, textTransform: 'capitalize' }}
     >
       {MuiIcon && iconPosition === 'start' && MuiIcon}

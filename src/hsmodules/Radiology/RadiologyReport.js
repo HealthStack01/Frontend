@@ -14,12 +14,13 @@ import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
-import ModalBox from './ui-components/modal';
+import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import { Box, Grid, InputBase } from '@mui/material';
-import Input from '../../components/inputs/basic/Input/index';
-import Textarea from '../../components/inputs/basic/Textarea/index';
+import Textarea from '../../components/inputs/basic/Textarea';
 import { toast } from 'react-toastify';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Input from '../../components/inputs/basic/Input';
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -57,13 +58,15 @@ export default function RadiologyReport() {
       {openModal && (
         <ModalBox
           open={state.financeModule.show === 'detail'}
+          header
           onClose={() => setOpenModal(false)}
+          width="fit-content"
         >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid container>
+            <Grid item sm={6} px={1}>
               <RadiologyNoteCreate />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <PatientProfile />
             </Grid>
           </Grid>
@@ -389,11 +392,7 @@ export function RadiologyOrderList({ openModal, setOpenModal }) {
           </div>
 
           {handleCreate && (
-            <Button
-              style={{ fontSize: '14px', fontWeight: '600' }}
-              label="Add new "
-              onClick={handleCreate}
-            />
+            <GlobalCustomButton text="Add new " onClick={handleCreate} />
           )}
         </TableMenu>
 
@@ -605,28 +604,23 @@ export function RadiologyNoteCreate() {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <ModalHeader
-            text={ProperCase(
+        <Grid item xs={12}>
+          <p style={{ maxWidth: '200px', fontWeight: '700' }}>
+            {ProperCase(
               `Radiology Result for ${order.orderInfo.orderObj.clientname} Ordered Test: ${order.serviceInfo.name}`
             )}
-          />
+          </p>
         </Grid>
-        <Grid item xs={6}>
-          <Button
-            className="button is-success is-small btnheight mt-2"
+        <Grid item xs={12} mb={1}>
+          <GlobalCustomButton
+            text="Documentation"
             onClick={showDocumentation}
-            style={{
-              // width: '100%',
-              margin: '2rem 0',
-              backgroundColor: '#0364FF',
-              fontSize: '18px',
-              textAlign: 'right',
+            customStyles={{
+              float: 'right',
               marginLeft: 'auto',
             }}
-          >
-            Documentation
-          </Button>
+            color="success"
+          />
         </Grid>
       </Grid>
 
@@ -637,15 +631,15 @@ export function RadiologyNoteCreate() {
               name="Procedure"
               type="text"
               register={register('Procedure', { required: true })}
-              placeholder="Procedure"
+              label="Procedure"
               disabled={bill_report_status === 'Final'}
             />
           </Grid>
         </Grid>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Clinical Indication"
+          <Grid item xs={12} sm={12} mt={1}>
+            <Input
+              label="Clinical Indication"
               name="Clinical Indication"
               type="text"
               register={register('Clinical Indication', { required: true })}
@@ -654,9 +648,9 @@ export function RadiologyNoteCreate() {
           </Grid>
         </Grid>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Technique"
+          <Grid item xs={12} sm={12} mt={1}>
+            <Input
+              label="Technique"
               name="Technique"
               type="text"
               register={register('Technique', { required: true })}
@@ -665,9 +659,9 @@ export function RadiologyNoteCreate() {
           </Grid>
         </Grid>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Comparison"
+          <Grid item xs={12} sm={12} mt={1}>
+            <Input
+              label="Comparison"
               name="Comparison"
               type="text"
               register={register('Comparison', { required: true })}
@@ -676,9 +670,9 @@ export function RadiologyNoteCreate() {
           </Grid>
         </Grid>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Finding"
+          <Grid item xs={12} sm={12} mt={1}>
+            <Input
+              label="Finding"
               name="Finding"
               type="text"
               register={register('Finding', { required: true })}
@@ -687,9 +681,9 @@ export function RadiologyNoteCreate() {
           </Grid>
         </Grid>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Impression"
+          <Grid item xs={12} sm={12} mt={1}>
+            <Input
+              label="Impression"
               name="Impression"
               type="text"
               register={register('Impression', { required: true })}
@@ -698,9 +692,9 @@ export function RadiologyNoteCreate() {
           </Grid>
         </Grid>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Recommendation"
+          <Grid item xs={12} sm={12} mt={1}>
+            <Input
+              label="Recommendation"
               name="recommendation"
               type="text"
               register={register('recommendation', { required: true })}
@@ -721,13 +715,12 @@ export function RadiologyNoteCreate() {
               }}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
             <span
               style={{
-                fontSize: '1rem',
+                fontSize: '.8rem',
               }}
             >
               {' '}
@@ -743,13 +736,12 @@ export function RadiologyNoteCreate() {
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
             <span
               style={{
-                fontSize: '1rem',
+                fontSize: '.8rem',
               }}
             >
               {' '}
@@ -760,18 +752,10 @@ export function RadiologyNoteCreate() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+              />
             )}
           </Grid>
         </Grid>
@@ -805,7 +789,7 @@ export function RadiologyNoteCreate() {
                       {...register('x')}
                       name="Procedure"
                       type="text"
-                      placeholder="Procedure"
+                      label="Procedure"
                       disabled={bill_report_status === 'Final'}
                     />
                   </p>
@@ -817,11 +801,13 @@ export function RadiologyNoteCreate() {
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
                     <textarea
-                      className="textarea is-small"
+                      sx={{height: '38px'}}
+                      className="textarea
+                         is-small"sx={{height: '38px'}}
                       {...register('x')}
                       name="Clinical Indication"
                       type="text"
-                      placeholder="Clinical Indication"
+                      label="Clinical Indication"
                       disabled={bill_report_status === 'Final'}
                     />
                   </p>
@@ -833,11 +819,13 @@ export function RadiologyNoteCreate() {
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
                     <textarea
-                      className="textarea is-small"
+                      sx={{height: '38px'}}
+                      className="textarea
+                         is-small"sx={{height: '38px'}}
                       {...register('x')}
                       name="Technique"
                       type="text"
-                      placeholder="Technique"
+                      label="Technique"
                       disabled={bill_report_status === 'Final'}
                     />
                   </p>
@@ -849,11 +837,13 @@ export function RadiologyNoteCreate() {
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
                     <textarea
-                      className="textarea is-small"
+                      sx={{height: '38px'}}
+                      className="textarea
+                         is-small"sx={{height: '38px'}}
                       {...register('x')}
                       name="Comparison"
                       type="text"
-                      placeholder="Comparison"
+                      label="Comparison"
                       disabled={bill_report_status === 'Final'}
                     />
                   </p>
@@ -865,11 +855,13 @@ export function RadiologyNoteCreate() {
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
                     <textarea
-                      className="textarea is-small"
+                      sx={{height: '38px'}}
+                      className="textarea
+                         is-small"sx={{height: '38px'}}
                       {...register('x')}
                       name="Finding"
                       type="text"
-                      placeholder="Findings"
+                      label="Findings"
                       disabled={bill_report_status === 'Final'}
                     />
                   </p>
@@ -881,11 +873,13 @@ export function RadiologyNoteCreate() {
                 <div className="field">
                   <p className="control has-icons-left has-icons-right">
                     <textarea
-                      className="textarea is-small"
+                      sx={{height: '38px'}}
+                      className="textarea
+                         is-small"sx={{height: '38px'}}
                       {...register('x')}
                       name="Impression"
                       type="text"
-                      placeholder="Impression"
+                      label="Impression"
                       disabled={bill_report_status === 'Final'}
                     />
                   </p>
@@ -897,11 +891,13 @@ export function RadiologyNoteCreate() {
                 <div className="field">
                   <div className="control has-icons-left has-icons-right">
                     <textarea
-                      className="textarea is-small"
+                      sx={{height: '38px'}}
+                      className="textarea
+                         is-small"sx={{height: '38px'}}
                       {...register('x')}
                       name="Recommendation"
                       type="text"
-                      placeholder="Recommendation"
+                      label="Recommendation"
                       disabled={bill_report_status === 'Final'}
                     />
                   </div>

@@ -60,28 +60,22 @@ export default function Admission() {
     <section className="section remPadTop">
       <AdmissionList showModal={showModal} setShowModal={setShowModal} />
       {showModal && (
-        <ModalBox open={state.AdmissionModule.show === 'detail'}>
+        <ModalBox
+          open={state.AdmissionModule.show === 'detail'}
+          header
+          onClose={() => {
+            setShowModal(false),
+              setState((prevstate) => ({
+                ...prevstate,
+                AdmissionModule: {
+                  selectedAdmission: {},
+                  show: 'list',
+                },
+              }));
+          }}
+        >
           <Grid container>
-            <Grid item xs={12}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AdmissionModule: {
-                        selectedAdmission: {},
-                        show: 'list',
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: '2rem',
-                  color: 'crimson',
-                  cursor: 'pointer',
-                  float: 'right',
-                }}
-              />
-            </Grid>
+            <Grid item xs={12}></Grid>
           </Grid>
           <Grid container>
             <Grid item xs={6}>

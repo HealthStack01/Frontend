@@ -19,11 +19,14 @@ import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import { AppointmentSchema } from '../Clinic/schema';
 import { CustomButton } from '../../components/buttons/Button/base/styles';
-import ModalBox from './ui-components/modal';
+import ModalBox from '../../components/modal';
 import ModalHeader from './ui-components/Heading/modalHeader';
 import { Box, Grid } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Input from '../../components/inputs/basic/Input';
+import BasicDateTimePicker from '../../components/inputs/DateTime';
 
 export default function LabourCheckIn() {
   const { state } = useContext(ObjectContext); //,setState
@@ -52,7 +55,13 @@ export default function LabourCheckIn() {
         />
       )}
       {showModal && (
-        <ModalBox open={state.AppointmentModule.show === 'detail'}>
+        <ModalBox
+          open={state.AppointmentModule.show === 'detail'}
+          onClose={() => setShowModal(false)}
+          header={
+            checkinpage === 'checkin' ? 'Check In Details' : 'Check Out Details'
+          }
+        >
           <CheckDetails showModal={showModal} setShowModal={setShowModal} />
         </ModalBox>
       )}
@@ -324,6 +333,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
+
                     width: '100%',
                   }}
                 >
@@ -335,17 +345,15 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                     Checked In Clients
                   </h2>
-                  <CustomButton
-                    style={{
-                      backgroundColor: '#0364FF',
-                      color: '#fff',
-                      marginLeft: 'auto',
-                      width: '163px',
-                    }}
+
+                  <GlobalCustomButton
+                    text={pageView === 'checkin' ? 'Check Out' : 'Check In'}
                     onClick={() => setPageView('checkout')}
-                  >
-                    {pageView === 'checkin' ? 'Check Out' : 'Check In'}
-                  </CustomButton>
+                    customStyles={{
+                      float: 'right',
+                      marginLeft: 'auto',
+                    }}
+                  />
                 </div>
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
@@ -768,17 +776,14 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
                     Checked Out Clients
                   </h2>
-                  <CustomButton
-                    style={{
-                      backgroundColor: '#0364FF',
-                      color: '#fff',
-                      marginLeft: 'auto',
-                      width: '163px',
-                    }}
+                  <GlobalCustomButton
+                    text={pageView === 'checkin' ? 'Check Out' : 'Check In'}
                     onClick={() => setPageView('checkin')}
-                  >
-                    {pageView === 'checkin' ? 'Check In' : 'Check In'}
-                  </CustomButton>
+                    customStyles={{
+                      float: 'right',
+                      marginLeft: 'auto',
+                    }}
+                  />
                 </div>
               </TableMenu>
               <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
@@ -834,255 +839,120 @@ export function CheckDetails({ showModal, setShowModal }) {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <ModalHeader text={'Client Details'} />
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'right',
+        }}
+        mb={2}
+      >
+        {/* <GlobalCustomButton
+          onClick={handleEdit}
+          text="Edit Appointment Details"
+          customStyles={{
+            marginRight: '5px',
+          }}
+        /> */}
+      </Box>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input label="First Name" value={Client?.firstname} disabled />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <MdCancel
-            onClick={() => {
-              setShowModal(false),
-                setState((prevstate) => ({
-                  ...prevstate,
-                  AppointmentModule: {
-                    selectedAppointment: {},
-                    show: 'list',
-                  },
-                }));
-            }}
-            style={{
-              fontSize: '2rem',
-              color: 'crimson',
-              cursor: 'pointer',
-              float: 'right',
-            }}
+        <Grid item xs={12} md={4}>
+          <Input label="Middle Name" value={Client?.middlename} disabled />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Input label="Last Name" value={Client?.lastname} disabled />
+        </Grid>
+      </Grid>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Age"
+            value={formatDistanceToNowStrict(new Date(Client.dob))}
+            disabled
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            First Name:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client?.firstname}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input label="Gender" value={Client.gender} disabled />
         </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Middle Name:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client?.middlename}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Last Name:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client?.lastname}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input label="Phone Number" value={Client?.phone} disabled />
         </Grid>
       </Grid>
-
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Age:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {formatDistanceToNowStrict(new Date(Client.dob))}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Gender:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.gender}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Phone No:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.phone}
-          </span>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={2} mb={2}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Email:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.email}
-          </span>
+      <Grid container spacing={1} my={1}>
+        <Grid item xs={12} md={4}>
+          <Input label="Email" value={Client?.email} disabled />
         </Grid>
       </Grid>
       <hr />
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Start Time:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
-          </span>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Start Date"
+            value={format(new Date(Client.start_time), 'dd/MM/yyyy HH:mm')}
+            disabled
+          />
         </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Location:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {`${Client.location_name} (${Client.location_type})`}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input label="Location" value={Client?.location_name} disabled />
         </Grid>
-
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Professional:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Professional"
+            value={`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
+            disabled
+          />
         </Grid>
       </Grid>
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Appointment Status:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.appointment_status}
-          </span>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Appointment Status"
+            value={Client?.appointment_status}
+            disabled
+          />
         </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Appointment Class:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.appointmentClass}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Appointment Class"
+            value={Client?.appointmentClass}
+            disabled
+          />
         </Grid>
-
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Appointment Type:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.appointment_type}
-          </span>
+        <Grid item xs={12} md={4}>
+          <Input
+            label="Appointment Type"
+            value={Client?.appointment_type}
+            disabled
+          />
         </Grid>
       </Grid>
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={3} md={12}>
-          <span
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} md={12}>
+          <label className="label" htmlFor="appointment_reason">
+            Reason for Appointment
+          </label>
+          <textarea
+            className="input is-small"
+            name="appointment_reason"
+            value={Client?.appointment_reason}
+            disabled
+            type="text"
+            placeholder="Appointment Reason"
+            rows="3"
+            cols="50"
             style={{
-              color: ' #0364FF',
-              fontSize: '16px',
-              marginRight: '.8rem',
-            }}
-          >
-            Reason for Appointment:
-          </span>
-          <span style={{ color: ' #000000', fontSize: '16px' }}>
-            {Client.appointment_reason}
-          </span>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={4}>
-        <Grid item xs={12} sm={3} md={4}>
-          <Button
-            onClick={handleEdit}
-            style={{
+              border: '1px solid #b6b6b6',
+              borderRadius: '4px',
+              color: ' #979DAC',
               width: '100%',
-              backgroundColor: '#17935C',
-              fontSize: '18px',
             }}
           >
-            Edit Appointment Details
-          </Button>
+            {' '}
+          </textarea>
         </Grid>
       </Grid>
     </>
