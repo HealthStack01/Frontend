@@ -641,6 +641,7 @@ export function CollectionList({openAccountModal}) {
       selector: row => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Date",

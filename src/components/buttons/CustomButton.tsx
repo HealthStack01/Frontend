@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
+import Spinner from "../spinner";
+
 interface componentProps {
   text?: string;
   onClick: () => void;
@@ -21,8 +23,10 @@ interface componentProps {
   style: React.CSSProperties;
   MuiIcon?: React.ReactElement<SvgIconProps>;
   iconPosition?: string;
+  children?: React.ReactNode;
   disabled?: boolean;
-  children: React.ReactNode;
+  loading?: boolean;
+  type?: string;
 }
 
 const GlobalCustomButton = ({
@@ -37,6 +41,8 @@ const GlobalCustomButton = ({
   children,
   sx,
   style,
+  type,
+  loading,
 }: componentProps) => {
   if (text)
     return (
@@ -70,7 +76,7 @@ const GlobalCustomButton = ({
       }}
       disabled={disabled}
     >
-      {children}
+      {loading ? <Spinner /> : <>{children}</>}
     </Button>
   );
 };
@@ -80,6 +86,7 @@ GlobalCustomButton.defaultProps = {
   size: 'small',
   color: 'primary',
   disabled: false,
+  loading: false,
 };
 
 export default GlobalCustomButton;

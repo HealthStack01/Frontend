@@ -1,16 +1,16 @@
-import React from 'react';
-import { Circles } from 'react-loader-spinner';
+import React from "react";
+import {Circles} from "react-loader-spinner";
 
 const Spinner = () => {
   return (
     <div>
       <Circles
-        height='24'
-        width='24'
-        color='#fff'
-        ariaLabel='circles-loading'
+        height="22"
+        width="22"
+        color="#fff"
+        ariaLabel="circles-loading"
         wrapperStyle={{}}
-        wrapperClass=''
+        wrapperClass=""
         visible={true}
       />
     </div>
