@@ -651,8 +651,8 @@ export default function BillPrescriptionCreate({closeModal}) {
   ];
   return (
     <>
-      <Box container sx={{width: "100%"}}>
-        <Grid container spacing={1}>
+      <Box container sx={{width: "100%", height: "100%"}}>
+        <Grid container spacing={1} sx={{height: "calc(100% - 35px)"}}>
           <Grid item lg={6} md={12} sm={12}>
             <Box
               sx={{
@@ -889,12 +889,22 @@ export default function BillPrescriptionCreate({closeModal}) {
           </Grid>
         </Grid>
 
-        <Box>
+        <Box
+          mt={1}
+          sx={{width: "100%", display: "flex", justifyContent: "flex-end"}}
+        >
+          <GlobalCustomButton
+            onClick={closeModal}
+            //variant="outlined"
+            color="error"
+          >
+            Cancel
+          </GlobalCustomButton>
+
           <GlobalCustomButton
             disabled={!productItem.length > 0}
             onClick={handleMedicationDone}
-            variant="contained"
-            sx={{marginTop: "10px"}}
+            sx={{marginLeft: "10px"}}
           >
             Done
           </GlobalCustomButton>

@@ -53,7 +53,7 @@ const MuiCustomDatePicker = ({
                 error={error ? true : false}
                 sx={{
                   width: "100%",
-                  // fontSize: "0.8rem",
+                  fontSize: "0.8rem",
                   height: "40px",
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "black",

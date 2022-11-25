@@ -31,6 +31,8 @@ import LeadsCreate from "./components/lead/LeadCreate";
 import LeadAssignStaff from "./components/lead/AssignTask";
 import LeadDetail from "./components/lead/LeadDetailView";
 import OldLeadDetail from "./components/lead/LeadDetail";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -407,11 +409,13 @@ export function LeadList({openCreateModal, openDetailModal}) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
-                    label="Add new "
-                    onClick={openCreateModal}
-                  />
+                  <GlobalCustomButton onClick={openCreateModal}>
+                    <AddCircleOutline
+                      fontSize="small"
+                      sx={{marginRight: "5px"}}
+                    />
+                    Create Lead
+                  </GlobalCustomButton>
                 )}
               </TableMenu>
               <div style={{width: "100%", height: "600px", overflow: "auto"}}>

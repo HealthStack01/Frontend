@@ -11,8 +11,7 @@ import CategorySearch from "../helpers/CategorySearch";
 import CustomTable from "../../components/customtable";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
-import Button from "./ui-components/buttons/Button";
-import FilterMenu from "./ui-components/utilities/FilterMenu";
+import FilterMenu from "../../components/utilities/FilterMenu";
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 
@@ -981,6 +980,7 @@ export function ServicesDetail({openModifyModal, closeModal}) {
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
+      width: "80px",
 
       sortable: true,
       required: true,

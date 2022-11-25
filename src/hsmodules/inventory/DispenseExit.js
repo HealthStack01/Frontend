@@ -5,11 +5,36 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {ProductCreate} from "./Products";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
+
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
+import moment from "moment";
+import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+
+const filter = createFilterOptions();
+
+import TextField from "@mui/material/TextField";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import {
+  Box,
+  Grid,
+  Button as MuiButton,
+  Divider,
+  Typography,
+} from "@mui/material";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function ProductEntry() {
   const {state} = useContext(ObjectContext); //,setState
@@ -38,7 +63,7 @@ export default function ProductEntry() {
   );
 }
 
-export function ProductExitCreate() {
+export function ProductExitCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -73,8 +98,7 @@ export function ProductExitCreate() {
   let calcamount1;
   let hidestatus;
 
-  let medication = state.financeModule.selectedFinance;
-  console.log("medication", medication);
+  //console.log("medication", medication);
 
   const [productEntry, setProductEntry] = useState({
     productitems: [],
@@ -255,23 +279,13 @@ export function ProductExitCreate() {
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast({
-        message: "You can not remove inventory from any organization",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You can not remove inventory from any organization");
       return;
     }
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-      toast({
-        message: "You need to select a store before removing inventory",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error("You need to select a store before removing inventory");
       return;
     }
     console.log("b4 create", productEntry);
@@ -281,12 +295,7 @@ export function ProductExitCreate() {
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
         setSuccess(true);
-        toast({
-          message: "ProductExit created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success("ProductExit created succesfully");
         setSuccess(false);
         setProductItem([]);
         const today = new Date().toLocaleString();
@@ -297,12 +306,7 @@ export function ProductExitCreate() {
         setType("Sales");
       })
       .catch(err => {
-        toast({
-          message: "Error creating ProductExit " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(`Error creating ProductExit ${err}`);
       });
   };
 
@@ -328,6 +332,9 @@ export function ProductExitCreate() {
     return () => {};
   }, [quantity]);
 
+  let medication = state.financeModule.selectedFinance;
+  const dispenseProducts = state.financeModule.selectedBills;
+
   useEffect(() => {
     if (!!medication) {
       const oldname =
@@ -340,6 +347,18 @@ export function ProductExitCreate() {
           " " +
           medication.participantInfo.client.lastname
       );
+
+      const updatedDispenseProducts = dispenseProducts.map(item => {
+        let newItem = item;
+        newItem.serviceInfo.sellingprice = newItem.serviceInfo.price;
+        newItem.serviceInfo.billinfo = {
+          billid: newItem._id,
+          bill_status: newItem.billing_status,
+          orderId: newItem.orderInfo.orderId,
+        };
+
+        return newItem.serviceInfo;
+      });
 
       const newname = source;
       // console.log("newname",newname)
@@ -366,7 +385,8 @@ export function ProductExitCreate() {
           orderId: medication.orderInfo.orderId,
         };
 
-        setProductItem(prevProd => prevProd.concat(medication.serviceInfo));
+        setProductItem(prevProd => prevProd.concat(updatedDispenseProducts));
+        //console.log(state.financeModule.selectedBills);
       } else {
         if (productItem.length > 0) {
           setProductItem(prevProd =>
@@ -398,281 +418,275 @@ export function ProductExitCreate() {
     return () => {};
   }, [productItem]);
 
+  const productCreateSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      width: "70px",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "QTY",
+      width: "70px",
+      key: "quanity",
+      description: "Enter quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      center: true,
+    },
+
+    {
+      name: "Unit",
+      key: "baseunit",
+      description: "Base Unit",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Selling Price",
+      key: "costprice",
+      description: "Enter cost price",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Actions",
+      key: "costprice",
+      description: "costprice",
+      selector: (row, i) => (
+        <p
+          style={{color: "red", fontSize: "0.75rem"}}
+          onClick={() => removeEntity(row, i)}
+        >
+          Remove
+        </p>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">
-            Point of Sale: Sales, Dispense, Audit, Transfer out
-          </p>
-        </div>
-        <div className="card-content ">
-          <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small">
-                      <select
-                        name="type"
-                        value={type}
-                        onChange={handleChangeType}
-                        className="selectadd"
-                      >
-                        <option value="">Choose Type </option>
-                        <option value="Sales">Sales </option>
-                        <option value="In-house">In-House </option>
-                        <option value="Dispense">Dispense</option>
-                        <option value="Audit">Audit</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={source}
-                      name="client"
-                      type="text"
-                      onChange={e => setSource(e.target.value)}
-                      placeholder="Client"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>{" "}
-            {/* horizontal end */}
-            {/*  <div className="field">
-                <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                    <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
-                    <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                    </span>
-                </p>
-            </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={date}
-                      name="date"
-                      type="text"
-                      onChange={e => setDate(e.target.value)}
-                      placeholder="Date"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("input_name")} */ name="documentNo"
-                      value={documentNo}
-                      type="text"
-                      onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={
-                        totalamount
-                      }
-                      name="totalamount"
-                      type="text"
-                      onChange={e => setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
+      <Box
+        sx={{
+          width: "90vw",
+          maxHeight: "80vh",
+        }}
+      >
+        <Box container>
+          <Grid container spacing={1}>
+            <Grid item lg={6} md={6} sm={12}>
+              <Box sx={{height: "40px"}} mb={1}>
+                <FormsHeaderText text="Product Detail" />
+              </Box>
 
-          {/* array of ProductEntry items */}
-
-          <label className="label is-small">Add Product Items:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <InventorySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
-                />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                      productId
-                    }
-                    name="productId"
+              <Grid container spacing={1}>
+                <Grid item xs={8}>
+                  <Input
+                    /* ref={register({ required: true })} */
+                    value={source}
+                    name="client"
                     type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
+                    onChange={e => setSource(e.target.value)}
+                    label="Client"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-                {sellingprice && "N"}
-                {sellingprice} {sellingprice && "per"} {baseunit} {invquantity}{" "}
-                {sellingprice && "remaining"}
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="quantity"
+                </Grid>
+                <Grid item xs={4}>
+                  <CustomSelect
+                    defaultValue={type}
+                    name="type"
+                    options={["Sales", "In-house", "Dispense", "Audit"]}
+                    onChange={handleChangeType}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Input
+                    label="Date"
+                    value={date}
+                    name="date"
+                    type="text"
+                    onChange={e => setDate(e.target.value)}
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Input
+                    name="documentNo"
+                    value={documentNo}
+                    type="text"
+                    onChange={e => setDocumentNo(e.target.value)}
+                    label="Invoice Number"
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Input
+                    value={totalamount}
+                    name="totalamount"
+                    type="text"
+                    onChange={async e => await setTotalamount(e.target.value)}
+                    label="Total Amount"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item lg={6} md={6} sm={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  height: "40px",
+                }}
+                mb={1}
+              >
+                <FormsHeaderText text="Add Product Items" />
+
+                <GlobalCustomButton onClick={handleClickProd}>
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add
+                </GlobalCustomButton>
+              </Box>
+
+              <Grid container spacing={1}>
+                <Grid item xs={7}>
+                  <Box>
+                    <>
+                      <InventorySearch
+                        getSearchfacility={getSearchfacility}
+                        clear={success}
+                      />
+                      <input
+                        className="input is-small"
+                        /* ref={register ({ required: true }) }  */ /* add array no */
+                        value={productId}
+                        name="productId"
+                        type="text"
+                        onChange={e => setProductId(e.target.value)}
+                        placeholder="Product Id"
+                        style={{display: "none"}}
+                      />
+                    </>
+
+                    <Typography style={{fontSize: "0.75rem"}}>
+                      {sellingprice && "N"}
+                      {sellingprice} {sellingprice && "per"} {baseunit}
+                      {invquantity} {sellingprice && "remaining"}
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={2}>
+                  <Input
+                    /* ref={register({ required: true })} */
+                    name="quantity"
                     value={quantity}
                     type="text"
                     onChange={e => handleQtty(e)}
-                    placeholder="Quantity"
+                    label="Quantity"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                </p>
-                <label>{baseunit}</label>
-              </div>
-              <div className="field">
-                <label>Amount:</label>
-                {/* <p>{quantity*sellingprice}</p> */}
-              </div>
-              <div className="field" style={{width: "40%"}}>
-                <p
-                  className="control has-icons-left " /* style={{display:"none"}} */
-                >
-                  <input
-                    className="input is-small"
-                    name="qamount"
-                    disabled={changeAmount}
-                    value={calcamount}
-                    type="text"
-                    onChange={async e => await setCalcAmount(e.target.value)}
-                    placeholder="Amount"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-dollar-sign"></i>
-                  </span>
-                </p>
-                <button
-                  className="button is-small is-success btnheight"
-                  onClick={handleChangeAmount}
-                >
-                  Adjust
-                </button>
-              </div>
-              <div className="field">
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
+                </Grid>
 
-          {productItem.length > 0 && (
-            <div>
-              <label>Product Items:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Quanitity</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Document No">Unit</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Selling Price</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Amount</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.name}</td>
-                      <th>{ProductEntry.quantity}</th>
-                      <td>{ProductEntry.baseunit}</td>
-                      <td>{ProductEntry.sellingprice}</td>
-                      <td>{ProductEntry.amount}</td>
-                      <td>
-                        <span className="showAction">x</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="field mt-2 is-grouped">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
-                  >
-                    Sell
-                  </button>
-                </p>
-                <p className="control">
-                  <button
-                    className="button is-warning is-small"
-                    disabled={!productItem.length > 0} /* onClick={onSubmit} */
-                  >
-                    Clear
-                  </button>
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+                <Grid item xs={3}>
+                  <Box container>
+                    <Input
+                      /* ref={register({ required: true })} */
+                      name="qamount"
+                      disabled={changeAmount}
+                      value={calcamount}
+                      type="text"
+                      onChange={async e => await setCalcAmount(e.target.value)}
+                      label="Amount"
+                    />
+                    <GlobalCustomButton
+                      onClick={handleChangeAmount}
+                      sx={{marginTop: "5px"}}
+                    >
+                      Adjust Amount
+                    </GlobalCustomButton>
+                  </Box>
+                </Grid>
+              </Grid>
+
+              {productItem.length > 0 && (
+                <Box sx={{width: "100%"}} mt={1}>
+                  <CustomTable
+                    title={""}
+                    columns={productCreateSchema}
+                    data={productItem}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  />
+                </Box>
+              )}
+            </Grid>
+          </Grid>
+        </Box>
+
+        <Box
+          container
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+          mt={2}
+        >
+          <GlobalCustomButton
+            disabled={!productItem.length > 0}
+            onClick={onSubmit}
+            sx={{
+              marginRight: "15px",
+            }}
+          >
+            Complete sale
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
+            variant="outlined"
+            color="error"
+            onClick={closeModal}
+          >
+            Cancel
+          </GlobalCustomButton>
+        </Box>
+      </Box>
     </>
   );
 }
@@ -1584,6 +1598,7 @@ export function InventorySearch({getSearchfacility, clear}) {
     setProductModal(false);
     handleSearch(val);
   };
+
   useEffect(() => {
     if (clear) {
       console.log("success has changed", clear);
@@ -1591,69 +1606,98 @@ export function InventorySearch({getSearchfacility, clear}) {
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
-          >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
-              <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
-                  >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
-                  </div>
-                )}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+        }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
 
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <div>
-                      <span>{facility.name}</span>
-                    </div>
-                    <div>
-                      <span>
-                        <strong>{facility.quantity}</strong>
-                      </span>
-                      <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
-                        <strong>Price:</strong> N{facility.sellingprice}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              name: `"${params.inputValue} is not in your inventory"`,
+            });
+          }
+
+          return filtered;
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          // e.g value selected with enter, right from the input
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        renderOption={(props, option) => (
+          <div
+            {...props}
+            style={{
+              fontSize: "0.75rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderBottom: "1px solid gray",
+            }}
+          >
+            <div style={{marginBottom: "5px"}}>
+              <span>{option.name}</span>
+            </div>
+
+            <div style={{display: "flex"}}>
+              <div style={{marginRight: "10px"}}>
+                <span>
+                  <strong>{option.quantity} </strong>
+                </span>
+                <span>{option.baseunit}(s) remaining</span>
+              </div>
+              <div>
+                <span className="padleft">
+                  <strong>Price:</strong> N{option.sellingprice}
+                </span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        )}
+        sx={{width: "100%"}}
+        freeSolo
+        renderInput={params => (
+          <TextField
+            {...params}
+            label="Search for Products"
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem !important",
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
+      />
+
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Choose Store"
+      >
+        <ProductCreate />
+      </ModalBox>
+      {/* 
       <div className={`modal ${productModal ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-card">
@@ -1666,15 +1710,10 @@ export function InventorySearch({getSearchfacility, clear}) {
             ></button>
           </header>
           <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
             <ProductCreate />
           </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

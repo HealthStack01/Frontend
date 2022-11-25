@@ -80,19 +80,10 @@ export default function TheatreBillOrder() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "70vw",
-            height: "60vh",
+            width: "85vw",
+            maxHeight: "80vh",
           }}
         >
-          <Box
-            item
-            sx={{
-              width: "calc(100% - 340px)",
-            }}
-          >
-            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
-          </Box>
-
           <Box
             item
             sx={{
@@ -100,6 +91,14 @@ export default function TheatreBillOrder() {
             }}
           >
             <PatientProfile />
+          </Box>
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 340px)",
+            }}
+          >
+            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
           </Box>
         </Box>
       </ModalBox>
@@ -287,6 +286,7 @@ export function BillPrescriptionList({showCreateModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Name",

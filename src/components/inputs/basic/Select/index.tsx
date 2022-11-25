@@ -33,12 +33,13 @@ const CustomSelect: React.FC<SelectProps> = ({
 
   return (
     <FormControl
-      disabled={readonly}
+      disabled={disabled || readonly}
       size="small"
       sx={{
         width: "100%",
       }}
     >
+      <InputLabel>{label}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"

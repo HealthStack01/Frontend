@@ -19,9 +19,8 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
-import AutoCompleteBox from "./ui-components/inputs/AutoComplete";
 import Input from "../../components/inputs/basic/Input";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 import Grow from "@mui/material/Grow";
 import Card from "@mui/material/Card";
 

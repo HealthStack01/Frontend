@@ -1,28 +1,32 @@
-import React from 'react';
-import { Button } from '@mui/material';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import React from "react";
+import {Button} from "@mui/material";
+import {SvgIconProps} from "@material-ui/core/SvgIcon";
+
+import Spinner from "../spinner";
 
 interface componentProps {
   text?: string;
-  onClick: () => void;
-  variant?: 'contained' | 'text' | 'outlined';
-  size?: 'small' | 'medium' | 'large';
+  onClick?: () => void;
+  variant?: "contained" | "text" | "outlined";
+  size?: "small" | "medium" | "large";
   color?:
-    | 'inherit'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'info'
-    | 'warning';
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "info"
+    | "warning";
   bgColor?: string;
   customStyles?: React.CSSProperties;
-  sx?: React.CSSProperties;
-  style: React.CSSProperties;
+  sx?: any;
+  style?: React.CSSProperties;
   MuiIcon?: React.ReactElement<SvgIconProps>;
   iconPosition?: string;
+  children?: React.ReactNode;
   disabled?: boolean;
-  children: React.ReactNode;
+  loading?: boolean;
+  type?: string;
 }
 
 const GlobalCustomButton = ({
@@ -37,6 +41,8 @@ const GlobalCustomButton = ({
   children,
   sx,
   style,
+  type,
+  loading,
 }: componentProps) => {
   if (text)
     return (
@@ -46,7 +52,7 @@ const GlobalCustomButton = ({
         color={color}
         onClick={onClick}
         sx={{
-          textTransform: 'capitalize',
+          textTransform: "capitalize",
           ...customStyles,
           ...sx,
           ...style,
@@ -63,23 +69,24 @@ const GlobalCustomButton = ({
       color={color}
       onClick={onClick}
       sx={{
-        textTransform: 'capitalize',
+        textTransform: "capitalize",
         ...customStyles,
         ...sx,
         ...style,
       }}
       disabled={disabled}
     >
-      {children}
+      {loading ? <Spinner /> : <>{children}</>}
     </Button>
   );
 };
 
 GlobalCustomButton.defaultProps = {
-  variant: 'contained',
-  size: 'small',
-  color: 'primary',
+  variant: "contained",
+  size: "small",
+  color: "primary",
   disabled: false,
+  loading: false,
 };
 
 export default GlobalCustomButton;
