@@ -1,17 +1,10 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import {} from 'react-router-dom'; //Route, Switch,Link, NavLink,
 import client from '../../feathers';
-import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { formatDistanceToNowStrict, format } from 'date-fns';
-import ClientFinInfo from './ClientFinInfo';
-import BillServiceCreate from '../Finance/BillServiceCreate';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import ClientBilledPrescription from '../Finance/ClientBill';
-import ClientGroup from './ClientGroup';
+import { toast, ToastContainer } from 'react-toastify';
 import CustomTable from '../../components/customtable';
 import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
 import { PageWrapper } from '../../ui/styled/styles';
@@ -22,16 +15,10 @@ import moment from 'moment';
 import ModalBox from '../../components/modal/';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import { Box, Grid, Typography } from '@mui/material';
-import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
-import { McText } from './text';
 import Input from '../../components/inputs/basic/Input/index';
-import ToggleButton from '../../components/toggleButton';
-import RadioButton from '../../components/inputs/basic/Radio';
 import BasicDatePicker from '../../components/inputs/Date';
-import BasicDateTimePicker from '../../components/inputs/DateTime';
 import CustomSelect from '../../components/inputs/basic/Select';
-import Textarea from '../../components/inputs/basic/Textarea';
-import { MdCancel, MdAddCircle } from 'react-icons/md';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   EnrolleSchema,
   EnrolleSchema2,
@@ -39,12 +26,7 @@ import {
   principalData,
 } from './schema';
 import ClientForm from '../Client/ClientForm';
-import {
-  BottomWrapper,
-  GridWrapper,
-  HeadWrapper,
-  ViewBox,
-} from '../app/styles';
+import { HeadWrapper } from '../app/styles';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Provider, { OrganizationCreate, ProviderList } from './Providers';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -54,6 +36,10 @@ import { FormsHeaderText } from '../../components/texts';
 import { G } from '@react-pdf/renderer';
 import Claims from './Claims';
 import PremiumPayment from './PremiumPayment';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import { createClientSchema } from '../Client/schema';
+import SaveIcon from '@mui/icons-material/Save';
 
 var random = require('random-string-generator');
 // eslint-disable-next-line
@@ -65,6 +51,7 @@ export default function Policy() {
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(0);
   const [showModal2, setShowModal2] = useState(false);
+  const [loading, setLoading] = useState(false);
   return (
     <section className="section remPadTop">
       <PolicyList showModal={showModal} setShowModal={setShowModal} />
@@ -87,7 +74,37 @@ export default function Policy() {
       )}
       {showModal === 2 && (
         <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <PolicyDetail />
+          <Grid container>
+            <Grid item md={6}>
+              <PolicyDetail />
+            </Grid>
+            <Grid item md={6}>
+              <FormsHeaderText text="Principal Details" />
+              <CustomTable
+                title={''}
+                columns={EnrolleSchema3}
+                data={principalData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={() => {}}
+                progressPending={loading}
+              />
+              <FormsHeaderText text="Dependant Details" />
+              <CustomTable
+                title={''}
+                columns={EnrolleSchema3}
+                data={principalData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={() => {}}
+                progressPending={loading}
+              />
+              <FormsHeaderText text="Provider List" />
+              <Provider standAlone />
+            </Grid>
+          </Grid>
         </ModalBox>
       )}
     </section>
@@ -1017,7 +1034,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
         style={{
           height: 'auto',
           overflowY: 'scroll',
-          width: '30vw',
+          width: '70vw',
           margin: '0 auto',
         }}
       >
@@ -1025,41 +1042,43 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
           <ModalHeader text={'Policy'} />
 
           <Grid container spacing={2} mt={2}>
-            <Grid item md={12}>
-              <select
-                name="sponsortype"
-                {...register('sponsortype', { required: true })}
-                onChange={(e) => handleChangeMode(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Sponsor </option>
-                <option value="Self">Self</option>
-                <option value="Company">Company</option>
-              </select>
+            <Grid item md={12} sx={{ display: 'flex' }}>
+              <Box style={{ marginRight: '1rem', fontSize: '.8rem' }}>
+                <input
+                  type="radio"
+                  name="sponsortype"
+                  {...register('sponsortype', { required: true })}
+                  value="Self"
+                  onChange={(e) => handleChangeMode(e.target.value)}
+                />
+                <label>Self</label>
+              </Box>
+              <Box style={{ fontSize: '.8rem' }}>
+                <input
+                  type="radio"
+                  name="sponsortype"
+                  {...register('sponsortype', { required: true })}
+                  value="Company"
+                  onChange={(e) => handleChangeMode(e.target.value)}
+                />
+                <label>Company</label>
+              </Box>
             </Grid>
-
-            <Grid item md={12}>
-              {showCorp && (
+            {showCorp && (
+              <Grid item md={6}>
                 <SponsorSearch
                   getSearchfacility={getSearchfacility1}
                   clear={success}
                 />
-              )}
-            </Grid>
-            <Grid item md={12}>
+              </Grid>
+            )}
+            <Grid item md={6}>
               <OrgFacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
             </Grid>
-            <Grid item md={12}>
+            <Grid item md={6}>
               <select
                 name="plan"
                 {...register('plan', { required: true })}
@@ -1082,55 +1101,43 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
                 ))}
               </select>
             </Grid>
-            <Grid item md={12}>
+            <Grid item md={6}>
               <Input value={price.price} disabled label="Price" />
             </Grid>
           </Grid>
-          <p style={{ display: 'flex' }}>
-            Add Provider
-            <button
-              onClick={() => setCreateOrg(true)}
-              style={{
-                border: 'none',
-                backgroundColor: '#E8F1FF',
-                padding: ' .5rem 1rem',
-                marginLeft: '.5rem',
-                cursor: 'pointer',
-              }}
-            >
-              +
-            </button>
-          </p>
-          <p style={{ display: 'flex' }}>
-            Add Principal
-            <button
-              onClick={handleClickProd}
-              style={{
-                border: 'none',
-                backgroundColor: '#E8F1FF',
-                padding: ' .5rem 1rem',
-                marginLeft: '.5rem',
-                cursor: 'pointer',
-              }}
-            >
-              +
-            </button>
-          </p>
-          <p>
-            Add Dependant
-            <button
-              onClick={handleClickProd2}
-              style={{
-                border: 'none',
-                backgroundColor: '#E8F1FF',
-                padding: ' .5rem 1rem',
-                marginLeft: '.5rem',
-                cursor: 'pointer',
-              }}
-            >
-              +
-            </button>
-          </p>
+          <Box sx={{ float: 'right' }}>
+            <p>
+              Add Principal
+              <button
+                onClick={handleClickProd}
+                style={{
+                  border: 'none',
+                  backgroundColor: '#E8F1FF',
+                  padding: ' .5rem 1rem',
+                  marginLeft: '.5rem',
+                  cursor: 'pointer',
+                }}
+              >
+                +
+              </button>
+            </p>
+
+            <p>
+              Add Dependant
+              <button
+                onClick={handleClickProd2}
+                style={{
+                  border: 'none',
+                  backgroundColor: '#E8F1FF',
+                  padding: ' .5rem 1rem',
+                  marginLeft: '.5rem',
+                  cursor: 'pointer',
+                }}
+              >
+                +
+              </button>
+            </p>
+          </Box>
           {!!state.Beneficiary?.principal._id && (
             <CustomTable
               title={''}
@@ -1160,6 +1167,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             variant="contained"
             size="small"
             color="primary"
+            style={{ marginTop: '1rem' }}
           >
             {' '}
             Save{' '}
@@ -1178,7 +1186,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
 }
 
 export function ClientCreate({ closeModal }) {
-  const { register, handleSubmit, setValue, getValues, reset } = useForm(); //, watch, errors, reset
+  //, watch, errors, reset
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1190,15 +1198,39 @@ export function ClientCreate({ closeModal }) {
   const ClientServ = client.service('client');
   const mpiServ = client.service('mpi');
   //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
   const [billModal, setBillModal] = useState(false);
   const [patList, setPatList] = useState([]);
   const [dependant, setDependant] = useState(false);
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
   const [date, setDate] = useState();
+  const [loading, setLoading] = useState(false);
   const { state, setState } = useContext(ObjectContext);
   const [showdept, setShowdept] = useState(false);
+  const [isFullRegistration, setFullRegistration] = useState(false);
+  const data = localStorage.getItem('user');
+  const user = JSON.parse(data);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    reset,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm({
+    resolver: yupResolver(createClientSchema),
+
+    defaultValues: {
+      firstname: '',
+      lastname: '',
+      middlename: '',
+      dob: '',
+      phone: '',
+      email: '',
+      facility: user.currentEmployee.facility,
+    },
+  });
 
   // eslint-disable-next-line
   const getSearchfacility = (obj) => {
@@ -1498,155 +1530,418 @@ export function ClientCreate({ closeModal }) {
 
   return (
     <>
-      <div
-        style={{
-          height: '80vh',
-          overflowY: 'scroll',
-          width: '40vw',
-          margin: '0 auto',
-        }}
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Names Section */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <ToastContainer theme="colored" />
 
-          <ViewBox>
-            <h2>Names</h2>
+        {/* Start form */}
+        <PageWrapper>
+          <div>
+            <HeadWrapper>
+              <div>
+                <h2>{`${
+                  isFullRegistration
+                    ? 'Complete Client Registeration'
+                    : 'Quick Client Registeration'
+                }`}</h2>
+                <span>
+                  Create a New client by filling out the form below to get
+                  started.
+                </span>
+              </div>
+              {isFullRegistration ? (
+                <GlobalCustomButton onClick={() => setFullRegistration(false)}>
+                  <ElectricBoltIcon
+                    fontSize="small"
+                    sx={{ marginRight: '5px' }}
+                  />
+                  Quick Registration
+                </GlobalCustomButton>
+              ) : (
+                <GlobalCustomButton onClick={() => setFullRegistration(true)}>
+                  <OpenInFullIcon
+                    fontSize="small"
+                    sx={{ marginRight: '5px' }}
+                  />
+                  Complete Registration
+                </GlobalCustomButton>
+              )}
+            </HeadWrapper>
 
-            <GridWrapper>
-              <Input
-                label="First Name"
-                register={register('firstname')}
-                // errorText={errors?.firstname?.message}
-              />
-              <Input
-                label="Middle Name"
-                register={register('middlename')}
-                // errorText={errors?.middlename?.message}
-              />
-              <Input
-                label="Last Name"
-                register={register('lastname')}
-                // errorText={errors?.lastname?.message}
-              />
-              <BasicDatePicker
-                label="Date of Birth"
-                register={register('dob')}
-                onChange={(date) => handleDate(date)}
-                // errorText={errors?.dob?.message}
-              />
-            </GridWrapper>
-          </ViewBox>
-          {/* Biodata Section */}
+            <ToastContainer theme="colored" />
 
-          <ViewBox>
-            <h2>Biodata</h2>
+            {!isFullRegistration ? (
+              <>
+                <Box sx={{ width: '80vw', maxHeight: '80vh' }}>
+                  <Grid container spacing={1}>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="First Name"
+                        register={register('firstname')}
+                        errorText={errors?.firstname?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Middle Name"
+                        register={register('middlename')}
+                        errorText={errors?.middlename?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Last Name"
+                        register={register('lastname')}
+                        errorText={errors?.lastname?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Phone"
+                        register={register('phone')}
+                        type="tel"
+                        errorText={errors?.phone?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Email"
+                        register={register('email')}
+                        type="email"
+                        errorText={errors?.email?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <BasicDatePicker
+                        label="dob"
+                        register={register('dob')}
+                        errorText={errors?.dob?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Gender"
+                        register={register('gender', { required: true })}
+                        options={[
+                          { label: 'Male', value: 'Male' },
+                          { label: 'Female', value: 'Memale' },
+                        ]}
+                        errorText={errors?.gender?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <CustomSelect
+                        label="Marital Status"
+                        register={register('maritalstatus')}
+                        options={[
+                          { label: 'Single', value: 'Single' },
+                          { label: 'Married', value: 'Married' },
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Residential Address"
+                        register={register('residentialaddress')}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Town"
+                        register={register('town')}
+                        type="text"
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="State"
+                        register={register('state')}
+                        type="text"
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Country"
+                        register={register('country')}
+                        type="text"
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Next of Kin"
+                        register={register('nextofkin')}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6}>
+                      <Input
+                        label="Next of Kin Phone"
+                        register={register('nextofkinphone')}
+                        type="tel"
+                      />
+                    </Grid>
+                  </Grid>
 
-            <GridWrapper>
-              <CustomSelect
-                label="Gender"
-                register={register('gender')}
-                options={[
-                  { label: 'Male', value: 'male' },
-                  { label: 'Female', value: 'female' },
-                ]}
-              />
-              <CustomSelect
-                label="Marital Status"
-                register={register('maritalstatus')}
-                options={[
-                  { label: 'Single', value: 'Single' },
-                  { label: 'Married', value: 'Married' },
-                ]}
-              />
-              <Input label="Medical record Number" register={register('mrn')} />
-              <Input label="Religion" register={register('religion')} />
-              <Input label="Profession" register={register('profession')} />
-              <Input
-                label="Phone No"
-                register={register('phone')}
-                // errorText={errors?.phone?.message}
-              />
-              <Input
-                label="Email"
-                register={register('email')}
-                // errorText={errors?.email?.message}
-              />
-              <Input label="Tags" register={register('clientTags')} />
-            </GridWrapper>
-          </ViewBox>
-          {/* Address */}
-          <ViewBox>
-            <h2>Addresses</h2>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <GlobalCustomButton
+                      color="warning"
+                      onClick={() => closeModal(true)}
+                      sx={{ marginRight: '15px' }}
+                    >
+                      Cancel
+                    </GlobalCustomButton>
 
-            <GridWrapper>
-              <Input
-                label="Residential Address"
-                register={register('address')}
-              />
-              <Input label="Town/City" register={register('city')} />
-              <Input label="Local Govt Area" register={register('lga')} />
-              <Input label="State" register={register('state')} />
-              <Input label="Country" register={register('country')} />
-            </GridWrapper>
-          </ViewBox>
-          {/* Medical Data */}
-          <ViewBox>
-            <h2>Medical Data</h2>
+                    <GlobalCustomButton
+                      type="submit"
+                      loading={loading}
+                      onClick={handleSubmit(onSubmit)}
+                    >
+                      <SaveIcon fontSize="small" sx={{ marginRight: '5px' }} />
+                      Register Client
+                    </GlobalCustomButton>
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box sx={{ width: '80vw', maxHeight: '80vh' }}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Client Names" />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={4}>
+                      <Input
+                        label="First Name"
+                        register={register('firstname')}
+                        errorText={errors?.firstname?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={4}>
+                      <Input
+                        label="Middle Name"
+                        register={register('middlename')}
+                        errorText={errors?.middlename?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={4}>
+                      <Input
+                        label="Last Name"
+                        register={register('lastname')}
+                        errorText={errors?.lastname?.message}
+                      />
+                    </Grid>
+                  </Grid>
 
-            <GridWrapper>
-              <Input label="Blood Group" register={register('bloodgroup')} />
-              <Input label="Genotype" register={register('genotype')} />
-              <Input label="Disabilities" register={register('disabilities')} />
-              <Input label="Allergies" register={register('allergies')} />
-              <Input
-                label="Co-mobidities"
-                register={register('comorbidities')}
-              />
-              <Input
-                label="Specific Details "
-                register={register('specificDetails')}
-              />
-            </GridWrapper>
-          </ViewBox>
-          {/* Next of Kin Information */}
-          <ViewBox>
-            <h2>Next of Kin Information</h2>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Client Biodata" />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <BasicDatePicker
+                        label="Date of Birth"
+                        register={register('dob')}
+                        errorText={errors?.dob?.message}
+                      />
+                    </Grid>
 
-            <GridWrapper>
-              <Input label="Full Name" register={register('nok_name')} />
-              <Input label="Phone Number" register={register('nok_phoneno')} />
-              <Input label=" Email" register={register('nok_email')} />
-              <Input
-                label="Relationship"
-                register={register('nok_relationship')}
-              />
-            </GridWrapper>
-          </ViewBox>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <CustomSelect
+                        label="Gender"
+                        register={register('gender')}
+                        options={[
+                          { label: 'Male', value: 'male' },
+                          { label: 'Female', value: 'female' },
+                        ]}
+                      />
+                    </Grid>
 
-          <BottomWrapper>
-            {/* <Button
-              label="Close"
-              background="#FFE9E9"
-              color="#ED0423"
-              onClick={() => setOpen(false)}
-            />
-            <Button label="Save Form" type="submit" /> */}
-            <GlobalCustomButton
-              text="Close"
-              onClick={() => setOpen(false)}
-              color="error"
-              variant="contained"
-            />
-            <GlobalCustomButton
-              text="Save Form"
-              type="submit"
-              color="primary"
-              variant="contained"
-              onClick={() => handleSubmit(onSubmit)}
-            />
-          </BottomWrapper>
-        </form>
-      </div>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <CustomSelect
+                        label="Marital Status"
+                        register={register('maritalstatus')}
+                        options={[
+                          { label: 'Single', value: 'Single' },
+                          { label: 'Married', value: 'Married' },
+                        ]}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Medical record Number"
+                        register={register('mrn')}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input label="Religion" register={register('religion')} />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Profession"
+                        register={register('profession')}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Phone No"
+                        register={register('phone')}
+                        errorText={errors?.phone?.message}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Email"
+                        register={register('email')}
+                        errorText={errors?.email?.message}
+                      />
+                    </Grid>
+
+                    <Grid item lg={6} md={6} sm={12}>
+                      <Input label="Tags" register={register('clientTags')} />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Client Address" />
+                    </Grid>
+                    <Grid item lg={4} md={6} sm={8}>
+                      <Input
+                        label="Residential Address"
+                        register={register('address')}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={4}>
+                      <Input label="Town/City" register={register('city')} />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={4}>
+                      <Input label="LGA" register={register('lga')} />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={4}>
+                      <Input label="State" register={register('state')} />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={4}>
+                      <Input label="Country" register={register('country')} />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Client Medical Data" />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Blood Group"
+                        register={register('bloodgroup')}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input label="Genotype" register={register('genotype')} />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Disabilities"
+                        register={register('disabilities')}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Allergies"
+                        register={register('allergies')}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Co-mobidities"
+                        register={register('comorbidities')}
+                      />
+                    </Grid>
+
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Specific Details "
+                        register={register('specificDetails')}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <FormsHeaderText text="Client Next of Kin Information" />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Full Name"
+                        register={register('nok_name')}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Phone Number"
+                        register={register('nok_phoneno')}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label=" Email"
+                        register={register('nok_email')}
+                        type="email"
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={4} sm={6}>
+                      <Input
+                        label="Relationship"
+                        register={register('nok_relationship')}
+                      />
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={12}>
+                      <Input
+                        label="Co-mobidities"
+                        register={register('comorbidities')}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <GlobalCustomButton
+                      color="warning"
+                      onClick={() => closeModal(true)}
+                      sx={{ marginRight: '15px' }}
+                    >
+                      Cancel
+                    </GlobalCustomButton>
+
+                    <GlobalCustomButton
+                      type="submit"
+                      loading={loading}
+                      onClick={handleSubmit(onSubmit)}
+                    >
+                      <SaveIcon fontSize="small" sx={{ marginRight: '5px' }} />
+                      Register Client
+                    </GlobalCustomButton>
+                  </Box>
+                </Box>
+              </>
+            )}
+          </div>
+        </PageWrapper>
+      </form>
     </>
   );
 }
@@ -1756,7 +2051,6 @@ export function PolicyDetail({ showModal, setShowModal }) {
         style={{
           height: 'auto',
           overflowY: 'scroll',
-          width: '50vw',
           margin: '0 auto',
         }}
       >
@@ -1783,7 +2077,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
             >
               Details
             </Button>
-            <Button
+            {/* <Button
               onClick={() => setDisplay(2)}
               variant="contained"
               size="small"
@@ -1791,8 +2085,8 @@ export function PolicyDetail({ showModal, setShowModal }) {
               color="success"
             >
               Provider
-            </Button>
-            <Button
+            </Button> */}
+            {/* <Button
               onClick={() => setDisplay(3)}
               variant="contained"
               size="small"
@@ -1809,7 +2103,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
               color="success"
             >
               Dependants
-            </Button>
+            </Button> */}
             <Button
               onClick={() => setDisplay(5)}
               variant="contained"
@@ -1866,7 +2160,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
               </Box>
 
               <Grid container spacing={1}>
-                <Grid item lg={6} md={6} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('policy_no', { required: true })}
                     label="Policy No."
@@ -1874,7 +2168,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item lg={6} md={6} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('phone', { required: true })}
                     label="Phone"
@@ -1883,7 +2177,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item lg={6} md={6} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('start_date', { required: true })}
                     label="Start Date"
@@ -1891,7 +2185,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                     //placeholder="Enter customer number"
                   />
                 </Grid>
-                <Grid item lg={6} md={6} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('end_date', { required: true })}
                     label="End Date"
@@ -1900,7 +2194,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item md={3}>
                   <Input
                     register={register('status', { required: true })}
                     label="Status"
@@ -1909,7 +2203,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item lg={4} md={4} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('policy_type', { required: true })}
                     label="Policy Type"
@@ -1918,7 +2212,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item lg={4} md={4} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('policy_tag', { required: true })}
                     label="Policy Tag"
@@ -1927,7 +2221,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
                   />
                 </Grid>
 
-                <Grid item lg={4} md={4} sm={6}>
+                <Grid item md={3}>
                   <Input
                     register={register('premium', { required: true })}
                     label="Premium"
@@ -1982,7 +2276,6 @@ export function PolicyDetail({ showModal, setShowModal }) {
               </Grid>
             </Box>
           )}
-          {display === 2 && <Provider />}
           {display === 3 && (
             <>
               <CustomTable
