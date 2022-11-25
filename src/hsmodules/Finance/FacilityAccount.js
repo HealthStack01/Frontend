@@ -10,7 +10,6 @@ import {toast} from "bulma-toast";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 

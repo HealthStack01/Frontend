@@ -12,12 +12,37 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 var random = require("random-string-generator");
+import moment from "moment";
+import Input from "../../components/inputs/basic/Input";
+import CustomSelect from "../../components/inputs/basic/Select";
+
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
+
+//import MuiButton from "@mui/material/Button";
+// eslint-disable-next-line
+
+const filter = createFilterOptions();
+
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import {
+  Box,
+  Grid,
+  Button as MuiButton,
+  Divider,
+  Typography,
+} from "@mui/material";
+
+import ProductSearchHelper from "../helpers/ProductSearch";
+import InventorySearchHelper from "../helpers/InventorySearch";
+import {FormsHeaderText} from "../../components/texts";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function InventoryProductExit() {
+export default function PharmacyProductExit() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -50,10 +75,6 @@ export default function InventoryProductExit() {
 
   return (
     <section className="section remPadTop">
-      <ProductExitList
-        showCreateModal={handleCreateModal}
-        showDetailModal={handleShowDetailModal}
-      />
       {/*  <div className="level">
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
             </div> */}
@@ -63,11 +84,19 @@ export default function InventoryProductExit() {
         openDetailModal={handleOpenDetailModal}
       />
 
-      <ModalBox open={createModal} onClose={handleCloseCreateModal}>
-        <ProductExitCreate />
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Point of Sale: Sales, Dispense, Audit, Transfer out"
+      >
+        <ProductExitCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
-      <ModalBox open={detailModal} onClose={handleCloseDetailModal}>
+      <ModalBox
+        open={detailModal}
+        onClose={handleCloseDetailModal}
+        header="Issue Out Details"
+      >
         <ProductExitDetail />
       </ModalBox>
 
@@ -78,7 +107,7 @@ export default function InventoryProductExit() {
   );
 }
 
-export function ProductExitCreate() {
+export function ProductExitCreate({closeModal}) {
   // const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -370,281 +399,291 @@ export function ProductExitCreate() {
 
   const onRowClicked = () => {};
 
+  const productCreateSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Enter Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Quantity",
+      key: "quanity",
+      description: "Enter quantity",
+      selector: row => row.quantity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Unit",
+      key: "baseunit",
+      description: "Base Unit",
+      selector: row => row.baseunit,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Selling Price",
+      key: "costprice",
+      description: "Enter cost price",
+      selector: row => row.sellingprice,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Actions",
+      key: "costprice",
+      description: "costprice",
+      selector: (row, i) => (
+        <p
+          style={{color: "red", fontSize: "0.75rem"}}
+          onClick={() => removeEntity(row, i)}
+        >
+          Remove
+        </p>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const DatePickerCustomInput = React.forwardRef(({value, onClick}, ref) => (
+    <div
+      onClick={onClick}
+      ref={ref}
+      style={{
+        width: "100%",
+        height: "38px",
+        border: "1.5px solid #BBBBBB",
+        borderRadius: "4px",
+        display: "flex",
+        alignItems: "center",
+        margin: "0.75rem 0",
+        fontSize: "0.85rem",
+        padding: "0 15px",
+        color: "#000000",
+        backgroundColor: "#fff",
+      }}
+    >
+      {value === "" ? "Pick Date" : value}
+    </div>
+  ));
+
   return (
     <>
-      <div className="card card-overflow">
-        <div className="card-header">
-          <p className="card-header-title">
-            Point of Sale: Sales, Dispense, Audit, Transfer out
-          </p>
-        </div>
-        <div className="card-content ">
-          <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control">
-                    <div className="select is-small">
-                      <select
-                        name="type"
-                        value={type}
-                        onChange={handleChangeType}
-                        className="selectadd"
-                      >
-                        <option value="">Choose Type </option>
-                        <option value="Sales">Sales </option>
-                        <option value="In-house">In-House </option>
-                        <option value="Dispense">Dispense</option>
-                        <option value="Audit">Audit</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={source}
-                      name="client"
-                      type="text"
-                      onChange={e => setSource(e.target.value)}
-                      placeholder="Client"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>{" "}
-            {/* horizontal end */}
-            {/*  <div className="field">
-                <p className="control has-icons-left"> // Audit/initialization/Purchase Invoice 
-                    <input className="input is-small"  {...register("x",{required: true})} name="type" type="text" placeholder="Type of Product Entry"/>
-                    <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                    </span>
-                </p>
-            </div> */}
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={date}
-                      name="date"
-                      type="text"
-                      onChange={e => setDate(e.target.value)}
-                      placeholder="Date"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("input_name")} */ name="documentNo"
-                      value={documentNo}
-                      type="text"
-                      onChange={e => setDocumentNo(e.target.value)}
-                      placeholder=" Invoice Number"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <input
-                      className="input is-small"
-                      /* {...register("x",{required: true})} */ value={
-                        totalamount
-                      }
-                      name="totalamount"
-                      type="text"
-                      onChange={e => setTotalamount(e.target.value)}
-                      placeholder=" Total Amount"
-                    />
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-coins"></i>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </form>
+      <Box
+        sx={{
+          width: "85vw",
+          maxHeight: "80vh",
+          overflowY: "auto",
+        }}
+      >
+        <Grid container spacing={1}>
+          <Grid item lg={6} md={6} sm={12}>
+            <Box
+              mb={1}
+              sx={{
+                height: "40px",
+              }}
+            >
+              <FormsHeaderText text="Product Exit Detail" />
+            </Box>
 
-          {/* array of ProductEntry items */}
-
-          <label className="label is-small">Add Product Items:</label>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div
-                className="field is-expanded" /* style={ !user.stacker?{display:"none"}:{}} */
-              >
-                <InventorySearch
-                  getSearchfacility={getSearchfacility}
-                  clear={success}
+            <Grid container spacing={1}>
+              <Grid item xs={8}>
+                <Input
+                  /* ref={register({ required: true })} */
+                  value={source}
+                  name="client"
+                  type="text"
+                  onChange={e => setSource(e.target.value)}
+                  label="Client"
                 />
-                <p
-                  className="control has-icons-left "
-                  style={{display: "none"}}
-                >
-                  <input
-                    className="input is-small"
-                    /* ref={register ({ required: true }) }  */ /* add array no */ value={
-                      productId
-                    }
-                    name="productId"
-                    type="text"
-                    onChange={e => setProductId(e.target.value)}
-                    placeholder="Product Id"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas  fa-map-marker-alt"></i>
-                  </span>
-                </p>
-                {sellingprice && "N"}
-                {sellingprice} {sellingprice && "per"} {baseunit} {invquantity}{" "}
-                {sellingprice && "remaining"}
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field" style={{width: "40%"}}>
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    /* {...register("x",{required: true})} */ name="quantity"
-                    value={quantity}
-                    type="text"
-                    onChange={e => handleQtty(e)}
-                    placeholder="Quantity"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hashtag"></i>
-                  </span>
-                </p>
-                <label>{baseunit}</label>
-              </div>
-              <div className="field">
-                <label>Amount:</label>
-                {/* <p>{quantity*sellingprice}</p> */}
-              </div>
-              <div className="field" style={{width: "40%"}}>
-                <p
-                  className="control has-icons-left " /* style={{display:"none"}} */
-                >
-                  <input
-                    className="input is-small"
+              </Grid>
+              <Grid item xs={4}>
+                <CustomSelect
+                  defaultValue={type}
+                  name="type"
+                  options={["Sales", "In-house", "Dispense", "Audit"]}
+                  onChange={handleChangeType}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  label="Date"
+                  value={date}
+                  name="date"
+                  type="text"
+                  onChange={e => setDate(e.target.value)}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  name="documentNo"
+                  value={documentNo}
+                  type="text"
+                  onChange={e => setDocumentNo(e.target.value)}
+                  label="Invoice Number"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  value={totalamount}
+                  name="totalamount"
+                  type="text"
+                  onChange={async e => await setTotalamount(e.target.value)}
+                  label="Total Amount"
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item lg={6} md={6} sm={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                height: "40px",
+              }}
+              mb={1}
+            >
+              <FormsHeaderText text="Add Product Items" />
+
+              <GlobalCustomButton onClick={handleClickProd}>
+                <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add
+              </GlobalCustomButton>
+            </Box>
+
+            <Grid container spacing={1}>
+              <Grid item xs={7}>
+                <Box>
+                  <>
+                    <InventorySearch
+                      getSearchfacility={getSearchfacility}
+                      clear={success}
+                    />
+                    <input
+                      className="input is-small"
+                      /* ref={register ({ required: true }) }  */ /* add array no */
+                      value={productId}
+                      name="productId"
+                      type="text"
+                      onChange={e => setProductId(e.target.value)}
+                      placeholder="Product Id"
+                      style={{display: "none"}}
+                    />
+                  </>
+
+                  <Typography style={{fontSize: "0.75rem"}}>
+                    {sellingprice && "N"}
+                    {sellingprice} {sellingprice && "per"} {baseunit}
+                    {invquantity} {sellingprice && "remaining"}
+                  </Typography>
+                </Box>
+              </Grid>
+
+              <Grid item xs={2}>
+                <Input
+                  /* ref={register({ required: true })} */
+                  name="quantity"
+                  value={quantity}
+                  type="text"
+                  onChange={e => handleQtty(e)}
+                  label="Quantity"
+                />
+              </Grid>
+
+              <Grid item xs={3}>
+                <Box container>
+                  <Input
+                    /* ref={register({ required: true })} */
                     name="qamount"
                     disabled={changeAmount}
                     value={calcamount}
                     type="text"
                     onChange={async e => await setCalcAmount(e.target.value)}
-                    placeholder="Amount"
+                    label="Amount"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-dollar-sign"></i>
-                  </span>
-                </p>
-                <button
-                  className="button is-small is-success btnheight"
-                  onClick={handleChangeAmount}
-                >
-                  Adjust
-                </button>
-              </div>
-              <div className="field">
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right">
-                    <span className="is-small" onClick={handleClickProd}>
-                      {" "}
-                      +
-                    </span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
+                  <GlobalCustomButton
+                    onClick={handleChangeAmount}
+                    sx={{marginTop: "5px"}}
+                  >
+                    Adjust
+                  </GlobalCustomButton>
+                </Box>
+              </Grid>
+            </Grid>
 
-          {productItem.length > 0 && (
-            <div>
-              <label>Product Items:</label>
-              <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Serial No">S/No</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Name</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Type">Quanitity</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Document No">Unit</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Selling Price</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Cost Price">Amount</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Actions">Actions</abbr>
-                    </th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  {productItem.map((ProductEntry, i) => (
-                    <tr key={i}>
-                      <th>{i + 1}</th>
-                      <td>{ProductEntry.name}</td>
-                      <th>{ProductEntry.quantity}</th>
-                      <td>{ProductEntry.baseunit}</td>
-                      <td>{ProductEntry.sellingprice}</td>
-                      <td>{ProductEntry.amount}</td>
-                      <td>
-                        <span className="showAction">x</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="field mt-2 is-grouped">
-                <p className="control">
-                  <button
-                    className="button is-success is-small"
-                    disabled={!productItem.length > 0}
-                    onClick={onSubmit}
-                  >
-                    Sell
-                  </button>
-                </p>
-                <p className="control">
-                  <button
-                    className="button is-warning is-small"
-                    disabled={!productItem.length > 0} /* onClick={onSubmit} */
-                  >
-                    Clear
-                  </button>
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+            {productItem.length > 0 && (
+              <Box sx={{width: "100%"}}>
+                <CustomTable
+                  title={""}
+                  columns={productCreateSchema}
+                  data={productItem}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                />
+              </Box>
+            )}
+          </Grid>
+        </Grid>
+
+        <Box
+          container
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+          mt={2}
+        >
+          <GlobalCustomButton
+            disabled={!productItem.length > 0}
+            onClick={onSubmit}
+            sx={{
+              marginRight: "15px",
+            }}
+          >
+            Add Product(s)
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="error" onClick={closeModal}>
+            Cancel
+          </GlobalCustomButton>
+        </Box>
+      </Box>
     </>
   );
 }
@@ -913,11 +952,13 @@ export function ProductExitList({openDetailModal, openCreateModal}) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={handleCreateNew}
-                />
+                <GlobalCustomButton onClick={handleCreateNew}>
+                  <AddCircleOutline
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Add New
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -1027,232 +1068,67 @@ export function ProductExitDetail() {
 
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">ProductEntry Details</p>
-        </div>
-        <div className="card-content vscrollable">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Type
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.type}{" "}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Supplier:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.source}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Date:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.date}{" "}
-                  </span>
-                </td>
-                <td></td>
-                <td>
-                  <label className="label is-small padleft">
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-map-signs"></i>
-                    </span>
-                    Invoice No:
-                  </label>
-                </td>
+      <Box
+        container
+        sx={{
+          width: "100%",
+          maxHeight: "85vh",
+        }}
+        pt={1}
+      >
+        <Grid container spacing={1} mb={1}>
+          <Grid item xs={8}>
+            <Input value={ProductEntry.source} label="Supplier" disabled />
+          </Grid>
 
-                <td>
-                  <span className="is-size-7 padleft" name="ProductEntryType">
-                    {ProductEntry.documentNo}{" "}
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="label is-small">
-                    {" "}
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-hospital"></i>
-                    </span>
-                    Total Amount:
-                  </label>
-                </td>
-                <td>
-                  <span className="is-size-7 padleft" name="name">
-                    {" "}
-                    {ProductEntry.totalamount}{" "}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Grid item xs={4}>
+            <Input value={ProductEntry.type} label="Type" disabled />
+          </Grid>
+        </Grid>
 
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <p>Product Items</p>
-            <CustomTable
-              title={""}
-              columns={productItemsSchema}
-              data={ProductEntry.productitems}
-              pointerOnHover
-              highlightOnHover
-              striped
-              //onRowClicked={row => onRowClicked(row)}
-              progressPending={false}
+        <Grid container spacing={1} mb={1}>
+          <Grid item xs={4}>
+            <Input
+              value={
+                ProductEntry.date
+                  ? moment(ProductEntry.date).format("YYYY-MM-DD HH:mm:ss")
+                  : "-----"
+              }
+              label="Date"
+              disabled
             />
-          </div>
-          {/* <label className="label is-size-7 mt-2">Product Items:</label>
-          <table className="table is-striped  is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Name</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Quanitity</abbr>
-                </th>
-                <th>
-                  <abbr title="Document No">Unit</abbr>
-                </th>
-                <th>
-                  <abbr title="Selling Price">Selling Price</abbr>
-                </th>
-                <th>
-                  <abbr title="Amount">Amount</abbr>
-                </th>
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {ProductEntry.productitems.map((ProductEntry, i) => (
-                <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td>{ProductEntry.name}</td>
-                  <th>{ProductEntry.quantity}</th>
-                  <td>{ProductEntry.baseunit}</td>
-                  <td>{ProductEntry.sellingprice}</td>
-                  <td>{ProductEntry.amount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
-          {/*   <tr>
-                    <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-map-marker-alt"></i>
-                    </span>Profession: 
-                
-                    
-                    </label>
-                    </td>
-                <td>
-                <span className="is-size-7 padleft "  name="ProductEntryCity">{ProductEntry.profession}</span> 
-                </td>
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>Phone:           
-                    
-                        </label>
-                        </td>
-                        <td>
-                        <span className="is-size-7 padleft "  name="ProductEntryContactPhone" >{ProductEntry.phone}</span>
-                        </td>
-                  </tr>
-                    <tr><td>
-            
-            <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>Email:                     
-                    
-                         </label></td><td>
-                         <span className="is-size-7 padleft "  name="ProductEntryEmail" >{ProductEntry.email}</span>
-                         </td>
-             
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-user-md"></i></span>Department:
-                    
-                    </label></td>
-                    <td>
-                    <span className="is-size-7 padleft "  name="ProductEntryOwner">{ProductEntry.department}</span>
-                    </td>
-               
-                </tr>
-                    <tr>
-            <td>
-            <label className="label is-small"> <span className="icon is-small is-left">
-                    <i className="fas fa-hospital-symbol"></i>
-                    </span>Departmental Unit:              
-                    
-                </label></td>
-                <td>
-                <span className="is-size-7 padleft "  name="ProductEntryType">{ProductEntry.deptunit}</span>
-                </td>
-              
-                </tr> */}
+          </Grid>
 
-          {/*   <div className="field">
-             <label className="label is-small"><span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>Category:              
-                    <span className="is-size-7 padleft "  name= "ProductEntryCategory">{ProductEntry.ProductEntryCategory}</span>
-                </label>
-                 </div> */}
+          <Grid item xs={4}>
+            <Input
+              value={ProductEntry.documentNo}
+              label="Invoice Number"
+              disabled
+            />
+          </Grid>
 
-          {/*  <div className="field mt-2">
-                <p className="control">
-                    <button className="button is-success is-small" onClick={handleEdit}>
-                        Edit
-                    </button>
-                </p>
-            </div>
-            { error && <div className="message"> {message}</div>} */}
-        </div>
-      </div>
+          <Grid item xs={4}>
+            <Input
+              value={ProductEntry.totalamount}
+              label="Total Amount"
+              disabled
+            />
+          </Grid>
+        </Grid>
+
+        <Box sx={{width: "100%", overflowY: "auto"}}>
+          <CustomTable
+            title={""}
+            columns={productItemsSchema}
+            data={ProductEntry.productitems}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //onRowClicked={row => onRowClicked(row)}
+            progressPending={false}
+          />
+        </Box>
+      </Box>
     </>
   );
 }
@@ -1663,6 +1539,7 @@ export function InventorySearch({getSearchfacility, clear}) {
     setProductModal(false);
     handleSearch(val);
   };
+
   useEffect(() => {
     if (clear) {
       console.log("success has changed", clear);
@@ -1670,90 +1547,98 @@ export function InventorySearch({getSearchfacility, clear}) {
     }
     return () => {};
   }, [clear]);
+
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
-          >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
-              <DebounceInput
-                className="input is-small  is-expanded"
-                type="text"
-                placeholder="Search Product"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            {/* {searchError&&<div>{searchMessage}</div>} */}
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
-              <div className="dropdown-content">
-                {facilities.length > 0 ? (
-                  ""
-                ) : (
-                  <div
-                    className="dropdown-item" /* onClick={handleAddproduct} */
-                  >
-                    {" "}
-                    <span> {val} is not in your inventory</span>{" "}
-                  </div>
-                )}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+        }}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
 
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item"
-                    key={facility._id}
-                    onClick={() => handleRow(facility)}
-                  >
-                    <div>
-                      <span>{facility.name}</span>
-                    </div>
-                    <div>
-                      <span>
-                        <strong>{facility.quantity}</strong>
-                      </span>
-                      <span>{facility.baseunit}(s) remaining</span>
-                      <span className="padleft">
-                        <strong>Price:</strong> N{facility.sellingprice}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              name: `"${params.inputValue} is not in your inventory"`,
+            });
+          }
+
+          return filtered;
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.name;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        renderOption={(props, option) => (
+          <div
+            {...props}
+            style={{
+              fontSize: "0.75rem",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderBottom: "1px solid gray",
+            }}
+          >
+            <div style={{marginBottom: "5px"}}>
+              <span>{option.name}</span>
+            </div>
+
+            <div style={{display: "flex"}}>
+              <div style={{marginRight: "10px"}}>
+                <span>
+                  <strong>{option.quantity} </strong>
+                </span>
+                <span>{option.baseunit}(s) remaining</span>
+              </div>
+              <div>
+                <span>
+                  <strong>Price:</strong> N{option.sellingprice}
+                </span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={`modal ${productModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ProductCreate />
-          </section>
-          {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
-        </div>
-      </div>
+        )}
+        sx={{width: "100%"}}
+        freeSolo
+        renderInput={params => (
+          <TextField
+            {...params}
+            label="Search for Products"
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem !important",
+            }}
+            //size="small"
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+
+      <ModalBox
+        open={productModal}
+        onClose={handlecloseModal}
+        header="Choose Store"
+      >
+        <ProductCreate />
+      </ModalBox>
     </div>
   );
 }

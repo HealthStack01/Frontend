@@ -873,23 +873,21 @@ export function HealthPlanList({ showModal, setShowModal }) {
                   />
                 )}
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                {value === 'list' ? (
-                  <CustomTable
-                    title={''}
-                    columns={HealthPlanSchema}
-                    data={dummyData}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                    onRowClicked={handleRow}
-                    progressPending={loading}
-                    //conditionalRowStyles={conditionalRowStyles}
-                  />
-                ) : (
-                  <CalendarGrid appointments={mapFacilities()} />
-                )}
-              </div>
+              {value === 'list' ? (
+                <CustomTable
+                  title={''}
+                  columns={HealthPlanSchema}
+                  data={dummyData}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              ) : (
+                <CalendarGrid appointments={mapFacilities()} />
+              )}
             </PageWrapper>
           </div>
         </>

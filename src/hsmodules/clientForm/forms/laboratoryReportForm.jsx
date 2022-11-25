@@ -14,6 +14,7 @@ import ModalBox from '../../../components/modal';
 import CheckboxInput from '../../../components/inputs/basic/Checkbox';
 import CustomSelect from '../../../components/inputs/basic/Select';
 import { Select } from 'semantic-ui-react';
+import GlobalCustomButton from '../../../components/buttons/CustomButton';
 import {
   InputBox,
   InputLabel,
@@ -92,11 +93,32 @@ export default function LaboratoryReportForm() {
   return (
     <>
       <div className="card">
-        <ModalHeader
-          text={ProperCase(
-            ` ${order.serviceInfo.name} for ${order.orderInfo.orderObj.clientname}`
-          )}
-        />
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
+          <Grid item xs={12} md={6}>
+            <p style={{ maxWidth: '200px', fontWeight: '700' }}>
+              {ProperCase(
+                ` ${order.serviceInfo.name} for ${order.orderInfo.orderObj.clientname}`
+              )}
+            </p>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <GlobalCustomButton
+              text="Documentation"
+              onClick={showDocumentation}
+              customStyles={{
+                float: 'right',
+                marginLeft: 'auto',
+              }}
+              color="success"
+            />
+          </Grid>
+        </Grid>
         <Grid
           container
           spacing={2}
@@ -114,12 +136,10 @@ export default function LaboratoryReportForm() {
                     onChange={(e) => handleChangeMode(e.target.value)}
                     className="selectadd"
                     style={{
-                      width: '100%',
-                      padding: '1rem',
-                      margin: '1rem 0',
+                      border: '1px solid #b6b6b6',
+                      height: '38px',
                       borderRadius: '4px',
-                      cursor: 'pointer',
-                      border: '1px solid rgba(0, 0, 0, 0.6)',
+                      width: '100%',
                     }}
                   >
                     <option value="" defaultChecked>
@@ -135,22 +155,6 @@ export default function LaboratoryReportForm() {
                 </div>
               </div>
             )}
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button
-              className="button is-success is-small btnheight mt-2"
-              onClick={showDocumentation}
-              style={{
-                // width: '100%',
-                margin: '2rem 0',
-                backgroundColor: '#0364FF',
-                fontSize: '18px',
-                textAlign: 'right',
-                marginLeft: 'auto',
-              }}
-            >
-              Documentation
-            </Button>
           </Grid>
         </Grid>
         <div className="card-content mb-0 vscrollable">
@@ -383,8 +387,8 @@ export function Haematology() {
       <p style={{ fontWeight: '700' }} className="label is-small">
         HEAMATOLOGY
       </p>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={1} mt={1}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="hb"
@@ -412,7 +416,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="pvc"
@@ -440,9 +444,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="wbc"
@@ -470,7 +472,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="esr"
@@ -498,9 +500,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="platelets"
@@ -528,7 +528,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="rectics"
@@ -556,9 +556,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="rbc"
@@ -586,7 +584,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="mcv"
@@ -614,9 +612,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="mchc"
@@ -637,7 +633,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="mch"
@@ -658,9 +654,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="neutrophils"
@@ -681,7 +675,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="lymphocytes"
@@ -702,9 +696,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="monocytes"
@@ -725,7 +717,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="eosinophils"
@@ -746,9 +738,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <InputBox>
             <input
               name="basophils"
@@ -769,7 +759,7 @@ export function Haematology() {
             <p style={{ color: 'green' }}>Normal</p>
           )}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <Input
             label="Pro-Myelocyte"
             name="proMyelocyte"
@@ -777,9 +767,7 @@ export function Haematology() {
             register={register('proMyelocyte')}
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <Input
             label="Meta-Myelocyte"
             name="metaMyelocyte"
@@ -787,7 +775,7 @@ export function Haematology() {
             register={register('metaMyelocyte')}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <Input
             label="Nucleated RBC"
             name="nucleatedRbc"
@@ -795,9 +783,7 @@ export function Haematology() {
             register={register('nucleatedRbc')}
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <Input
             label="Genotype"
             name="genotype"
@@ -805,7 +791,7 @@ export function Haematology() {
             register={register('genotype')}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <Input
             label="Blood Group"
             name="bloodGroup"
@@ -813,8 +799,6 @@ export function Haematology() {
             register={register('bloodGroup')}
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={1}>
         <Grid item xs={12} sm={12}>
           <Textarea
             placeholder="Recommendation"
@@ -823,9 +807,7 @@ export function Haematology() {
             register={register('recommendation')}
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={2}>
           <input
             type="radio"
             name="status"
@@ -836,7 +818,6 @@ export function Haematology() {
             }}
             disabled={bill_report_status === 'Final'}
             style={{
-              transform: 'scale(1.5)',
               margin: '1rem',
             }}
           />
@@ -849,7 +830,7 @@ export function Haematology() {
             Draft
           </span>
         </Grid>{' '}
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={2}>
           <input
             type="radio"
             name="status"
@@ -858,7 +839,6 @@ export function Haematology() {
             onChange={(e) => handleChangePart(e)}
             disabled={bill_report_status === 'Final'}
             style={{
-              transform: 'scale(1.5)',
               margin: '1rem',
             }}
           />
@@ -872,403 +852,17 @@ export function Haematology() {
           </span>
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mt={1}>
         <Grid item xs={12} sm={12}>
           {bill_report_status !== 'Final' && (
-            <Button
-              type="submit"
-              style={{
-                backgroundColor: '#0364FF',
-                width: '100%',
-                cursor: 'pointer',
-                marginTop: '1rem',
-                padding: '1rem',
-              }}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </Button>
+            <GlobalCustomButton
+              text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+              onClick={handleSubmit(onSubmit)}
+              color="success"
+            />
           )}
         </Grid>
       </Grid>
-      {/* 
-      <div className="columns mt-3 is-flex-wrap-wrap">
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">HB</label>
-              <p className="control is-expanded">
-                <input
-                 
-                  name="hb"
-                  className="input is-small"
-                  type="text"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">PCV</label>
-              <div className="control">
-                <input
-                 
-                  name="pcv"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">WBC</label>
-              <div className="control">
-                <input
-                 
-                  name="wbc"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">ESR</label>
-              <div className="control">
-                <input
-                 
-                  name="esr"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="columns mt-3 is-flex-wrap-wrap">
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Platelets</label>
-              <p className="control is-expanded">
-                <input
-                 
-                  name="platelets"
-                  className="input is-small"
-                  type="text"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Rectics</label>
-              <div className="control">
-                <input
-                  //
-                  name="rectics"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">RBC</label>
-              <div className="control">
-                <input
-                 
-                  name="rbc"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">MCV</label>
-              <div className="control">
-                <input
-                 
-                  name="mcv"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="columns mt-3 is-flex-wrap-wrap">
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">MCHC</label>
-              <p className="control is-expanded">
-                <input
-                 
-                  name="mchc"
-                  className="input is-small"
-                  type="text"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">MCH</label>
-              <div className="control">
-                <input
-                 
-                  name="mch"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Neutrophils</label>
-              <div className="control">
-                <input
-                 
-                  name="neutrophils"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Lymphocytes</label>
-              <div className="control">
-                <input
-                 
-                  name="lymphocytes"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="columns mt-3 is-flex-wrap-wrap">
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Monocytes</label>
-              <p className="control is-expanded">
-                <input
-                 
-                  name="monocytes"
-                  className="input is-small"
-                  type="text"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Eosinophils</label>
-              <div className="control">
-                <input
-                 
-                  name="eosinophils"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Basophils</label>
-              <div className="control">
-                <input
-                 
-                  name="basophils"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Pro-Myelocyte</label>
-              <div className="control">
-                <input
-                 
-                  name="proMyelocyte"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="columns mt-3 is-flex-wrap-wrap">
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Meta-Myelocyte</label>
-              <p className="control is-expanded">
-                <input
-                 
-                  name="metaMyelocyte"
-                  className="input is-small"
-                  type="text"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Nucleated RBC</label>
-              <div className="control">
-                <input
-                 
-                  name="nucleatedRbc"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Genotype</label>
-              <div className="control">
-                <input
-                 
-                  name="genotype"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="column is-half">
-          <div className="field-body">
-            <div className="field is-flex">
-              <label className="label is-small mr-2">Blood Group</label>
-              <div className="control">
-                <input
-                 
-                  name="bldGroup"
-                  className="input is-small"
-                  type="text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="field is-horizontal">
-        <div className="field-body">
-          <div className="field">
-            <div className="control has-icons-left has-icons-right">
-              <textarea
-                className="textarea is-small"
-                {...register('x')}
-                name="Recommendation"
-                type="text"
-                placeholder="Recommendation"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="field">
-        <label className=" is-small">
-          <input
-            type="radio"
-            name="status"
-            value="Draft"
-            checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-            onChange={(e) => {
-              handleChangePart(e);
-            }}
-            disabled={bill_report_status === 'Final'}
-          />
-          <span> Draft</span>
-        </label>{' '}
-        <br />
-        <label className=" is-small">
-          <input
-            type="radio"
-            name="status"
-            value="Final"
-            checked={reportStatus === 'Final'}
-            onChange={(e) => handleChangePart(e)}
-            disabled={bill_report_status === 'Final'}
-          />
-          <span> Final </span>
-        </label>
-      </div>
-
-      <div className="field  is-grouped mt-2">
-        <p className="control">
-          <button
-            type="submit"
-            className="button is-success is-small"
-            disabled={bill_report_status === 'Final'}
-          >
-            {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-          </button>
-        </p>
-    
-      </div> */}
     </form>
   );
 }
@@ -1457,8 +1051,8 @@ export function Serology() {
         <p style={{ fontWeight: '700' }} className="label is-small">
           SEROLOGY
         </p>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="HBsAG"
               name="hbsag"
@@ -1466,7 +1060,7 @@ export function Serology() {
               register={register('hbsag')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="HCV"
               name="hcv"
@@ -1474,9 +1068,7 @@ export function Serology() {
               register={register('hcv')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="VDRL"
               name="vdrl"
@@ -1484,7 +1076,7 @@ export function Serology() {
               register={register('vdrl')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="RPHA"
               name="rpha"
@@ -1492,9 +1084,7 @@ export function Serology() {
               register={register('rpha')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="COOMBS"
               name="coombs"
@@ -1502,7 +1092,7 @@ export function Serology() {
               register={register('coombs')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="A.S.O Titre"
               name="asoTitre"
@@ -1510,9 +1100,7 @@ export function Serology() {
               register={register('asoTitre')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="SLE"
               name="sle"
@@ -1528,9 +1116,7 @@ export function Serology() {
               register={register('raFactor')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="B-HCG"
               name="bHcg"
@@ -1538,7 +1124,7 @@ export function Serology() {
               register={register('bHcg')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="MANTOUX"
               name="mantoux"
@@ -1546,9 +1132,7 @@ export function Serology() {
               register={register('mantoux')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Blood Preg. Test"
               name="bloodPregTest"
@@ -1556,7 +1140,7 @@ export function Serology() {
               register={register('bloodPregTest')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="XYZ"
               name="xyz"
@@ -1564,8 +1148,6 @@ export function Serology() {
               register={register('xyz')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
           <Grid item xs={12} sm={12}>
             <Textarea
               placeholder="Recommendation"
@@ -1575,8 +1157,8 @@ export function Serology() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -1587,8 +1169,7 @@ export function Serology() {
               }}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
-                margin: '1rem',
+                margin: '0 1rem',
               }}
             />
             <span
@@ -1600,7 +1181,7 @@ export function Serology() {
               Draft
             </span>
           </Grid>{' '}
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <input
               type="radio"
               name="status"
@@ -1609,8 +1190,7 @@ export function Serology() {
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
-                margin: '1rem',
+                margin: '0 1rem',
               }}
             />
             <span
@@ -1623,227 +1203,17 @@ export function Serology() {
             </span>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
             )}
           </Grid>
         </Grid>
-        {/* <label className="label is-small">SEROLOGY</label>
-        <div className="columns mt-3 is-flex-wrap-wrap">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">HBsAG</label>
-                <p className="control is-expanded">
-                  <input name="hbsag" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">HCV</label>
-                <div className="control">
-                  <input name="hcv" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">VDRL</label>
-                <div className="control">
-                  <input name="vdrl" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">RPHA</label>
-                <div className="control">
-                  <input name="rpha" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="columns mt-3 is-flex-wrap-wrap">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">COOMBS</label>
-                <p className="control is-expanded">
-                  <input name="coombs" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">A.S.O Titre</label>
-                <div className="control">
-                  <input
-                    name="asoTitre"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">SLE</label>
-                <div className="control">
-                  <input name="sle" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">R.A Factor</label>
-                <div className="control">
-                  <input
-                    name="raFactor"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3 is-flex-wrap-wrap">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">B-HCG</label>
-                <p className="control is-expanded">
-                  <input name="bHcg" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">MANTOUX</label>
-                <div className="control">
-                  <input
-                    name="mantoux"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Blood Preg. Test</label>
-                <div className="control">
-                  <input
-                    name="bldPregTest"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">XYZ</label>
-                <div className="control">
-                  <input name="xyz" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-        {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        {/* </div> */}
       </form>
     </>
   );
@@ -2087,1033 +1457,613 @@ export function Biochemistry() {
     padding: '0 0.25rem',
     backgroundColor: '#fff',
     transition: '0.4s',
+    wordBreak: 'break-word',
   };
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <p style={{ fontWeight: '700' }} className="label is-small">
-          BIOCHEMISTRY
-        </p>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="glucoseFasting"
-                type="text"
-                {...register('glucoseFasting')}
-                onChange={(e) => setGlucoseFasting(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="glucoseFasting" style={labelStyle}>
-                GLUCOSE (FASTING) (MG/DL), Range: 60-120
-              </label>
-            </InputBox>
-            {glucoseFasting < 60 || glucoseFasting > 120 ? (
-              <p style={{ color: 'red' }}>
-                {glucoseFasting < 60 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="glucoseRandom"
-                type="text"
-                {...register('glucoseRandom')}
-                onChange={(e) => setGlucoseRandom(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="glucoseRandom" style={labelStyle}>
-                GLUCOSE (RANDOM) (MG/DL), Range: 60-180
-              </label>
-            </InputBox>
-            {glucoseRandom < 60 || glucoseRandom > 180 ? (
-              <p style={{ color: 'red' }}>
-                {glucoseRandom < 60 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="urea"
-                type="text"
-                {...register('urea')}
-                onChange={(e) => setUrea(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="urea" style={labelStyle}>
-                UREA (MG/DL), Range: 10-55
-              </label>
-            </InputBox>
-            {urea < 10 || urea > 55 ? (
-              <p style={{ color: 'red' }}>
-                {urea < 10 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="creatinine"
-                type="text"
-                {...register('creatinine')}
-                onChange={(e) => setCreatinine(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="creatinine" style={labelStyle}>
-                CREATININE (MG/DL), Range: 0.6-1.2
-              </label>
-            </InputBox>
-            {creatinine < 0.6 || creatinine > 1.2 ? (
-              <p style={{ color: 'red' }}>
-                {creatinine < 0.6 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="uricAcid"
-                type="text"
-                {...register('uricAcid')}
-                onChange={(e) => setUricAcid(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="uricAcid" style={labelStyle}>
-                URIC ACID (MG/DL), Range: 2.5-7.7
-              </label>
-            </InputBox>
-            {uricAcid < 2.5 || uricAcid > 7.7 ? (
-              <p style={{ color: 'red' }}>
-                {uricAcid < 2.5 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="sodium"
-                type="text"
-                {...register('sodium')}
-                onChange={(e) => setSodium(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="sodium" style={labelStyle}>
-                SODIUM (MMOL/L), Range: 135-150
-              </label>
-            </InputBox>
-            {sodium < 135 || sodium > 150 ? (
-              <p style={{ color: 'red' }}>
-                {sodium < 135 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="potassium"
-                type="text"
-                {...register('potassium')}
-                onChange={(e) => setPotassium(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="potassium" style={labelStyle}>
-                POTASSIUM (MMOL/L), Range: 3.5-5.1
-              </label>
-            </InputBox>
-            {potassium < 3.5 || potassium > 5.1 ? (
-              <p style={{ color: 'red' }}>
-                {potassium < 3.5 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="bicarbonate"
-                type="text"
-                {...register('bicarbonate')}
-                onChange={(e) => setBicarbonate(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="bicarbonate" style={labelStyle}>
-                BICARBONATE (MMOL/L), Range: 21-29
-              </label>
-            </InputBox>
-            {bicarbonate < 21 || bicarbonate > 29 ? (
-              <p style={{ color: 'red' }}>
-                {bicarbonate < 21 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="chloride"
-                type="text"
-                {...register('chloride')}
-                onChange={(e) => setChloride(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="chloride" style={labelStyle}>
-                CHLORIDE (MMOL/L), Range: 98-107
-              </label>
-            </InputBox>
-            {chloride < 98 || chloride > 107 ? (
-              <p style={{ color: 'red' }}>
-                {chloride < 98 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="totalProtein"
-                type="text"
-                {...register('totalProtein')}
-                onChange={(e) => setTotalProtein(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="totalProtein" style={labelStyle}>
-                TOTAL PROTEIN (G/DL), Range: 6.2-8.0
-              </label>
-            </InputBox>
-            {totalProtein < 6.2 || totalProtein > 8.0 ? (
-              <p style={{ color: 'red' }}>
-                {totalProtein < 6.2 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="albumin"
-                type="text"
-                {...register('albumin')}
-                onChange={(e) => setAlbumin(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="albumin" style={labelStyle}>
-                ALBUMIN (G/DL), Range: 3.5-5.5
-              </label>
-            </InputBox>
-            {albumin < 3.5 || albumin > 5.5 ? (
-              <p style={{ color: 'red' }}>
-                {albumin < 3.5 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="tbilirubin"
-                type="text"
-                {...register('tbilirubin')}
-                onChange={(e) => setTBilirubin(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="tbilirubin" style={labelStyle}>
-                TOTAL BILIRUBIN (Mg/DL), Range: 0.12
-              </label>
-            </InputBox>
-            {tBilirubin < 0.12 ? (
-              <p style={{ color: 'red' }}>
-                <span>Low</span>
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="dbilirubin"
-                type="text"
-                {...register('dbilirubin')}
-                onChange={(e) => setDBillirubin(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="dbilirubin" style={labelStyle}>
-                DIRECT BILIRUBIN (Mg/100ML), Range: 0-0.4
-              </label>
-            </InputBox>
-            {dBillirubin < 0 || dBillirubin > 0.4 ? (
-              <p style={{ color: 'red' }}>
-                {dBilirubin < 0 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="cholesterol"
-                type="text"
-                {...register('cholesterol')}
-                onChange={(e) => setCholesterol(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="cholesterol" style={labelStyle}>
-                CHOLESTEROL (MG/100ML), Range: 150-200
-              </label>
-            </InputBox>
-            {cholesterol < 150 || cholesterol > 200 ? (
-              <p style={{ color: 'red' }}>
-                {cholesterol < 150 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="triglyceride"
-                type="text"
-                {...register('triglyceride')}
-                onChange={(e) => setTriglycerides(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="triglyceride" style={labelStyle}>
-                TRIGLYCERIDE (MG/100ML), Range: 100-150
-              </label>
-            </InputBox>
-            {triglycerides < 100 || triglycerides > 150 ? (
-              <p style={{ color: 'red' }}>
-                {triglycerides < 100 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="phos"
-                type="text"
-                {...register('phos')}
-                onChange={(e) => setPhos(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="phos" style={labelStyle}>
-                PHOSPHORUS (MG/DL), Range: 2.5-4.5
-              </label>
-            </InputBox>
-            {phos < 2.5 || phos > 4.5 ? (
-              <p style={{ color: 'red' }}>
-                {phos < 2.5 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="calcium"
-                type="text"
-                {...register('calcium')}
-                onChange={(e) => setCalcium(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="calcium" style={labelStyle}>
-                CALCIUM (MG/DL), Range: 8.8-10.2
-              </label>
-            </InputBox>
-            {calcium < 8.8 || calcium > 10.2 ? (
-              <p style={{ color: 'red' }}>
-                {calcium < 8.8 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="sgot"
-                type="text"
-                {...register('sgot')}
-                onChange={(e) => setSgot(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="sgot" style={labelStyle}>
-                SGOT (U/L), Range: 0-46
-              </label>
-            </InputBox>
-            {sgot < 0 || sgot > 46 ? (
-              <p style={{ color: 'red' }}>
-                {sgot < 0 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="sgpt"
-                type="text"
-                {...register('sgpt')}
-                onChange={(e) => setSgpt(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="sgpt" style={labelStyle}>
-                SGPT (U/L), Range: 0-49
-              </label>
-            </InputBox>
-            {sgpt < 0 || sgpt > 49 ? (
-              <p style={{ color: 'red' }}>
-                {sgpt < 0 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="ogtt"
-                type="text"
-                {...register('ogtt')}
-                onChange={(e) => setOgtt(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="ogtt" style={labelStyle}>
-                OGTT (MG/DL), Range: 6-30
-              </label>
-            </InputBox>
-            {ogtt < 6 || ogtt > 30 ? (
-              <p style={{ color: 'red' }}>
-                {ogtt < 6 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="alkphos"
-                type="text"
-                {...register('alkphos')}
-                onChange={(e) => setAlkPhos(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="alkphos" style={labelStyle}>
-                ALKALINE PHOSPHATASE (U/L), Range: 64-306
-              </label>
-            </InputBox>
-            {alkPhos < 64 || alkPhos > 306 ? (
-              <p style={{ color: 'red' }}>
-                {alkPhos < 64 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="acidphos"
-                type="text"
-                {...register('acidphos')}
-                onChange={(e) => setAcidphos(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="acidphos" style={labelStyle}>
-                ACID PHOSPHATASE (U/L), Range: 0-0.81
-              </label>
-            </InputBox>
-            {acidPhos < 0 || acidPhos > 0.81 ? (
-              <p style={{ color: 'red' }}>
-                {acidPhos < 0 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="adh"
-                type="text"
-                {...register('adh')}
-                onChange={(e) => setAdh(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="adh" style={labelStyle}>
-                ADH (U/L), Range: 160-320
-              </label>
-            </InputBox>
-            {adh < 160 || adh > 320 ? (
-              <p style={{ color: 'red' }}>
-                {adh < 160 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="apk"
-                type="text"
-                {...register('apk')}
-                onChange={(e) => setApk(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="apk" style={labelStyle}>
-                APK (U/L), Range: 15-130
-              </label>
-            </InputBox>
-            {apk < 15 || apk > 130 ? (
-              <p style={{ color: 'red' }}>
-                {apk < 15 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <InputBox>
-              <input
-                name="amylase"
-                type="text"
-                {...register('amylase')}
-                onChange={(e) => setAmylase(e.target.value)}
-                style={inputStyle}
-              />
-              <label htmlFor="amylase" style={labelStyle}>
-                AMYLASE (U/L), Range: 30-125
-              </label>
-            </InputBox>
-            {amylase < 30 || amylase > 125 ? (
-              <p style={{ color: 'red' }}>
-                {amylase < 30 ? <span>Low</span> : <span>High</span>}
-              </p>
-            ) : (
-              <p style={{ color: 'green' }}>Normal</p>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Recommendation"
-              name="Recommendation"
-              type="text"
-              register={register('Recommendation')}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-              style={{
-                transform: 'scale(1.5)',
-                margin: '1rem',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '1rem',
-              }}
-            >
-              {' '}
-              Draft
-            </span>
-          </Grid>{' '}
-          <Grid item xs={12} sm={4}>
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-              style={{
-                transform: 'scale(1.5)',
-                margin: '1rem',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '1rem',
-              }}
-            >
-              {' '}
-              Final{' '}
-            </span>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-        {/* <label className="label is-small">BIOCHEMISTRY</label>
-        <div className="columns mt-3 is-flex-wrap-wrap">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Glucose (Fasting)</label>
-                <p className="control is-expanded">
-                  <input
-                    name="glucoseFasting"
-                    className="input is-small"
-                    type="text"
-                  />
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <p style={{ fontWeight: '700' }} className="label is-small">
+            BIOCHEMISTRY
+          </p>
+          <Grid container spacing={1} mt={1}>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="glucoseFasting"
+                  type="text"
+                  {...register('glucoseFasting')}
+                  onChange={(e) => setGlucoseFasting(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="glucoseFasting" style={labelStyle}>
+                  GLUCOSE (FASTING) (MG/DL), Range: 60-120
+                </label>
+              </InputBox>
+              {glucoseFasting < 60 || glucoseFasting > 120 ? (
+                <p style={{ color: 'red' }}>
+                  {glucoseFasting < 60 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Glucose (Random)</label>
-                <div className="control">
-                  <input
-                    name="glucoseRandom"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Urea</label>
-                <div className="control">
-                  <input name="urea" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Creatinine</label>
-                <div className="control">
-                  <input
-                    name="creatinine"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Uric Acid</label>
-                <p className="control is-expanded">
-                  <input
-                    name="uricAcid"
-                    className="input is-small"
-                    type="text"
-                  />
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="glucoseRandom"
+                  type="text"
+                  {...register('glucoseRandom')}
+                  onChange={(e) => setGlucoseRandom(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="glucoseRandom" style={labelStyle}>
+                  GLUCOSE (RANDOM) (MG/DL), Range: 60-180
+                </label>
+              </InputBox>
+              {glucoseRandom < 60 || glucoseRandom > 180 ? (
+                <p style={{ color: 'red' }}>
+                  {glucoseRandom < 60 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Sodium</label>
-                <div className="control">
-                  <input name="sodium" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Potassium</label>
-                <div className="control">
-                  <input
-                    name="potassium"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Bicarbonate</label>
-                <div className="control">
-                  <input
-                    name="bicarbonate"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Chloride</label>
-                <p className="control is-expanded">
-                  <input
-                    name="chloride"
-                    className="input is-small"
-                    type="text"
-                  />
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="urea"
+                  type="text"
+                  {...register('urea')}
+                  onChange={(e) => setUrea(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="urea" style={labelStyle}>
+                  UREA (MG/DL), Range: 10-55
+                </label>
+              </InputBox>
+              {urea < 10 || urea > 55 ? (
+                <p style={{ color: 'red' }}>
+                  {urea < 10 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Total Protein</label>
-                <div className="control">
-                  <input
-                    name="totalProtein"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Albumin</label>
-                <div className="control">
-                  <input
-                    name="albumin"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">T. Bilirubin</label>
-                <div className="control">
-                  <input
-                    name="tBilirubin"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">D.Bilirubin</label>
-                <p className="control is-expanded">
-                  <input
-                    name="dBilirubin"
-                    className="input is-small"
-                    type="text"
-                  />
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="creatinine"
+                  type="text"
+                  {...register('creatinine')}
+                  onChange={(e) => setCreatinine(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="creatinine" style={labelStyle}>
+                  CREATININE (MG/DL), Range: 0.6-1.2
+                </label>
+              </InputBox>
+              {creatinine < 0.6 || creatinine > 1.2 ? (
+                <p style={{ color: 'red' }}>
+                  {creatinine < 0.6 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Cholesterol</label>
-                <div className="control">
-                  <input
-                    name="cholesterol"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Triglyceride</label>
-                <div className="control">
-                  <input
-                    name="triglyceride"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Phos</label>
-                <div className="control">
-                  <input name="phos" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Calcium</label>
-                <p className="control is-expanded">
-                  <input
-                    name="calcium"
-                    className="input is-small"
-                    type="text"
-                  />
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="uricAcid"
+                  type="text"
+                  {...register('uricAcid')}
+                  onChange={(e) => setUricAcid(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="uricAcid" style={labelStyle}>
+                  URIC ACID (MG/DL), Range: 2.5-7.7
+                </label>
+              </InputBox>
+              {uricAcid < 2.5 || uricAcid > 7.7 ? (
+                <p style={{ color: 'red' }}>
+                  {uricAcid < 2.5 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">SGOT</label>
-                <div className="control">
-                  <input name="sgot" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">SGPT</label>
-                <div className="control">
-                  <input name="sgpt" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">OGTT</label>
-                <div className="control">
-                  <input name="ogtt" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Alk Phos</label>
-                <p className="control is-expanded">
-                  <input
-                    name="alkPhos"
-                    className="input is-small"
-                    type="text"
-                  />
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="sodium"
+                  type="text"
+                  {...register('sodium')}
+                  onChange={(e) => setSodium(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="sodium" style={labelStyle}>
+                  SODIUM (MMOL/L), Range: 135-150
+                </label>
+              </InputBox>
+              {sodium < 135 || sodium > 150 ? (
+                <p style={{ color: 'red' }}>
+                  {sodium < 135 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Acid Phos</label>
-                <div className="control">
-                  <input
-                    name="acidPhos"
-                    className="input is-small"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">ADH</label>
-                <div className="control">
-                  <input name="adh" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">APK</label>
-                <div className="control">
-                  <input name="apk" className="input is-small" type="text" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns mt-3">
-          <div className="column">
-            <div className="field-body">
-              <div className="field">
-                <label className="label is-small">Amylase</label>
-                <p className="control is-expanded">
-                  <input
-                    name="amylase"
-                    className="input is-small"
-                    type="text"
-                  />
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="potassium"
+                  type="text"
+                  {...register('potassium')}
+                  onChange={(e) => setPotassium(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="potassium" style={labelStyle}>
+                  POTASSIUM (MMOL/L), Range: 3.5-5.1
+                </label>
+              </InputBox>
+              {potassium < 3.5 || potassium > 5.1 ? (
+                <p style={{ color: 'red' }}>
+                  {potassium < 3.5 ? <span>Low</span> : <span>High</span>}
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="bicarbonate"
+                  type="text"
+                  {...register('bicarbonate')}
+                  onChange={(e) => setBicarbonate(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="bicarbonate" style={labelStyle}>
+                  BICARBONATE (MMOL/L), Range: 21-29
+                </label>
+              </InputBox>
+              {bicarbonate < 21 || bicarbonate > 29 ? (
+                <p style={{ color: 'red' }}>
+                  {bicarbonate < 21 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="chloride"
+                  type="text"
+                  {...register('chloride')}
+                  onChange={(e) => setChloride(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="chloride" style={labelStyle}>
+                  CHLORIDE (MMOL/L), Range: 98-107
+                </label>
+              </InputBox>
+              {chloride < 98 || chloride > 107 ? (
+                <p style={{ color: 'red' }}>
+                  {chloride < 98 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="totalProtein"
+                  type="text"
+                  {...register('totalProtein')}
+                  onChange={(e) => setTotalProtein(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="totalProtein" style={labelStyle}>
+                  TOTAL PROTEIN (G/DL), Range: 6.2-8.0
+                </label>
+              </InputBox>
+              {totalProtein < 6.2 || totalProtein > 8.0 ? (
+                <p style={{ color: 'red' }}>
+                  {totalProtein < 6.2 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="albumin"
+                  type="text"
+                  {...register('albumin')}
+                  onChange={(e) => setAlbumin(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="albumin" style={labelStyle}>
+                  ALBUMIN (G/DL), Range: 3.5-5.5
+                </label>
+              </InputBox>
+              {albumin < 3.5 || albumin > 5.5 ? (
+                <p style={{ color: 'red' }}>
+                  {albumin < 3.5 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="tbilirubin"
+                  type="text"
+                  {...register('tbilirubin')}
+                  onChange={(e) => setTBilirubin(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="tbilirubin" style={labelStyle}>
+                  TOTAL BILIRUBIN (Mg/DL), Range: 0.12
+                </label>
+              </InputBox>
+              {tBilirubin < 0.12 ? (
+                <p style={{ color: 'red' }}>
+                  <span>Low</span>
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="dbilirubin"
+                  type="text"
+                  {...register('dbilirubin')}
+                  onChange={(e) => setDBillirubin(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="dbilirubin" style={labelStyle}>
+                  DIRECT BILIRUBIN (Mg/100ML), Range: 0-0.4
+                </label>
+              </InputBox>
+              {dBillirubin < 0 || dBillirubin > 0.4 ? (
+                <p style={{ color: 'red' }}>
+                  {dBilirubin < 0 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="cholesterol"
+                  type="text"
+                  {...register('cholesterol')}
+                  onChange={(e) => setCholesterol(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="cholesterol" style={labelStyle}>
+                  CHOLESTEROL (MG/100ML), Range: 150-200
+                </label>
+              </InputBox>
+              {cholesterol < 150 || cholesterol > 200 ? (
+                <p style={{ color: 'red' }}>
+                  {cholesterol < 150 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="triglyceride"
+                  type="text"
+                  {...register('triglyceride')}
+                  onChange={(e) => setTriglycerides(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="triglyceride" style={labelStyle}>
+                  TRIGLYCERIDE (MG/100ML), Range: 100-150
+                </label>
+              </InputBox>
+              {triglycerides < 100 || triglycerides > 150 ? (
+                <p style={{ color: 'red' }}>
+                  {triglycerides < 100 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="phos"
+                  type="text"
+                  {...register('phos')}
+                  onChange={(e) => setPhos(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="phos" style={labelStyle}>
+                  PHOSPHORUS (MG/DL), Range: 2.5-4.5
+                </label>
+              </InputBox>
+              {phos < 2.5 || phos > 4.5 ? (
+                <p style={{ color: 'red' }}>
+                  {phos < 2.5 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="calcium"
+                  type="text"
+                  {...register('calcium')}
+                  onChange={(e) => setCalcium(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="calcium" style={labelStyle}>
+                  CALCIUM (MG/DL), Range: 8.8-10.2
+                </label>
+              </InputBox>
+              {calcium < 8.8 || calcium > 10.2 ? (
+                <p style={{ color: 'red' }}>
+                  {calcium < 8.8 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="sgot"
+                  type="text"
+                  {...register('sgot')}
+                  onChange={(e) => setSgot(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="sgot" style={labelStyle}>
+                  SGOT (U/L), Range: 0-46
+                </label>
+              </InputBox>
+              {sgot < 0 || sgot > 46 ? (
+                <p style={{ color: 'red' }}>
+                  {sgot < 0 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="sgpt"
+                  type="text"
+                  {...register('sgpt')}
+                  onChange={(e) => setSgpt(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="sgpt" style={labelStyle}>
+                  SGPT (U/L), Range: 0-49
+                </label>
+              </InputBox>
+              {sgpt < 0 || sgpt > 49 ? (
+                <p style={{ color: 'red' }}>
+                  {sgpt < 0 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="ogtt"
+                  type="text"
+                  {...register('ogtt')}
+                  onChange={(e) => setOgtt(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="ogtt" style={labelStyle}>
+                  OGTT (MG/DL), Range: 6-30
+                </label>
+              </InputBox>
+              {ogtt < 6 || ogtt > 30 ? (
+                <p style={{ color: 'red' }}>
+                  {ogtt < 6 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="alkphos"
+                  type="text"
+                  {...register('alkphos')}
+                  onChange={(e) => setAlkPhos(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="alkphos" style={labelStyle}>
+                  ALKALINE PHOSPHATASE (U/L), Range: 64-306
+                </label>
+              </InputBox>
+              {alkPhos < 64 || alkPhos > 306 ? (
+                <p style={{ color: 'red' }}>
+                  {alkPhos < 64 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="acidphos"
+                  type="text"
+                  {...register('acidphos')}
+                  onChange={(e) => setAcidphos(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="acidphos" style={labelStyle}>
+                  ACID PHOSPHATASE (U/L), Range: 0-0.81
+                </label>
+              </InputBox>
+              {acidPhos < 0 || acidPhos > 0.81 ? (
+                <p style={{ color: 'red' }}>
+                  {acidPhos < 0 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="adh"
+                  type="text"
+                  {...register('adh')}
+                  onChange={(e) => setAdh(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="adh" style={labelStyle}>
+                  ADH (U/L), Range: 160-320
+                </label>
+              </InputBox>
+              {adh < 160 || adh > 320 ? (
+                <p style={{ color: 'red' }}>
+                  {adh < 160 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="apk"
+                  type="text"
+                  {...register('apk')}
+                  onChange={(e) => setApk(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="apk" style={labelStyle}>
+                  APK (U/L), Range: 15-130
+                </label>
+              </InputBox>
+              {apk < 15 || apk > 130 ? (
+                <p style={{ color: 'red' }}>
+                  {apk < 15 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <InputBox>
+                <input
+                  name="amylase"
+                  type="text"
+                  {...register('amylase')}
+                  onChange={(e) => setAmylase(e.target.value)}
+                  style={inputStyle}
+                />
+                <label htmlFor="amylase" style={labelStyle}>
+                  AMYLASE (U/L), Range: 30-125
+                </label>
+              </InputBox>
+              {amylase < 30 || amylase > 125 ? (
+                <p style={{ color: 'red' }}>
+                  {amylase < 30 ? <span>Low</span> : <span>High</span>}
+                </p>
+              ) : (
+                <p style={{ color: 'green' }}>Normal</p>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <InputBox>
+                <input
                   name="Recommendation"
                   type="text"
-                  placeholder="Recommendation"
+                  {...register('Recommendation')}
+                  onChange={(e) => setAmylase(e.target.value)}
+                  style={inputStyle}
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-        {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        {/* </div> */}
-      </form>
+                <label htmlFor="amylase" style={labelStyle}>
+                  Recommendation
+                </label>
+              </InputBox>
+            </Grid>
+            <Grid item xs={12} sm={1}>
+              <input
+                type="radio"
+                name="status"
+                value="Draft"
+                checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
+                onChange={(e) => {
+                  handleChangePart(e);
+                }}
+                disabled={bill_report_status === 'Final'}
+                style={{
+                  margin: '0 1rem',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '1rem',
+                }}
+              >
+                {' '}
+                Draft
+              </span>
+            </Grid>{' '}
+            <Grid item xs={12} sm={1}>
+              <input
+                type="radio"
+                name="status"
+                value="Final"
+                checked={reportStatus === 'Final'}
+                onChange={(e) => handleChangePart(e)}
+                disabled={bill_report_status === 'Final'}
+                style={{
+                  margin: '0 1rem',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '1rem',
+                }}
+              >
+                {' '}
+                Final{' '}
+              </span>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={12}>
+              {bill_report_status !== 'Final' && (
+                <GlobalCustomButton
+                  text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                  onClick={handleSubmit(onSubmit)}
+                  color="success"
+                />
+              )}
+            </Grid>
+          </Grid>
+        </form>
+      </div>
     </>
   );
 }
@@ -3420,7 +2370,7 @@ export function Microbiology() {
           </div>
         </>
 
-        <Grid container spacing={1}>
+        <Grid container spacing={1} mt={1}>
           <Grid item xs={12} sm={12}>
             <Textarea
               placeholder="Recommendation"
@@ -3430,8 +2380,8 @@ export function Microbiology() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -3442,7 +2392,6 @@ export function Microbiology() {
               }}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -3455,7 +2404,7 @@ export function Microbiology() {
               Draft
             </span>
           </Grid>{' '}
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -3464,7 +2413,6 @@ export function Microbiology() {
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -3478,178 +2426,17 @@ export function Microbiology() {
             </span>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
             )}
           </Grid>
         </Grid>
-        {/* <div className="field">
-          <label className="label is-small">MICROBIOLOGY</label>
-          <label class="checkbox me-3">
-            <input name="urinalysisOrMicro" type="checkbox" />
-            <span className="ms-2 is-small">Urinanalysis/Microscope</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="stoolAnalysis" type="checkbox" />
-            <span className="ms-2 is-small">Stool Analysis</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="stoolOccult" type="checkbox" />
-            <span className="ms-2 is-small">Stool Occult</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="semenAnalysis" type="checkbox" />
-            <span className="ms-2 is-small">Semen Analysis</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="gramStain" type="checkbox" />
-            <span className="ms-2 is-small">Gram Stain</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="znStain" type="checkbox" />
-            <span className="ms-2 is-small">ZN Stain</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="mantouxTest" type="checkbox" />
-            <span className="ms-2 is-small">Mantoux Test</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="fungalStudies" type="checkbox" />
-            <span className="ms-2 is-small">Fungal Studies</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="urine" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S Urine</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="throatSwab" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S Throat Swab</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="aspirateAndDischarge" type="checkbox" />
-            <span className="ms-2 is-small">C/S/PUS/Aspirate/Discharge</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="woundSwab" type="checkbox" />
-            <span className="ms-2 is-small">C/S Wound Swab</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="semen" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S Semen</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="fluid" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S Fluid</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="stool2" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S Stool</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="endocerviclSwab" type="checkbox" />
-            <span className="ms-2 is-small">C/S Endocervical Swab</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="hvs" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S HVS</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="sputum" type="checkbox" />
-            <span className="ms-2 is-small">M/C/S Sputum</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="csBld" type="checkbox" />
-            <span className="ms-2 is-small">C/S Blood</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="microfilariaSkin" type="checkbox" />
-            <span className="ms-2 is-small">Microfilaria-Skin Snip</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="otherSwab" type="checkbox" />
-            <span className="ms-2 is-small">Other Swab (Specify)</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="faecalOccultBld" type="checkbox" />
-            <span className="ms-2 is-small">Faecal Occult Blood</span>
-          </label>
-          <label class="checkbox me-3">
-            <input name="salmoOrshigella" type="checkbox" />
-            <span className="ms-2 is-small">Salmonella/Shigella</span>
-          </label>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-        {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        {/* </div> */}
       </form>
     </>
   );
@@ -3837,8 +2624,8 @@ export function Urine() {
         <p style={{ fontWeight: '700' }} className="label is-small">
           Urine
         </p>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Macroscopy"
               name="macroscopy"
@@ -3846,7 +2633,7 @@ export function Urine() {
               register={register('macroscopy')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Microscopy"
               name="microscopy"
@@ -3854,9 +2641,7 @@ export function Urine() {
               register={register('microscopy')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Pus Cells/hof"
               name="pusCellsOrhof"
@@ -3864,7 +2649,7 @@ export function Urine() {
               register={register('pusCellsOrhof')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="RBC/hpf"
               name="rbsOrHpf"
@@ -3872,9 +2657,7 @@ export function Urine() {
               register={register('rbsOrHpf')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Yeast Cells"
               name="yeastCells"
@@ -3882,7 +2665,7 @@ export function Urine() {
               register={register('yeastCells')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Bacteria"
               name="bacteria"
@@ -3890,9 +2673,7 @@ export function Urine() {
               register={register('bacteria')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Casts"
               name="casts"
@@ -3900,7 +2681,7 @@ export function Urine() {
               register={register('casts')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Epith Cells"
               name="epithCells"
@@ -3908,9 +2689,7 @@ export function Urine() {
               register={register('epithCells')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Crystals"
               name="crystals"
@@ -3926,9 +2705,7 @@ export function Urine() {
               register={register('tv')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={4}>
             <Textarea
               label="Culture Yielded"
               name="cultureYielded"
@@ -3936,9 +2713,7 @@ export function Urine() {
               type="text"
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={4}>
             <Textarea
               label="Malaria Parasite"
               name="malariaParasite"
@@ -3946,9 +2721,7 @@ export function Urine() {
               type="text"
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={4}>
             <Textarea
               label="Recommendation"
               name="Recommendation"
@@ -3956,9 +2729,7 @@ export function Urine() {
               type="text"
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -3969,7 +2740,6 @@ export function Urine() {
               }}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -3982,7 +2752,7 @@ export function Urine() {
               Draft
             </span>
           </Grid>{' '}
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -3991,7 +2761,6 @@ export function Urine() {
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -4005,261 +2774,17 @@ export function Urine() {
             </span>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
             )}
           </Grid>
         </Grid>
-
-        {/* <label className="label is-small">URINE</label>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Macroscopy</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="macroscopy"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Microscopy</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="microscopy"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Pus Cells/hof</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="pusCellsOrhof"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Rbs/hpf</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="rbsOrHpf"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Yeast Cells</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="yeastCells"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Bacteria</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="bacteria"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Casts</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="casts"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Epith Cells</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="epithCells"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Crystals</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="crystals"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="column is-half">
-            <div className="field-body">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">T.V</label>
-                <p className="control is-expanded">
-                  <input
-                   
-                    name="tv"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className="label is-small">Culture Yielded</label>
-          <div className="control">
-            <textarea
-             
-              name="cultureYielded"
-              className="textarea is-small"
-            ></textarea>
-          </div>
-        </div>
-        <div className="field">
-          <label className="label is-small">Malaria Parasite</label>
-          <div className="control">
-            <textarea
-             
-              name="malariaParasite"
-              className="textarea is-small"
-            ></textarea>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-        {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        {/* </div> */}
       </form>
     </>
   );
@@ -4675,13 +3200,12 @@ export function Urinalysis() {
 
         <div className="field  is-grouped mt-2">
           <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
+            <GlobalCustomButton
+              text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+              onClick={handleSubmit(onSubmit)}
+              color="success"
               disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
+            />
           </p>
           {/*  <p className="control">
                     <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
@@ -4891,8 +3415,8 @@ export function Stool() {
         <p style={{ fontWeight: '700' }} className="label is-small">
           STOOL
         </p>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} sm={4}>
             <Textarea
               placeholder="Macro"
               name="macro"
@@ -4900,9 +3424,7 @@ export function Stool() {
               register={register('macro')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={4}>
             <Textarea
               placeholder="Micro"
               name="micro"
@@ -4910,9 +3432,7 @@ export function Stool() {
               register={register('macro')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={4}>
             <Textarea
               placeholder="Culture"
               name="culture2"
@@ -4921,7 +3441,7 @@ export function Stool() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} mt={1}>
           <Grid item xs={12} sm={12}>
             <Textarea
               placeholder="Recommendation"
@@ -4931,8 +3451,8 @@ export function Stool() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -4943,7 +3463,6 @@ export function Stool() {
               }}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -4956,7 +3475,7 @@ export function Stool() {
               Draft
             </span>
           </Grid>{' '}
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -4965,7 +3484,6 @@ export function Stool() {
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -4979,102 +3497,17 @@ export function Stool() {
             </span>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
             )}
           </Grid>
         </Grid>
-        {/* <label className="label is-small">STOOL</label>
-        <div className="field">
-          <label className="label is-small">Macro</label>
-          <div className="control">
-            <textarea name="macro" className="textarea is-small"></textarea>
-          </div>
-        </div>
-        <div className="field">
-          <label className="label is-small">Micro</label>
-          <div className="control">
-            <textarea name="micro" className="textarea is-small"></textarea>
-          </div>
-        </div>
-        <div className="field">
-          <label className="label is-small">Culture</label>
-          <div className="control">
-            <textarea name="culture2" className="textarea is-small"></textarea>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-        {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        {/* </div> */}
       </form>
     </>
   );
@@ -5299,8 +3732,8 @@ export function HVS() {
         <p style={{ fontWeight: '700' }} className="label is-small">
           HVS CULTURE
         </p>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+        <Grid container spacing={1} mt={1}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Pus cells' hpf"
               name="pusCells"
@@ -5308,7 +3741,7 @@ export function HVS() {
               register={register('pusCells')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Rbcs/hpf"
               name="rbcsOrHpf"
@@ -5316,9 +3749,7 @@ export function HVS() {
               register={register('rbcsOrHpf')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Yeast Cells"
               name="yeastCells"
@@ -5326,7 +3757,7 @@ export function HVS() {
               register={register('yeastCells')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Bacteria"
               name="bacteria2"
@@ -5334,9 +3765,7 @@ export function HVS() {
               register={register('bacteria2')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Casts"
               name="casts"
@@ -5344,7 +3773,7 @@ export function HVS() {
               register={register('casts')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Epith Cells"
               name="epithCells2"
@@ -5352,9 +3781,7 @@ export function HVS() {
               register={register('epithCells2')}
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="Crystals"
               name="crystals2"
@@ -5362,7 +3789,7 @@ export function HVS() {
               register={register('crystals2')}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={3}>
             <Input
               label="T.V"
               name="tv2"
@@ -5371,7 +3798,7 @@ export function HVS() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} mt={1}>
           <Grid item xs={12} sm={12}>
             <Textarea
               placeholder="Recommendation"
@@ -5381,8 +3808,8 @@ export function HVS() {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -5393,7 +3820,6 @@ export function HVS() {
               }}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -5406,7 +3832,7 @@ export function HVS() {
               Draft
             </span>
           </Grid>{' '}
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <input
               type="radio"
               name="status"
@@ -5415,7 +3841,6 @@ export function HVS() {
               onChange={(e) => handleChangePart(e)}
               disabled={bill_report_status === 'Final'}
               style={{
-                transform: 'scale(1.5)',
                 margin: '1rem',
               }}
             />
@@ -5429,186 +3854,17 @@ export function HVS() {
             </span>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={1}>
           <Grid item xs={12} sm={12}>
             {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
             )}
           </Grid>
         </Grid>
-        {/* <label className="label is-small">HVS CULTURE</label>
-        <label className="label is-small mt-3">Wet Prep</label>
-
-        <div className="columns">
-          <div className="column is-half">
-            <div className="field-body mb-1">
-              <div className="field is-flex ">
-                <label className="label is-small mr-2">Pus cells' hpf</label>
-                <p className="control is-expanded">
-                  <input
-                    name="pusCells"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-
-            <div className="field-body mb-1">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Rbcs/hpf</label>
-                <p className="control is-expanded">
-                  <input
-                    name="rbcsOrHpf"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-
-            <div className="field-body mb-1">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Yeast Cells</label>
-                <p className="control is-expanded">
-                  <input
-                    name="yeastCells"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="field-body mb-1">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Bacteria</label>
-                <p className="control is-expanded">
-                  <input
-                    name="bacteria2"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="column is-half">
-            <div className="field-body mb-1">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Casts</label>
-                <p className="control is-expanded">
-                  <input name="casts" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-
-            <div className="field-body mb-1">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Epith Cells</label>
-                <p className="control is-expanded">
-                  <input
-                    name="epithCells2"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-
-            <div className="field-body mb-1">
-              <div className="field is-flex">
-                <label className="label is-small mr-2">Crystals</label>
-                <p className="control is-expanded">
-                  <input
-                    name="crystals2"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-
-            <div className="field-body">
-              <div className="field is-flex mb-1">
-                <label className="label is-small mr-2">T.V</label>
-                <p className="control is-expanded">
-                  <input name="tv2" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body mb-1">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-        {/*  <p className="control">
-                    <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                        Cancel
-                    </button>
-                </p> */}
-        {/* </div> */}
       </form>
     </>
   );
@@ -5802,8 +4058,8 @@ export function LabNoteGeneric() {
     <>
       <div className="card">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={12}>
               <Input
                 name="investigation"
                 register={register('investigation')}
@@ -5812,7 +4068,7 @@ export function LabNoteGeneric() {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="finding"
@@ -5822,7 +4078,7 @@ export function LabNoteGeneric() {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="recommendation"
@@ -5832,8 +4088,8 @@ export function LabNoteGeneric() {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={2}>
               <input
                 type="radio"
                 name="status"
@@ -5844,8 +4100,7 @@ export function LabNoteGeneric() {
                 }}
                 disabled={bill_report_status === 'Final'}
                 style={{
-                  transform: 'scale(1.5)',
-                  margin: '1rem',
+                  margin: '0 1rem',
                 }}
               />
               <span
@@ -5857,7 +4112,7 @@ export function LabNoteGeneric() {
                 Draft
               </span>
             </Grid>{' '}
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={2}>
               <input
                 type="radio"
                 name="status"
@@ -5866,8 +4121,7 @@ export function LabNoteGeneric() {
                 onChange={(e) => handleChangePart(e)}
                 disabled={bill_report_status === 'Final'}
                 style={{
-                  transform: 'scale(1.5)',
-                  margin: '1rem',
+                  margin: '0 1rem',
                 }}
               />
               <span
@@ -5880,105 +4134,15 @@ export function LabNoteGeneric() {
               </span>
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={2}>
+              <GlobalCustomButton
+                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+              />
             </Grid>
           </Grid>
-          {/* <div className="field">
-          <p className="control has-icons-left has-icons-right">
-            <input
-              className="input is-small"
-              {...register('x')}
-              name="Investigation"
-              type="text"
-              placeholder="Investigation"
-            />
-            <span className="icon is-small is-left">
-              <i className="fas fa-hospital"></i>
-            </span>
-          </p>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Finding"
-                  type="text"
-                  placeholder="Findings"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p>
-         
-        </div> */}
         </form>
       </div>
     </>
@@ -6149,7 +4313,7 @@ export function LabNoteCreate() {
     <>
       <div className="card">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="Finding"
@@ -6163,7 +4327,7 @@ export function LabNoteCreate() {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12}>
               <Textarea
                 name="Recommendation"
@@ -6178,7 +4342,7 @@ export function LabNoteCreate() {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={2}>
               <input
                 type="radio"
                 name="status"
@@ -6189,20 +4353,12 @@ export function LabNoteCreate() {
                 }}
                 disabled={bill_report_status === 'Final'}
                 style={{
-                  transform: 'scale(1.5)',
-                  margin: '1rem',
+                  margin: '0 1rem',
                 }}
               />
-              <span
-                style={{
-                  fontSize: '1rem',
-                }}
-              >
-                {' '}
-                Draft
-              </span>
+              <span> Draft</span>
             </Grid>{' '}
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={2}>
               <input
                 type="radio"
                 name="status"
@@ -6211,112 +4367,23 @@ export function LabNoteCreate() {
                 onChange={(e) => handleChangePart(e)}
                 disabled={bill_report_status === 'Final'}
                 style={{
-                  transform: 'scale(1.5)',
-                  margin: '1rem',
+                  margin: '0 1rem',
                 }}
               />
-              <span
-                style={{
-                  fontSize: '1rem',
-                }}
-              >
-                {' '}
-                Final{' '}
-              </span>
+              <span> Final </span>
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={12} sm={2}>
               {bill_report_status !== 'Final' && (
-                <Button
-                  type="submit"
-                  style={{
-                    backgroundColor: '#0364FF',
-                    width: '100%',
-                    cursor: 'pointer',
-                    marginTop: '1rem',
-                    padding: '1rem',
-                  }}
-                >
-                  {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-                </Button>
+                <GlobalCustomButton
+                  text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                  onClick={handleSubmit(onSubmit)}
+                  color="success"
+                />
               )}
             </Grid>
           </Grid>
-          {/* <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Finding"
-                  type="text"
-                  placeholder="Findings"
-                  disabled={bill_report_status === 'Final'}
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-body">
-            <div className="field">
-              <div className="control has-icons-left has-icons-right">
-                <textarea
-                  className="textarea is-small"
-                  {...register('x')}
-                  name="Recommendation"
-                  type="text"
-                  placeholder="Recommendation"
-                  disabled={bill_report_status === 'Final'}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field">
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Draft</span>
-          </label>{' '}
-          <br />
-          <label className=" is-small">
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-            />
-            <span> Final </span>
-          </label>
-        </div>
-        <div className="field  is-grouped mt-2">
-          <p className="control">
-            <button
-              type="submit"
-              className="button is-success is-small"
-              disabled={bill_report_status === 'Final'}
-            >
-              {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-            </button>
-          </p> */}
-          {/*  <p className="control">
-                  <button className="button is-warning is-small" onClick={(e)=>e.target.reset()}>
-                      Cancel
-                  </button>
-              </p> */}
         </form>
       </div>
     </>

@@ -9,7 +9,7 @@ import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "bulma-toast";
 import {Box} from "@mui/material";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import Button from "../../components/buttons/Button";
@@ -516,7 +516,7 @@ export function AdmitOrdersList({standalone}) {
     return () => {};
   }, []);
 
-  const admitOrderSchema=[
+  const admitOrderSchema = [
     {
       name: "S/N",
       key: "sn",
@@ -525,7 +525,6 @@ export function AdmitOrdersList({standalone}) {
       sortable: true,
       inputType: "HIDDEN",
     },
-    
 
     {
       name: "Date",
@@ -575,9 +574,7 @@ export function AdmitOrdersList({standalone}) {
       required: true,
       inputType: "TEXT",
     },
-    
 
-    
     {
       name: "Action",
       key: "destination",
@@ -590,68 +587,48 @@ export function AdmitOrdersList({standalone}) {
           Delete
         </p>
       ),
-      omit: !standalone?false: true,
+      omit: !standalone ? false : true,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-      
-      
-]  
-
-
+  ];
 
   return (
     <>
-     <Box>
-
-<TableMenu>
-    <div style={{display: "flex", alignItems: "center"}}>
-      {handleSearch && (
-        <div className="inner-table">
-          <FilterMenu onSearch={handleSearch} />
-        </div>
-      )}
-      <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
-        List of Admission Orders
-      </h2>
-      
-    </div>
-    <Button
-            style={{fontSize: "14px", fontWeight: "600", marginLeft:""}}
+      <Box>
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
+              </div>
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
+              List of Admission Orders
+            </h2>
+          </div>
+          <Button
+            style={{fontSize: "14px", fontWeight: "600", marginLeft: ""}}
             label="Add new "
-              className="button is-success is-small"
-              onClick={handleCreateNew}
-            />
-    
-  </TableMenu>
-          
-  
-  
-      
-           
-            
-           
+            className="button is-success is-small"
+            onClick={handleCreateNew}
+          />
+        </TableMenu>
 
-{!standalone && (
-      <button
-        
-        onClick={() => handleDelete(ProductEntry)}
-      />
-    )}
-<Box style={{height:"400px", overScrollY:"scroll"} }>            
-  
-  <CustomTable
-       title={""}
-       columns={admitOrderSchema}
-       data={facilities}
-       pointerOnHover
-       highlightOnHover
-       striped/>
-</Box>
-
-</Box>
-</>
+        {!standalone && <button onClick={() => handleDelete(ProductEntry)} />}
+        <Box style={{height: "400px", overScrollY: "scroll"}}>
+          <CustomTable
+            title={""}
+            columns={admitOrderSchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+        </Box>
+      </Box>
+    </>
   );
 }
 

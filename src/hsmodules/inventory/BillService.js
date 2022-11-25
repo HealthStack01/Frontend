@@ -7,26 +7,24 @@ import {useForm} from "react-hook-form";
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
-// import PaymentCreate from "./PaymentCreate";
-//import PaymentCreate from "./PharmacyPayment";
-//import Payment from "./PharmacyPayment";
-/* import {ProductCreate} from './Products' */
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+
 // eslint-disable-next-line
-//const searchfacility={};
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-
+import ModalBox from "../../components/modal";
 import "react-datepicker/dist/react-datepicker.css";
 
 // Demo styles, see 'Styles' section below for some notes on use.
 
-//import {BillingList} from "./Payment";
 import BillServiceCreate from "./BillServiceCreate";
-import ModalBox from "../../components/modal";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
-export default function InventoryBillService() {
+export default function PharmacyBillService() {
   const [createModal, setCreateModal] = useState(false);
   const {state, setState} = useContext(ObjectContext);
 
@@ -51,7 +49,7 @@ export default function InventoryBillService() {
         onClose={handleCloseCreateModal}
         header="Bill Service"
       >
-        <BillServiceCreate />
+        <BillServiceCreate closeModal={handleCloseCreateModal} />
       </ModalBox>
 
       {/* <BillServiceCreate /> */}
@@ -459,11 +457,13 @@ export function BillsList({openCreateModal}) {
           </div>
 
           {handleCreateNew && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutlineOutlinedIcon
+                sx={{marginRight: "5px"}}
+                fontSize="small"
+              />
+              Add New
+            </GlobalCustomButton>
           )}
         </TableMenu>
         <div
@@ -514,18 +514,6 @@ export function BillsList({openCreateModal}) {
               </div>
             </>
           )}
-
-          {/* {state.financeModule.show === "detail" && (
-            <div
-              style={{
-                height: "calc(100% - 70px)",
-                width: "51.5%",
-                transition: "width 0.5s ease-in",
-              }}
-            >
-              <PaymentCreate />
-            </div>
-          )} */}
         </div>
       </div>
     </>

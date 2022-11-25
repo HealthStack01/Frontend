@@ -419,7 +419,7 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-      center: true,
+      width: "80px",
     },
     {
       name: "Client Name",
@@ -429,7 +429,6 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      center: true,
     },
     {
       name: "Prescription(s)",
@@ -439,7 +438,6 @@ export function DispenseList({openCreateModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-      center: true,
     },
   ];
 
@@ -448,7 +446,6 @@ export function DispenseList({openCreateModal}) {
       name: "S/NO",
       width: "80px",
       key: "sn",
-      center: true,
       description: "Enter name of Disease",
       selector: row => (
         <div style={{display: "flex", alignItems: "center"}}>

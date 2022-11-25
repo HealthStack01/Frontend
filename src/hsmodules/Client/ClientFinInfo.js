@@ -1,19 +1,21 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { FacilitySearch } from "../helpers/FacilitySearch";
-import { ClientSearch } from "../helpers/ClientSearch";
-import { Box, Button, Collapse, Grid } from "@mui/material";
+import {DebounceInput} from "react-debounce-input";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {FacilitySearch} from "../helpers/FacilitySearch";
+import {ClientSearch} from "../helpers/ClientSearch";
+import {Box, Button, Collapse, Grid} from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Input from "../../components/inputs/basic/Input";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import SingleCheckbox from "../../components/inputs/basic/Checkbox/SingleCheckbox";
 
-export default function ClientFinInfo({ closeModal }) {
-  const { user } = useContext(UserContext);
+export default function ClientFinInfo({closeModal}) {
+  const {user} = useContext(UserContext);
   const [organizationId, setOrganizationId] = useState(null);
   const [principalId, setPrincipalId] = useState("");
   const [clientId, setClientId] = useState("");
@@ -33,7 +35,7 @@ export default function ClientFinInfo({ closeModal }) {
   const [obj, setObj] = useState("");
   const [benefittingPlans1, setBenefittingPlans1] = useState([]);
   const [benefittingHMO, setBenefittingHMO] = useState([]);
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const ClientServ = client.service("client");
   const HMOServ = client.service("organizationclient");
   //  const [productEntry,setProductEntry]=useState({
@@ -44,7 +46,7 @@ export default function ClientFinInfo({ closeModal }) {
 
   //console.log(state.financeModule.state)
 
-  const handleChangeMode = async (value) => {
+  const handleChangeMode = async value => {
     await setPaymentMode(value);
     setOrganizationId(null);
     setOrganizationName("");
@@ -74,7 +76,7 @@ export default function ClientFinInfo({ closeModal }) {
     agentName: planHMO ? planHMO.organizationDetail.facilityName : "",
   };
 
-  const getSearchfacility1 = async (obj) => {
+  const getSearchfacility1 = async obj => {
     //setPrincipalId(obj._id)
     setPrincipalName(obj.firstname + " " + obj.lastname);
     setPrincipal(obj._id);
@@ -88,7 +90,7 @@ export default function ClientFinInfo({ closeModal }) {
     }
   };
 
-  const getSearchfacility = async (obj) => {
+  const getSearchfacility = async obj => {
     console.log(obj);
     await setOrganization(obj);
     await setOrganizationId(obj._id);
@@ -133,14 +135,14 @@ export default function ClientFinInfo({ closeModal }) {
     //setSuccess(false)
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
   };
 
   const handleAdd = async () => {
     //setSuccess(false)
     console.log(productItemI);
-    setProductItem((prev) => prev.concat(productItemI));
+    setProductItem(prev => prev.concat(productItemI));
     resetform();
     //
   };
@@ -151,7 +153,7 @@ export default function ClientFinInfo({ closeModal }) {
     ClientServ.patch(medication._id, {
       paymentinfo: productItem,
     })
-      .then((resp) => {
+      .then(resp => {
         resetform();
         let client = resp;
         console.log(client);
@@ -165,7 +167,7 @@ export default function ClientFinInfo({ closeModal }) {
         });
         closeModal();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         toast({
           message: "Error creating Client " + err,
@@ -186,7 +188,7 @@ export default function ClientFinInfo({ closeModal }) {
     return () => {};
   }, [medication]);
 
-  const getBenfittingHMO = async (obj) => {
+  const getBenfittingHMO = async obj => {
     await setBenefittingHMO([]);
     await HMOServ.find({
       query: {
@@ -197,7 +199,7 @@ export default function ClientFinInfo({ closeModal }) {
         },
       },
     })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setBenefittingHMO(res.data);
         /*   toast({
@@ -207,7 +209,7 @@ export default function ClientFinInfo({ closeModal }) {
                 pauseOnHover: true,
               }) */
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         toast({
           message: "Error fetching HMO " + err,
@@ -218,7 +220,7 @@ export default function ClientFinInfo({ closeModal }) {
       });
   };
 
-  const getBenfittingPlans = async (obj) => {
+  const getBenfittingPlans = async obj => {
     await setBenefittingPlans1([]);
     if (user.currentEmployee) {
       console.log(obj._id, organizationId);
@@ -238,23 +240,23 @@ export default function ClientFinInfo({ closeModal }) {
         },
       });
 
-      findServices.groupedOrder[0].services.forEach(async (c) => {
+      findServices.groupedOrder[0].services.forEach(async c => {
         const newPlan = {
           name: c.name,
           checked: false,
         };
-        await setBenefittingPlans1((prev) => prev.concat(c));
+        await setBenefittingPlans1(prev => prev.concat(c));
       });
       console.log(findServices.groupedOrder[0]);
     }
   };
 
-  const handleChange = async (e) => {
+  const handleChange = async e => {
     setPlan(e.target.value);
   };
-  const handleHMO = async (e) => {
+  const handleHMO = async e => {
     const abc = e.target.value;
-    const hmo = benefittingHMO.find((el) => el._id === abc);
+    const hmo = benefittingHMO.find(el => el._id === abc);
 
     /*  if (e.target.value===undefined||e.target.value===""){
                 toast({
@@ -302,7 +304,7 @@ export default function ClientFinInfo({ closeModal }) {
       name: "Type",
       key: "paymentmode",
       description: "First Name",
-      selector: (row) => row.paymentmode,
+      selector: row => row.paymentmode,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -311,7 +313,7 @@ export default function ClientFinInfo({ closeModal }) {
       name: "Principal",
       key: "principalName",
       description: "First Name",
-      selector: (row) => row.principalName,
+      selector: row => row.principalName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -320,7 +322,7 @@ export default function ClientFinInfo({ closeModal }) {
       name: "Organization",
       key: "organizationName",
       description: "First Name",
-      selector: (row) => row.organizationName,
+      selector: row => row.organizationName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -329,7 +331,7 @@ export default function ClientFinInfo({ closeModal }) {
       name: "HMO Agent",
       key: "agentName",
       description: "First Name",
-      selector: (row) => row.agentName,
+      selector: row => row.agentName,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -338,7 +340,7 @@ export default function ClientFinInfo({ closeModal }) {
       name: "Plan",
       key: "plan",
       description: "First Name",
-      selector: (row) => row.plan,
+      selector: row => row.plan,
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -347,7 +349,7 @@ export default function ClientFinInfo({ closeModal }) {
       name: "Active",
       key: "active",
       description: "First Name",
-      selector: (row) => (row.active ? "Yes" : "No"),
+      selector: row => (row.active ? "Yes" : "No"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -356,81 +358,76 @@ export default function ClientFinInfo({ closeModal }) {
 
   return (
     <>
-      <Box sx={{ width: "750px" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+      <Box sx={{width: "50vw", maxHeight: "80vh"}}>
+        <Grid container spacing={1} pt={1} mb={1}>
+          <Grid item lg={4} md={4} sm={6}>
             <CustomSelect
               name="paymentmode"
               defaultValue={paymentmode}
               options={options}
-              onChange={(e) => handleChangeMode(e.target.value)}
+              onChange={e => handleChangeMode(e.target.value)}
               label="Payment Mode"
             />
           </Grid>
         </Grid>
 
         <Collapse in={paymentmode !== "Family"}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          <Grid container spacing={1} mb={1}>
+            <Grid item lg={6} md={6} sm={12}>
               <FacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+
+            <Grid item lg={6} md={6} sm={12}>
               <Input
                 className="input is-small"
                 name="clientid"
                 value={clientId}
                 type="text"
-                onChange={(e) => setClientId(e.target.value)}
-                style={{ display: "none" }}
+                onChange={e => setClientId(e.target.value)}
+                style={{display: "none"}}
                 label="Organization's client identifier"
               />
             </Grid>
-          </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item lg={6} md={6} sm={12}>
               <Input
                 name="principalname"
                 value={principalName}
                 type="text"
-                onChange={(e) => setPrincipalName(e.target.value)}
+                onChange={e => setPrincipalName(e.target.value)}
                 label="Principal Name"
               />
             </Grid>
-          </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item lg={6} md={6} sm={12}>
               <Input
                 name="principalid"
                 value={principalId}
                 type="text"
-                onChange={(e) => setPrincipalId(e.target.value)}
+                onChange={e => setPrincipalId(e.target.value)}
                 label="Organization's Principal ID"
               />
             </Grid>
           </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={7}>
+          <Grid container spacing={1}>
+            <Grid item lg={3} md={4} sm={6}>
               <CustomSelect
                 label="Choose plan"
-                options={benefittingPlans1.map((item) => item.name)}
+                options={benefittingPlans1.map(item => item.name)}
                 name="bandType"
                 defaultValue={plan}
-                onChange={(e) => handleChange(e)}
+                onChange={e => handleChange(e)}
               />
             </Grid>
 
             {organization?.facilityType === "State HIA" ? (
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <CustomSelect
-                  options={benefittingHMO.map((item) => {
+                  options={benefittingHMO.map(item => {
                     return {
                       label: item.organizationDetail.facilityName,
                       value: item._id,
@@ -438,29 +435,23 @@ export default function ClientFinInfo({ closeModal }) {
                   })}
                   name="bandType"
                   value={planHMO?._id}
-                  onChange={(e) => handleHMO(e)}
+                  onChange={e => handleHMO(e)}
                 />
               </Grid>
             ) : (
               <>
-                <Grid item xs={2}>
-                  <CheckboxInput
+                <Grid item xs={3}>
+                  <SingleCheckbox
                     label="Active"
-                    options={["Active"]}
                     name="order"
                     checked={active}
-                    type="checkbox"
-                    onChange={(e) => setActive(e.target.checked)}
+                    onChange={e => setActive(e.target.checked)}
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <Button
-                    variant="outlined"
-                    sx={{ width: "100%" }}
-                    onClick={handleAdd}
-                  >
+                  <GlobalCustomButton onClick={handleAdd}>
                     Add
-                  </Button>
+                  </GlobalCustomButton>
                 </Grid>
               </>
             )}
@@ -468,8 +459,8 @@ export default function ClientFinInfo({ closeModal }) {
         </Collapse>
 
         <Collapse in={paymentmode === "Family"}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={7}>
               <FacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
@@ -479,44 +470,36 @@ export default function ClientFinInfo({ closeModal }) {
                 name="clientid"
                 value={clientId}
                 type="text"
-                onChange={(e) => setClientId(e.target.value)}
-                style={{ display: "none" }}
+                onChange={e => setClientId(e.target.value)}
+                style={{display: "none"}}
               />
             </Grid>
-          </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={7}>
+            <Grid item xs={5}>
               <Input
                 name="plan"
                 value={plan}
                 type="text"
-                onChange={(e) => setPlan(e.target.value)}
+                onChange={e => setPlan(e.target.value)}
                 label="Plan"
               />
             </Grid>
             <Grid item xs={2}>
-              <CheckboxInput
+              <SingleCheckbox
                 label="Active"
-                options={["Active"]}
                 name="order"
                 checked={active}
-                type="checkbox"
-                onChange={(e) => setActive(e.target.checked)}
+                onChange={e => setActive(e.target.checked)}
               />
             </Grid>
+
             <Grid item xs={3}>
-              <Button
-                variant="outlined"
-                sx={{ width: "100%" }}
-                onClick={handleAdd}
-              >
-                Add
-              </Button>
+              <GlobalCustomButton onClick={handleAdd}>Add</GlobalCustomButton>
             </Grid>
           </Grid>
         </Collapse>
-        <Box style={{ overflow: "auto" }}>
+
+        <Box style={{overflow: "auto"}}>
           {productItem.length > 0 && (
             <CustomTable
               title={""}
@@ -530,22 +513,22 @@ export default function ClientFinInfo({ closeModal }) {
           )}
         </Box>
 
-        <Button
-          variant="outlined"
+        <GlobalCustomButton
           onClick={handlePayment}
-          style={{ marginTop: "30px" }}
           success={closeModal}
+          sx={{marginRight: "10px"}}
         >
           Update
-        </Button>
-        <Button
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
           variant="outlined"
           onClick={onSubmit}
           disabled={!productItem.length > 0}
-          style={{ marginTop: "30px" }}
+          color="error"
         >
           Cancel
-        </Button>
+        </GlobalCustomButton>
       </Box>
     </>
   );

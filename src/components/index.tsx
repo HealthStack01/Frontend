@@ -5,11 +5,13 @@ import {ObjectContext} from "../context";
 
 import {Models} from "../hsmodules/app/Constants";
 import Breadcrumbs from "./breadcrumb";
+import GlobalCustomButton from "./buttons/CustomButton";
 import useRepository from "./hooks/repository";
 import LocationModal from "./inputs/LocationModal";
 import LocationSelect from "./inputs/LocationSelect";
 import ProfileMenu from "./profilemenu";
 import {Profile, TopMenuWrapper} from "./styles";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 //import { avatar } from '../../assets/images/img_avatar.png';
 
 const defaultList = [{code: "NG", label: "", location: ""}];
@@ -108,10 +110,21 @@ const TopMenu = ({isOpen, handleClick}) => {
 
         {state.employeeLocation.locationName && (
           <Box sx={{display: "flex", alignItems: "center"}} mr={2}>
-            <Typography
-              sx={{color: "#000000"}}
-            >{`@ ${state.employeeLocation.locationName} ${state.employeeLocation.locationType}`}</Typography>
-            <Button
+            <GlobalCustomButton
+              sx={{
+                color: "#000000",
+                background: "#ffffff",
+                fontWeight: "600",
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                },
+              }}
+            >
+              {`@ ${state.employeeLocation.locationName} ${state.employeeLocation.locationType}`}{" "}
+              <ArrowDropDownIcon fontSize="small" sx={{marginLeft: "5px"}} />
+            </GlobalCustomButton>
+
+            {/* <Button
               size="medium"
               variant="contained"
               sx={{textTransform: "capitalize", marginLeft: "10px"}}
@@ -120,7 +133,7 @@ const TopMenu = ({isOpen, handleClick}) => {
               }
             >
               Change {state.employeeLocation.locationType}
-            </Button>
+            </Button> */}
           </Box>
         )}
 

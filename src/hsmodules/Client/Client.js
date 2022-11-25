@@ -36,7 +36,7 @@ import {
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
 import {Box, Portal, Grid, Button as MuiButton} from "@mui/material";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
 import ClientForm from "./ClientForm";
@@ -1181,17 +1181,15 @@ export function ClientDetail({closeDetailModal}) {
               color="info"
             />
           )}
-          <MuiButton
-            variant="contained"
-            size="small"
+
+          <GlobalCustomButton
             sx={{
-              textTransform: "capitalize",
               marginRight: "5px",
             }}
             onClick={handleCreateWallet}
           >
             Create Wallet
-          </MuiButton>
+          </GlobalCustomButton>
 
           <GlobalCustomButton
             text="Payment Information"

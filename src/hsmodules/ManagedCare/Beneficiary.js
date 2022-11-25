@@ -44,6 +44,9 @@ import {
 } from '../app/styles';
 import ClinicAppointments from '../Appointment/clinicAppointments';
 import PharmacyBillService from '../Finance/BillService';
+import Claims from './Claims';
+import GeneralAppointments from './Referral';
+import HealthPlan from './HealthPlan';
 var random = require('random-string-generator');
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1544,24 +1547,16 @@ export function ClientList({ showModal, setShowModal }) {
             )}
           </TableMenu>
 
-          <div
-            style={{
-              width: '100%',
-              height: 'calc(100vh-90px)',
-              overflow: 'auto',
-            }}
-          >
-            <CustomTable
-              title={''}
-              columns={BeneficiarySchema}
-              data={facilities}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              progressPending={loading}
-            />
-          </div>
+          <CustomTable
+            title={''}
+            columns={BeneficiarySchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            progressPending={loading}
+          />
         </PageWrapper>
       </div>
     </>
@@ -1580,6 +1575,7 @@ export function ClientDetail({ showModal, setShowModal }) {
   const [billingModal, setBillingModal] = useState(false);
   const [billModal, setBillModal] = useState(false);
   const [appointmentModal, setAppointmentModal] = useState(false);
+  const [display, setDisplay] = useState(1);
   // eslint-disable-next-line
   const [message, setMessage] = useState(''); //,
   //const ClientServ=client.service('/Client')
@@ -1675,7 +1671,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             >
               Edit Details
             </Button>
-            <Button
+            {/* <Button
               onClick={handleFinancialInfo}
               variant="contained"
               size="small"
@@ -1683,6 +1679,32 @@ export function ClientDetail({ showModal, setShowModal }) {
               color="info"
             >
               Payment Info
+            </Button> */}
+            <Button
+              onClick={() => setDisplay(2)}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="info"
+            >
+              Claims
+            </Button>
+            <Button
+              onClick={() => setDisplay(3)}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="secondary"
+            >
+              Referrals
+            </Button>
+            <Button
+              onClick={() => setDisplay(4)}
+              variant="outlined"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+            >
+              Benefits
             </Button>
             <Button
               onClick={handleSchedule}
@@ -1702,7 +1724,7 @@ export function ClientDetail({ showModal, setShowModal }) {
               View History
             </Button>
 
-            {(user.currentEmployee?.roles.includes('Bill Client') ||
+            {/* {(user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
               user.stacker) && (
               <button
@@ -1720,94 +1742,100 @@ export function ClientDetail({ showModal, setShowModal }) {
               >
                 Bill Client
               </button>
-            )}
+            )} */}
           </Grid>
         </Grid>
-        <Grid container>
-          <Grid item md={4}>
-            <p>First Name:{Client?.firstname}</p>
+        {display === 1 && (
+          <Grid container>
+            <Grid item md={4}>
+              <p>First Name:{Client?.firstname}</p>
+            </Grid>
+            <Grid item md={4}>
+              <p>Middle Name: {Client?.middlename}</p>
+            </Grid>
+            <Grid item md={4}>
+              <p>Last Name: {Client?.lastname}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>
+                Date of Birth:{' '}
+                {new Date(Client?.dob).toLocaleDateString('en-GB')}
+              </p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Gender: {Client?.gender}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Marital Status: {Client?.maritalstatus}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Medical Records Number: {Client?.mrn}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Religion: {Client?.religion}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Profession: {Client?.profession}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Phone Number: {Client?.phone}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Email: {Client?.email}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Address: {Client?.address}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Town/City: {Client?.city}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>LGA: {Client?.lga}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>State: {Client?.state}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Country: {Client?.country}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Blood Group: {Client?.bloodgroup}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Genotype: {Client?.genotype}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Disabilities: {Client?.disabilities}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Allergies: {Client?.allergies}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Co-morbidities: {Client?.comorbidities}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Tags: {Client?.clientTags}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Specific Details: {Client?.specificDetails}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Next of Kin Name: {Client?.nok_name}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>Next of Kin Email: {Client?.nok_email}</p>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <p>NOK Relationship: {Client?.nok_relationship}</p>
+            </Grid>
           </Grid>
-          <Grid item md={4}>
-            <p>Middle Name: {Client?.middlename}</p>
-          </Grid>
-          <Grid item md={4}>
-            <p>Last Name: {Client?.lastname}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>
-              Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
-            </p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Gender: {Client?.gender}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Marital Status: {Client?.maritalstatus}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Medical Records Number: {Client?.mrn}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Religion: {Client?.religion}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Profession: {Client?.profession}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Phone Number: {Client?.phone}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Email: {Client?.email}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Address: {Client?.address}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Town/City: {Client?.city}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>LGA: {Client?.lga}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>State: {Client?.state}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Country: {Client?.country}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Blood Group: {Client?.bloodgroup}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Genotype: {Client?.genotype}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Disabilities: {Client?.disabilities}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Allergies: {Client?.allergies}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Co-morbidities: {Client?.comorbidities}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Tags: {Client?.clientTags}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Specific Details: {Client?.specificDetails}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Next of Kin Name: {Client?.nok_name}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Next of Kin Email: {Client?.nok_email}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>NOK Relationship: {Client?.nok_relationship}</p>
-          </Grid>
-        </Grid>
+        )}
+        {display === 2 && <Claims />}
+        {display === 3 && <GeneralAppointments />}
+        {display === 4 && <HealthPlan />}
 
         {finacialInfoModal && (
           <>

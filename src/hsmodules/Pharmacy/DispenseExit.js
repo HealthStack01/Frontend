@@ -637,7 +637,7 @@ export function ProductExitCreate({closeModal}) {
                       onClick={handleChangeAmount}
                       sx={{marginTop: "5px"}}
                     >
-                      Adjust
+                      Adjust Amount
                     </GlobalCustomButton>
                   </Box>
                 </Grid>
@@ -664,6 +664,7 @@ export function ProductExitCreate({closeModal}) {
           sx={{
             width: "100%",
             display: "flex",
+            justifyContent: "flex-end",
           }}
           mt={2}
         >

@@ -8,6 +8,7 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 //import PaymentCreate from './PaymentCreate'
+import SellIcon from "@mui/icons-material/Sell";
 import PatientProfile from "../Client/PatientProfile";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -18,7 +19,17 @@ import PatientProfile from "../Client/PatientProfile";
 import {ProductExitCreate} from "./DispenseExit";
 //import BillPrescriptionCreate from './BillPrescriptionCreate';
 
-export default function Dispense() {
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import CustomTable from "../../components/customtable";
+import {InventoryStoreSchema} from "./schema";
+import ModalBox from "../../components/modal";
+import {Button as MuiButton} from "@mui/material";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+
+export default function InventoryDispense() {
   //const {state}=useContext(ObjectContext) //,setState
   // eslint-disable-next-line
   const [selectedProductEntry, setSelectedProductEntry] = useState();
@@ -38,30 +49,32 @@ export default function Dispense() {
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
+  const [createModal, setCreateModal] = useState(false);
+
+  const handleOpenCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleCloseCreateModal = () => {
+    setCreateModal(false);
+  };
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">ProductEntry  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-6 ">
-          <DispenseList />
-        </div>
+      <DispenseList openCreateModal={handleOpenCreateModal} />
 
-        <div className="column is-6 ">
-          {state.financeModule.show === "detail" && <ProductExitCreate />}
-        </div>
-        {/*  <div className="column is-3 ">
-                
-                {(state.financeModule.show ==='detail')&&<PatientProfile />}
-                </div> */}
-      </div>
+      <ModalBox
+        open={createModal}
+        onClose={handleCloseCreateModal}
+        header="Point of Sale: Sales, Dispense, Audit, Transfer out"
+      >
+        <ProductExitCreate closeModal={handleCloseCreateModal} />
+      </ModalBox>
     </section>
   );
 }
 
-export function DispenseList() {
+export function DispenseList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -73,6 +86,7 @@ export function DispenseList() {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [selectedDispense, setSelectedDispense] = useState(); //
   const [selectedOrders, setSelectedOrders] = useState([]);
@@ -83,6 +97,9 @@ export function DispenseList() {
   const [selectedFinance, setSelectedFinance] = useState("");
   const [expanded, setExpanded] = useState("");
   const [oldClient, setOldClient] = useState("");
+  const [selectedClient, setSelectedClient] = useState();
+  const [clientBills, setClientBills] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -97,6 +114,53 @@ export function DispenseList() {
   };
 
   const handleChoseClient = async (client, e, order) => {
+    setOldClient(client.clientname);
+
+    order.checked = e.target.checked;
+    await handleSelectedClient(order.participantInfo.client);
+    //handleMedicationRow(order)
+    await setSelectedFinance(order);
+    const newProductEntryModule = {
+      ...state.financeModule,
+      selectedFinance: order,
+      show: "detail",
+      state: e.target.checked,
+    };
+    await setState(prevstate => ({
+      ...prevstate,
+      financeModule: newProductEntryModule,
+    }));
+
+    //set of checked items
+    if (e.target.checked) {
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev?.financeModule?.selectedBills?.concat(order),
+        },
+      }));
+      await setSelectedOrders(prevstate => prevstate.concat(order));
+    } else {
+      await setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: prev.financeModule.selectedBills.filter(
+            el => el._id !== order._id
+          ),
+        },
+      }));
+
+      setSelectedOrders(prevstate =>
+        prevstate.filter(el => el._id !== order._id)
+      );
+    }
+
+    // console.log(selectedOrders)
+  };
+
+  const handleChoseClient2 = async (client, e, order) => {
     setOldClient(client.clientname);
     let newClient = client.clientname;
     if (oldClient !== newClient) {
@@ -120,6 +184,7 @@ export function DispenseList() {
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
+
     if (e.target.checked) {
       await setSelectedOrders(prevstate => prevstate.concat(order));
     } else {
@@ -161,6 +226,7 @@ export function DispenseList() {
       DispenseModule: newProductEntryModule,
     }));
     //console.log(state)
+    openCreateModal();
   };
 
   const handleSearch = val => {
@@ -233,8 +299,44 @@ export function DispenseList() {
     await setFacilities(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
-  const handleRow = async (Client, e) => {
-    // alert(expanded)
+
+  const handleRow = async (client, e) => {
+    await setSelectedClient(client);
+
+    setOldClient(client.clientname);
+    let newClient = client.clientname;
+
+    if (oldClient !== newClient) {
+      selectedOrders.forEach(el => (el.checked = ""));
+      setSelectedOrders([]);
+      setState(prev => ({
+        ...prev,
+        financeModule: {
+          ...prev.financeModule,
+          selectedBills: [],
+        },
+      }));
+    }
+
+    const clientOrders = client.bills.map(data => {
+      const allOrders = [];
+
+      data.order.map(order => {
+        const orderData = {
+          date: order.createdAt,
+          status: order.billing_status,
+          description: order.serviceInfo.name,
+          amount: order.serviceInfo.amount,
+          order: order,
+        };
+
+        allOrders.push(orderData);
+      });
+      return allOrders;
+    });
+
+    //console.log(clientOrders);
+    setClientBills(clientOrders.flat(1));
   };
   //1.consider using props for global data
   useEffect(() => {
@@ -285,138 +387,211 @@ export function DispenseList() {
     return () => {};
   }, [state.financeModule.show]);
 
+  const getTotal = async () => {
+    console.log(selectedOrders[0]);
+    setTotalAmount(0);
+    selectedOrders.forEach(el => {
+      setTotalAmount(
+        prevtotal => Number(prevtotal) + Number(el?.paymentInfo?.amountDue)
+      );
+    });
+  };
+
+  useEffect(() => {
+    getTotal();
+  }, [selectedOrders]);
+
+  // const DispensorySummary = [
+  //   {name: "S/N", selector: row => row.sn},
+  //   {name: "Client Name", selector: row => row.clientname},
+  //   {
+  //     name: "Bill Items",
+  //     selector: row => row.bills.map(obj => obj.order).flat().length,
+  //   },
+  // ];
+
+  const dispensarySchema = [
+    {
+      name: "S/NO",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: "Client Name",
+      key: "clientname",
+      description: "Enter client name",
+      selector: row => row.clientname,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Prescription(s)",
+      key: "bills",
+      description: "Enter bills",
+      selector: row => row.bills.map(obj => obj.order).flat().length,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+  ];
+
+  const selectedClientSchema = [
+    {
+      name: "S/NO",
+      width: "80px",
+      key: "sn",
+      description: "Enter name of Disease",
+      selector: row => (
+        <div style={{display: "flex", alignItems: "center"}}>
+          <input
+            type="checkbox"
+            //name={order._id}
+            style={{marginRight: "3px"}}
+            onChange={e => handleChoseClient(selectedClient, e, row.order)}
+            checked={row.order.checked}
+          />
+          {row.sn}
+        </div>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+    {
+      name: "Date",
+      key: "date",
+      description: "Enter Date",
+      selector: row => format(new Date(row.date), "dd-MM-yy"),
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "100px",
+      center: true,
+    },
+    {
+      name: "Description",
+      key: "description",
+      description: "Enter Description",
+      selector: row => row.description,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Status",
+      key: "status",
+      description: "Enter Status",
+      selector: row => row.status,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Amount",
+      key: "amount",
+      description: "Enter Amount",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+      width: "100px",
+      center: true,
+    },
+  ];
+
   return (
     <>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <div className="field">
-              <p className="control has-icons-left  ">
-                <DebounceInput
-                  className="input is-small "
-                  type="text"
-                  placeholder="Search Medications"
-                  minLength={3}
-                  debounceTimeout={400}
-                  onChange={e => handleSearch(e.target.value)}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-search"></i>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="level-item">
-          {" "}
-          <span className="is-size-6 has-text-weight-medium">
-            Paid Prescriptions{" "}
-          </span>
-        </div>
-        {/* <div className="level-right">
-                       <div className="level-item"> 
-                            <div className="level-item"><div className="button is-success is-small" onClick={handleCreateNew}>New</div></div>
-                        </div> 
-                    </div>*/}
-      </div>
-      <div className=" pullup ">
-        <div className=" is-fullwidth vscrollable pr-1">
-          <div>
-            {facilities.map((Clinic, i) => (
-              <div key={Clinic.client_id}>
-                <div>
-                  <div>
-                    {/*  <input type = "checkbox" name={Clinic.client_id}  />  */}
-                    <strong>
-                      {" "}
-                      {i + 1} {Clinic.clientname}{" "}
-                      {/* with {Clinic.bills.length} Unpaid bills. */}{" "}
-                      {/* Grand Total amount: N */}
-                    </strong>
-                  </div>
-                </div>
-                <div>
-                  <div className=" is-fullwidth vscrollable pr-1">
-                    <div>
-                      {Clinic.bills.map((category, i) => (
-                        <div key={Clinic.client_id}>
-                          <div>
-                            <div>
-                              {/*  <input type = "checkbox" name={Clinic.client_id} onChange={(e)=>handleMedicationRow(Clinic,e)} />   */}
-                              {category.catName} with {category.order.length}{" "}
-                              Paid bill(s). {/* Total amount: N */}
-                            </div>
-                          </div>
-                          <div>
-                            <table className="table is-striped  is-hoverable is-fullwidth is-scrollable mr-2">
-                              <thead>
-                                <tr>
-                                  <th>
-                                    <abbr title="Serial No">S/No</abbr>
-                                  </th>
-                                  <th>
-                                    <abbr title="Date">Date</abbr>
-                                  </th>
-                                  <th>
-                                    <abbr title="Description">Description</abbr>
-                                  </th>
-                                  {/*  <th>Fulfilled</th> */}
-                                  <th>
-                                    <abbr title="Status">Status</abbr>
-                                  </th>
-                                  <th>
-                                    <abbr title="Amount">Amount</abbr>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {category.order.map((order, i) => (
-                                  <tr
-                                    key={order._id}
-                                    /*  onClick={()=>handleMedicationRow(order)} */ className={
-                                      order._id ===
-                                      (selectedFinance?._id || null)
-                                        ? "is-selected"
-                                        : ""
-                                    }
-                                  >
-                                    <th>
-                                      <input
-                                        type="checkbox"
-                                        name={order._id}
-                                        onChange={e =>
-                                          handleChoseClient(Clinic, e, order)
-                                        }
-                                        checked={order.checked}
-                                      />{" "}
-                                      {i + 1}
-                                    </th>
-                                    <td>
-                                      <span>
-                                        {format(
-                                          new Date(order.createdAt),
-                                          "dd-MM-yy"
-                                        )}
-                                      </span>
-                                    </td>{" "}
-                                    {/* {formatDistanceToNowStrict(new Date(ProductEntry.createdAt),{addSuffix: true})} <br/> */}
-                                    <th>{order.serviceInfo.name}</th>
-                                    {/*  <td>{order.fulfilled==="True"?"Yes":"No"}</td> */}
-                                    <td>{order.billing_status}</td>
-                                    <td>{order.serviceInfo.amount}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px",
+          flex: "1",
+        }}
+      >
+        <TableMenu>
+          <div style={{display: "flex", alignItems: "center"}}>
+            {handleSearch && (
+              <div className="inner-table">
+                <FilterMenu onSearch={handleSearch} />
               </div>
-            ))}
+            )}
+            <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
+              Paid Prescription
+            </h2>
           </div>
+
+          {selectedOrders.length > 0 && (
+            <h2 style={{marginLeft: "10px", fontSize: "0.9rem"}}>
+              Amount Due : <span>&#8358;</span>
+              {totalAmount}
+            </h2>
+          )}
+
+          {selectedOrders.length > 0 && (
+            <GlobalCustomButton onClick={openCreateModal}>
+              <SellIcon fontSize="small" sx={{marginRight: "5px"}} />
+              Sell Product(s)
+            </GlobalCustomButton>
+          )}
+        </TableMenu>
+
+        <div
+          className="columns"
+          style={{
+            display: "flex",
+            width: "100%",
+            //flex: "1",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              height: "calc(100% - 70px)",
+              transition: "width 0.5s ease-in",
+              width: selectedClient ? "40%" : "100%",
+            }}
+          >
+            <CustomTable
+              title={""}
+              columns={dispensarySchema}
+              data={facilities}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+            />
+          </div>
+
+          {selectedClient && (
+            <>
+              <div
+                style={{
+                  height: "calc(100% - 70px)",
+                  width: "59%",
+                  transition: "width 0.5s ease-in",
+                }}
+              >
+                <CustomTable
+                  title={""}
+                  columns={selectedClientSchema}
+                  data={clientBills}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //onRowClicked={row => onRowClicked(row)}
+                  progressPending={loading}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

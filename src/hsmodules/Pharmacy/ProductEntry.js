@@ -520,6 +520,7 @@ export function ProductEntryCreate({closeModal}) {
         sx={{
           width: "100%",
           display: "flex",
+          justifyContent: "flex-end",
         }}
         mt={2}
       >
@@ -533,11 +534,7 @@ export function ProductEntryCreate({closeModal}) {
           Add Product(s)
         </GlobalCustomButton>
 
-        <GlobalCustomButton
-          variant="outlined"
-          color="warning"
-          onClick={closeModal}
-        >
+        <GlobalCustomButton color="error" onClick={closeModal}>
           Cancel
         </GlobalCustomButton>
       </Box>

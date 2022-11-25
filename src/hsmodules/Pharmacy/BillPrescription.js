@@ -72,18 +72,9 @@ export default function PharmacyBillPrescription() {
             display: "flex",
             justifyContent: "space-between",
             width: "85vw",
-            maxHeight: "85vh",
+            maxHeight: "80vh",
           }}
         >
-          <Box
-            item
-            sx={{
-              width: "calc(100% - 340px)",
-            }}
-          >
-            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
-          </Box>
-
           <Box
             item
             sx={{
@@ -93,6 +84,15 @@ export default function PharmacyBillPrescription() {
             }}
           >
             <PatientProfile />
+          </Box>
+
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 340px)",
+            }}
+          >
+            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
           </Box>
         </Box>
       </ModalBox>
@@ -280,6 +280,7 @@ export function BillPrescriptionList({showCreateModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Name",

@@ -5,7 +5,7 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 import {MdCancel} from "react-icons/md";
 import {Box, Grid} from "@mui/material";
-import ModalHeader from "./ui-components/modal";
+import ModalHeader from "../../components/modal";
 import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
 //import {useNavigate} from 'react-router-dom'
@@ -174,7 +174,7 @@ export function ClientProblemsCreate() {
           <p className="card-header-title">Create Problem</p>
         </div>
         <div className="card-content vscrollable">
-        <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
@@ -185,24 +185,22 @@ export function ClientProblemsCreate() {
                 </div> */}
             <div className="field">
               <div className="control">
-                
                 <CustomSelect
                   // label="choose band type"
-                  // name="bandType"           
+                  // name="bandType"
                   label="choose problem"
-                  name="Problem Type"           
+                  name="Problem Type"
                   options={bandTypeOptions}
-                  register={register("problemtype", {required:true})}
-                  onChange={(e)=>handleChangeMode(e.target.value)}
-            />
+                  register={register("problemtype", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
               </div>
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("onset", {required:true})}
-          
+                  register={register("onset", {required: true})}
                   name="onset"
                   type="date"
                   placeholder="Date of Onset"
@@ -216,8 +214,7 @@ export function ClientProblemsCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("assessment", {required:true})}
-            
+                  register={register("assessment", {required: true})}
                   name="Assessment"
                   type="text"
                   placeholder="Assessment"
@@ -231,8 +228,7 @@ export function ClientProblemsCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("note", {required:true})}
-            
+                  register={register("note", {required: true})}
                   name="Note"
                   type="text"
                   placeholder="Note"
@@ -538,7 +534,7 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
       required: true,
       inputType: "TEXT",
     },
-    
+
     {
       name: "Date administer",
       key: "date",
@@ -566,29 +562,28 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
       required: true,
       inputType: "TEXT",
     },
-
-  ]
+  ];
 
   const ProblemData = [
-      {
+    {
       problem: "Itching",
       date: "27-10-2022",
       note: "Lorem ipsum dolor....",
       assessment: "29-10-2022",
-      },
-      {
+    },
+    {
       problem: "Sneezing",
       date: "27-10-2022",
       note: "Lorem ipsum dolor....",
       assessment: "29-10-2022",
-      },
-      {
+    },
+    {
       problem: "Iritation",
       date: "27-10-2022",
       note: "Lorem ipsum dolor....",
       assessment: "29-10-2022",
-      },
-  ]
+    },
+  ];
 
   return (
     <>
@@ -726,16 +721,16 @@ export function ClientProblemsDetail({showModifyModal}) {
             {Band?.bandType}
           </span>
         </Grid>
-          
-              <Button
-                sx={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                onClick={handleEdit}
-              >
-                Edit
-              </Button>
-           
-          {error && <div className="message"> {message}</div>}
-       </Grid>
+
+        <Button
+          sx={{fontSize: "14px", fontWeight: "600", width: "80px"}}
+          onClick={handleEdit}
+        >
+          Edit
+        </Button>
+
+        {error && <div className="message"> {message}</div>}
+      </Grid>
     </>
   );
 }
@@ -900,13 +895,13 @@ export function ClientProblemsModify() {
                 {" "}
                 Name
                 <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("name", {required:true})}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Band"
-                />
+                  <Input
+                    className="input is-small"
+                    register={register("name", {required: true})}
+                    name="name"
+                    type="text"
+                    placeholder="Name of Band"
+                  />
                   <span className="icon is-small is-left">
                     <i className="fas fa-hospital"></i>
                   </span>
@@ -931,30 +926,19 @@ export function ClientProblemsModify() {
                 </p>
               </label>
             </div>
-           
           </form>
 
-          <Box sx={{display:"flex"}}>
+          <Box sx={{display: "flex"}}>
             <p className="control">
-              <Button
-                type="submit"
-                onClick={handleSubmit(onSubmit)}
-              >
+              <Button type="submit" onClick={handleSubmit(onSubmit)}>
                 Save
               </Button>
             </p>
             <p className="control">
-              <Button
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
+              <Button onClick={handleCancel}>Cancel</Button>
             </p>
             <p className="control">
-              <Button
-                onClick={() => handleDelete()}
-                type="delete"
-              >
+              <Button onClick={() => handleDelete()} type="delete">
                 Delete
               </Button>
             </p>
