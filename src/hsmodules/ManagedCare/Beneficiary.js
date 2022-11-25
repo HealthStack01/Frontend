@@ -1544,24 +1544,16 @@ export function ClientList({ showModal, setShowModal }) {
             )}
           </TableMenu>
 
-          <div
-            style={{
-              width: '100%',
-              height: 'calc(100vh-90px)',
-              overflow: 'auto',
-            }}
-          >
-            <CustomTable
-              title={''}
-              columns={BeneficiarySchema}
-              data={facilities}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              progressPending={loading}
-            />
-          </div>
+          <CustomTable
+            title={''}
+            columns={BeneficiarySchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            progressPending={loading}
+          />
         </PageWrapper>
       </div>
     </>
