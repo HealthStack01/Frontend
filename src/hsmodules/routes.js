@@ -112,6 +112,7 @@ import RadCheckedin from "./Appointment/Radworkflow";
 import Radiology from "./Radiology/Radiologys"; //, { StoreList, StoreListStandalone }
 import RadiologyHome from "./Radiology/RadiologyHome";
 import RadiologyPayment from "./Radiology/RadiologyPayment";
+import RadDetails from "./Radiology/RadDetails";
 import RadiologyReport from "./Radiology/RadiologyReport";
 import Report from "./Accounts/Report";
 import Services from "./Finance/Services";
@@ -213,7 +214,7 @@ import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
-import CreateWallet from './PouchiiWallet/CreateWallet';
+import WalletOTP from './PouchiiWallet/walletOtp';
 import CheckIn from './ManagedCare/Checkin';
 
 const moduleLocationTypes = {
