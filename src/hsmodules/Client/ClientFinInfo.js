@@ -10,7 +10,7 @@ import {Box, Button, Collapse, Grid} from "@mui/material";
 import CustomSelect from "../../components/inputs/basic/Select";
 import Input from "../../components/inputs/basic/Input";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import SingleCheckbox from "../../components/inputs/basic/Checkbox/SingleCheckbox";
 

@@ -15,8 +15,8 @@ import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
 import {MdCancel} from "react-icons/md";
 import {Box, Grid} from "@mui/material";
-import ModalHeader from "./ui-components/modal";
-import CustomSelect from "../../components/inputs/basic/Select"
+import ModalHeader from "../../components/modal";
+import CustomSelect from "../../components/inputs/basic/Select";
 import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -171,7 +171,7 @@ export function ClientIntoleranceCreate() {
           <p className="card-header-title">Drug Intolerance</p>
         </div>
         <div className="card-content vscrollable">
-        <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
@@ -184,19 +184,18 @@ export function ClientIntoleranceCreate() {
               <div className="control">
                 <CustomSelect
                   label="drug"
-                  name="drug"           
+                  name="drug"
                   options={bandTypeOptions}
-                  register={register("drug", {required:true})}
-                  onChange={(e)=>handleChangeMode(e.target.value)}
-            />
+                  register={register("drug", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
               </div>
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("date", {required:true})}
-          
+                  register={register("date", {required: true})}
                   name="Date administered"
                   type="date"
                   placeholder="Date administered"
@@ -210,8 +209,7 @@ export function ClientIntoleranceCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("reaction", {required:true})}
-            
+                  register={register("reaction", {required: true})}
                   name="reaction"
                   type="text"
                   placeholder="Enter Reaction"
@@ -225,8 +223,7 @@ export function ClientIntoleranceCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("assessment", {required:true})}
-            
+                  register={register("assessment", {required: true})}
                   name="assessment"
                   type="date"
                   placeholder="Date of Assessment"
@@ -240,8 +237,7 @@ export function ClientIntoleranceCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("note", {required:true})}
-            
+                  register={register("note", {required: true})}
                   name="note"
                   type="text"
                   placeholder="note"
@@ -255,8 +251,7 @@ export function ClientIntoleranceCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("type", {required:true})}
-            
+                  register={register("type", {required: true})}
                   name="type"
                   type="text"
                   placeholder="Reaction type"
@@ -303,8 +298,7 @@ export function ClientIntoleranceCreate() {
               <p className="control has-icons-left " style={{display: "none"}}>
                 <Input
                   className="input is-small"
-                  register={register("facility", {required:true})}
-             
+                  register={register("facility", {required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -561,7 +555,7 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
       required: true,
       inputType: "TEXT",
     },
-    
+
     {
       name: "Date administer",
       key: "date",
@@ -607,35 +601,34 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
       required: true,
       inputType: "TEXT",
     },
-
-  ]
+  ];
 
   const drugData = [
-      {
+    {
       drug: "Aspirin",
       date: "27-10-2022",
       reaction: "Sneezing",
       assessment: "28-10-2022",
       note: "lorem ipsum ...",
       type: "Irritation",
-      },
-      {
+    },
+    {
       drug: "Panadol",
       date: "21-04-2022",
       reaction: "Sneezing",
       assessment: "30-10-2022",
       note: "lorem ipsum ...",
       type: "Itching",
-      },
-      {
+    },
+    {
       drug: "Declofenac",
       date: "27-03-2021",
       reaction: "Sneezing",
       assessment: "28-03-2021",
       note: "lorem ipsum ...",
       type: "Irritation",
-      },
-  ]
+    },
+  ];
 
   return (
     <>
@@ -773,16 +766,16 @@ export function ClientIntoleranceDetail({showModifyModal}) {
             {Band?.bandType}
           </span>
         </Grid>
-          
-              <Button
-                sx={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                onClick={handleEdit}
-              >
-                Edit
-              </Button>
-           
-          {error && <div className="message"> {message}</div>}
-       </Grid>
+
+        <Button
+          sx={{fontSize: "14px", fontWeight: "600", width: "80px"}}
+          onClick={handleEdit}
+        >
+          Edit
+        </Button>
+
+        {error && <div className="message"> {message}</div>}
+      </Grid>
     </>
   );
 }
@@ -947,13 +940,13 @@ export function ClientIntoleranceModify() {
                 {" "}
                 Name
                 <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("name", {required:true})}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Band"
-                />
+                  <Input
+                    className="input is-small"
+                    register={register("name", {required: true})}
+                    name="name"
+                    type="text"
+                    placeholder="Name of Band"
+                  />
                   <span className="icon is-small is-left">
                     <i className="fas fa-hospital"></i>
                   </span>
@@ -978,30 +971,19 @@ export function ClientIntoleranceModify() {
                 </p>
               </label>
             </div>
-           
           </form>
 
-          <Box sx={{display:"flex"}}>
+          <Box sx={{display: "flex"}}>
             <p className="control">
-              <Button
-                type="submit"
-                onClick={handleSubmit(onSubmit)}
-              >
+              <Button type="submit" onClick={handleSubmit(onSubmit)}>
                 Save
               </Button>
             </p>
             <p className="control">
-              <Button
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
+              <Button onClick={handleCancel}>Cancel</Button>
             </p>
             <p className="control">
-              <Button
-                onClick={() => handleDelete()}
-                type="delete"
-              >
+              <Button onClick={() => handleDelete()} type="delete">
                 Delete
               </Button>
             </p>

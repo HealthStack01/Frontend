@@ -35,7 +35,7 @@ import {
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
 import {Box, Portal, Grid, Button as MuiButton} from "@mui/material";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import ClientView from "./ClientView";
 import ClientForm from "./ClientForm";

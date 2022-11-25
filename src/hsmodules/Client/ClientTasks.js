@@ -3,8 +3,8 @@ import React, {useState, useContext, useEffect, useRef} from "react";
 import Input from "../../components/inputs/basic/Input";
 import {MdCancel} from "react-icons/md";
 import {Box, Grid} from "@mui/material";
-import ModalHeader from "./ui-components/modal";
-import CustomSelect from "../../components/inputs/basic/Select"
+import ModalHeader from "../../components/modal";
+import CustomSelect from "../../components/inputs/basic/Select";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -17,7 +17,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -171,7 +171,7 @@ export function BandCreate() {
           <p className="card-header-title">Create Band</p>
         </div>
         <div className="card-content vscrollable">
-        <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/*  <div className="field">
                     <p className="control has-icons-left has-icons-right">
                         <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
@@ -182,22 +182,20 @@ export function BandCreate() {
                 </div> */}
             <div className="field">
               <div className="control">
-                
                 <CustomSelect
                   label="choose band type"
-                  name="bandType"           
+                  name="bandType"
                   options={bandTypeOptions}
-                  register={register("bandtype", {required:true})}
-                  onChange={(e)=>handleChangeMode(e.target.value)}
-            />
+                  register={register("bandtype", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
               </div>
             </div>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("name", {required:true})}
-          
+                  register={register("name", {required: true})}
                   name="name"
                   type="text"
                   placeholder="Name of Band"
@@ -211,8 +209,7 @@ export function BandCreate() {
               <p className="control has-icons-left has-icons-right">
                 <Input
                   className="input is-small"
-                  register={register("description", {required:true})}
-            
+                  register={register("description", {required: true})}
                   name="description"
                   type="text"
                   placeholder="Description of Band"
@@ -259,8 +256,7 @@ export function BandCreate() {
               <p className="control has-icons-left " style={{display: "none"}}>
                 <Input
                   className="input is-small"
-                  register={register("facility", {required:true})}
-             
+                  register={register("facility", {required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
@@ -642,16 +638,16 @@ export function BandDetail({showModifyModal}) {
             {Band?.bandType}
           </span>
         </Grid>
-          
-              <Button
-                sx={{fontSize: "14px", fontWeight: "600", width:"80px"}}
-                onClick={handleEdit}
-              >
-                Edit
-              </Button>
-           
-          {error && <div className="message"> {message}</div>}
-       </Grid>
+
+        <Button
+          sx={{fontSize: "14px", fontWeight: "600", width: "80px"}}
+          onClick={handleEdit}
+        >
+          Edit
+        </Button>
+
+        {error && <div className="message"> {message}</div>}
+      </Grid>
     </>
   );
 }
@@ -816,13 +812,13 @@ export function BandModify() {
                 {" "}
                 Name
                 <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("name", {required:true})}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Band"
-                />
+                  <Input
+                    className="input is-small"
+                    register={register("name", {required: true})}
+                    name="name"
+                    type="text"
+                    placeholder="Name of Band"
+                  />
                   <span className="icon is-small is-left">
                     <i className="fas fa-hospital"></i>
                   </span>
@@ -847,30 +843,19 @@ export function BandModify() {
                 </p>
               </label>
             </div>
-           
           </form>
 
-          <Box sx={{display:"flex"}}>
+          <Box sx={{display: "flex"}}>
             <p className="control">
-              <Button
-                type="submit"
-                onClick={handleSubmit(onSubmit)}
-              >
+              <Button type="submit" onClick={handleSubmit(onSubmit)}>
                 Save
               </Button>
             </p>
             <p className="control">
-              <Button
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
+              <Button onClick={handleCancel}>Cancel</Button>
             </p>
             <p className="control">
-              <Button
-                onClick={() => handleDelete()}
-                type="delete"
-              >
+              <Button onClick={() => handleDelete()} type="delete">
                 Delete
               </Button>
             </p>

@@ -26,14 +26,13 @@ import DischargeOrders from "./DischargeOrders";
 import RadiologyOrders from "./RadiologyOrders";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
 import {Box, Collapse, Grid, IconButton, Typography} from "@mui/material";
-import Input from "./ui-components/inputs/basic/Input";
+import Input from "../../components/inputs/basic/Input";
 import Divider from "@mui/material/Divider";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import CustomSelect from "./ui-components/inputs/basic/Select";
 import Button from "../../components/buttons/Button";
 import MuiButton from "@mui/material/Button";
 

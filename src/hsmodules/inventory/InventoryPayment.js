@@ -17,7 +17,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 
 import "react-datepicker/dist/react-datepicker.css";
-import ModalBox from "./ui-components/modal";
+import ModalBox from "../../components/modal";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};

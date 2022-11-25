@@ -14,7 +14,6 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import AccordionBox from "./ui-components/accordion";
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
 //const searchfacility={};
@@ -86,19 +85,10 @@ export default function PharmacyBillPrescription() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "70vw",
-            height: "60vh",
+            width: "85vw",
+            maxHeight: "80vh",
           }}
         >
-          <Box
-            item
-            sx={{
-              width: "calc(100% - 340px)",
-            }}
-          >
-            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
-          </Box>
-
           <Box
             item
             sx={{
@@ -106,6 +96,15 @@ export default function PharmacyBillPrescription() {
             }}
           >
             <PatientProfile />
+          </Box>
+
+          <Box
+            item
+            sx={{
+              width: "calc(100% - 340px)",
+            }}
+          >
+            <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
           </Box>
         </Box>
       </ModalBox>
@@ -293,6 +292,7 @@ export function BillPrescriptionList({showCreateModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Name",

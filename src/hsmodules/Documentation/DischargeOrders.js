@@ -9,14 +9,14 @@ import FacilityPopup from "../helpers/FacilityPopup";
 import {toast} from "bulma-toast";
 import {format, formatDistanceToNowStrict} from "date-fns";
 import Button from "../../components/buttons/Button";
-import CustomTable from "./ui-components/customtable";
+import CustomTable from "../../components/customtable";
 import {TableMenu} from "../../ui/styled/global";
 import Card from "@mui/material/Card";
 import {Box} from "@mui/material";
-import Input from "../../components/inputs/basic/Input"
+import Input from "../../components/inputs/basic/Input";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import ModalBox from "../../components/modal";
-import Textarea from "./ui-components/inputs/basic/Textarea";
+import Textarea from "../../components/inputs/basic/Textarea";
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -30,7 +30,7 @@ export default function DischargeOrders() {
 
   return (
     <section className="section remPadTop">
-     <Box
+      <Box
         container
         sx={{
           display: "flex",
@@ -58,7 +58,7 @@ export default function DischargeOrders() {
             width: "40%",
           }}
         >
-         {state.EndEncounterModule.selectedEndEncounter === "Discharge" && (
+          {state.EndEncounterModule.selectedEndEncounter === "Discharge" && (
             <DischargeOrdersCreate />
           )}
         </Box>
@@ -68,7 +68,7 @@ export default function DischargeOrders() {
 }
 
 export function DischargeOrdersCreate() {
-  const { register, handleSubmit,setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -108,7 +108,7 @@ export function DischargeOrdersCreate() {
     setDestinationModal(false);
     //handleSearch(val)
   };
- 
+
   const productItemI = {
     /*   productId,
         name, */
@@ -298,7 +298,7 @@ export function DischargeOrdersCreate() {
     return () => {};
   }, []);
 
-  const scheme=[
+  const scheme = [
     {
       name: "instruction",
       key: "instruction",
@@ -308,12 +308,11 @@ export function DischargeOrdersCreate() {
       required: true,
       inputType: "TEXT",
     },
-  ]
+  ];
 
-  
   return (
     <>
-    <Card>
+      <Card>
         <Box
           sx={{
             padding: "15px",
@@ -321,72 +320,60 @@ export function DischargeOrdersCreate() {
             maxHeight: "600px",
           }}
         >
+          <div>
+            <p className="card-header-title">
+              Create Discharge Orders for{"    "}
+              {state.ClientModule.selectedClient.firstname +
+                " " +
+                state.ClientModule.selectedClient.middlename +
+                " " +
+                state.ClientModule.selectedClient.lastname}{" "}
+              on {state.ClientModule.selectedClient.ward + " ward, "} bed:{" "}
+              {state.ClientModule.selectedClient.bed}
+            </p>
 
-      
-      <div >
-        
-          <p className="card-header-title">
-            Create Discharge Orders for{"    "}
-            {state.ClientModule.selectedClient.firstname +
-              " " +
-              state.ClientModule.selectedClient.middlename +
-              " " +
-              state.ClientModule.selectedClient.lastname}{" "}
-            on {state.ClientModule.selectedClient.ward + " ward, "} bed:{" "}
-            {state.ClientModule.selectedClient.bed}
-          </p>
-        
-        <div className="card-content ">
-          
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control ">
-                  <Textarea
-                    class="textarea is-small"
-                    register={register("instruction", {required:true})} name="instruction"
-                    value={instruction}
-                    type="textarea"
-                    onChange={e => setInstruction(e.target.value)}
-                    placeholder="Instructions/Note"
-                  />
+            <div className="card-content ">
+              <div className="field is-horizontal">
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control ">
+                      <Textarea
+                        class="textarea is-small"
+                        register={register("instruction", {required: true})}
+                        name="instruction"
+                        value={instruction}
+                        type="textarea"
+                        onChange={e => setInstruction(e.target.value)}
+                        placeholder="Instructions/Note"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="field mt-2">
+                <p className="control">
+                  <Button
+                    /* disabled={!productItem.length>0} */ onClick={onSubmit}
+                  >
+                    Create
+                  </Button>
                 </p>
               </div>
             </div>
           </div>
-          <div className="field mt-2">
-            <p className="control">
-              <Button
-                
-                /* disabled={!productItem.length>0} */ onClick={onSubmit}
-              >
-                Create
-              </Button>
-            </p>
+          {/*  use for documentation instruction helper */}
+          <div className={`modal ${destinationModal ? "is-active" : ""}`}>
+            <ModalBox
+              open={destinationModal}
+              onClose={() => handleChangeDestination(false)}
+            >
+              <FacilityPopup
+                facilityType="Laboratory"
+                closeModal={() => handlecloseModal(false)}
+              />
+            </ModalBox>
           </div>
-        </div>
-      </div>
-      {/*  use for documentation instruction helper */}
-      <div className={`modal ${destinationModal ? "is-active" : ""}`}>
-        
-        <ModalBox open={destinationModal}
-          onClose={() =>  handleChangeDestination(false)} >
-
-        <FacilityPopup
-              facilityType="Laboratory"
-              closeModal={()=>handlecloseModal(false)}
-            />
-        </ModalBox>
-          
-            
-          
-            
-            
-          
-          
-        
-      </div>
-      </Box>
+        </Box>
       </Card>
     </>
   );
@@ -546,8 +533,7 @@ export function DischargeOrdersList({standalone}) {
     return () => {};
   }, []);
 
-
-  const dischargeSchema=[
+  const dischargeSchema = [
     {
       name: "S/N",
       key: "sn",
@@ -556,7 +542,6 @@ export function DischargeOrdersList({standalone}) {
       sortable: true,
       inputType: "HIDDEN",
     },
-    
 
     {
       name: "Date",
@@ -606,9 +591,7 @@ export function DischargeOrdersList({standalone}) {
       required: true,
       inputType: "TEXT",
     },
-    
 
-    
     {
       name: "Action",
       key: "destination",
@@ -621,23 +604,17 @@ export function DischargeOrdersList({standalone}) {
           Delete
         </p>
       ),
-      omit: !standalone?false: true,
+      omit: !standalone ? false : true,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
-      
-      
-]  
-
-
-  
+  ];
 
   return (
     <>
       <Box>
-
-      <TableMenu>
+        <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
               <div className="inner-table">
@@ -647,41 +624,26 @@ export function DischargeOrdersList({standalone}) {
             <h2 style={{marginLeft: "10px", fontSize: "0.8rem"}}>
               List of Discharge Orders
             </h2>
-            
           </div>
           <Button
-                  style={{fontSize: "14px", fontWeight: "600", marginLeft:""}}
-                  label="Add new "
-                    className="button is-success is-small"
-                    onClick={handleCreateNew}
-                  />
-          
+            style={{fontSize: "14px", fontWeight: "600", marginLeft: ""}}
+            label="Add new "
+            className="button is-success is-small"
+            onClick={handleCreateNew}
+          />
         </TableMenu>
-                
-        
-        
-            
-                 
-                  
-                 
-      
-      {!standalone && (
-            <button
-              
-              onClick={() => handleDelete(ProductEntry)}
-            />
-          )}
-      <Box style={{height:"400px", overScrollY:"scroll"} }>            
-        
-        <CustomTable
-             title={""}
-             columns={dischargeSchema}
-             data={facilities}
-             pointerOnHover
-             highlightOnHover
-             striped/>
-      </Box>
 
+        {!standalone && <button onClick={() => handleDelete(ProductEntry)} />}
+        <Box style={{height: "400px", overScrollY: "scroll"}}>
+          <CustomTable
+            title={""}
+            columns={dischargeSchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+        </Box>
       </Box>
     </>
   );
