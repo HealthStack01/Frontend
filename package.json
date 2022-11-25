@@ -42,6 +42,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "flutterwave-react-v3": "^1.3.0",
     "framer-motion": "^5.5.5",
     "gsap": "^3.9.1",
     "is-hotkey": "^0.2.0",
@@ -71,6 +72,7 @@
     "react-leaflet": "^4.1.0",
     "react-loader-spinner": "^5.3.4",
     "react-otp-input": "^2.4.0",
+    "react-paystack": "^4.0.1",
     "react-pdf": "^6.1.0",
     "react-preloaders": "^3.0.3",
     "react-router-dom": "^6.4.3",
@@ -94,7 +96,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node --max_old_space_size=8196 node_modules/.bin/react-scripts start",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
     "build": "CI='' react-scripts build",

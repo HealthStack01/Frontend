@@ -40,8 +40,8 @@ export default function BillPrescription() {
 
   /*  useEffect(() => {
         const updatedOne= state.currentClients.filter(el=>(JSON.stringify(el.client_id)===JSON.stringify(state.DispenseModule.selectedDispense.client_id)))
-        console.log("udatedone", updatedOne)
-        console.log("state", state.currentClients)
+        //console.log("udatedone", updatedOne)
+        //console.log("state", state.currentClients)
         handleRow(updatedOne)
          return () => {
              
@@ -103,9 +103,9 @@ export function BillPrescriptionList() {
 
   const handleMedicationRow = async ProductEntry => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
     await handleSelectedClient(ProductEntry.client);
 
     await setSelectedMedication(ProductEntry);
@@ -118,7 +118,7 @@ export function BillPrescriptionList() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -131,12 +131,12 @@ export function BillPrescriptionList() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSearch = async val => {
     const field = "name";
-    console.log(val);
+    //console.log(val);
     OrderServ.find({
       query: {
         $or: [
@@ -172,14 +172,14 @@ export function BillPrescriptionList() {
       },
     })
       .then(async res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.groupedOrder);
         // await setState((prevstate)=>({...prevstate, currentClients:res.groupedOrder}))
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        // console.log(err)
+        // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -187,7 +187,7 @@ export function BillPrescriptionList() {
       });
   };
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await OrderServ.find({
       query: {
         order_category: "Prescription",
@@ -203,7 +203,7 @@ export function BillPrescriptionList() {
       },
     });
 
-    // console.log("updatedorder", findProductEntry.groupedOrder)
+    // //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
     await setState(prevstate => ({
       ...prevstate,
@@ -213,7 +213,7 @@ export function BillPrescriptionList() {
 
   //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
+    // //console.log("started")
     getFacilities();
     OrderServ.on("created", obj => getFacilities());
     OrderServ.on("updated", obj => getFacilities());
@@ -233,7 +233,7 @@ export function BillPrescriptionList() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   return (
@@ -371,9 +371,9 @@ export function DispenseDetail() {
   //const facilities=ProductEntry.orders
 
   const handleRow = async ProductEntry => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     await setSelectedMedication(ProductEntry);
 
@@ -385,7 +385,7 @@ export function DispenseDetail() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -398,7 +398,7 @@ export function DispenseDetail() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   useEffect(() => {
@@ -410,7 +410,7 @@ export function DispenseDetail() {
     });
 
     setCurrentOrder(client1);
-    // console.log(client1)
+    // //console.log(client1)
     return () => {};
   }, []);
 
@@ -426,13 +426,13 @@ export function DispenseDetail() {
         OrderServ.on('removed', (obj)=>getFacilities()) */
     OrderServ.on("patched", obj => {
       //update state.DispenseModule.selectedDispense
-      // console.log(obj.clientId)
-      // console.log("currentClients",state.currentClients)
+      // //console.log(obj.clientId)
+      // //console.log("currentClients",state.currentClients)
       const current1 = state.currentClients.find(
         el => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
       );
       setCurrentOrder(current1);
-      // console.log("currentone",current1)
+      // //console.log("currentone",current1)
     });
 
     return () => {};

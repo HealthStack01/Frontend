@@ -87,7 +87,7 @@ export function ClientAccount({closeModal}) {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -95,7 +95,7 @@ export function ClientAccount({closeModal}) {
   /*  useEffect(()=>{
         //setFacility(user.activeInventory.FacilityId)//
       if (!user.stacker){
-          console.log(currentUser)
+          //console.log(currentUser)
         setValue("facility", user.currentEmployee.facilityDetail._id,  {
             shouldValidate: true,
             shouldDirty: true
@@ -123,7 +123,7 @@ export function ClientAccount({closeModal}) {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacility(res.data);
         //e.target.reset();
         /*  setMessage("Created Inventory successfully") */
@@ -159,9 +159,9 @@ export function ClientAccount({closeModal}) {
         },
       },
     });
-    console.log(findProductEntry);
+    //console.log(findProductEntry);
 
-    // console.log("balance", findProductEntry.data[0].amount)
+    // //console.log("balance", findProductEntry.data[0].amount)
     if (findProductEntry.data.length > 0) {
       await setBalance(findProductEntry.data[0].amount);
     } else {
@@ -177,7 +177,7 @@ export function ClientAccount({closeModal}) {
     setError(false);
     setSuccess(false);
     // data.createdby=user._id
-    console.log(data);
+    //console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
@@ -497,15 +497,15 @@ export function CollectionList({openAccountModal}) {
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleRow = async Inventory => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",Inventory)
+    ////console.log("handlerow",Inventory)
 
-    console.log(Inventory);
+    //console.log(Inventory);
 
     await setSelectedInventory(Inventory);
 
@@ -517,13 +517,13 @@ export function CollectionList({openAccountModal}) {
       ...prevstate,
       SelectedClient: newInventoryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     openAccountModal();
   };
 
   const handleSearch = val => {
     const field = "fromName";
-    console.log(val);
+    //console.log(val);
     InventoryServ.find({
       query: {
         [field]: {
@@ -538,13 +538,13 @@ export function CollectionList({openAccountModal}) {
       },
     })
       .then(res => {
-        //console.log(res)
+        ////console.log(res)
         setFacilities(res.data);
         /* setMessage(" Inventory  fetched successfully")
                 setSuccess(true)  */
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         toast({
           message: "Error during search " + err,
           type: "is-danger",
@@ -570,7 +570,7 @@ export function CollectionList({openAccountModal}) {
           },
         },
       });
-      //console.log(user);
+      ////console.log(user);
 
       await setFacilities(findInventory.data);
     } else {
@@ -588,7 +588,7 @@ export function CollectionList({openAccountModal}) {
       }
     }
     /*   .then((res)=>{
-                console.log(res)
+                //console.log(res)
                     setFacilities(res.data)
                     setMessage(" Inventory  fetched successfully")
                     setSuccess(true)
@@ -600,7 +600,7 @@ export function CollectionList({openAccountModal}) {
   };
 
   useEffect(() => {
-    console.log(facilities);
+    //console.log(facilities);
     //getFacilities(user)
 
     return () => {};
@@ -612,10 +612,10 @@ export function CollectionList({openAccountModal}) {
     } else {
       /* const localUser= localStorage.getItem("user")
                     const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
+                    //console.log(localUser)
+                    //console.log(user1)
                     fetchUser(user1)
-                    console.log(user)
+                    //console.log(user)
                     getFacilities(user) */
     }
     InventoryServ.on("created", obj => getFacilities());
@@ -737,7 +737,7 @@ export function InventoryDetail() {
   const {user} = useContext(UserContext); //,setUser
 
   const Inventory = state.InventoryModule.selectedInventory;
-  console.log("selected", Inventory);
+  //console.log("selected", Inventory);
 
   const getFacilities = async () => {
     const findProductEntry = await client.service("productentry").find({
@@ -752,7 +752,7 @@ export function InventoryDetail() {
       },
     });
 
-    console.log(findProductEntry);
+    //console.log(findProductEntry);
   };
 
   useEffect(() => {
@@ -784,7 +784,7 @@ export function InventoryDetail() {
             }
         }  */
   /*   .then((res)=>{
-        console.log(res)
+        //console.log(res)
             setFacilities(res.data)
             setMessage(" ProductEntry  fetched successfully")
             setSuccess(true)
@@ -803,7 +803,7 @@ export function InventoryDetail() {
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   return (
@@ -917,7 +917,7 @@ export function InventoryModify() {
       shouldDirty: true,
     });
     await setBillService(service);
-    console.log(contractSel, service);
+    //console.log(contractSel, service);
   };
 
   useEffect(() => {
@@ -935,7 +935,7 @@ export function InventoryModify() {
       ...prevstate,
       InventoryModule: newInventoryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const changeState = () => {
@@ -956,7 +956,7 @@ export function InventoryModify() {
     if (conf) {
       InventoryServ.remove(dleteId)
         .then(res => {
-          //console.log(JSON.stringify(res))
+          ////console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Inventory successfully")
                 setSuccess(true)
@@ -994,9 +994,9 @@ export function InventoryModify() {
     e.preventDefault();
 
     setSuccess(false);
-    console.log(data);
-    // data.facility=Inventory.facility
     //console.log(data);
+    // data.facility=Inventory.facility
+    ////console.log(data);
     const contractSel = billservice.contracts.filter(
       element =>
         element.source_org === Inventory.facility &&
@@ -1006,7 +1006,7 @@ export function InventoryModify() {
     billServ
       .patch(billservice._id, billservice)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Inventory successfully")
         toast({
@@ -1140,25 +1140,25 @@ export function ProductSearch({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      //console.log("stuff was chosen");
     }
 
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async val => {
     const field = "name"; //field variable
@@ -1179,24 +1179,24 @@ export function ProductSearch({getSearchfacility, clear}) {
           },
         })
         .then(res => {
-          console.log("facility  fetched successfully");
+          //console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
           );
           setSearchError(true);
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      //console.log("less than 3 ");
+      //console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      //console.log(facilities);
     }
   };
   useEffect(() => {

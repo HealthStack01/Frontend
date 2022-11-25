@@ -1,5 +1,8 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { PaystackConsumer } from "react-paystack";
+import PaymentsIcon from "@mui/icons-material/Payments";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -65,6 +68,59 @@ export default function MakeDeposit({closeModal, balance}) {
   const [loading, setLoading] = useState(false);
   const [partTable, setPartTable] = useState([]);
 
+
+    // PAYSTACK CONFIG
+
+    const config = {
+      reference: new Date().getTime().toString(),
+      email: "simpa@healthstack.africa",
+      amount: amountPaid * 100,
+      publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+    };
+  
+   
+  
+    const componentProps = {
+      ...config,
+      text: "Make a Deposit",
+      onSuccess: (reference) => handleSuccess(reference, amount),
+      onClose: closeModal,
+    };
+  
+    const handleSuccess = (amount, reference) => {
+      let transactionDetails = amount;
+      transactionDetails.amount = reference;
+      // dispatch(saveTransactionRef(transactionDetails));
+      // //console.log(transactionDetails, "AMOUNT");
+      // return history("/business/payment");
+    };
+  
+  
+    //FLUTTERWAVE CONFIG
+    const configfw = {
+      public_key: 'FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X',
+      tx_ref: Date.now(),
+      amount: amountPaid,
+      email: "simpa@healthstack.africa",
+      currency: 'NGN',
+      payment_options: 'card,mobilemoney,ussd',
+      customer: {
+        email: 'simpa@healthstack.africa',
+         phone_number: '070********',
+        name: 'john doe',
+      },
+      customizations: {
+        title: 'my Payment Title',
+        description: 'Payment for items in cart',
+        logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+      },
+    };
+  
+  
+    const handleFlutterPayment = useFlutterwave(configfw);
+  
+  
+
   const {state, setState} = useContext(ObjectContext);
 
   const inputEl = useRef(0);
@@ -72,15 +128,15 @@ export default function MakeDeposit({closeModal, balance}) {
   let hidestatus;
 
   let medication = state.financeModule.selectedFinance;
-  //console.log(state.financeModule.state)
+  ////console.log(state.financeModule.state)
 
   const handleChangeMode = async value => {
-    //console.log(value)
+    ////console.log(value)
     await setPaymentMode(value);
-    /*   console.log(paymentOptions)
+    /*   //console.log(paymentOptions)
        let billm= paymentOptions.filter(el=>el.name===value)
        await setBillMode(billm)
-        console.log(billm) */
+        //console.log(billm) */
     // at startup
     // check payment mode options from patient financial info
     // load that to select options
@@ -97,7 +153,7 @@ export default function MakeDeposit({closeModal, balance}) {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -141,7 +197,7 @@ export default function MakeDeposit({closeModal, balance}) {
     if (confirm) {
       await SubwalletTxServ.create(obj)
         .then(resp => {
-          // console.log(resp)
+          // //console.log(resp)
 
           toast({
             message: "Deposit accepted succesfully",
@@ -164,7 +220,7 @@ export default function MakeDeposit({closeModal, balance}) {
     await setButtonState(false);
   };
 
-  //console.log(state.financeModule);
+  ////console.log(state.financeModule);
 
   //initialize page
 
@@ -248,10 +304,43 @@ export default function MakeDeposit({closeModal, balance}) {
           </Grid>
         </Grid>
       </Box>
-
-      <GlobalCustomButton onClick={handleAccept}>
-        Confirm Deposit
-      </GlobalCustomButton>
+      <Box 
+       sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+      >
+      <GlobalCustomButton
+       >
+      <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />        
+               Pay with Wallet
+             </GlobalCustomButton>
+           <GlobalCustomButton
+              onClick={() => {
+               handleFlutterPayment({
+                 callback: (response) => {
+                    console.log(response);
+                     closePaymentModal()
+                 },
+                 onClose: () => {closeModal},
+               });
+             }}   
+             >
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay with Flutterwave
+             </GlobalCustomButton>
+             <PaystackConsumer {...componentProps}>
+             {({ initializePayment }) => (
+         <GlobalCustomButton
+         onClick={() => initializePayment(handleSuccess, closeModal)}
+         >
+            <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+            Pay with PayStack
+         </GlobalCustomButton>
+         )}
+         </PaystackConsumer>
+    </Box>
     </Box>
   );
 }

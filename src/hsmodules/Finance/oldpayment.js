@@ -80,9 +80,9 @@ export function DispenseDetail(){
    //const facilities=ProductEntry.orders
 
    const handleRow= async(ProductEntry)=>{
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     await setSelectedMedication(ProductEntry)
 
@@ -91,7 +91,7 @@ export function DispenseDetail(){
         show :'detail'
     }
   await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule}))
-   //console.log(state)
+   ////console.log(state)
   // ProductEntry.show=!ProductEntry.show
 
 }
@@ -102,7 +102,7 @@ export function DispenseDetail(){
             show :'modify'
         }
        await setState((prevstate)=>({...prevstate, DispenseModule:newProductEntryModule}))
-       //console.log(state)
+       ////console.log(state)
        
     }
 
@@ -114,7 +114,7 @@ export function DispenseDetail(){
         })
 
     setCurrentOrder(client1)
-   // console.log(client1)
+   // //console.log(client1)
         return () => {
         
         }
@@ -133,11 +133,11 @@ export function DispenseDetail(){
         BillServ.on('removed', (obj)=>getFacilities()) */
         BillServ.on('patched',  (obj)=>{
             //update state.DispenseModule.selectedDispense
-           // console.log(obj.clientId)
-           // console.log("currentClients",state.currentClients)
+           // //console.log(obj.clientId)
+           // //console.log("currentClients",state.currentClients)
            const current1=state.currentClients.find(el=>(JSON.stringify(el.client_id)===JSON.stringify(obj.clientId)))
            setCurrentOrder(current1)
-          // console.log("currentone",current1)
+          // //console.log("currentone",current1)
         })
       
         return () => {
@@ -221,9 +221,9 @@ const resetform=()=>{
 
 
    const handleMedicationDone= async()=>{ //handle selected single order
-      //console.log("b4",state)
+      ////console.log("b4",state)
   
-      //console.log("handlerow",ProductEntry)
+      ////console.log("handlerow",ProductEntry)
   
      // await setSelectedMedication("")
   
@@ -233,7 +233,7 @@ const resetform=()=>{
       }
       
     await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule}))
-     //console.log(state)
+     ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   
   }
@@ -255,7 +255,7 @@ const resetform=()=>{
        productEntry.createdby=user._id
        productEntry.transactioncategory="debit"
       
-        // console.log("b4 facility",productEntry);
+        // //console.log("b4 facility",productEntry);
          if (user.currentEmployee){
         productEntry.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
          }else{
@@ -292,9 +292,9 @@ const resetform=()=>{
 
   
   const handleClickProd=async()=>{
-    /*   console.log("amount: ",productItemI.amount)
-      console.log("qamount: ",qamount)
-      console.log("calcamount: ",calcamount) */
+    /*   //console.log("amount: ",productItemI.amount)
+      //console.log("qamount: ",qamount)
+      //console.log("calcamount: ",calcamount) */
      if ( quantity===0||quantity===""|| productId===""){
          toast({
              message: 'You need to choose a product and quantity to proceed',
@@ -346,13 +346,13 @@ const resetform=()=>{
          billInfo,
      }).then((resp)=>{
         // medication=resp
-        // console.log(resp)
+        // //console.log(resp)
           handleRow(resp) 
          //update dispense
 
      })
      .catch((err)=>{
-         console.log(err)
+         //console.log(err)
      })
      
      //update status(billed) + action()
@@ -367,9 +367,9 @@ const resetform=()=>{
           handleAmount()
      // setCalcAmount(null)
      await setSuccess(true)
-     /* console.log(success)
-     console.log(qamount)
-     console.log(productItem) */
+     /* //console.log(success)
+     //console.log(qamount)
+     //console.log(productItem) */
      setChangeAmount(true)
   }
 
@@ -387,7 +387,7 @@ const resetform=()=>{
       setQuantity(e.target.value)
       calcamount1=quantity*sellingprice
       await setCalcAmount(calcamount1)
-    //  console.log(calcamount)
+    //  //console.log(calcamount)
   }
 
   const handleUpdateTotal=async ()=>{
@@ -395,7 +395,7 @@ const resetform=()=>{
  }
 
  const handleChangeType=async (e)=>{
-     //console.log(e.target.value)
+     ////console.log(e.target.value)
      await setType(e.target.value)
  }
 
@@ -405,9 +405,9 @@ const resetform=()=>{
  }
 
  const handleRow= async(ProductEntry)=>{
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     //await setMedication(ProductEntry)
 
@@ -416,7 +416,7 @@ const resetform=()=>{
         show :'detail'
     }
   await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule}))
-   //console.log(state)
+   ////console.log(state)
   // ProductEntry.show=!ProductEntry.show
 
         }  
@@ -481,25 +481,25 @@ const resetform=()=>{
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-   //console.log(state)
+   ////console.log(state)
     }
     const handleBlur=async(e)=>{
          if (count===2){
-             console.log("stuff was chosen")
+             //console.log("stuff was chosen")
          }
        
-       /*  console.log("blur")
+       /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
     }
     const handleSearch=async(value)=>{
         setVal(value)
@@ -525,8 +525,8 @@ const resetform=()=>{
                      createdAt: -1
                    }
                      }}).then((res)=>{
-              console.log("product  fetched successfully") 
-              console.log(res.data) 
+              //console.log("product  fetched successfully") 
+              //console.log(res.data) 
                 setFacilities(res.data)
                  setSearchMessage(" product  fetched successfully")
                  setShowPanel(true)
@@ -541,11 +541,11 @@ const resetform=()=>{
              })
          }
         else{
-            console.log("less than 3 ")
-            console.log(val)
+            //console.log("less than 3 ")
+            //console.log(val)
             setShowPanel(false)
             await setFacilities([])
-            console.log(facilities)
+            //console.log(facilities)
         }
     }
 
@@ -558,7 +558,7 @@ const resetform=()=>{
     }
     useEffect(() => {
        if (clear){
-           console.log("success has changed",clear)
+           //console.log("success has changed",clear)
            setSimpa("")
        }
         return () => {

@@ -7,6 +7,7 @@ export const BandSchema = [
     description: 'Enter name of band',
     sortable: true,
     inputType: 'HIDDEN',
+    width: "80px"
   },
   {
     name: 'Name of Band',

@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { PaystackConsumer } from "react-paystack";
 import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
@@ -76,6 +78,60 @@ export default function PaymentCreate({closeModal}) {
   const [partTable, setPartTable] = useState([]);
   const [depositModal, setDepositModal] = useState(false);
 
+  //Paystack Config
+
+const config = {
+    reference: new Date().getTime().toString(),
+    email: "simpa@healthstack.africa",
+    amount: part ? partBulk * 100 : totalamount * 100,
+    publicKey:"pk_test_f8300ac84ffd54afdf49ea31fd3daa90ebd33275",
+  };
+
+ 
+
+  const componentProps = {
+    ...config,
+    text: "Make a Deposit",
+    onSuccess: (reference) => handleSuccess(reference, amount),
+    onClose: closeModal,
+  };
+
+  const handleSuccess = (amount, reference) => {
+    let transactionDetails = amount;
+    transactionDetails.amount = reference;
+    // dispatch(saveTransactionRef(transactionDetails));
+    // //console.log(transactionDetails, "AMOUNT");
+    // return history("/business/payment");
+  };
+
+
+  //FLUTTERWAVE CONFIG
+  const configfw = {
+    public_key: 'FLWPUBK_TEST-2c01585fca911f2d419e051d15b76382-X',
+    tx_ref: Date.now(),
+    amount: part ? partBulk : totalamount,
+    email: "simpa@healthstack.africa",
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+      email: 'simpa@healthstack.africa',
+       phone_number: '070********',
+      name: 'john doe',
+    },
+    customizations: {
+      title: 'my Payment Title',
+      description: 'Payment for items in cart',
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
+  };
+
+
+  const handleFlutterPayment = useFlutterwave(configfw);
+
+
+
+
+
   const {state, setState} = useContext(ObjectContext);
 
   const inputEl = useRef(0);
@@ -83,7 +139,7 @@ export default function PaymentCreate({closeModal}) {
   let hidestatus;
 
   let medication = state.financeModule.selectedFinance;
-  //console.log(state.financeModule.state)
+  ////console.log(state.financeModule.state)
 
   const handlecloseModal = () => {
     setProductModal(false);
@@ -91,12 +147,12 @@ export default function PaymentCreate({closeModal}) {
   };
 
   const handleChangeMode = async value => {
-    //console.log(value)
+    ////console.log(value)
     await setPaymentMode(value);
-    /*   console.log(paymentOptions)
+    /*   //console.log(paymentOptions)
        let billm= paymentOptions.filter(el=>el.name===value)
        await setBillMode(billm)
-        console.log(billm) */
+        //console.log(billm) */
     // at startup
     // check payment mode options from patient financial info
     // load that to select options
@@ -161,18 +217,18 @@ export default function PaymentCreate({closeModal}) {
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.hmo
       );
-      //  console.log(contract[0].price)
+      //  //console.log(contract[0].price)
       setSellingPrice(contract[0].price);
-      //  console.log(sellingprice)
+      //  //console.log(sellingprice)
     }
     if (billMode.type === "Company Cover") {
       //paymentmode
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.company
       );
-      //   console.log(contract[0].price)
+      //   //console.log(contract[0].price)
       setSellingPrice(contract[0].price);
-      //   console.log(sellingprice)
+      //   //console.log(sellingprice)
     }
 
     /*  setValue("facility", obj._id,  {
@@ -183,7 +239,7 @@ export default function PaymentCreate({closeModal}) {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -243,7 +299,7 @@ export default function PaymentCreate({closeModal}) {
     if (confirm) {
       await SubwalletTxServ.create(obj)
         .then(resp => {
-          // console.log(resp)
+          // //console.log(resp)
 
           toast({
             message: "Deposit accepted succesfully",
@@ -267,7 +323,7 @@ export default function PaymentCreate({closeModal}) {
   };
 
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await SubwalletServ.find({
       query: {
         client: medication.participantInfo.client._id,
@@ -280,9 +336,9 @@ export default function PaymentCreate({closeModal}) {
         },
       },
     });
-    //    console.log(findProductEntry)
+    //    //console.log(findProductEntry)
 
-    // console.log("balance", findProductEntry.data[0].amount)
+    // //console.log("balance", findProductEntry.data[0].amount)
     if (findProductEntry.data.length > 0) {
       setSubWallet(findProductEntry.data[0]);
       await setBalance(findProductEntry.data[0].amount);
@@ -293,14 +349,14 @@ export default function PaymentCreate({closeModal}) {
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
-  //console.log(state.financeModule);
+  ////console.log(state.financeModule);
 
   useEffect(() => {
     // const oldname =
     //   medication.participantInfo.client.firstname +
     //   " " +
     //   medication.participantInfo.client.lastname;
-    // // console.log("oldname",oldname)
+    // // //console.log("oldname",oldname)
     // setSource(
     //   medication.participantInfo.client.firstname +
     //     " " +
@@ -308,7 +364,7 @@ export default function PaymentCreate({closeModal}) {
     // );
 
     // const newname = source;
-    // //   console.log("newname",newname)
+    // //   //console.log("newname",newname)
     // if (oldname !== newname) {
     //   //newdispense
 
@@ -372,7 +428,7 @@ export default function PaymentCreate({closeModal}) {
   };
 
   useEffect(() => {
-    //   console.log(productItem)
+    //   //console.log(productItem)
     getTotal();
     return () => {};
   }, [productItem]);
@@ -381,7 +437,7 @@ export default function PaymentCreate({closeModal}) {
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
-    //console.log(today)
+    ////console.log(today)
     setDate(today);
     const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
@@ -409,7 +465,7 @@ export default function PaymentCreate({closeModal}) {
   /*   useEffect(() => {
         calcamount1=quantity*sellingprice
          setCalcAmount(calcamount1)
-         console.log(calcamount)
+         //console.log(calcamount)
          setChangeAmount(true)
         return () => {
             
@@ -417,7 +473,7 @@ export default function PaymentCreate({closeModal}) {
     }, [quantity]) */
 
   const handleChangePart = async (bill, e) => {
-    // console.log(bill, e.target.value)
+    // //console.log(bill, e.target.value)
     if (e.target.value === "Part") {
       bill.show = "flex";
       setPartPay(prev => prev.concat(bill));
@@ -449,7 +505,7 @@ export default function PaymentCreate({closeModal}) {
   };
 
   const handleChangeFull = async e => {
-    // console.log(medication)
+    // //console.log(medication)
     if (e.target.value === "Part") {
       setPart(true);
     }
@@ -494,7 +550,7 @@ export default function PaymentCreate({closeModal}) {
       });
       return;
     }
-    // console.log(bill)
+    // //console.log(bill)
     let item = await productItem.find(el => el._id === bill._id);
 
     let partAmount = item.partPay;
@@ -604,7 +660,7 @@ export default function PaymentCreate({closeModal}) {
       amountPaid: totalamount,
     };
 
-    // console.log(obj)
+    // //console.log(obj)
 
     InvoiceServ.create(obj)
       .then(async resp => {
@@ -675,11 +731,11 @@ export default function PaymentCreate({closeModal}) {
       }
 
       fraction = +(partBulk / totalamount).toFixed(2);
-      // console.log(fraction)
-      // console.log(partBulk)
+      // //console.log(fraction)
+      // //console.log(partBulk)
 
       productItem.forEach(el => {
-        // console.log(el)
+        // //console.log(el)
 
         const payObj = {
           amount: el.proposedpayment.amount * fraction,
@@ -749,7 +805,7 @@ export default function PaymentCreate({closeModal}) {
       delete el.partPay;
     });
 
-    //  console.log(isPart)
+    //  //console.log(isPart)
     const obj = {
       clientId: medication.participantInfo.client._id, //sending money
       clientName: source,
@@ -766,7 +822,7 @@ export default function PaymentCreate({closeModal}) {
       amountPaid: part ? partBulk : totalamount,
     };
 
-    //  console.log(obj.amountPaid)
+    //  //console.log(obj.amountPaid)
 
     InvoiceServ.create(obj)
       .then(async resp => {
@@ -1071,6 +1127,7 @@ export default function PaymentCreate({closeModal}) {
                 style={{
                   display: "flex",
                   alignItems: "center",
+                  flexDirection: "column",
                   marginLeft: "15px",
                 }}
               >
@@ -1102,7 +1159,46 @@ export default function PaymentCreate({closeModal}) {
               </div>
             </div>
 
-            <div className="control">
+            <div className="control"   style={{
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            gap:"14px"
+          }}>
+            <GlobalCustomButton
+               
+                sx={{marginRight: "15px"}}
+              >
+                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+                Pay with Wallet
+              </GlobalCustomButton>
+            <GlobalCustomButton
+               onClick={() => {
+                handleFlutterPayment({
+                  callback: (response) => {
+                     console.log(response);
+                      closePaymentModal()
+                  },
+                  onClose: () => {closeModal},
+                });
+              }}
+                sx={{marginRight: "15px"}}
+              >
+                 <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
+                 Pay with Flutterwave
+              </GlobalCustomButton>
+              <PaystackConsumer {...componentProps}>
+							{({ initializePayment }) => (
+          <GlobalCustomButton
+          onClick={() => initializePayment(handleSuccess, closeModal)}
+            sx={{marginRight: "15px"}}
+          >
+             <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
+             Pay with PayStack
+          </GlobalCustomButton>
+          )}
+          </PaystackConsumer>
               <GlobalCustomButton
                 onClick={e => handleBulkPayment(e)}
                 sx={{marginRight: "15px"}}
@@ -1131,7 +1227,7 @@ export default function PaymentCreate({closeModal}) {
                   pointerOnHover
                   highlightOnHover
                   striped
-                  onRowClicked={row => console.log(row)}
+                  onRowClicked={row => row}
                   progressPending={loading}
                 />
                 <div

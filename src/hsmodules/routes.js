@@ -213,9 +213,8 @@ import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
-import CreateWallet from "./PouchiiWallet/CreateWallet";
-import CheckIn from "./ManagedCare/Checkin";
-import RadDetails from "./Radiology/RadDetails";
+import CreateWallet from './PouchiiWallet/CreateWallet';
+import CheckIn from './ManagedCare/Checkin';
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -852,9 +851,9 @@ const AppRoutes = () => {
               element={<BloodbankDashboard />}
             />
           </Route>
-          {/**************************Pouchii Wallet *************************************** */}
-          {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
         </Route>
+          {/**************************Pouchii Wallet *************************************** */}
+          <Route path="/verify-otp" element={<WalletOTP />} />
       </Routes>
     </>
   );

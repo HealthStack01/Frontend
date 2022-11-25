@@ -104,7 +104,7 @@ export function BillingList() {
       setSelectedOrders([]);
     }
 
-    // console.log(e.target.checked)
+    // //console.log(e.target.checked)
     order.checked = e.target.checked;
     await handleSelectedClient(order.participantInfo.client);
     //handleMedicationRow(order)
@@ -128,13 +128,13 @@ export function BillingList() {
       );
     }
 
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
   };
   const handleMedicationRow = async (ProductEntry, e) => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
     // alert("Header touched")
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
     /* alert(ProductEntry.checked)*/
     /*  ProductEntry.checked=!ProductEntry.checked */
     /*  await setSelectedFinance(ProductEntry)
@@ -145,7 +145,7 @@ export function BillingList() {
 
         }
       await setState((prevstate)=>({...prevstate, financeModule:newProductEntryModule})) */
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -158,12 +158,12 @@ export function BillingList() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSearch = val => {
     const field = "name";
-    //console.log(val)
+    ////console.log(val)
     BillServ.find({
       query: {
         "participantInfo.paymentmode.detail.principalName": {
@@ -206,13 +206,13 @@ export function BillingList() {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        // console.log(err)
+        // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -220,7 +220,7 @@ export function BillingList() {
       });
   };
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await BillServ.find({
       query: {
         $or: [
@@ -245,7 +245,7 @@ export function BillingList() {
       },
     });
 
-    console.log("updatedorder", findProductEntry.groupedOrder);
+    //console.log("updatedorder", findProductEntry.groupedOrder);
     await setFacilities(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
@@ -254,7 +254,7 @@ export function BillingList() {
   };
   //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
+    // //console.log("started")
     getFacilities();
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());
@@ -265,7 +265,7 @@ export function BillingList() {
 
   useEffect(() => {
     //changes with checked box
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
 
     return () => {};
   }, [selectedOrders]);
@@ -445,9 +445,9 @@ export function DispenseDetail() {
   //const facilities=ProductEntry.orders
 
   const handleRow = async ProductEntry => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     await setSelectedMedication(ProductEntry);
 
@@ -459,7 +459,7 @@ export function DispenseDetail() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -472,7 +472,7 @@ export function DispenseDetail() {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   useEffect(() => {
@@ -484,7 +484,7 @@ export function DispenseDetail() {
     });
 
     setCurrentOrder(client1);
-    // console.log(client1)
+    // //console.log(client1)
     return () => {};
   }, []);
 
@@ -500,13 +500,13 @@ export function DispenseDetail() {
         BillServ.on('removed', (obj)=>getFacilities()) */
     BillServ.on("patched", obj => {
       //update state.DispenseModule.selectedDispense
-      // console.log(obj.clientId)
-      // console.log("currentClients",state.currentClients)
+      // //console.log(obj.clientId)
+      // //console.log("currentClients",state.currentClients)
       const current1 = state.currentClients.find(
         el => JSON.stringify(el.client_id) === JSON.stringify(obj.clientId)
       );
       setCurrentOrder(current1);
-      // console.log("currentone",current1)
+      // //console.log("currentone",current1)
     });
 
     return () => {};

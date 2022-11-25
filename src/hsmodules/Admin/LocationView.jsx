@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
-import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
 import { UserContext } from "../../context";
@@ -19,6 +18,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { createLocationSchema } from "./ui-components/schema";
 import CustomSelect from "../../components/inputs/basic/Select";
 import { bandTypeOptions } from "../../dummy-data";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+
 
 // import { createClientSchema } from "./schema";
 
@@ -99,19 +100,15 @@ const LocationView = ({ open, setOpen, location }) => {
             <span>Location detail of {Location.name}</span>
           </div>
           <BottomWrapper>
-            <Button
-              label="Delete Location"
-              background="#FFE9E9"
-              color="#ED0423"
+            <GlobalCustomButton
+              text="Delete Location"
+              color="secondary"
               onClick={() => handleDelete()}
             />
-            <Button
-              label={`${!editing ? "Edit Location" : "Cancel Editing"}`}
-              background="#ECF3FF"
-              color="#0364FF"
-              showicon
-              icon="bi bi-pen-fill"
+            <GlobalCustomButton
+              text={`${!editing ? "Edit Location" : "Cancel Editing"}`}
               disabled={editing}
+              color="warning"
               onClick={() => {
                 setEditing(!editing);
               }}
@@ -126,7 +123,7 @@ const LocationView = ({ open, setOpen, location }) => {
               <ViewText label=" Name" text={Location.name} />
             ) : (
               <Input
-                label=" Name"
+                label="Name"
                 register={register("name")}
                 errorText={errors?.name?.message}
               />
@@ -137,7 +134,7 @@ const LocationView = ({ open, setOpen, location }) => {
               <Input
                 label="Band Type"
                 register={register("bandType")}
-                // options={Location.sublocations}
+                options={Location.sublocations}
                 errorText={errors?.LocationType?.message}
               />
             )}
@@ -145,7 +142,7 @@ const LocationView = ({ open, setOpen, location }) => {
 
           {editing && (
             <BottomWrapper>
-              <Button label="Save Form" type="submit" loading={loading} />
+              <GlobalCustomButton text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>

@@ -67,7 +67,7 @@ export function StoreCreate() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -75,7 +75,7 @@ export function StoreCreate() {
   useEffect(() => {
     //setFacility(user.activeStore.FacilityId)//
     if (!user.stacker) {
-      console.log(currentUser);
+      //console.log(currentUser);
       setValue("facility", user.currentEmployee.facilityDetail._id, {
         shouldValidate: true,
         shouldDirty: true,
@@ -89,14 +89,14 @@ export function StoreCreate() {
     setError(false);
     setSuccess(false);
     // data.createdby=user._id
-    console.log(data);
+    //console.log(data);
     if (user.currentEmployee) {
       data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     }
     data.locationType = "Store";
     StoreServ.create(data)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Store successfully") */
         setSuccess(true);
@@ -276,12 +276,12 @@ export function StoreList({standalone, closeModal}) {
       show: "create",
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
-    //console.log(state)
+    ////console.log(state)
   };
   const handleRow = async Store => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",Store)
+    ////console.log("handlerow",Store)
 
     await setSelectedStore(Store);
 
@@ -290,13 +290,13 @@ export function StoreList({standalone, closeModal}) {
       show: "detail",
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
-    //console.log(state)
+    ////console.log(state)
     //closeModal()
   };
 
   const handleSearch = val => {
     const field = "name";
-    console.log(val);
+    //console.log(val);
     StoreServ.find({
       query: {
         [field]: {
@@ -312,13 +312,13 @@ export function StoreList({standalone, closeModal}) {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.data);
         setMessage(" Store  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         setMessage("Error fetching Store, probable network issues " + err);
         setError(true);
       });
@@ -354,7 +354,7 @@ export function StoreList({standalone, closeModal}) {
       }
     }
     /*   .then((res)=>{
-                console.log(res)
+                //console.log(res)
                     setFacilities(res.data)
                     setMessage(" Store  fetched successfully")
                     setSuccess(true)
@@ -375,10 +375,10 @@ export function StoreList({standalone, closeModal}) {
     } else {
       /* const localUser= localStorage.getItem("user")
                     const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
+                    //console.log(localUser)
+                    //console.log(user1)
                     fetchUser(user1)
-                    console.log(user)
+                    //console.log(user)
                     getFacilities(user) */
     }
     StoreServ.on("created", obj => getFacilities());
@@ -521,12 +521,12 @@ export function StoreListStandalone({standalone, closeModal}) {
       show: "create",
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
-    //console.log(state)
+    ////console.log(state)
   };
   const handleRow = async Store => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",Store)
+    ////console.log("handlerow",Store)
 
     await setSelectedStore(Store);
 
@@ -538,13 +538,13 @@ export function StoreListStandalone({standalone, closeModal}) {
       ...prevstate,
       financeModule: newStoreModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     closeModal();
   };
 
   const handleSearch = val => {
     const field = "name";
-    console.log(val);
+    //console.log(val);
     StoreServ.find({
       query: {
         [field]: {
@@ -560,13 +560,13 @@ export function StoreListStandalone({standalone, closeModal}) {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.data);
         setMessage(" Store  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         setMessage("Error fetching Store, probable network issues " + err);
         setError(true);
       });
@@ -602,7 +602,7 @@ export function StoreListStandalone({standalone, closeModal}) {
       }
     }
     /*   .then((res)=>{
-                     console.log(res)
+                     //console.log(res)
                          setFacilities(res.data)
                          setMessage(" Store  fetched successfully")
                          setSuccess(true)
@@ -623,10 +623,10 @@ export function StoreListStandalone({standalone, closeModal}) {
     } else {
       /* const localUser= localStorage.getItem("user")
                          const user1=JSON.parse(localUser)
-                         console.log(localUser)
-                         console.log(user1)
+                         //console.log(localUser)
+                         //console.log(user1)
                          fetchUser(user1)
-                         console.log(user)
+                         //console.log(user)
                          getFacilities(user) */
     }
     StoreServ.on("created", obj => getFacilities());
@@ -746,7 +746,7 @@ export function StoreDetail() {
       show: "modify",
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
-    //console.log(state)
+    ////console.log(state)
   };
 
   return (
@@ -937,7 +937,7 @@ export function StoreModify() {
       show: "create",
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const changeState = () => {
@@ -954,7 +954,7 @@ export function StoreModify() {
     if (conf) {
       StoreServ.remove(dleteId)
         .then(res => {
-          //console.log(JSON.stringify(res))
+          ////console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Store successfully")
                 setSuccess(true)
@@ -991,13 +991,13 @@ export function StoreModify() {
     e.preventDefault();
 
     setSuccess(false);
-    console.log(data);
-    data.facility = Store.facility;
     //console.log(data);
+    data.facility = Store.facility;
+    ////console.log(data);
 
     StoreServ.patch(Store._id, data)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Store successfully")
         toast({
@@ -1190,25 +1190,25 @@ export function InputSearch({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      //console.log("stuff was chosen");
     }
 
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async val => {
     const field = "facilityName"; //field variable
@@ -1229,24 +1229,24 @@ export function InputSearch({getSearchfacility, clear}) {
           },
         })
         .then(res => {
-          console.log("facility  fetched successfully");
+          //console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
           );
           setSearchError(true);
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      //console.log("less than 3 ");
+      //console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      //console.log(facilities);
     }
   };
   useEffect(() => {
