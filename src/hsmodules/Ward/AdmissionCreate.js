@@ -11,13 +11,12 @@ import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'bulma-toast';
+import { toast } from 'react-toastify';
 //import {ProductCreate} from './Products'
 import Encounter from '../Documentation/Documentation';
 import ServiceSearch from '../helpers/ServiceSearch';
 import { Box, Grid } from '@mui/material';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import Input from './ui-components/inputs/basic/Input';
 import Button from './ui-components/buttons/Button';
 import CustomSelect from '../../components/inputs/basic/Select';
 import { FormHelperText } from '@mui/material';
@@ -28,6 +27,9 @@ import Select from '@mui/material/Select';
 var random = require('random-string-generator');
 import ModalBox from '../../components/modal';
 import { MdCancel } from 'react-icons/md';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Input from '../../components/inputs/basic/Input';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -167,13 +169,9 @@ export default function AdmissionCreate() {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-          toast({
-            message:
-              'Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            'Please NHIS does not have cover/price for this service. Either set service price for NHIS, try another service or bill using cash'
+          );
           await setSellingPrice(0);
         }
       } else {
@@ -184,13 +182,9 @@ export default function AdmissionCreate() {
           // console.log(contract[0].price)
           await setSellingPrice(contract[0].price);
         } else {
-          toast({
-            message:
-              'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount ',
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error(
+            'Please HMO does not have cover/price for this service. Either set service price for HMO , try another drug, bill using cash or adjust amount '
+          );
           await setSellingPrice(0);
         }
       }
@@ -204,13 +198,9 @@ export default function AdmissionCreate() {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          'Please company does not have cover/price for this service. Either set service price for Company or try another drug or bill using cash'
+        );
         await setSellingPrice(0);
       }
     }
@@ -221,13 +211,9 @@ export default function AdmissionCreate() {
         // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
-        toast({
-          message:
-            'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero ',
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error(
+          'Please there is no cover/price for this service. Either set service price or try another service. Setting price at zero '
+        );
         await setSellingPrice(0);
       }
     }
@@ -296,12 +282,7 @@ export default function AdmissionCreate() {
       productId === '' ||
       paymentmode === ''
     ) {
-      toast({
-        message: 'You need to choose a product and quantity to proceed',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error('You need to choose a product and quantity to proceed');
       return;
     }
 
@@ -516,12 +497,7 @@ export default function AdmissionCreate() {
         // e.target.reset();
         /*  setMessage("Created Clinic successfully") */
         setSuccess(true);
-        toast({
-          message: 'Admission successfull',
-          type: 'is-success',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.success('Admission successfull');
         setSuccess(false);
         setChosenBed();
         setBedObject();
@@ -535,12 +511,7 @@ export default function AdmissionCreate() {
         }));
       })
       .catch((err) => {
-        toast({
-          message: 'Error creating Admission ' + err,
-          type: 'is-danger',
-          dismissible: true,
-          pauseOnHover: true,
-        });
+        toast.error('Error creating Admission ' + err);
       });
   };
 
@@ -569,24 +540,14 @@ export default function AdmissionCreate() {
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
-      toast({
-        message: 'You can not remove inventory from any organization',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error('You can not remove inventory from any organization');
       return;
     }
 
     if (state.StoreModule.selectedStore._id) {
       productEntry.storeId = state.StoreModule.selectedStore._id;
     } else {
-      toast({
-        message: 'You need to select a store before removing inventory',
-        type: 'is-danger',
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error('You need to select a store before removing inventory');
       return;
     }
   };
@@ -751,7 +712,7 @@ export default function AdmissionCreate() {
   // console.log("simpa")
   return (
     <>
-      <div>
+      <div style={{ padding: '1rem' }}>
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -765,19 +726,18 @@ export default function AdmissionCreate() {
               <ModalHeader text={'Admit Patient'} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button
+              <GlobalCustomButton
+                text="Documentation"
                 onClick={showDocumentation}
-                style={{
+                customStyles={{
                   float: 'right',
-                  backgroundColor: '#48c774',
-                  borderRadius: '5px',
+                  marginLeft: 'auto',
                 }}
-              >
-                Documentation
-              </Button>
+                color="success"
+              />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} my={1}>
             <Grid item xs={12} sm={8}>
               <Input
                 name="client"
@@ -794,11 +754,10 @@ export default function AdmissionCreate() {
                 onChange={(e) => handleChangeMode(e.target.value)}
                 className="selectadd"
                 style={{
+                  border: '1px solid #b6b6b6',
+                  height: '38px',
+                  borderRadius: '4px',
                   width: '100%',
-                  padding: '.9rem',
-                  marginTop: '.7rem',
-                  borderRadius: '5px',
-                  border: '1px solid #ccc',
                 }}
               >
                 <option value="">Billing Mode </option>
@@ -813,7 +772,7 @@ export default function AdmissionCreate() {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <p>Admission Ward:</p>
+              <span>Admission Ward:</span>
               <Input
                 name="client"
                 type="text"
@@ -826,8 +785,26 @@ export default function AdmissionCreate() {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <p style={{ fontWeight: '700' }}>Instructions:</p>
-              <p>{medication.instruction}</p>
+              <label className="label" htmlFor="appointment_reason">
+                Instructions:
+              </label>
+              <textarea
+                className="input is-small"
+                name="appointment_reason"
+                value={medication?.instruction}
+                type="text"
+                placeholder="Appointment Reason"
+                rows="3"
+                cols="50"
+                style={{
+                  border: '1px solid #b6b6b6',
+                  borderRadius: '4px',
+                  color: ' #979DAC',
+                  width: '100%',
+                }}
+              >
+                {' '}
+              </textarea>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
@@ -840,11 +817,10 @@ export default function AdmissionCreate() {
                     onChange={(e) => handleBed(e)}
                     className="selectadd"
                     style={{
+                      border: '1px solid #b6b6b6',
+                      height: '38px',
+                      borderRadius: '4px',
                       width: '100%',
-                      padding: '.9rem',
-                      marginTop: '.7rem',
-                      borderRadius: '5px',
-                      border: '1px solid #ccc',
                     }}
                   >
                     <option value="">Choose Bed </option>
@@ -859,35 +835,25 @@ export default function AdmissionCreate() {
               )}
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12}>
-              <Button
+              <GlobalCustomButton
+                text="Admit"
                 onClick={handleAdmit}
-                style={{
-                  backgroundColor: '#48c774',
-                  borderRadius: '5px',
-                  width: '99%',
-                }}
-              >
-                Admit
-              </Button>
+                color="success"
+              />
             </Grid>
           </Grid>
         </form>
       </div>
       {productModal && (
-        <ModalBox open>
-          <MdCancel
-            onClick={() => {
-              setProductModal(false);
-            }}
-            style={{
-              fontSize: '2rem',
-              color: 'crimson',
-              cursor: 'pointer',
-              float: 'right',
-            }}
-          />
+        <ModalBox
+          open
+          header=""
+          onClose={() => {
+            setProductModal(false);
+          }}
+        >
           <Encounter standalone={true} />
         </ModalBox>
       )}
@@ -985,12 +951,7 @@ export function InventorySearch({ getSearchfacility, clear }) {
           setShowPanel(true);
         })
         .catch((err) => {
-          toast({
-            message: 'Error creating ProductEntry ' + err,
-            type: 'is-danger',
-            dismissible: true,
-            pauseOnHover: true,
-          });
+          toast.error('Error creating ProductEntry ' + err);
         });
     } else {
       // console.log("less than 3 ")

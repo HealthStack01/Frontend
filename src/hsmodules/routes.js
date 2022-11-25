@@ -215,6 +215,7 @@ import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
 import CreateWallet from "./PouchiiWallet/CreateWallet";
 import CheckIn from "./ManagedCare/Checkin";
+import RadDetails from "./Radiology/RadDetails";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -593,6 +594,7 @@ const AppRoutes = () => {
               path="/app/radiology/payment"
               element={<RadiologyPayment />}
             />
+            <Route path="/app/radiology/rad-details" element={<RadDetails />} />
           </Route>
 
           {/* ***************************** THEATRE ROUTES ************************************* */}
@@ -804,7 +806,7 @@ const AppRoutes = () => {
 
           {/**************************Immunization *************************************** */}
           <Route path="/app/immunization" element={<ImmunizationHome />}>
-            <Route index element={<ImmunizationDashboardComponent />} />{" "}
+            <Route index element={<ImmunizationDashboardComponent />} />
             <Route
               path="/app/immunization/dashboard"
               element={<ImmunizationDashboardComponent />}

@@ -32,7 +32,12 @@ import BasicDateTimePicker from '../../components/inputs/DateTime';
 import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
-import { EnrolleSchema } from './schema';
+import {
+  EnrolleSchema,
+  EnrolleSchema2,
+  EnrolleSchema3,
+  principalData,
+} from './schema';
 import ClientForm from '../Client/ClientForm';
 import {
   BottomWrapper,
@@ -40,6 +45,15 @@ import {
   HeadWrapper,
   ViewBox,
 } from '../app/styles';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Provider, { OrganizationCreate, ProviderList } from './Providers';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import UpgradeOutlinedIcon from '@mui/icons-material/UpgradeOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import { FormsHeaderText } from '../../components/texts';
+import { G } from '@react-pdf/renderer';
+import Claims from './Claims';
+import PremiumPayment from './PremiumPayment';
 
 var random = require('random-string-generator');
 // eslint-disable-next-line
@@ -511,6 +525,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
   const [obj, setObj] = useState('');
   const [paymentmode, setPaymentMode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [createOrg, setCreateOrg] = useState(false);
 
   const getSearchfacility = (obj) => {
     setChosen(obj);
@@ -1012,6 +1027,40 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
           <Grid container spacing={2} mt={2}>
             <Grid item md={12}>
               <select
+                name="sponsortype"
+                {...register('sponsortype', { required: true })}
+                onChange={(e) => handleChangeMode(e.target.value)}
+                className="selectadd"
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  border: '1px solid rgba(0, 0, 0, 0.6)',
+                }}
+              >
+                <option value=""> Choose Sponsor </option>
+                <option value="Self">Self</option>
+                <option value="Company">Company</option>
+              </select>
+            </Grid>
+
+            <Grid item md={12}>
+              {showCorp && (
+                <SponsorSearch
+                  getSearchfacility={getSearchfacility1}
+                  clear={success}
+                />
+              )}
+            </Grid>
+            <Grid item md={12}>
+              <OrgFacilitySearch
+                getSearchfacility={getSearchfacility}
+                clear={success}
+              />
+            </Grid>
+            <Grid item md={12}>
+              <select
                 name="plan"
                 {...register('plan', { required: true })}
                 onChange={(e, i) => handleChangePlan(e.target.value)}
@@ -1036,40 +1085,22 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             <Grid item md={12}>
               <Input value={price.price} disabled label="Price" />
             </Grid>
-            <Grid item md={12}>
-              <select
-                name="sponsortype"
-                {...register('sponsortype', { required: true })}
-                onChange={(e) => handleChangeMode(e.target.value)}
-                className="selectadd"
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  border: '1px solid rgba(0, 0, 0, 0.6)',
-                }}
-              >
-                <option value=""> Choose Sponsor </option>
-                <option value="Self">Self</option>
-                <option value="Company">Company</option>
-              </select>
-            </Grid>
-            <Grid item md={12}>
-              {showCorp && (
-                <SponsorSearch
-                  getSearchfacility={getSearchfacility1}
-                  clear={success}
-                />
-              )}
-            </Grid>
-            <Grid item md={12}>
-              <OrgFacilitySearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-            </Grid>
           </Grid>
+          <p style={{ display: 'flex' }}>
+            Add Provider
+            <button
+              onClick={() => setCreateOrg(true)}
+              style={{
+                border: 'none',
+                backgroundColor: '#E8F1FF',
+                padding: ' .5rem 1rem',
+                marginLeft: '.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              +
+            </button>
+          </p>
           <p style={{ display: 'flex' }}>
             Add Principal
             <button
@@ -1115,7 +1146,7 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
           {state.Beneficiary.dependent.length > 0 && (
             <CustomTable
               title={''}
-              columns={EnrolleSchema}
+              columns={EnrolleSchema2}
               data={state.Beneficiary.dependent}
               pointerOnHover
               highlightOnHover
@@ -1134,6 +1165,13 @@ export function PolicyCreate({ showModal, setShowModal, setOpenCreate }) {
             Save{' '}
           </Button>
         </form>
+        <ModalBox
+          open={createOrg}
+          onClose={() => setCreateOrg(false)}
+          header="Add Organization"
+        >
+          <OrganizationCreate />
+        </ModalBox>
       </div>
     </>
   );
@@ -1586,13 +1624,26 @@ export function ClientCreate({ closeModal }) {
           </ViewBox>
 
           <BottomWrapper>
-            <Button
+            {/* <Button
               label="Close"
               background="#FFE9E9"
               color="#ED0423"
               onClick={() => setOpen(false)}
             />
-            <Button label="Save Form" type="submit" />
+            <Button label="Save Form" type="submit" /> */}
+            <GlobalCustomButton
+              text="Close"
+              onClick={() => setOpen(false)}
+              color="error"
+              variant="contained"
+            />
+            <GlobalCustomButton
+              text="Save Form"
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={() => handleSubmit(onSubmit)}
+            />
           </BottomWrapper>
         </form>
       </div>
@@ -1601,7 +1652,7 @@ export function ClientCreate({ closeModal }) {
 }
 
 export function PolicyDetail({ showModal, setShowModal }) {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+  const { register, reset, control, handleSubmit } = useForm();
   // eslint-disable-next-line
   // const history = useHistory();
   // eslint-disable-next-line
@@ -1618,6 +1669,9 @@ export function PolicyDetail({ showModal, setShowModal }) {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
+  const [display, setDisplay] = useState(1);
+  const [editPolicy, setEditPolicy] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   let Client = state.ClientModule.selectedClient;
 
@@ -1666,6 +1720,27 @@ export function PolicyDetail({ showModal, setShowModal }) {
   const handlecloseModal3 = () => {
     setBillModal(false);
   };
+  const updateDetail = (data) => {
+    toast.success('Customer Detail Updated');
+    setEditCustomer(false);
+  };
+  const initFormState = {
+    policy_no: '19834780',
+    phone: '08074567832',
+    start_date: moment().subtract(100, 'days').calendar(),
+    end_date: moment().add(3, 'years').calendar(),
+    status: 'Active',
+    policy_type: 'Individual',
+    policy_tag: '5365',
+    premium: 'N100,000',
+    sponsor_name: 'Leadway Assurance',
+    sponsor_phone: '08074567832',
+    sponsor_email: 'test@lead.com',
+    sponsor_address: 'No 1, Ogunlana Drive, Surulere, Lagos',
+  };
+  useEffect(() => {
+    reset(initFormState);
+  }, []);
 
   /*  useEffect(() => {
         Client =state.ClientModule.selectedClient
@@ -1673,6 +1748,7 @@ export function PolicyDetail({ showModal, setShowModal }) {
            
         }
     }, [billingModal]) */
+
   return (
     <>
       <div
@@ -1699,180 +1775,243 @@ export function PolicyDetail({ showModal, setShowModal }) {
             my={1}
           >
             <Button
-              onClick={handleEdit}
+              onClick={() => setDisplay(1)}
               variant="contained"
               size="small"
               sx={{ textTransform: 'capitalize', marginRight: '10px' }}
               color="secondary"
             >
-              Edit Details
+              Details
             </Button>
             <Button
-              onClick={handleFinancialInfo}
-              variant="contained"
-              size="small"
-              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-              color="info"
-            >
-              Payment Info
-            </Button>
-            <Button
-              onClick={handleSchedule}
+              onClick={() => setDisplay(2)}
               variant="contained"
               size="small"
               sx={{ textTransform: 'capitalize', marginRight: '10px' }}
               color="success"
             >
-              Schedule Appointment
+              Provider
             </Button>
             <Button
-              onClick={() => navigate('/app/beneficiary/documentation')}
+              onClick={() => setDisplay(3)}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="info"
+            >
+              Principals
+            </Button>
+            <Button
+              onClick={() => setDisplay(4)}
+              variant="contained"
+              size="small"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+              color="success"
+            >
+              Dependants
+            </Button>
+            <Button
+              onClick={() => setDisplay(5)}
+              variant="contained"
+              size="small"
+              color="info"
+              sx={{ textTransform: 'capitalize', marginRight: '10px' }}
+            >
+              Claims
+            </Button>
+            <Button
+              onClick={() => setDisplay(6)}
               variant="outlined"
               size="small"
               sx={{ textTransform: 'capitalize' }}
             >
-              View History
+              Premium
             </Button>
-
-            {(user.currentEmployee?.roles.includes('Bill Client') ||
-              user.currentEmployee?.roles.length === 0 ||
-              user.stacker) && (
-              <button
-                className="button is-success is-small btnheight mt-2"
-                onClick={showBilling}
-                style={{
-                  border: 'none',
-                  backgroundColor: '#48c774',
-                  padding: ' .5rem 1rem',
-                  marginLeft: '.5rem',
-                  cursor: 'pointer',
-                  color: 'white',
-                  float: 'right',
+          </Grid>
+        </Grid>
+        <Box>
+          {display === 1 && (
+            <Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItem: 'center',
+                  justifyContent: 'space-between',
                 }}
+                mb={1}
               >
-                Bill Client
-              </button>
-            )}
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item md={4}>
-            <p>First Name: {Client?.firstname}</p>
-          </Grid>
-          <Grid item md={4}>
-            <p>Middle Name: {Client?.middlename}</p>
-          </Grid>
-          <Grid item md={4}>
-            <p>Last Name: {Client?.lastname}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>
-              Date of Birth: {new Date(Client?.dob).toLocaleDateString('en-GB')}
-            </p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Gender: {Client?.gender}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Marital Status: {Client?.maritalstatus}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Medical Records Number: {Client?.mrn}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Religion: {Client?.religion}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Profession: {Client?.profession}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Phone Number: {Client?.phone}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Email: {Client?.email}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Address: {Client?.address}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Town/City: {Client?.city}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>LGA: {Client?.lga}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>State: {Client?.state}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Country: {Client?.country}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Blood Group: {Client?.bloodgroup}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Genotype: {Client?.genotype}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Disabilities: {Client?.disabilities}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Allergies: {Client?.allergies}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Co-morbidities: {Client?.comorbidities}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Tags: {Client?.clientTags}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Specific Details: {Client?.specificDetails}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Next of Kin Name: {Client?.nok_name}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Next of Kin Email: {Client?.nok_email}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>NOK Relationship: {Client?.nok_relationship}</p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Sponsor: </p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Plan Type: </p>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <p>Organization: </p>
-          </Grid>
-        </Grid>
+                <FormsHeaderText text="Policy Details" />
 
-        {finacialInfoModal && (
-          <>
-            <ModalBox open onClose={() => setFinacialInfoModal(false)}>
-              <ModalHeader text="Financial Information" />
-              <ClientFinInfo />
-            </ModalBox>
-          </>
-        )}
-        {appointmentModal && (
-          <>
-            <ModalBox open onClose={() => setAppointmentModal(false)}>
-              <AppointmentCreate />
-            </ModalBox>
-          </>
-        )}
-        {billingModal && (
-          <>
-            <ModalBox open onClose={() => setBillingModal(false)}>
-              <ModalHeader text="Bill Beneficiary" />
-              <BillServiceCreate />
-            </ModalBox>
-          </>
-        )}
+                {editPolicy ? (
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{ textTransform: 'capitalize' }}
+                    color="success"
+                    onClick={handleSubmit(updateDetail)}
+                  >
+                    <UpgradeOutlinedIcon fontSize="small" />
+                    Update
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{ textTransform: 'capitalize' }}
+                    onClick={() => setEditPolicy(true)}
+                  >
+                    <ModeEditOutlineOutlinedIcon fontSize="small" /> Edit
+                  </Button>
+                )}
+              </Box>
+
+              <Grid container spacing={1}>
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('policy_no', { required: true })}
+                    label="Policy No."
+                    disabled={!editPolicy}
+                  />
+                </Grid>
+
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('phone', { required: true })}
+                    label="Phone"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('start_date', { required: true })}
+                    label="Start Date"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('end_date', { required: true })}
+                    label="End Date"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Input
+                    register={register('status', { required: true })}
+                    label="Status"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer name"
+                  />
+                </Grid>
+
+                <Grid item lg={4} md={4} sm={6}>
+                  <Input
+                    register={register('policy_type', { required: true })}
+                    label="Policy Type"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+
+                <Grid item lg={4} md={4} sm={6}>
+                  <Input
+                    register={register('policy_tag', { required: true })}
+                    label="Policy Tag"
+                    disabled={!editPolicy}
+                    // placeholder="Enter customer name"
+                  />
+                </Grid>
+
+                <Grid item lg={4} md={4} sm={6}>
+                  <Input
+                    register={register('premium', { required: true })}
+                    label="Premium"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+              </Grid>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItem: 'center',
+                  justifyContent: 'space-between',
+                }}
+                mb={1}
+              >
+                <FormsHeaderText text="Sponsor Details" />
+              </Box>
+              <Grid container spacing={1}>
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('sponsor_name', { required: true })}
+                    label="Sponsor Name"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('sponsor_phone', { required: true })}
+                    label="Sponsor Phone"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('sponsor_email', { required: true })}
+                    label="Sponsor Email"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+                <Grid item lg={6} md={6} sm={6}>
+                  <Input
+                    register={register('sponsor_address', { required: true })}
+                    label="Sponsor Address"
+                    disabled={!editPolicy}
+                    //placeholder="Enter customer number"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          )}
+          {display === 2 && <Provider />}
+          {display === 3 && (
+            <>
+              <CustomTable
+                title={''}
+                columns={EnrolleSchema3}
+                data={principalData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                onRowClicked={() => {}}
+                progressPending={loading}
+              />
+            </>
+          )}
+          {display === 4 && (
+            <CustomTable
+              title={''}
+              columns={EnrolleSchema3}
+              data={principalData}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={() => {}}
+              progressPending={loading}
+            />
+          )}
+          {display === 5 && <Claims />}
+          {display === 6 && <PremiumPayment />}
+        </Box>
       </div>
     </>
   );

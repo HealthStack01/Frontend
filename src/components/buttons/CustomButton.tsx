@@ -1,7 +1,6 @@
 import React from "react";
 import {Button} from "@mui/material";
 import {SvgIconProps} from "@material-ui/core/SvgIcon";
-import {SxProps, Theme} from "@mui/material";
 
 import Spinner from "../spinner";
 

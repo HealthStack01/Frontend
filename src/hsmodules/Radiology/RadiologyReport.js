@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-//import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { UserContext, ObjectContext } from '../../context';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import ReportCreate from './ReportCreate';
@@ -14,12 +14,13 @@ import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
-import ModalBox from './ui-components/modal';
+import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import { Box, Grid, InputBase } from '@mui/material';
-import Input from '../../components/inputs/basic/Input/index';
-import Textarea from '../../components/inputs/basic/Textarea/index';
+import Textarea from '../../components/inputs/basic/Textarea';
 import { toast } from 'react-toastify';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Input from '../../components/inputs/basic/Input';
 
 /* import {ProductCreate} from './Products' */
 // eslint-disable-next-line
@@ -54,21 +55,23 @@ export default function RadiologyReport() {
             </div> */}
 
       <RadiologyOrderList openModal={openModal} setOpenModal={setOpenModal} />
-      {openModal && (
+      {/* {openModal && (
         <ModalBox
           open={state.financeModule.show === 'detail'}
+          header
           onClose={() => setOpenModal(false)}
+          width="fit-content"
         >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid container>
+            <Grid item sm={6} p={1}>
               <RadiologyNoteCreate />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <PatientProfile />
             </Grid>
           </Grid>
         </ModalBox>
-      )}
+      )} */}
     </section>
   );
 }
@@ -96,6 +99,7 @@ export function RadiologyOrderList({ openModal, setOpenModal }) {
   const [selectedFinance, setSelectedFinance] = useState('');
   const [expanded, setExpanded] = useState('');
   const [oldClient, setOldClient] = useState('');
+  const navigate = useNavigate();
 
   const handleSelectedClient = async (Client) => {
     // await setSelectedClient(Client)
@@ -162,6 +166,7 @@ export function RadiologyOrderList({ openModal, setOpenModal }) {
       ...prevstate,
       financeModule: newProductEntryModule,
     }));
+    navigate('/app/radiology/rad-details');
   };
 
   const handleCreate = async () => {
@@ -388,13 +393,9 @@ export function RadiologyOrderList({ openModal, setOpenModal }) {
             </h2>
           </div>
 
-          {handleCreate && (
-            <Button
-              style={{ fontSize: '14px', fontWeight: '600' }}
-              label="Add new "
-              onClick={handleCreate}
-            />
-          )}
+          {/* {handleCreate && (
+            <GlobalCustomButton text="Add new " onClick={handleCreate} />
+          )} */}
         </TableMenu>
 
         <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
@@ -410,565 +411,6 @@ export function RadiologyOrderList({ openModal, setOpenModal }) {
           />
         </div>
       </PageWrapper>
-    </>
-  );
-}
-
-export function RadiologyNoteCreate() {
-  const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState('');
-  // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const ClientServ = client.service('labresults');
-  //const navigate=useNavigate()
-  const { user } = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
-  const [reportStatus, setReportStatus] = useState('Draft');
-  const { state, setState } = useContext(ObjectContext);
-  const [productModal, setProductModal] = useState(false);
-
-  const order = state.financeModule.selectedFinance;
-  const bill_report_status = state.financeModule.report_status;
-
-  const getSearchfacility = (obj) => {
-    setValue('facility', obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  useEffect(() => {
-    // setState((prevstate)=>({...prevstate, labFormType:value}))
-    if (!order.resultDetail?.documentdetail) {
-      setValue('Finding', '', {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-      setValue('Recommendation', '', {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-      // setReportStatus(order.report_status)
-
-      return;
-    }
-    if (order.report_status !== 'Pending') {
-      console.log(order.resultDetail.documentdetail);
-
-      Object.entries(order.resultDetail.documentdetail).map(
-        ([keys, value], i) =>
-          setValue(keys, value, {
-            shouldValidate: true,
-            shouldDirty: true,
-          })
-      );
-    }
-
-    return () => {};
-  }, [order]);
-
-  const onSubmit = async (data, e) => {
-    e.preventDefault();
-    setMessage('');
-    setError(false);
-    setSuccess(false);
-    let document = {};
-    // data.createdby=user._id
-    //  console.log(data);
-    if (user.currentEmployee) {
-      document.facility = user.currentEmployee.facilityDetail._id;
-      document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
-    }
-    document.documentdetail = data;
-    document.documentType = 'Radiology Result';
-    document.documentname = `${data.Procedure} Result`; /* `${order.serviceInfo.name} Result` */
-    // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
-    document.location =
-      state.employeeLocation.locationName +
-      ' ' +
-      state.employeeLocation.locationType;
-    document.locationId = state.employeeLocation.locationId;
-    document.client = order.orderInfo.orderObj.clientId;
-    document.createdBy = user._id;
-    document.createdByname = user.firstname + ' ' + user.lastname;
-    document.status = reportStatus;
-    document.billId = order._id;
-    //  console.log(document)
-    //  console.log(order)
-
-    if (
-      document.location === undefined ||
-      !document.createdByname ||
-      !document.facilityname
-    ) {
-      toast.warning(
-        ' Documentation data missing, requires location and facility details'
-      );
-      return;
-    }
-
-    if (bill_report_status === 'Pending') {
-      ClientServ.create(document)
-        .then((res) => {
-          e.target.reset();
-
-          setSuccess(true);
-          toast.success('Lab Result created succesfully');
-          setSuccess(false);
-        })
-        .catch((err) => {
-          toast.error('Error creating Lab Result ' + err);
-        });
-    }
-
-    if (bill_report_status === 'Draft') {
-      ClientServ.patch(order.resultDetail._id, document)
-        .then((res) => {
-          e.target.reset();
-
-          setSuccess(true);
-          toast.success('Radiology Result updated succesfully');
-          setSuccess(false);
-        })
-        .catch((err) => {
-          toast.error('Error updating Radiology Result ' + err);
-        });
-    }
-    const newProductEntryModule = {
-      selectedFinance: order,
-      show: 'show',
-      // report_status:order.report_status
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      financeModule: newProductEntryModule,
-    }));
-  };
-
-  const handleChangePart = async (e) => {
-    console.log(e.target.value);
-    await setReportStatus(e.target.value);
-  };
-
-  useEffect(() => {
-    if (!order.resultDetail?.documentdetail) {
-      setValue('Finding', '', {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-      setValue('Recommendation', '', {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-      // setReportStatus(order.report_status)
-
-      return;
-    }
-    if (order.report_status !== 'Pending') {
-      console.log(order.resultDetail.documentdetail);
-
-      setValue('Finding', order.resultDetail.documentdetail.Finding, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-      setValue(
-        'Recommendation',
-        order.resultDetail.documentdetail.Recommendation,
-        {
-          shouldValidate: true,
-          shouldDirty: true,
-        }
-      );
-      setReportStatus(order.report_status);
-    }
-
-    return () => {};
-  }, [order]);
-  const showDocumentation = async (value) => {
-    setProductModal(true);
-  };
-  const handlecloseModal = () => {
-    setProductModal(false);
-    // handleSearch(val)
-  };
-  const ProperCase = (text) => {
-    return text
-      .toLowerCase()
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
-
-  return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <ModalHeader
-            text={ProperCase(
-              `Radiology Result for ${order.orderInfo.orderObj.clientname} Ordered Test: ${order.serviceInfo.name}`
-            )}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Button
-            className="button is-success is-small btnheight mt-2"
-            onClick={showDocumentation}
-            style={{
-              // width: '100%',
-              margin: '2rem 0',
-              backgroundColor: '#0364FF',
-              fontSize: '18px',
-              textAlign: 'right',
-              marginLeft: 'auto',
-            }}
-          >
-            Documentation
-          </Button>
-        </Grid>
-      </Grid>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Input
-              name="Procedure"
-              type="text"
-              register={register('Procedure', { required: true })}
-              placeholder="Procedure"
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Clinical Indication"
-              name="Clinical Indication"
-              type="text"
-              register={register('Clinical Indication', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Technique"
-              name="Technique"
-              type="text"
-              register={register('Technique', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Comparison"
-              name="Comparison"
-              type="text"
-              register={register('Comparison', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Finding"
-              name="Finding"
-              type="text"
-              register={register('Finding', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Impression"
-              name="Impression"
-              type="text"
-              register={register('Impression', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Textarea
-              placeholder="Recommendation"
-              name="recommendation"
-              type="text"
-              register={register('recommendation', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-              style={{
-                transform: 'scale(1.5)',
-                margin: '1rem',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '1rem',
-              }}
-            >
-              {' '}
-              Draft
-            </span>
-          </Grid>{' '}
-          <Grid item xs={12} sm={4}>
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-              style={{
-                transform: 'scale(1.5)',
-                margin: '1rem',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '1rem',
-              }}
-            >
-              {' '}
-              Final{' '}
-            </span>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            {bill_report_status !== 'Final' && (
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                  marginTop: '1rem',
-                  padding: '1rem',
-                }}
-              >
-                {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-      </form>
-      {productModal && (
-        <ModalBox open onClose={() => setProductModal(false)}>
-          <Encounter standalone={true} />
-        </ModalBox>
-      )}
-      {/* <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">
-            Radiology Result for {order.orderInfo.orderObj.clientname} Ordered
-            Test: {order.serviceInfo.name}
-          </p>
-          <button
-            className="button is-success is-small btnheight mt-2"
-            onClick={showDocumentation}
-          >
-            Documentation
-          </button>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <input
-                      className="input is-small"
-                      {...register('x')}
-                      name="Procedure"
-                      type="text"
-                      placeholder="Procedure"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register('x')}
-                      name="Clinical Indication"
-                      type="text"
-                      placeholder="Clinical Indication"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register('x')}
-                      name="Technique"
-                      type="text"
-                      placeholder="Technique"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register('x')}
-                      name="Comparison"
-                      type="text"
-                      placeholder="Comparison"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register('x')}
-                      name="Finding"
-                      type="text"
-                      placeholder="Findings"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register('x')}
-                      name="Impression"
-                      type="text"
-                      placeholder="Impression"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="field is-horizontal">
-              <div className="field-body">
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <textarea
-                      className="textarea is-small"
-                      {...register('x')}
-                      name="Recommendation"
-                      type="text"
-                      placeholder="Recommendation"
-                      disabled={bill_report_status === 'Final'}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  name="status"
-                  value="Draft"
-                  checked={
-                    reportStatus === 'Draft' || reportStatus === 'Pending'
-                  }
-                  onChange={(e) => {
-                    handleChangePart(e);
-                  }}
-                  disabled={bill_report_status === 'Final'}
-                />
-                <span> Draft</span>
-              </label>{' '}
-              <br />
-              <label className=" is-small">
-                <input
-                  type="radio"
-                  name="status"
-                  value="Final"
-                  checked={reportStatus === 'Final'}
-                  onChange={(e) => handleChangePart(e)}
-                  disabled={bill_report_status === 'Final'}
-                />
-                <span> Final </span>
-              </label>
-            </div>
-            <div className="field  is-grouped mt-2">
-              <p className="control">
-                <button
-                  type="submit"
-                  className="button is-success is-small"
-                  disabled={bill_report_status === 'Final'}
-                >
-                  {bill_report_status === 'Pending' ? 'Save' : 'Update'}
-                </button>
-              </p>
-             
-            </div>
-          </form>
-        </div>
-      </div> */}
-      {/* <div className={`modal ${productModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card  modalbkgrnd">
-          <header className="modal-card-head  btnheight">
-            <p className="modal-card-title">Documentation</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body modalcolor">
-            <Encounter standalone="true" />
-          </section>
-
-        </div>
-      </div> */}
     </>
   );
 }
