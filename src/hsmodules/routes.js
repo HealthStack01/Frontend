@@ -213,7 +213,7 @@ import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
-import CreateWallet from './PouchiiWallet/CreateWallet';
+import WalletOTP from './PouchiiWallet/walletOtp';
 import CheckIn from './ManagedCare/Checkin';
 
 const moduleLocationTypes = {
