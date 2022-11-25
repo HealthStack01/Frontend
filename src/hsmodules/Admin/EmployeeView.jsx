@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
-import Button from '../../components/buttons/Button';
+// import Button from '../../components/buttons/Button';
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 import Input from '../../components/inputs/basic/Input';
 import ViewText from '../../components/viewtext';
 import { UserContext } from '../../context';
@@ -17,7 +18,6 @@ import {
 } from '../app/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import {
-  createemployeeSchema,
   createEmployeeSchema,
 } from './ui-components/schema';
 import CustomSelect from '../../components/inputs/basic/Select';
@@ -116,17 +116,15 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             <span>Employee detail of {employee?.firstname}</span>
           </div>
           <BottomWrapper>
-            <Button
-              label='Delete Employee'
-              background='#FFE9E9'
-              color='#ED0423'
+            <GlobalCustomButton
+              text='Delete Employee'
+              color=''
               onClick={() => handleDelete()}
             />
 
-            <Button
-              label={`${!editing ? 'Edit Employee' : 'Cancel Editing'}`}
-              background='#ECF3FF'
-              color='#0364FF'
+            <GlobalCustomButton
+              text={`${!editing ? 'Edit Employee' : 'Cancel Editing'}`}
+              color=''
               showicon
               icon='bi bi-pen-fill'
               disabled={editing}
@@ -215,7 +213,7 @@ const EmployeeView = ({ open, setOpen, employee }) => {
 
           {editing && (
             <BottomWrapper>
-              <Button label='Save Form' type='submit' loading={loading} />
+              <GlobalCustomButton text='Save Form' type='submit' loading={loading} />
             </BottomWrapper>
           )}
         </form>

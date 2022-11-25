@@ -204,7 +204,7 @@ export function ServicesCreate({closeModal}) {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -297,7 +297,7 @@ export function ServicesCreate({closeModal}) {
 
     ServicesServ.create(data)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created Services successfully") */
         setSuccess(true);
@@ -319,7 +319,7 @@ export function ServicesCreate({closeModal}) {
   };
 
   const handleRemove = (index, contract) => {
-    //console.log(index)
+    ////console.log(index)
     if (contract.billing_type === "Cash") {
       toast({
         message: "You cannot remove cash billing",
@@ -350,7 +350,7 @@ export function ServicesCreate({closeModal}) {
     setSuccessService(true);
     newService = {};
     setService("");
-    console.log("something added");
+    //console.log("something added");
   };
   const handleCheck = async () => {
     // alert();
@@ -371,7 +371,7 @@ export function ServicesCreate({closeModal}) {
       },
     })
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
         if (resp.data.length > 0) {
           error = true;
           setHasError(true);
@@ -667,17 +667,17 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     openCreateModal();
   };
 
   const handleRow = async Service => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",Services)
+    ////console.log("handlerow",Services)
 
     await setSelectedServices(Service.services);
-    //console.log(Service.services);
+    ////console.log(Service.services);
 
     // const newServicesModule = {
     //   selectedServices: Service.services,
@@ -687,16 +687,16 @@ export function ServicesList({openCreateModal, openDetallModal}) {
     //   ...prevstate,
     //   ServicesModule: newServicesModule,
     // }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSecondRow = async Service => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",Services)
+    ////console.log("handlerow",Services)
 
     //await setSelectedServices(Service.services);
-    //console.log(Service.services);
+    ////console.log(Service.services);
 
     const newServicesModule = {
       selectedServices: Service,
@@ -706,13 +706,13 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     openDetallModal();
   };
 
   const handleSearch = val => {
     const field = "name";
-    console.log(val);
+    //console.log(val);
     ServicesServ.find({
       query: {
         [field]: {
@@ -728,11 +728,11 @@ export function ServicesList({openCreateModal, openDetallModal}) {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.groupedOrder);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         toast.error("Error during search " + err);
       });
   };
@@ -750,9 +750,9 @@ export function ServicesList({openCreateModal, openDetallModal}) {
           },
         },
       });
-      //console.log(findServices);
+      ////console.log(findServices);
       await setFacilities(findServices.groupedOrder);
-      //console.log(findServices.groupedOrder);
+      ////console.log(findServices.groupedOrder);
     } else {
       if (user.stacker) {
         toast.error("You do not qualify to view this");
@@ -777,7 +777,7 @@ export function ServicesList({openCreateModal, openDetallModal}) {
 
   /*    useEffect(() => {
                 getFacilities()
-                console.log("store changed")
+                //console.log("store changed")
                 return () => {
                    
                 }
@@ -958,9 +958,9 @@ export function ServicesDetail({openModifyModal, closeModal}) {
   const {state, setState} = useContext(ObjectContext);
 
   const Services = state.ServicesModule.selectedServices;
-  /* console.log(Services) */
+  /* //console.log(Services) */
 
-  //console.log(Services);
+  ////console.log(Services);
 
   const handleEdit = async () => {
     const newServicesModule = {
@@ -971,7 +971,7 @@ export function ServicesDetail({openModifyModal, closeModal}) {
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     openModifyModal();
   };
 
@@ -1263,7 +1263,7 @@ export function ServicesModify({closeModal}) {
       },
     })
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
         if (resp.data.length > 0) {
           toast({
             message: "Service already exist. Kindly modify it " + resp.data,
@@ -1413,7 +1413,7 @@ export function ServicesModify({closeModal}) {
   };
 
   const handleRemove = (index, contract) => {
-    //console.log(index)
+    ////console.log(index)
     if (contract.billing_type === "Cash") {
       toast({
         message: "You cannot remove cash billing",
@@ -1444,7 +1444,7 @@ export function ServicesModify({closeModal}) {
     setSuccessService(true);
     newService = {};
     setService("");
-    console.log("something added");
+    //console.log("something added");
   };
   const handleCancel = async () => {
     const newServicesModule = {
@@ -1455,7 +1455,7 @@ export function ServicesModify({closeModal}) {
       ...prevstate,
       ServicesModule: newServicesModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     closeModal();
   };
 
@@ -1476,7 +1476,7 @@ export function ServicesModify({closeModal}) {
     if (conf) {
       ServicesServ.remove(dleteId)
         .then(res => {
-          //console.log(JSON.stringify(res))
+          ////console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Services successfully")
                 setSuccess(true)
@@ -1533,14 +1533,14 @@ export function ServicesModify({closeModal}) {
       contracts: productItem,
       updatedBy: user._id,
     };
-    console.log(Services);
-    console.log(data);
-    //data.facility=Services.facility
+    //console.log(Services);
     //console.log(data);
+    //data.facility=Services.facility
+    ////console.log(data);
 
     ServicesServ.patch(Services._id, data)
       .then(res => {
-        console.log(JSON.stringify(res));
+        //console.log(JSON.stringify(res));
         // e.target.reset();
         // setMessage("updated Services successfully")
         toast({
@@ -1963,25 +1963,25 @@ export function ServiceSearch({
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      //console.log("stuff was chosen");
     }
 
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async value => {
     setVal(value);
@@ -2009,8 +2009,8 @@ export function ServiceSearch({
           },
         })
         .then(res => {
-          // console.log("product  fetched successfully")
-          //console.log(res.data)
+          // //console.log("product  fetched successfully")
+          ////console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -2024,11 +2024,11 @@ export function ServiceSearch({
           });
         });
     } else {
-      // console.log("less than 3 ")
-      //console.log(val)
+      // //console.log("less than 3 ")
+      ////console.log(val)
       setShowPanel(false);
       await setFacilities([]);
-      //console.log(facilities)
+      ////console.log(facilities)
     }
   };
 
@@ -2041,7 +2041,7 @@ export function ServiceSearch({
   };
   useEffect(() => {
     if (clearService) {
-      console.log("success has changed", clearService);
+      //console.log("success has changed", clearService);
       setSimpa("");
     }
     return () => {};

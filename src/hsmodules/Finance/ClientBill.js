@@ -35,7 +35,7 @@ export default function ClientBilledPrescription({selectedClient}) {
   const {user, setUser} = useContext(UserContext);
   const [selectedMedication, setSelectedMedication] = useState("");
 
-  console.log(selectedClient);
+  //console.log(selectedClient);
 
   const handleSelectedClient = async Client => {
     // await setSelectedClient(Client)
@@ -51,9 +51,9 @@ export default function ClientBilledPrescription({selectedClient}) {
 
   const handleMedicationRow = async ProductEntry => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
     await handleSelectedClient(ProductEntry.client);
 
     await setSelectedMedication(ProductEntry);
@@ -66,7 +66,7 @@ export default function ClientBilledPrescription({selectedClient}) {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -79,12 +79,12 @@ export default function ClientBilledPrescription({selectedClient}) {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSearch = val => {
     const field = "name";
-    //console.log(val)
+    ////console.log(val)
     OrderServ.find({
       query: {
         order: {
@@ -107,13 +107,13 @@ export default function ClientBilledPrescription({selectedClient}) {
       },
     })
       .then(res => {
-        // console.log(res)
+        // //console.log(res)
         setClientOrders(res.data);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        // console.log(err)
+        // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -121,7 +121,7 @@ export default function ClientBilledPrescription({selectedClient}) {
       });
   };
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await OrderServ.find({
       query: {
         order_category: "Prescription",
@@ -139,14 +139,14 @@ export default function ClientBilledPrescription({selectedClient}) {
       },
     });
 
-    console.log("clientorders", findProductEntry);
+    //console.log("clientorders", findProductEntry);
     await setClientOrders(findProductEntry.data);
     //await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
   //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
+    // //console.log("started")
     getFacilities();
     OrderServ.on("created", obj => getFacilities());
     OrderServ.on("updated", obj => getFacilities());
@@ -166,7 +166,7 @@ export default function ClientBilledPrescription({selectedClient}) {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   return (

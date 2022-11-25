@@ -96,7 +96,7 @@ export default function BillDispenseCreate() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -113,9 +113,9 @@ export default function BillDispenseCreate() {
     // alert("Iam chaning qamount")
   };
   const handleClickProd = async () => {
-    console.log("amount: ", productItemI.amount);
-    console.log("qamount: ", qamount);
-    console.log("calcamount: ", calcamount);
+    // //console.log("amount: ", productItemI.amount);
+    // //console.log("qamount: ", qamount);
+    // //console.log("calcamount: ", calcamount);
 
     if (quantity === 0 || quantity === "" || productId === "") {
       toast({
@@ -139,16 +139,16 @@ export default function BillDispenseCreate() {
     handleAmount();
     // setCalcAmount(null)
     await setSuccess(true);
-    /*  console.log(success)
-        console.log(qamount)
-        console.log(productItem) */
+    /*  //console.log(success)
+        //console.log(qamount)
+        //console.log(productItem) */
     setChangeAmount(true);
   };
   //check user for facility or get list of facility
   /*  useEffect(()=>{
          //setFacility(user.activeProductEntry.FacilityId)//
        if (!user.stacker){
-           console.log(currentUser)
+           //console.log(currentUser)
             /* setValue("facility", user.currentEmployee.facilityDetail._id,  {
              shouldValidate: true,
              shouldDirty: true
@@ -170,7 +170,7 @@ export default function BillDispenseCreate() {
     setQuantity(e.target.value);
     calcamount1 = quantity * sellingprice;
     await setCalcAmount(calcamount1);
-    console.log(calcamount);
+    //console.log(calcamount);
   };
 
   useEffect(() => {
@@ -214,7 +214,7 @@ export default function BillDispenseCreate() {
     productEntry.createdby = user._id;
     productEntry.transactioncategory = "debit";
 
-    console.log("b4 facility", productEntry);
+    //console.log("b4 facility", productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
@@ -237,10 +237,10 @@ export default function BillDispenseCreate() {
       });
       return;
     }
-    console.log("b4 create", productEntry);
+    //console.log("b4 create", productEntry);
     ProductEntryServ.create(productEntry)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         resetform();
         /*  setMessage("Created ProductEntry successfully") */
         setSuccess(true);
@@ -272,11 +272,11 @@ export default function BillDispenseCreate() {
   const handleChangeAmount = () => {
     setChangeAmount(rev => !rev);
   };
-  // console.log("i am rendering")
+  // //console.log("i am rendering")
 
   useEffect(() => {
     const today = new Date().toLocaleString();
-    console.log(today);
+    // //console.log(today);
     setDate(today);
     const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
@@ -286,7 +286,7 @@ export default function BillDispenseCreate() {
   useEffect(() => {
     calcamount1 = quantity * sellingprice;
     setCalcAmount(calcamount1);
-    console.log(calcamount);
+    // //console.log(calcamount);
     setChangeAmount(true);
     return () => {};
   }, [quantity]);
@@ -607,25 +607,25 @@ export function InventorySearch({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      // //console.log("stuff was chosen");
     }
 
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async value => {
     setVal(value);
@@ -654,8 +654,8 @@ export function InventorySearch({getSearchfacility, clear}) {
           },
         })
         .then(res => {
-          console.log("product  fetched successfully");
-          console.log(res.data);
+          // //console.log("product  fetched successfully");
+          // //console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -669,11 +669,11 @@ export function InventorySearch({getSearchfacility, clear}) {
           });
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      //console.log("less than 3 ");
+      //console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      //console.log(facilities);
     }
   };
 
@@ -686,7 +686,7 @@ export function InventorySearch({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
+      //console.log("success has changed", clear);
       setSimpa("");
     }
     return () => {};

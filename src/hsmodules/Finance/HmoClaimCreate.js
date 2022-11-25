@@ -70,7 +70,7 @@ export default function HmoClaimCreate() {
   });
 
   let medication = state.financeModule.selectedFinance;
-  //console.log(state.financeModule.state)
+  ////console.log(state.financeModule.state)
 
   const showDocumentation = async value => {
     setProductModal(true);
@@ -81,12 +81,12 @@ export default function HmoClaimCreate() {
   };
 
   const handleChangeMode = async value => {
-    //console.log(value)
+    ////console.log(value)
     await setPaymentMode(value);
-    /*   console.log(paymentOptions)
+    /*   //console.log(paymentOptions)
        let billm= paymentOptions.filter(el=>el.name===value)
        await setBillMode(billm)
-        console.log(billm) */
+        //console.log(billm) */
     // at startup
     // check payment mode options from patient financial info
     // load that to select options
@@ -99,9 +99,9 @@ export default function HmoClaimCreate() {
   };
 
   const handleRow = async ProductEntry => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     //await setMedication(ProductEntry)
 
@@ -113,7 +113,7 @@ export default function HmoClaimCreate() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -161,18 +161,18 @@ export default function HmoClaimCreate() {
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.hmo
       );
-      //  console.log(contract[0].price)
+      //  //console.log(contract[0].price)
       setSellingPrice(contract[0].price);
-      //  console.log(sellingprice)
+      //  //console.log(sellingprice)
     }
     if (billMode.type === "Company Cover") {
       //paymentmode
       let contract = contracts.filter(
         el => el.source_org === billMode.detail.company
       );
-      //   console.log(contract[0].price)
+      //   //console.log(contract[0].price)
       setSellingPrice(contract[0].price);
-      //   console.log(sellingprice)
+      //   //console.log(sellingprice)
     }
 
     /*  setValue("facility", obj._id,  {
@@ -182,14 +182,14 @@ export default function HmoClaimCreate() {
   };
 
   useEffect(() => {
-    /*  console.log(obj)
-        console.log(billMode)
+    /*  //console.log(obj)
+        //console.log(billMode)
         if( paymentmode!=="Cash" && obj){
             const contracts=obj.billingDetails.contracts
             let contract=contracts.filter(el=>el.source_org===billMode.detail.hmo)
-           console.log(contract[0].price)
+           //console.log(contract[0].price)
            setSellingPrice(contract[0].price)
-           console.log(sellingprice)
+           //console.log(sellingprice)
        }
          return () => {
             
@@ -198,7 +198,7 @@ export default function HmoClaimCreate() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -207,7 +207,7 @@ export default function HmoClaimCreate() {
   };
 
   const handleChangeType = async e => {
-    //console.log(e.target.value)
+    ////console.log(e.target.value)
     await setType(e.target.value);
   };
 
@@ -217,9 +217,9 @@ export default function HmoClaimCreate() {
   };
 
   const handleClickProd = async () => {
-    /*   console.log("amount: ",productItemI.amount)
-         console.log("qamount: ",qamount)
-         console.log("calcamount: ",calcamount) */
+    /*   //console.log("amount: ",productItemI.amount)
+         //console.log("qamount: ",qamount)
+         //console.log("calcamount: ",calcamount) */
     if (quantity === 0 || quantity === "" || productId === "") {
       toast({
         message: "You need to choose a product and quantity to proceed",
@@ -270,12 +270,12 @@ export default function HmoClaimCreate() {
     })
       .then(resp => {
         // medication=resp
-        // console.log(resp)
+        // //console.log(resp)
         handleRow(resp);
         //update dispense
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       });
 
     //update status(billed) + action()
@@ -290,9 +290,9 @@ export default function HmoClaimCreate() {
     handleAmount();
     // setCalcAmount(null)
     await setSuccess(true);
-    /* console.log(success)
-        console.log(qamount)
-        console.log(productItem) */
+    /* //console.log(success)
+        //console.log(qamount)
+        //console.log(productItem) */
     setChangeAmount(true);
   };
 
@@ -309,7 +309,7 @@ export default function HmoClaimCreate() {
     setQuantity(e.target.value);
     calcamount1 = quantity * sellingprice;
     await setCalcAmount(calcamount1);
-    //  console.log(calcamount)
+    //  //console.log(calcamount)
   };
 
   useEffect(() => {
@@ -340,9 +340,9 @@ export default function HmoClaimCreate() {
 
   const handleMedicationDone = async () => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
 
     // await setSelectedMedication("")
 
@@ -355,7 +355,7 @@ export default function HmoClaimCreate() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -375,7 +375,7 @@ export default function HmoClaimCreate() {
     productEntry.createdby = user._id;
     productEntry.transactioncategory = "debit";
 
-    // console.log("b4 facility",productEntry);
+    // //console.log("b4 facility",productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
@@ -451,7 +451,7 @@ export default function HmoClaimCreate() {
     if (confirm) {
       await SubwalletTxServ.create(obj)
         .then(resp => {
-          // console.log(resp)
+          // //console.log(resp)
 
           toast({
             message: "Deposit accepted succesfully",
@@ -479,7 +479,7 @@ export default function HmoClaimCreate() {
       medication.participantInfo.client.firstname +
       " " +
       medication.participantInfo.client.lastname;
-    // console.log("oldname",oldname)
+    // //console.log("oldname",oldname)
     setSource(
       medication.participantInfo.client.firstname +
         " " +
@@ -487,7 +487,7 @@ export default function HmoClaimCreate() {
     );
 
     const newname = source;
-    // console.log("newname",newname)
+    // //console.log("newname",newname)
     if (oldname !== newname) {
       //newdispense
 
@@ -544,13 +544,13 @@ export default function HmoClaimCreate() {
   };
 
   useEffect(() => {
-    console.log(productItem);
+    //console.log(productItem);
     getTotal();
     return () => {};
   }, [productItem]);
 
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await SubwalletServ.find({
       query: {
         client: medication.participantInfo.client._id,
@@ -563,9 +563,9 @@ export default function HmoClaimCreate() {
         },
       },
     });
-    console.log(findProductEntry);
+    //console.log(findProductEntry);
 
-    // console.log("balance", findProductEntry.data[0].amount)
+    // //console.log("balance", findProductEntry.data[0].amount)
     if (findProductEntry.data.length > 0) {
       await setBalance(findProductEntry.data[0].amount);
     } else {
@@ -578,7 +578,7 @@ export default function HmoClaimCreate() {
   useEffect(() => {
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
-    //console.log(today)
+    ////console.log(today)
     setDate(today);
     const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
@@ -605,7 +605,7 @@ export default function HmoClaimCreate() {
   /*   useEffect(() => {
         calcamount1=quantity*sellingprice
          setCalcAmount(calcamount1)
-         console.log(calcamount)
+         //console.log(calcamount)
          setChangeAmount(true)
         return () => {
             
@@ -613,7 +613,7 @@ export default function HmoClaimCreate() {
     }, [quantity]) */
 
   const handleChangePart = async (bill, e) => {
-    console.log(bill, e.target.value);
+    //console.log(bill, e.target.value);
     if (e.target.value === "Part") {
       bill.show = "flex";
       setPartPay(prev => prev.concat(bill));
@@ -675,12 +675,12 @@ export default function HmoClaimCreate() {
       });
       return;
     }
-    // console.log(bill)
+    // //console.log(bill)
     let item = await productItem.find(el => el._id === bill._id);
-    // console.log(item)
+    // //console.log(item)
     /* item.partPay=partAmount
-        console.log(item)
-        console.log(productItem) */
+        //console.log(item)
+        //console.log(productItem) */
 
     let partAmount = item.partPay;
 
@@ -723,7 +723,7 @@ export default function HmoClaimCreate() {
   };
 
   const handleAuth = (bill, e) => {
-    console.log(e.chec);
+    //console.log(e.chec);
     if (e.checked) {
     }
 
@@ -732,7 +732,7 @@ export default function HmoClaimCreate() {
         show :'detail'
     }
   await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handlePayment = async () => {
     //1. check if there is sufficient amount
@@ -813,7 +813,7 @@ export default function HmoClaimCreate() {
       facilityName: user.employeeData[0].facilityDetail.facilityName,
     };
 
-    console.log(obj);
+    //console.log(obj);
 
     InvoiceServ.create(obj)
       .then(async resp => {
@@ -852,7 +852,7 @@ export default function HmoClaimCreate() {
 
     //2.4 mark bills as paid
   };
-  // console.log("simpa")
+  // //console.log("simpa")
   return (
     <>
       <div className="card card-overflow mb-2 ">
@@ -1278,25 +1278,25 @@ export function InventorySearch({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      //console.log("stuff was chosen");
     }
 
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async value => {
     setVal(value);
@@ -1325,8 +1325,8 @@ export function InventorySearch({getSearchfacility, clear}) {
           },
         })
         .then(res => {
-          console.log("product  fetched successfully");
-          console.log(res.data);
+          //console.log("product  fetched successfully");
+          //console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -1340,11 +1340,11 @@ export function InventorySearch({getSearchfacility, clear}) {
           });
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      //console.log("less than 3 ");
+      //console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      //console.log(facilities);
     }
   };
 
@@ -1357,7 +1357,7 @@ export function InventorySearch({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-      console.log("success has changed", clear);
+      //console.log("success has changed", clear);
       setSimpa("");
     }
     return () => {};

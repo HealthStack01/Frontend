@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
-import Button from '../../components/buttons/Button';
+// import Button from '../../components/buttons/Button';
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import BasicDatePicker from '../../components/inputs/Date';
@@ -78,13 +79,14 @@ export const BandForm = ({ open, setOpen }) => {
           />
           <Input
             {...register('description', { required: true })}
+            label='Description'
             name='description'
             type='text'
             placeholder='Description of Location'
           />
 
           <BottomWrapper>
-            <Button type='submit' label='Create Location' loading={loading} />
+            <GlobalCustomButton type='submit' text='Create Location' loading={loading} />
           </BottomWrapper>
         </DetailsWrapper>
       </form>

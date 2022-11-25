@@ -3,6 +3,7 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
+import api from "../../utils/api"
 import {DebounceInput} from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
@@ -1106,17 +1107,17 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleCreateWallet = async () => {
     try {
-      const res = await api.post("https://walletdemo.remita.net/api/register", {
+      const res = await api.post("/register", {
         firstName: Client.firstname,
         lastName: Client.lastname,
-        phoneNumber: "09123802410",
-        password: "kennis022876",
+        phoneNumber:"08108444864",
+        password:"KEnnis007***",
       });
       console.log(res);
       toast.success("Wallet Created Successfully");
       return res.data;
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message);
       console.log(error);
     }
   };
@@ -1187,7 +1188,7 @@ export function ClientDetail({closeDetailModal}) {
               textTransform: "capitalize",
               marginRight: "5px",
             }}
-            onClick={handleFinancialInfo}
+            onClick={handleCreateWallet}
           >
             Create Wallet
           </MuiButton>

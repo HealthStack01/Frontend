@@ -11,9 +11,10 @@ import * as yup from "yup";
 import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
+// import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import Input from "./ui-components/inputs/basic/Input";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import Input from "../../components/inputs/basic/Input";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
@@ -253,9 +254,9 @@ export function EmployeeCreate() {
         />
 
         <BottomWrapper>
-          <Button type="submit" loading={loading}>
+          <GlobalCustomButton type="submit" loading={loading}>
             Create
-          </Button>
+          </GlobalCustomButton>
         </BottomWrapper>
       </form>
     </>
@@ -417,6 +418,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
       selector: (row) => row.sn,
       sortable: true,
       inputType: "HIDDEN",
+      width:"80px"
     },
     {
       name: "Firstname",
@@ -531,9 +533,9 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
               </div>
 
               {handleCreateNew && (
-                <Button
+                <GlobalCustomButton
                   style={{ fontSize: "14px", fontWeight: "600" }}
-                  label="Add new "
+                  text="Add new "
                   onClick={showCreateModal}
                 />
               )}
@@ -711,7 +713,7 @@ export function EmployeeDetail({ showModifyModal }) {
           </Grid>
           <Grid container spacing={2} mt={4}>
             <Grid item xs={12} sm={3} md={4}>
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleEdit}
                 style={{
@@ -722,10 +724,10 @@ export function EmployeeDetail({ showModifyModal }) {
                 }}
               >
                 Edit
-              </Button>
+              </GlobalCustomButton>
             </Grid>
             <Grid item xs={12} sm={3} md={3}>
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleRoles}
                 style={{
@@ -736,7 +738,7 @@ export function EmployeeDetail({ showModifyModal }) {
                 }}
               >
                 Set Roles
-              </Button>
+              </GlobalCustomButton>
             </Grid>
           </Grid>
           {error && <div className="message"> {message}</div>}
@@ -982,7 +984,7 @@ export function EmployeeModify() {
           </form>
           <div className="block">
             <div style={{ display: "flex" }}>
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
                 style={{
@@ -995,9 +997,9 @@ export function EmployeeModify() {
                 }}
               >
                 Save
-              </Button>
+              </GlobalCustomButton>
 
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleDelete}
                 style={{
@@ -1010,7 +1012,7 @@ export function EmployeeModify() {
                 }}
               >
                 Delete
-              </Button>
+              </GlobalCustomButton>
             </div>
           </div>
         </div>

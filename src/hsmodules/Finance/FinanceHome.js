@@ -18,10 +18,10 @@ export default function FinacneHome({children}) {
   // const handleCloseModal = () => {
   //   state.showStoreModal = "modal";
   //   setState(state);
-  //   console.log(state.showStoreModal);
+  //   //console.log(state.showStoreModal);
 
   useEffect(() => {
-    console.log(state.financeModule.selectedFinance);
+    //console.log(state.financeModule.selectedFinance);
     const notSelected = Object.keys(selectedStore).length === 0;
 
     if (notSelected) {
@@ -49,7 +49,7 @@ export default function FinacneHome({children}) {
 
   const handleChangeStore = async () => {
     await setStoreModal(true);
-    // console.log(showModal);
+    // //console.log(showModal);
   };
   // };
 

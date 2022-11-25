@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
-import Button from "../../components/buttons/Button";
+// import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
 import ViewText from "../../components/viewtext";
 import { UserContext } from "../../context";
 import client from "../../feathers";
 import { yupResolver } from "@hookform/resolvers/yup";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -94,17 +95,14 @@ const BandView = ({ open, setOpen, band }) => {
             <span>Band detail of {band.name}</span>
           </div>
           <BottomWrapper>
-            <Button
-              label="Delete Band"
-              background="#FFE9E9"
-              color="#ED0423"
+            <GlobalCustomButton
+              text="Delete Band"
+              color="secondary"
               onClick={() => handleDelete()}
             />
 
-            <Button
-              label={`${!editing ? "Edit Client" : "Cancel Editing"}`}
-              background="#ECF3FF"
-              color="#0364FF"
+            <GlobalCustomButton
+              text={`${!editing ? "Edit Client" : "Cancel Editing"}`}
               showicon
               icon="bi bi-pen-fill"
               disabled={editing}
@@ -141,7 +139,7 @@ const BandView = ({ open, setOpen, band }) => {
 
           {editing && (
             <BottomWrapper>
-              <Button label="Save Form" type="submit" loading={loading} />
+              <GlobalCustomButton text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>

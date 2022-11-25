@@ -58,7 +58,7 @@ export function ProductCreate() {
 
   useEffect(() => {
     setCurrentUser(user);
-    //console.log(currentUser)
+    ////console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -66,7 +66,7 @@ export function ProductCreate() {
   useEffect(() => {
     //setFacility(user.activeProduct.FacilityId)//
     if (!user.stacker) {
-      /*    console.log(currentUser)
+      /*    //console.log(currentUser)
         setValue("facility", user.currentEmployee.facilityDetail._id,  {
             shouldValidate: true,
             shouldDirty: true
@@ -80,13 +80,13 @@ export function ProductCreate() {
     setError(false);
     setSuccess(false);
     // data.createdby=user._id
-    console.log(data);
+    //console.log(data);
     if (user.currentEmployee) {
       // data.facility=user.currentEmployee.facilityDetail._id  // or from facility dropdown
     }
     ProductServ.create(data)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         e.target.reset();
         /*  setMessage("Created Product successfully") */
         setSuccess(true);
@@ -272,12 +272,12 @@ export function ProductList() {
       ...prevstate,
       ProductModule: newProductModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
   const handleRow = async Product => {
-    //console.log("b4",state)
+    ////console.log("b4",state)
 
-    //console.log("handlerow",Product)
+    ////console.log("handlerow",Product)
 
     await setSelectedProduct(Product);
 
@@ -289,12 +289,12 @@ export function ProductList() {
       ...prevstate,
       ProductModule: newProductModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSearch = val => {
     const field = "name";
-    console.log(val);
+    //console.log(val);
     ProductServ.find({
       query: {
         [field]: {
@@ -309,13 +309,13 @@ export function ProductList() {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.data);
         setMessage(" Product  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
         setMessage("Error fetching Product, probable network issues " + err);
         setError(true);
       });
@@ -349,7 +349,7 @@ export function ProductList() {
       }
     }
     /*   .then((res)=>{
-                console.log(res)
+                //console.log(res)
                     setFacilities(res.data)
                     setMessage(" Product  fetched successfully")
                     setSuccess(true)
@@ -370,10 +370,10 @@ export function ProductList() {
     } else {
       /* const localUser= localStorage.getItem("user")
                     const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
+                    //console.log(localUser)
+                    //console.log(user1)
                     fetchUser(user1)
-                    console.log(user)
+                    //console.log(user)
                     getFacilities(user) */
     }
     ProductServ.on("created", obj => getFacilities());
@@ -505,7 +505,7 @@ export function ProductDetail() {
       ...prevstate,
       ProductModule: newProductModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   return (
@@ -701,7 +701,7 @@ export function ProductModify() {
       ...prevstate,
       ProductModule: newProductModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const changeState = () => {
@@ -718,7 +718,7 @@ export function ProductModify() {
     if (conf) {
       ProductServ.remove(dleteId)
         .then(res => {
-          //console.log(JSON.stringify(res))
+          ////console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Product successfully")
                 setSuccess(true)
@@ -756,13 +756,13 @@ export function ProductModify() {
     e.preventDefault();
 
     setSuccess(false);
-    // console.log(data)
+    // //console.log(data)
     //  data.facility=Product.facility
-    //console.log(data);
+    ////console.log(data);
 
     ProductServ.patch(Product._id, data)
       .then(res => {
-        //console.log(JSON.stringify(res))
+        ////console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Product successfully")
         toast({
@@ -963,25 +963,25 @@ export function InputSearch({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    //console.log(state)
+    ////console.log(state)
   };
   const handleBlur = async e => {
     if (count === 2) {
-      console.log("stuff was chosen");
+      //console.log("stuff was chosen");
     }
 
-    /*  console.log("blur")
+    /*  //console.log("blur")
          setShowPanel(false)
-        console.log(JSON.stringify(simpa))
+        //console.log(JSON.stringify(simpa))
         if (simpa===""){
-            console.log(facilities.length)
+            //console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
+        //console.log(facilities.length)
+        //console.log(inputEl.current) */
   };
   const handleSearch = async val => {
     const field = "facilityName"; //field variable
@@ -1001,24 +1001,24 @@ export function InputSearch({getSearchfacility, clear}) {
         },
       })
         .then(res => {
-          console.log("facility  fetched successfully");
+          //console.log("facility  fetched successfully");
           setFacilities(res.data);
           setSearchMessage(" facility  fetched successfully");
           setShowPanel(true);
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
           setSearchMessage(
             "Error searching facility, probable network issues " + err
           );
           setSearchError(true);
         });
     } else {
-      console.log("less than 3 ");
-      console.log(val);
+      //console.log("less than 3 ");
+      //console.log(val);
       setShowPanel(false);
       await setFacilities([]);
-      console.log(facilities);
+      //console.log(facilities);
     }
   };
   useEffect(() => {

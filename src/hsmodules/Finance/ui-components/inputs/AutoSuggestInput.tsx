@@ -61,7 +61,7 @@ const AutoSuggestInput = ({
           setSuggestions(results);
         })
         .catch((error) => {
-          console.error({ error });
+          //console.error({ error });
           toast(`error fetching SNOMED concepts, Check your network ${error}`);
         });
       return;
@@ -103,7 +103,7 @@ const AutoSuggestInput = ({
         onChange(value);
         setValue(label);
       })
-      .catch(console.error);
+      .catch(//console.error);
   };
 
   useEffect(() => {
