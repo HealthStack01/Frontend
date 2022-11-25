@@ -1224,7 +1224,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
 
                 {handleCreateNew && (
                   <div>
-                    <MuiButton
+                    {/* <MuiButton
                       variant="outlined"
                       sx={{
                         widh: 'fit',
@@ -1240,7 +1240,7 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                         fontSize="small"
                       />
                       Upload Provider
-                    </MuiButton>
+                    </MuiButton> */}
                     <MuiButton
                       variant="contained"
                       sx={{
@@ -3605,7 +3605,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           mb={2}
         >
           <Button label="Edit" onClick={handleEdit} />
-          <Button label="Associate" />
+          <Button label="Accreditation" />
           <Button label="Close" onClick={closeForm} />
           <Button label="Delete" />
         </Box>
