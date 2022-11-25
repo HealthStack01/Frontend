@@ -49,54 +49,30 @@ export default function Provider({ standAlone }) {
   const [showModal, setShowModal] = useState(0);
   return (
     <>
-      {!standAlone && (
-        <section className="section remPadTop">
-          <ProviderList showModal={showModal} setShowModal={setShowModal} />
-          {showModal === 1 && (
-            <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-              <OrganizationCreate />
-            </ModalBox>
-          )}
-          {showModal === 2 && (
-            <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-              {/* <NewOrganizationCreate /> */}
-              <OrganizationDetail setShowModal={setShowModal} />
-            </ModalBox>
-          )}
+      <section className="section remPadTop">
+        <ProviderList
+          showModal={showModal}
+          setShowModal={setShowModal}
+          standAlone={standAlone}
+        />
+        {showModal === 1 && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <OrganizationCreate />
+          </ModalBox>
+        )}
+        {showModal === 2 && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            {/* <NewOrganizationCreate /> */}
+            <OrganizationDetail setShowModal={setShowModal} />
+          </ModalBox>
+        )}
 
-          {showModal === 3 && (
-            <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-              <NewOrganizationCreate />
-            </ModalBox>
-          )}
-        </section>
-      )}
-      {standAlone && (
-        <section className="section remPadTop">
-          <ProviderList
-            showModal={showModal}
-            setShowModal={setShowModal}
-            standAlone={standAlone}
-          />
-          {showModal === 1 && (
-            <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-              <OrganizationCreate />
-            </ModalBox>
-          )}
-          {showModal === 2 && (
-            <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-              {/* <NewOrganizationCreate /> */}
-              <OrganizationDetail setShowModal={setShowModal} />
-            </ModalBox>
-          )}
-
-          {showModal === 3 && (
-            <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-              <NewOrganizationCreate />
-            </ModalBox>
-          )}
-        </section>
-      )}
+        {showModal === 3 && (
+          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+            <NewOrganizationCreate />
+          </ModalBox>
+        )}
+      </section>
     </>
   );
 }
@@ -1023,6 +999,38 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
       status: 'Suspended',
     },
   ];
+  const dummyData2 = [
+    {
+      sn: '1',
+      name_provider: 'St. Nicholas Hospital',
+      lga: 'Ajeromi-Ifelodun',
+      contact_person: 'Rose mwangi',
+      phone_number: '+23480123456789',
+      classification: 'Secondary',
+      grade: 'A',
+      status: 'Suspended',
+    },
+    {
+      sn: '1',
+      name_provider: 'St. Nicholas Hospital',
+      lga: 'Ajeromi-Ifelodun',
+      contact_person: 'Rose mwangi',
+      phone_number: '+23480123456789',
+      classification: 'Secondary',
+      grade: 'A',
+      status: 'Expired',
+    },
+    {
+      sn: '1',
+      name_provider: 'St. Nicholas Hospital',
+      lga: 'Ajeromi-Ifelodun',
+      contact_person: 'Rose mwangi',
+      phone_number: '+23480123456789',
+      classification: 'Secondary',
+      grade: 'A',
+      status: 'Suspended',
+    },
+  ];
 
   const returnCell = (status) => {
     // if (status === "approved") {
@@ -1170,31 +1178,29 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
     <>
       {user ? (
         <>
-          {!standAlone ? (
-            <>
-              <div className="level">
-                <PageWrapper
-                  style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
-                >
-                  <TableMenu>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      {handleSearch && (
-                        <div className="inner-table">
-                          <FilterMenu onSearch={handleSearch} />
-                        </div>
-                      )}
-                      {/* <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
+          <div className="level">
+            <PageWrapper
+              style={{ flexDirection: 'column', padding: '0.6rem 1rem' }}
+            >
+              <TableMenu>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {handleSearch && (
+                    <div className="inner-table">
+                      <FilterMenu onSearch={handleSearch} />
+                    </div>
+                  )}
+                  {/* <h2 style={{ margin: "0 10px", fontSize: "0.95rem" }}>
                     Pre-Authorization
                   </h2> */}
-                      {/* <DatePicker
+                  {/* <DatePicker
                     selected={startDate}
                     onChange={(date) => handleDate(date)}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="Filter By Date"
                     isClearable
                   /> */}
-                      {/* <SwitchButton /> */}
-                      {/* <Switch>
+                  {/* <SwitchButton /> */}
+                  {/* <Switch>
                     <button
                       value={value}
                       onClick={() => {
@@ -1214,80 +1220,64 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
                       <BsFillGridFill style={{ fontSize: '1rem' }} />
                     </button>
                   </Switch> */}
-                    </div>
+                </div>
 
-                    {handleCreateNew && (
-                      <div>
-                        <MuiButton
-                          variant="outlined"
-                          sx={{
-                            widh: 'fit',
-                            textTransform: 'capitalize',
-                            fontSize: '14px',
-                            fontWeight: '600',
-                            marginRight: '20px',
-                          }}
-                          onClick={handleCreateNew}
-                        >
-                          <FileUploadIcon
-                            sx={{ marginRight: '5px' }}
-                            fontSize="small"
-                          />
-                          Upload Provider
-                        </MuiButton>
-                        <MuiButton
-                          variant="contained"
-                          sx={{
-                            widh: 'fit',
-                            textTransform: 'capitalize',
-                            fontSize: '14px',
-                            fontWeight: '600',
-                          }}
-                          onClick={handleCreateNew}
-                        >
-                          <AddCircleOutlineIcon
-                            sx={{ marginRight: '5px' }}
-                            fontSize="small"
-                          />
-                          Register Provider
-                        </MuiButton>
-                      </div>
-                    )}
-                  </TableMenu>
+                {handleCreateNew && (
+                  <div>
+                    <MuiButton
+                      variant="outlined"
+                      sx={{
+                        widh: 'fit',
+                        textTransform: 'capitalize',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        marginRight: '20px',
+                      }}
+                      onClick={handleCreateNew}
+                    >
+                      <FileUploadIcon
+                        sx={{ marginRight: '5px' }}
+                        fontSize="small"
+                      />
+                      Upload Provider
+                    </MuiButton>
+                    <MuiButton
+                      variant="contained"
+                      sx={{
+                        widh: 'fit',
+                        textTransform: 'capitalize',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                      }}
+                      onClick={handleCreateNew}
+                    >
+                      <AddCircleOutlineIcon
+                        sx={{ marginRight: '5px' }}
+                        fontSize="small"
+                      />
+                      Register Provider
+                    </MuiButton>
+                  </div>
+                )}
+              </TableMenu>
 
-                  {value === 'list' ? (
-                    <CustomTable
-                      title={''}
-                      columns={preAuthSchema}
-                      data={dummyData}
-                      pointerOnHover
-                      highlightOnHover
-                      striped
-                      onRowClicked={handleRow}
-                      progressPending={loading}
-                      //conditionalRowStyles={conditionalRowStyles}
-                    />
-                  ) : (
-                    <CalendarGrid appointments={mapFacilities()} />
-                  )}
-                </PageWrapper>
-              </div>
-            </>
-          ) : (
-            <>
-              <CustomTable
-                title={''}
-                columns={preAuthSchema}
-                data={dummyData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                onRowClicked={handleRow}
-                progressPending={loading}
-                //conditionalRowStyles={conditionalRowStyles}
-              />
-            </>
-          )}
+              {value === 'list' ? (
+                <CustomTable
+                  title={''}
+                  columns={preAuthSchema}
+                  data={standAlone ? dummyData2 : dummyData}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  onRowClicked={handleRow}
+                  progressPending={loading}
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              ) : (
+                <CalendarGrid appointments={mapFacilities()} />
+              )}
+            </PageWrapper>
+          </div>
         </>
       ) : (
         <div>loading</div>
