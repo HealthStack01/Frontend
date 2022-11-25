@@ -112,6 +112,7 @@ import RadCheckedin from "./Appointment/Radworkflow";
 import Radiology from "./Radiology/Radiologys"; //, { StoreList, StoreListStandalone }
 import RadiologyHome from "./Radiology/RadiologyHome";
 import RadiologyPayment from "./Radiology/RadiologyPayment";
+import RadDetails from "./Radiology/RadDetails";
 import RadiologyReport from "./Radiology/RadiologyReport";
 import Report from "./Accounts/Report";
 import Services from "./Finance/Services";
