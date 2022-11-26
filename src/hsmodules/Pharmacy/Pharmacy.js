@@ -637,6 +637,7 @@ export function PharmacyListStandalone({standalone, closeModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Name",
@@ -665,7 +666,7 @@ export function PharmacyListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "600px", maxHeight: "500px"}}>
+          <Box container sx={{maxWidth: "600px", maxHeight: "80vh"}}>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>
@@ -693,7 +694,6 @@ export function PharmacyListStandalone({standalone, closeModal}) {
               item
               sx={{
                 width: "100%",
-                height: "400px",
                 overflowY: "auto",
               }}
             >

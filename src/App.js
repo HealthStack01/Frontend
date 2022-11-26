@@ -41,6 +41,7 @@ function App() {
     EpidemiologyModule: {
       show: "list",
       selectedEpid: {},
+      locationModal: false,
     },
     LocationModule: {
       show: "list",
@@ -57,22 +58,27 @@ function App() {
     StoreModule: {
       show: "list",
       selectedStore: {},
+      locationModal: false,
     },
     RadiologyModule: {
       show: "list",
       selectedRadiology: {},
+      locationModal: false,
     },
     LaboratoryModule: {
       show: "list",
       selectedLab: {},
+      locationModal: false,
     },
     InventoryModule: {
       show: "list",
       selectedInventory: {},
+      locationModal: false,
     },
     TheatreModule: {
       show: "list",
       selectedTheatre: {},
+      locationModal: false,
     },
     ProductEntryModule: {
       show: "list",
@@ -85,14 +91,17 @@ function App() {
     ClinicModule: {
       show: "list",
       selectedClinic: {},
+      locationModal: false,
     },
     FrontDesk: {
       show: "list",
       selectedFrontDesk: {},
+      locationModal: false,
     },
     ClientModule: {
       show: "list",
       selectedClient: {},
+      locationModule: false,
     },
     DocumentClassModule: {
       show: "list",
@@ -102,6 +111,7 @@ function App() {
     WardModule: {
       show: "list",
       selectedWard: {},
+      locationModal: false,
     },
     AdmissionModule: {
       show: "list",
@@ -151,6 +161,7 @@ function App() {
       show: "list",
       state: "false",
       selectedFinance: {},
+      locationModal: false,
     },
     currentClients: [],
     showpanel: false,

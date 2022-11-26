@@ -316,9 +316,6 @@ export function BillsList({openCreateModal}) {
     {
       name: "S/NO",
       width: "80px",
-      headerStyle: (selector, id) => {
-        return {textAlign: "center"};
-      },
 
       key: "sn",
       description: "Enter name of Disease",

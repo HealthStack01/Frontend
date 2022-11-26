@@ -39,6 +39,7 @@ export default function FinacneHome({children}) {
       locationId: state.financeModule.selectedFinance._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "finance",
     };
 
     setState(prevstate => ({
@@ -48,26 +49,34 @@ export default function FinacneHome({children}) {
   }, [state.financeModule]);
 
   const handleChangeStore = async () => {
-    await setStoreModal(true);
-    // console.log(showModal);
+    await setState(prev => ({
+      ...prev,
+      financeModule: {...prev.financeModule, locationModal: true},
+    }));
   };
-  // };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      financeModule: {...prev.financeModule, locationModal: false},
+    }));
+  };
 
   return (
     <section className="section remPadTop">
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <ModalBox open={storeModal}>
+            <ModalBox open={state.financeModule.locationModal}>
               <Box
                 sx={{
-                  width: "600px",
-                  height: "400px",
+                  maxWidth: "400px",
+                  maxHeight: "80vh",
                 }}
               >
                 <StoreListStandalone
                   standalone={true}
-                  closeModal={() => setStoreModal(false)}
+                  closeModal={handleCloseLocationModal}
                 />
               </Box>
             </ModalBox>

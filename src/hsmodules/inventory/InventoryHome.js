@@ -39,6 +39,7 @@ export default function InventoryHome({children}) {
       locationId: state.InventoryModule.selectedInventory._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "inventory",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -47,8 +48,18 @@ export default function InventoryHome({children}) {
   }, [state.InventoryModule]);
 
   const handleChangeStore = async () => {
-    await setShowModal(true);
+    await setState(prev => ({
+      ...prev,
+      InventoryModule: {...prev.InventoryModule, locationModal: true},
+    }));
     // console.log( showModal)
+  };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      InventoryModule: {...prev.InventoryModule, locationModal: false},
+    }));
   };
 
   return (
@@ -56,16 +67,16 @@ export default function InventoryHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <ModalBox open={showModal}>
+            <ModalBox open={state.InventoryModule.locationModal}>
               <Box
                 sx={{
-                  width: "600px",
-                  maxHeight: "450px",
+                  maxWidth: "600px",
+                  maxHeight: "80vh",
                 }}
               >
                 <StoreListStandalone
                   standalone={true}
-                  closeModal={() => setShowModal(false)}
+                  closeModal={handleCloseLocationModal}
                 />
               </Box>
             </ModalBox>

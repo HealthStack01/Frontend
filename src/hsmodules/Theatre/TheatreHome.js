@@ -39,6 +39,7 @@ export default function TheatreHome({children}) {
       locationId: state.TheatreModule.selectedTheatre._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "theatre",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -47,7 +48,17 @@ export default function TheatreHome({children}) {
   }, [state.TheatreModule]);
 
   const handleChangeStore = async () => {
-    await setShowModal(true);
+    await setState(prev => ({
+      ...prev,
+      TheatreModule: {...prev.TheatreModule, locationModal: true},
+    }));
+  };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      TheatreModule: {...prev.TheatreModule, locationModal: false},
+    }));
   };
 
   return (
@@ -55,16 +66,16 @@ export default function TheatreHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <ModalBox open={showModal}>
+            <ModalBox open={state.TheatreModule.locationModal}>
               <Box
                 sx={{
-                  width: "600px",
-                  maxHeight: "500px",
+                  maxWidth: "600px",
+                  maxHeight: "80vh",
                 }}
               >
                 <StoreListStandalone
                   standalone={true}
-                  closeModal={() => setShowModal(false)}
+                  closeModal={handleCloseLocationModal}
                 />
               </Box>
             </ModalBox>
