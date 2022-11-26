@@ -15,6 +15,7 @@ import {
   GridWrapper,
   HeadWrapper,
   PageWrapper,
+  GridBox
 } from '../app/styles';
 import dayjs, { Dayjs } from 'dayjs';
 import {
@@ -22,6 +23,11 @@ import {
 } from './ui-components/schema';
 import CustomSelect from '../../components/inputs/basic/Select';
 import { bandTypeOptions } from '../../dummy-data';
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 // import { createClientSchema } from "./schema";
 
 const EmployeeView = ({ open, setOpen, employee }) => {
@@ -32,7 +38,7 @@ const EmployeeView = ({ open, setOpen, employee }) => {
   const result = localStorage.getItem('user');
   const user = JSON.parse(result);
 
-  console.log('Employee>>>>>', employee);
+  // console.log('Employee>>>>>', employee);
 
   const {
     register,
@@ -111,34 +117,41 @@ const EmployeeView = ({ open, setOpen, employee }) => {
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
-          <div>
+          <div style={{width:"100%"}}>
             <h2>Employee Detail</h2>
-            <span>Employee detail of {employee?.firstname}</span>
           </div>
           <BottomWrapper>
+          <GlobalCustomButton
+          style={{ fontSize: "14px", fontWeight: "600" }}
+             onClick={() => handleDelete()}
+            color="error"
+          >
+            <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Delete Employee
+            </GlobalCustomButton>
+           
             <GlobalCustomButton
-              text='Delete Employee'
-              color=''
-              onClick={() => handleDelete()}
-            />
-
-            <GlobalCustomButton
-              text={`${!editing ? 'Edit Employee' : 'Cancel Editing'}`}
-              color=''
-              showicon
-              icon='bi bi-pen-fill'
-              disabled={editing}
-              onClick={() => {
-                setEditing(!editing);
-              }}
-            />
+          style={{ fontSize: "14px", fontWeight: "600" }}
+           disabled={editing}
+           onClick={() => {
+             setEditing(!editing);
+           }}
+          >
+             <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+             {`${!editing ? "Edit Employee" : "Cancel Employee"}`}
+             
+            </GlobalCustomButton>
           </BottomWrapper>
-        </HeadWrapper>
-        <form onSubmit={handleSubmit(submit)}>
+        </HeadWrapper> 
+        <form onSubmit={handleSubmit(submit)} >
           <ToastContainer theme='colored' />
-
+          <GridBox>
           {!editing ? (
-            <ViewText label='First Name' text={employee?.firstname} />
+            <Input
+            label="First Name"
+            register={register("firstname")}
+            defaultValue={employee?.firstname}
+          />
           ) : (
             <Input
               label='First Name'
@@ -147,7 +160,11 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             />
           )}
           {!editing ? (
-            <ViewText label='Middle Name' text={employee?.middlename} />
+            <Input
+            label='Middle Name'
+            register={register("middlename")}
+            defaultValue={employee?.middlename}
+          />
           ) : (
             <Input
               label='Middle Name'
@@ -156,7 +173,11 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             />
           )}
           {!editing ? (
-            <ViewText label='Last Name' text={employee?.lastname} />
+            <Input
+            label='Last Name'
+            register={register("lastname")}
+            defaultValue={employee?.lastname}
+          />
           ) : (
             <Input
               label='Last Name'
@@ -164,8 +185,14 @@ const EmployeeView = ({ open, setOpen, employee }) => {
               errorText={errors?.lastname?.message}
             />
           )}
+      </GridBox>
+      <GridBox>
           {!editing ? (
-            <ViewText label='Profession' text={employee?.profession} />
+            <Input
+            label='Profession'
+            register={register("profession")}
+            defaultValue={employee?.profession}
+          />
           ) : (
             <Input
               label='Profession'
@@ -174,7 +201,13 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             />
           )}
           {!editing ? (
-            <ViewText label='Phone Number' text={employee?.phone} />
+           
+            <Input
+            label='Phone Number'
+            register={register("phone")}
+            defaultValue={employee?.phone}
+          />
+            
           ) : (
             <Input
               label='Phone Number'
@@ -183,7 +216,12 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             />
           )}
           {!editing ? (
-            <ViewText label='Email' text={employee?.email} />
+          
+            <Input
+            label='Email'
+            register={register("email")}
+            defaultValue={employee?.email}
+          />
           ) : (
             <Input
               label='Email'
@@ -192,8 +230,15 @@ const EmployeeView = ({ open, setOpen, employee }) => {
               errorText={errors?.email?.message}
             />
           )}
+          </GridBox>
+          <GridBox>
           {!editing ? (
-            <ViewText label='Department' text={employee?.department} />
+           
+            <Input
+            label='Department'
+            register={register("department")}
+            defaultValue={employee?.department}
+          />
           ) : (
             <Input
               label='Department'
@@ -202,7 +247,11 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             />
           )}
           {!editing ? (
-            <ViewText label='Department Unit' text={employee?.depunit} />
+            <Input
+            label='Department Unit'
+            register={register("depunit")}
+            defaultValue={employee?.depunit}
+          />
           ) : (
             <Input
               label='Department Unit'
@@ -210,13 +259,14 @@ const EmployeeView = ({ open, setOpen, employee }) => {
               errorText={errors?.depunit?.message}
             />
           )}
-
+        </GridBox>
           {editing && (
             <BottomWrapper>
-              <GlobalCustomButton text='Save Form' type='submit' loading={loading} />
+              <GlobalCustomButton  style={{ fontSize: "18px", fontWeight: "600" }} text='Save Form' type='submit' loading={loading} />
             </BottomWrapper>
           )}
         </form>
+        
       </GrayWrapper>
     </PageWrapper>
   );
