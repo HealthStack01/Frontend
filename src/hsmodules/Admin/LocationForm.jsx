@@ -10,6 +10,7 @@ import { UserContext } from '../../context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { bandTypeOptions } from '../../dummy-data';
 import client from '../../feathers';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -22,7 +23,7 @@ import {
 import { createBandSchema } from './ui-components/schema';
 import ModalBox from '../../components/modal';
 
-export const BandForm = ({ open, setOpen }) => {
+export const LocationForm = ({ open, setOpen }) => {
   const LocationServ = client.service('location');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -70,12 +71,14 @@ export const BandForm = ({ open, setOpen }) => {
             label='Name of Location'
             register={register('name')}
             errorText={errors?.name?.message}
+            sx={{marginBottom:"2rem"}}
           />
           <CustomSelect
             label='Choose Location Type'
             name='locationType'
             options={bandTypeOptions}
             register={register('locationType', { required: true })}
+            sx={{marginBottom:"2rem"}}
           />
           <Input
             {...register('description', { required: true })}
@@ -86,7 +89,10 @@ export const BandForm = ({ open, setOpen }) => {
           />
 
           <BottomWrapper>
-            <GlobalCustomButton type='submit' text='Create Location' loading={loading} />
+          <GlobalCustomButton type='submit' loading={loading} style={{ fontSize: "18px", fontWeight: "600" }}>
+          <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Create Location
+          </GlobalCustomButton>
           </BottomWrapper>
         </DetailsWrapper>
       </form>

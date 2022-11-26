@@ -16,7 +16,7 @@ import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
 import CustomSelect from "../../components/inputs/basic/Select";
-import { BottomWrapper, GrayWrapper, GridWrapper } from "../app/styles";
+import { BottomWrapper, GrayWrapper, GridBox, GridWrapper } from "../app/styles";
 import { HeadWrapper } from "../app/styles";
 import ViewText from "../../components/viewtext";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,6 +29,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import LocationView from "./LocationView";
+import { LocationForm } from "./LocationForm";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -76,11 +77,11 @@ export default function Location() {
         </div>
         <div className="column is-4 ">
           <ModalBox open={createModal} onClose={handleHideCreateModal}>
-            <LocationCreate />
+            <LocationCreate/>
           </ModalBox>
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <div style={{ width: "30vw" }}>
+            <div>
               <LocationDetail showModifyModal={handleModifyModal} />
             </div>
           </ModalBox>
@@ -93,7 +94,7 @@ export default function Location() {
   );
 }
 
-export function LocationCreate() {
+export function LocationCreate({ open, setOpen }) {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -183,7 +184,8 @@ export function LocationCreate() {
 
   return (
     <>
-      <div className="card ">
+
+      <div className="card" style={{ width: "50vw" }}>
         <div className="card-header">
           <p
             className="card-header-title"
@@ -192,13 +194,14 @@ export function LocationCreate() {
             Create Location
           </p>
         </div>
-        <div className="card-content vscrollable">
+        <div className="card-content">
           <form onSubmit={handleSubmit(onSubmit)}>
+            <GridBox>
             <div className="field">
               <div className="control">
-                <div className="select is-small ">
+                {/* <div className="select"> */}
                   <CustomSelect
-                    style={{ width: "100px" }}
+                    
                     label="Choose Location Type "
                     name="type"
                     options={locationTypeOptions}
@@ -206,7 +209,7 @@ export function LocationCreate() {
                       required: true,
                     })}
                   />
-                </div>
+                {/* </div> */}
               </div>
             </div>
 
@@ -216,7 +219,8 @@ export function LocationCreate() {
               type="text"
               placeholder="Name of Location"
             />
-
+</GridBox>
+<GridBox>
             <div
               className="field"
               style={!user.stacker ? { display: "none" } : {}}
@@ -233,19 +237,14 @@ export function LocationCreate() {
                 placeholder="Facility"
               />
             </div>
-
+            </GridBox>
             <GlobalCustomButton
-              type="submit"
               onClick={onSubmit}
-              style={{
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              style={{ fontSize: "16px", fontWeight: "600" }}
             >
-              Create
-            </GlobalCustomButton>
+               <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+               Create Location
+               </GlobalCustomButton> 
           </form>
         </div>
       </div>
@@ -467,6 +466,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
 
               {handleCreateNew && (
                 <GlobalCustomButton
+                style={{ fontSize: "14px", fontWeight: "600" }}
                   onClick={showCreateModal}
                 >
                   <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
@@ -644,15 +644,15 @@ export function LocationDetail({ showModifyModal }) {
       inputType: "TEXT",
     },
   ];
-  console.log(Location.sublocations);
+  // console.log(Location.sublocations);
 
   return (
     <GrayWrapper>
       <HeadWrapper>
-        <div>
+        {/* <div>
           <h2>Location Details</h2>
           <span>Location Detail of {Location.name}</span>
-        </div>
+        </div> */}
 
         <BottomWrapper>
           <GlobalCustomButton

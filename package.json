@@ -96,7 +96,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node --max_old_space_size=8196 node_modules/.bin/react-scripts start",
     "start:dev": "react-scripts start",
     "start:prod": "yarn build && serve -s build",
     "build": "CI='' react-scripts build",
