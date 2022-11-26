@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import client from "../../feathers";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 import { DebounceInput } from "react-debounce-input";
 import { useForm } from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
@@ -8,11 +9,11 @@ import { PageWrapper } from "../../ui/styled/styles";
 import { TableMenu } from "../../ui/styled/global";
 import { toast } from "bulma-toast";
 import FilterMenu from "../../components/utilities/FilterMenu";
-import Button from "../../components/buttons/Button";
+// import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import { fontSize } from "@mui/system";
-import ModalBox from "./ui-components/modal";
-import Input from "./ui-components/inputs/basic/Input";
+import ModalBox from "../../components/modal";
+import Input from "../../components/inputs/basic/Input";
 import CustomSelect from "../../components/inputs/basic/Select";
 import { Grid } from "@mui/material";
 import { width } from "@mui/system";
@@ -26,11 +27,14 @@ import ViewText from "../../components/viewtext";
 import BandView from "../Admin/BandView";
 import { BandForm } from "./BandForm";
 import { BandSchema } from "./ui-components/schema";
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function Bands() {
-  console.log("bands bands bands");
+  // console.log("bands bands bands");
   const { state } = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
@@ -326,11 +330,13 @@ export function BandList({ showCreateModal }) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  style={{ fontSize: "14px", fontWeight: "600" }}
-                  label="Add new "
+                <GlobalCustomButton
+                style={{ fontSize: "14px", fontWeight: "600" }}
                   onClick={showCreateModal}
-                />
+                >
+                  <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Add New 
+                  </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -397,12 +403,10 @@ export function BandDetail({ showModifyModal }) {
           <span>Band detail of {Band.name}</span>
         </div>
         <BottomWrapper>
-          <Button label="Delete Band" background="#FFE9E9" color="#ED0423" />
+          <GlobalCustomButton text="Delete Band" background="#FFE9E9" color="#ED0423" />
 
-          <Button
-            label={`Edit Client`}
-            background="#ECF3FF"
-            color="#0364FF"
+          <GlobalCustomButton
+            text={`Edit Client`}
             showicon
             icon="bi bi-pen-fill"
             onClick={handleEdit}
@@ -588,7 +592,7 @@ export function BandModify() {
               placeholder="Band Type"
             />
             <div style={{ display: "flex" }}>
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
                 style={{
@@ -601,9 +605,9 @@ export function BandModify() {
                 }}
               >
                 Save
-              </Button>
+              </GlobalCustomButton>
 
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleCancel}
                 style={{
@@ -616,9 +620,9 @@ export function BandModify() {
                 }}
               >
                 Cancel
-              </Button>
+              </GlobalCustomButton>
 
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleDelete}
                 style={{
@@ -631,7 +635,7 @@ export function BandModify() {
                 }}
               >
                 Delete
-              </Button>
+              </GlobalCustomButton>
             </div>
           </form>
 

@@ -135,13 +135,13 @@ export function BillingList({openModal}) {
       }));
     }
 
-    // console.log(e.target.checked)
+    // //console.log(e.target.checked)
 
     await handleSelectedClient(client.bills[0].order[0].participantInfo.client);
     //handleMedicationRow(order)/
 
     await client.bills.forEach(bill => {
-      // console.log(bill)
+      // //console.log(bill)
       bill.order.forEach(order => {
         let medication = order;
         medication.show = "none";
@@ -228,13 +228,13 @@ export function BillingList({openModal}) {
       );
     }
 
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
   };
   const handleMedicationRow = async (ProductEntry, e) => {
     //handle selected single order
-    //console.log("b4",state)
+    ////console.log("b4",state)
     // alert("Header touched")
-    //console.log("handlerow",ProductEntry)
+    ////console.log("handlerow",ProductEntry)
     /* alert(ProductEntry.checked)*/
     /*  ProductEntry.checked=!ProductEntry.checked */
     /*  await setSelectedFinance(ProductEntry)
@@ -245,7 +245,7 @@ export function BillingList({openModal}) {
 
         }
       await setState((prevstate)=>({...prevstate, financeModule:newProductEntryModule})) */
-    //console.log(state)
+    ////console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -258,12 +258,12 @@ export function BillingList({openModal}) {
       ...prevstate,
       DispenseModule: newProductEntryModule,
     }));
-    //console.log(state)
+    ////console.log(state)
   };
 
   const handleSearch = val => {
     const field = "name";
-    //console.log(val)
+    ////console.log(val)
     BillServ.find({
       query: {
         "participantInfo.paymentmode.detail.principalName": {
@@ -293,13 +293,13 @@ export function BillingList({openModal}) {
       },
     })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         setFacilities(res.groupedOrder);
         setMessage(" ProductEntry  fetched successfully");
         setSuccess(true);
       })
       .catch(err => {
-        // console.log(err)
+        // //console.log(err)
         setMessage(
           "Error fetching ProductEntry, probable network issues " + err
         );
@@ -307,7 +307,7 @@ export function BillingList({openModal}) {
       });
   };
   const getFacilities = async () => {
-    // console.log("here b4 server")
+    // //console.log("here b4 server")
     const findProductEntry = await BillServ.find({
       query: {
         $or: [
@@ -332,9 +332,9 @@ export function BillingList({openModal}) {
       },
     });
 
-    // console.log("updatedorder", findProductEntry.groupedOrder)
+    // //console.log("updatedorder", findProductEntry.groupedOrder)
     await setFacilities(findProductEntry.groupedOrder);
-    console.log(findProductEntry.groupedOrder);
+    //console.log(findProductEntry.groupedOrder);
     //  await setState((prevstate)=>({...prevstate, currentClients:findProductEntry.groupedOrder}))
   };
 
@@ -377,12 +377,12 @@ export function BillingList({openModal}) {
       return allOrders;
     });
 
-    //console.log(clientOrders);
+    ////console.log(clientOrders);
     setClientBills(clientOrders.flat(1));
   };
   //1.consider using props for global data
   useEffect(() => {
-    // console.log("started")
+    // //console.log("started")
     getFacilities();
     BillServ.on("created", obj => getFacilities());
     BillServ.on("updated", obj => getFacilities());
@@ -393,7 +393,7 @@ export function BillingList({openModal}) {
 
   useEffect(() => {
     //changes with checked box
-    // console.log(selectedOrders)
+    // //console.log(selectedOrders)
 
     return () => {};
   }, [selectedOrders]);
@@ -476,7 +476,7 @@ export function BillingList({openModal}) {
           </>
         );
         //row.clientAmount.toFixed(2);
-        // console.log(bills);
+        // //console.log(bills);
         // bills.map((category, i) => {
         //   return category.catAmount.toFixed(2);
         // });

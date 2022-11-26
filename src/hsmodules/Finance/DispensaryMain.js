@@ -40,11 +40,11 @@ export default function DispensaryMain() {
 
     const handleNewDocument= async()=>{
         await setShowModal(true)                                                                                                                                                        
-        console.log( showModal)
+        //console.log( showModal)
     }
     const handleNewPrescription= async()=>{
         await setShowPrescriptionModal(true)                                                                                                                                                        
-        console.log( showPrescriptionModal)
+        //console.log( showPrescriptionModal)
     }
 
 
@@ -54,14 +54,14 @@ export default function DispensaryMain() {
             show :'create'
             }
        await setState((prevstate)=>({...prevstate, ClinicModule:newClinicModule}))
-       //console.log(state)
+       ////console.log(state)
         
 
     }
     const handleRow= async(Clinic)=>{
-        //console.log("b4",state)
+        ////console.log("b4",state)
 
-        //console.log("handlerow",Clinic)
+        ////console.log("handlerow",Clinic)
 
         await setSelectedClinic(Clinic)
 
@@ -70,14 +70,14 @@ export default function DispensaryMain() {
             show :'detail'
         }
        await setState((prevstate)=>({...prevstate, ClinicModule:newClinicModule}))
-       //console.log(state)
+       ////console.log(state)
        Clinic.show=!Clinic.show
 
     }
 
    const handleSearch=(val)=>{
        const field='documentname'
-       console.log(val)
+       //console.log(val)
        ClinicServ.find({query: {
                 [field]: {
                     $regex:val,
@@ -92,13 +92,13 @@ export default function DispensaryMain() {
                     name: 1
                   }
                     }}).then((res)=>{
-                console.log(res)
+                //console.log(res)
                setFacilities(res.data)
                 setMessage(" Clinic  fetched successfully")
                 setSuccess(true) 
             })
             .catch((err)=>{
-                console.log(err)
+                //console.log(err)
                 setMessage("Error fetching Clinic, probable network issues "+ err )
                 setError(true)
             })
@@ -124,9 +124,9 @@ export default function DispensaryMain() {
             const ulimit=total*page
            /*  if (total>(ulimit)){ //only load if we have not reached the total
                 alert("skip:",ulimit )
-                console.log("skip:",ulimit ) */
+                //console.log("skip:",ulimit ) */
             await setFacilities(findClinic.data)
-            console.log(findClinic.data)
+            //console.log(findClinic.data)
            /*  } */
                 }
                 else {
@@ -145,7 +145,7 @@ export default function DispensaryMain() {
                     }
                 }
           /*   .then((res)=>{
-                console.log(res)
+                //console.log(res)
                     setFacilities(res.data)
                     setMessage(" Clinic  fetched successfully")
                     setSuccess(true)
@@ -164,10 +164,10 @@ export default function DispensaryMain() {
                 }else{
                     /* const localUser= localStorage.getItem("user")
                     const user1=JSON.parse(localUser)
-                    console.log(localUser)
-                    console.log(user1)
+                    //console.log(localUser)
+                    //console.log(user1)
                     fetchUser(user1)
-                    console.log(user)
+                    //console.log(user)
                     getFacilities(user) */
                 }
                 ClinicServ.on('created', (obj)=>getFacilities(page))

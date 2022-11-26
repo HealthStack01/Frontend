@@ -112,6 +112,7 @@ import RadCheckedin from "./Appointment/Radworkflow";
 import Radiology from "./Radiology/Radiologys"; //, { StoreList, StoreListStandalone }
 import RadiologyHome from "./Radiology/RadiologyHome";
 import RadiologyPayment from "./Radiology/RadiologyPayment";
+import RadDetails from "./Radiology/RadDetails";
 import RadiologyReport from "./Radiology/RadiologyReport";
 import Report from "./Accounts/Report";
 import Services from "./Finance/Services";
@@ -213,9 +214,8 @@ import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
-import CreateWallet from "./PouchiiWallet/CreateWallet";
-import CheckIn from "./ManagedCare/Checkin";
-import RadDetails from "./Radiology/RadDetails";
+import WalletOTP from './PouchiiWallet/walletOtp';
+import CheckIn from './ManagedCare/Checkin';
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -852,9 +852,9 @@ const AppRoutes = () => {
               element={<BloodbankDashboard />}
             />
           </Route>
-          {/**************************Pouchii Wallet *************************************** */}
-          {/* <Route path="/create-wallet" element={<CreateWallet />} /> */}
         </Route>
+          {/**************************Pouchii Wallet *************************************** */}
+          <Route path="/verify-otp" element={<WalletOTP />} />
       </Routes>
     </>
   );

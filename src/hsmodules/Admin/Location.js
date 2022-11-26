@@ -12,18 +12,24 @@ import { TableMenu } from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import CustomSelect from "./ui-components/inputs/basic/Select";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalBox from "../../components/modal";
-import Input from "./ui-components/inputs/basic/Input";
-import { BottomWrapper, GrayWrapper, GridWrapper } from "../app/styles";
+import CustomSelect from "../../components/inputs/basic/Select";
+import { BottomWrapper, GrayWrapper, GridBox, GridWrapper } from "../app/styles";
 import { HeadWrapper } from "../app/styles";
 import ViewText from "../../components/viewtext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Portal } from "@mui/material";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import Input from "../../components/inputs/basic/Input";
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import LocationView from "./LocationView";
+import { LocationForm } from "./LocationForm";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -71,11 +77,11 @@ export default function Location() {
         </div>
         <div className="column is-4 ">
           <ModalBox open={createModal} onClose={handleHideCreateModal}>
-            <LocationCreate />
+            <LocationCreate/>
           </ModalBox>
 
           <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-            <div style={{ width: "30vw" }}>
+            <div>
               <LocationDetail showModifyModal={handleModifyModal} />
             </div>
           </ModalBox>
@@ -88,7 +94,7 @@ export default function Location() {
   );
 }
 
-export function LocationCreate() {
+export function LocationCreate({ open, setOpen }) {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -178,7 +184,8 @@ export function LocationCreate() {
 
   return (
     <>
-      <div className="card ">
+
+      <div className="card" style={{ width: "50vw" }}>
         <div className="card-header">
           <p
             className="card-header-title"
@@ -187,21 +194,14 @@ export function LocationCreate() {
             Create Location
           </p>
         </div>
-        <div className="card-content vscrollable">
+        <div className="card-content">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  {...register("x",{required: true})}  name="locationType" type="text" placeholder="Type of Location" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
+            <GridBox>
             <div className="field">
               <div className="control">
-                <div className="select is-small ">
+                {/* <div className="select"> */}
                   <CustomSelect
-                    style={{ width: "100px" }}
+                    
                     label="Choose Location Type "
                     name="type"
                     options={locationTypeOptions}
@@ -209,7 +209,7 @@ export function LocationCreate() {
                       required: true,
                     })}
                   />
-                </div>
+                {/* </div> */}
               </div>
             </div>
 
@@ -219,7 +219,8 @@ export function LocationCreate() {
               type="text"
               placeholder="Name of Location"
             />
-
+</GridBox>
+<GridBox>
             <div
               className="field"
               style={!user.stacker ? { display: "none" } : {}}
@@ -236,20 +237,14 @@ export function LocationCreate() {
                 placeholder="Facility"
               />
             </div>
-            <Button
-              type="submit"
+            </GridBox>
+            <GlobalCustomButton
               onClick={onSubmit}
-              style={{
-                backgroundColor: "#0364FF",
-                width: "100px",
-                position: "relative",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              style={{ fontSize: "16px", fontWeight: "600" }}
             >
-              Create
-            </Button>
+               <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+               Create Location
+               </GlobalCustomButton> 
           </form>
         </div>
       </div>
@@ -416,6 +411,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
       sortable: true,
       selector: (row) => row.sn,
       inputType: "HIDDEN",
+      width:"80px"
     },
     {
       name: "Name of Location",
@@ -469,11 +465,13 @@ export function LocationList({ showCreateModal, showDetailModal }) {
               </div>
 
               {handleCreateNew && (
-                <Button
-                  style={{ fontSize: "14px", fontWeight: "600" }}
-                  label="Add new "
+                <GlobalCustomButton
+                style={{ fontSize: "14px", fontWeight: "600" }}
                   onClick={showCreateModal}
-                />
+                >
+                  <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Add New 
+                  </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -625,6 +623,7 @@ export function LocationDetail({ showModifyModal }) {
       sortable: true,
       selector: (row) => row.sn,
       inputType: "HIDDEN",
+      width: "80px"
     },
     {
       name: "Type",
@@ -645,32 +644,32 @@ export function LocationDetail({ showModifyModal }) {
       inputType: "TEXT",
     },
   ];
-  console.log(Location.sublocations);
+  // console.log(Location.sublocations);
 
   return (
     <GrayWrapper>
       <HeadWrapper>
-        <div>
+        {/* <div>
           <h2>Location Details</h2>
           <span>Location Detail of {Location.name}</span>
-        </div>
+        </div> */}
 
         <BottomWrapper>
-          <Button
-            label="Delete Location"
-            background="#FFE9E9"
-            color="#ED0423"
+          <GlobalCustomButton
             onClick={handleDelete}
-          />
+            color="error"
+          >
+            <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Delete Location
+            </GlobalCustomButton>
 
-          <Button
-            label={`Edit`}
-            background="#ECF3FF"
-            color="#0364FF"
-            showicon
-            icon="bi bi-pen-fill"
+          <GlobalCustomButton
             onClick={handleEdit}
-          />
+          >
+             <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+            Edit
+            
+            </GlobalCustomButton>
         </BottomWrapper>
       </HeadWrapper>
       <GridWrapper className="two-columns">
@@ -734,32 +733,29 @@ export function LocationDetail({ showModifyModal }) {
             Location.sublocations?.length > 0 ? "is-hidden control" : " control"
           }
         >
-          <Button
+          <GlobalCustomButton
             type="submit"
             onClick={handleSublocation}
             style={{
-              backgroundColor: "#0364FF",
-              width: "50%",
               position: "relative",
               cursor: "pointer",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
+            <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
             Create Sublocation
-          </Button>
+          </GlobalCustomButton>
         </p>
       )}
       {showUpdate && (
         <BottomWrapper>
-          <Button
-            label={`Update`}
-            background="#ECF3FF"
-            color="#0364FF"
-            showicon
-            icon="bi bi-pen-fill"
+          <GlobalCustomButton
             onClick={handleUpdate}
-          />
+          >
+          <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+          Update
+          </GlobalCustomButton>
         </BottomWrapper>
       )}
     </GrayWrapper>
@@ -941,34 +937,28 @@ export function LocationModify() {
           />
         </form>
         <BottomWrapper>
-          <Button
-            label={`Save`}
+          <GlobalCustomButton
             type="submit"
             onClick={handleSubmit}
-            background="#ECF3FF"
-            color="#0364FF"
-            showicon
-            icon="bi bi-pen-fill"
-          ></Button>
+          > <CheckIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+          Save
+          </GlobalCustomButton>
 
-          <Button
+          <GlobalCustomButton
             type="submit"
             onClick={handleCancel}
-            label={`Cancel`}
-            background="FFE9E9"
-            color="#0364FF"
-            showicon
-            icon="bi bi-pen-fill"
-          ></Button>
-          <Button
+          >
+             <CloseIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+          Cancel
+          </GlobalCustomButton>
+          
+          <GlobalCustomButton
             type="submit"
             onClick={handleDelete}
-            label={`Delete`}
-            background="#FFE9E9"
-            color="#ED0423"
-            showicon
-            icon="bi bi-pen-fill"
-          ></Button>
+          >
+             <DeleteIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+          Delete
+          </GlobalCustomButton>
         </BottomWrapper>
       </GrayWrapper>
     </>

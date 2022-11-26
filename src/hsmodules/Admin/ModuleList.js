@@ -7,7 +7,9 @@ import { useForm } from "react-hook-form";
 import { UserContext, ObjectContext } from "../../context";
 import { toast } from "bulma-toast";
 import { Checkbox } from "../../components/switch/styles";
-import Button from "./ui-components/buttons/Button";
+import Input from "../../components/inputs/basic/Input";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+
 
 export default function ModuleList({ handlecloseModal }) {
   const { register, handleSubmit, setValue } = useForm(); //, watch, errors, reset
@@ -142,35 +144,19 @@ export default function ModuleList({ handlecloseModal }) {
               </div>
             </div>
             <div style={{ display: "flex" }}>
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
-                style={{
-                  backgroundColor: "#48c774",
-                  width: "100px",
-                  position: "relative",
-                  cursor: "pointer",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
               >
                 Save
-              </Button>
+              </GlobalCustomButton>
 
-              <Button
+              <GlobalCustomButton
                 type="submit"
                 onClick={handleCancel}
-                style={{
-                  backgroundColor: "#ffdd57",
-                  width: "100px",
-                  position: "relative",
-                  cursor: "pointer",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
               >
                 Cancel
-              </Button>
+              </GlobalCustomButton>
             </div>
           </form>
         </div>

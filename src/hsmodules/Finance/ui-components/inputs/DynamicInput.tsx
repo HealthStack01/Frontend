@@ -116,7 +116,7 @@ const DynamicInput = (props) => {
   }
 
   if (inputType === InputType.MULTIPLE_ADD && props.schema) {
-    console.debug({ props });
+    //console.debug({ props });
     return (
       <Controller
         name={name}
