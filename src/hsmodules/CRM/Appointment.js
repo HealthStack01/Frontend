@@ -318,6 +318,7 @@ export function CrmAppointmentList({openCreateModal}) {
     });
     return mapped;
   };
+
   const activeStyle = {
     backgroundColor: "#0064CC29",
     border: "none",
@@ -357,10 +358,6 @@ export function CrmAppointmentList({openCreateModal}) {
   ];
 
   const returnCell = status => {
-    // if (status === "approved") {
-    //   return <span style={{color: "green"}}>{status}</span>;
-    // }
-    // else if
     switch (status.toLowerCase()) {
       case "pending":
         return <span style={{color: "#17935C"}}>{status}</span>;

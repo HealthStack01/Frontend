@@ -26,9 +26,11 @@ import {
   getUploadColumns,
 } from "../colums/columns";
 import LeadAssignTask from "./AssignTask";
-import AdditionalInformationCard from "./AdditionalInfo";
+import AdditionalInformationCard, {
+  CreateAdditionalInfo,
+} from "./AdditionalInfo";
 
-import {contactsData, informationData, staffsData} from "./data";
+import {contactsData, additionalInformationData, staffsData} from "./data";
 import ScheduleAppointment from "./ScheduleAppointment";
 import LeadUpload from "./LeadUpload";
 import {toast} from "react-toastify";
@@ -63,7 +65,7 @@ const CustomerView = () => {
   }, []);
 
   return (
-    <Box>
+    <Box mb={2}>
       <Box
         sx={{
           display: "flex",
@@ -283,7 +285,91 @@ const LeadView = () => {
   );
 };
 
-const AdditionalInformationView = () => {};
+const DetailView = () => {
+  return (
+    <>
+      <CustomerView />
+      <LeadView />
+    </>
+  );
+};
+
+const AdditionalInformationView = () => {
+  const [createModal, setCreateModal] = useState(false);
+  const [informations, setInformations] = useState([
+    ...additionalInformationData,
+  ]);
+
+  const removeAdditionalInfo = info => {
+    setInformations(prev => prev.filter(item => item._id !== info._id));
+  };
+
+  const addNewInfo = data => {
+    setInformations(prev => [data, ...prev]);
+  };
+
+  return (
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItem: "center",
+          justifyContent: "space-between",
+        }}
+        mb={2}
+      >
+        <FormsHeaderText text="Additional Information" />
+
+        <Button
+          variant="contained"
+          size="small"
+          sx={{textTransform: "capitalize"}}
+          onClick={() => setCreateModal(true)}
+        >
+          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> Add
+          Information
+        </Button>
+      </Box>
+
+      <Box>
+        {informations.length > 0 ? (
+          informations.map((info, index) => (
+            <Box sx={{mb: 2}}>
+              <AdditionalInformationCard
+                data={info}
+                action={() => removeAdditionalInfo(info)}
+                key={index}
+              />
+            </Box>
+          ))
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography sx={{fontSize: "0.75rem", color: "#000000"}}>
+              You've not added any information
+            </Typography>
+          </Box>
+        )}
+      </Box>
+
+      <ModalBox
+        open={createModal}
+        onClose={() => setCreateModal(false)}
+        header="Add New Information"
+      >
+        <CreateAdditionalInfo
+          closeModal={() => setCreateModal(false)}
+          addInfo={addNewInfo}
+        />
+      </ModalBox>
+    </Box>
+  );
+};
 
 const CustomerContactDetailsView = () => {
   const [contactModal, setContactModal] = useState(false);
@@ -549,7 +635,7 @@ const AppointmentsView = () => {
 };
 
 const LeadDetail = () => {
-  const [currentView, setCurrentView] = useState("customer");
+  const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
 
   const handleSetCurrentView = view => {
@@ -558,11 +644,8 @@ const LeadDetail = () => {
 
   const RenderedComponent = () => {
     switch (currentView) {
-      case "customer":
-        return <CustomerView />;
-
-      case "lead":
-        return <LeadView />;
+      case "detail":
+        return <DetailView />;
 
       case "information":
         return <AdditionalInformationView />;
@@ -595,19 +678,19 @@ const LeadDetail = () => {
           size="small"
           sx={{textTransform: "capitalize", marginRight: "10px"}}
           color="secondary"
-          onClick={() => handleSetCurrentView("customer")}
+          onClick={() => handleSetCurrentView("detail")}
         >
-          Customer
+          Detail
         </Button>
 
         <Button
           variant="contained"
           size="small"
           sx={{textTransform: "capitalize", marginRight: "10px"}}
-          color="secondary"
-          onClick={() => handleSetCurrentView("lead")}
+          color="warning"
+          onClick={() => handleSetCurrentView("information")}
         >
-          Lead
+          Added Info
         </Button>
 
         <Button
