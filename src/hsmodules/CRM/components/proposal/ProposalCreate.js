@@ -1,15 +1,16 @@
 import {forwardRef} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
-import Input from "../../../components/inputs/basic/Input";
+import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
 import DatePicker from "react-datepicker";
 
-import {FormsHeaderText} from "../../../components/texts";
-import CustomSelect from "../../../components/inputs/basic/Select";
-import BasicDatePicker from "../../../components/inputs/Date";
-import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
-import Textarea from "../../../components/inputs/basic/Textarea";
+import {FormsHeaderText} from "../../../../components/texts";
+import CustomSelect from "../../../../components/inputs/basic/Select";
+import BasicDatePicker from "../../../../components/inputs/Date";
+import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../../components/inputs/basic/Textarea";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 
 const ProposalCreate = ({closeModal}) => {
   const {register} = useForm();
@@ -18,15 +19,13 @@ const ProposalCreate = ({closeModal}) => {
       container
       sx={{
         width: "800px",
-        maxHeight: "95vh",
-        overflow: "scroll",
-        padding: "10px",
+        maxHeight: "80vh",
       }}
     >
       {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
       <Box item>
         <FormsHeaderText text="Prospect Details" />
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={6}>
             <Input
               register={register("customer_name", {required: true})}
@@ -49,7 +48,7 @@ const ProposalCreate = ({closeModal}) => {
       <Box>
         <FormsHeaderText text="Company Details" />
 
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={4}>
             <Input
               register={register("address", {required: true})}
@@ -77,7 +76,7 @@ const ProposalCreate = ({closeModal}) => {
 
       <Box>
         <FormsHeaderText text="Contact Details" />
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={6}>
             <Input
               register={register("contact_name", {required: true})}
@@ -93,11 +92,7 @@ const ProposalCreate = ({closeModal}) => {
               //placeholder="Enter customer number"
             />
           </Grid>
-        </Grid>
 
-        {/* ***************************************************************************************** */}
-
-        <Grid container spacing={2}>
           <Grid item xs={6}>
             <Input
               register={register("contact_phone", {required: true})}
@@ -118,7 +113,7 @@ const ProposalCreate = ({closeModal}) => {
       </Box>
 
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
             <Textarea
               label="Additional Information"
@@ -129,43 +124,30 @@ const ProposalCreate = ({closeModal}) => {
       </Box>
 
       <Box sx={{display: "flex", alignItems: "center"}} mt={2}>
-        <Button
+        <GlobalCustomButton
           variant="outlined"
           sx={{
-            width: "150px",
-            height: "40px",
-            textTransform: "capitalize",
             marginRight: "15px",
           }}
           onClick={closeModal}
           color="error"
         >
           Cancel
-        </Button>
+        </GlobalCustomButton>
 
-        <Button
-          variant="contained"
+        <GlobalCustomButton
           sx={{
-            width: "150px",
-            height: "40px",
-            textTransform: "capitalize",
             marginRight: "15px",
             backgroundColor: "#B6CCFE",
             "&:hover": {
               backgroundColor: "#B6CCFE",
             },
           }}
-          //disabled
         >
           Save as draft
-        </Button>
+        </GlobalCustomButton>
 
-        <Button
-          variant="contained"
-          sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
-        >
-          Send proposal
-        </Button>
+        <GlobalCustomButton>Send proposal</GlobalCustomButton>
       </Box>
     </Box>
   );

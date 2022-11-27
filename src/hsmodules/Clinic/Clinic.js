@@ -11,7 +11,7 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import {clinicListSchema} from "./schema";
+//import {clinicListSchema} from "./schema";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -425,8 +425,38 @@ export function ClinicList({standalone, closeModal}) {
     //save into healthstack vs import
     //replace facility id for foremost
   };
-  const handleCreate = () => {};
-  const onRowClicked = () => {};
+
+  const clinicListSchema = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: row => row.sn,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "80px",
+    },
+    {
+      name: "Name",
+      key: "name",
+      description: "Name",
+      selector: row => row.name,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Location",
+      key: "location",
+      description: "Location",
+      selector: row => row.locationType,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      omit: standalone,
+    },
+  ];
+
   return (
     <>
       {user ? (
@@ -446,15 +476,15 @@ export function ClinicList({standalone, closeModal}) {
                     List of Clinics
                   </h2>
                 </div>
-                {handleCreate && (
+                {!standalone && (
                   <Button
                     style={{fontSize: "14px", fontWeight: "600"}}
                     label="Add new "
-                    onClick={handleCreate}
+                    onClick={handleCreateNew}
                   />
                 )}
               </TableMenu>
-              <div style={{width: "100%", height: "600px", overflowY: "auto"}}>
+              <div style={{width: "100%", overflowY: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={clinicListSchema}

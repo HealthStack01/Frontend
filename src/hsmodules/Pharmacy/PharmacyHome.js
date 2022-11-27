@@ -21,6 +21,13 @@ export default function PharmacyHome({children}) {
   //   console.log(state.showStoreModal);
   // };
 
+  const handleCloseModal = () => [
+    setState(prev => ({
+      ...prev,
+      StoreModule: {...prev.StoreModule, locationModal: false},
+    })),
+  ];
+
   useEffect(() => {
     const notSelected = Object.keys(selectedStore).length === 0;
 
@@ -31,7 +38,10 @@ export default function PharmacyHome({children}) {
   }, []);
 
   const handleChangeStore = async () => {
-    await setShowModal(true);
+    await setState(prev => ({
+      ...prev,
+      StoreModule: {...prev.StoreModule, locationModal: true},
+    }));
   };
 
   useEffect(() => {
@@ -43,6 +53,7 @@ export default function PharmacyHome({children}) {
       locationId: state.StoreModule.selectedStore._id,
       facilityId: user.currentEmployee?.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "pharmacy",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -55,10 +66,10 @@ export default function PharmacyHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <ModalBox open={showModal} onClick={() => setShowModal(false)}>
+            <ModalBox open={state.StoreModule.locationModal}>
               <PharmacyListStandalone
                 standalone={true}
-                closeModal={() => setShowModal(false)}
+                closeModal={handleCloseModal}
               />
             </ModalBox>
             {children}

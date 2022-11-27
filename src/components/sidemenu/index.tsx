@@ -160,14 +160,13 @@ export const menuItems = [
   {
     name: "Epidemiology",
     exact: true,
-    to: "/app/communication",
+    to: "/app/epidemiology",
     iconClassName: "bi bi-rss",
     subMenus: [
       {name: "Dashboard", to: "/app/epidemiology/dashboard"},
       {name: "Case Definition", to: "/app/epidemiology/casedefinition"},
       {name: "Signals", to: "/app/epidemiology/signal"},
       {name: "Map", to: "/app/epidemiology/map"},
-      {name: "Dashboard", to: "/app/epidemiology/dashboard"},
     ],
   },
 

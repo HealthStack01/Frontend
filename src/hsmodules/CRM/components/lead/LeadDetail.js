@@ -26,7 +26,12 @@ import {
 import LeadAssignTask from "./AssignTask";
 import AdditionalInformationCard from "./AdditionalInfo";
 
-import {contactsData, informationData, staffsData} from "./data";
+import {
+  contactsData,
+  informationData,
+  staffsData,
+  additionalInformationData,
+} from "./data";
 import ScheduleAppointment from "./ScheduleAppointment";
 import LeadUpload from "./LeadUpload";
 
@@ -37,7 +42,9 @@ const LeadDetail = () => {
   const [uploadModal, setUploadModal] = useState(false);
   const [contacts, setContacts] = useState([...contactsData]); //contact list of lead from backend should be default(facility.contact_list)
   const [staffs, setStaffs] = useState([...staffsData]);
-  const [informations, setInformations] = useState([...informationData]);
+  const [informations, setInformations] = useState([
+    ...additionalInformationData,
+  ]);
   const [info, setInfo] = useState("");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -369,7 +376,7 @@ const LeadDetail = () => {
                 informations.map((info, index) => (
                   <Box sx={{mb: 2}}>
                     <AdditionalInformationCard
-                      text={info}
+                      data={info}
                       action={() => removeAdditionalInfo(info)}
                       key={index}
                       editing={editing}

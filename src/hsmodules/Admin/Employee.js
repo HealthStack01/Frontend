@@ -25,6 +25,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { EmployeeForm } from "./EmployeeForm";
 import EmployeeView from "./EmployeeView";
 import { Portal } from "@mui/material";
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -166,7 +168,7 @@ export function EmployeeCreate() {
 
   return (
     <>
-      <p className="card-header-title">Create Employee</p>
+      <h4 className="card-header-title">Create Employee</h4>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -534,10 +536,12 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
 
               {handleCreateNew && (
                 <GlobalCustomButton
-                  style={{ fontSize: "14px", fontWeight: "600" }}
-                  text="Add new "
+                style={{ fontSize: "14px", fontWeight: "600" }}
                   onClick={showCreateModal}
-                />
+                >
+                  <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Add New 
+                  </GlobalCustomButton>
               )}
             </TableMenu>
 

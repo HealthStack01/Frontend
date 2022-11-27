@@ -27,6 +27,9 @@ import ViewText from "../../components/viewtext";
 import BandView from "../Admin/BandView";
 import { BandForm } from "./BandForm";
 import { BandSchema } from "./ui-components/schema";
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -328,10 +331,12 @@ export function BandList({ showCreateModal }) {
 
               {handleCreateNew && (
                 <GlobalCustomButton
-                  style={{ fontSize: "14px", fontWeight: "600" }}
-                  text="Add new "
+                style={{ fontSize: "14px", fontWeight: "600" }}
                   onClick={showCreateModal}
-                />
+                >
+                  <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+                  Add New 
+                  </GlobalCustomButton>
               )}
             </TableMenu>
 

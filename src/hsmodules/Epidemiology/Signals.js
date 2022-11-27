@@ -710,6 +710,7 @@ export function StoreListStandalone({standalone, closeModal}) {
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "80px",
     },
     {
       name: "Name",
@@ -738,7 +739,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     <>
       {user ? (
         <>
-          <Box container sx={{width: "600px", height: "500px"}}>
+          <Box container>
             <Box item>
               <TableMenu>
                 <Box sx={{display: "flex", alignItems: "center"}}>

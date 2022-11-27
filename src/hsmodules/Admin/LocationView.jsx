@@ -10,7 +10,7 @@ import {
   BottomWrapper,
   DetailsWrapper,
   GrayWrapper,
-  GridWrapper,
+  GridBox,
   HeadWrapper,
   PageWrapper,
 } from "../app/styles";
@@ -18,7 +18,12 @@ import dayjs, { Dayjs } from "dayjs";
 import { createLocationSchema } from "./ui-components/schema";
 import CustomSelect from "../../components/inputs/basic/Select";
 import { bandTypeOptions } from "../../dummy-data";
+// import ModalBox from "../../components/modal";
+
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 // import { createClientSchema } from "./schema";
@@ -95,32 +100,44 @@ const LocationView = ({ open, setOpen, location }) => {
     <PageWrapper>
       <GrayWrapper>
         <HeadWrapper>
-          <div>
+          <div style={{width:"100%"}}>
             <h2>Location Detail</h2>
-            <span>Location detail of {Location.name}</span>
-          </div>
+            {/* <span>Location detail of {Location.name}</span> */}
+          </div> 
+         
           <BottomWrapper>
-            <GlobalCustomButton
-              text="Delete Location"
-              color="secondary"
-              onClick={() => handleDelete()}
-            />
-            <GlobalCustomButton
-              text={`${!editing ? "Edit Location" : "Cancel Editing"}`}
-              disabled={editing}
-              color="warning"
-              onClick={() => {
-                setEditing(!editing);
-              }}
-            />
+          <GlobalCustomButton
+          style={{ fontSize: "14px", fontWeight: "600" }}
+             onClick={() => handleDelete()}
+            color="error"
+          >
+            <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Delete Location
+            </GlobalCustomButton>
+
+          <GlobalCustomButton
+          style={{ fontSize: "14px", fontWeight: "600" }}
+           disabled={editing}
+           onClick={() => {
+             setEditing(!editing);
+           }}
+          >
+             <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+             {`${!editing ? "Edit Location" : "Cancel Editing"}`}
+             
+            </GlobalCustomButton>
           </BottomWrapper>
         </HeadWrapper>
         <form onSubmit={handleSubmit(submit)}>
           <ToastContainer theme="colored" />
 
-          <GridWrapper>
+          <GridBox>
             {!editing ? (
-              <ViewText label=" Name" text={Location.name} />
+               <Input
+               label="Name"
+               register={register("name")}
+               defaultValue={Location?.name}
+             />
             ) : (
               <Input
                 label="Name"
@@ -129,20 +146,25 @@ const LocationView = ({ open, setOpen, location }) => {
               />
             )}
             {!editing ? (
-              <ViewText label="Location Type" text={Location.locationType} />
+              <Input
+              label="Location Type"
+              register={register("locationType")}
+              defaultValue={Location?.locationType}
+            />
+
             ) : (
               <Input
                 label="Band Type"
                 register={register("bandType")}
-                options={Location.sublocations}
+                // options={Location.sublocations}
                 errorText={errors?.LocationType?.message}
               />
             )}
-          </GridWrapper>
+          </GridBox>
 
           {editing && (
             <BottomWrapper>
-              <GlobalCustomButton text="Save Form" type="submit" loading={loading} />
+              <GlobalCustomButton style={{ fontSize: "14px", fontWeight: "600" }} text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>
