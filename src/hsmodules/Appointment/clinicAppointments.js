@@ -266,8 +266,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
             }
-
-
             const handleRow= async(Client)=>{
               //  await setSelectedClient(Client)
                 const    newClientModule={
