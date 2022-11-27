@@ -13,7 +13,7 @@ export const AppointmentSchema = [
     name: 'Date/Time',
     key: 'date',
     description: 'Date/Time',
-    selector: (row) => format(new Date(row.start_time), 'dd/MM/yyyy HH:mm'),
+    selector: (row) => format(new Date(row?.start_time), 'dd/MM/yyyy HH:mm'),
     sortable: true,
     required: true,
     inputType: 'TEXT',

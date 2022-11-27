@@ -1671,7 +1671,7 @@ export function ClientDetail({ showModal, setShowModal }) {
             >
               Edit Details
             </Button>
-            {/* <Button
+            <Button
               onClick={handleFinancialInfo}
               variant="contained"
               size="small"
@@ -1679,7 +1679,7 @@ export function ClientDetail({ showModal, setShowModal }) {
               color="info"
             >
               Payment Info
-            </Button> */}
+            </Button>
             <Button
               onClick={() => setDisplay(2)}
               variant="contained"
@@ -1715,14 +1715,14 @@ export function ClientDetail({ showModal, setShowModal }) {
             >
               Schedule Appointment
             </Button>
-            <Button
+            {/* <Button
               onClick={() => navigate('/app/beneficiary/documentation')}
               variant="outlined"
               size="small"
               sx={{ textTransform: 'capitalize' }}
             >
               View History
-            </Button>
+            </Button> */}
 
             {/* {(user.currentEmployee?.roles.includes('Bill Client') ||
               user.currentEmployee?.roles.length === 0 ||
