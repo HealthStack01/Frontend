@@ -17,6 +17,8 @@ import HiaCreate from './components/HIAcreate';
 import ViewText from '../../components/viewtext';
 import { Box, Grid, Button as MuiButton } from '@mui/material';
 import Input from '../../components/inputs/basic/Input';
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {
   BottomWrapper,
   GrayWrapper,
@@ -505,11 +507,13 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
               </h2>
             </div>
             {handleCreateNew && (
-              <Button
-                style={{ fontSize: '14px', fontWeight: '600px' }}
-                label="Add New"
-                onClick={openCreateModal}
-              />
+              <GlobalCustomButton
+              onClick={openCreateModal}
+              
+            >
+               <AddCircleOutline  fontSize="small" sx={{marginRight: "5px"}}/> 
+              Add New
+               </GlobalCustomButton>  
             )}
           </TableMenu>
 
@@ -617,49 +621,49 @@ export function OrganizationDetail({ openModifyModal }) {
     }
   };
   useEffect(() => {
-    setValue('facilityName', facility.organizationDetail.facilityName, {
+    setValue('facilityName', facility.organizationDetail?.facilityName, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue('facilityAddress', facility.organizationDetail.facilityAddress, {
+    setValue('facilityAddress', facility.organizationDetail?.facilityAddress, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue('facilityCity', facility.organizationDetail.facilityCity, {
+    setValue('facilityCity', facility.organizationDetail?.facilityCity, {
       shouldValidate: true,
       shouldDirty: true,
     });
     setValue(
       'facilityContactPhone',
-      facility.organizationDetail.facilityContactPhone,
+      facility.organizationDetail?.facilityContactPhone,
       {
         shouldValidate: true,
         shouldDirty: true,
       }
     );
 
-    setValue('facilityEmail', facility.organizationDetail.facilityEmail, {
+    setValue('facilityEmail', facility.organizationDetail?.facilityEmail, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue('facilityOwner', facility.organizationDetail.facilityOwner, {
+    setValue('facilityOwner', facility.organizationDetail?.facilityOwner, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue('facilityType', facility.organizationDetail.facilityType, {
+    setValue('facilityType', facility.organizationDetail?.facilityType, {
       shouldValidate: true,
       shouldDirty: true,
     });
 
-    setValue('facilityCategory', facility.organizationDetail.facilityCategory, {
+    setValue('facilityCategory', facility.organizationDetail?.facilityCategory, {
       shouldValidate: true,
       shouldDirty: true,
     });
-  });
+  },[]);
   const onSubmit = (data, e) => {
     e.preventDefault();
 

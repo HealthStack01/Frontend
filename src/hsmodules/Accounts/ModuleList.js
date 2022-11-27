@@ -54,7 +54,7 @@ export default function ModuleList({handlecloseModal}) {
     );
 
     return () => {};
-  });
+  },[]);
 
   useEffect(() => {
     draftDoc = state.EmployeeModule.selectedEmployee;

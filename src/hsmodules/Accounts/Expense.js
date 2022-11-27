@@ -76,7 +76,7 @@ export function ExpenseCreate() {
         shouldDirty: true,
       });
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -785,7 +785,7 @@ export function ExpenseModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newLocationModule = {

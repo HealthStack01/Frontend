@@ -536,7 +536,7 @@ export function EmployeeList({ showCreateModal, showDetailModal }) {
 
               {handleCreateNew && (
                 <GlobalCustomButton
-                style={{ fontSize: "14px", fontWeight: "600" }}
+                
                   onClick={showCreateModal}
                 >
                   <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
@@ -811,7 +811,7 @@ export function EmployeeModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newEmployeeModule = {

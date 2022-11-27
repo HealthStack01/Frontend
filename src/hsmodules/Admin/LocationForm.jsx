@@ -89,7 +89,7 @@ export const LocationForm = ({ open, setOpen }) => {
           />
 
           <BottomWrapper>
-          <GlobalCustomButton type='submit' loading={loading} style={{ fontSize: "18px", fontWeight: "600" }}>
+          <GlobalCustomButton type='submit' loading={loading}>
           <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
             Create Location
           </GlobalCustomButton>

@@ -612,7 +612,7 @@ export function FacilityModify() {
     });
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newfacilityModule = {
