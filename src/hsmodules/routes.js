@@ -187,7 +187,7 @@ import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
 import Deal from "./CRM/Deal";
-import Complaint from "./Complaints/Complaint";
+import Complaint, { ComplaintDetail } from "./Complaints/Complaint";
 import ImmunizationHome from "./Immunization/ImmunizationHome";
 import VaccineProfile from "./Immunization/VaccineProfile";
 import BloodBankInventory from "./Bloodbank/Inventory";
@@ -211,11 +211,12 @@ import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/Immu
 import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
 import OrganizationClient from "./ManagedCare/OrganizationClient";
 import ProviderPayment from "./ManagedCare/ProviderPayment";
-
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
+
 
 import WalletOTP from './PouchiiWallet/walletOtp';
 import CheckIn from './ManagedCare/Checkin';
+import DetailComplaint from "./Complaints/DetailComplaints";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -731,10 +732,12 @@ const AppRoutes = () => {
 
           {/**************************COMPLAINT *************************************** */}
           <Route
-            path="/app/complaints/complaints-complaints"
+            path="/app/complaints"
             element={<Complaint />}
           >
-            {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
+
+
+          {/* <Route path="/app/complaints/detailComplaints" component={<ProviderPayment/>} /> */}
             {/* <Route path="/app/crm/proposal" element={<Proposal />} />
             <Route path="/app/crm/invoice" element={<Invoice />} />
             <Route path="/app/crm/SLA" element={<SLA />} />
@@ -742,6 +745,11 @@ const AppRoutes = () => {
             <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" /> */}
           </Route>
+
+<Route
+              path="/app/complaints/detailComplaints"
+              element={<DetailComplaint />}
+            />
 
           {/**************************Referral *************************************** */}
           <Route path="/app/referral" element={<ReferralHome />}>

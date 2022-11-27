@@ -15,7 +15,6 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
@@ -23,6 +22,7 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import CustomTable from "../../components/customtable";
 import {Box, Button, Typography} from "@mui/material";
 import ModalBox from "../../components/modal";
+import Input from "../../components/inputs/basic/Input";
 import MakeDeposit from "./Deposit";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 // eslint-disable-next-line
@@ -1057,7 +1057,7 @@ const config = {
                 sx={{
                   fontSize: "24px",
                   fontWeight: "700",
-                  color: "2d2d2d",
+                  color: "red",
                 }}
               >
                 {" "}
@@ -1105,7 +1105,9 @@ const config = {
             style={{
               width: "100%",
               display: "flex",
-              alignItems: "center",
+              flexDirection:"column",
+              alignItems: "flex-start",
+              gap:"2rem",
               justifyContent: "space-between",
             }}
           >
@@ -1127,10 +1129,11 @@ const config = {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexDirection: "column",
+                  flexDirection: "row",
                   marginLeft: "15px",
                 }}
               >
+    <div>
                 <label className=" is-small">
                   <input
                     type="radio"
@@ -1140,20 +1143,19 @@ const config = {
                   />
                   <span> Part </span>
                 </label>
-
+      </div>
                 {part && (
-                  <div style={{marginLeft: "15px"}}>
-                    <div className="control">
-                      <input
-                        className="input is-small selectadd"
-                        style={{padding: "3px"}}
+                  <div style={{marginLeft: "15px", width:"200px"}}>
+                
+                      <Input
+                        label="Amount"
                         type="text"
-                        name="bulkpay"
+                        name="bulkpa"
                         placeholder="Enter amount"
                         value={partBulk}
                         onChange={e => handleBulkAmount(e)}
                       />
-                    </div>
+                  
                   </div>
                 )}
               </div>
@@ -1162,7 +1164,7 @@ const config = {
             <div className="control"   style={{
             display: "flex",
             alignItems: "flex-start",
-            flexDirection: "column",
+            flexDirection: "row",
             justifyContent: "space-between",
             gap:"14px"
           }}>
@@ -1199,13 +1201,6 @@ const config = {
           </GlobalCustomButton>
           )}
           </PaystackConsumer>
-              <GlobalCustomButton
-                onClick={e => handleBulkPayment(e)}
-                sx={{marginRight: "15px"}}
-              >
-                <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                Pay
-              </GlobalCustomButton>
             </div>
           </div>
         </div>
@@ -1237,23 +1232,6 @@ const config = {
                     marginTop: "10px",
                   }}
                 >
-                  <GlobalCustomButton
-                    disabled={!productItem.length > 0}
-                    onClick={handlePayment}
-                    sx={{marginRight: "15px"}}
-                  >
-                    <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
-                    Pay
-                  </GlobalCustomButton>
-
-                  <GlobalCustomButton
-                    disabled={!productItem.length > 0}
-                    onClick={closeModal}
-                    variant="outlined"
-                    color="warning"
-                  >
-                    Cancel
-                  </GlobalCustomButton>
                 </div>
               </div>
             </>
