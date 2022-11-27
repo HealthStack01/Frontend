@@ -1,14 +1,11 @@
 import {forwardRef, useState, Component} from "react";
 import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
-import Input from "../../../components/inputs/basic/Input";
+import Input from "../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
 import {BiChevronDown} from 'react-icons/bi';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {
-  GridBox,
-} from "../../app/styles";
 
 const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
   <div
@@ -32,7 +29,7 @@ const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
   </div>
 ));
 
-const ComplaintCreates = ({closeModal}) => {
+const CreateComplaint = ({closeModal}) => {
   const [text, setText] = useState('')
 
   const {register} = useForm();
@@ -93,4 +90,4 @@ const ComplaintCreates = ({closeModal}) => {
   );
 };
 
-export default ComplaintCreates;
+export default CreateComplaint;

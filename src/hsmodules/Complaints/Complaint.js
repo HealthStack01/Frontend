@@ -11,23 +11,19 @@ import ClientFinInfo from "../Client/ClientFinInfo";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import {AppointmentCreate} from "../Clinic/Appointments";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-// import InfiniteScroll from 'react-infinite-scroll-component';
 import ClientBilledPrescription from "../Finance/ClientBill";
-// import ClientGroup from './ClientGroup';
-// import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import {PageWrapper} from "../../ui/styled/styles";
 import {TableMenu} from "../../ui/styled/global";
-// import { ClientMiniSchema } from '../Client/schema';
 import {useForm} from "react-hook-form";
 import {
   BottomWrapper,
   DetailsWrapper,
   GrayWrapper,
-  GridWrapper,
+  GridBox,
   HeadWrapper,
 } from "../app/styles";
 import Input from "../../components/inputs/basic/Input";
@@ -35,16 +31,20 @@ import {Box, Portal, Button as MuiButton, Avatar} from "@mui/material";
 import CustomTable from "../../components/customtable";
 import ModalBox from "../../components/modal";
 import "./complaint.css";
-// import ClientView from '../Client/ClientView';
-// import ClientForm from '../Client/ClientForm';
-// eslint-disable-next-line
+import CreateComplaint from "./CreateComplaint";
+import DetailComplaints from "./DetailComplaints"
+
+
 const searchfacility = {};
 
-export default function Complaint() {
+export default function Complaints() {
   const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+
   //const [showState,setShowState]=useState() //create|modify|detail
   const handleShowModal = () => {
     setShowModal(true);
@@ -57,35 +57,38 @@ export default function Complaint() {
   const handleShowRegisteredModal = () => {};
   const handleHideRegisteredModal = () => {};
 
-  // const createClientSchema = yup.object().shape({
-  //   firstName: yup.string().required("Enter a first name"),
-  //   middleName: yup.string().required("Enter a middle name"),
-  //   lastName: yup.string().required("Enter a last name"),
-  //   gender: yup.string().required("Select a Gender"),
-  //   maritalstatus: yup.string().required("Select a Marital Status"),
-  //   mrn: yup.string().required("Enter a Medical Record Number"),
-  // });
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6 ">
-          <ComplaintList showModal={handleShowModal} />
+          {/* <ComplaintList showModal={handleShowModal} /> */}
+          <ComplaintList openCreateModal={() => setCreateModal(true)} />
+          
         </div>
         <div className="column is-6 ">
-          {state.ClientModule.show === "detail" && <ComplaintDetail />}
+          {state.ClientModule.show === "detail" && <DetailComplaints />}
           {state.ClientModule.show === "modify" && (
             <ComplaintModify Client={selectedClient} />
           )}
+          <ModalBox
+            open={createModal}
+            onClose={() => setCreateModal(false)}
+            header="New Complaint"
+          >
+            <CreateComplaint closeModal={() => setCreateModal(false)} />
+          </ModalBox>
+
           {/* <ModalBox open={showModal} setOpen={handleHideModal}>
             <ClientForm open={showModal} setOpen={handleHideModal} />
           </ModalBox> */}
         </div>
+      
       </div>
     </section>
   );
 }
 
-export function ComplaintCreate({open, setOpen}) {
+export function ComplaintCreate({show, setShowModal}) {
   const [showRegisteredModel, setShowRegisteredModal] = useState(false);
 
   const {register, handleSubmit} = useForm({
@@ -525,6 +528,7 @@ export function ComplaintCreate({open, setOpen}) {
                   title="Clients"
                   columns={ClientRegisteredSchema}
                   data={users}
+                  onRowClicked={handleRow}
                 />
               </section>
             </div>
@@ -545,7 +549,8 @@ export function ComplaintCreate({open, setOpen}) {
   );
 }
 
-export function ComplaintList({showModal}) {
+
+export  function ComplaintList({openCreateModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -803,6 +808,7 @@ export function ComplaintList({showModal}) {
       date: "27-10-21",
     },
   ];
+  const navigate = useNavigate();
 
   return (
     <>
@@ -837,12 +843,6 @@ export function ComplaintList({showModal}) {
           </div>
 
           {handleCreateNew && (
-            // <Button
-            //   style={{ fontSize: '14px', fontWeight: '600' }}
-            //   label='Add new '
-            //   onClick={showModal}
-            //   showicon={true}
-            // />
             <MuiButton
               variant="contained"
               sx={{
@@ -851,7 +851,7 @@ export function ComplaintList({showModal}) {
                 fontSize: "14px",
                 fontWeight: "600",
               }}
-              onClick={handleCreateNew}
+              onClick={openCreateModal}
             >
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
               New Complaint
@@ -879,7 +879,11 @@ export function ComplaintList({showModal}) {
                 progressPending={loading}
               /> */}
           {dummyComplaints.map(data => (
-            <div key={data.id} className="complaint_wrapper">
+            <div
+            key={data.id}
+              className="complaint_wrapper"
+              onClick={() => navigate("/app/complaints/detailComplaints")}
+            >
               <div className="complaint_head">
                 <div className="complaint_head_left">
                   <Avatar src="/img_avatar.png" alt="" />
@@ -913,6 +917,7 @@ export function ComplaintList({showModal}) {
     </>
   );
 }
+
 
 export function ComplaintDetail() {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
@@ -984,659 +989,659 @@ export function ComplaintDetail() {
            
         }
     }, [billingModal]) */
-  return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Client Details</p>
-          {(user.currentEmployee?.roles.includes("Bill Client") ||
-            user.currentEmployee?.roles.length === 0 ||
-            user.stacker) && (
-            <button
-              className="button is-success is-small btnheight mt-2"
-              onClick={showBilling}
-            >
-              Bill Client
-            </button>
-          )}
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.firstname && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0 "
-                      name="firstname"
-                      type="text"
-                    >
-                      First Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0 ">
-                      {Client.firstname}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-hospital"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
+  // return (
+  //   <>
+  //     <div className='card '>
+  //       <div className='card-header'>
+  //         <p className='card-header-title'>Client Details</p>
+  //         {(user.currentEmployee?.roles.includes('Bill Client') ||
+  //           user.currentEmployee?.roles.length === 0 ||
+  //           user.stacker) && (
+  //           <button
+  //             className='button is-success is-small btnheight mt-2'
+  //             onClick={showBilling}
+  //           >
+  //             Bill Client
+  //           </button>
+  //         )}
+  //       </div>
+  //       <div className='card-content vscrollable'>
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.firstname && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left has-icons-right'>
+  //                   <label
+  //                     className='label is-size-7 my-0 '
+  //                     name='firstname'
+  //                     type='text'
+  //                   >
+  //                     First Name{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0 '>
+  //                     {Client.firstname}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-hospital'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
 
-              {Client.middlename && (
-                <div className="field">
-                  <p className="control has-icons-left has-icons-right">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="middlename"
-                      type="text"
-                    >
-                      {" "}
-                      Middle Name{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.middlename}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-map-signs"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lastname && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lastname"
-                      type="text"
-                    >
-                      Last Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lastname}</label>
-                    <span className="icon is-small is-left">
-                      <i className=" nop-user-md "></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.dob && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="dob"
-                      type="text"
-                    >
-                      Date of Birth{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {new Date(Client.dob).toLocaleDateString("en-GB")}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.gender && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="gender"
-                      type="text"
-                    >
-                      Gender{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.gender}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.maritalstatus && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="maritalstatus"
-                      type="text"
-                    >
-                      Marital Status{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.maritalstatus}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.mrn && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="mrn"
-                      type="text"
-                    >
-                      Medical Records Number{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.mrn}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.religion && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="religion"
-                      type="text"
-                    >
-                      Religion{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.religion}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.profession && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="profession"
-                      type="text"
-                    >
-                      Profession{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.profession}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.phone && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="phone"
-                      type="text"
-                    >
-                      {" "}
-                      Phone No
-                    </label>
-                    <label className="is-size-7 my-0">{Client.phone}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-phone-alt"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
+  //             {Client.middlename && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left has-icons-right'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='middlename'
+  //                     type='text'
+  //                   >
+  //                     {' '}
+  //                     Middle Name{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.middlename}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-map-signs'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.lastname && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='lastname'
+  //                     type='text'
+  //                   >
+  //                     Last Name
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.lastname}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className=' nop-user-md '></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.dob && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='dob'
+  //                     type='text'
+  //                   >
+  //                     Date of Birth{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {new Date(Client.dob).toLocaleDateString('en-GB')}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.gender && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='gender'
+  //                     type='text'
+  //                   >
+  //                     Gender{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.gender}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.maritalstatus && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='maritalstatus'
+  //                     type='text'
+  //                   >
+  //                     Marital Status{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.maritalstatus}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.mrn && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='mrn'
+  //                     type='text'
+  //                   >
+  //                     Medical Records Number{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.mrn}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.religion && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='religion'
+  //                     type='text'
+  //                   >
+  //                     Religion{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.religion}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.profession && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='profession'
+  //                     type='text'
+  //                   >
+  //                     Profession{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.profession}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.phone && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='phone'
+  //                     type='text'
+  //                   >
+  //                     {' '}
+  //                     Phone No
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.phone}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-phone-alt'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
 
-              {Client.email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="email"
-                      type="email"
-                    >
-                      Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
+  //             {Client.email && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='email'
+  //                     type='email'
+  //                   >
+  //                     Email{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.email}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
 
-          {Client.address && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="address"
-                  type="text"
-                >
-                  Residential Address{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.address}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.city && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="city"
-                      type="text"
-                    >
-                      Town/City{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.city}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.lga && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="lga"
-                      type="text"
-                    >
-                      Local Govt Area{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.lga}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.state && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="state"
-                      type="text"
-                    >
-                      State{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.state}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.country && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="country"
-                      type="text"
-                    >
-                      Country{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.country}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.bloodgroup && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="bloodgroup"
-                      type="text"
-                    >
-                      Blood Group{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.bloodgroup}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
+  //         {Client.address && (
+  //           <div className='field'>
+  //             <p className='control has-icons-left'>
+  //               <label
+  //                 className='label is-size-7 my-0'
+  //                 name='address'
+  //                 type='text'
+  //               >
+  //                 Residential Address{' '}
+  //               </label>
+  //               <label className='is-size-7 my-0'>{Client.address}</label>
+  //               <span className='icon is-small is-left'>
+  //                 <i className='nop-envelope'></i>
+  //               </span>
+  //             </p>
+  //           </div>
+  //         )}
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.city && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='city'
+  //                     type='text'
+  //                   >
+  //                     Town/City{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.city}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.lga && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='lga'
+  //                     type='text'
+  //                   >
+  //                     Local Govt Area{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.lga}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.state && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='state'
+  //                     type='text'
+  //                   >
+  //                     State{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.state}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.country && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='country'
+  //                     type='text'
+  //                   >
+  //                     Country{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.country}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.bloodgroup && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='bloodgroup'
+  //                     type='text'
+  //                   >
+  //                     Blood Group{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.bloodgroup}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
 
-              {Client.genotype && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="genotype"
-                      type="text"
-                    >
-                      Genotype{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.genotype}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.disabilities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="disabilities"
-                      type="text"
-                    >
-                      Disabilities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.disabilities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
+  //             {Client.genotype && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='genotype'
+  //                     type='text'
+  //                   >
+  //                     Genotype{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.genotype}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.disabilities && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='disabilities'
+  //                     type='text'
+  //                   >
+  //                     Disabilities{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.disabilities}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
 
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.allergies && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="allergies"
-                      type="text"
-                    >
-                      Allergies{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.allergies}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.comorbidities && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="comorbidities"
-                      type="text"
-                    >
-                      Co-mobidities{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.comorbidities}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          {Client.clientTags && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="clientTags"
-                  type="text"
-                >
-                  Tags{" "}
-                </label>
-                <label className="is-size-7 my-0">{Client.clientTags}</label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          {Client.specificDetails && (
-            <div className="field">
-              <p className="control has-icons-left">
-                <label
-                  className="label is-size-7 my-0"
-                  name="specificDetails"
-                  type="text"
-                >
-                  Specific Details about Client{" "}
-                </label>
-                <label className="is-size-7 my-0">
-                  {Client.specificDetails}
-                </label>
-                <span className="icon is-small is-left">
-                  <i className="nop-envelope"></i>
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="field is-horizontal">
-            <div className="field-body">
-              {Client.nok_name && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_name"
-                      type="text"
-                    >
-                      Next of Kin Full Name
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_name}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_phoneno && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_phoneno"
-                      type="text"
-                    >
-                      Next of Kin Phone Number
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_phoneno}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-clinic-medical"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_email && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_email"
-                      type="email"
-                    >
-                      Next of Kin Email{" "}
-                    </label>
-                    <label className="is-size-7 my-0">{Client.nok_email}</label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-              {Client.nok_relationship && (
-                <div className="field">
-                  <p className="control has-icons-left">
-                    <label
-                      className="label is-size-7 my-0"
-                      name="nok_relationship"
-                      type="text"
-                    >
-                      Next of Kin Relationship"{" "}
-                    </label>
-                    <label className="is-size-7 my-0">
-                      {Client.nok_relationship}
-                    </label>
-                    <span className="icon is-small is-left">
-                      <i className="nop-envelope"></i>
-                    </span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="field is-grouped  mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit Details
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-info is-small"
-                onClick={handleFinancialInfo}
-              >
-                Payment Info
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleSchedule}
-              >
-                Schedule appointment
-              </button>
-            </p>
-            {/*  <p className="control">
-                    <button className="button is-danger is-small" >
-                        Check into Clinic 
-                    </button>
-                </p> */}
-            <p className="control">
-              <button
-                className="button is-link is-small"
-                onClick={() => {
-                  navigate("/app/clinic/encounter");
-                }}
-              >
-                Attend to Client
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className={`modal ${finacialInfoModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Financial Information</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientFinInfo closeModal={handlecloseModal} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                <button className="button is-success">Save changes</button>
-                <button className="button">Cancel</button>
-                </footer> */}
-        </div>
-      </div>
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.allergies && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='allergies'
+  //                     type='text'
+  //                   >
+  //                     Allergies{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.allergies}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.comorbidities && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='comorbidities'
+  //                     type='text'
+  //                   >
+  //                     Co-mobidities{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.comorbidities}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //         {Client.clientTags && (
+  //           <div className='field'>
+  //             <p className='control has-icons-left'>
+  //               <label
+  //                 className='label is-size-7 my-0'
+  //                 name='clientTags'
+  //                 type='text'
+  //               >
+  //                 Tags{' '}
+  //               </label>
+  //               <label className='is-size-7 my-0'>{Client.clientTags}</label>
+  //               <span className='icon is-small is-left'>
+  //                 <i className='nop-envelope'></i>
+  //               </span>
+  //             </p>
+  //           </div>
+  //         )}
+  //         {Client.specificDetails && (
+  //           <div className='field'>
+  //             <p className='control has-icons-left'>
+  //               <label
+  //                 className='label is-size-7 my-0'
+  //                 name='specificDetails'
+  //                 type='text'
+  //               >
+  //                 Specific Details about Client{' '}
+  //               </label>
+  //               <label className='is-size-7 my-0'>
+  //                 {Client.specificDetails}
+  //               </label>
+  //               <span className='icon is-small is-left'>
+  //                 <i className='nop-envelope'></i>
+  //               </span>
+  //             </p>
+  //           </div>
+  //         )}
+  //         <div className='field is-horizontal'>
+  //           <div className='field-body'>
+  //             {Client.nok_name && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='nok_name'
+  //                     type='text'
+  //                   >
+  //                     Next of Kin Full Name
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.nok_name}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-clinic-medical'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.nok_phoneno && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='nok_phoneno'
+  //                     type='text'
+  //                   >
+  //                     Next of Kin Phone Number
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.nok_phoneno}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-clinic-medical'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.nok_email && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='nok_email'
+  //                     type='email'
+  //                   >
+  //                     Next of Kin Email{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>{Client.nok_email}</label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //             {Client.nok_relationship && (
+  //               <div className='field'>
+  //                 <p className='control has-icons-left'>
+  //                   <label
+  //                     className='label is-size-7 my-0'
+  //                     name='nok_relationship'
+  //                     type='text'
+  //                   >
+  //                     Next of Kin Relationship"{' '}
+  //                   </label>
+  //                   <label className='is-size-7 my-0'>
+  //                     {Client.nok_relationship}
+  //                   </label>
+  //                   <span className='icon is-small is-left'>
+  //                     <i className='nop-envelope'></i>
+  //                   </span>
+  //                 </p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //         <div className='field is-grouped  mt-2'>
+  //           <p className='control'>
+  //             <button
+  //               className='button is-success is-small'
+  //               onClick={handleEdit}
+  //             >
+  //               Edit Details
+  //             </button>
+  //           </p>
+  //           <p className='control'>
+  //             <button
+  //               className='button is-info is-small'
+  //               onClick={handleFinancialInfo}
+  //             >
+  //               Payment Info
+  //             </button>
+  //           </p>
+  //           <p className='control'>
+  //             <button
+  //               className='button is-warning is-small'
+  //               onClick={handleSchedule}
+  //             >
+  //               Schedule appointment
+  //             </button>
+  //           </p>
+  //           {/*  <p className="control">
+  //                   <button className="button is-danger is-small" >
+  //                       Check into Clinic
+  //                   </button>
+  //               </p> */}
+  //           <p className='control'>
+  //             <button
+  //               className='button is-link is-small'
+  //               onClick={() => {
+  //                 navigate('/app/clinic/encounter');
+  //               }}
+  //             >
+  //               Attend to Client
+  //             </button>
+  //           </p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <div className={`modal ${finacialInfoModal ? 'is-active' : ''}`}>
+  //       <div className='modal-background'></div>
+  //       <div className='modal-card'>
+  //         <header className='modal-card-head'>
+  //           <p className='modal-card-title'>Financial Information</p>
+  //           <button
+  //             className='delete'
+  //             aria-label='close'
+  //             onClick={handlecloseModal}
+  //           ></button>
+  //         </header>
+  //         <section className='modal-card-body'>
+  //           {/* <StoreList standalone="true" /> */}
+  //           <ClientFinInfo closeModal={handlecloseModal} />
+  //         </section>
+  //         {/* <footer className="modal-card-foot">
+  //               <button className="button is-success">Save changes</button>
+  //               <button className="button">Cancel</button>
+  //               </footer> */}
+  //       </div>
+  //     </div>
 
-      <ModalBox
-        open={billingModal}
-        onClose={handlecloseModal1}
-        header="Bill Client"
-      >
-        <BillServiceCreate closeModal={handlecloseModal1} />
-      </ModalBox>
+  //     <ModalBox
+  //       open={billingModal}
+  //       onClose={handlecloseModal1}
+  //       header='Bill Client'
+  //     >
+  //       <BillServiceCreate closeModal={handlecloseModal1} />
+  //     </ModalBox>
 
-      <div className={`modal ${appointmentModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal2}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <AppointmentCreate closeModal={handlecloseModal2} />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-      <div className={`modal ${billModal ? "is-active" : ""}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Set Appointment</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal3}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            {/* <StoreList standalone="true" /> */}
-            <ClientBilledPrescription
-              selectedClient={Client._id}
-              closeModal={handlecloseModal3}
-            />
-          </section>
-          {/* <footer className="modal-card-foot">
-                    <button className="button is-success">Save changes</button>
-                    <button className="button">Cancel</button>
-                    </footer> */}
-        </div>
-      </div>
-    </>
-  );
+  //     <div className={`modal ${appointmentModal ? 'is-active' : ''}`}>
+  //       <div className='modal-background'></div>
+  //       <div className='modal-card'>
+  //         <header className='modal-card-head'>
+  //           <p className='modal-card-title'>Set Appointment</p>
+  //           <button
+  //             className='delete'
+  //             aria-label='close'
+  //             onClick={handlecloseModal2}
+  //           ></button>
+  //         </header>
+  //         <section className='modal-card-body'>
+  //           {/* <StoreList standalone="true" /> */}
+  //           <AppointmentCreate closeModal={handlecloseModal2} />
+  //         </section>
+  //         {/* <footer className="modal-card-foot">
+  //                   <button className="button is-success">Save changes</button>
+  //                   <button className="button">Cancel</button>
+  //                   </footer> */}
+  //       </div>
+  //     </div>
+  //     <div className={`modal ${billModal ? 'is-active' : ''}`}>
+  //       <div className='modal-background'></div>
+  //       <div className='modal-card'>
+  //         <header className='modal-card-head'>
+  //           <p className='modal-card-title'>Set Appointment</p>
+  //           <button
+  //             className='delete'
+  //             aria-label='close'
+  //             onClick={handlecloseModal3}
+  //           ></button>
+  //         </header>
+  //         <section className='modal-card-body'>
+  //           {/* <StoreList standalone="true" /> */}
+  //           <ClientBilledPrescription
+  //             selectedClient={Client._id}
+  //             closeModal={handlecloseModal3}
+  //           />
+  //         </section>
+  //         {/* <footer className="modal-card-foot">
+  //                   <button className="button is-success">Save changes</button>
+  //                   <button className="button">Cancel</button>
+  //                   </footer> */}
+  //       </div>
+  //     </div>
+  //   </>
+  // );
 }
 
 export function ComplaintModify() {
@@ -2379,19 +2384,6 @@ export function InputSearch({getSearchfacility, clear}) {
     if (count === 2) {
       console.log("stuff was chosen");
     }
-
-    /*  console.log("blur")
-         setShowPanel(false)
-        console.log(JSON.stringify(simpa))
-        if (simpa===""){
-            console.log(facilities.length)
-            setSimpa("abc")
-            setSimpa("")
-            setFacilities([])
-            inputEl.current.setValue=""
-        }
-        console.log(facilities.length)
-        console.log(inputEl.current) */
   };
   const handleSearch = async val => {
     const field = "facilityName"; //field variable
