@@ -1,7 +1,7 @@
 .complaint_wrapper{
-    padding: 8px 10px;
+    padding: 7px 21px;
     border: 2px solid #CCCCCC;
-    width: 100%;
+    width: 95%;
     margin-bottom: 15px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
 }
@@ -28,9 +28,9 @@
 .complaint_head_left{
     display: flex;
     align-items: center;
+    gap: 12px;
 }
 .complaint_head_left h1{
     color: #000;
-    font-size: 18px;
-    margin-left: 6px;
+    font-size: 16px;
 }

@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import {BiChevronDown} from 'react-icons/bi';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
   <div
@@ -79,12 +80,14 @@ const CreateComplaint = ({closeModal}) => {
             }}
             />           
 
-        <Button
-          variant="contained"
-          sx={{width: "150px", height: "40px", textTransform: "capitalize"}}
-        >
-          Submit
-        </Button>
+<GlobalCustomButton
+              type="sumbit"
+              
+            >
+                
+                Submit
+               </GlobalCustomButton>
+      
       </Box>
     </Box>
   );

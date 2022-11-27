@@ -122,7 +122,7 @@ const EmployeeView = ({ open, setOpen, employee }) => {
           </div>
           <BottomWrapper>
           <GlobalCustomButton
-          style={{ fontSize: "14px", fontWeight: "600" }}
+         
              onClick={() => handleDelete()}
             color="error"
           >
@@ -131,7 +131,7 @@ const EmployeeView = ({ open, setOpen, employee }) => {
             </GlobalCustomButton>
            
             <GlobalCustomButton
-          style={{ fontSize: "14px", fontWeight: "600" }}
+          
            disabled={editing}
            onClick={() => {
              setEditing(!editing);
@@ -262,7 +262,7 @@ const EmployeeView = ({ open, setOpen, employee }) => {
         </GridBox>
           {editing && (
             <BottomWrapper>
-              <GlobalCustomButton  style={{ fontSize: "18px", fontWeight: "600" }} text='Save Form' type='submit' loading={loading} />
+              <GlobalCustomButton  text='Save Form' type='submit' loading={loading} />
             </BottomWrapper>
           )}
         </form>

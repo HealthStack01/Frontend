@@ -291,7 +291,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
     <>
       <div
         className="card "
-        style={{ height: '90vh', width: '100%', overflow: 'hidden' }}
+        style={{ height: '100%', width: '100%', overflowX: 'hidden' }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -332,7 +332,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
 
          </GridBox>
             
-            <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1rem"}}>
+            <div style={{display:"flex", alignItems:"center", gap:"5rem", marginBottom:"0.6rem"}}>
             <BasicDateTimePicker name="dateOfRequest" label="Date of Request" />
             
             <div>
@@ -353,7 +353,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </div>
 
 
-          <GridBox style={{ marginTop: '-0.6rem' }}>
+          <div>
             <McText
               txt={'Clinical Information'}
               color={'#0064CC'}
@@ -361,8 +361,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
               bold={'700'}
               size={'18px'}
             />
-
-          </GridBox>
+          </div>
           <GridBox>
           <button
               style={{
@@ -479,34 +478,26 @@ export function ReferralCreate({ showModal, setShowModal }) {
               Add Service
             </button>
           </GridBox>
-          <GridBox>
+          <div style={{display:"flex", flexDirection:"column", gap:"0.6rem", marginBottom:"10px"}}>
           
+              <Input
+                name="physicianName"
+                label="Physician' Name"
+                type="text"
+              />
               <Textarea
                 placeholder="Type your message here"
                 name="reason"
                 type="text"
                 label="Reason for Request"
               />
-              <Input
-                name="physicianName"
-                label="Physician's Name"
-                type="text"
-              />
-</GridBox>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
+          </div>
+          <GlobalCustomButton
+              
+              type="submit"
+            >
+               Submit
+               </GlobalCustomButton>  
         </form>
       </div>
     </>
@@ -1090,9 +1081,9 @@ export function ReferralDetails() {
       <div
         // className="card"
         style={{
-          height: '50vh',
+          height: '100%',
           overflowY: 'scroll',
-          width: '40vw',
+          width: '100%',
           margin: '0 auto',
         }}
       >
@@ -1297,16 +1288,26 @@ export function ReferralDetails() {
           </Grid>
         </div>
         {/*  */}
-        <div style={{ display: 'flex', marginTop: '1rem' }}>
-          <Button onClick={() => setApprove(true)}>Approve</Button>
-          <Button onClick={() => setDeny(true)}>Decline</Button>
+        <div style={{ display: 'flex', gap:"1rem", marginTop: '1rem' }}>
+        <GlobalCustomButton
+                 onClick={() => setApprove(true)}
+                >
+            Approve
+            
+                      </GlobalCustomButton>
+                      <GlobalCustomButton
+                 onClick={() => setDeny(true)}
+                >
+           Decline
+            
+                      </GlobalCustomButton>
         </div>
       </div>
 
       {approve && (
         <>
           <ModalBox open={approve} onClose={() => setApprove(false)}>
-            <form>
+            <form style={{display:"flex", flexDirection:"column", gap:"1rem"}}>
               <ModalHeader text={`Approve Referral  13229-BA`} />
 
               <Grid container spacing={2}>
@@ -1326,7 +1327,12 @@ export function ReferralDetails() {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Button>OK</Button>
+                <GlobalCustomButton
+                 
+                >
+           OK
+                      </GlobalCustomButton>
+                  
                 </Grid>
               </Grid>
             </form>
@@ -1336,7 +1342,7 @@ export function ReferralDetails() {
       {deny && (
         <>
           <ModalBox open={deny} onClose={() => setDeny(false)}>
-            <form>
+            <form style={{display:"flex", flexDirection:"column", gap:"1rem"}}>
               <ModalHeader text={`Deny Referral   13229-BA`} />
 
               <Grid container spacing={2}>
@@ -1356,7 +1362,11 @@ export function ReferralDetails() {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Button>OK</Button>
+                <GlobalCustomButton
+                 
+                 >
+            OK
+                       </GlobalCustomButton>
                 </Grid>
               </Grid>
             </form>

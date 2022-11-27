@@ -91,7 +91,7 @@ export const BandForm = ({ open, setOpen }) => {
           <BottomWrapper>
             <GlobalCustomButton
               onClick={handleSubmit}
-              style={{ fontSize: "16px", fontWeight: "600",marginTop:"1rem" }}
+              style={{marginTop:"1rem" }}
             >
                <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
                Create Band

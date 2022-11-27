@@ -101,7 +101,7 @@ const BandView = ({ open, setOpen, band }) => {
           </div> */}
           <BottomWrapper>
           <GlobalCustomButton
-          style={{ fontSize: "14px", fontWeight: "600" }}
+          
              onClick={() => handleDelete()}
             color="error"
           >
@@ -110,7 +110,7 @@ const BandView = ({ open, setOpen, band }) => {
             </GlobalCustomButton>
            
             <GlobalCustomButton
-          style={{ fontSize: "14px", fontWeight: "600" }}
+          
            disabled={editing}
            onClick={() => {
              setEditing(!editing);
@@ -165,7 +165,7 @@ const BandView = ({ open, setOpen, band }) => {
 
           {editing && (
             <BottomWrapper>
-              <GlobalCustomButton style={{ fontSize: "16px", fontWeight: "600" }} text="Save Form" type="submit" loading={loading} />
+              <GlobalCustomButton  text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>

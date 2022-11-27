@@ -769,7 +769,7 @@ export function EmployeeModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newEmployeeModule = {
