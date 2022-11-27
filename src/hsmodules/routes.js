@@ -182,7 +182,7 @@ import PreAuth from "./ManagedCare/PreAuth";
 
 import CRMHome from "./CRM/CrmHome";
 import Leads from "./CRM/Lead";
-import Proposal from "./CRM/Proposal";
+import Proposal from "./CRM/Proposals";
 import Invoice from "./CRM/Invoice";
 import SLA from "./CRM/SLA";
 import CrmAppointment from "./CRM/Appointment";
@@ -214,8 +214,8 @@ import ProviderPayment from "./ManagedCare/ProviderPayment";
 
 import ComplaintDetails from "./ManagedCare/ComplaintDetails";
 
-import WalletOTP from './PouchiiWallet/walletOtp';
-import CheckIn from './ManagedCare/Checkin';
+import WalletOTP from "./PouchiiWallet/walletOtp";
+import CheckIn from "./ManagedCare/Checkin";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -853,8 +853,8 @@ const AppRoutes = () => {
             />
           </Route>
         </Route>
-          {/**************************Pouchii Wallet *************************************** */}
-          <Route path="/verify-otp" element={<WalletOTP />} />
+        {/**************************Pouchii Wallet *************************************** */}
+        <Route path="/verify-otp" element={<WalletOTP />} />
       </Routes>
     </>
   );

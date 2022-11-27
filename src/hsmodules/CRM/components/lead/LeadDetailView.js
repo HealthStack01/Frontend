@@ -34,6 +34,8 @@ import {contactsData, additionalInformationData, staffsData} from "./data";
 import ScheduleAppointment from "./ScheduleAppointment";
 import LeadUpload from "./LeadUpload";
 import {toast} from "react-toastify";
+import CrmAppointment from "../../Appointment";
+import CrmProposals from "../../Proposals";
 
 const CustomerView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -406,7 +408,11 @@ const CustomerContactDetailsView = () => {
           onClick={() => setContactModal(true)}
           size="small"
         >
-          <AddCircleOutlineOutlinedIcon fontSize="small" /> Add Contact
+          <AddCircleOutlineOutlinedIcon
+            sx={{marginRight: "5px"}}
+            fontSize="small"
+          />
+          Add Contact
         </Button>
       </Box>
 
@@ -475,7 +481,11 @@ const StaffsListView = () => {
           sx={{textTransform: "capitalize"}}
           onClick={handleAddStaff}
         >
-          <AddCircleOutlineOutlinedIcon fontSize="small" /> Add Staff
+          <AddCircleOutlineOutlinedIcon
+            sx={{marginRight: "5px"}}
+            fontSize="small"
+          />
+          Add Staff
         </Button>
       </Box>
 
@@ -626,12 +636,19 @@ const UploadView = () => {
 };
 
 const AppointmentsView = () => {
-  const [appointments, setAppointments] = useState([]);
-  const [scheduleAppointment, setScheduleAppointment] = useState(false);
+  return (
+    <>
+      <CrmAppointment standAlone={true} />
+    </>
+  );
+};
 
-  const appointmentColumns = [];
-
-  return <></>;
+const ProposalsView = () => {
+  return (
+    <>
+      <CrmProposals standAlone={true} />
+    </>
+  );
 };
 
 const LeadDetail = () => {
@@ -665,13 +682,22 @@ const LeadDetail = () => {
       case "appointments":
         return <AppointmentsView />;
 
+      case "proposal":
+        return <ProposalsView />;
+
       default:
         break;
     }
   };
 
   return (
-    <Box sx={{width: "800px", minHeight: "300px", maxHeight: "80vh"}}>
+    <Box
+      sx={{
+        width: "800px",
+        minHeight: "300px",
+        maxHeight: "80vh",
+      }}
+    >
       <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2}>
         <Button
           variant="contained"
@@ -727,7 +753,7 @@ const LeadDetail = () => {
           variant="outlined"
           size="small"
           sx={{textTransform: "capitalize", marginRight: "10px"}}
-          onClick={() => handleSetCurrentView("proprosal")}
+          onClick={() => handleSetCurrentView("proposal")}
         >
           Proposal
         </Button>
