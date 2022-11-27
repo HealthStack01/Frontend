@@ -62,6 +62,9 @@ const MuiCustomDatePicker = ({
                     padding: "0 10px",
                   },
                 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             )}
           />

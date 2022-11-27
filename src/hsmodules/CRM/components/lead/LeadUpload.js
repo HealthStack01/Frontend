@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, Grid, Typography} from "@mui/material";
 import {FileUploader} from "react-drag-drop-files";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
@@ -28,6 +28,7 @@ const UploadComponent = ({}) => {
 
 const LeadUpload = ({closeModal, addUpload}) => {
   const [fileType, setFileType] = useState("");
+  const [docType, setDoctype] = useState("");
   const [file, setFile] = useState(null);
 
   const selectOptions = [
@@ -51,6 +52,7 @@ const LeadUpload = ({closeModal, addUpload}) => {
     const data = {
       file_type: fileType,
       file_name: file[0].name,
+      doc_type: docType,
       date: moment.now(),
       file: file[0],
     };
@@ -59,13 +61,24 @@ const LeadUpload = ({closeModal, addUpload}) => {
   };
 
   return (
-    <Box sx={{width: "400px", maxHeight: "600px"}}>
+    <Box sx={{width: "500px", maxHeight: "600px"}}>
       <Box mt={1} mb={2}>
-        <CustomSelect
-          options={selectOptions}
-          label="File Type"
-          onChange={e => setFileType(e.target.value)}
-        />
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <CustomSelect
+              options={selectOptions}
+              label="File"
+              onChange={e => setFileType(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <CustomSelect
+              options={["SLA", "Letter of Intrest"]}
+              label="Type"
+              onChange={e => setDoctype(e.target.value)}
+            />
+          </Grid>
+        </Grid>
       </Box>
 
       <Box>
