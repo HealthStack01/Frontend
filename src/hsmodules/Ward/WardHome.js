@@ -41,6 +41,7 @@ export default function WardHome({children}) {
       locationId: state.WardModule.selectedWard._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "ward",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -49,8 +50,18 @@ export default function WardHome({children}) {
   }, [state.WardModule.selectedWard]);
 
   const handleChangeWard = async () => {
-    await setShowModal(true);
+    await setState(prev => ({
+      ...prev,
+      WardModule: {...prev.WardModule, locationModal: true},
+    }));
     // console.log( showModal)
+  };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      WardModule: {...prev.WardModule, locationModal: false},
+    }));
   };
 
   return (
@@ -60,16 +71,16 @@ export default function WardHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body"></div>
         <div className="layout__content-main">
-          <ModalBox open={showModal} onClick={() => setShowModal(false)}>
+          <ModalBox open={state.WardModule.locationModal}>
             <Box
               sx={{
-                width: "600px",
-                maxHeight: "450px",
+                maxWidth: "600px",
+                maxHeight: "80vh",
               }}
             >
               <WardList
                 standalone={true}
-                closeModal={() => setShowModal(false)}
+                closeModal={handleCloseLocationModal}
               />
             </Box>
           </ModalBox>

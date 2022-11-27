@@ -39,6 +39,7 @@ export default function ClinicHome({children}) {
       locationId: state.ClinicModule.selectedClinic._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "clinic",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -47,8 +48,17 @@ export default function ClinicHome({children}) {
   }, [state.ClinicModule]);
 
   const handleChangeClinic = async () => {
-    await setShowModal(true);
-    // console.log( showModal)
+    await setState(prev => ({
+      ...prev,
+      ClinicModule: {...prev.ClinicModule, locationModal: true},
+    }));
+  };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      ClinicModule: {...prev.ClinicModule, locationModal: false},
+    }));
   };
 
   return (
@@ -57,16 +67,16 @@ export default function ClinicHome({children}) {
                <div className="is-1"> Communication Command Center</div>     */}
       <section className="hero is-info is-fullheight">
         <div className="layout__content-main">
-          <ModalBox open={showModal} onClick={() => setShowModal(false)}>
+          <ModalBox open={state.ClinicModule.locationModal}>
             <Box
               sx={{
-                width: "600px",
-                maxHeight: "450px",
+                maxWidth: "600px",
+                maxHeight: "80vh",
               }}
             >
               <ClinicList
                 standalone={true}
-                closeModal={() => setShowModal(false)}
+                closeModal={handleCloseLocationModal}
               />
             </Box>
           </ModalBox>

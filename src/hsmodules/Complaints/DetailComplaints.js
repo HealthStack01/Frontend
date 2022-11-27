@@ -7,19 +7,17 @@ import {BsArrowLeftShort} from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import {Collapse} from "@mui/material";
 
-const ComplaintDetails = () => {
+const DetailComplaint = () => {
     const [text, setText] = useState('')
-    const [isOpenCollapse, setIsOpenCollapse] = useState(null);
+    const [isOpen, setIsOpen] = useState(null);
 
 const handleOpen = (clickedIndex) => {
-  if (isOpenCollapse === clickedIndex) {
-    setIsOpenCollapse(null);
+  if (isOpen === clickedIndex) {
+    setIsOpen(null);
   } else {
-    setIsOpenCollapse(clickedIndex);
+    setIsOpen(clickedIndex);
   }
 };
-
-
 
     const dummyComplaints = [
         {
@@ -86,7 +84,7 @@ const handleOpen = (clickedIndex) => {
                         </div>
                         <p style={{color:"#979DAC", margin: '0 0 0 50px'}}>{data.date}</p>
             
-                  <Collapse in={isOpenCollapse === index}>
+                  <Collapse in={isOpen === index}>
                   <CKEditor 
                 editor={ClassicEditor}
                 data={text}
@@ -105,4 +103,5 @@ const handleOpen = (clickedIndex) => {
   )
 }
 
-export default ComplaintDetails
+export default DetailComplaint
+

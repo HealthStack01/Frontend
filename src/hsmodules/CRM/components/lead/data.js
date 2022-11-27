@@ -60,10 +60,18 @@ export const informationData = [
 
 export const additionalInformationData = [
   {
-    created_by: "Test Testing",
-    created_at: moment.now(),
+    created_by: "Adam Shandler",
+    created_at: moment().subtract(20, "days"),
     information:
       "Sed nulla aperiam id illo aperiam non nesciunt illo. Eum beatae voluptates cum quisquam veritatis et labore quisquam qui magnam voluptas aut maiores blanditiis quo repellendus ipsum.",
     _id: "1",
+  },
+
+  {
+    created_by: "David Apolskis",
+    created_at: moment().subtract(25, "days"),
+    information:
+      "Sed nulla aperiam id illo aperiam non nesciunt illo. Eum beatae voluptates cum quisquam veritatis et labore quisquam qui magnam voluptas aut maiores blanditiis quo repellendus ipsum. Cum commodi sunt sed debitis ipsam non molestiae quia non beatae tempore cum dolor veniam est nihil cupiditate. In praesentium magnam ut animi accusantium eum sint accusantium.",
+    _id: "2",
   },
 ];

@@ -11,8 +11,8 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {
   BottomWrapper,
   DetailsWrapper,
-  GrayWrapper,
-  GridWrapper,
+  Gray,
+  GridBox,
   HeadWrapper,
   PageWrapper,
 } from "../app/styles";
@@ -20,6 +20,12 @@ import dayjs, { Dayjs } from "dayjs";
 import { createBandSchema } from "./ui-components/schema";
 import CustomSelect from "../../components/inputs/basic/Select";
 import { bandTypeOptions } from "../../dummy-data";
+import CloseIcon from '@mui/icons-material/Close';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModalBox from "../../components/modal";
+
 // import { createClientSchema } from "./schema";
 
 const BandView = ({ open, setOpen, band }) => {
@@ -87,64 +93,83 @@ const BandView = ({ open, setOpen, band }) => {
   };
 
   return (
-    <PageWrapper>
-      <GrayWrapper>
+   <ModalBox open={open} onClose={setOpen} width={"50vw"} header={"Band Detail"}>
         <HeadWrapper>
-          <div>
+          {/* <div style={{width:"100%"}}>
             <h2>Band Detail</h2>
             <span>Band detail of {band.name}</span>
-          </div>
+          </div> */}
           <BottomWrapper>
+          <GlobalCustomButton
+          style={{ fontSize: "14px", fontWeight: "600" }}
+             onClick={() => handleDelete()}
+            color="error"
+          >
+            <DeleteIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Delete Band
+            </GlobalCustomButton>
+           
             <GlobalCustomButton
-              text="Delete Band"
-              color="secondary"
-              onClick={() => handleDelete()}
-            />
-
-            <GlobalCustomButton
-              text={`${!editing ? "Edit Client" : "Cancel Editing"}`}
-              showicon
-              icon="bi bi-pen-fill"
-              disabled={editing}
-              onClick={() => {
-                setEditing(!editing);
-              }}
-            />
+          style={{ fontSize: "14px", fontWeight: "600" }}
+           disabled={editing}
+           onClick={() => {
+             setEditing(!editing);
+           }}
+          >
+             <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
+             {`${!editing ? "Edit Band" : "Cancel Band"}`}
+             
+            </GlobalCustomButton>
+          
+          
           </BottomWrapper>
         </HeadWrapper>
         <form onSubmit={handleSubmit(submit)}>
           <ToastContainer theme="colored" />
 
-          <GridWrapper>
+          <GridBox>
             {!editing ? (
-              <ViewText label=" Name" text={band.name} />
+
+                <Input
+                label="Name"
+                register={register("name")}
+                defaultValue={band?.name}
+                sx={{width:"50wv"}}
+              />
             ) : (
               <Input
-                label=" Name"
+          
+                label="Name"
                 register={register("name")}
                 errorText={errors?.name?.message}
+                sx={{width:"50wv"}}
               />
             )}
             {!editing ? (
-              <ViewText label="Band Type" text={band.bandType} />
+                <Input
+                sx={{width:"50wv"}}
+                label="Band Type"
+                register={register("bandType")}
+                defaultValue={band?.bandType}
+              />
             ) : (
               <CustomSelect
+              sx={{width:"50wv"}}
                 label="Band Type"
                 register={register("bandType")}
                 options={bandTypeOptions}
                 errorText={errors?.bandtType?.message}
               />
             )}
-          </GridWrapper>
+          </GridBox>
 
           {editing && (
             <BottomWrapper>
-              <GlobalCustomButton text="Save Form" type="submit" loading={loading} />
+              <GlobalCustomButton style={{ fontSize: "16px", fontWeight: "600" }} text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>
-      </GrayWrapper>
-    </PageWrapper>
+        </ModalBox>
   );
 };
 

@@ -39,15 +39,27 @@ export default function RadiologyHome({children}) {
       locationId: state.RadiologyModule.selectedRadiology._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "radiology", //Added so can be used in the switch case function later to change location..
     };
+
     setState(prevstate => ({
       ...prevstate,
       employeeLocation: newEmployeeLocation,
     }));
-  }, [state.StoreModule]);
+  }, [state.RadiologyModule]);
 
   const handleChangeStore = async () => {
-    await setShowModal(true);
+    await setState(prev => ({
+      ...prev,
+      RadiologyModule: {...prev.RadiologyModule, locationModal: true},
+    }));
+  };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      RadiologyModule: {...prev.RadiologyModule, locationModal: false},
+    }));
   };
 
   return (
@@ -55,16 +67,16 @@ export default function RadiologyHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <ModalBox open={showModal}>
+            <ModalBox open={state.RadiologyModule.locationModal}>
               <Box
                 sx={{
-                  width: "600px",
-                  maxHeight: "450px",
+                  maxWidth: "600px",
+                  maxHeight: "80vh",
                 }}
               >
                 <StoreListStandalone
                   standalone={true}
-                  closeModal={() => setShowModal(false)}
+                  closeModal={handleCloseLocationModal}
                 />
               </Box>
             </ModalBox>

@@ -527,7 +527,7 @@ export function StoreListStandalone({standalone, closeModal}) {
     await setSelectedStore(Store);
 
     const newRadModule = {
-      selectedRad: Store,
+      selectedRadiology: Store,
       show: "detail",
     };
     await setState(prevstate => ({

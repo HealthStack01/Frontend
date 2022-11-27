@@ -12,7 +12,8 @@ import LocationSearch from '../helpers/LocationSearch';
 import EmployeeSearch from '../helpers/EmployeeSearch';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 import 'react-datepicker/dist/react-datepicker.css';
-import { GridWrapper } from '../app/styles';
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import { GridBox } from '../app/styles';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
@@ -290,7 +291,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
     <>
       <div
         className="card "
-        style={{ height: '80vh', width: '100%', overflow: 'hidden' }}
+        style={{ height: '90vh', width: '100%', overflow: 'hidden' }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -318,18 +319,22 @@ export function ReferralCreate({ showModal, setShowModal }) {
               />
             </Grid>
           </Grid>
-          <GridWrapper>
-            <Input
+         <GridBox>
+         <Input
               name="healthCareProvider"
               label="Health Care Provider"
               type="text"
+              
             />
-
             <Input name="preAuthId" label="Pre-auth ID" type="text" />
-
+           
             <Input name="claimId" label="Claim ID" type="text" />
 
+         </GridBox>
+            
+            <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1rem"}}>
             <BasicDateTimePicker name="dateOfRequest" label="Date of Request" />
+            
             <div>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
@@ -345,9 +350,10 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 <FormControlLabel value="no" control={<Radio />} label="No" />
               </RadioGroup>
             </div>
-          </GridWrapper>
+            </div>
 
-          <GridWrapper style={{ marginTop: '-1rem' }}>
+
+          <GridBox style={{ marginTop: '-0.6rem' }}>
             <McText
               txt={'Clinical Information'}
               color={'#0064CC'}
@@ -356,7 +362,9 @@ export function ReferralCreate({ showModal, setShowModal }) {
               size={'18px'}
             />
 
-            <button
+          </GridBox>
+          <GridBox>
+          <button
               style={{
                 float: 'right',
                 backgroundColor: '#ECF3FF',
@@ -373,24 +381,18 @@ export function ReferralCreate({ showModal, setShowModal }) {
               />
               Add complaints
             </button>
-          </GridWrapper>
-
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
               <CustomSelect
                 name="complaints"
                 label="Complaints"
                 options={CustomSelectData}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+          
               <CustomSelect
                 name="duration"
                 label="Duration"
                 options={CustomSelectData}
               />
-            </Grid>
-          </Grid>
+          </GridBox>
 
           <Grid container spacing={2} my={2}>
             <Grid item xs={12} sm={12}>
@@ -404,7 +406,7 @@ export function ReferralCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <GridWrapper style={{ overflow: 'hidden' }}>
+          <GridBox style={{ overflow: 'hidden' }}>
             <CustomSelect
               name="provisionalDiagnosis"
               label="Provisional Diagnosis"
@@ -476,29 +478,21 @@ export function ReferralCreate({ showModal, setShowModal }) {
               />
               Add Service
             </button>
-          </GridWrapper>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+          </GridBox>
+          <GridBox>
+          
               <Textarea
                 placeholder="Type your message here"
                 name="reason"
                 type="text"
                 label="Reason for Request"
               />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
               <Input
                 name="physicianName"
                 label="Physician's Name"
                 type="text"
               />
-            </Grid>
-          </Grid>
-
+</GridBox>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Button
@@ -1057,9 +1051,11 @@ export function ReferralList({ showModal, setShowModal }) {
 
                 {handleCreateNew && (
                   <GlobalCustomButton
-                    text="Add new "
-                    onClick={handleCreateNew}
-                  />
+                  onClick={handleCreateNew}
+                >
+            <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+            Add New
+                      </GlobalCustomButton>
                 )}
               </TableMenu>
               {value === 'list' ? (

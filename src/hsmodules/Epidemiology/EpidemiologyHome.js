@@ -39,6 +39,7 @@ export default function EpidemiologyHome({children}) {
       locationId: state.EpidemiologyModule.selectedEpid._id,
       facilityId: user.currentEmployee.facilityDetail._id,
       facilityName: user.currentEmployee.facilityDetail.facilityName,
+      case: "epidemnology",
     };
     setState(prevstate => ({
       ...prevstate,
@@ -47,8 +48,18 @@ export default function EpidemiologyHome({children}) {
   }, [state.EpidemiologyModule]);
 
   const handleChangeStore = async () => {
-    await setStoreModal(true);
+    await setState(prev => ({
+      ...prev,
+      EpidemiologyModule: {...prev.EpidemiologyModule, locationModal: true},
+    }));
     // console.log(showModal);
+  };
+
+  const handleCloseLocationModal = () => {
+    setState(prev => ({
+      ...prev,
+      EpidemiologyModule: {...prev.EpidemiologyModule, locationModal: false},
+    }));
   };
 
   return (
@@ -56,16 +67,16 @@ export default function EpidemiologyHome({children}) {
       <section className="hero is-info is-fullheight">
         <div className="hero-body">
           <div className="layout__content-main">
-            <ModalBox open={storeModal}>
+            <ModalBox open={state.EpidemiologyModule.locationModal}>
               <Box
                 sx={{
-                  width: "600px",
-                  maxHeight: "500px",
+                  maxWidth: "600px",
+                  maxHeight: "80vh",
                 }}
               >
                 <StoreListStandalone
                   standalone={true}
-                  closeModal={() => setStoreModal(false)}
+                  closeModal={handleCloseLocationModal}
                 />
               </Box>
             </ModalBox>

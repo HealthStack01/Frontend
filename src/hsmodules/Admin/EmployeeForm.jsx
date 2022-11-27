@@ -9,6 +9,8 @@ import { UserContext } from '../../context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { bandTypeOptions } from '../../dummy-data';
 import client from '../../feathers';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 import {
   BottomWrapper,
   DetailsWrapper,
@@ -16,6 +18,7 @@ import {
   GridWrapper,
   HeadWrapper,
   PageWrapper,
+  GridBox
 } from '../app/styles';
 // import { createBandSchema } from './schema';
 import { createBandSchema, createEmployeeSchema } from './ui-components/schema';
@@ -60,10 +63,10 @@ export const EmployeeForm = ({ open, setOpen }) => {
     setLoading(false);
   };
   return (
-    <ModalBox open={open} onClose={setOpen}>
+    <ModalBox open={open} onClose={setOpen} width={"50vw"}>
       <p className='card-header-title'>Create Employee</p>
-
       <form onSubmit={handleSubmit(submit)}>
+        <GridBox>
         <Input
           register={register('firstname')}
           name='firstname'
@@ -88,6 +91,8 @@ export const EmployeeForm = ({ open, setOpen }) => {
           placeholder='Last Name'
           errorText={errors?.lastname?.message}
         />
+        </GridBox>
+        <GridBox>
         <Input
           register={register('profession')}
           name='profession'
@@ -112,7 +117,8 @@ export const EmployeeForm = ({ open, setOpen }) => {
           placeholder='Email'
           errorText={errors?.email?.message}
         />
-
+</GridBox>
+<GridBox>
         <Input
           register={register('department')}
           name='department'
@@ -137,11 +143,12 @@ export const EmployeeForm = ({ open, setOpen }) => {
           placeholder='Password'
           errorText={errors?.password?.message}
         />
-
+ </GridBox>
         <BottomWrapper>
-          <Button type='submit' loading={loading}>
-            Create
-          </Button>
+          <GlobalCustomButton type='submit' loading={loading} style={{ fontSize: "16px", fontWeight: "600" }}>
+          <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Create Employee
+          </GlobalCustomButton>
         </BottomWrapper>
       </form>
     </ModalBox>
