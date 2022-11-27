@@ -261,7 +261,6 @@ const ComplaintDetails = lazy(() => import("./ManagedCare/ComplaintDetails"));
 
 const WalletOTP = lazy(() => import("./PouchiiWallet/walletOtp"));
 const CheckIn = lazy(() => import("./ManagedCare/Checkin"));
-const DetailComplaint = lazy(() => "./Complaints/DetailComplaints");
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -809,60 +808,21 @@ const AppRoutes = () => {
 
             {/**************************COMPLAINT *************************************** */}
             <Route
-              path="/app/managed-care/complaintDetails"
-              element={<ComplaintDetails />}
-            />
-
-            <Route
-              path="/app/managed-care/providerpayment"
-              element={<ProviderPayment />}
-            />
-
-            <Route
-              path="/app/managed-care/fundmanagement"
-              element={<FundsManagement />}
-            />
-
-            <Route path="/app/managed-care/usermgt" />
-            <Route path="/app/managed-care/report" />
-            <Route
-              path="/app/managed-care/healthplan"
-              element={<HealthPlan />}
-            />
-            <Route
-              path="/app/managed-care/premiums"
-              element={<PremiumPayment />}
-            />
-          </Route>
-          {/**************************CRM *************************************** */}
-          <Route path="/app/crm" element={<CRMHome />}>
-            <Route index element={<CrmDashboard />} />
-
-            <Route path="/app/crm/lead" element={<Leads />} />
-            <Route path="/app/crm/proposal" element={<Proposal />} />
-            <Route path="/app/crm/invoice" element={<Invoice />} />
-            <Route path="/app/crm/SLA" element={<SLA />} />
-            <Route path="/app/crm/appointment" element={<CrmAppointment />} />
-            <Route path="/app/crm/deal" element={<Deal />} />
-            <Route path="/app/crm/dashboard" element={<CrmDashboard />} />
-          </Route>
-
-          {/**************************COMPLAINT *************************************** */}
-          <Route
-            path="/app/complaints"
-            element={<Complaint />}
-          >
-
-
-          {/* <Route path="/app/complaints/detailComplaints" component={<ProviderPayment/>} /> */}
-            {/* <Route path="/app/crm/proposal" element={<Proposal />} />
+              path="/app/complaints/complaints-complaints"
+              element={<Complaint />}
+            >
+              {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
+              {/* <Route path="/app/crm/proposal" element={<Proposal />} />
             <Route path="/app/crm/invoice" element={<Invoice />} />
             <Route path="/app/crm/SLA" element={<SLA />} />
             <Route path="/app/crm/appointment" element={<CrmAppointment />} />
             <Route path="/app/crm/deal" element={<Deal />} />
             <Route path="/app/crm/dashboard" /> */}
             </Route>
-
+            <Route
+              path="/app/complaints/detailComplaints"
+              element={<DetailComplaint />}
+            />
             {/**************************Referral *************************************** */}
             <Route path="/app/referral" element={<ReferralHome />}>
               <Route index element={<ReferralDashboard />} />
