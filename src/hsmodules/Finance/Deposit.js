@@ -228,7 +228,7 @@ export default function MakeDeposit({closeModal, balance}) {
     <Box
       container
       sx={{
-        width: "500px",
+        width: "600px",
       }}
       mt={3}
     >
@@ -308,9 +308,15 @@ export default function MakeDeposit({closeModal, balance}) {
        sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        gap: "5px",
       }}
       >
+          <GlobalCustomButton
+          onClick={handleAccept}
+          >
+             <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" /> 
+             Accept
+          </GlobalCustomButton>
       <GlobalCustomButton
        >
       <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />        

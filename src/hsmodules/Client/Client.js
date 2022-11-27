@@ -1107,7 +1107,7 @@ export function ClientDetail({closeDetailModal}) {
 
   const handleCreateWallet = async () => {
     try {
-      const res = await api.post("/register", {
+      const res = await api.post("/register?scheme=4865616c7468737461636b", {
         firstName: Client.firstname,
         lastName: Client.lastname,
         phoneNumber:Client.phone,
