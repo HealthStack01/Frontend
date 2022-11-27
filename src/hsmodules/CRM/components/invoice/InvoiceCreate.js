@@ -118,7 +118,7 @@ const InvoiceCreate = ({closeModal}) => {
                   />
                 </Grid>
               </Grid>
-
+              {/* 
               <Box sx={{display: "flex", width: "100%"}} mt={2}>
                 <Grid container spacing={2}>
                   <Grid item lg={4} md={4} sm={6}>
@@ -147,7 +147,7 @@ const InvoiceCreate = ({closeModal}) => {
                     </Box>
                   </Grid>
                 </Grid>
-              </Box>
+              </Box> */}
             </Box>
           </Grid>
 

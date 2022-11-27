@@ -280,10 +280,22 @@ export const getUploadColumns = (action, disableAction) => {
       required: true,
       inputType: "TEXT",
     },
+
+    {
+      name: "Doc Type",
+      style: {color: "#0364FF"},
+      key: "doc_type",
+      description: "Enter Date",
+      selector: row => row.doc_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
     {
       name: "File Type",
       style: {color: "#0364FF"},
-      key: "priority",
+      key: "file_type",
       description: "Enter Date",
       selector: row => row.file_type,
       sortable: true,

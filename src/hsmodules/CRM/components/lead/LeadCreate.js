@@ -80,9 +80,10 @@ const LeadsCreate = ({closeModal}) => {
         }}
       >
         <Grid container spacing={2}>
-          <Grid item lg={5} md={6} sm={12}>
+          <Grid item lg={6} md={6} sm={12}>
             <Box item>
               <FormsHeaderText text="Customer Details" />
+
               <Grid container spacing={2} mt={0.5}>
                 <Grid item xs={6}>
                   <Input
@@ -197,7 +198,7 @@ const LeadsCreate = ({closeModal}) => {
 
           {/* ****************************************************************************************** */}
 
-          <Grid item lg={7} md={6} sm={12}>
+          <Grid item lg={6} md={6} sm={12}>
             <Box>
               <Box sx={{display: "flex", justifyContent: "space-between"}}>
                 <FormsHeaderText text="Additional Information" />

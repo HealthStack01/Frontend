@@ -49,6 +49,9 @@ const MuiCustomTimePicker = ({
               <TextField
                 name={name}
                 onBlur={onBlur}
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 size="small"
                 {...params}
                 error={error ? true : false}
