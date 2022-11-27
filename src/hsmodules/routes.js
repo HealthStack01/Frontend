@@ -261,6 +261,7 @@ const ComplaintDetails = lazy(() => import("./ManagedCare/ComplaintDetails"));
 
 const WalletOTP = lazy(() => import("./PouchiiWallet/walletOtp"));
 const CheckIn = lazy(() => import("./ManagedCare/Checkin"));
+const DetailComplaint = lazy(() => import("./Complaints/DetailComplaints"))
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -808,7 +809,7 @@ const AppRoutes = () => {
 
             {/**************************COMPLAINT *************************************** */}
             <Route
-              path="/app/complaints/complaints-complaints"
+              path="/app/complaints"
               element={<Complaint />}
             >
               {/* <Route path="/app/complaints/complaints-complaints" element={<Leads />} /> */}
