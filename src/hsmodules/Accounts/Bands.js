@@ -73,7 +73,7 @@ export function BandCreate() {
         shouldDirty: true,
       });
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -733,7 +733,7 @@ export function BandModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newBandModule = {

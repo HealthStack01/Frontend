@@ -118,7 +118,7 @@ export function BandCreate({ open, setOpen }) {
         shouldDirty: true,
       });
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -331,7 +331,6 @@ export function BandList({ showCreateModal }) {
 
               {handleCreateNew && (
                 <GlobalCustomButton
-                style={{ fontSize: "14px", fontWeight: "600" }}
                   onClick={showCreateModal}
                 >
                   <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
@@ -476,7 +475,7 @@ export function BandModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newBandModule = {
@@ -596,8 +595,6 @@ export function BandModify() {
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
                 style={{
-                  backgroundColor: "#48c774",
-                  width: "100px",
                   position: "relative",
                   cursor: "pointer",
                   justifyContent: "center",
@@ -626,8 +623,7 @@ export function BandModify() {
                 type="submit"
                 onClick={handleDelete}
                 style={{
-                  backgroundColor: "#f14668",
-                  width: "100px",
+                 
                   position: "relative",
                   cursor: "pointer",
                   justifyContent: "center",

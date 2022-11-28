@@ -15,7 +15,7 @@ const AuthWrapper: React.FC<AuthProps> = ({ paragraph, children }) => {
       left: 0,
     });
     document.title = 'Health Stack - EMR';
-  });
+  },[]);
   return (
     <PageWrapper>
       <Side />

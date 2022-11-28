@@ -1,7 +1,9 @@
 import { forwardRef } from 'react';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid} from '@mui/material';
 import { Box } from '@mui/system';
 import Input from '../../../components/inputs/basic/Input';
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import House from '../../../assets/images/photoP.svg';
@@ -42,82 +44,97 @@ const HiaCreate = ({ closeModal }) => {
     <Box
       container
       sx={{
-        width: '800px',
+        width: '80vw',
         maxHeight: '80vh',
-        overflowY: 'auto',
+        overflow: 'hidden',
         padding: '10px',
       }}
     >
-      {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
-      <Box item>
+      
+    {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
+      
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
         <FormsHeaderText text="Employers Details" />
         <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Input
+          <Grid item xs={6}>
+           <Box mb={2}>
+           <Input
               register={register('employers_name', { required: true })}
               label="Employers Name"
               placeholder="Enter your first name here"
             />
-          </Grid>
-          <Grid item xs={4}>
-            <Input
+           </Box>
+           <Box>
+           <Input
               register={register('phone_number', { required: true })}
               label="Phone Number"
               placeholder="Enter phone number"
             />
+           </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
+          <Box mb={2}>
             <Input
               register={register('neighbourhood_address', { required: true })}
               label="Neighbourhood"
               placeholder="Enter your residential address line 1 here"
             />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+         </Box>
+         <Box>
             <Input
               register={register('address', { required: true })}
               label="Address"
               placeholder="Enter address"
             />
-          </Grid>
+          </Box>
+         </Grid>
         </Grid>
-      </Box>
+      
 
       {/* ********************************************ADDRESS SECTION FOR FORM********************************************* */}
 
-      <Box>
+      
         <FormsHeaderText text="Business Contact Details" />
 
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
+          <Box mb={2}>
             <Input
               register={register('contact_name', { required: true })}
               label="Contact Name"
               placeholder="Enter contact name"
             />
-          </Grid>
-          <Grid item xs={4}>
+            </Box>
+             <Box>
             <Input
               register={register('contact_position', { required: true })}
               label="Contact Position"
               placeholder="Enter contact position"
             />
+            </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
+          <Box mb={2}>
             <Input
               register={register('contact_phonenumber', { required: true })}
               label="Contact Phone Number"
               placeholder="Enter contact phone number"
             />
+            </Box>
+            <Box>
+            <Input
+              register={register('contact_email', { required: true })}
+              label="Contact Email"
+              placeholder="Enter contact email"
+            />
+            </Box>
           </Grid>
         </Grid>
 
         {/* ***************************************************************************************** */}
 
-        <Grid container spacing={2}>
+        {/* <Grid container spacing={2}>
           <Grid item xs={7}>
             <Input
               register={register('contact_email', { required: true })}
@@ -125,115 +142,118 @@ const HiaCreate = ({ closeModal }) => {
               placeholder="Enter contact email"
             />
           </Grid>
+        </Grid> */}
+         <Box container>
+        <FormsHeaderText text="Photo" />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <img src={House} alt="" />
+            {/* <Input label="Telestaff name" /> */}
+          </Grid>
         </Grid>
       </Box>
+      </Grid>
 
-      <Box>
+      <Grid item xs={6}>
         <FormsHeaderText text="IT Contact Details" />
         <Grid container spacing={2}>
-          <Grid item xs={3}>
+          <Grid item xs={6}>
+          <Box mb={2}>
             <Input
               register={register('contact_name', { required: true })}
               label="Contact Name"
               placeholder="Enter contact name"
             />
-          </Grid>
-          <Grid item xs={3}>
+            </Box>
+            <Box>
             <Input
               register={register('contact_position', { required: true })}
               label="Contact Position"
               type="text"
               placeholder="Enter contact position"
             />
+            </Box>
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={6}>
+          <Box mb={2}>
             <Input
               register={register('contact_phone', { required: true })}
               label="Contact Phone Number"
               placeholder="Enter contact phone number"
             />
-          </Grid>
-
-          <Grid item xs={3}>
+            </Box>
+            <Box>
             <Input
               register={register('contact_name', { required: true })}
               label="Type"
               options={['TYPE 1', 'TYPE 2', 'TYPE 3']}
               placeholder="Select from the options"
             />
+            </Box>
           </Grid>
-        </Grid>
+        
 
         {/* ***************************************************************************************** */}
 
-        <Grid container spacing={2}>
-          <Grid item xs={7}>
-            <Input
+        
+          <Grid item xs={6}>
+          <Box mb={2}>
+          <Input
               register={register('contact_email', { required: true })}
               label="Contact Email"
               type="email"
               placeholder="Enter contact email"
             />
-          </Grid>
-          <Grid item xs={5}>
-            <Input
+          </Box>
+           <Box>
+           <Input
               register={register('contact_position', { required: true })}
               label="Bank Account Number"
               type="text"
               placeholder="Enter bank account number"
             />
+           </Box>
           </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
+               
           <Grid item xs={6}>
+            <Box mb={2}>
             <Input
               register={register('contact_phone', { required: true })}
               label="Plan"
               placeholder="Enter plan type"
             />
-          </Grid>
-
-          <Grid item xs={6}>
+            </Box>
+            <Box>
             <Input
               register={register('contact_email', { required: true })}
               label="Policy Number"
               placeholder="Enter policy number"
             />
+            </Box>
           </Grid>
-        </Grid>
+       
 
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Input
+        
+          <Grid item xs={6}>
+           <Box mb={2}>
+           <Input
               register={register('contact_phone', { required: true })}
               label="NHIS Number"
               placeholder="Enter NHIS number"
             />
-          </Grid>
-
-          <Grid item xs={4}>
-            <Input
+           </Box>
+          
+           <Box>
+           <Input
               register={register('contact_email', { required: true })}
               label="CIN Number"
               placeholder="Enter CIN number"
             />
+           </Box>
           </Grid>
-
-          <Grid item xs={4}>
-            {/* <MuiCustomDatePicker
-              register={register('contact_email', { required: true })}
-              label="Registration Date"
-              control={control}
-
-            /> */}
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
           <Grid item xs={6}>
-            <div style={{ position: 'relative', textAlign: 'center' }}>
+            <div style={{ position: 'relative', textAlign: 'center', marginBottom:"16px"}}>
               <Input
                 register={register('employee_list', { required: true })}
                 label="List of Employees "
@@ -249,9 +269,6 @@ const HiaCreate = ({ closeModal }) => {
                 }}
               />
             </div>
-          </Grid>
-
-          <Grid item xs={6}>
             <div style={{ position: 'relative', textAlign: 'center' }}>
               <Input
                 register={register('employee_list', { required: true })}
@@ -270,41 +287,25 @@ const HiaCreate = ({ closeModal }) => {
               />
             </div>
           </Grid>
-        </Grid>
-      </Box>
-
-      <Box container>
-        <FormsHeaderText text="Photo" />
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <img src={House} alt="" />
-            {/* <Input label="Telestaff name" /> */}
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Button
-          variant="outlined"
+      </Grid>
+      <Box sx={{ display: 'flex', alignItems:'flex-end',marginTop:"1rem", gap:"1rem" }}>
+        <GlobalCustomButton
+              onClick={closeModal}
+              variant="outlined"
           color="error"
-          sx={{
-            width: '150px',
-            height: '40px',
-            textTransform: 'capitalize',
-            marginRight: '15px',
-          }}
-          onClick={closeModal}
-        >
-          Cancel
-        </Button>
-
-        <Button
-          variant="contained"
-          sx={{ width: '150px', height: '40px', textTransform: 'capitalize' }}
-        >
-          Submit
-        </Button>
+            >
+               <AddCircleOutline  fontSize="small" sx={{marginRight: "5px"}}/> 
+              Cancel
+               </GlobalCustomButton> 
+        <GlobalCustomButton> 
+              Submit
+               </GlobalCustomButton> 
       </Box>
+      </Grid>
+     
+
+      
+      </Grid>
     </Box>
   );
 };

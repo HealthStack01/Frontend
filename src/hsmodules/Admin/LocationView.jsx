@@ -107,7 +107,7 @@ const LocationView = ({ open, setOpen, location }) => {
          
           <BottomWrapper>
           <GlobalCustomButton
-          style={{ fontSize: "14px", fontWeight: "600" }}
+         
              onClick={() => handleDelete()}
             color="error"
           >
@@ -116,7 +116,7 @@ const LocationView = ({ open, setOpen, location }) => {
             </GlobalCustomButton>
 
           <GlobalCustomButton
-          style={{ fontSize: "14px", fontWeight: "600" }}
+       
            disabled={editing}
            onClick={() => {
              setEditing(!editing);
@@ -164,7 +164,7 @@ const LocationView = ({ open, setOpen, location }) => {
 
           {editing && (
             <BottomWrapper>
-              <GlobalCustomButton style={{ fontSize: "14px", fontWeight: "600" }} text="Save Form" type="submit" loading={loading} />
+              <GlobalCustomButton  text="Save Form" type="submit" loading={loading} />
             </BottomWrapper>
           )}
         </form>
