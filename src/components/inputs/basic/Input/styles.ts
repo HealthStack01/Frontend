@@ -9,7 +9,7 @@ export const InputField = styled.input`
   height: 100%;
   border-radius: 4px;
   border: 1px solid ${({theme}) => theme.grayTwo};
-  width: 100%;
+  color: #000000;
   &:hover {
     border: 1px solid #000000;
   }
@@ -24,6 +24,7 @@ export const InputField = styled.input`
     font-weight: 500;
     z-index: 10;
   }
+
   &:not(placeholder-shown).&:not(:focus) + label {
     top: -0.5rem;
     left: 0.8rem;
@@ -36,7 +37,7 @@ export const InputField = styled.input`
 export const InputBox = styled.div`
   position: relative;
 
-  height: 40px;
+  height: 2.2rem;
   width: 100%;
 
   text-align: left;
@@ -90,7 +91,7 @@ export const BlueInputField = styled.input`
 
 export const BlueInputBox = styled.div`
   position: relative;
-  height: 38px;
+  height: 2rem;
   width: 100%;
 
   text-align: left;

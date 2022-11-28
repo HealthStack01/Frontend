@@ -3,39 +3,12 @@ import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
-import DatePicker from "react-datepicker";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import {FileUploader} from "react-drag-drop-files";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import BasicDatePicker from "../../../../components/inputs/Date";
-import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-import Textarea from "../../../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../../../components/customtable";
-
-const UploadComponent = ({}) => {
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "150px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        border: "1px dashed gray",
-        cursor: "pointer",
-        borderRadius: "7.5px",
-      }}
-    >
-      <CloudUploadOutlinedIcon fontSize="large" />
-      <GlobalCustomButton variant="outlined">Search Device</GlobalCustomButton>
-    </Box>
-  );
-};
 
 const InvoiceCreate = ({closeModal}) => {
   const [plans, setPlans] = useState([]);
@@ -43,10 +16,6 @@ const InvoiceCreate = ({closeModal}) => {
   const {register} = useForm();
 
   const planColumns = [];
-
-  const handleSlaChange = () => {};
-
-  const handleIntentChange = () => {};
 
   return (
     <>
@@ -118,36 +87,6 @@ const InvoiceCreate = ({closeModal}) => {
                   />
                 </Grid>
               </Grid>
-              {/* 
-              <Box sx={{display: "flex", width: "100%"}} mt={2}>
-                <Grid container spacing={2}>
-                  <Grid item lg={4} md={4} sm={6}>
-                    <FormsHeaderText text="Signed SLA" />
-                    <Box>
-                      <FileUploader
-                        multiple={false}
-                        handleChange={handleSlaChange}
-                        name="upload"
-                        types={["jpeg", "jpg"]}
-                        children={<UploadComponent />}
-                      />
-                    </Box>
-                  </Grid>
-
-                  <Grid item lg={4} md={4} sm={6}>
-                    <FormsHeaderText text="Letter of Intent" />
-                    <Box>
-                      <FileUploader
-                        multiple={false}
-                        handleChange={handleIntentChange}
-                        name="upload"
-                        types={["jpeg", "jpg"]}
-                        children={<UploadComponent />}
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box> */}
             </Box>
           </Grid>
 

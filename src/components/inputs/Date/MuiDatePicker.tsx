@@ -54,12 +54,21 @@ const MuiCustomDatePicker = ({
                 sx={{
                   width: "100%",
                   fontSize: "0.8rem",
-                  height: "40px",
-                  "& .MuiInputBase-input.Mui-disabled": {
+                  //height: "2rem",
+                  "& .MuiInputBase-input": {
                     WebkitTextFillColor: "black",
                     fontSize: "0.8rem",
-                    height: "40px",
+                    height: "2.2rem",
                     padding: "0 10px",
+                  },
+
+                  "& 	.MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "black",
+                    color: "black",
+                  },
+
+                  "& .MuiFormLabel-root.Mui-disabled": {
+                    color: "black",
                   },
                 }}
                 InputLabelProps={{

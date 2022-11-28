@@ -29,6 +29,7 @@ import {MdCancel} from "react-icons/md";
 import InvoiceCreate from "./components/invoice/InvoiceCreate";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import InvoiceDetail from "./components/invoice/InvoiceDetail";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -39,10 +40,14 @@ export default function Invoice() {
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
 
   return (
     <section className="section remPadTop">
-      <InvoiceList openCreateModal={() => setCreateModal(true)} />
+      <InvoiceList
+        openCreateModal={() => setCreateModal(true)}
+        openDetailModal={() => setDetailModal(true)}
+      />
       <ModalBox
         open={createModal}
         onClose={() => setCreateModal(false)}
@@ -50,11 +55,19 @@ export default function Invoice() {
       >
         <InvoiceCreate closeModal={() => setCreateModal(false)} />
       </ModalBox>
+
+      <ModalBox
+        open={detailModal}
+        onClose={() => setDetailModal(false)}
+        header="Invoice Detail"
+      >
+        <InvoiceDetail />
+      </ModalBox>
     </section>
   );
 }
 
-export function InvoiceList({openCreateModal}) {
+export function InvoiceList({openCreateModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -92,20 +105,20 @@ export function InvoiceList({openCreateModal}) {
       show: "create",
     };
     await setState(prevstate => ({...prevstate, ClientModule: newClient}));
-    setShowModal(true);
   };
 
   const handleRow = async Client => {
-    setShowModal(true);
-    await setSelectedAppointment(Client);
-    const newClientModule = {
-      selectedAppointment: Client,
-      show: "detail",
-    };
-    await setState(prevstate => ({
-      ...prevstate,
-      AppointmentModule: newClientModule,
-    }));
+    // await setSelectedAppointment(Client);
+    // const newClientModule = {
+    //   selectedAppointment: Client,
+    //   show: "detail",
+    // };
+    // await setState(prevstate => ({
+    //   ...prevstate,
+    //   AppointmentModule: newClientModule,
+    // }));
+
+    openDetailModal();
   };
   //console.log(state.employeeLocation)
 
@@ -467,15 +480,13 @@ export function InvoiceList({openCreateModal}) {
                   </h2>
                 </div>
 
-                {handleCreateNew && (
-                  <GlobalCustomButton onClick={openCreateModal}>
-                    <AddCircleOutline
-                      fontSize="small"
-                      sx={{marginRight: "5px"}}
-                    />
-                    Create Invoice
-                  </GlobalCustomButton>
-                )}
+                <GlobalCustomButton onClick={openCreateModal}>
+                  <AddCircleOutline
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />
+                  Create Invoice
+                </GlobalCustomButton>
               </TableMenu>
               <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 {value === "list" ? (
@@ -486,7 +497,7 @@ export function InvoiceList({openCreateModal}) {
                     pointerOnHover
                     highlightOnHover
                     striped
-                    onRowClicked={handleCreateNew}
+                    onRowClicked={handleRow}
                     progressPending={loading}
                     //conditionalRowStyles={conditionalRowStyles}
                   />

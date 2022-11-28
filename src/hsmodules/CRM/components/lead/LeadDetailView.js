@@ -2,8 +2,6 @@ import {useState, useEffect} from "react";
 import {Button, Grid, Box, Collapse, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
-import DatePicker from "react-datepicker";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -11,9 +9,7 @@ import moment from "moment";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import BasicDatePicker from "../../../../components/inputs/Date";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-import Textarea from "../../../../components/inputs/basic/Textarea";
 import ModalBox from "../../../../components/modal";
 import LeadAddContact from "./AddContact";
 import CustomTable from "../../../../components/customtable";
@@ -242,6 +238,7 @@ const LeadView = () => {
             label="Status"
             options={["Open", "Closed", "Pending"]}
             disabled={!editLead}
+            defaultValue="Open"
             // placeholder="Enter customer name"
           />
         </Grid>
@@ -279,6 +276,7 @@ const LeadView = () => {
             label="Next Action"
             options={["First", "Second", "Third", "Fourth"]}
             disabled={!editLead}
+            defaultValue="Second"
             //placeholder="Enter customer number"
           />
         </Grid>

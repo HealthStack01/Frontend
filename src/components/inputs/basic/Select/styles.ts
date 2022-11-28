@@ -22,5 +22,5 @@ export const InputLabel = styled.label`
   padding: 0 0.25rem;
   background-color: #fff;
   transition: 0.4s;
-  font-size: 0.8rem !important;
+  font-size: 0.7rem !important;
 `;
