@@ -145,7 +145,7 @@ export const EmployeeForm = ({ open, setOpen }) => {
         />
  </GridBox>
         <BottomWrapper>
-          <GlobalCustomButton type='submit' loading={loading} style={{ fontSize: "16px", fontWeight: "600" }}>
+          <GlobalCustomButton type='submit' loading={loading}>
           <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
             Create Employee
           </GlobalCustomButton>

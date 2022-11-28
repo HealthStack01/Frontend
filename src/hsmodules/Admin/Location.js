@@ -142,7 +142,7 @@ export function LocationCreate({ open, setOpen }) {
         shouldDirty: true,
       });
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -240,7 +240,7 @@ export function LocationCreate({ open, setOpen }) {
             </GridBox>
             <GlobalCustomButton
               onClick={onSubmit}
-              style={{ fontSize: "16px", fontWeight: "600" }}
+              
             >
                <CreateIcon fontSize="small" sx={{marginRight: "5px"}}/> 
                Create Location
@@ -466,7 +466,7 @@ export function LocationList({ showCreateModal, showDetailModal }) {
 
               {handleCreateNew && (
                 <GlobalCustomButton
-                style={{ fontSize: "14px", fontWeight: "600" }}
+               
                   onClick={showCreateModal}
                 >
                   <ControlPointIcon fontSize="small" sx={{marginRight: "5px"}} />
@@ -814,7 +814,7 @@ export function LocationModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newLocationModule = {

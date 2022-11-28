@@ -179,7 +179,7 @@ export function AppointmentCreate({ showModal, setShowModal }) {
             shouldDirty: true
         })  */
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -266,8 +266,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
         const  handlecloseModal1 = () =>{
             setBillingModal(false)
             }
-
-
             const handleRow= async(Client)=>{
               //  await setSelectedClient(Client)
                 const    newClientModule={
@@ -1060,7 +1058,7 @@ export function ClientModify({ showModal, setShowModal }) {
     });
 
     return () => {};
-  });
+  },[]);
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
     setValue('appointment_type', e.target.value, {

@@ -79,7 +79,7 @@ export function ChartofAccountCreate() {
         shouldDirty: true,
       });
     }
-  });
+  },[]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -809,7 +809,7 @@ export function ChartofAccountModify() {
             }) */
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newLocationModule = {

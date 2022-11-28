@@ -829,7 +829,6 @@ export  function ComplaintList({openCreateModal}) {
         <div>loading</div>
       )} */}
       <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
-        <h1>Complaints</h1>
         <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
@@ -854,7 +853,7 @@ export  function ComplaintList({openCreateModal}) {
               onClick={openCreateModal}
             >
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-              New Complaint
+             Add New Complaint
             </MuiButton>
           )}
         </TableMenu>
@@ -886,7 +885,7 @@ export  function ComplaintList({openCreateModal}) {
             >
               <div className="complaint_head">
                 <div className="complaint_head_left">
-                  <Avatar src="/img_avatar.png" alt="" />
+                  <Avatar src="/img_avatar.png" alt=""/>
                   <h1>{data.name}</h1>
                 </div>
                 <p>
@@ -897,7 +896,7 @@ export  function ComplaintList({openCreateModal}) {
                 <p style={{color: "#979DAC", width: "60%"}}>
                   {data.description}
                 </p>
-                <p
+                {/* <p
                   style={{
                     color: data.status == "Pending" ? "#17935C" : "#F1A153",
                     fontWeight: 700,
@@ -905,7 +904,7 @@ export  function ComplaintList({openCreateModal}) {
                   }}
                 >
                   {data.status}
-                </p>
+                </p> */}
               </div>
               <p style={{color: "#979DAC", margin: "0 0 0 50px"}}>
                 {data.date}
