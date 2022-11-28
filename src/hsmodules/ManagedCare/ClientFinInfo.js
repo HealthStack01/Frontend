@@ -431,7 +431,7 @@ export default function ClientFinInfo({ closeModal }) {
             </>
           )}
         </Grid>
-        {productItem.length > 0 && (
+        {productItem?.length > 0 && (
           <>
             <FormsHeaderText text={`Payment Options:`} />
             <CustomTable
@@ -447,7 +447,7 @@ export default function ClientFinInfo({ closeModal }) {
         <Box sx={{ display: 'flex' }} mt={1}>
           <GlobalCustomButton
             onClick={handlePayment}
-            disabled={!productItem.length > 0}
+            disabled={!productItem?.length > 0}
             text="Update"
             color="info"
             variant="contained"
@@ -458,7 +458,7 @@ export default function ClientFinInfo({ closeModal }) {
             text="Cancel"
             color="warning"
             variant="contained"
-            disabled={!productItem.length > 0}
+            disabled={!productItem?.length > 0}
           />
         </Box>
       </Box>

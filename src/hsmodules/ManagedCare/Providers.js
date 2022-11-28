@@ -36,6 +36,9 @@ import { FaHospital, FaAddressCard, FaUserAlt } from 'react-icons/fa';
 import { IoLocationSharp } from 'react-icons/io5';
 import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
 import { MdEmail, MdLocalHospital } from 'react-icons/md';
+import { FormsHeaderText } from '../../components/texts';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { G } from '@react-pdf/renderer';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1623,27 +1626,23 @@ export function NewOrganizationCreate() {
           <p style={{ fontWeight: '700' }}>
             HCI HEALTHCARE LIMITED ASSESSMENT / CREDENTIALLING FORM (NO..)
           </p>
-          <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
+          <p style={{ fontWeight: '700', marginBottom: '.5rem' }}>
             (PRIVATE SCHEME)
           </p>
           <McText txt={'PERSONAL DATA'} type={'p'} bold={700} />
-          <Grid container spacing={3}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12}>
               <Input
                 label={'NAME OF MEDICAL DIRECTOR (MD)'}
                 register={register('nameofmd')}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Input label={'MCDN NO'} register={register('mcdnNo')} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Input label={'MD PHONE NO'} register={register('nmPhoneNo')} />
             </Grid>
-          </Grid>
-          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Input
                 label={'SPECIALIZATION'}
@@ -1653,8 +1652,6 @@ export function NewOrganizationCreate() {
             <Grid item xs={12} sm={6}>
               <Input label={'MD EMAIL'} register={register('mdEmail')} />
             </Grid>
-          </Grid>
-          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Input
                 label={'NAME OF CHIEF MATRON'}
@@ -1664,8 +1661,6 @@ export function NewOrganizationCreate() {
             <Grid item xs={12} sm={6}>
               <Input label={'TEL'} register={register('chiefMatronTel')} />
             </Grid>
-          </Grid>
-          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Input
                 label={'NAME OF HMO OFFICER'}
@@ -1675,8 +1670,6 @@ export function NewOrganizationCreate() {
             <Grid item xs={12} sm={6}>
               <Input label={'TEL'} register={register('hmoOfficerTel')} />
             </Grid>
-          </Grid>
-          <Grid container spacing={3}>
             <Grid item xs={12} sm={4}>
               <Button
                 label={'Cancel'}
@@ -3531,7 +3524,6 @@ export function NewOrganizationCreate() {
 }
 
 export function OrganizationDetail({ showModal, setShowModal }) {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
@@ -3542,19 +3534,20 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { user, setUser } = useContext(UserContext);
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue, reset } = useForm();
+  const [isEdit, setIsEdit] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
-  const handleEdit = async () => {
-    const newfacilityModule = {
-      selectedFacility: facility,
-      show: 'modify',
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      facilityModule: newfacilityModule,
-    }));
-    //console.log(state)
+  const handleAcc = async () => {
+    // const newfacilityModule = {
+    //   selectedFacility: facility,
+    //   show: 'modify',
+    // };
+    // await setState((prevstate) => ({
+    //   ...prevstate,
+    //   facilityModule: newfacilityModule,
+    // }));
+    // //console.log(state)
     setShowModal(3);
   };
   const closeForm = async () => {
@@ -3604,10 +3597,49 @@ export function OrganizationDetail({ showModal, setShowModal }) {
           }}
           mb={2}
         >
-          <Button label="Edit" onClick={handleEdit} />
-          <Button label="Accreditation" />
-          <Button label="Close" onClick={closeForm} />
-          <Button label="Delete" />
+          {!isEdit && (
+            <GlobalCustomButton
+              text="Edit"
+              onClick={() => setIsEdit(true)}
+              color="secondary"
+              customStyles={{ marginRight: '10px' }}
+            />
+          )}
+          <GlobalCustomButton
+            text="Accreditation"
+            onClick={handleAcc}
+            color="primary"
+            customStyles={{ marginRight: '10px' }}
+          />
+          {isEdit && (
+            <>
+              <GlobalCustomButton
+                text="Approve"
+                onClick={handleSubmit(onSubmit)}
+                color="success"
+                customStyles={{ marginRight: '10px' }}
+              />
+              <GlobalCustomButton
+                text="Reject"
+                onClick={handleSubmit(onSubmit)}
+                color="error"
+                customStyles={{ marginRight: '10px' }}
+                variant="outlined"
+              />
+              <GlobalCustomButton
+                text="Deactivate"
+                onClick={handleSubmit(onSubmit)}
+                color="error"
+                customStyles={{ marginRight: '10px' }}
+              />
+            </>
+          )}
+          <GlobalCustomButton
+            text="Close"
+            onClick={closeForm}
+            color="warning"
+            customStyles={{ marginRight: '10px' }}
+          />
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -3617,7 +3649,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('name_provider')}
                   label="Hospital Name"
                   value="St.Nicholas Hospital"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3625,7 +3657,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="Address"
                   value="1234,5th Avenue,New York"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3633,7 +3665,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="City"
                   value="Lagos"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3641,7 +3673,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="Phone"
                   value="09123802410"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3649,7 +3681,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="Email"
                   value="motun6@gmail.com"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3657,7 +3689,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="CEO"
                   value="Dr. Simpa"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3665,7 +3697,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="Type"
                   value="HMO"
-                  disabled
+                  disabled={!isEdit}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -3673,10 +3705,77 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                   register={register('lga')}
                   label="Category"
                   value="HMO"
-                  disabled
+                  disabled={!isEdit}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormsHeaderText text="Bank Details" />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register('bank')}
+                  label="Bank Name"
+                  value="First Bank"
+                  disabled={!isEdit}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register('branch_name')}
+                  label="Branch Name"
+                  value="Lagos Island"
+                  disabled={!isEdit}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register('sort_code')}
+                  label="Sort Code"
+                  value="123456"
+                  disabled={!isEdit}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Input
+                  register={register('account_name')}
+                  label="Account Name"
+                  value="St.Nicholas Hospital"
+                  disabled={!isEdit}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  register={register('account_number')}
+                  label="Account Number"
+                  value="1234567890"
+                  disabled={!isEdit}
                 />
               </Grid>
             </Grid>
+            {isEdit && (
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'right',
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  text="Save"
+                  onClick={() => handleSubmit(onSubmit)}
+                  color="success"
+                  customStyles={{ marginRight: '10px' }}
+                />
+                <GlobalCustomButton
+                  text="Cancel"
+                  onClick={() => setIsEdit(false)}
+                  color="warning"
+                />
+              </Box>
+            )}
           </form>
         </Box>
       </Box>
