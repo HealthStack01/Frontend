@@ -21,7 +21,7 @@ import { OrgFacilitySearch, SponsorSearch } from '../helpers/FacilitySearch';
 import { PageWrapper } from '../../ui/styled/styles';
 import { TableMenu } from '../../ui/styled/global';
 import FilterMenu from '../../components/utilities/FilterMenu';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import CustomTable from '../../components/customtable';
 import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
@@ -48,6 +48,10 @@ import Claims from './Claims';
 import GeneralAppointments from './Referral';
 import HealthPlan from './HealthPlan';
 var random = require('random-string-generator');
+import { yupResolver } from '@hookform/resolvers/yup';
+import { createClientSchema } from '../Client/schema';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import SaveIcon from '@mui/icons-material/Save';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -434,23 +438,23 @@ export function ClientCreate({ closeModal }) {
               <Input
                 label="First Name"
                 register={register('firstname')}
-                // errorText={errors?.firstname?.message}
+                errorText={errors?.firstname?.message}
               />
               <Input
                 label="Middle Name"
                 register={register('middlename')}
-                // errorText={errors?.middlename?.message}
+                errorText={errors?.middlename?.message}
               />
               <Input
                 label="Last Name"
                 register={register('lastname')}
-                // errorText={errors?.lastname?.message}
+                errorText={errors?.lastname?.message}
               />
               <BasicDatePicker
                 label="Date of Birth"
                 register={register('dob')}
                 onChange={(date) => handleDate(date)}
-                // errorText={errors?.dob?.message}
+                errorText={errors?.dob?.message}
               />
             </GridWrapper>
           </ViewBox>
@@ -482,12 +486,12 @@ export function ClientCreate({ closeModal }) {
               <Input
                 label="Phone No"
                 register={register('phone')}
-                // errorText={errors?.phone?.message}
+                errorText={errors?.phone?.message}
               />
               <Input
                 label="Email"
                 register={register('email')}
-                // errorText={errors?.email?.message}
+                errorText={errors?.email?.message}
               />
               <Input label="Tags" register={register('clientTags')} />
             </GridWrapper>
@@ -1871,6 +1875,7 @@ export function ClientModify({ showModal, setShowModal }) {
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState('');
   // eslint-disable-next-line
@@ -2080,141 +2085,131 @@ export function ClientModify({ showModal, setShowModal }) {
 
   return (
     <>
-      <div
-        style={{
-          height: '80vh',
-          overflowY: 'scroll',
-          width: '40vw',
-          margin: '0 auto',
-        }}
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Names Section */}
-          <ModalHeader text={'Modify Beneficiary'} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Names Section */}
+        <ModalHeader text={'Modify Beneficiary'} />
 
-          <ViewBox>
-            <h2>Names</h2>
-
-            <GridWrapper>
+        <Box sx={{ width: '80vw', maxHeight: '80vh' }} mt={1}>
+          <Grid container spacing={1}>
+            <Grid item lg={3} md={4} sm={6}>
               <Input
                 label="First Name"
                 register={register('firstname')}
                 // errorText={errors?.firstname?.message}
               />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <Input
                 label="Middle Name"
                 register={register('middlename')}
                 // errorText={errors?.middlename?.message}
               />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <Input
                 label="Last Name"
                 register={register('lastname')}
                 // errorText={errors?.lastname?.message}
               />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
+              <Input
+                label="Phone"
+                register={register('phone')}
+                type="tel"
+                // errorText={errors?.phone?.message}
+              />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
+              <Input
+                label="Email"
+                register={register('email')}
+                type="email"
+                // errorText={errors?.email?.message}
+              />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <BasicDatePicker
-                label="Date of Birth"
+                label="dob"
                 register={register('dob')}
-                onChange={(date) => handleDate(date)}
                 // errorText={errors?.dob?.message}
               />
-            </GridWrapper>
-          </ViewBox>
-          {/* Biodata Section */}
-
-          <ViewBox>
-            <h2>Biodata</h2>
-
-            <GridWrapper>
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <CustomSelect
                 label="Gender"
-                register={register('gender')}
+                register={register('gender', { required: true })}
                 options={[
-                  { label: 'Male', value: 'male' },
-                  { label: 'Female', value: 'female' },
+                  { label: 'Male', value: 'MALE' },
+                  { label: 'Female', value: 'FEMALE' },
                 ]}
+                // errorText={errors?.gender?.message}
               />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <CustomSelect
                 label="Marital Status"
                 register={register('maritalstatus')}
                 options={[
-                  { label: 'Single', value: 'Single' },
-                  { label: 'Married', value: 'Married' },
+                  { label: 'Single', value: 'SINGLE' },
+                  { label: 'Married', value: 'MARRRIED' },
+                  { label: 'Divorced', value: 'DIVORCED' },
+                  { label: 'Widowed', value: 'WIDOWED' },
                 ]}
               />
-              <Input label="Medical record Number" register={register('mrn')} />
-              <Input label="Religion" register={register('religion')} />
-              <Input label="Profession" register={register('profession')} />
-              <Input
-                label="Phone No"
-                register={register('phone')}
-                // errorText={errors?.phone?.message}
-              />
-              <Input
-                label="Email"
-                register={register('email')}
-                // errorText={errors?.email?.message}
-              />
-              <Input label="Tags" register={register('clientTags')} />
-            </GridWrapper>
-          </ViewBox>
-          {/* Address */}
-          <ViewBox>
-            <h2>Addresses</h2>
-
-            <GridWrapper>
+            </Grid>
+            <Grid item lg={6} md={6} sm={12}>
               <Input
                 label="Residential Address"
                 register={register('address')}
               />
-              <Input label="Town/City" register={register('city')} />
-              <Input label="Local Govt Area" register={register('lga')} />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
+              <Input label="Town" register={register('city')} />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <Input label="State" register={register('state')} />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
               <Input label="Country" register={register('country')} />
-            </GridWrapper>
-          </ViewBox>
-          {/* Medical Data */}
-          <ViewBox>
-            <h2>Medical Data</h2>
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
+              <Input label="Next of Kin" register={register('nok_name')} />
+            </Grid>
+            <Grid item lg={3} md={4} sm={6}>
+              <Input
+                label="Next of Kin Phone"
+                register={register('nok_phoneno')}
+              />
+            </Grid>
+          </Grid>
 
-            <GridWrapper>
-              <Input label="Blood Group" register={register('bloodgroup')} />
-              <Input label="Genotype" register={register('genotype')} />
-              <Input label="Disabilities" register={register('disabilities')} />
-              <Input label="Allergies" register={register('allergies')} />
-              <Input
-                label="Co-mobidities"
-                register={register('comorbidities')}
-              />
-              <Input
-                label="Specific Details "
-                register={register('specificDetails')}
-              />
-            </GridWrapper>
-          </ViewBox>
-          {/* Next of Kin Information */}
-          <ViewBox>
-            <h2>Next of Kin Information</h2>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <GlobalCustomButton
+              color="warning"
+              onClick={() => setOpen(false)}
+              sx={{ marginRight: '15px' }}
+            >
+              Cancel
+            </GlobalCustomButton>
 
-            <GridWrapper>
-              <Input label="Full Name" register={register('nok_name')} />
-              <Input label="Phone Number" register={register('nok_phoneno')} />
-              <Input label=" Email" register={register('nok_email')} />
-              <Input
-                label="Relationship"
-                register={register('nok_relationship')}
-              />
-              <Input
-                label="Co-mobidities"
-                register={register('comorbidities')}
-              />
-              <Input
-                label="Specific Details "
-                register={register('specificDetails')}
-              />
-            </GridWrapper>
-          </ViewBox>
-
-          <BottomWrapper>
+            <GlobalCustomButton
+              type="submit"
+              loading={loading}
+              onClick={handleSubmit(onSubmit)}
+            >
+              <SaveIcon fontSize="small" sx={{ marginRight: '5px' }} />
+              Save
+            </GlobalCustomButton>
+          </Box>
+        </Box>
+        {/* <BottomWrapper>
             <Button
               variant="contained"
               size="small"
@@ -2245,9 +2240,8 @@ export function ClientModify({ showModal, setShowModal }) {
               {' '}
               Delete{' '}
             </Button>
-          </BottomWrapper>
-        </form>
-      </div>
+          </BottomWrapper> */}
+      </form>
     </>
   );
 }
