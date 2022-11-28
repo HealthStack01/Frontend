@@ -20,6 +20,7 @@ import { BsFillTelephoneFill, BsHouseDoorFill } from 'react-icons/bs';
 import { MdEmail, MdLocalHospital } from 'react-icons/md';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import Input from '../../components/inputs/basic/Input';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -470,11 +471,12 @@ export function OrganizationList({ showModal, setShowModal }) {
               </h2>
             </div>
             {handleCreateNew && (
-              <Button
-                style={{ fontSize: '14px', fontWeight: '600px' }}
-                label="Add New"
-                onClick={handleCreateNew}
-              />
+              // <Button
+              //   style={{ fontSize: '14px', fontWeight: '600px' }}
+              //   label="Add New"
+              //   onClick={handleCreateNew}
+              // />
+              <GlobalCustomButton text="Add New" onClick={handleCreateNew} />
             )}
           </TableMenu>
 
@@ -536,62 +538,62 @@ export function OrganizationDetail({ showModal, setShowModal }) {
 
   return (
     <>
-      <div
-        className="card "
-        style={{
-          height: 'auto',
-          overflowY: 'scroll',
-          width: '20vw',
-          margin: '0 auto',
+      <Box
+        sx={{
+          width: '40vw',
         }}
       >
-        <ModalHeader text={'Organization Details'} />
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12}>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <FaHospital /> Name: {facility?.facilityName}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <FaAddressCard /> Address: {facility?.facilityAddress}{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <IoLocationSharp /> City: {facility?.facilityCity}{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <BsFillTelephoneFill /> Phone: {
-                facility?.facilityContactPhone
-              }{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <MdEmail /> Email: {facility?.facilityEmail}{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <FaUserAlt /> CEO: {facility?.facilityOwner}{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <MdLocalHospital /> Type: {facility?.facilityType}{' '}
-            </p>
-            <p style={{ margin: '1rem 0' }}>
-              {' '}
-              <BsHouseDoorFill />
-              Category: {facility?.facilityCategory}
-            </p>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <ModalHeader text={'Organization Details'} />
+          <Box>
+            <GlobalCustomButton
+              text="Edit"
+              onClick={handleEdit}
+              color="secondary"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              text="Close"
+              onClick={closeForm}
+              color="warning"
+            />
+          </Box>
+        </Box>
+        <Grid container spacing={3} mt={1}>
+          <Grid item xs={6}>
+            <Input label="Name" value={facility?.facilityName} disabled />
+          </Grid>
+          <Grid item xs={6}>
+            <Input label="Address" value={facility?.facilityAddress} disabled />
+          </Grid>
+          <Grid item xs={6}>
+            <Input label="City" value={facility?.facilityCity} disabled />
+          </Grid>
+          <Grid item xs={6}>
+            <Input
+              label="Phone"
+              value={facility?.facilityContactPhone}
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Input label="Email" value={facility?.facilityEmail} disabled />
+          </Grid>
+          <Grid item xs={6}>
+            <Input label="CEO" value={facility?.facilityOwner} disabled />
+          </Grid>
+          <Grid item xs={6}>
+            <Input label="Type" value={facility?.facilityType} disabled />
+          </Grid>
+          <Grid item xs={6}>
+            <Input
+              label="Category"
+              value={facility?.facilityCategory}
+              disabled
+            />
           </Grid>
         </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex' }}>
-            <Button label="Edit" onClick={handleEdit} />
-            <Button label="Close" onClick={closeForm} />
-          </Grid>
-        </Grid>
-      </div>
+      </Box>
     </>
   );
 }
@@ -735,10 +737,34 @@ export function OrganizationModify() {
           margin: '0 auto',
         }}
       >
-        <ModalHeader text={'Modify Organization'} />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <ModalHeader text={'Modify Organization'} />
+          <Box>
+            <GlobalCustomButton
+              text="Submit"
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+              color="success"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              text="Cancel"
+              type="button"
+              onClick={handleCancel}
+              color="warning"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              text="Delete"
+              type="button"
+              onClick={handleDelete}
+              color="error"
+            />
+          </Box>
+        </Box>
         {success && <div className="message"> {message}</div>}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} mt={1}>
             <Grid item xs={12} sm={12} md={6}>
               <Input
                 name="facilityName"
@@ -796,13 +822,7 @@ export function OrganizationModify() {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={12} style={{ display: 'flex' }}>
-              <Button type="submit" label="Save" />
-              <Button type="button" label="Cancel" onClick={handleCancel} />
-              <Button type="button" label="Delete" onClick={handleDelete} />
-            </Grid>
-          </Grid>
+
           {error && <div className="message"> {message}</div>}
         </form>
       </div>

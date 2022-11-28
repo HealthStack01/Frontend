@@ -39,6 +39,8 @@ import { MdEmail, MdLocalHospital } from 'react-icons/md';
 import { FormsHeaderText } from '../../components/texts';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { G } from '@react-pdf/renderer';
+import { Modal } from 'semantic-ui-react';
+import { generalData } from './accData';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1301,19 +1303,8 @@ export function NewOrganizationCreate() {
   const BandsServ = client.service('bands');
   const [providerBand, setProviderBand] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectDiv, setSelectDiv] = useState([{ selectValue: '' }]);
-  const [selectDiv2, setSelectDiv2] = useState([{ selectValue: '' }]);
-  const [selectDiv3, setSelectDiv3] = useState([{ selectValue: '' }]);
-  const [selectDiv4, setSelectDiv4] = useState([{ selectValue: '' }]);
-  const [selectDiv5, setSelectDiv5] = useState([{ selectValue: '' }]);
-  const [selectDiv6, setSelectDiv6] = useState([{ selectValue: '' }]);
-  const [selectDiv7, setSelectDiv7] = useState([{ selectValue: '' }]);
-  const [selectDiv8, setSelectDiv8] = useState([{ selectValue: '' }]);
-  const [selectDiv9, setSelectDiv9] = useState([{ selectValue: '' }]);
-  const [selectDiv10, setSelectDiv10] = useState([{ selectValue: '' }]);
-  const [selectDiv11, setSelectDiv11] = useState([{ selectValue: '' }]);
-  const [selectDiv12, setSelectDiv12] = useState([{ selectValue: '' }]);
-  const [selectDiv13, setSelectDiv13] = useState([{ selectValue: '' }]);
+  const [showScore, setShowScore] = useState(0);
+  const [showArray, setShowArray] = useState([]);
   const [nonMedDiv, setNonMedDiv] = useState([{ selectValue: '' }]);
   const [nonMedDiv2, setNonMedDiv2] = useState([{ selectValue: '' }]);
   const [nonMedDiv3, setNonMedDiv3] = useState([{ selectValue: '' }]);
@@ -1435,75 +1426,7 @@ export function NewOrganizationCreate() {
              setChosen2() */
     }
   };
-  const handleAddClick = (Type) => {
-    switch (Type) {
-      case 1:
-        setSelectDiv([...selectDiv, { selectValue: '' }]);
-        break;
-      case 2:
-        setSelectDiv2([...selectDiv2, { selectValue: '' }]);
-        break;
-      case 3:
-        setSelectDiv3([...selectDiv3, { selectValue: '' }]);
-        break;
-      case 4:
-        setSelectDiv4([...selectDiv4, { selectValue: '' }]);
-        break;
-      case 5:
-        setSelectDiv5([...selectDiv5, { selectValue: '' }]);
-        break;
-      case 6:
-        setSelectDiv6([...selectDiv6, { selectValue: '' }]);
-        break;
-      case 7:
-        setSelectDiv7([...selectDiv7, { selectValue: '' }]);
-        break;
-      case 8:
-        setSelectDiv8([...selectDiv8, { selectValue: '' }]);
-        break;
-      case 9:
-        setSelectDiv9([...selectDiv9, { selectValue: '' }]);
-        break;
-      case 10:
-        setSelectDiv10([...selectDiv10, { selectValue: '' }]);
-        break;
-      case 11:
-        setSelectDiv11([...selectDiv11, { selectValue: '' }]);
-        break;
-      case 12:
-        setSelectDiv12([...selectDiv12, { selectValue: '' }]);
-        break;
-      case 13:
-        setSelectDiv13([...selectDiv13, { selectValue: '' }]);
-        break;
-      case 21:
-        setNonMedDiv([...nonMedDiv, { selectValue: '' }]);
-        break;
-      case 22:
-        setNonMedDiv2([...nonMedDiv2, { selectValue: '' }]);
-        break;
-      case 23:
-        setNonMedDiv3([...nonMedDiv3, { selectValue: '' }]);
-        break;
-      case 24:
-        setNonMedDiv4([...nonMedDiv4, { selectValue: '' }]);
-        break;
-      case 25:
-        setNonMedDiv5([...nonMedDiv5, { selectValue: '' }]);
-        break;
-      case 26:
-        setNonMedDiv6([...nonMedDiv6, { selectValue: '' }]);
-        break;
-      case 27:
-        setNonMedDiv7([...nonMedDiv7, { selectValue: '' }]);
-        break;
-      case 28:
-        setNonMedDiv8([...nonMedDiv8, { selectValue: '' }]);
-        break;
-      default:
-        break;
-    }
-  };
+
   const handleRemoveClick = (index, type) => {
     switch (type) {
       case 1:
@@ -1619,6 +1542,33 @@ export function NewOrganizationCreate() {
     { value: 'test', label: 'test' },
     { value: 'test2', label: 'test2' },
   ];
+
+  const generalOutlook = [
+    { value: 1, label: '1. GENERAL OUTLOOK & INFRASTRUCTURE' },
+    { value: 2, label: '2. OPD / FRONT DESK' },
+    { value: 3, label: '3. CASUALTY AND EMERGENCY' },
+    { value: 4, label: '4. PHARMACY' },
+    { value: 5, label: '5. LABORATORY/ RADIOLOGICAL EQUIPMENTS' },
+    { value: 6, label: '6. WARD' },
+    { value: 7, label: '7. LABOUR ROOM' },
+    { value: 8, label: '8. THEATRE' },
+    { value: 9, label: '9. ADDITIONAL FACILITIES' },
+    { value: 10, label: '10. ADMINISTRATION' },
+    { value: 11, label: '11. QUALITY MANAGEMENT PROCESSES' },
+    { value: 12, label: '12. OTHER PARAMETERS' },
+    { value: 13, label: '13. MEDICAL PERSONNEL /STAFF' },
+  ];
+
+  const handleFormToDisplay = (number) => {
+    switch (number) {
+      case 1:
+        setShowArray(generalData);
+        console.log('showarray', showArray);
+        break;
+      default:
+        setShowArray([]);
+    }
+  };
   return (
     <>
       {currentPage === 1 && (
@@ -1670,21 +1620,20 @@ export function NewOrganizationCreate() {
             <Grid item xs={12} sm={6}>
               <Input label={'TEL'} register={register('hmoOfficerTel')} />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button
-                label={'Cancel'}
-                onClick={() => setCurrentPage(0)}
-                fullwidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button
-                label={'Next'}
-                onClick={() => setCurrentPage(2)}
-                fullwidth
-              />
-            </Grid>
           </Grid>
+          <Box display="flex" mt={1}>
+            <GlobalCustomButton
+              text={'Cancel'}
+              onClick={() => setCurrentPage(0)}
+              color="secondary"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              text={'Next'}
+              onClick={() => setCurrentPage(2)}
+              color="primary"
+            />
+          </Box>
         </>
       )}
       {currentPage === 2 && (
@@ -1703,1033 +1652,73 @@ export function NewOrganizationCreate() {
             <p style={{ fontWeight: '700', marginBottom: '2rem' }}>
               (PRIVATE SCHEME)
             </p>
-            <McText txt={'HOSPITAL ASSESSMENT'} type={'p'} bold={700} />
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
+            {generalOutlook.map((item, index) => (
+              <>
+                <Box
+                  key={index}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    margin: '.5rem 0',
                   }}
                 >
-                  1. GENERAL OUTLOOK & INFRASTRUCTURE
-                </p>
-                {selectDiv.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
+                  <FormsHeaderText text={item.label} />
+                  <GlobalCustomButton
+                    text={'Add'}
+                    onClick={() => {
+                      setShowScore(index + 1), handleFormToDisplay(item.value);
+                    }}
+                  />
+                </Box>
+                {showScore === item.value && (
+                  <ModalBox open onClose={() => setShowScore(0)} header>
+                    <Box
+                      sx={{
+                        width: '90vw',
+                      }}
+                    >
+                      <Grid container spacing={2} mt={1}>
+                        <Grid item xs={12} sm={5}>
+                          <FormsHeaderText text="FINDINGS" />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
+                        <Grid item xs={12} sm={5}>
+                          <FormsHeaderText text="INSPECTION PARAMETERS " />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 1)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
+                        <Grid item xs={12} sm={2}>
+                          <FormsHeaderText text="1 = Low, 5 = High" />
                         </Grid>
                       </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(1)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  2. OPD / FRONT DESK
-                </p>
-                {selectDiv2.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv2.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 2)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv2.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(2)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  3. CASUALTY AND EMERGENCY
-                </p>
-                {selectDiv3.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv3.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 3)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv3.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(3)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  4. PHARMACY
-                </p>
-                {selectDiv4.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv4.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 4)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv4.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(4)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  5. LABORATORY/ RADIOLOGICAL EQUIPMENTS
-                </p>
-                {selectDiv5.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv5.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 5)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv5.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(5)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  6. WARDS
-                </p>
-                {selectDiv6.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv6.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 6)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv6.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(6)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  7. LABOUR ROOM
-                </p>
-                {selectDiv7.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv7.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 7)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv7.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(7)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  8. THEATRE
-                </p>
-                {selectDiv8.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv8.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 8)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv8.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(8)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  9. ADDITIONAL FACILITIES
-                </p>
-                {selectDiv9.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv9.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 9)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv9.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(9)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  10. ADMINISTRATION
-                </p>
-                {selectDiv10.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv10.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 10)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv10.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(10)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  11. QUALITY MANAGEMENT PROCESSES
-                </p>
-                {selectDiv11.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv11.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 11)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv11.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(11)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  12. OTHER PARAMETERS
-                </p>
-                {selectDiv12.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv12.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 12)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv12.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(12)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  13. MEDICAL PERSONNEL /STAFF
-                </p>
-                {selectDiv13.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {selectDiv13.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 13)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {selectDiv13.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(13)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={3} mt={2}>
-              <Grid item xs={12} sm={6} md={12}>
-                <McText txt={'FOR OFFICIAL USE'} type={'p'} bold={700} />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3} mb={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Input
-                  label={'REVIEW OF CREDEINTIALS'}
-                  register={register('name')}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <BasicDatePicker
-                  label={'DATE OF REVIEW'}
-                  register={register('date')}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={3} mb={1}>
-              <Grid item xs={12} sm={6} md={12}>
-                <McText txt={'RECOMMENDATION SUMMARY'} type={'p'} />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Input label={'A APRROVE'} register={register('name')} />
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <Input
-                  label={'B. DENY OUTRIGHTLY'}
-                  register={register('name')}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={6}>
-                <McText txt={'C. GIVE PROBATION FOR'} type={'p'} />
-                <CustomSelect
-                  options={selectdata}
-                  register={register('inspectionParameters')}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <BasicDatePicker label={'DATE'} register={register('date')} />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={6}>
-                <McText txt={'SIGNATURE'} type={'p'} />
-                <div
-                  style={{
-                    width: '100%',
-                    height: '40px',
-                    border: '1px solid #D2D2D2',
-                    borderRadius: '5px',
-                    padding: '.8rem',
-                  }}
-                ></div>
-              </Grid>
-            </Grid>
-            <Grid container spacing={3} mt={1}>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  label={'Cancel'}
-                  onClick={() => setCurrentPage(1)}
-                  fullwidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  label={'Next'}
-                  onClick={() => setCurrentPage(3)}
-                  fullwidth
-                />
-              </Grid>
-            </Grid>
+                      {showArray.map((item, index) => (
+                        <>
+                          <Grid container spacing={2} my={1} key={index}>
+                            <Grid item xs={12} sm={5}>
+                              <Input value={item.finding} disabled />
+                            </Grid>
+                            <Grid item xs={12} sm={5}>
+                              <Input value={item.parameter} disabled />
+                            </Grid>
+                            <Grid item xs={12} sm={2}>
+                              <Input label={'Score'} />
+                            </Grid>
+                          </Grid>
+                        </>
+                      ))}
+                      <GlobalCustomButton
+                        text={'Save'}
+                        onClick={() => {
+                          setShowScore(0), toast.success('Saved');
+                        }}
+                      />
+                    </Box>
+                  </ModalBox>
+                )}
+              </>
+            ))}
+            <GlobalCustomButton
+              text={'Next'}
+              onClick={() => setCurrentPage(3)}
+            />
           </div>
         </>
       )}
@@ -2750,604 +1739,6 @@ export function NewOrganizationCreate() {
               (PRIVATE SCHEME)
             </p>
             <McText txt={'NON-MEDICAL STAFF'} type={'p'} bold={700} />
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  1. ADMINNISRATIVE STAFF
-                </p>
-                {nonMedDiv.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 21)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(21)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  2. ACCOUNTS AND FINANACE
-                </p>
-                {nonMedDiv2.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv2.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 22)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv2.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(22)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  3. OTHER STAFF
-                </p>
-                {nonMedDiv3.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv3.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 23)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv3.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(23)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  4. SPECIALISTS /FELLOWS
-                </p>
-                {nonMedDiv4.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv4.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 24)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv4.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(24)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  5. INTERPRETATION OF SCORES (0,1,2,3,4,5)
-                </p>
-                {selectDiv5.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv5.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 25)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv5.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(25)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  6. TOTAL COMPUTED SCORES
-                </p>
-                {nonMedDiv6.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv6.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 26)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv6.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(26)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  7. TOTAL SCORE (%)
-                </p>
-                {nonMedDiv7.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv7.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 27)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv7.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(27)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-
-            {/* ------------------------- */}
-
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={12}>
-                <p
-                  style={{
-                    fontSize: '.8rem',
-                  }}
-                >
-                  8. HOSPITAL RATING BASED ON SCORE
-                </p>
-                {nonMedDiv8.map((x, i) => {
-                  return (
-                    <div className="box">
-                      <Grid container spacing={3} mb={1}>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Findings'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('findings')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <McText txt={'Inspection Parameters'} type={'p'} />
-                          <CustomSelect
-                            options={selectdata}
-                            register={register('inspectionParameters')}
-                          />
-                          {nonMedDiv8.length !== 1 && (
-                            <p
-                              onClick={() => handleRemoveClick(i, 28)}
-                              style={{
-                                padding: '0',
-                                margin: '0',
-                                float: 'right',
-                                cursor: 'pointer',
-                                border: '1px solid crimson',
-                                borderRadius: '50%',
-                                width: '20px',
-                                height: '20px',
-                                textAlign: 'center',
-                                marginTop: '.2rem',
-                              }}
-                            >
-                              {' '}
-                              -{' '}
-                            </p>
-                          )}
-                        </Grid>
-                      </Grid>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          {nonMedDiv8.length - 1 === i && (
-                            <Button
-                              label={'Add'}
-                              onClick={() => handleAddClick(28)}
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Grid>
-            </Grid>
-            <Grid container spacing={3} mt={1}>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  label={'Cancel'}
-                  onClick={() => setCurrentPage(2)}
-                  fullwidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  label={'Next'}
-                  onClick={() => setCurrentPage(4)}
-                  fullwidth
-                />
-              </Grid>
-            </Grid>
           </div>
         </>
       )}
@@ -3535,6 +1926,11 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const { state, setState } = useContext(ObjectContext);
   const { register, handleSubmit, setValue, reset } = useForm();
   const [isEdit, setIsEdit] = useState(false);
+  const [approve, setApprove] = useState(false);
+  const [reject, setReject] = useState(false);
+  const [isDeactivated, setIsDeactivated] = useState(false);
+  const [confirmDeactivate, setConfirmDeactivate] = useState(false);
+  const [confirmActivate, setConfirmActivate] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -3579,7 +1975,90 @@ export function OrganizationDetail({ showModal, setShowModal }) {
     //      toast(`Error updating Client, probable network issues or ${err}`);
     //    });
   };
-
+  const handleApprove = () => {
+    toast.success('St.Nicholas Hospital has been approved');
+    setApprove(false);
+  };
+  const handleReject = () => {
+    toast.error('St.Nicholas Hospital has been rejected');
+    setReject(false);
+  };
+  const handleDeactivate = () => {
+    toast.info('St.Nicholas Hospital has been deactivated');
+    setIsDeactivated(true);
+    setConfirmDeactivate(false);
+  };
+  const handleActivate = () => {
+    toast.info('St.Nicholas Hospital has been activated');
+    setIsDeactivated(false);
+    setConfirmActivate(false);
+  };
+  const bankData = [
+    {
+      bank_name: 'Access Bank',
+      account_name: 'St.Nicholas Hospital',
+      account_number: '1234567890',
+      branch: 'Lagos Island',
+      sort_code: '123456',
+    },
+    {
+      bank_name: 'First Bank',
+      account_name: 'St.Nicholas Hospital',
+      account_number: '1234567890',
+      branch: 'Banana Island',
+      sort_code: '123456',
+    },
+  ];
+  const bankColumns = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Bank Name',
+      key: 'bank_name',
+      description: 'Bank Name',
+      selector: (row) => row.bank_name,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Account Name',
+      key: 'account_name',
+      description: 'Account Name',
+      selector: (row) => row.account_name,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Account Number',
+      key: 'account_number',
+      description: 'Account Number',
+      selector: (row) => row.account_number,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Branch',
+      key: 'branch',
+      description: 'Branch',
+      selector: (row) => row.branch,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Sort Code',
+      key: 'sort_code',
+      description: 'Sort Code',
+      selector: (row) => row.sort_code,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
   return (
     <>
       <Box
@@ -3615,21 +2094,25 @@ export function OrganizationDetail({ showModal, setShowModal }) {
             <>
               <GlobalCustomButton
                 text="Approve"
-                onClick={handleSubmit(onSubmit)}
+                onClick={() => setApprove(true)}
                 color="success"
                 customStyles={{ marginRight: '10px' }}
               />
               <GlobalCustomButton
                 text="Reject"
-                onClick={handleSubmit(onSubmit)}
+                onClick={() => setReject(true)}
                 color="error"
                 customStyles={{ marginRight: '10px' }}
                 variant="outlined"
               />
               <GlobalCustomButton
-                text="Deactivate"
-                onClick={handleSubmit(onSubmit)}
-                color="error"
+                text={isDeactivated ? 'Activate' : 'Deactivate'}
+                onClick={
+                  isDeactivated
+                    ? () => setConfirmActivate(true)
+                    : () => setConfirmDeactivate(true)
+                }
+                color={isDeactivated ? 'success' : 'error'}
                 customStyles={{ marginRight: '10px' }}
               />
             </>
@@ -3711,45 +2194,14 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               <Grid item xs={12}>
                 <FormsHeaderText text="Bank Details" />
               </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('bank')}
-                  label="Bank Name"
-                  value="First Bank"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('branch_name')}
-                  label="Branch Name"
-                  value="Lagos Island"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('sort_code')}
-                  label="Sort Code"
-                  value="123456"
-                  disabled={!isEdit}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Input
-                  register={register('account_name')}
-                  label="Account Name"
-                  value="St.Nicholas Hospital"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('account_number')}
-                  label="Account Number"
-                  value="1234567890"
-                  disabled={!isEdit}
+              <Grid item xs={12}>
+                <CustomTable
+                  title={''}
+                  columns={bankColumns}
+                  data={bankData}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
                 />
               </Grid>
             </Grid>
@@ -3777,6 +2229,126 @@ export function OrganizationDetail({ showModal, setShowModal }) {
               </Box>
             )}
           </form>
+          {approve && (
+            <ModalBox open onClose={() => setApprove(false)}>
+              <p style={{ textAlign: 'center' }}>
+                <FormsHeaderText
+                  text={`Are you sure you want to approve "St.Nicholas Hospital"?"`}
+                />
+              </p>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  text="Yes"
+                  onClick={() => handleApprove()}
+                  color="success"
+                  customStyles={{ marginRight: '10px' }}
+                />
+                <GlobalCustomButton
+                  text="No"
+                  onClick={() => setApprove(false)}
+                  color="error"
+                />
+              </Box>
+            </ModalBox>
+          )}
+          {reject && (
+            <ModalBox open onClose={() => setReject(false)}>
+              <p style={{ textAlign: 'center' }}>
+                <FormsHeaderText
+                  text={`Are you sure you want to reject "St.Nicholas Hospital"?"`}
+                />
+              </p>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  text="Yes"
+                  onClick={() => handleReject()}
+                  color="error"
+                  customStyles={{ marginRight: '10px' }}
+                />
+                <GlobalCustomButton
+                  text="No"
+                  onClick={() => setReject(false)}
+                  color="warning"
+                />
+              </Box>
+            </ModalBox>
+          )}
+          {confirmDeactivate && (
+            <ModalBox open onClose={() => setConfirmDeactivate(false)}>
+              <p style={{ textAlign: 'center' }}>
+                <FormsHeaderText
+                  text={`Are you sure you want to deactivate "St.Nicholas Hospital"?"`}
+                />
+              </p>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  text="Yes"
+                  onClick={() => handleDeactivate()}
+                  color="error"
+                  customStyles={{ marginRight: '10px' }}
+                />
+                <GlobalCustomButton
+                  text="No"
+                  onClick={() => setConfirmDeactivate(false)}
+                  color="warning"
+                />
+              </Box>
+            </ModalBox>
+          )}
+          {confirmActivate && (
+            <ModalBox open onClose={() => setConfirmDeactivate(false)}>
+              <p style={{ textAlign: 'center' }}>
+                <FormsHeaderText
+                  text={`Are you sure you want to Activate "St.Nicholas Hospital"?"`}
+                />
+              </p>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  text="Yes"
+                  onClick={() => handleActivate()}
+                  color="success"
+                  customStyles={{ marginRight: '10px' }}
+                />
+                <GlobalCustomButton
+                  text="No"
+                  onClick={() => setConfirmActivate(false)}
+                  color="warning"
+                />
+              </Box>
+            </ModalBox>
+          )}
         </Box>
       </Box>
     </>

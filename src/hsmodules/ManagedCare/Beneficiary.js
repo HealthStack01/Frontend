@@ -52,6 +52,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createClientSchema } from '../Client/schema';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
 import SaveIcon from '@mui/icons-material/Save';
+import Policy from './Policy';
+import { FormsHeaderText } from '../../components/texts';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -1676,13 +1678,13 @@ export function ClientDetail({ showModal, setShowModal }) {
               Edit Details
             </Button>
             <Button
-              onClick={handleFinancialInfo}
-              variant="contained"
+              onClick={() => setDisplay(5)}
+              variant="outlined"
               size="small"
               sx={{ textTransform: 'capitalize', marginRight: '10px' }}
               color="info"
             >
-              Payment Info
+              Policy
             </Button>
             <Button
               onClick={() => setDisplay(2)}
@@ -1750,105 +1752,138 @@ export function ClientDetail({ showModal, setShowModal }) {
           </Grid>
         </Grid>
         {display === 1 && (
-          <Grid container>
+          <Grid container spacing={1} mt={1}>
             <Grid item md={4}>
-              <p>First Name:{Client?.firstname}</p>
-            </Grid>
-            <Grid item md={4}>
-              <p>Middle Name: {Client?.middlename}</p>
+              <Input label="First Name" value={Client?.firstname} disabled />
             </Grid>
             <Grid item md={4}>
-              <p>Last Name: {Client?.lastname}</p>
+              <Input label="Middle Name" value={Client?.middlename} disabled />
+            </Grid>
+            <Grid item md={4}>
+              <Input label="Last Name" value={Client?.lastname} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>
-                Date of Birth:{' '}
-                {new Date(Client?.dob).toLocaleDateString('en-GB')}
-              </p>
+              <Input
+                label="Date of Birth"
+                value={new Date(Client?.dob).toLocaleDateString('en-GB')}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Gender: {Client?.gender}</p>
+              <Input label="Gender" value={Client?.gender} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Marital Status: {Client?.maritalstatus}</p>
+              <Input
+                label="Marital Status"
+                value={Client?.maritalstatus}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Medical Records Number: {Client?.mrn}</p>
+              <Input
+                label="Medical Records Number"
+                value={Client?.mrn}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Religion: {Client?.religion}</p>
+              <Input label="Religion" value={Client?.religion} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Profession: {Client?.profession}</p>
+              <Input label="Profession" value={Client?.profession} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Phone Number: {Client?.phone}</p>
+              <Input label="Phone Number" value={Client?.phone} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Email: {Client?.email}</p>
+              <Input label="Email" value={Client?.email} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Address: {Client?.address}</p>
+              <Input label="Address" value={Client?.address} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Town/City: {Client?.city}</p>
+              <Input label="Town/City" value={Client?.city} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>LGA: {Client?.lga}</p>
+              <Input label="LGA" value={Client?.lga} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>State: {Client?.state}</p>
+              <Input label="State" value={Client?.state} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Country: {Client?.country}</p>
+              <Input label="Country" value={Client?.country} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Blood Group: {Client?.bloodgroup}</p>
+              <Input label="Blood Group" value={Client?.bloodgroup} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Genotype: {Client?.genotype}</p>
+              <Input label="Genotype" value={Client?.genotype} disable d />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Disabilities: {Client?.disabilities}</p>
+              <Input
+                label="Disabilities"
+                value={Client?.disabilities}
+                disable
+                d
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Allergies: {Client?.allergies}</p>
+              <Input label="Allergies" value={Client?.allergies} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Co-morbidities: {Client?.comorbidities}</p>
+              <Input label="Tags" value={Client?.clientTags} disabled />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Tags: {Client?.clientTags}</p>
+              <Input
+                label="Specific Details"
+                value={Client?.specificDetails}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Specific Details: {Client?.specificDetails}</p>
+              <Input
+                label="Next of Kin Name"
+                value={Client?.nok_name}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Next of Kin Name: {Client?.nok_name}</p>
+              <Input
+                label="Next of Kin Phone"
+                value={Client?.nok_phoneno}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Next of Kin Phone: {Client?.nok_phoneno}</p>
+              <Input
+                label="Next of Kin Email"
+                value={Client?.nok_email}
+                disabled
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <p>Next of Kin Email: {Client?.nok_email}</p>
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <p>NOK Relationship: {Client?.nok_relationship}</p>
+              <Input
+                label="NOK Relationship"
+                value={Client?.nok_relationship}
+                disabled
+              />
             </Grid>
           </Grid>
         )}
         {display === 2 && <Claims />}
         {display === 3 && <GeneralAppointments />}
         {display === 4 && <HealthPlan />}
+        {display === 5 && <Policy />}
 
-        {finacialInfoModal && (
+        {/* {finacialInfoModal && (
           <>
             <ModalBox open onClose={() => setFinacialInfoModal(false)}>
-              <ModalHeader text="Financial Information" />
+              <ModalHeader text="Policy" />
               <ClientFinInfo />
+              <Policy />
             </ModalBox>
           </>
-        )}
+        )} */}
         {appointmentModal && (
           <>
             <ModalBox open onClose={() => setAppointmentModal(false)}>
@@ -2158,6 +2193,19 @@ export function ClientModify({ showModal, setShowModal }) {
                 ]}
               />
             </Grid>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Medical record Number" register={register('mrn')} />
+            </Grid>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Religion" register={register('religion')} />
+            </Grid>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Profession" register={register('profession')} />
+            </Grid>
+            <Grid item lg={6} md={6} sm={12}>
+              <Input label="Tags" register={register('clientTags')} />
+            </Grid>
+
             <Grid item lg={6} md={6} sm={12}>
               <Input
                 label="Residential Address"
@@ -2173,13 +2221,49 @@ export function ClientModify({ showModal, setShowModal }) {
             <Grid item lg={3} md={4} sm={6}>
               <Input label="Country" register={register('country')} />
             </Grid>
-            <Grid item lg={3} md={4} sm={6}>
-              <Input label="Next of Kin" register={register('nok_name')} />
+            <Grid item xs={12}>
+              <FormsHeaderText text="Client Medical Data" />
             </Grid>
-            <Grid item lg={3} md={4} sm={6}>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Blood Group" register={register('bloodgroup')} />
+            </Grid>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Genotype" register={register('genotype')} />
+            </Grid>
+
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Disabilities" register={register('disabilities')} />
+            </Grid>
+
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Allergies" register={register('allergies')} />
+            </Grid>
+            <Grid item xs={12}>
+              <FormsHeaderText text="Client Next of Kin Information" />
+            </Grid>
+            <Grid item lg={6} md={6} sm={12}>
+              <Input label="Full Name" register={register('nok_name')} />
+            </Grid>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input label="Phone Number" register={register('nok_phoneno')} />
+            </Grid>
+            <Grid item lg={2} md={4} sm={6}>
               <Input
-                label="Next of Kin Phone"
-                register={register('nok_phoneno')}
+                label=" Email"
+                register={register('nok_email')}
+                type="email"
+              />
+            </Grid>
+            <Grid item lg={2} md={4} sm={6}>
+              <Input
+                label="Relationship"
+                register={register('nok_relationship')}
+              />
+            </Grid>
+            <Grid item lg={6} md={6} sm={12}>
+              <Input
+                label="Co-mobidities"
+                register={register('comorbidities')}
               />
             </Grid>
           </Grid>
