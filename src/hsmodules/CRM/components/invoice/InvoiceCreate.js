@@ -147,7 +147,7 @@ const InvoiceCreate = ({closeModal}) => {
               <Grid item xs={4}>
                 <Input
                   register={register("no_month", {required: true})}
-                  label="No of Months"
+                  label="No of Plans"
                   type="text"
                   //placeholder="Enter customer number"
                 />

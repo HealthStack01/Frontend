@@ -120,7 +120,7 @@ const InvoicePlansTab = () => {
         <Grid item xs={4}>
           <Input
             register={register("no_of_months", {required: true})}
-            label="No of Months"
+            label="No of Plans"
             type="number"
           />
         </Grid>
