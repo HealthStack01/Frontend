@@ -2,21 +2,22 @@ import {useState} from "react";
 import {Box, Typography} from "@mui/material";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import BlockIcon from "@mui/icons-material/Block";
 
 import "./styles.scss";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 
-const SLADescription = ({setDescription, closeModal, description}) => {
-  const [text, setText] = useState(description);
+const InvoiceDeclineReason = ({setReason, closeModal, reason}) => {
+  const [text, setText] = useState(reason);
 
   const handleDone = () => {
-    setDescription(text);
+    setReason(text);
     closeModal();
   };
   return (
     <Box
       sx={{
-        width: "600px",
+        width: "60vw",
         maxHeight: "80vh",
       }}
     >
@@ -32,10 +33,10 @@ const SLADescription = ({setDescription, closeModal, description}) => {
         <Typography
           sx={{
             color: "#ffffff",
-            fontWeight: "600",
+            fontWeight: "500",
           }}
         >
-          Description
+          Reason for Decline
         </Typography>
       </Box>
       <CKEditor
@@ -50,17 +51,20 @@ const SLADescription = ({setDescription, closeModal, description}) => {
       <Box mt={2}>
         <GlobalCustomButton
           onClick={closeModal}
-          sx={{marginRight: "5px"}}
+          sx={{marginRight: "15px"}}
           variant="outlined"
-          color="error"
+          color="warning"
         >
           Cancel
         </GlobalCustomButton>
 
-        <GlobalCustomButton onClick={handleDone}>Done</GlobalCustomButton>
+        <GlobalCustomButton onClick={handleDone} color="error">
+          <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
+          Decline Invoice
+        </GlobalCustomButton>
       </Box>
     </Box>
   );
 };
 
-export default SLADescription;
+export default InvoiceDeclineReason;

@@ -84,7 +84,7 @@ const LeadsCreate = ({closeModal}) => {
             <Box item>
               <FormsHeaderText text="Customer Details" />
 
-              <Grid container spacing={2} mt={0.5}>
+              <Grid container spacing={1} mt={0.5}>
                 <Grid item xs={6}>
                   <Input
                     register={register("customer_name", {required: true})}
@@ -216,7 +216,11 @@ const LeadsCreate = ({closeModal}) => {
                   onClick={() => setContactModal(true)}
                   size="small"
                 >
-                  <AddCircleOutlineOutlinedIcon fontSize="small" /> Add Contact
+                  <AddCircleOutlineOutlinedIcon
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />{" "}
+                  Add Contact
                 </Button>
               </Box>
 
@@ -254,7 +258,7 @@ const LeadsCreate = ({closeModal}) => {
                 }}
                 mb={1.6}
               >
-                <FormsHeaderText text="Staff Details" />
+                <FormsHeaderText text="Assign Staffs" />
                 <Button
                   sx={{textTransform: "capitalize"}}
                   variant="contained"
@@ -271,7 +275,10 @@ const LeadsCreate = ({closeModal}) => {
               </Box>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <EmployeeSearch getSearchfacility={handleSelectedStaff} />
+                  <EmployeeSearch
+                    getSearchfacility={handleSelectedStaff}
+                    label="Search for Staff"
+                  />
                 </Grid>
               </Grid>
 

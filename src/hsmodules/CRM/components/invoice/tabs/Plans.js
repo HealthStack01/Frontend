@@ -13,6 +13,8 @@ import {getPlansColumns} from "../../colums/columns";
 import ModalBox from "../../../../../components/modal";
 import {toast} from "react-toastify";
 
+var random = require("random-string-generator");
+
 const InvoicePlansTab = () => {
   const [plans, setPlans] = useState([]);
   const [detailModal, setDetailModal] = useState(false);
@@ -64,6 +66,37 @@ const InvoicePlansTab = () => {
 
   return (
     <Box>
+      <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
+        <FormsHeaderText text="Invoice Information" />
+      </Box>
+
+      <Grid container spacing={1} mb={1.5}>
+        <Grid item xs={4}>
+          <Input
+            label="Date"
+            value={moment(moment.now()).format("L")}
+            register={register("date", {required: true})}
+            disabled={true}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Input
+            label="Invoice Number"
+            value={random(12, "uppernumeric")}
+            register={register("invoice_number", {required: true})}
+            disabled={true}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Input
+            label="Total Amount"
+            value={"100000"}
+            register={register("total_amount", {required: true})}
+            disabled={true}
+          />
+        </Grid>
+      </Grid>
+
       <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
         <FormsHeaderText text="Plan" />
 

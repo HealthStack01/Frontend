@@ -32,8 +32,9 @@ import LeadUpload from "./LeadUpload";
 import {toast} from "react-toastify";
 import CrmAppointment from "../../Appointment";
 import CrmProposals from "../../Proposals";
+import Contact from "../../Contact";
 
-const CustomerView = () => {
+export const CustomerView = () => {
   const {register, reset, control, handleSubmit} = useForm();
   const [editCustomer, setEditCustomer] = useState(false);
 
@@ -155,7 +156,7 @@ const CustomerView = () => {
   );
 };
 
-const LeadView = () => {
+export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
   const [editLead, setEditLead] = useState(false);
 
@@ -285,7 +286,7 @@ const LeadView = () => {
   );
 };
 
-const DetailView = () => {
+export const DetailView = () => {
   return (
     <>
       <CustomerView />
@@ -294,7 +295,7 @@ const DetailView = () => {
   );
 };
 
-const AdditionalInformationView = () => {
+export const AdditionalInformationView = () => {
   const [createModal, setCreateModal] = useState(false);
   const [informations, setInformations] = useState([
     ...additionalInformationData,
@@ -371,78 +372,7 @@ const AdditionalInformationView = () => {
   );
 };
 
-const CustomerContactDetailsView = () => {
-  const [contactModal, setContactModal] = useState(false);
-  const [contacts, setContacts] = useState([...contactsData]); //contact list of lead from backend should be default(facility.contact_list)
-
-  const handleAddContact = contact => {
-    setContacts(prev => [contact, ...prev]);
-  };
-
-  const handleRemoveContact = contact => {
-    setContacts(prev =>
-      prev.filter(item => item.contact_email !== contact.contact_email)
-    );
-  };
-
-  //first param is passed to the delete element on the table and the second param (false) decides whether or not the delete button is disabled
-  const contactColumns = getContactColumns(handleRemoveContact, false);
-  return (
-    <Box mb={2}>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        mb={1}
-      >
-        <FormsHeaderText text="Contact Details" />
-
-        <Button
-          sx={{textTransform: "capitalize"}}
-          variant="contained"
-          onClick={() => setContactModal(true)}
-          size="small"
-        >
-          <AddCircleOutlineOutlinedIcon
-            sx={{marginRight: "5px"}}
-            fontSize="small"
-          />
-          Add Contact
-        </Button>
-      </Box>
-
-      <Box mt={1} mb={1}>
-        <CustomTable
-          title={"Contact List"}
-          columns={contactColumns}
-          data={contacts}
-          pointerOnHover
-          highlightOnHover
-          striped
-          //onRowClicked={handleRow}
-          CustomEmptyData="You haven't added any contact yet, Click edit to add.."
-          progressPending={false}
-        />
-      </Box>
-
-      <ModalBox
-        open={contactModal}
-        onClose={() => setContactModal(false)}
-        header="Add Contact"
-      >
-        <LeadAddContact
-          closeModal={() => setContactModal(false)}
-          addContact={handleAddContact}
-        />
-      </ModalBox>
-    </Box>
-  );
-};
-
-const StaffsListView = () => {
+export const StaffsListView = () => {
   const [staffs, setStaffs] = useState([...staffsData]);
   const [selectedStaff, setSelectedStaff] = useState(null);
 
@@ -510,7 +440,7 @@ const StaffsListView = () => {
   );
 };
 
-const TasksDetailView = () => {
+export const TasksDetailView = () => {
   const [assignModal, setAssignModal] = useState(false);
   const [tasks, setTasks] = useState([]);
 
@@ -575,7 +505,7 @@ const TasksDetailView = () => {
   );
 };
 
-const UploadView = () => {
+export const UploadView = () => {
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
 
@@ -666,7 +596,7 @@ const LeadDetail = () => {
         return <AdditionalInformationView />;
 
       case "contacts":
-        return <CustomerContactDetailsView />;
+        return <Contact />;
 
       case "staffs":
         return <StaffsListView />;

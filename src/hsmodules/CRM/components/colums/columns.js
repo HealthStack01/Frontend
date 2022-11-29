@@ -67,7 +67,7 @@ export const getStaffColumns = (action, disableAction = false) => {
   return staffColumns;
 };
 
-export const getContactColumns = (action, disableAction) => {
+export const getContactColumns = (action, disableAction, omit) => {
   const contactColumns = [
     {
       name: "Name",
@@ -125,6 +125,7 @@ export const getContactColumns = (action, disableAction) => {
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      omit: omit,
     },
   ];
 

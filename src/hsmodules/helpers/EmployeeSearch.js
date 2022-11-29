@@ -18,7 +18,7 @@ import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 
 const filter = createFilterOptions();
 
-export default function EmployeeSearch({id, getSearchfacility, clear}) {
+export default function EmployeeSearch({id, getSearchfacility, clear, label}) {
   const ClientServ = client.service("employee");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -202,8 +202,8 @@ export default function EmployeeSearch({id, getSearchfacility, clear}) {
   return (
     <div>
       <Autocomplete
+        size="small"
         value={simpa}
-        //loading={loading}
         onChange={(event, newValue) => {
           handleRow(newValue);
           setSimpa("");
@@ -223,31 +223,30 @@ export default function EmployeeSearch({id, getSearchfacility, clear}) {
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        noOptionsText="No option"
+        noOptionsText="No Employee found"
         renderOption={(props, option) => (
           <li {...props} style={{fontSize: "0.75rem"}}>
             {option.firstname}, {option.profession}, {option.department}{" "}
             department.
           </li>
         )}
-        sx={{width: "100%"}}
+        sx={{
+          width: "100%",
+        }}
         freeSolo={false}
         renderInput={params => (
           <TextField
             {...params}
-            label="Search for Employee"
+            label={label || "Search for Employee"}
             onChange={e => handleSearch(e.target.value)}
             ref={inputEl}
             sx={{
-              fontSize: "0.75rem !important",
-              backgroundColor: "#ffffff !important",
-
-              "& .MuiTextField-root": {
-                height: "2.2rem",
-                padding: 0,
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
               },
             }}
-            size="small"
             InputLabelProps={{
               shrink: true,
               style: {color: "#2d2d2d"},

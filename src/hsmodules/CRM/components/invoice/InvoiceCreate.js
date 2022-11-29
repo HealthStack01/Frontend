@@ -3,12 +3,15 @@ import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
+var random = require("random-string-generator");
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../../../components/customtable";
+import moment from "moment";
+import {CustomerView} from "../lead/LeadDetailView";
 
 const InvoiceCreate = ({closeModal}) => {
   const [plans, setPlans] = useState([]);
@@ -27,7 +30,8 @@ const InvoiceCreate = ({closeModal}) => {
       >
         <Grid container spacing={2}>
           <Grid item lg={6} md={6} sm={6}>
-            <Box>
+            <CustomerView />
+            {/* <Box>
               <Box mb={1}>
                 <FormsHeaderText text="Customer Detail" />
               </Box>
@@ -87,12 +91,43 @@ const InvoiceCreate = ({closeModal}) => {
                   />
                 </Grid>
               </Grid>
-            </Box>
+            </Box> */}
           </Grid>
 
           <Grid item lg={6} md={6} sm={6}>
             <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
-              <FormsHeaderText text="Plan" />
+              <FormsHeaderText text="Invoice Information" />
+            </Box>
+
+            <Grid container spacing={1} mb={1.5}>
+              <Grid item xs={4}>
+                <Input
+                  label="Date"
+                  value={moment(moment.now()).format("L")}
+                  register={register("date", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  label="Invoice Number"
+                  value={random(12, "uppernumeric")}
+                  register={register("invoice_number", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  label="Total Amount"
+                  value={"100000"}
+                  register={register("total_amount", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+            </Grid>
+
+            <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Plans" />
 
               <GlobalCustomButton>
                 <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />

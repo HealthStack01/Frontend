@@ -10,6 +10,7 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import {DetailView} from "../lead/LeadDetailView";
 
 const CreateSLA = ({closeModal}) => {
   const {register, control} = useForm();
@@ -24,70 +25,14 @@ const CreateSLA = ({closeModal}) => {
     <Box
       sx={{
         maxHeigth: "80vh",
-        width: "85vw",
+        width: "50vw",
       }}
     >
       <Grid container spacing={2}>
-        <Grid item lg={6} md={6} sm={12}>
-          <Box mb={2}>
-            <FormsHeaderText text="Company Details" />
-          </Box>
-
-          <Grid container spacing={1}>
-            <Grid item lg={6} md={8} sm={12}>
-              <Input
-                label="Company Name"
-                register={register("company_name", {required: true})}
-              />
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Deal Probability"
-                register={register("deal_probability", {required: true})}
-              />
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Deal Size"
-                register={register("deal_size", {required: true})}
-              />
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6}>
-              <CustomSelect
-                label="Deal Status"
-                options={["Open", "Closed", "Pending"]}
-                register={register("deal_status", {required: true})}
-              />
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6}>
-              <CustomSelect
-                label="Next Action"
-                options={["First", "Second", "Third"]}
-                register={register("next_action", {required: true})}
-              />
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6}>
-              <MuiCustomDatePicker
-                label="Closing Date"
-                name="closing_date"
-                control={control}
-              />
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6}>
-              <Input
-                label="Weight Forcast"
-                register={register("weight_forcast", {required: true})}
-              />
-            </Grid>
-          </Grid>
+        <Grid item lg={12} md={12} sm={12}>
+          <DetailView />
         </Grid>
-        <Grid item lg={6} md={6} sm={12}>
+        <Grid item lg={12} md={12} sm={12}>
           <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
             <FormsHeaderText text="Description" />
             {/* <GlobalCustomButton onClick={toggleDescriptionModal}>
@@ -108,6 +53,7 @@ const CreateSLA = ({closeModal}) => {
               <Typography
                 sx={{
                   color: "#ffffff",
+                  fontWeight: "600",
                 }}
               >
                 SLA Description
@@ -132,10 +78,10 @@ const CreateSLA = ({closeModal}) => {
           sx={{marginRight: "10px"}}
           onClick={() => console.log(description)}
         >
-          View Draft
+          Save as Draft
         </GlobalCustomButton>
 
-        <GlobalCustomButton>Generate SLA</GlobalCustomButton>
+        <GlobalCustomButton>Send SLA</GlobalCustomButton>
       </Box>
       <ModalBox
         open={descriptionModal}

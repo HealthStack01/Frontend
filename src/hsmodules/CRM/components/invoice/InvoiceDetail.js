@@ -6,11 +6,18 @@ import InvoiceDetailsTab from "./tabs/Details";
 import InvoicePlansTab from "./tabs/Plans";
 import ModalBox from "../../../../components/modal";
 import InvoicePrintOut from "./InvoicePrintOut";
+import InvoiceDeclineReason from "./InvoiceDecline";
+import BlockIcon from "@mui/icons-material/Block";
+import ApprovalIcon from "@mui/icons-material/Approval";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import {Grid} from "@mui/material";
 
 const InvoiceDetail = () => {
   const {register, reset} = useForm();
   const [currentTab, setCurrentTab] = useState("details");
   const [viewInvoice, setViewInvoice] = useState(false);
+  const [declineModal, setDeclineModal] = useState(false);
+  const [declineReason, setDeclineReason] = useState("");
 
   const handleChangeTab = tab => {
     setCurrentTab(tab);
@@ -32,38 +39,19 @@ const InvoiceDetail = () => {
   return (
     <Box
       sx={{
-        width: "800px",
+        width: "85vw",
         maxHeight: "80vh",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-        mb={2}
-      >
-        <GlobalCustomButton
-          sx={{
-            marginRight: "10px",
-          }}
-          onClick={() => handleChangeTab("details")}
-          color="info"
-        >
-          Details
-        </GlobalCustomButton>
+      <Grid container spacing={2}>
+        <Grid item lg={6} md={6} sm={12}>
+          <InvoiceDetailsTab />
+        </Grid>
 
-        <GlobalCustomButton
-          onClick={() => handleChangeTab("plans")}
-          color="warning"
-        >
-          Plans
-        </GlobalCustomButton>
-      </Box>
-
-      <Box>
-        <RenderedTab />
-      </Box>
+        <Grid item lg={6} md={6} sm={12}>
+          <InvoicePlansTab />
+        </Grid>
+      </Grid>
 
       <Box
         sx={{
@@ -72,12 +60,13 @@ const InvoiceDetail = () => {
         mt={2}
       >
         <GlobalCustomButton
-          variant="outlined"
           color="error"
           sx={{
             marginRight: "10px",
           }}
+          onClick={() => setDeclineModal(true)}
         >
+          <BlockIcon fontSize="small" sx={{marginRight: "5px"}} />
           Decline
         </GlobalCustomButton>
 
@@ -88,14 +77,30 @@ const InvoiceDetail = () => {
           }}
           onClick={() => setViewInvoice(true)}
         >
+          <ReceiptIcon fontSize="small" sx={{marginRight: "5px"}} />
           View Invoice
         </GlobalCustomButton>
 
-        <GlobalCustomButton>Approve</GlobalCustomButton>
+        <GlobalCustomButton>
+          <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
+          Approve
+        </GlobalCustomButton>
       </Box>
 
       <ModalBox open={viewInvoice} onClose={() => setViewInvoice(false)}>
         <InvoicePrintOut />
+      </ModalBox>
+
+      <ModalBox
+        open={declineModal}
+        onClose={() => setDeclineModal(false)}
+        header="Decline Invoice"
+      >
+        <InvoiceDeclineReason
+          reason={declineReason}
+          setReason={setDeclineReason}
+          closeModal={() => setDeclineModal(false)}
+        />
       </ModalBox>
     </Box>
   );
