@@ -136,7 +136,7 @@ const InvoiceCreate = ({closeModal}) => {
             </Box>
 
             <Grid container spacing={1}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <CustomSelect
                   register={register("plan", {required: true})}
                   label="Plan Type"
@@ -144,7 +144,16 @@ const InvoiceCreate = ({closeModal}) => {
                   //placeholder="Enter customer number"
                 />
               </Grid>
-              <Grid item xs={4}>
+
+              <Grid item xs={3}>
+                <Input
+                  register={register("premium", {required: true})}
+                  label="Premium"
+                  type="number"
+                />
+              </Grid>
+
+              <Grid item xs={3}>
                 <Input
                   register={register("no_month", {required: true})}
                   label="No of Plans"
@@ -153,7 +162,7 @@ const InvoiceCreate = ({closeModal}) => {
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Input
                   register={register("amount", {required: true})}
                   label="Amount"

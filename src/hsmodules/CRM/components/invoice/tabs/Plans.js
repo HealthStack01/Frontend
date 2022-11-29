@@ -107,7 +107,7 @@ const InvoicePlansTab = () => {
       </Box>
 
       <Grid container spacing={1}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <CustomSelect
             //register={register("plan_type", {required: true})}
             defaultValue={getValues().plan_type}
@@ -117,7 +117,16 @@ const InvoicePlansTab = () => {
             control={control}
           />
         </Grid>
-        <Grid item xs={4}>
+
+        <Grid item xs={3}>
+          <Input
+            register={register("premium", {required: true})}
+            label="Premium"
+            type="number"
+          />
+        </Grid>
+
+        <Grid item xs={3}>
           <Input
             register={register("no_of_months", {required: true})}
             label="No of Plans"
@@ -125,7 +134,7 @@ const InvoicePlansTab = () => {
           />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Input
             register={register("amount", {required: true})}
             label="Amount"
