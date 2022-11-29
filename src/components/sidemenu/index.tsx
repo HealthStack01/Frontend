@@ -262,12 +262,8 @@ export const menuItems = [
     to: '/app/referral',
     iconClassName: 'bi bi-person',
     subMenus: [
-<<<<<<< HEAD
       {name: "Incoming", to: "/app/referral/incoming"},
       {name: "Outgoing", to: "/app/referral/outgoing"},
-=======
-      { name: 'Incoming', to: '/app/referral/incoming' },
->>>>>>> 04a8e1592f79140c6e0892fcfe4189193fe39597
       {
         name: 'Referral account',
         to: '/app/referral/account',

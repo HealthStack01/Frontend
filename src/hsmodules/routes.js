@@ -15,14 +15,8 @@ import Signup from './auth/Signup';
 import PrivateOutlet from './PrivateOutlet';
 import Overview from './app/Overview';
 
-<<<<<<< HEAD
-
-const PharmacyDispense = lazy(() => import("./Pharmacy/Dispensary"));
-const BillLab = lazy(() => import("./Laboratory/BillLab"));
-=======
 const PharmacyDispense = lazy(() => import('./Pharmacy/Dispensary'));
 const BillLab = lazy(() => import('./Laboratory/BillLab'));
->>>>>>> 04a8e1592f79140c6e0892fcfe4189193fe39597
 
 const InventoryBillPrescription = lazy(() =>
   import('./inventory/BillPrescription')
@@ -228,7 +222,6 @@ const ReferralIncoming = lazy(() => import('./Appointment/referralWorkflow'));
 const BloodBankLab = lazy(() => import('./Bloodbank/Lab'));
 const ImmunizationInventory = lazy(() => import('./Immunization/Inventory'));
 
-<<<<<<< HEAD
 import PageLoaderComponent from "../components/page-loader/page-loader";
 import LazyLoader from "../components/lazy-loader/Lazy-Loader";
 // import ReferralIncome  from "./Referral/ReferralIncome";
@@ -236,11 +229,6 @@ import LazyLoader from "../components/lazy-loader/Lazy-Loader";
 import IncomingReferral from './Referral/ReferralListIncoming'
 import OutgoingReferral from './Referral/ReferralListOutcoming'
 
-=======
-import PageLoaderComponent from '../components/page-loader/page-loader';
-import LazyLoader from '../components/lazy-loader/Lazy-Loader';
-import Accreditation from './ManagedCare/Accreditation';
->>>>>>> 04a8e1592f79140c6e0892fcfe4189193fe39597
 
 const AccountDashboard = lazy(() =>
   import('./dashBoardUiComponent/@modules/AccountDashboard')

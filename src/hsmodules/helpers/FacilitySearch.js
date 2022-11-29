@@ -4,17 +4,6 @@ import client from "../../feathers";
 import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
-<<<<<<< HEAD
-import { UserContext, ObjectContext } from '../../context';
-import { toast } from 'react-toastify';
-import { FacilityCreate } from '../Admin/Facility';
-import ModalBox from '../../components/modal';
-import TextField from '@mui/material/TextField';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import DebouncedInput from './ui-components/inputs/DebouncedInput';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-=======
 import {UserContext, ObjectContext} from "../../context";
 import {toast} from "react-toastify";
 import {FacilityCreate} from "../Admin/Facility";
@@ -25,7 +14,6 @@ import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import DebouncedInput from "./ui-components/inputs/DebouncedInput";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
->>>>>>> 04a8e1592f79140c6e0892fcfe4189193fe39597
 
 //import MuiButton from "@mui/material/Button";
 // eslint-disable-next-line
