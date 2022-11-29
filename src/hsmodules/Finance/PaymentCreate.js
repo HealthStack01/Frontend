@@ -933,29 +933,20 @@ const config = {
           {partTable.find(i => i._id === row._id) && (
             <div>
               <div style={{marginBottom: "5px"}}>
-                <input
-                  className="input is-small selectadd"
-                  type="text"
-                  name={row._id}
-                  placeholder="Amount"
-                  value={partBulk}
-                  onChange={e => handlePartAmount(row, e)}
-                />
+                 <Input
+                        type="text"
+                        name={row._id}
+                        placeholder="Amount"
+                        value={partBulk}
+                        onChange={e => handlePartAmount(e)}
+                      />
               </div>
-              <button
-                style={{
-                  backgroundColor: "#3298dc",
-                  color: "#fff",
-                  fontSize: "0.75rem",
-                  borderRadius: "2px",
-                  padding: "0.4rem 1rem",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                onClick={e => handleUpdate(row, e)}
-              >
-                Update
-              </button>
+              <GlobalCustomButton
+               onClick={e => handleUpdate(row, e)}
+               sx={{marginRight: "15px",fontSize:"15px",fontWeight:"400"}}
+             >
+               Update
+             </GlobalCustomButton>
             </div>
           )}
         </div>
@@ -1168,6 +1159,14 @@ const config = {
             justifyContent: "space-between",
             gap:"14px"
           }}>
+              <GlobalCustomButton
+               disabled={!productItem.length > 0}
+               onClick={handlePayment}
+               sx={{marginRight: "15px"}}
+             >
+               <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+               Pay
+             </GlobalCustomButton>
             <GlobalCustomButton
                
                 sx={{marginRight: "15px"}}
@@ -1201,6 +1200,7 @@ const config = {
           </GlobalCustomButton>
           )}
           </PaystackConsumer>
+        
             </div>
           </div>
         </div>
@@ -1232,6 +1232,23 @@ const config = {
                     marginTop: "10px",
                   }}
                 >
+                  <GlobalCustomButton
+               disabled={!productItem.length > 0}
+               onClick={handlePayment}
+               sx={{marginRight: "15px"}}
+             >
+               <PaymentsIcon sx={{marginRight: "5px"}} fontSize="small" />
+               Pay
+             </GlobalCustomButton>
+             <GlobalCustomButton
+               color="error"
+               variant="outlined"
+               disabled={!productItem.length > 0}
+              onClick={closeModal}
+              >
+               
+                Cancel
+              </GlobalCustomButton>
                 </div>
               </div>
             </>

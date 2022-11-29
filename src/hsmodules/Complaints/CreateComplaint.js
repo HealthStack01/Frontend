@@ -7,6 +7,9 @@ import {BiChevronDown} from 'react-icons/bi';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import { FacilitySearch } from "../helpers/FacilitySearch";
+import CustomSelect from "../../components/inputs/basic/Select";
+import { bandTypeOptions } from "../../dummy-data";
 
 const DatePickerCustomInput = forwardRef(({value, onClick}, ref) => (
   <div
@@ -46,39 +49,45 @@ const CreateComplaint = ({closeModal}) => {
     >
       <Box sx={{width:"100%",display:"flex", flexDirection:"column", gap:"1.5rem"}}>
      
-            <Input
-              register={register("employers_name", {required: true})}
-              placeholder="Type here"
-              label="To"
-              
-            />
-            <Input
+           <Box>
+           <FacilitySearch/>
+           </Box>
+           <Box>
+           {/* <Input
               register={register("address", {required: true})}
               placeholder="Type here"
               label="Copy"
-            />
+            /> */}
+            <FacilitySearch/>
+           </Box>
         
+            <Box>
             <Input
               register={register("address", {required: true})}
-              placeholder="Type here"
+              
               label="Subject"
           
             />
+            </Box>
           
-            <Input
+           <Box>
+           <CustomSelect
               register={register("address", {required: true})}
-              placeholder="Type here"
+              options={bandTypeOptions}
               label="Category"
             />
+           </Box>
 
-            <CKEditor 
+           <Box>
+           <CKEditor 
             editor={ClassicEditor}
             data={text}
             onChange={(event, editor) => {
               const data = editor.getData()
               setText(data)
             }}
-            />           
+            /> 
+            </Box>          
 
 <GlobalCustomButton
               type="sumbit"

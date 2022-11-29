@@ -825,7 +825,6 @@ export function ComplaintList({openCreateModal}) {
         <div>loading</div>
       )} */}
       <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
-        <h1>Complaints</h1>
         <TableMenu>
           <div style={{display: "flex", alignItems: "center"}}>
             {handleSearch && (
@@ -850,7 +849,7 @@ export function ComplaintList({openCreateModal}) {
               onClick={openCreateModal}
             >
               <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-              New Complaint
+             Add New Complaint
             </MuiButton>
           )}
         </TableMenu>

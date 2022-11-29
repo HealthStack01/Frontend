@@ -41,6 +41,7 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import { G } from '@react-pdf/renderer';
 import { Modal } from 'semantic-ui-react';
 import { generalData } from './accData';
+import Accreditation from './Accreditation';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -66,17 +67,20 @@ export default function Provider({ standAlone }) {
           </ModalBox>
         )}
         {showModal === 2 && (
-          <ModalBox open={showModal} onClose={() => setShowModal(false)}>
+          <ModalBox
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            header="Provider Details"
+          >
             {/* <NewOrganizationCreate /> */}
             <OrganizationDetail setShowModal={setShowModal} />
           </ModalBox>
         )}
-
-        {showModal === 3 && (
+        {/* {showModal === 3 && (
           <ModalBox open={showModal} onClose={() => setShowModal(false)}>
             <NewOrganizationCreate />
           </ModalBox>
-        )}
+        )} */}
       </section>
     </>
   );
@@ -1291,6 +1295,452 @@ export function ProviderList({ showModal, setShowModal, standAlone }) {
   );
 }
 
+export function OrganizationDetail({ showModal, setShowModal }) {
+  // eslint-disable-next-line
+  const [error, setError] = useState(false); //,
+  //const [success, setSuccess] =useState(false)
+  // eslint-disable-next-line
+  const [message, setMessage] = useState(''); //,
+  //const facilityServ=client.service('/facility')
+  //const history = useHistory()
+  const { user, setUser } = useContext(UserContext);
+  const { state, setState } = useContext(ObjectContext);
+  const { register, handleSubmit, setValue, reset } = useForm();
+  const [isEdit, setIsEdit] = useState(false);
+  const [approve, setApprove] = useState(false);
+  const [reject, setReject] = useState(false);
+  const [isDeactivated, setIsDeactivated] = useState(false);
+  const [confirmDeactivate, setConfirmDeactivate] = useState(false);
+  const [confirmActivate, setConfirmActivate] = useState(false);
+  const [display, setDisplay] = useState(1);
+
+  const facility = state.facilityModule.selectedFacility;
+
+  const handleAcc = async () => {
+    // const newfacilityModule = {
+    //   selectedFacility: facility,
+    //   show: 'modify',
+    // };
+    // await setState((prevstate) => ({
+    //   ...prevstate,
+    //   facilityModule: newfacilityModule,
+    // }));
+    // //console.log(state)
+    setShowModal(3);
+  };
+  const closeForm = async () => {
+    // const newfacilityModule = {
+    //   selectedFacility: facility,
+    //   show: 'create',
+    // };
+    // await setState((prevstate) => ({
+    //   ...prevstate,
+    //   facilityModule: newfacilityModule,
+    // }));
+    // console.log('close form');
+    setShowModal(0);
+  };
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+
+    //  console.log(data);
+
+    //  setSuccess(false);
+
+    //  ClientServ.patch(Client._id, data)
+    //    .then((res) => {
+    //      toast("Client updated succesfully");
+    //      changeState();
+    //      closeDetailModal();
+    //    })
+    //    .catch((err) => {
+    //      toast(`Error updating Client, probable network issues or ${err}`);
+    //    });
+  };
+  const handleApprove = () => {
+    toast.success('St.Nicholas Hospital has been approved');
+    setApprove(false);
+  };
+  const handleReject = () => {
+    toast.error('St.Nicholas Hospital has been rejected');
+    setReject(false);
+  };
+  const handleDeactivate = () => {
+    toast.info('St.Nicholas Hospital has been deactivated');
+    setIsDeactivated(true);
+    setConfirmDeactivate(false);
+  };
+  const handleActivate = () => {
+    toast.info('St.Nicholas Hospital has been activated');
+    setIsDeactivated(false);
+    setConfirmActivate(false);
+  };
+  const bankData = [
+    {
+      bank_name: 'Access Bank',
+      account_name: 'St.Nicholas Hospital',
+      account_number: '1234567890',
+      branch: 'Lagos Island',
+      sort_code: '123456',
+    },
+    {
+      bank_name: 'First Bank',
+      account_name: 'St.Nicholas Hospital',
+      account_number: '1234567890',
+      branch: 'Banana Island',
+      sort_code: '123456',
+    },
+  ];
+  const bankColumns = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Bank Name',
+      key: 'bank_name',
+      description: 'Bank Name',
+      selector: (row) => row.bank_name,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Account Name',
+      key: 'account_name',
+      description: 'Account Name',
+      selector: (row) => row.account_name,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Account Number',
+      key: 'account_number',
+      description: 'Account Number',
+      selector: (row) => row.account_number,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Branch',
+      key: 'branch',
+      description: 'Branch',
+      selector: (row) => row.branch,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Sort Code',
+      key: 'sort_code',
+      description: 'Sort Code',
+      selector: (row) => row.sort_code,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+  return (
+    <>
+      <Box
+        sx={{
+          maxheight: '80vh',
+          width: '800px',
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'right',
+          }}
+          mb={2}
+        >
+          {!isEdit && (
+            <GlobalCustomButton
+              text="Edit"
+              onClick={() => {
+                setIsEdit(true), setDisplay(1);
+              }}
+              color="secondary"
+              customStyles={{ marginRight: '10px' }}
+            />
+          )}
+          <GlobalCustomButton
+            text="Accreditation"
+            onClick={() => setDisplay(2)}
+            color="primary"
+            customStyles={{ marginRight: '10px' }}
+          />
+          {isEdit && (
+            <>
+              <GlobalCustomButton
+                text="Approve"
+                onClick={() => setApprove(true)}
+                color="success"
+                customStyles={{ marginRight: '10px' }}
+              />
+              <GlobalCustomButton
+                text="Reject"
+                onClick={() => setReject(true)}
+                color="error"
+                customStyles={{ marginRight: '10px' }}
+                variant="outlined"
+              />
+              <GlobalCustomButton
+                text={isDeactivated ? 'Activate' : 'Deactivate'}
+                onClick={
+                  isDeactivated
+                    ? () => setConfirmActivate(true)
+                    : () => setConfirmDeactivate(true)
+                }
+                color={isDeactivated ? 'success' : 'error'}
+                customStyles={{ marginRight: '10px' }}
+              />
+            </>
+          )}
+          <GlobalCustomButton
+            text="Close"
+            onClick={closeForm}
+            color="warning"
+            customStyles={{ marginRight: '10px' }}
+          />
+        </Box>
+        {display === 1 && (
+          <Box>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('name_provider')}
+                    label="Hospital Name"
+                    value="St.Nicholas Hospital"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="Address"
+                    value="1234,5th Avenue,New York"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="City"
+                    value="Lagos"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="Phone"
+                    value="09123802410"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="Email"
+                    value="motun6@gmail.com"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="CEO"
+                    value="Dr. Simpa"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="Type"
+                    value="HMO"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('lga')}
+                    label="Category"
+                    value="HMO"
+                    disabled={!isEdit}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormsHeaderText text="Bank Details" />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTable
+                    title={''}
+                    columns={bankColumns}
+                    data={bankData}
+                    pointerOnHover
+                    highlightOnHover
+                    striped
+                  />
+                </Grid>
+              </Grid>
+              {isEdit && (
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'right',
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    text="Save"
+                    onClick={() => handleSubmit(onSubmit)}
+                    color="success"
+                    customStyles={{ marginRight: '10px' }}
+                  />
+                  <GlobalCustomButton
+                    text="Cancel"
+                    onClick={() => setIsEdit(false)}
+                    color="warning"
+                  />
+                </Box>
+              )}
+            </form>
+            {approve && (
+              <ModalBox open onClose={() => setApprove(false)}>
+                <p style={{ textAlign: 'center' }}>
+                  <FormsHeaderText
+                    text={`Are you sure you want to approve "St.Nicholas Hospital"?"`}
+                  />
+                </p>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    text="Yes"
+                    onClick={() => handleApprove()}
+                    color="success"
+                    customStyles={{ marginRight: '10px' }}
+                  />
+                  <GlobalCustomButton
+                    text="No"
+                    onClick={() => setApprove(false)}
+                    color="error"
+                  />
+                </Box>
+              </ModalBox>
+            )}
+            {reject && (
+              <ModalBox open onClose={() => setReject(false)}>
+                <p style={{ textAlign: 'center' }}>
+                  <FormsHeaderText
+                    text={`Are you sure you want to reject "St.Nicholas Hospital"?"`}
+                  />
+                </p>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    text="Yes"
+                    onClick={() => handleReject()}
+                    color="error"
+                    customStyles={{ marginRight: '10px' }}
+                  />
+                  <GlobalCustomButton
+                    text="No"
+                    onClick={() => setReject(false)}
+                    color="warning"
+                  />
+                </Box>
+              </ModalBox>
+            )}
+            {confirmDeactivate && (
+              <ModalBox open onClose={() => setConfirmDeactivate(false)}>
+                <p style={{ textAlign: 'center' }}>
+                  <FormsHeaderText
+                    text={`Are you sure you want to deactivate "St.Nicholas Hospital"?"`}
+                  />
+                </p>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    text="Yes"
+                    onClick={() => handleDeactivate()}
+                    color="error"
+                    customStyles={{ marginRight: '10px' }}
+                  />
+                  <GlobalCustomButton
+                    text="No"
+                    onClick={() => setConfirmDeactivate(false)}
+                    color="warning"
+                  />
+                </Box>
+              </ModalBox>
+            )}
+            {confirmActivate && (
+              <ModalBox open onClose={() => setConfirmDeactivate(false)}>
+                <p style={{ textAlign: 'center' }}>
+                  <FormsHeaderText
+                    text={`Are you sure you want to Activate "St.Nicholas Hospital"?"`}
+                  />
+                </p>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  mt={2}
+                >
+                  <GlobalCustomButton
+                    text="Yes"
+                    onClick={() => handleActivate()}
+                    color="success"
+                    customStyles={{ marginRight: '10px' }}
+                  />
+                  <GlobalCustomButton
+                    text="No"
+                    onClick={() => setConfirmActivate(false)}
+                    color="warning"
+                  />
+                </Box>
+              </ModalBox>
+            )}
+          </Box>
+        )}
+        {display === 2 && <Accreditation />}
+      </Box>
+    </>
+  );
+}
 export function NewOrganizationCreate() {
   const { register, handleSubmit } = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
@@ -1910,447 +2360,6 @@ export function NewOrganizationCreate() {
           <Button label="Add" type="submit" onClick={handleClick} />
         </Grid>
       </Grid> */}
-    </>
-  );
-}
-
-export function OrganizationDetail({ showModal, setShowModal }) {
-  // eslint-disable-next-line
-  const [error, setError] = useState(false); //,
-  //const [success, setSuccess] =useState(false)
-  // eslint-disable-next-line
-  const [message, setMessage] = useState(''); //,
-  //const facilityServ=client.service('/facility')
-  //const history = useHistory()
-  const { user, setUser } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
-  const { register, handleSubmit, setValue, reset } = useForm();
-  const [isEdit, setIsEdit] = useState(false);
-  const [approve, setApprove] = useState(false);
-  const [reject, setReject] = useState(false);
-  const [isDeactivated, setIsDeactivated] = useState(false);
-  const [confirmDeactivate, setConfirmDeactivate] = useState(false);
-  const [confirmActivate, setConfirmActivate] = useState(false);
-
-  const facility = state.facilityModule.selectedFacility;
-
-  const handleAcc = async () => {
-    // const newfacilityModule = {
-    //   selectedFacility: facility,
-    //   show: 'modify',
-    // };
-    // await setState((prevstate) => ({
-    //   ...prevstate,
-    //   facilityModule: newfacilityModule,
-    // }));
-    // //console.log(state)
-    setShowModal(3);
-  };
-  const closeForm = async () => {
-    // const newfacilityModule = {
-    //   selectedFacility: facility,
-    //   show: 'create',
-    // };
-    // await setState((prevstate) => ({
-    //   ...prevstate,
-    //   facilityModule: newfacilityModule,
-    // }));
-    // console.log('close form');
-    setShowModal(0);
-  };
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-
-    //  console.log(data);
-
-    //  setSuccess(false);
-
-    //  ClientServ.patch(Client._id, data)
-    //    .then((res) => {
-    //      toast("Client updated succesfully");
-    //      changeState();
-    //      closeDetailModal();
-    //    })
-    //    .catch((err) => {
-    //      toast(`Error updating Client, probable network issues or ${err}`);
-    //    });
-  };
-  const handleApprove = () => {
-    toast.success('St.Nicholas Hospital has been approved');
-    setApprove(false);
-  };
-  const handleReject = () => {
-    toast.error('St.Nicholas Hospital has been rejected');
-    setReject(false);
-  };
-  const handleDeactivate = () => {
-    toast.info('St.Nicholas Hospital has been deactivated');
-    setIsDeactivated(true);
-    setConfirmDeactivate(false);
-  };
-  const handleActivate = () => {
-    toast.info('St.Nicholas Hospital has been activated');
-    setIsDeactivated(false);
-    setConfirmActivate(false);
-  };
-  const bankData = [
-    {
-      bank_name: 'Access Bank',
-      account_name: 'St.Nicholas Hospital',
-      account_number: '1234567890',
-      branch: 'Lagos Island',
-      sort_code: '123456',
-    },
-    {
-      bank_name: 'First Bank',
-      account_name: 'St.Nicholas Hospital',
-      account_number: '1234567890',
-      branch: 'Banana Island',
-      sort_code: '123456',
-    },
-  ];
-  const bankColumns = [
-    {
-      name: 'S/N',
-      key: 'sn',
-      description: 'SN',
-      selector: (row) => row.sn,
-      sortable: true,
-      inputType: 'HIDDEN',
-    },
-    {
-      name: 'Bank Name',
-      key: 'bank_name',
-      description: 'Bank Name',
-      selector: (row) => row.bank_name,
-      sortable: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'Account Name',
-      key: 'account_name',
-      description: 'Account Name',
-      selector: (row) => row.account_name,
-      sortable: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'Account Number',
-      key: 'account_number',
-      description: 'Account Number',
-      selector: (row) => row.account_number,
-      sortable: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'Branch',
-      key: 'branch',
-      description: 'Branch',
-      selector: (row) => row.branch,
-      sortable: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'Sort Code',
-      key: 'sort_code',
-      description: 'Sort Code',
-      selector: (row) => row.sort_code,
-      sortable: true,
-      inputType: 'TEXT',
-    },
-  ];
-  return (
-    <>
-      <Box
-        sx={{
-          maxheight: '80vh',
-          width: '800px',
-        }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'right',
-          }}
-          mb={2}
-        >
-          {!isEdit && (
-            <GlobalCustomButton
-              text="Edit"
-              onClick={() => setIsEdit(true)}
-              color="secondary"
-              customStyles={{ marginRight: '10px' }}
-            />
-          )}
-          <GlobalCustomButton
-            text="Accreditation"
-            onClick={handleAcc}
-            color="primary"
-            customStyles={{ marginRight: '10px' }}
-          />
-          {isEdit && (
-            <>
-              <GlobalCustomButton
-                text="Approve"
-                onClick={() => setApprove(true)}
-                color="success"
-                customStyles={{ marginRight: '10px' }}
-              />
-              <GlobalCustomButton
-                text="Reject"
-                onClick={() => setReject(true)}
-                color="error"
-                customStyles={{ marginRight: '10px' }}
-                variant="outlined"
-              />
-              <GlobalCustomButton
-                text={isDeactivated ? 'Activate' : 'Deactivate'}
-                onClick={
-                  isDeactivated
-                    ? () => setConfirmActivate(true)
-                    : () => setConfirmDeactivate(true)
-                }
-                color={isDeactivated ? 'success' : 'error'}
-                customStyles={{ marginRight: '10px' }}
-              />
-            </>
-          )}
-          <GlobalCustomButton
-            text="Close"
-            onClick={closeForm}
-            color="warning"
-            customStyles={{ marginRight: '10px' }}
-          />
-        </Box>
-        <Box>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <Input
-                  register={register('name_provider')}
-                  label="Hospital Name"
-                  value="St.Nicholas Hospital"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="Address"
-                  value="1234,5th Avenue,New York"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="City"
-                  value="Lagos"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="Phone"
-                  value="09123802410"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="Email"
-                  value="motun6@gmail.com"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="CEO"
-                  value="Dr. Simpa"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="Type"
-                  value="HMO"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Input
-                  register={register('lga')}
-                  label="Category"
-                  value="HMO"
-                  disabled={!isEdit}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormsHeaderText text="Bank Details" />
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTable
-                  title={''}
-                  columns={bankColumns}
-                  data={bankData}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                />
-              </Grid>
-            </Grid>
-            {isEdit && (
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'right',
-                }}
-                mt={2}
-              >
-                <GlobalCustomButton
-                  text="Save"
-                  onClick={() => handleSubmit(onSubmit)}
-                  color="success"
-                  customStyles={{ marginRight: '10px' }}
-                />
-                <GlobalCustomButton
-                  text="Cancel"
-                  onClick={() => setIsEdit(false)}
-                  color="warning"
-                />
-              </Box>
-            )}
-          </form>
-          {approve && (
-            <ModalBox open onClose={() => setApprove(false)}>
-              <p style={{ textAlign: 'center' }}>
-                <FormsHeaderText
-                  text={`Are you sure you want to approve "St.Nicholas Hospital"?"`}
-                />
-              </p>
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                mt={2}
-              >
-                <GlobalCustomButton
-                  text="Yes"
-                  onClick={() => handleApprove()}
-                  color="success"
-                  customStyles={{ marginRight: '10px' }}
-                />
-                <GlobalCustomButton
-                  text="No"
-                  onClick={() => setApprove(false)}
-                  color="error"
-                />
-              </Box>
-            </ModalBox>
-          )}
-          {reject && (
-            <ModalBox open onClose={() => setReject(false)}>
-              <p style={{ textAlign: 'center' }}>
-                <FormsHeaderText
-                  text={`Are you sure you want to reject "St.Nicholas Hospital"?"`}
-                />
-              </p>
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                mt={2}
-              >
-                <GlobalCustomButton
-                  text="Yes"
-                  onClick={() => handleReject()}
-                  color="error"
-                  customStyles={{ marginRight: '10px' }}
-                />
-                <GlobalCustomButton
-                  text="No"
-                  onClick={() => setReject(false)}
-                  color="warning"
-                />
-              </Box>
-            </ModalBox>
-          )}
-          {confirmDeactivate && (
-            <ModalBox open onClose={() => setConfirmDeactivate(false)}>
-              <p style={{ textAlign: 'center' }}>
-                <FormsHeaderText
-                  text={`Are you sure you want to deactivate "St.Nicholas Hospital"?"`}
-                />
-              </p>
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                mt={2}
-              >
-                <GlobalCustomButton
-                  text="Yes"
-                  onClick={() => handleDeactivate()}
-                  color="error"
-                  customStyles={{ marginRight: '10px' }}
-                />
-                <GlobalCustomButton
-                  text="No"
-                  onClick={() => setConfirmDeactivate(false)}
-                  color="warning"
-                />
-              </Box>
-            </ModalBox>
-          )}
-          {confirmActivate && (
-            <ModalBox open onClose={() => setConfirmDeactivate(false)}>
-              <p style={{ textAlign: 'center' }}>
-                <FormsHeaderText
-                  text={`Are you sure you want to Activate "St.Nicholas Hospital"?"`}
-                />
-              </p>
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                mt={2}
-              >
-                <GlobalCustomButton
-                  text="Yes"
-                  onClick={() => handleActivate()}
-                  color="success"
-                  customStyles={{ marginRight: '10px' }}
-                />
-                <GlobalCustomButton
-                  text="No"
-                  onClick={() => setConfirmActivate(false)}
-                  color="warning"
-                />
-              </Box>
-            </ModalBox>
-          )}
-        </Box>
-      </Box>
     </>
   );
 }
