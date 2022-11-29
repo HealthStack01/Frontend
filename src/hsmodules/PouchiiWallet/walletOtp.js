@@ -42,29 +42,31 @@ function resetTimer  () {
             phoneNumber: "+2347032041903",
           }
         );
-      console.log(res.data)
+      // console.log(res.data)
           toast.success('Wallet Created Successfully');
           return res.data
     } catch (error) {
       toast.error(error);
-      console.log(error)
+      // console.log(error)
     }
 }
 
 
 
     return(
-        <Box sx={{display:"flex", marginTop:"4rem", flexDirection:"column", alignItems:"center",gap:"2rem"}}>
+        <Box sx={{display:"flex",flexDirection:"column", marginBlock:"12rem", alignItems:"center"}}>
            <form onSubmit={handleOtp}>
-           <Typography mb={4} sx={{fontSize:"20px", fontWeight:"bold"}}>Please enter the  Otp and your Phone Number</Typography>
+           <Typography mb={4} sx={{fontSize:"20px", fontWeight:"bold"}}>Please enter the  OTP and your Phone Number</Typography>
+           <Box sx={{width:"100%"}} mb={4}>
            <Input
                     register={register("otp")}
                     label="OTP"
-                    placeholder="Enter your OTP code here"
+                    placeholder="Enter your OTP code"
                     value={otpNumber}
                     onChange={(e) => setOtpNumber(e.target.value)}
-                    sx={{width:"50%"}}
+                    
                   />
+            </Box>
                 <Input
                     label="Phone Number"
                     placeholder="Enter your phone number"
@@ -79,20 +81,22 @@ function resetTimer  () {
                         message: "Enter a valid phone number"
                       }
                     })}
-                    sx={{width:"50%"}}
+                   
                   /> 
-                 <GlobalCustomButton
-                sx={{marginTop: "15px",fontSize:"16px", fontWeight:"bold",paddingInline:"2rem"}}
+          
+                  <Box style={{display:"flex", justifyContent:"space-between", alignItems:"center"}} mt={4}>
+                  <GlobalCustomButton
               >
-  
-                Verify
+                Verify Otp
               </GlobalCustomButton>
               <GlobalCustomButton
-                sx={{marginTop: "15px",fontSize:"16px", fontWeight:"bold",paddingInline:"2rem"}}
+              color="error"
               >
-                Send Otp
+                Resend Otp
               </GlobalCustomButton>
-              <Typography mt={4} sx={{fontSize:"17px", fontWeight:"bold"}} onClick={resetTimer}>Resend OTP in 00:{timer}</Typography>
+                  </Box>
+                 
+              <Typography mt={4} sx={{fontSize:"14px", fontWeight:"bold"}} onClick={resetTimer}>Resend OTP in 00:{timer}</Typography>
            </form>
         </Box>
     )
