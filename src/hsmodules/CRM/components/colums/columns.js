@@ -67,7 +67,7 @@ export const getStaffColumns = (action, disableAction = false) => {
   return staffColumns;
 };
 
-export const getContactColumns = (action, disableAction) => {
+export const getContactColumns = (action, disableAction, omit) => {
   const contactColumns = [
     {
       name: "Name",
@@ -125,6 +125,7 @@ export const getContactColumns = (action, disableAction) => {
       sortable: true,
       required: true,
       inputType: "NUMBER",
+      omit: omit,
     },
   ];
 
@@ -325,4 +326,85 @@ export const getUploadColumns = (action, disableAction) => {
   ];
 
   return contactColumns;
+};
+
+export const getPlansColumns = (action, disableAction) => {
+  const plansColumns = [
+    {
+      name: "S/N",
+      width: "40px",
+      style: {color: "#0364FF"},
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Plan Type",
+      key: "file_name",
+      description: "Enter Date",
+      selector: row => row.plan_type,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Date",
+      style: {color: "#0364FF"},
+      key: "created_at",
+      description: "Enter Date",
+      selector: row => moment(row.created_at).format("L"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Duration(months)",
+      style: {color: "#0364FF"},
+      key: "no_of_months",
+      description: "Enter Date",
+      selector: row => `${row.no_of_months} month(s)`,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Amount(₦)",
+      style: {color: "#0364FF"},
+      key: "amount",
+      description: "Enter Date",
+      selector: row => row.amount,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: "Del",
+      width: "80px",
+      center: true,
+      key: "action",
+      description: "Enter Date",
+      selector: row => (
+        <IconButton
+          onClick={() => action(row)}
+          disabled={disableAction}
+          color="error"
+        >
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: "NUMBER",
+    },
+  ];
+
+  return plansColumns;
 };

@@ -482,24 +482,17 @@ export function PolicyList({ showModal, setShowModal }) {
               </Button>
             )}
           </TableMenu>
-          <div
-            style={{
-              width: '100%',
-              height: 'calc(100vh - 90px)',
-              overflow: 'auto',
-            }}
-          >
-            <CustomTable
-              title={''}
-              columns={PolicySchema}
-              data={facilities}
-              pointerOnHover
-              highlightOnHover
-              striped
-              onRowClicked={handleRow}
-              progressPending={loading}
-            />
-          </div>
+
+          <CustomTable
+            title={''}
+            columns={PolicySchema}
+            data={facilities}
+            pointerOnHover
+            highlightOnHover
+            striped
+            onRowClicked={handleRow}
+            progressPending={loading}
+          />
         </PageWrapper>
       </div>
     </>

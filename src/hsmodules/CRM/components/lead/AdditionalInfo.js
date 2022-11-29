@@ -12,7 +12,7 @@ const AdditionalInformationCard = ({action, data}) => {
       sx={{
         width: "100%",
         display: "flex",
-        padding: "10px 10px",
+        padding: "8px 8px",
         justifyContent: "space-between",
         boxShadow: 2,
         borderRadius: "7.5px",
@@ -52,7 +52,7 @@ const AdditionalInformationCard = ({action, data}) => {
       <IconButton
         size="small"
         onClick={action}
-        sx={{width: "40px", height: "40px"}}
+        sx={{width: "30px", height: "30px"}}
         color="error"
       >
         <DeleteOutline fontSize="small" />
@@ -68,7 +68,7 @@ export const CreateAdditionalInfo = ({addInfo, closeModal}) => {
 
   const handleAddInfo = data => {
     const newData = {
-      created_by: data.created_by,
+      created_by: "Sulaimon Olaniran",
       information: data.additional_info,
       created_at: moment.now(),
       _id: `${Math.random()}`,
@@ -86,13 +86,6 @@ export const CreateAdditionalInfo = ({addInfo, closeModal}) => {
     >
       <Box mb={2}>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <Input
-              label="Created By"
-              register={register("created_by", {required: true})}
-            />
-          </Grid>
-
           <Grid item xs={12}>
             <Textarea
               label="Additional Information"

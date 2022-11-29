@@ -3,39 +3,15 @@ import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
-import DatePicker from "react-datepicker";
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import {FileUploader} from "react-drag-drop-files";
+var random = require("random-string-generator");
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
-import BasicDatePicker from "../../../../components/inputs/Date";
-import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-import Textarea from "../../../../components/inputs/basic/Textarea";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../../../components/customtable";
-
-const UploadComponent = ({}) => {
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "150px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        border: "1px dashed gray",
-        cursor: "pointer",
-        borderRadius: "7.5px",
-      }}
-    >
-      <CloudUploadOutlinedIcon fontSize="large" />
-      <GlobalCustomButton variant="outlined">Search Device</GlobalCustomButton>
-    </Box>
-  );
-};
+import moment from "moment";
+import {CustomerView} from "../lead/LeadDetailView";
 
 const InvoiceCreate = ({closeModal}) => {
   const [plans, setPlans] = useState([]);
@@ -43,10 +19,6 @@ const InvoiceCreate = ({closeModal}) => {
   const {register} = useForm();
 
   const planColumns = [];
-
-  const handleSlaChange = () => {};
-
-  const handleIntentChange = () => {};
 
   return (
     <>
@@ -58,7 +30,8 @@ const InvoiceCreate = ({closeModal}) => {
       >
         <Grid container spacing={2}>
           <Grid item lg={6} md={6} sm={6}>
-            <Box>
+            <CustomerView />
+            {/* <Box>
               <Box mb={1}>
                 <FormsHeaderText text="Customer Detail" />
               </Box>
@@ -118,42 +91,43 @@ const InvoiceCreate = ({closeModal}) => {
                   />
                 </Grid>
               </Grid>
-              {/* 
-              <Box sx={{display: "flex", width: "100%"}} mt={2}>
-                <Grid container spacing={2}>
-                  <Grid item lg={4} md={4} sm={6}>
-                    <FormsHeaderText text="Signed SLA" />
-                    <Box>
-                      <FileUploader
-                        multiple={false}
-                        handleChange={handleSlaChange}
-                        name="upload"
-                        types={["jpeg", "jpg"]}
-                        children={<UploadComponent />}
-                      />
-                    </Box>
-                  </Grid>
-
-                  <Grid item lg={4} md={4} sm={6}>
-                    <FormsHeaderText text="Letter of Intent" />
-                    <Box>
-                      <FileUploader
-                        multiple={false}
-                        handleChange={handleIntentChange}
-                        name="upload"
-                        types={["jpeg", "jpg"]}
-                        children={<UploadComponent />}
-                      />
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box> */}
-            </Box>
+            </Box> */}
           </Grid>
 
           <Grid item lg={6} md={6} sm={6}>
             <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
-              <FormsHeaderText text="Plan" />
+              <FormsHeaderText text="Invoice Information" />
+            </Box>
+
+            <Grid container spacing={1} mb={1.5}>
+              <Grid item xs={4}>
+                <Input
+                  label="Date"
+                  value={moment(moment.now()).format("L")}
+                  register={register("date", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  label="Invoice Number"
+                  value={random(12, "uppernumeric")}
+                  register={register("invoice_number", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  label="Total Amount"
+                  value={"100000"}
+                  register={register("total_amount", {required: true})}
+                  disabled={true}
+                />
+              </Grid>
+            </Grid>
+
+            <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
+              <FormsHeaderText text="Plans" />
 
               <GlobalCustomButton>
                 <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
@@ -173,7 +147,7 @@ const InvoiceCreate = ({closeModal}) => {
               <Grid item xs={4}>
                 <Input
                   register={register("no_month", {required: true})}
-                  label="No of Months"
+                  label="No of Plans"
                   type="text"
                   //placeholder="Enter customer number"
                 />

@@ -1,4 +1,5 @@
 import {
+  Box,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -9,7 +10,6 @@ import {Controller, useForm} from "react-hook-form";
 import {Link, useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
-
 import AuthWrapper from "../../components/AuthWrapper";
 import Button from "../../components/buttons/Button";
 import Input from "../../components/inputs/basic/Input";
@@ -17,6 +17,8 @@ import PasswordInput from "../../components/inputs/basic/Password";
 import Preloader from "../../components/utilities/Preloader";
 import {UserContext} from "../../context";
 import client from "../../feathers";
+import LoginIcon from "@mui/icons-material/Login";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 function Login() {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ function Login() {
         email,
         password,
       })
-      .then((res) => {
+      .then(res => {
         const user = {
           ...res.user,
           currentEmployee: {...res.user.employeeData[0]},
@@ -54,7 +56,7 @@ function Login() {
 
         navigate("/app");
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error(`Error loggin in User, probable network issues  ${err}`);
       });
   };
@@ -69,20 +71,26 @@ function Login() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <ToastContainer theme="colored" />
 
-            <Controller
-              name="email"
-              control={control}
-              render={({field: {ref: _re, ...field}}) => (
-                <Input {...field} type="email" label="Email" />
-              )}
-            />
-            <Controller
-              name="password"
-              control={control}
-              render={({field: {ref: _re, ...field}}) => (
-                <PasswordInput {...field} />
-              )}
-            />
+            <Box mb={2}>
+              <Controller
+                name="email"
+                control={control}
+                render={({field: {ref: _re, ...field}}) => (
+                  <Input {...field} type="email" label="Email" />
+                )}
+              />
+            </Box>
+
+            <Box>
+              <Controller
+                name="password"
+                control={control}
+                render={({field: {ref: _re, ...field}}) => (
+                  <PasswordInput {...field} />
+                )}
+              />
+            </Box>
+
             <FormControl
               component="fieldset"
               sx={{width: "1r00%", mt: 1, mb: 1}}
@@ -114,12 +122,28 @@ function Login() {
                 Click here
               </Link>
             </p>
-            <Button
+            {/* <Button
               type="submit"
               label="Login"
               fullwidth="true"
               loading={loading}
-            />
+            /> */}
+            <GlobalCustomButton
+              onClick={handleSubmit(onSubmit)}
+              loading={loading}
+              sx={{
+                width: "100%",
+                height: "38px",
+              }}
+            >
+              <LoginIcon
+                fontSize="small"
+                sx={{
+                  marginRight: "5px",
+                }}
+              />
+              Login
+            </GlobalCustomButton>
           </form>
 
           <div className="bottom-center">

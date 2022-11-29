@@ -58,11 +58,10 @@ const MuiCustomTimePicker = ({
                 sx={{
                   width: "100%",
                   fontSize: "0.8rem",
-                  height: "40px",
-                  "& .MuiInputBase-input.Mui-disabled": {
+                  "& .MuiInputBase-input": {
                     WebkitTextFillColor: "black",
                     fontSize: "0.8rem",
-                    height: "40px",
+                    height: "2.2rem",
                     padding: "0 10px",
                   },
                 }}

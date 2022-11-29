@@ -4,7 +4,6 @@
    font-size: calc(10px + 2vmin);*/
 
   min-height: 100vh;
-
   /*  display: flex;
   flex-direction: column;
   align-items: center;
@@ -317,12 +316,12 @@ div::-webkit-scrollbar-thumb {
 
 .date-box {
   position: relative;
-  height: 40px;
+  height: 2.2rem;
   width: 100%;
   margin: 0.5rem 0;
   text-align: left;
 }
 
-.MuiInputLabel-root {
+/* .MuiInputLabel-root {
   font-size: 0.75rem !important;
-}
+} */

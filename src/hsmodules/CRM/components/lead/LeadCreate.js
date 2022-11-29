@@ -84,7 +84,7 @@ const LeadsCreate = ({closeModal}) => {
             <Box item>
               <FormsHeaderText text="Customer Details" />
 
-              <Grid container spacing={2} mt={0.5}>
+              <Grid container spacing={1} mt={0.5}>
                 <Grid item xs={6}>
                   <Input
                     register={register("customer_name", {required: true})}
@@ -199,45 +199,6 @@ const LeadsCreate = ({closeModal}) => {
           {/* ****************************************************************************************** */}
 
           <Grid item lg={6} md={6} sm={12}>
-            <Box>
-              <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                <FormsHeaderText text="Additional Information" />
-                <GlobalCustomButton onClick={() => setInfoModal(true)}>
-                  <AddCircleOutlineOutlinedIcon
-                    fontSize="small"
-                    sx={{marginRight: "5px"}}
-                  />
-                  Add Information
-                </GlobalCustomButton>
-              </Box>
-
-              <Box mt={1}>
-                {informations.length > 0 ? (
-                  informations.map((info, index) => (
-                    <Box sx={{mb: 2}}>
-                      <AdditionalInformationCard
-                        data={info}
-                        action={() => removeAdditionalInfo(info)}
-                        key={index}
-                      />
-                    </Box>
-                  ))
-                ) : (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Typography sx={{fontSize: "0.7rem", color: "#000000"}}>
-                      You haven't added any information yet..
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-            </Box>
-
             <Box mb={2}>
               <Box
                 sx={{
@@ -255,7 +216,11 @@ const LeadsCreate = ({closeModal}) => {
                   onClick={() => setContactModal(true)}
                   size="small"
                 >
-                  <AddCircleOutlineOutlinedIcon fontSize="small" /> Add Contact
+                  <AddCircleOutlineOutlinedIcon
+                    fontSize="small"
+                    sx={{marginRight: "5px"}}
+                  />{" "}
+                  Add Contact
                 </Button>
               </Box>
 
@@ -293,7 +258,7 @@ const LeadsCreate = ({closeModal}) => {
                 }}
                 mb={1.6}
               >
-                <FormsHeaderText text="Staff Details" />
+                <FormsHeaderText text="Assign Staffs" />
                 <Button
                   sx={{textTransform: "capitalize"}}
                   variant="contained"
@@ -310,7 +275,10 @@ const LeadsCreate = ({closeModal}) => {
               </Box>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <EmployeeSearch getSearchfacility={handleSelectedStaff} />
+                  <EmployeeSearch
+                    getSearchfacility={handleSelectedStaff}
+                    label="Search for Staff"
+                  />
                 </Grid>
               </Grid>
 
