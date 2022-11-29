@@ -15,6 +15,7 @@ import Signup from "./auth/Signup";
 import PrivateOutlet from "./PrivateOutlet";
 import Overview from "./app/Overview";
 
+
 const PharmacyDispense = lazy(() => import("./Pharmacy/Dispensary"));
 const BillLab = lazy(() => import("./Laboratory/BillLab"));
 
@@ -224,6 +225,11 @@ const ImmunizationInventory = lazy(() => import("./Immunization/Inventory"));
 
 import PageLoaderComponent from "../components/page-loader/page-loader";
 import LazyLoader from "../components/lazy-loader/Lazy-Loader";
+// import ReferralIncome  from "./Referral/ReferralIncome";
+
+import IncomingReferral from './Referral/ReferralListIncoming'
+import OutgoingReferral from './Referral/ReferralListOutcoming'
+
 
 const AccountDashboard = lazy(() =>
   import("./dashBoardUiComponent/@modules/AccountDashboard")
@@ -303,13 +309,20 @@ const AppRoutes = () => {
           <Route path="/signupindividual" element={<IndividualSignup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/create-password" element={<CreatePassword />} />
+        
+
+ {/**************************Pouchii Wallet Routes *************************************** */}
+ <Route path="/verify-otp" element={<WalletOTP />} />
+ <Route path="/payment" element={<Payment />} />
+
+{/**************************App Dashboard Routes*************************************** */}
           <Route path="/app" element={<PrivateOutlet />}>
             <Route index element={<Overview />} />
             <Route
               path="/app/overview/dashboard"
               element={<LandingPageDashboard />}
             />
-
+          
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
             <Route path="/app/accounts" element={<AccountHome />}>
@@ -834,7 +847,11 @@ const AppRoutes = () => {
 
               <Route
                 path="/app/referral/incoming"
-                element={<ReferralIncoming />}
+                element={<IncomingReferral />}
+              />
+               <Route
+                path="/app/referral/outgoing"
+                element={<OutgoingReferral />}
               />
               {/* <Route path="/app/referral/outgoing" element={<Outgoing />} /> */}
               <Route path="/app/referral/account" />
@@ -934,8 +951,7 @@ const AppRoutes = () => {
               />
             </Route>
           </Route>
-          {/**************************Pouchii Wallet *************************************** */}
-          <Route path="/verify-otp" element={<WalletOTP />} />
+         
         </Routes>
       </Suspense>
     </>
