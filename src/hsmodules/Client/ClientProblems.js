@@ -18,6 +18,10 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
 import ModalBox from "../../components/modal";
+import Textarea from "../../components/inputs/basic/Textarea";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -62,15 +66,15 @@ export default function ClientProblems() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
           <ClientProblemsCreate />
         </ModalBox>
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
           <ClientProblemsDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
           <ClientProblemsModify />
         </ModalBox>
       </div>
@@ -79,7 +83,7 @@ export default function ClientProblems() {
 }
 
 export function ClientProblemsCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue,control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -90,15 +94,15 @@ export function ClientProblemsCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const bandTypeOptions = [
-    // "Provider",
-    // "Company",
-    // "Patient",
-    // "Plan",
-    // "Corporate Sponsor",
+  const historyTypeOptions = [
     "Itching",
     "Irritation",
     "Nausea",
+  ];
+
+  const statusOptions = [
+    "Approved",
+    "Decline",
   ];
 
   //corporate sponsors pay premium and not claims
@@ -175,68 +179,43 @@ export function ClientProblemsCreate() {
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-            <div className="field">
-              <div className="control">
+              <div style={{paddingBottom:"1rem"}}>
                 <CustomSelect
-                  // label="choose band type"
-                  // name="bandType"
-                  label="choose problem"
-                  name="Problem Type"
-                  options={bandTypeOptions}
-                  register={register("problemtype", {required: true})}
+                  label="Issues"
+                  name="issues"
+                  options={historyTypeOptions}
+                  register={register("issues", {required: true})}
                   onChange={e => handleChangeMode(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("onset", {required: true})}
-                  name="onset"
-                  type="date"
-                  placeholder="Date of Onset"
+            
+            <div style={{paddingBottom:"1rem"}}>
+            <CustomSelect
+                  label="Current Status"
+                  name="status"
+                  options={statusOptions}
+                  register={register("status", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
+            
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
                   register={register("assessment", {required: true})}
-                  name="Assessment"
-                  type="text"
-                  placeholder="Assessment"
+                  name="assessment"
+                  control={control}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("note", {required: true})}
-                  name="Note"
-                  type="text"
-                  placeholder="Note"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
+            </div>  
+            
+            <div style={{paddingBottom:"1rem"}}>
+              <Textarea
+              register={register("note", {required: true})}
+              placeholder="Type your message here"
+              name="note"
+              type="text"
+              label="Note"
+            />
             </div>
             {/*  <div className="field">
                 <p className="control has-icons-left">
@@ -329,12 +308,18 @@ export function ClientProblemsCreate() {
                     <i className="fas fa-clinic-medical"></i>
                     </span>
                 </p>
-            </div> */}
-            <div className="field">
-              <p className="control">
-                <Button>Create</Button>
-              </p>
-            </div>
+            <div> */}
+            <div>
+            <GlobalCustomButton
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Create
+                  </GlobalCustomButton>
+                  
+             </div>
           </form>
         </div>
       </div>
@@ -486,49 +471,12 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const BandSchema = [
-    {
-      name: "S/N",
-      key: "_id",
-      description: "Enter name of band",
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Name of Band",
-      key: "name",
-      description: "Enter name of band",
-      selector: row => row.name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Band Type",
-      key: "bandType",
-      description: "Enter name of band",
-      selector: row => row.bandType,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Provider", "Company", "Patient", "Plan"],
-    },
-    {
-      name: "Description of Band",
-      key: "description",
-      description: "Enter description of band",
-      selector: row => row.description,
-      sortable: true,
-      required: false,
-      inputType: "TEXT",
-    },
-  ];
-
+  
   const ProblemSchema = [
     {
-      name: "Problem",
-      key: "problem",
-      description: "Enter name of problem",
+      name: "Issues",
+      key: "Issues",
+      description: "Enter name of Issues",
       selector: row => row.problem,
       sortable: true,
       required: true,
@@ -536,7 +484,7 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
     },
 
     {
-      name: "Date administer",
+      name: "Date Administer",
       key: "date",
       description: "Enter name of date",
       selector: row => row.date,
@@ -561,7 +509,7 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
       sortable: true,
       required: true,
       inputType: "TEXT",
-    },
+    }
   ];
 
   const ProblemData = [
@@ -569,19 +517,22 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
       problem: "Itching",
       date: "27-10-2022",
       note: "Lorem ipsum dolor....",
-      assessment: "29-10-2022",
+      assessment: "29-10-2022"
+      
     },
     {
       problem: "Sneezing",
       date: "27-10-2022",
       note: "Lorem ipsum dolor....",
-      assessment: "29-10-2022",
+      assessment: "29-10-2022"
+      
     },
     {
       problem: "Iritation",
       date: "27-10-2022",
       note: "Lorem ipsum dolor....",
-      assessment: "29-10-2022",
+      assessment: "29-10-2022"
+      
     },
   ];
 
@@ -606,15 +557,21 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
+                  <GlobalCustomButton
                     style={{fontSize: "14px", fontWeight: "600"}}
-                    label="Add new "
+                   
                     onClick={showCreateModal}
-                  />
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Add New 
+                  </GlobalCustomButton>
                 )}
               </TableMenu>
 
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <div style={{width: "50vw", height: "100%", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   // columns={BandSchema}
@@ -639,7 +596,7 @@ export function ClientProblemsList({showCreateModal, showDetailModal}) {
 }
 
 export function ClientProblemsDetail({showModifyModal}) {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+  const { control} = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
@@ -651,6 +608,17 @@ export function ClientProblemsDetail({showModifyModal}) {
   const {state, setState} = useContext(ObjectContext);
 
   const Band = state.BandModule.selectedBand;
+
+  const historyTypeOptions = [
+    "Itching",
+    "Irritation",
+    "Nausea",
+  ];
+
+  const statusOptions = [
+    "Approved",
+    "Decline",
+  ];
 
   const handleEdit = async () => {
     const newBandModule = {
@@ -667,76 +635,72 @@ export function ClientProblemsDetail({showModifyModal}) {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <ModalHeader text={"Client Details"} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          {/* <MdCancel
-            onClick={() => {
-              setShowModal(false),
-                setState(prevstate => ({
-                  ...prevstate,
-                  BandModule: {
-                    selectedBand: {},
-                    show: "list",
-                  },
-                }));
-            }}
-            style={{
-              fontSize: "2rem",
-              color: "crimson",
-              cursor: "pointer",
-              float: "right",
-            }}
-          /> */}
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={4}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Name:
-          </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
-            {Band?.name}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Band Type:
-          </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
-            {Band?.bandType}
-          </span>
-        </Grid>
-
-        <Button
-          sx={{fontSize: "14px", fontWeight: "600", width: "80px"}}
+     <div className="card ">
+     <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+          <p className="card-header-title">Problem Details</p>
+          <GlobalCustomButton
           onClick={handleEdit}
-        >
-          Edit
-        </Button>
-
-        {error && <div className="message"> {message}</div>}
-      </Grid>
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Edit
+                  </GlobalCustomButton>
+        </div>
+        <div className="card-content vscrollable">
+        
+              <div style={{paddingBottom:"1rem",paddingTop:"1rem"}}>
+                <CustomSelect
+                  label="Issues"
+                  name="issues"
+                  options={historyTypeOptions}
+                  defaultValue="Irrition"
+                  // register={register("issues", {required: true})}
+                 
+                />
+              </div>
+            
+            <div style={{paddingBottom:"1rem"}}>
+            <CustomSelect
+                  label="Current Status"
+                  name="status"
+                  defaultValue="Approved"
+                  options={statusOptions}
+                  // register={register("status", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
+            </div>
+            
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  // register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
+                  defaultValue="20-20-44"
+                />
+            </div>  
+            
+            <div style={{paddingBottom:"1rem"}}>
+              <Textarea
+              // register={register("note", {required: true})}
+              placeholder="Type your message here"
+              name="note"
+              type="text"
+              label="Note"
+              defaultValue="Lorem...."
+            />
+            </div>
+          
+            </div>
+            </div>
     </>
   );
 }
 
 export function ClientProblemsModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors,control} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -751,6 +715,17 @@ export function ClientProblemsModify() {
   const {state, setState} = useContext(ObjectContext);
 
   const Band = state.BandModule.selectedBand;
+
+  const historyTypeOptions = [
+    "Itching",
+    "Irritation",
+    "Nausea",
+  ];
+
+  const statusOptions = [
+    "Approved",
+    "Decline",
+  ];
 
   useEffect(() => {
     setValue("name", Band.name, {
@@ -885,64 +860,72 @@ export function ClientProblemsModify() {
   return (
     <>
       <div className="card ">
+      <div style={{display:"flex", justifyContent:"space-between"}}>
         <div className="card-header">
-          <p className="card-header-title">Band Details-Modify</p>
+          <p className="card-header-title">Problem Modify</p>
+        </div>
+        <Box sx={{display: "flex",gap:"0.5rem"}}>
+          <GlobalCustomButton
+          type="submit" onClick={handleSubmit(onSubmit)}
+                  >
+                    Save
+                  </GlobalCustomButton>
+            <GlobalCustomButton
+            color="warning"
+            onClick={handleCancel}
+                  >
+                    Cancel
+                  </GlobalCustomButton>
+            <GlobalCustomButton
+            color="error"
+            onClick={() => handleDelete()} type="delete"
+                  >
+                  
+                    Delete
+                  </GlobalCustomButton>
+          </Box>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <Input
-                    className="input is-small"
-                    register={register("name", {required: true})}
-                    name="name"
-                    type="text"
-                    placeholder="Name of Band"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
+              <div style={{paddingBottom:"1rem",paddingTop:"1rem"}}>
+                <CustomSelect
+                  label="Issues"
+                  name="issues"
+                  options={historyTypeOptions}
+                  register={register("issues", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
+              </div>
+            
+            <div style={{paddingBottom:"1rem"}}>
+            <CustomSelect
+                  label="Current Status"
+                  name="status"
+                  options={statusOptions}
+                  register={register("status", {required: true})}
+                  onChange={e => handleChangeMode(e.target.value)}
+                />
             </div>
-            <div className="field">
-              <label className="label is-small">
-                Band Type
-                <p className="control has-icons-left has-icons-right">
-                  <Input
-                    className="input is-small "
-                    {...register("bandType", {required: true})}
-                    disabled
-                    name="bandType"
-                    type="text"
-                    placeholder="Band Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
+            
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
+                />
+            </div>  
+            
+            <div style={{paddingBottom:"1rem"}}>
+              <Textarea
+              register={register("note", {required: true})}
+              placeholder="Type your message here"
+              name="note"
+              type="text"
+              label="Note"
+            />
             </div>
           </form>
-
-          <Box sx={{display: "flex"}}>
-            <p className="control">
-              <Button type="submit" onClick={handleSubmit(onSubmit)}>
-                Save
-              </Button>
-            </p>
-            <p className="control">
-              <Button onClick={handleCancel}>Cancel</Button>
-            </p>
-            <p className="control">
-              <Button onClick={() => handleDelete()} type="delete">
-                Delete
-              </Button>
-            </p>
-          </Box>
         </div>
       </div>
     </>

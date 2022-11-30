@@ -36,6 +36,7 @@ export default function CategorySearch({
   getSearchfacility,
   clear,
   disable = false,
+  label
 }) {
   const ClientServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
@@ -224,7 +225,7 @@ export default function CategorySearch({
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
-                label="Search Service Category"
+                label={label}
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}

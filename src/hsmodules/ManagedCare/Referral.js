@@ -1098,21 +1098,6 @@ export function ReferralDetails() {
         </div>
         <div style={{ display: 'flex', gap:"1rem"}}>
         <GlobalCustomButton
-                 onClick={() => setClaim(true)}
-
-                >
-                  <BsClipboardData style={{marginRight: "5px",fontSize:"16px"}}/>
-            Claims
-            
-                      </GlobalCustomButton>
-                      <GlobalCustomButton
-                 onClick={() => setCheckIn(true)}
-                >
-                  <BsClipboardCheck style={{marginRight: "5px",fontSize:"16px"}}/>
-            Appointment
-            
-                      </GlobalCustomButton>
-        <GlobalCustomButton
                  onClick={() => setApprove(true)}
                 >
                   <BsCheckCircle style={{marginRight: "5px",fontSize:"16px"}}/>
@@ -1402,18 +1387,6 @@ export function ReferralDetails() {
        {edit && (
     <ModalBox open={edit} onClose={() => setEdit(false)}>  
      <ReferralModify/>
-    </ModalBox>
-    )}
-
-{claim && (
-    <ModalBox open={claim} onClose={() => setClaim(false)}>  
-     <Claims/>
-    </ModalBox>
-    )}
-    {checkIn && (
-       
-    <ModalBox open={checkIn} onClose={() => setCheckIn(false)}> 
-            <ReferralCheckIn/>  
     </ModalBox>
     )}
     </>

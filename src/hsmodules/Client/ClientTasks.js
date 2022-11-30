@@ -16,13 +16,16 @@ import {toast} from "bulma-toast";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import Textarea from "../../components/inputs/basic/Textarea";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {fontSize} from "@mui/system";
 import ModalBox from "../../components/modal";
+import EmployeeSearch from "../helpers/EmployeeSearch";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Bands() {
-  console.log("bands bands bands");
+export default function ClientTasks() {
   const {state} = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
@@ -58,271 +61,111 @@ export default function Bands() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        <BandList
+        <ClientTasksList
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
         <ModalBox open={createModal} onClose={handleHideCreateModal}>
-          <BandCreate />
+          <ClientTasksCreate />
         </ModalBox>
 
         <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-          <BandDetail showModifyModal={handleModifyModal} />
+          <ClientTasksDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
         <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-          <BandModify />
+          <ClientTasksModify />
         </ModalBox>
       </div>
     </section>
   );
 }
 
-export function BandCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-  // eslint-disable-next-line
-  const [facility, setFacility] = useState();
-  const BandServ = client.service("bands");
-  //const navigate=useNavigate()
-  const {user} = useContext(UserContext); //,setUser
-  // eslint-disable-next-line
-  const [currentUser, setCurrentUser] = useState();
-  const bandTypeOptions = [
-    "Provider",
-    "Company",
-    "Patient",
-    "Plan",
-    "Corporate Sponsor",
-  ];
+export function ClientTasksCreate(){
+  const {register, handleSubmit, reset} = useForm();
 
-  //corporate sponsors pay premium and not claims
-  //company pays claims and not premium
-
-  const getSearchfacility = obj => {
-    setValue("facility", obj._id, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
+  const formDefaultValues = {
+    title: "",
+    type: "",
+    priority: "",
+    information: "",
   };
 
-  useEffect(() => {
-    setCurrentUser(user);
-    //console.log(currentUser)
-    return () => {};
-  }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeBand.FacilityId)//
-    if (!user.stacker) {
-      console.log(currentUser);
-      setValue("facility", user.currentEmployee.facilityDetail._id, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-    }
-  });
-
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    if (data.bandType === "") {
-      alert("Kindly choose band type");
-      return;
-    }
-    setMessage("");
-    setError(false);
-    setSuccess(false);
-    // data.createdby=user._id
-    console.log(data);
-    if (user.currentEmployee) {
-      data.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
-    }
-    BandServ.create(data)
-      .then(res => {
-        //console.log(JSON.stringify(res))
-        e.target.reset();
-        /*  setMessage("Created Band successfully") */
-        setSuccess(true);
-        toast({
-          message: "Band created succesfully",
-          type: "is-success",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-        setSuccess(false);
-      })
-      .catch(err => {
-        toast({
-          message: "Error creating Band " + err,
-          type: "is-danger",
-          dismissible: true,
-          pauseOnHover: true,
-        });
-      });
+  const onSubmit = data => {
+    addTask(data);
+    reset(formDefaultValues);
   };
 
   return (
-    <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Create Band</p>
+    <Box
+      sx={{
+        width: "500px",
+        maxHeight: "80vh",
+      }}
+    >
+       <div className="card-header">
+          <p className="card-header-title">Create Tasks</p>
         </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-            <div className="field">
-              <div className="control">
-                <CustomSelect
-                  label="choose band type"
-                  name="bandType"
-                  options={bandTypeOptions}
-                  register={register("bandtype", {required: true})}
-                  onChange={e => handleChangeMode(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("name", {required: true})}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Band"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("description", {required: true})}
-                  name="description"
-                  type="text"
-                  placeholder="Description of Band"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            {/*  <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                    </span>
-                </p>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-            </div>
-           
-            <div className="field">
-                <p className="control has-icons-left">
-                
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-            </div> */}
-            <div
-              className="field"
-              style={!user.stacker ? {display: "none"} : {}}
-            >
-              <InputSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-              <p className="control has-icons-left " style={{display: "none"}}>
-                <Input
-                  className="input is-small"
-                  register={register("facility", {required: true})}
-                  name="facility"
-                  type="text"
-                  placeholder="Facility"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
-            {/*  <div className="field">
-                <div className="control has-icons-left">
-                    <div className="dropdown ">
-                        <div className="dropdown-trigger">
-                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                            <span className="icon is-small is-left">
-                            <i className="fas fa-hospital-symbol"></i>
-                            </span>
-                        </div>
-                        <div className="dropdown-menu">
-                            <div className="dropdown-content">
-                                <div className="dropdown-item">
-                                    simpa
-                                </div>
-                                <div className="dropdown-item is-active">
-                                    simpa 2
-                                </div>
-                                <div className="dropdown-item">
-                                    simpa 3
-                                </div>
-                                <div className="dropdown-item">
-                                    simpa 4
-                                </div>
-                            </div>
-                        </div>   
-                    </div>
-                </div>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-            </div> */}
-            <div className="field">
-              <p className="control">
-                <Button>Create</Button>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
-  );
-}
+      <Grid container spacing={2} pt={1}>
+        <Grid item xs={12}>
+          <EmployeeSearch />
+        </Grid>
 
-export function BandList({showCreateModal, showDetailModal}) {
+        <Grid item xs={12}>
+          <Input register={register("title", {required: true})} label="Title" />
+        </Grid>
+
+        <Grid item xs={8}>
+          <CustomSelect
+            register={register("type", {required: true})}
+            label="Type"
+            options={["Open", "Closed", "Pending"]}
+            // placeholder="Enter customer name"
+          />
+        </Grid>
+
+        <Grid item xs={4}>
+          <CustomSelect
+            register={register("priority", {required: true})}
+            label="Priority"
+            options={["Open", "Closed", "Pending"]}
+            // placeholder="Enter customer name"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Textarea
+            label="Additional Information"
+            placeholder="Write here..."
+            register={register("information", {required: true})}
+          />
+        </Grid>
+      </Grid>
+
+      <Box mt={1}>
+        <GlobalCustomButton
+          sx={{
+            marginRight: "10px",
+          }}
+          color="success"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Assign
+        </GlobalCustomButton>
+
+        <GlobalCustomButton
+          variant="outlined"
+          color="error"
+          // onClick={closeModal}
+        >
+          Cancel
+        </GlobalCustomButton>
+      </Box>
+    </Box>
+  );
+};
+
+export function ClientTasksList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -334,6 +177,7 @@ export function BandList({showCreateModal, showDetailModal}) {
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
   const [facilities, setFacilities] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   const [loading, setLoading] = useState([]);
   // eslint-disable-next-line
@@ -402,6 +246,10 @@ export function BandList({showCreateModal, showDetailModal}) {
       });
   };
 
+  const handleRemoveTask = task => {
+    setTasks(prev => prev.filter(item => item.title !== task.title));
+  };
+
   const getFacilities = async () => {
     console.log(user);
     setLoading(true);
@@ -466,47 +314,76 @@ export function BandList({showCreateModal, showDetailModal}) {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const BandSchema = [
-    {
-      name: "S/N",
-      key: "_id",
-      description: "Enter name of band",
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Name of Band",
-      key: "name",
-      description: "Enter name of band",
-      selector: row => row.name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Band Type",
-      key: "bandType",
-      description: "Enter name of band",
-      selector: row => row.bandType,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Provider", "Company", "Patient", "Plan"],
-    },
-    {
-      name: "Description of Band",
-      key: "description",
-      description: "Enter description of band",
-      selector: row => row.description,
-      sortable: true,
-      required: false,
-      inputType: "TEXT",
-    },
-  ];
+const getTaskColumns = (action, disableAction) => {
+    const contactColumns = [
+      {
+        name: "Title",
+        key: "title",
+        description: "Enter Date",
+        selector: row => row.title,
+        sortable: true,
+        required: true,
+        inputType: "TEXT",
+      },
+      {
+        name: "Type",
+        style: {color: "#0364FF"},
+        key: "type",
+        description: "Enter Date",
+        selector: row => row.type,
+        sortable: true,
+        required: true,
+        inputType: "TEXT",
+      },
+      {
+        name: "Priority",
+        style: {color: "#0364FF"},
+        key: "priority",
+        description: "Enter Date",
+        selector: row => row.priority,
+        sortable: true,
+        required: true,
+        inputType: "TEXT",
+      },
+      {
+        name: "Information",
+        key: "information",
+        description: "Enter Date",
+        selector: row => row.information,
+        sortable: true,
+        required: true,
+        inputType: "NUMBER",
+      },
+      {
+        name: "Del",
+        width: "50px",
+        center: true,
+        key: "action",
+        description: "Enter Date",
+        selector: row => (
+          <IconButton
+            onClick={() => action(row)}
+            disabled={disableAction}
+            color="error"
+          >
+            <DeleteOutline fontSize="small" />
+          </IconButton>
+        ),
+        sortable: true,
+        required: true,
+        inputType: "NUMBER",
+      },
+    ];
+  
+    return contactColumns;
+  };
+
+  const tasksColumns = getTaskColumns(handleRemoveTask, false);
+
 
   return (
     <>
-      {facilities ? (
+      {tasks ? (
         <>
           <div className="level">
             <PageWrapper
@@ -525,25 +402,32 @@ export function BandList({showCreateModal, showDetailModal}) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
-                    label="Add new "
-                    onClick={showCreateModal}
+                  <GlobalCustomButton
+                  style={{fontSize: "14px", fontWeight: "600"}}
+                 
+                  onClick={showCreateModal}
+                >
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
                   />
+                  Add New
+                </GlobalCustomButton>
                 )}
               </TableMenu>
 
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
-                <CustomTable
-                  title={""}
-                  columns={BandSchema}
-                  data={facilities}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                />
+              <div style={{width: "50vw", height: "100%", overflow: "auto"}}>
+              <CustomTable
+          title={"Contact List"}
+          columns={tasksColumns}
+          data={tasks}
+          pointerOnHover
+          highlightOnHover
+          striped
+          //onRowClicked={handleRow}
+          CustomEmptyData="You haven't Assigned any Tasks yet..."
+          progressPending={false}
+        />
               </div>
             </PageWrapper>
           </div>
@@ -555,7 +439,7 @@ export function BandList({showCreateModal, showDetailModal}) {
   );
 }
 
-export function BandDetail({showModifyModal}) {
+export function ClientTasksDetail({showModifyModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -652,7 +536,7 @@ export function BandDetail({showModifyModal}) {
   );
 }
 
-export function BandModify() {
+export function ClientTasksModify() {
   const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);

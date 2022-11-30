@@ -34,30 +34,30 @@ const handleOpen = (clickedIndex) => {
             status: "Pending",
             date: "27-10-21"
         },
-        {
-            id:1,
-            name:"Teejay Teko",
-            category: "Medic care",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            status: "Resolved",
-            date: "27-10-21"
-        },
-        {
-            id:2,
-            name:"Teejay Teko",
-            category: "Medic care",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            status: "Pending",
-            date: "27-10-21"
-        },
-        {
-            id:3,
-            name:"Teejay Teko",
-            category: "Medic care",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            status: "Resolved",
-            date: "27-10-21"
-        },
+        // {
+        //     id:1,
+        //     name:"Teejay Teko",
+        //     category: "Medic care",
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        //     status: "Resolved",
+        //     date: "27-10-21"
+        // },
+        // {
+        //     id:2,
+        //     name:"Teejay Teko",
+        //     category: "Medic care",
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        //     status: "Pending",
+        //     date: "27-10-21"
+        // },
+        // {
+        //     id:3,
+        //     name:"Teejay Teko",
+        //     category: "Medic care",
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        //     status: "Resolved",
+        //     date: "27-10-21"
+        // },
       ]
       const navigate = useNavigate();
   return (
@@ -120,22 +120,27 @@ const handleOpen = (clickedIndex) => {
                   <Collapse in={isOpen === index}>
                     <Box >
                  
-                 <Card sx={{maxWidth: "100%", height:'80px', padding:"0.2rem"}}>
+                 <Card sx={{maxWidth: "100%", height:'100%', padding:"0.2rem",marginBottom:"2rem"}}>
                  <Box style={{width:"100%",display:"flex", flexDirection:"row"}}>
                     <CardHeader
                   avatar={
                     <Avatar src="/img_avatar.png" alt=""  aria-label="recipe"/>
                   }
                   title={
-                    <Typography variant="p" background="red" fontSize="14px" color="text.secondary">
-                      Hellooooooooooooooo
+                    <Typography variant="h1" fontWeight="600" fontSize="14px" color="text.secondary">
+                      Dr Adewale Idowu
                   </Typography>
                   }
                   />
                     </Box>
+                      <Box sx={{background:"blue",padding:"1rem",width:"20%",borderRadius:"2rem",marginLeft:"1rem"}}>
+                      <Typography variant="p" fontSize="16px" sx={{color:"white"}}>
+                      Hi,i am fyn and you
+                  </Typography>
+                      </Box>
                     </Card>
                  
-                   <Card sx={{maxWidth: "100%",height:'80px'}}>
+                   {/* <Card sx={{maxWidth: "100%",height:'80px'}}>
                     <Box style={{width:"100%",display:"flex", flexDirection:"row-reverse"}}>
                     <CardHeader
                   avatar={
@@ -148,7 +153,7 @@ const handleOpen = (clickedIndex) => {
                   }
                   />
                     </Box>
-                    </Card>
+                    </Card> */}
                 
                     </Box>
                   

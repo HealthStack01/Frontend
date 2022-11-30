@@ -18,11 +18,18 @@ import {Box, Grid} from "@mui/material";
 import ModalHeader from "../../components/modal";
 import CustomSelect from "../../components/inputs/basic/Select";
 import ModalBox from "../../components/modal";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import Textarea from "../../components/inputs/basic/Textarea";
+import { FacilitySearch } from "../helpers/FacilitySearch";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+
+import CategorySearch from "../helpers/CategorySearch";
 // eslint-disable-next-line
 const searchfacility = {};
 
 export default function ClientIntolerance() {
-  console.log("bands bands bands");
+ 
   const {state} = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
@@ -62,15 +69,15 @@ export default function ClientIntolerance() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox open={createModal} onClose={handleHideCreateModal}>
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
           <ClientIntoleranceCreate />
         </ModalBox>
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
           <ClientIntoleranceDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
           <ClientIntoleranceModify />
         </ModalBox>
       </div>
@@ -79,7 +86,7 @@ export default function ClientIntolerance() {
 }
 
 export function ClientIntoleranceCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue,control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -90,13 +97,7 @@ export function ClientIntoleranceCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const bandTypeOptions = [
-    "Provider",
-    "Company",
-    "Patient",
-    "Plan",
-    "Corporate Sponsor",
-  ];
+ 
 
   //corporate sponsors pay premium and not claims
   //company pays claims and not premium
@@ -164,103 +165,77 @@ export function ClientIntoleranceCreate() {
       });
   };
 
+  const drugData = [
+    "Aspirin","Panadol",
+      "Declofenac"
+  ];
+
+ 
+
   return (
     <>
       <div className="card ">
         <div className="card-header">
           <p className="card-header-title">Drug Intolerance</p>
         </div>
+      
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-            <div className="field">
-              <div className="control">
-                <CustomSelect
-                  label="drug"
-                  name="drug"
-                  options={bandTypeOptions}
-                  register={register("drug", {required: true})}
-                  onChange={e => handleChangeMode(e.target.value)}
-                />
-              </div>
+          <form onSubmit={handleSubmit(onSubmit)} style={{paddingBottom:"1rem"}}>
+              <div className="control" style={{paddingBottom:"1rem"}}>
+                 <CategorySearch label="Drug" name="drug" register={register("drug", {required: true})} />
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date Administed"
+                  name="administed"
+                  control={control}
                   register={register("date", {required: true})}
-                  name="Date administered"
-                  type="date"
-                  placeholder="Date administered"
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
+            <div style={{paddingBottom:"1rem"}}>
                 <Input
-                  className="input is-small"
+                  label="Reaction"
                   register={register("reaction", {required: true})}
                   name="reaction"
                   type="text"
-                  placeholder="Enter Reaction"
+                 
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
                   register={register("assessment", {required: true})}
                   name="assessment"
-                  type="date"
-                  placeholder="Date of Assessment"
+                  control={control}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("note", {required: true})}
-                  name="note"
-                  type="text"
-                  placeholder="note"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
+            <div style={{paddingBottom:"1rem"}}> 
+             <Input
+               className="input is-small"
+               register={register("type", {required: true})}
+               name="type"
+               type="text"
+               label="Type"
+             />
+         </div>
+         <div style={{paddingBottom:"1rem"}}>
+             <Input
+               register={register("severity", {required: true})}
+               name="severity"
+               type="text"
+               label="Severity"
+             />
+         </div>
+            <div style={{paddingBottom:"1rem"}}>
+              <Textarea
+              register={register("note", {required: true})}
+              placeholder="Type your message here"
+              name="note"
+              type="text"
+              label="Note"
+            />
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("type", {required: true})}
-                  name="type"
-                  type="text"
-                  placeholder="Reaction type"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
+           
             {/*  <div className="field">
                 <p className="control has-icons-left">
                     <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
@@ -291,22 +266,22 @@ export function ClientIntoleranceCreate() {
               className="field"
               style={!user.stacker ? {display: "none"} : {}}
             >
-              <InputSearch
+              <FacilitySearch
                 getSearchfacility={getSearchfacility}
                 clear={success}
+                style={{paddingBottom:"1rem"}}
               />
-              <p className="control has-icons-left " style={{display: "none"}}>
+              <div style={{display: "none"}}>
                 <Input
                   className="input is-small"
                   register={register("facility", {required: true})}
                   name="facility"
                   type="text"
                   placeholder="Facility"
+                  
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
+               
+              </div>
             </div>
             {/*  <div className="field">
                 <div className="control has-icons-left">
@@ -352,11 +327,18 @@ export function ClientIntoleranceCreate() {
                     </span>
                 </p>
             </div> */}
-            <div className="field">
-              <p className="control">
-                <Button>Create</Button>
-              </p>
-            </div>
+             <div>
+             <GlobalCustomButton
+                  
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Create
+                  </GlobalCustomButton>
+                  
+             </div>
           </form>
         </div>
       </div>
@@ -508,43 +490,7 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const BandSchema = [
-    {
-      name: "S/N",
-      key: "_id",
-      description: "Enter name of band",
-      sortable: true,
-      inputType: "HIDDEN",
-    },
-    {
-      name: "Name of Band",
-      key: "name",
-      description: "Enter name of band",
-      selector: row => row.name,
-      sortable: true,
-      required: true,
-      inputType: "TEXT",
-    },
-    {
-      name: "Band Type",
-      key: "bandType",
-      description: "Enter name of band",
-      selector: row => row.bandType,
-      sortable: true,
-      required: true,
-      inputType: "SELECT_LIST",
-      options: ["Provider", "Company", "Patient", "Plan"],
-    },
-    {
-      name: "Description of Band",
-      key: "description",
-      description: "Enter description of band",
-      selector: row => row.description,
-      sortable: true,
-      required: false,
-      inputType: "TEXT",
-    },
-  ];
+
   const DrugToleranceSchema = [
     {
       name: "Drug",
@@ -601,6 +547,16 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
       required: true,
       inputType: "TEXT",
     },
+    
+    {
+      name: "Severity",
+      key: "severity",
+      description: "Enter date of severity",
+      selector: row => row.severity,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    }
   ];
 
   const drugData = [
@@ -611,6 +567,7 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
       assessment: "28-10-2022",
       note: "lorem ipsum ...",
       type: "Irritation",
+      severity:"Iritation"
     },
     {
       drug: "Panadol",
@@ -619,6 +576,7 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
       assessment: "30-10-2022",
       note: "lorem ipsum ...",
       type: "Itching",
+      severity:"Iritation"
     },
     {
       drug: "Declofenac",
@@ -627,6 +585,7 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
       assessment: "28-03-2021",
       note: "lorem ipsum ...",
       type: "Irritation",
+      severity:"Iritation"
     },
   ];
 
@@ -651,15 +610,21 @@ export function ClientIntoleranceList({showCreateModal, showDetailModal}) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
+                  <GlobalCustomButton
                     style={{fontSize: "14px", fontWeight: "600"}}
-                    label="Add new "
+                   
                     onClick={showCreateModal}
-                  />
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Add New Drug
+                  </GlobalCustomButton>
                 )}
               </TableMenu>
 
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <div style={{width: "100%", height: "100%", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   // columns={BandSchema}
@@ -694,6 +659,9 @@ export function ClientIntoleranceDetail({showModifyModal}) {
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
   const {state, setState} = useContext(ObjectContext);
+  const [editing, setEditing] = useState(false);
+  const {register, reset, control} = useForm();
+
 
   const Band = state.BandModule.selectedBand;
 
@@ -710,84 +678,117 @@ export function ClientIntoleranceDetail({showModifyModal}) {
     showModifyModal();
   };
 
+
+  const drugDataList = [
+    "Aspirin","Panadol",
+      "Declofenac"
+  ];
+
+  const drugdata = [
+    {
+      drug: "Aspirin",
+      date: "27-10-2022",
+      reaction: "Sneezing",
+      assessment: "28-10-2022",
+      note: "lorem ipsum ...",
+      type: "Irritation",
+    },
+  ]
+
+
+
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <ModalHeader text={"Client Details"} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          {/* <MdCancel
-            onClick={() => {
-              setShowModal(false),
-                setState(prevstate => ({
-                  ...prevstate,
-                  BandModule: {
-                    selectedBand: {},
-                    show: "list",
-                  },
-                }));
-            }}
-            style={{
-              fontSize: "2rem",
-              color: "crimson",
-              cursor: "pointer",
-              float: "right",
-            }}
-          /> */}
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={4}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Name:
-          </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
-            {Band?.name}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Band Type:
-          </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
-            {Band?.bandType}
-          </span>
-        </Grid>
-
-        <Button
-          sx={{fontSize: "14px", fontWeight: "600", width: "80px"}}
-          onClick={handleEdit}
-        >
-          Edit
-        </Button>
-
-        {error && <div className="message"> {message}</div>}
-      </Grid>
+       <div className="card-header" style={{display:"flex", justifyContent:"space-between",alignItems:"center", padding:"1rem"}}>
+         <div style={{marginRight:"4rem"}}> <p>Drug Intolerance Details</p></div>
+          <div>
+          <GlobalCustomButton
+                  onClick={handleEdit}
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Edit
+                  </GlobalCustomButton>
+          </div>
+        </div>
+      <div className="control" style={{paddingBottom:"1rem"}}>
+                
+             <CategorySearch label="Drug" defaultValue="Aspirin" disabled={!editing}/>
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date Administed"
+                  name="administed"
+                  control={control}
+                  disabled={true}
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <Input
+                  label="Reaction"
+                  register={register("reaction", {required: true})}
+                  name="reaction"
+                  type="text"
+                  defaultValue="Sneezing"
+                />
+               
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  name="assessment"
+                  control={control}
+                  disabled={!editing}
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}> 
+             <Input
+               className="input is-small"
+               register={register("type", {required: true})}
+               name="type"
+               type="text"
+               label="Type"
+               defaultValue="Irritation"
+               disabled={!editing}
+             />
+         </div>
+         <div style={{paddingBottom:"1rem"}}>
+             <Input
+               register={register("severity", {required: true})}
+               name="severity"
+               type="text"
+               label="Severity"
+               defaultValue="Irritation"
+               disabled={!editing}
+             />
+         </div>
+            <div style={{paddingBottom:"1rem"}}>
+        
+              <Textarea
+              register={register("note", {required: true})}
+              name="note"
+              defaultValue="lorem ipsum ..."
+              type="text"
+              label="Note"
+              disabled={!editing}
+            />
+            </div>
     </>
   );
 }
 
 export function ClientIntoleranceModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+  const {register, handleSubmit, setValue, reset, errors,control} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
+  const [editing, setEditing] = useState(false);
+  
   // eslint-disable-next-line
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
@@ -806,33 +807,10 @@ export function ClientIntoleranceModify() {
       shouldValidate: true,
       shouldDirty: true,
     });
-    /*  setValue("profession", Band.profession,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("phone", Band.phone,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("email", Band.email,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("department", Band.department,  {
-                shouldValidate: true,
-                shouldDirty: true
-            })
-            setValue("deptunit", Band.deptunit,  {
-                shouldValidate: true,
-                shouldDirty: true
-            }) */
-    /*   setValue("BandCategory", Band.BandCategory,  {
-                shouldValidate: true,
-                shouldDirty: true
-            }) */
+ 
 
     return () => {};
-  });
+  },[]);
 
   const handleCancel = async () => {
     const newBandModule = {
@@ -927,69 +905,87 @@ export function ClientIntoleranceModify() {
       });
   };
 
+  const drugDataList = [
+    "Aspirin","Panadol",
+      "Declofenac"
+  ];
+
   return (
     <>
-      <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Band Details-Modify</p>
+    <div className="card-header" style={{display:"flex", justifyContent:"space-between",alignItems:"center", padding:"1rem"}}>
+         <div style={{marginRight:"4rem"}}> <p>Edit Drug Intolerance</p></div>
+         <Box sx={{display: "flex", gap:"1rem"}}>
+           
+           <GlobalCustomButton type="submit" onClick={handleSubmit(onSubmit)}>
+             Save
+           </GlobalCustomButton>
+        
+        
+           <GlobalCustomButton color="warning" onClick={handleCancel}>Cancel</GlobalCustomButton>
+        
+           <GlobalCustomButton color="error" onClick={() => handleDelete()} type="delete">
+             Delete
+           </GlobalCustomButton>
+       
+         </Box>
         </div>
-        <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <Input
-                    className="input is-small"
-                    register={register("name", {required: true})}
-                    name="name"
-                    type="text"
-                    placeholder="Name of Band"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
+        <div className="control" style={{paddingBottom:"1rem"}}>
+                 <CategorySearch label="Drug" name="drug" register={register("drug", {required: true})} />
             </div>
-            <div className="field">
-              <label className="label is-small">
-                Band Type
-                <p className="control has-icons-left has-icons-right">
-                  <Input
-                    className="input is-small "
-                    {...register("bandType", {required: true})}
-                    disabled
-                    name="bandType"
-                    type="text"
-                    placeholder="Band Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date Administed"
+                  name="administed"
+                  control={control}
+                  register={register("date", {required: true})}
+                />
             </div>
-          </form>
+            <div style={{paddingBottom:"1rem"}}>
+                <Input
+                  label="Reaction"
+                  register={register("reaction", {required: true})}
+                  name="reaction"
+                  type="text"
+                 
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}> 
+             <Input
+               className="input is-small"
+               register={register("type", {required: true})}
+               name="type"
+               type="text"
+               label="Type"
+             />
+         </div>
+         <div style={{paddingBottom:"1rem"}}>
+             <Input
+               register={register("severity", {required: true})}
+               name="severity"
+               type="text"
+               label="Severity"
+             />
+         </div>
+            <div style={{paddingBottom:"1rem"}}>
+              <Textarea
+              register={register("note", {required: true})}
+              placeholder="Type your message here"
+              name="note"
+              type="text"
+              label="Note"
+            />
+            </div>
+           
 
-          <Box sx={{display: "flex"}}>
-            <p className="control">
-              <Button type="submit" onClick={handleSubmit(onSubmit)}>
-                Save
-              </Button>
-            </p>
-            <p className="control">
-              <Button onClick={handleCancel}>Cancel</Button>
-            </p>
-            <p className="control">
-              <Button onClick={() => handleDelete()} type="delete">
-                Delete
-              </Button>
-            </p>
-          </Box>
-        </div>
-      </div>
+          
     </>
   );
 }
