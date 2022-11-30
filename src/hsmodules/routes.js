@@ -1,36 +1,35 @@
 import {useEffect, useState, useContext, lazy, Suspense} from "react";
 import {Route, Routes, useLocation} from "react-router-dom";
 
-import {UserContext} from "../context";
-import PageLoaderComponent from "../components/page-loader/page-loader";
+import {UserContext, ObjectContext} from "../context";
 
+import AccountHome from "./Accounts/AccountHome";
 import PrivateOutlet from "./PrivateOutlet";
 import Overview from "./app/Overview";
 
 import ClinicHome from "./Clinic/ClinicHome";
 import EpidemiologyDashboard from "./Epidemiology/DashBoard";
-import ReferralHome from "./Referral/ReferralHome";
-import CRMHome from "./CRM/CrmHome";
+
 import EpidemiologyHome from "./Epidemiology/EpidemiologyHome";
 import FacilityHome from "./Admin/FacilityHome";
 import FinanceHome from "./Finance/FinanceHome";
-import ImmunizationHome from "./Immunization/ImmunizationHome";
-import BloodBankHome from "./Bloodbank/BloodBankHome";
+
 import WardHome from "./Ward/WardHome";
+
 import InventoryHome from "./inventory/InventoryHome";
 import LaboratoryHome from "./Laboratory/LaboratoryHome";
-import PharmacyHome from "./Pharmacy/PharmacyHome";
-import RadiologyHome from "./Radiology/RadiologyHome";
-import TheatreHome from "./Theatre/TheatreHome";
-import ClientHome from "./Client/ClientHome";
-import AccountHome from "./Accounts/AccountHome";
-import ManagedCareHome from "./ManagedCare/ManagedCareHome";
 
 import Payment from "./Finance/Payment";
-import Complaint from "./Complaints/Complaint";
+
+import PharmacyHome from "./Pharmacy/PharmacyHome";
+
+import RadiologyHome from "./Radiology/RadiologyHome";
+
+//import TheatreCheckedin = lazy( () => import( './Appointment/TheatreWorkflow';
+import TheatreHome from "./Theatre/TheatreHome";
+
+import ClientHome from "./Client/ClientHome";
 import GeneralAppointments from "./Appointment/generalAppointment";
-import WalletOTP from "./PouchiiWallet/walletOtp";
-import DetailComplaint from "./Complaints/DetailComplaints";
 
 import ClientDashboard from "./dashBoardUiComponent/@modules/ClientDashboard";
 import ClinicDashboard from "./dashBoardUiComponent/@modules/ClinicDashboard";
@@ -40,7 +39,44 @@ import PharmacyDashboard from "./dashBoardUiComponent/@modules/PharmacyDashboard
 import InventoryDashboard from "./dashBoardUiComponent/@modules/InventoryDashboard";
 import FinanceDashboard from "./dashBoardUiComponent/@modules/FinanceDashboard";
 import LaboratoryDashboard from "./dashBoardUiComponent/@modules/LaboratoryDashboard";
+import ManagedCareHome from "./ManagedCare/ManagedCareHome";
+
 import ManagedCareFrontDashboard from "./dashBoardUiComponent/@modules/ManagedCareFrontDashboard";
+
+import ReferralHome from "./Referral/ReferralHome";
+
+import CRMHome from "./CRM/CrmHome";
+
+import Complaint from "./Complaints/Complaint";
+import ImmunizationHome from "./Immunization/ImmunizationHome";
+
+import BloodBankHome from "./Bloodbank/BloodBankHome";
+
+import PageLoaderComponent from "../components/page-loader/page-loader";
+
+import {authRoutes} from "./routes/auth-routes";
+import {AccountsRoutes} from "./routes/account-routes";
+import {accountingRoutes} from "./routes/accounting-routes";
+import {adminRoutes} from "./routes/admin-routes";
+import {bloodBankRoutes} from "./routes/blood-bank";
+import {clientRoutes} from "./routes/client-routes";
+import {clinicRoutes} from "./routes/clinic-routes";
+import {communicationRoutes} from "./routes/communication-routes";
+import {crmRoutes} from "./routes/crm-routes";
+import {epidRoutes} from "./routes/epid-routes";
+import {managedCareRoutes} from "./routes/managecare-routes";
+import {financeRoutes} from "./routes/finance-routes";
+import {inventoryRoutes} from "./routes/inventory-routes";
+import {laboratoryRoutes} from "./routes/lab-routes";
+import {pharmacyRoutes} from "./routes/pharmacy-routes";
+import {radiologyRoutes} from "./routes/radiology-routes";
+import {referralRoutes} from "./routes/referral-routes";
+import {patientProfileRoutes} from "./routes/patient-portal";
+import {immunizationRoutes} from "./routes/immunization";
+import {documentationRoutes} from "./routes/documentation-routes";
+import {theatreRoutes} from "./routes/theatre-routes";
+import {wardRoutes} from "./routes/ward-routes";
+
 import AccountDashboard from "./dashBoardUiComponent/@modules/AccountDashboard";
 import AdminDashboard from "./dashBoardUiComponent/@modules/AdminDashboard";
 import RadiologyDashboard from "./dashBoardUiComponent/@modules/RadiologyDashboard";
@@ -51,28 +87,8 @@ import CommunicationDashboard from "./dashBoardUiComponent/@modules/Communicatio
 import ImmunizationDashboardComponent from "./dashBoardUiComponent/@modules/ImmunizationDashboard";
 import BloodbankDashboard from "./dashBoardUiComponent/@modules/BloodbankDashboard";
 
-import {authRoutes} from "./routes/auth-routes";
-// import {AccountsRoutes} from "./routes/account-routes";
-// import {accountingRoutes} from "./routes/accounting-routes";
-import {adminRoutes} from "./routes/admin-routes";
-//import {bloodBankRoutes} from "./routes/blood-bank";
-import {clientRoutes} from "./routes/client-routes";
-// import {clinicRoutes} from "./routes/clinic-routes";
-// import {communicationRoutes} from "./routes/communication-routes";
-// import {crmRoutes} from "./routes/crm-routes";
-// import {epidRoutes} from "./routes/epid-routes";
-// import {managedCareRoutes} from "./routes/managecare-routes";
-import {financeRoutes} from "./routes/finance-routes";
-// import {inventoryRoutes} from "./routes/inventory-routes";
-// import {laboratoryRoutes} from "./routes/lab-routes";
-// import {pharmacyRoutes} from "./routes/pharmacy-routes";
-// import {radiologyRoutes} from "./routes/radiology-routes";
-// import {referralRoutes} from "./routes/referral-routes";
-// import {patientProfileRoutes} from "./routes/patient-portal";
-// import {immunizationRoutes} from "./routes/immunization";
-// import {documentationRoutes} from "./routes/documentation-routes";
-// import {theatreRoutes} from "./routes/theatre-routes";
-// import {wardRoutes} from "./routes/ward-routes";
+import WalletOTP from "./PouchiiWallet/walletOtp";
+import DetailComplaint from "./Complaints/DetailComplaints";
 
 const moduleLocationTypes = {
   clinic: "Clinic",
@@ -130,12 +146,12 @@ const AppRoutes = () => {
 
             {/* ***************************** ACCOUNTS ROUTES ************************************* */}
 
-            {/* <Route path="/app/accounts" element={<AccountHome />}>
+            <Route path="/app/accounts" element={<AccountHome />}>
               {AccountsRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** GENERAL APPOINTMENTS ************************************* */}
 
@@ -145,20 +161,20 @@ const AppRoutes = () => {
             />
 
             {/* ***************************** Documetation ROUTES ************************************* */}
-            {/* {documentationRoutes.map(route => {
+            {documentationRoutes.map(route => {
               const {path, Component} = route;
               return <Route key={path} path={path} element={<Component />} />;
-            })} */}
+            })}
 
             {/* ***************************** CLINICS ROUTES ************************************* */}
 
-            {/* <Route path="/app/clinic" element={<ClinicHome />}>
+            <Route path="/app/clinic" element={<ClinicHome />}>
               <Route index element={<ClinicDashboard />} />
               {clinicRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** CLIENTS ROUTES ************************************* */}
             <Route path="/app/clients/" element={<ClientHome />}>
@@ -170,14 +186,14 @@ const AppRoutes = () => {
             </Route>
 
             {/* ***************************** EPIDEMIOLOGY ROUTES ************************************* */}
-            {/* 
+
             <Route path="/app/epidemiology" element={<EpidemiologyHome />}>
               <Route index element={<EpidemiologyDashboard />} />
               {epidRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** ADMIN ROUTES ************************************* */}
 
@@ -201,82 +217,82 @@ const AppRoutes = () => {
 
             {/* ***************************** INVENTORY ROUTES ************************************* */}
 
-            {/* <Route path="/app/inventory" element={<InventoryHome />}>
+            <Route path="/app/inventory" element={<InventoryHome />}>
               <Route index element={<InventoryDashboard />} />
 
               {inventoryRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** LABS ROUTES ************************************* */}
-            {/* 
+
             <Route path="/app/laboratory" element={<LaboratoryHome />}>
               <Route index element={<LaboratoryDashboard />} />
               {laboratoryRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** PHARMACY ROUTES ************************************* */}
 
-            {/* <Route path="/app/pharmacy" element={<PharmacyHome />}>
+            <Route path="/app/pharmacy" element={<PharmacyHome />}>
               <Route index element={<PharmacyDashboard />} />
               {pharmacyRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** RADIOLOGY ROUTES ************************************* */}
 
-            {/* <Route path="/app/radiology" element={<RadiologyHome />}>
+            <Route path="/app/radiology" element={<RadiologyHome />}>
               <Route index element={<RadiologyDashboard />} />
               {radiologyRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** THEATRE ROUTES ************************************* */}
-            {/* 
+
             <Route path="/app/theatre" element={<TheatreHome />}>
               <Route index element={<TheatreDashboard />} />
               {theatreRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/* ***************************** WARD ROUTES ************************************* */}
 
-            {/* <Route path="/app/ward" element={<WardHome />}>
+            <Route path="/app/ward" element={<WardHome />}>
               <Route index element={<WardDashboard />} />
               {wardRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************MANAGED CARE *************************************** */}
-            {/* <Route path="/app/managed-care" element={<ManagedCareHome />}>
+            <Route path="/app/managed-care" element={<ManagedCareHome />}>
               <Route index element={<ManagedCareFrontDashboard />} />
               {managedCareRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************CRM *************************************** */}
-            {/* <Route path="/app/crm" element={<CRMHome />}>
+            <Route path="/app/crm" element={<CRMHome />}>
               <Route index element={<CrmDashboard />} />
               {crmRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************COMPLAINT *************************************** */}
             <Route path="/app/complaints" element={<Complaint />} />
@@ -286,57 +302,57 @@ const AppRoutes = () => {
             />
 
             {/**************************Referral *************************************** */}
-            {/* <Route path="/app/referral" element={<ReferralHome />}>
+            <Route path="/app/referral" element={<ReferralHome />}>
               <Route index element={<ReferralDashboard />} />
               {referralRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************Communication *************************************** */}
-            {/* <Route path="/app/communication">
+            <Route path="/app/communication">
               <Route index element={<CommunicationDashboard />} />
               {communicationRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************Patient Portal *************************************** */}
-            {/* <Route path="/app/patient-portal">
+            <Route path="/app/patient-portal">
               {patientProfileRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************Accounting *************************************** */}
-            {/* <Route path="/app/accounting">
+            <Route path="/app/accounting">
               <Route index element={<AccountDashboard />} />
               {accountingRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************Immunization *************************************** */}
-            {/* <Route path="/app/immunization" element={<ImmunizationHome />}>
+            <Route path="/app/immunization" element={<ImmunizationHome />}>
               <Route index element={<ImmunizationDashboardComponent />} />
               {immunizationRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
 
             {/**************************Blood Bank *************************************** */}
-            {/* <Route path="/app/blood-bank" element={<BloodBankHome />}>
+            <Route path="/app/blood-bank" element={<BloodBankHome />}>
               <Route index element={<BloodbankDashboard />} />
               {bloodBankRoutes.map(route => {
                 const {path, Component} = route;
                 return <Route key={path} path={path} element={<Component />} />;
               })}
-            </Route> */}
+            </Route>
           </Route>
         </Routes>
       </Suspense>
