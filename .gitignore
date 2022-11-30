@@ -29,3 +29,4 @@ Dockerfile.dev
 
 # Local Netlify folder
 .netlify
+.env
