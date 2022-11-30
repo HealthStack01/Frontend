@@ -6,6 +6,7 @@ import GlobalCustomButton from "../../components/buttons/CustomButton";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import api from "../../utils/api";
+import {toast} from "react-toastify";
 
 function WalletOTP() {
   const [timer, setTimer] = useState(60);

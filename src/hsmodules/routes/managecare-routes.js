@@ -17,7 +17,7 @@ const ManagedCareFrontDashboard = lazy(() =>
 const ProviderOrganizationClient = lazy(() =>
   import("../ManagedCare/Providers")
 );
-import Accreditation from "../ManagedCare/Accreditation";
+const Accreditation = lazy(() => import("../ManagedCare/Accreditation"));
 
 const ComplaintsInventoryReport = lazy(() =>
   import("../ManagedCare/Complaints")
