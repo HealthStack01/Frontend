@@ -1,34 +1,34 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, Switch, Link, NavLink } from "react-router-dom";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, Switch, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import { AppointmentSchema } from "../Clinic/schema";
-import { CustomButton } from "../../components/buttons/Button/base/styles";
+import {AppointmentSchema} from "../Clinic/schema";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
 // import ModalBox from "./ui-components/modal";
 import ModalBox from "../../components/modal";
 import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
-import { Box, Grid } from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import { MdCancel } from "react-icons/md";
-import { DealSchema } from "./schema/dealSchema";
+import {MdCancel} from "react-icons/md";
+import {DealSchema} from "./schema/dealSchema";
 
 export default function Deal() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -62,7 +62,7 @@ export default function Deal() {
   );
 }
 
-export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
+export function CheckIn({pageView, setPageView, showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -77,9 +77,9 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -98,24 +98,24 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -205,14 +205,14 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -234,7 +234,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -265,15 +265,15 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -293,12 +293,12 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -350,7 +350,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
                 <div
@@ -365,7 +365,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Incoming Clients
                   </h2>
                   <CustomButton
@@ -381,7 +381,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={DealSchema}
@@ -402,7 +402,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
+export function CheckOut({pageView, setPageView, showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -417,9 +417,9 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -428,7 +428,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -437,24 +437,24 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -545,14 +545,14 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -574,7 +574,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -605,15 +605,15 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -633,12 +633,12 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -677,7 +677,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Outgoing Clients
                   </h2>
                   <CustomButton
@@ -693,7 +693,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={AppointmentSchema}
@@ -714,7 +714,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckDetails({ showModal, setShowModal }) {
+export function CheckDetails({showModal, setShowModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -726,7 +726,7 @@ export function CheckDetails({ showModal, setShowModal }) {
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -737,7 +737,7 @@ export function CheckDetails({ showModal, setShowModal }) {
       selectedAppointment: Client,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -753,14 +753,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={6}>
           <MdCancel
             onClick={() => {
-              setShowModal(false),
-                setState((prevstate) => ({
-                  ...prevstate,
-                  AppointmentModule: {
-                    selectedAppointment: {},
-                    show: "list",
-                  },
-                }));
+              setShowModal(false);
+              setState(prevstate => ({
+                ...prevstate,
+                AppointmentModule: {
+                  selectedAppointment: {},
+                  show: "list",
+                },
+              }));
             }}
             style={{
               fontSize: "2rem",
@@ -782,7 +782,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             First Name:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.firstname}
           </span>
         </Grid>
@@ -796,7 +796,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Middle Name:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.middlename}
           </span>
         </Grid>
@@ -810,7 +810,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Last Name:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.lastname}
           </span>
         </Grid>
@@ -827,7 +827,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Age:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {formatDistanceToNowStrict(new Date(Client.dob))}
           </span>
         </Grid>
@@ -841,7 +841,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Gender:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.gender}
           </span>
         </Grid>
@@ -855,7 +855,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Phone No:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.phone}
           </span>
         </Grid>
@@ -871,7 +871,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Email:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.email}
           </span>
         </Grid>
@@ -888,7 +888,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Start Time:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {format(new Date(Client.start_time), "dd/MM/yyyy HH:mm")}
           </span>
         </Grid>
@@ -902,7 +902,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Location:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {`${Client.location_name} (${Client.location_type})`}
           </span>
         </Grid>
@@ -917,7 +917,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Professional:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
           </span>
         </Grid>
@@ -933,7 +933,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Appointment Status:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointment_status}
           </span>
         </Grid>
@@ -947,7 +947,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Appointment Class:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointmentClass}
           </span>
         </Grid>
@@ -962,7 +962,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Appointment Type:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointment_type}
           </span>
         </Grid>
@@ -978,7 +978,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Reason for Appointment:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointment_reason}
           </span>
         </Grid>

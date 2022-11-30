@@ -743,7 +743,7 @@ export default function OutcomingReferral() {
       setMessage('');
       setError(false);
       setSuccess(false);
-      setShowModal(false),
+      setShowModal(false);
         setState((prevstate) => ({
           ...prevstate,
           AppointmentModule: {
@@ -865,7 +865,7 @@ export default function OutcomingReferral() {
               <Grid item xs={12} sm={6}>
                 <MdCancel
                   onClick={() => {
-                    setShowModal(false),
+                    setShowModal(false);
                       setState((prevstate) => ({
                         ...prevstate,
                         AppointmentModule: {

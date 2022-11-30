@@ -3,7 +3,6 @@ import {Button, Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import Input from "../../../../components/inputs/basic/Input";
 import {useForm} from "react-hook-form";
-var random = require("random-string-generator");
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
@@ -12,6 +11,8 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../../../components/customtable";
 import moment from "moment";
 import {CustomerView} from "../lead/LeadDetailView";
+
+const random = require("random-string-generator");
 
 const InvoiceCreate = ({closeModal}) => {
   const [plans, setPlans] = useState([]);

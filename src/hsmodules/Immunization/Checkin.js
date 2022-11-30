@@ -1,31 +1,31 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Route, Switch, Link, NavLink } from "react-router-dom";
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {Route, Switch, Link, NavLink} from "react-router-dom";
 import client from "../../feathers";
-import { DebounceInput } from "react-debounce-input";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { UserContext, ObjectContext } from "../../context";
-import { toast } from "bulma-toast";
-import { formatDistanceToNowStrict, format, subDays, addDays } from "date-fns";
+import {DebounceInput} from "react-debounce-input";
+import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import {UserContext, ObjectContext} from "../../context";
+import {toast} from "bulma-toast";
+import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
 import DatePicker from "react-datepicker";
 import LocationSearch from "../helpers/LocationSearch";
 import EmployeeSearch from "../helpers/EmployeeSearch";
 import BillServiceCreate from "../Finance/BillServiceCreate";
 import "react-datepicker/dist/react-datepicker.css";
-import { PageWrapper } from "../../ui/styled/styles";
-import { TableMenu } from "../../ui/styled/global";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
-import { AppointmentSchema } from "../Clinic/schema";
-import { CustomButton } from "../../components/buttons/Button/base/styles";
-// import ModalBox from "./ui-components/modal";
-// import ModalHeader from "./ui-components/Heading/modalHeader";
-import { Box, Grid } from "@mui/material";
+import {AppointmentSchema} from "../Clinic/schema";
+import {CustomButton} from "../../components/buttons/Button/base/styles";
+import ModalBox from "../../components/modal";
+import {Box, Grid} from "@mui/material";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
-import { MdCancel } from "react-icons/md";
+import {MdCancel} from "react-icons/md";
+import ModalHeader from "../Appointment/ui-components/Heading/modalHeader";
 export default function ImmunizationCheckIn() {
-  const { state } = useContext(ObjectContext); //,setState
+  const {state} = useContext(ObjectContext); //,setState
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
@@ -59,7 +59,7 @@ export default function ImmunizationCheckIn() {
   );
 }
 
-export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
+export function CheckIn({pageView, setPageView, showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -74,9 +74,9 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -95,24 +95,24 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -202,14 +202,14 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -231,7 +231,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -262,15 +262,15 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -290,12 +290,12 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -316,7 +316,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
                 <div
@@ -331,7 +331,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked In Clients
                   </h2>
                   <CustomButton
@@ -347,7 +347,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={AppointmentSchema}
@@ -489,7 +489,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
+export function CheckOut({pageView, setPageView, showModal, setShowModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -504,9 +504,9 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -515,7 +515,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -524,24 +524,24 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     setShowModal(true);
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -632,14 +632,14 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -661,7 +661,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -692,15 +692,15 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -720,12 +720,12 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -764,7 +764,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked Out Clients
                   </h2>
                   <CustomButton
@@ -780,7 +780,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   </CustomButton>
                 </div>
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={AppointmentSchema}
@@ -801,7 +801,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
     </>
   );
 }
-export function CheckDetails({ showModal, setShowModal }) {
+export function CheckDetails({showModal, setShowModal}) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const navigate = useNavigate();
@@ -813,7 +813,7 @@ export function CheckDetails({ showModal, setShowModal }) {
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -824,7 +824,7 @@ export function CheckDetails({ showModal, setShowModal }) {
       selectedAppointment: Client,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -840,14 +840,14 @@ export function CheckDetails({ showModal, setShowModal }) {
         <Grid item xs={12} sm={6}>
           <MdCancel
             onClick={() => {
-              setShowModal(false),
-                setState((prevstate) => ({
-                  ...prevstate,
-                  AppointmentModule: {
-                    selectedAppointment: {},
-                    show: "list",
-                  },
-                }));
+              setShowModal(false);
+              setState(prevstate => ({
+                ...prevstate,
+                AppointmentModule: {
+                  selectedAppointment: {},
+                  show: "list",
+                },
+              }));
             }}
             style={{
               fontSize: "2rem",
@@ -869,7 +869,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             First Name:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.firstname}
           </span>
         </Grid>
@@ -883,7 +883,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Middle Name:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.middlename}
           </span>
         </Grid>
@@ -897,7 +897,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Last Name:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client?.lastname}
           </span>
         </Grid>
@@ -914,7 +914,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Age:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {formatDistanceToNowStrict(new Date(Client.dob))}
           </span>
         </Grid>
@@ -928,7 +928,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Gender:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.gender}
           </span>
         </Grid>
@@ -942,7 +942,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Phone No:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.phone}
           </span>
         </Grid>
@@ -958,7 +958,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Email:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.email}
           </span>
         </Grid>
@@ -975,7 +975,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Start Time:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {format(new Date(Client.start_time), "dd/MM/yyyy HH:mm")}
           </span>
         </Grid>
@@ -989,7 +989,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Location:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {`${Client.location_name} (${Client.location_type})`}
           </span>
         </Grid>
@@ -1004,7 +1004,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Professional:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {`  ${Client.practitioner_name} (${Client.practitioner_profession})`}
           </span>
         </Grid>
@@ -1020,7 +1020,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Appointment Status:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointment_status}
           </span>
         </Grid>
@@ -1034,7 +1034,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Appointment Class:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointmentClass}
           </span>
         </Grid>
@@ -1049,7 +1049,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Appointment Type:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointment_type}
           </span>
         </Grid>
@@ -1065,7 +1065,7 @@ export function CheckDetails({ showModal, setShowModal }) {
           >
             Reason for Appointment:
           </span>
-          <span style={{ color: " #000000", fontSize: "16px" }}>
+          <span style={{color: " #000000", fontSize: "16px"}}>
             {Client.appointment_reason}
           </span>
         </Grid>
@@ -1103,9 +1103,9 @@ export function TheatreCheckedOutList() {
   // eslint-disable-next-line
   const [selectedClient, setSelectedClient] = useState(); //
   // eslint-disable-next-line
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
-  const { user, setUser } = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [startDate, setStartDate] = useState(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
@@ -1114,7 +1114,7 @@ export function TheatreCheckedOutList() {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1123,23 +1123,23 @@ export function TheatreCheckedOutList() {
       selectedClient: {},
       show: "create",
     };
-    await setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    await setState(prevstate => ({...prevstate, ClientModule: newClient}));
   };
 
-  const handleRow = async (Client) => {
+  const handleRow = async Client => {
     await setSelectedAppointment(Client);
     const newClientModule = {
       selectedAppointment: Client,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
   };
   //console.log(state.employeeLocation)
 
-  const handleSearch = (val) => {
+  const handleSearch = val => {
     const field = "firstname";
     //  console.log(val)
 
@@ -1230,14 +1230,14 @@ export function TheatreCheckedOutList() {
       query.locationId = state.employeeLocation.locationId;
     }
 
-    ClientServ.find({ query: query })
-      .then((res) => {
+    ClientServ.find({query: query})
+      .then(res => {
         console.log(res);
         setFacilities(res.data);
         setMessage(" Client  fetched successfully");
         setSuccess(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setMessage("Error fetching Client, probable network issues " + err);
         setError(true);
@@ -1259,7 +1259,7 @@ export function TheatreCheckedOutList() {
       //   stuff.locationId = state.employeeLocation.locationId;
       // }
 
-      const findClient = await ClientServ.find({ query: stuff });
+      const findClient = await ClientServ.find({query: stuff});
 
       await setFacilities(findClient.data);
     } else {
@@ -1290,15 +1290,15 @@ export function TheatreCheckedOutList() {
                          console.log(user)
                          getFacilities(user) */
     }
-    ClientServ.on("created", (obj) => handleCalendarClose());
-    ClientServ.on("updated", (obj) => handleCalendarClose());
-    ClientServ.on("patched", (obj) => handleCalendarClose());
-    ClientServ.on("removed", (obj) => handleCalendarClose());
+    ClientServ.on("created", obj => handleCalendarClose());
+    ClientServ.on("updated", obj => handleCalendarClose());
+    ClientServ.on("patched", obj => handleCalendarClose());
+    ClientServ.on("removed", obj => handleCalendarClose());
     const newClient = {
       selectedClient: {},
       show: "create",
     };
-    setState((prevstate) => ({ ...prevstate, ClientModule: newClient }));
+    setState(prevstate => ({...prevstate, ClientModule: newClient}));
     return () => {};
   }, []);
   const handleCalendarClose = async () => {
@@ -1318,12 +1318,12 @@ export function TheatreCheckedOutList() {
     //   query.locationId = state.employeeLocation.locationId;
     // }
 
-    const findClient = await ClientServ.find({ query: query });
+    const findClient = await ClientServ.find({query: query});
 
     await setFacilities(findClient.data);
   };
 
-  const handleDate = async (date) => {
+  const handleDate = async date => {
     setStartDate(date);
   };
 
@@ -1344,21 +1344,21 @@ export function TheatreCheckedOutList() {
         <>
           <div className="level">
             <PageWrapper
-              style={{ flexDirection: "column", padding: "0.6rem 1rem" }}
+              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
             >
               <TableMenu>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{display: "flex", alignItems: "center"}}>
                   {handleSearch && (
                     <div className="inner-table">
                       <FilterMenu onSearch={handleSearch} />
                     </div>
                   )}
-                  <h2 style={{ marginLeft: "10px", fontSize: "0.95rem" }}>
+                  <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
                     Checked Out Clients
                   </h2>
                 </div>
               </TableMenu>
-              <div style={{ width: "100%", height: "600px", overflow: "auto" }}>
+              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
                 <CustomTable
                   title={""}
                   columns={AppointmentSchema}
@@ -1391,7 +1391,7 @@ export function TheatreAppointmentDetail() {
   //const ClientServ=client.service('/Client')
   //const navigate=useNavigate()
   //const {user,setUser} = useContext(UserContext)
-  const { state, setState } = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
 
@@ -1402,7 +1402,7 @@ export function TheatreAppointmentDetail() {
       selectedAppointment: Client,
       show: "modify",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -1415,7 +1415,7 @@ export function TheatreAppointmentDetail() {
       selectedClient: patient,
       show: "detail",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       ClientModule: newClientModule,
     }));
@@ -1971,8 +1971,8 @@ export function TheatreAppointmentDetail() {
   );
 }
 
-export function TheatreAppointmentModify({ handlecloseModal }) {
-  const { register, handleSubmit, setValue, reset, errors } = useForm(); //watch, errors,
+export function TheatreAppointmentModify({handlecloseModal}) {
+  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1983,8 +1983,8 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
   const ClientServ = client.service("appointments");
   //const navigate=useNavigate()
   // eslint-disable-next-line
-  const { user } = useContext(UserContext);
-  const { state, setState } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state, setState} = useContext(ObjectContext);
   const [selectedClient, setSelectedClient] = useState();
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [appointment_status, setAppointment_status] = useState("");
@@ -2000,7 +2000,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
   const Client = state.AppointmentModule.selectedAppointment;
   //console.log(Client)
 
-  const getSearchfacility1 = (obj) => {
+  const getSearchfacility1 = obj => {
     setLocationId(obj._id);
     setChosen1(obj);
 
@@ -2011,7 +2011,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
     }
   };
 
-  const getSearchfacility2 = (obj) => {
+  const getSearchfacility2 = obj => {
     setPractionerId(obj._id);
     setChosen2(obj);
 
@@ -2082,7 +2082,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
 
     return () => {};
   });
-  const handleChangeType = async (e) => {
+  const handleChangeType = async e => {
     // await setAppointment_type(e.target.value)
     setValue("appointment_type", e.target.value, {
       shouldValidate: true,
@@ -2090,7 +2090,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
     });
   };
 
-  const handleChangeStatus = async (e) => {
+  const handleChangeStatus = async e => {
     // await setAppointment_status(e.target.value)
     setValue("appointment_status", e.target.value, {
       shouldValidate: true,
@@ -2103,7 +2103,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    await setState((prevstate) => ({
+    await setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -2115,7 +2115,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
       selectedAppointment: {},
       show: "create",
     };
-    setState((prevstate) => ({
+    setState(prevstate => ({
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
@@ -2127,7 +2127,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
     const dleteId = Client._id;
     if (conf) {
       ClientServ.remove(dleteId)
-        .then((res) => {
+        .then(res => {
           //console.log(JSON.stringify(res))
           reset();
           /*  setMessage("Deleted Client successfully")
@@ -2144,7 +2144,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
           });
           changeState();
         })
-        .catch((err) => {
+        .catch(err => {
           // setMessage("Error deleting Client, probable network issues "+ err )
           // setError(true)
           toast({
@@ -2181,7 +2181,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
     }
     data.actions = Client.actions;
     ClientServ.patch(Client._id, data)
-      .then((res) => {
+      .then(res => {
         //console.log(JSON.stringify(res))
         // e.target.reset();
         // setMessage("updated Client successfully")
@@ -2194,7 +2194,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
 
         changeState();
       })
-      .catch((err) => {
+      .catch(err => {
         //setMessage("Error creating Client, probable network issues "+ err )
         // setError(true)
         toast({
@@ -2235,7 +2235,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -2244,7 +2244,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                       }
                       name="locationId"
                       type="text"
-                      onChange={(e) => setLocationId(e.target.value)}
+                      onChange={e => setLocationId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -2266,7 +2266,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                   />
                   <p
                     className="control has-icons-left "
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   >
                     <input
                       className="input is-small"
@@ -2275,7 +2275,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                       }
                       name="practionerId"
                       type="text"
-                      onChange={(e) => setPractionerId(e.target.value)}
+                      onChange={e => setPractionerId(e.target.value)}
                       placeholder="Product Id"
                     />
                     <span className="icon is-small is-left">
@@ -2304,7 +2304,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
             <div className="field">
               <input
                 name="start_time"
-                {...register("x", { required: true })}
+                {...register("x", {required: true})}
                 type="datetime-local"
                 defaultValue={format(
                   new Date(Client.start_time),
@@ -2331,7 +2331,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                 <div className="select is-small">
                   <select
                     name="appointment_status"
-                    {...register("x", { required: true })}
+                    {...register("x", {required: true})}
                     /* value={appointment_status} */ onChange={
                       handleChangeStatus
                     }
@@ -2369,7 +2369,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
                 </span>
               </p>
             </div>
-            <div className="field " style={{ display: "none" }}>
+            <div className="field " style={{display: "none"}}>
               <p className="control has-icons-left has-icons-right">
                 <input
                   className="input is-small"
@@ -2419,7 +2419,7 @@ export function TheatreAppointmentModify({ handlecloseModal }) {
     </>
   );
 }
-export function ClientSearch({ getSearchfacility, clear }) {
+export function ClientSearch({getSearchfacility, clear}) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -2436,11 +2436,11 @@ export function ClientSearch({ getSearchfacility, clear }) {
   const [count, setCount] = useState(0);
   const inputEl = useRef(null);
   const [val, setVal] = useState("");
-  const { user } = useContext(UserContext);
-  const { state } = useContext(ObjectContext);
+  const {user} = useContext(UserContext);
+  const {state} = useContext(ObjectContext);
   const [productModal, setProductModal] = useState(false);
 
-  const handleRow = async (obj) => {
+  const handleRow = async obj => {
     await setChosen(true);
     //alert("something is chaning")
     getSearchfacility(obj);
@@ -2467,7 +2467,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
     //console.log(state)
   };
-  const handleBlur = async (e) => {
+  const handleBlur = async e => {
     if (count === 2) {
       console.log("stuff was chosen");
     }
@@ -2485,7 +2485,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
         console.log(facilities.length)
         console.log(inputEl.current) */
   };
-  const handleSearch = async (val) => {
+  const handleSearch = async val => {
     setVal(val);
     if (val === "") {
       setShowPanel(false);
@@ -2550,14 +2550,14 @@ export function ClientSearch({ getSearchfacility, clear }) {
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           console.log("product  fetched successfully");
           console.log(res.data);
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
         })
-        .catch((err) => {
+        .catch(err => {
           toast({
             message: "Error creating ProductEntry " + err,
             type: "is-danger",
@@ -2594,9 +2594,9 @@ export function ClientSearch({ getSearchfacility, clear }) {
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{ width: "100%" }}
+            style={{width: "100%"}}
           >
-            <div className="dropdown-trigger" style={{ width: "100%" }}>
+            <div className="dropdown-trigger" style={{width: "100%"}}>
               <DebounceInput
                 className="input is-small  is-expanded mb-0"
                 type="text"
@@ -2604,15 +2604,15 @@ export function ClientSearch({ getSearchfacility, clear }) {
                 value={simpa}
                 minLength={3}
                 debounceTimeout={400}
-                onBlur={(e) => handleBlur(e)}
-                onChange={(e) => handleSearch(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onChange={e => handleSearch(e.target.value)}
                 inputRef={inputEl}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-search"></i>
               </span>
             </div>
-            <div className="dropdown-menu expanded" style={{ width: "100%" }}>
+            <div className="dropdown-menu expanded" style={{width: "100%"}}>
               <div className="dropdown-content">
                 {facilities.length > 0 ? (
                   ""
