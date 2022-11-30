@@ -20,7 +20,7 @@ import FilterMenu from '../../components/utilities/FilterMenu';
 import Button from '../../components/buttons/Button';
 import CustomTable from '../../components/customtable';
 import Switch from '../../components/switch';
-import { BsFillGridFill, BsList,BsCheckCircle} from 'react-icons/bs';
+import { BsFillGridFill, BsList,BsCheckCircle,BsClipboardCheck,BsClipboardData} from 'react-icons/bs';
 import {FaRegTimesCircle} from 'react-icons/fa'
 import {BiPencil} from 'react-icons/bi'
 import CalendarGrid from '../../components/calender';
@@ -39,6 +39,8 @@ import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import PatientProfile from '../Client/PatientProfile';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Claims, { ClaimsList } from './Claims';
+import ReferralCheckIn from '../Appointment/referralWorkflow';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -388,15 +390,11 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 options={CustomSelectData}
               />
           
-              <CustomSelect
-                name="duration"
-                label="Duration"
-                options={CustomSelectData}
-              />
+             
           </GridBox>
 
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={12}>
+         
+            <div>
               <McText
                 txt={'Clinic Findings'}
                 color={'#0064CC'}
@@ -404,16 +402,16 @@ export function ReferralCreate({ showModal, setShowModal }) {
                 bold={'700'}
                 size={'18px'}
               />
-            </Grid>
-          </Grid>
+            </div>
+         
 
-          <GridBox style={{ overflow: 'hidden' }}>
-            <CustomSelect
+          <GridBox>
+        
+          <CustomSelect
               name="provisionalDiagnosis"
               label="Provisional Diagnosis"
               options={CustomSelectData}
             />
-
             <button
               style={{
                 float: 'left',
@@ -484,8 +482,9 @@ export function ReferralCreate({ showModal, setShowModal }) {
           
               <Input
                 name="physicianName"
-                label="Physician' Name"
+                label="Physician Name"
                 type="text"
+               
               />
               <Textarea
                 placeholder="Type your message here"
@@ -1079,12 +1078,14 @@ export function ReferralDetails() {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [claim, setClaim] = useState(false);
+  const [checkIn, setCheckIn] = useState(false);
   return (
     <>
       <div
         // className="card"
         style={{
-          height: '40%',
+          height: '80%',
           overflow: 'hidden',
           width: '80vw',
           margin: '0 auto',
@@ -1097,15 +1098,18 @@ export function ReferralDetails() {
         </div>
         <div style={{ display: 'flex', gap:"1rem"}}>
         <GlobalCustomButton
-                 onClick={() => setApprove(true)}
+                 onClick={() => setClaim(true)}
+
                 >
+                  <BsClipboardData style={{marginRight: "5px",fontSize:"16px"}}/>
             Claims
             
                       </GlobalCustomButton>
                       <GlobalCustomButton
-                 onClick={() => setApprove(true)}
+                 onClick={() => setCheckIn(true)}
                 >
-            CheckIn
+                  <BsClipboardCheck style={{marginRight: "5px",fontSize:"16px"}}/>
+            Appointment
             
                       </GlobalCustomButton>
         <GlobalCustomButton
@@ -1116,6 +1120,7 @@ export function ReferralDetails() {
             
                       </GlobalCustomButton>
                       <GlobalCustomButton
+                      color="error"
                  onClick={() => setDeny(true)}
                 >
                   <FaRegTimesCircle style={{marginRight: "5px",fontSize:"16px"}}/>
@@ -1134,16 +1139,14 @@ export function ReferralDetails() {
             </GlobalCustomButton>
         </div>
         </div>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
-        <Grid item xs={8}>
-        <div style={{ backgroundColor: '#EBEBEB' }}>
-          <Grid container spacing={2} mt={1} px={2}>
-            <Grid item xs={12} style={{ width: 'fit-content' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Grid container xs={12} spacing={2} sx={{marginTop:"12px"}}>
+        <Grid item xs={4}>
+        <div style={{ backgroundColor: '#EBEBEB',display:"flex",height:"100%",flexDirection:"column", marginRight:"0.6rem", alignItems:"flex-start",padding:"15px"}}>
+              <div style={{display:"flex",flexDirection:"row"}}>
                 <div
                   style={{
-                    maxWidth: '65px',
-                    height: '65px',
+                    maxWidth: '100%',
+                    height: '100%',
                   }}
                 >
                   <img
@@ -1162,85 +1165,57 @@ export function ReferralDetails() {
                   </p>
                 </div>
               </div>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={1} px={2}>
-            <Grid item xs={4}>
+            {/* </Grid>
+          </Grid> */}
+          {/* <Grid container spacing={2} mt={1} px={2}> */}
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>DOB: 23/06/2022</p>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>Age: 52</p>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>Gender: Male</p>
             </Grid>
-          </Grid>
-          <Grid container spacing={2} px={2}>
-            <Grid item xs={6}>
+          {/* </Grid> */}
+          {/* <Grid container spacing={2} px={2}> */}
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>
                 Hospital Name: Lagos State Clinic{' '}
               </p>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>
                 Health Plan: Former sector plan
               </p>
             </Grid>
-          </Grid>
-          <Grid container spacing={2} px={2}>
-            <Grid item xs={6}>
+          {/* </Grid> */}
+          {/* <Grid container spacing={2} px={2}> */}
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>
                 Date of Admission: 23/06/2022
               </p>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>
                 Date of Discharge: 23/06/2022
               </p>
             </Grid>
-          </Grid>
-          <Grid container spacing={2} px={2}>
-            <Grid item xs={6}>
+          {/* </Grid> */}
+          {/* <Grid container spacing={2} px={2}> */}
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>Capitation: Filed</p>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>Fee of Service: Filed</p>
             </Grid>
-          </Grid>
+          {/* </Grid> */}
         </div>
         </Grid>
-        <Grid item xs={4}>
+        <Grid xs={8}>
         <div
           style={{
-            border: '1px solid #8F8F8F',
-            paddingInline: '0.6rem',
-    
-          }}
-        >
-          <p>Request Sent 08/05/2022 9:45pm</p>
-          <p>
-            Request Status: <span style={{ color: '#ED0423' }}>Reject</span>
-          </p>
-          <Grid container>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Provisional Diagonosis:</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt
-              </p>
-            </Grid>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-              <p>Dr. John Doe</p>
-              <p>Lagos State Hospital</p>
-            </Grid>
-          </Grid>
-        </div>
-        </Grid>
-        </Grid>
-        <div
-          style={{
-            marginTop: '10px',
+            marginTop: '20px',
             border: '1px solid #8F8F8F',
             padding: '1rem',
           }}
@@ -1282,7 +1257,7 @@ export function ReferralDetails() {
                 Services
               </span>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8} sx={{paddingTop:"1rem"}}>
               <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
               <p>Dr. John Doe</p>
               <p>Lagos State Hospital</p>
@@ -1308,39 +1283,37 @@ export function ReferralDetails() {
               </p>
             </Grid>
           </Grid>
-
-          <Grid container spacing={2}>
-           
-          </Grid>
         </div>
-
-        {/*  */}
-       
-        {/* <div
+        <div
           style={{
-            marginTop: '10px',
             border: '1px solid #8F8F8F',
-            padding: '1rem',
+            paddingInline: '0.6rem',
+            marginTop:"1.5rem"
           }}
         >
           <p>Request Sent 08/05/2022 9:45pm</p>
           <p>
-            Request Status: <span style={{ color: '#17935C' }}>Approved</span>
+            Request Status: <span style={{ color: '#ED0423' }}>Reject</span>
           </p>
-
-          <Grid container spacing={2}>
+          <Grid container>
+            <Grid item xs={12}>
+              <p style={{ fontWeight: 'bold' }}>Provisional Diagonosis:</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt
+              </p>
+            </Grid>
             <Grid item xs={12}>
               <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
               <p>Dr. John Doe</p>
               <p>Lagos State Hospital</p>
             </Grid>
           </Grid>
-        </div> */}
-        {/* reject */}
+        </div> 
+       
+        </Grid>
         
-        {/*  */}
-        
-        
+        </Grid>
       </div>
 
       {approve && (
@@ -1360,7 +1333,7 @@ export function ReferralDetails() {
                   <Input label={'Institution'} />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2}> 
                 <Grid item xs={12}>
                 <Textarea
                 placeholder="Type your message here"
@@ -1429,6 +1402,18 @@ export function ReferralDetails() {
        {edit && (
     <ModalBox open={edit} onClose={() => setEdit(false)}>  
      <ReferralModify/>
+    </ModalBox>
+    )}
+
+{claim && (
+    <ModalBox open={claim} onClose={() => setClaim(false)}>  
+     <Claims/>
+    </ModalBox>
+    )}
+    {checkIn && (
+       
+    <ModalBox open={checkIn} onClose={() => setCheckIn(false)}> 
+            <ReferralCheckIn/>  
     </ModalBox>
     )}
     </>
@@ -1766,7 +1751,7 @@ export function ReferralModify({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <GridBox style={{ overflow: 'hidden' }}>
+          <GridBox>
             <CustomSelect
               name="provisionalDiagnosis"
               label="Provisional Diagnosis"

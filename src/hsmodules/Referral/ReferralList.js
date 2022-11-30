@@ -966,7 +966,7 @@ export  function IncomingReferralList({ pageView, setPageView, showModal, setSho
               </Grid>
             </Grid>
   
-            <GridBox style={{ overflow: 'hidden' }}>
+            <GridBox>
               <CustomSelect
                 name="provisionalDiagnosis"
                 label="Provisional Diagnosis"

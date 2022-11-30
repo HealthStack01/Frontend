@@ -227,8 +227,7 @@ import PageLoaderComponent from "../components/page-loader/page-loader";
 import LazyLoader from "../components/lazy-loader/Lazy-Loader";
 // import ReferralIncome  from "./Referral/ReferralIncome";
 
-import IncomingReferral from "./Referral/ReferralListIncoming";
-import OutgoingReferral from "./Referral/ReferralListOutcoming";
+import IncomingReferral from "./Referral/ReferralList";
 
 const AccountDashboard = lazy(() =>
   import("./dashBoardUiComponent/@modules/AccountDashboard")
@@ -848,10 +847,7 @@ const AppRoutes = () => {
                 path="/app/referral/incoming"
                 element={<IncomingReferral />}
               />
-              <Route
-                path="/app/referral/outgoing"
-                element={<OutgoingReferral />}
-              />
+           
               {/* <Route path="/app/referral/outgoing" element={<Outgoing />} /> */}
               <Route path="/app/referral/account" />
               <Route path="/app/referral/setting" />

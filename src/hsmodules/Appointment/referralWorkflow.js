@@ -356,7 +356,7 @@ export function CheckIn({ pageView, setPageView, showModal, setShowModal }) {
                   />
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
+              <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
                
                 <CustomTable
                   title={''}
@@ -787,8 +787,7 @@ export function CheckOut({ pageView, setPageView, showModal, setShowModal }) {
                   />
                 </div>
               </TableMenu>
-              <div style={{ width: '100%', height: '600px', overflow: 'auto' }}>
-                
+              <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
                 <CustomTable
                   title={''}
                   columns={AppointmentSchema}
