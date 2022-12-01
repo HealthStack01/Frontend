@@ -73,7 +73,7 @@ function WalletOTP() {
           justifyContent: "center",
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             position: "fixed",
             width: "100%",
@@ -97,7 +97,7 @@ function WalletOTP() {
             src="https://healthstack.africa/wp-content/uploads/2021/10/Healthstack-logo1-300x92.png"
             alt=""
           />
-        </Box>
+        </Box> */}
 
         <Box
           sx={{
@@ -112,13 +112,13 @@ function WalletOTP() {
           mb={2}
         >
           <img
-            src={pounchiiLogo}
-            alt=""
             style={{
+              height: "50px",
               width: "auto",
-              height: "40px",
               display: "block",
             }}
+            src="https://healthstack.africa/wp-content/uploads/2021/10/Healthstack-logo1-300x92.png"
+            alt=""
           />
         </Box>
 
@@ -178,7 +178,7 @@ function WalletOTP() {
               mb={2}
             >
               <Grid container spacing={1}>
-                <Grid item xs={12}>
+                <Grid item xs={12} mb={1}>
                   <Input
                     register={register("otp", {required: true})}
                     label="OTP"

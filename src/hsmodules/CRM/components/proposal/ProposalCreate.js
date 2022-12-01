@@ -1,156 +1,116 @@
-import {forwardRef} from "react";
-import {Button, Grid} from "@mui/material";
-import {Box} from "@mui/system";
+import {useState} from "react";
+import {Box, Grid, Typography} from "@mui/material";
 import Input from "../../../../components/inputs/basic/Input";
-import {useForm} from "react-hook-form";
-import DatePicker from "react-datepicker";
-
+import ModalBox from "../../../../components/modal";
 import {FormsHeaderText} from "../../../../components/texts";
-import CustomSelect from "../../../../components/inputs/basic/Select";
-import BasicDatePicker from "../../../../components/inputs/Date";
+import ProposalDescription from "./ProposalDescription";
+import {useForm} from "react-hook-form";
 import MuiCustomDatePicker from "../../../../components/inputs/Date/MuiDatePicker";
-import Textarea from "../../../../components/inputs/basic/Textarea";
+import CustomSelect from "../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import {CKEditor} from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const ProposalCreate = ({closeModal}) => {
-  const {register} = useForm();
+import {DetailView} from "../lead/LeadDetailView";
+import UploadProposal from "./UploadProposal";
+
+const CreateProposal = ({closeModal}) => {
+  const {register, control} = useForm();
+  const [descriptionModal, setDescriptionModal] = useState(false);
+  const [description, setDescription] = useState("");
+  const [uploadModal, setUploadModal] = useState(false);
+
+  const toggleDescriptionModal = () => {
+    setDescriptionModal(prev => !prev);
+  };
+
   return (
     <Box
-      container
       sx={{
-        width: "800px",
-        maxHeight: "80vh",
+        maxHeigth: "80vh",
+        width: "50vw",
       }}
     >
-      {/* ********************************************USER DETAILS SECTION FOR FORM********************************************* */}
-      <Box item>
-        <FormsHeaderText text="Prospect Details" />
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
-            <Input
-              register={register("customer_name", {required: true})}
-              label="Prospect Name"
-              //placeholder="Enter customer name"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Input
-              register={register("customer_number", {required: true})}
-              label="Customer Number"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item lg={12} md={12} sm={12}>
+          <DetailView />
         </Grid>
-      </Box>
+        <Grid item lg={12} md={12} sm={12}>
+          <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
+            <FormsHeaderText text="Description" />
+          </Box>
 
-      {/* ********************************************ADDRESS SECTION FOR FORM********************************************* */}
-
-      <Box>
-        <FormsHeaderText text="Company Details" />
-
-        <Grid container spacing={1}>
-          <Grid item xs={4}>
-            <Input
-              register={register("address", {required: true})}
-              label="Company Name"
-              //placeholder="Enter customer name"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <Input
-              register={register("local_govt", {required: true})}
-              label="Email"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <Input
-              register={register("local_govt", {required: true})}
-              label="Address"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
+          <Box>
+            <Box
+              sx={{
+                height: "40px",
+                backgroundColor: "#0075D9",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "25px",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#ffffff",
+                  fontWeight: "600",
+                }}
+              >
+                Proposal Description
+              </Typography>
+            </Box>
+            <CKEditor editor={ClassicEditor} data={description} />
+          </Box>
         </Grid>
-      </Box>
-
-      <Box>
-        <FormsHeaderText text="Contact Details" />
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
-            <Input
-              register={register("contact_name", {required: true})}
-              label="Contact Name"
-              //placeholder="Enter customer name"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Input
-              register={register("contact_position", {required: true})}
-              label="Contact Position"
-              type="text"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Input
-              register={register("contact_phone", {required: true})}
-              label="Contact Phone No"
-              // placeholder="Enter customer name"
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Input
-              register={register("contact_email", {required: true})}
-              label="Contact Email"
-              type="email"
-              //placeholder="Enter customer number"
-            />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <Textarea
-              label="Additional Information"
-              placeholder="Write here..."
-            />
-          </Grid>
-        </Grid>
-      </Box>
+      </Grid>
 
       <Box sx={{display: "flex", alignItems: "center"}} mt={2}>
         <GlobalCustomButton
           variant="outlined"
-          sx={{
-            marginRight: "15px",
-          }}
-          onClick={closeModal}
           color="error"
+          sx={{marginRight: "10px"}}
         >
           Cancel
         </GlobalCustomButton>
 
         <GlobalCustomButton
-          sx={{
-            marginRight: "15px",
-            backgroundColor: "#B6CCFE",
-            "&:hover": {
-              backgroundColor: "#B6CCFE",
-            },
-          }}
+          color="info"
+          sx={{marginRight: "10px"}}
+          onClick={() => console.log(description)}
         >
-          Save as draft
+          Save as Draft
         </GlobalCustomButton>
 
-        <GlobalCustomButton>Send proposal</GlobalCustomButton>
+        <GlobalCustomButton
+          sx={{marginRight: "10px"}}
+          onClick={() => setUploadModal(true)}
+        >
+          Upload Proposal
+        </GlobalCustomButton>
+
+        <GlobalCustomButton>Send Proposal</GlobalCustomButton>
       </Box>
+      <ModalBox
+        open={descriptionModal}
+        onClose={toggleDescriptionModal}
+        header="Proposal Description"
+      >
+        <ProposalDescription
+          closeModal={toggleDescriptionModal}
+          setDescription={setDescription}
+          description={description}
+        />
+      </ModalBox>
+
+      <ModalBox
+        open={uploadModal}
+        onClose={() => setUploadModal(false)}
+        header="Upload Proposal"
+      >
+        <UploadProposal closeModal={() => setUploadModal(false)} />
+      </ModalBox>
     </Box>
   );
 };
 
-export default ProposalCreate;
+export default CreateProposal;

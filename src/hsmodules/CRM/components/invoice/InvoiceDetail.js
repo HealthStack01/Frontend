@@ -11,30 +11,15 @@ import BlockIcon from "@mui/icons-material/Block";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import {Grid} from "@mui/material";
+import InvoiceChat from "./InvoiceChat";
+import ChatInterface from "../../../../components/chat/ChatInterface";
 
 const InvoiceDetail = () => {
   const {register, reset} = useForm();
-  const [currentTab, setCurrentTab] = useState("details");
   const [viewInvoice, setViewInvoice] = useState(false);
   const [declineModal, setDeclineModal] = useState(false);
   const [declineReason, setDeclineReason] = useState("");
-
-  const handleChangeTab = tab => {
-    setCurrentTab(tab);
-  };
-
-  const RenderedTab = () => {
-    switch (currentTab) {
-      case "details":
-        return <InvoiceDetailsTab />;
-
-      case "plans":
-        return <InvoicePlansTab />;
-
-      default:
-        break;
-    }
-  };
+  const [chat, setChat] = useState(false);
 
   return (
     <Box
@@ -81,7 +66,7 @@ const InvoiceDetail = () => {
           View Invoice
         </GlobalCustomButton>
 
-        <GlobalCustomButton>
+        <GlobalCustomButton onClick={() => setChat(true)}>
           <ApprovalIcon fontSize="small" sx={{marginRight: "5px"}} />
           Approve
         </GlobalCustomButton>
@@ -101,6 +86,10 @@ const InvoiceDetail = () => {
           setReason={setDeclineReason}
           closeModal={() => setDeclineModal(false)}
         />
+      </ModalBox>
+
+      <ModalBox open={chat} onClose={() => setChat(false)}>
+        <ChatInterface />
       </ModalBox>
     </Box>
   );

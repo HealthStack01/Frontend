@@ -35,9 +35,6 @@ const CreateSLA = ({closeModal}) => {
         <Grid item lg={12} md={12} sm={12}>
           <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
             <FormsHeaderText text="Description" />
-            {/* <GlobalCustomButton onClick={toggleDescriptionModal}>
-              Update Description
-            </GlobalCustomButton> */}
           </Box>
 
           <Box>
