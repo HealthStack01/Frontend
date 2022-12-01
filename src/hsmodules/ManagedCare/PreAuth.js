@@ -36,6 +36,8 @@ import CustomSelect from '../../components/inputs/basic/Select';
 import Textarea from '../../components/inputs/basic/Textarea';
 import { MdCancel, MdAddCircle } from 'react-icons/md';
 import PatientProfile from '../Client/PatientProfile';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { FormsHeaderText } from '../../components/texts';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -50,26 +52,24 @@ export default function GeneralAppointments() {
 
   return (
     <section className="section remPadTop">
-      <PreAuthorizationList showModal={showModal} setShowModal={setShowModal} />
-      {showModal === 1 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(0)}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <PatientProfile />
-            </Grid>
-            <Grid item xs={8}>
-              <PreAuthorizationCreate
-                showModal={showModal}
-                setShowModal={setShowModal}
-              />
-            </Grid>
-          </Grid>
-        </ModalBox>
+      {showModal === 0 && (
+        <PreAuthorizationList
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
       )}
-      {showModal === 2 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(0)}>
-          <PreAuthDetails />
-        </ModalBox>
+      {showModal === 1 && (
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <PatientProfile />
+          </Grid>
+          <Grid item xs={9}>
+            <PreAuthorizationCreate
+              showModal={showModal}
+              setShowModal={setShowModal}
+            />
+          </Grid>
+        </Grid>
       )}
     </section>
   );
@@ -104,6 +104,8 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
+  const [openComplaint, setOpenComplaint] = useState(false);
+  const [openFindings, setOpenFindings] = useState(false);
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
@@ -286,161 +288,142 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
     },
   ];
 
+  const dummyData = [
+    {
+      complaint: 'Fever',
+      duration: '2 days',
+    },
+  ];
+  const complaintSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Complaint',
+      key: 'complaint',
+      description: 'Complaint',
+      selector: (row) => row.complaint,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Duration',
+      key: 'duration',
+      description: 'Duration',
+      selector: (row) => row.duration,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+  const dummyData2 = [
+    {
+      provisional: 'Fever',
+      procedure: 'Test',
+      service: 'Test',
+    },
+  ];
+  const findingsSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Provisional Diagnosis',
+      key: 'provisional',
+      description: 'Provisional Diagnosis',
+      selector: (row) => row.provisional,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Procedure',
+      key: 'procedure',
+      description: 'Planned Procedure',
+      selector: (row) => row.procedure,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Service',
+      key: 'service',
+      description: 'Planned Service',
+      selector: (row) => row.service,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+  ];
+
   return (
     <>
-      <div className="card ">
+      <div className="card " style={{ margin: '0 1rem' }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <ModalHeader text={'Pre-authorization'} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <MdCancel
-                onClick={() => {
-                  setShowModal(false),
-                    setState((prevstate) => ({
-                      ...prevstate,
-                      AppointmentModule: {
-                        selectedAppointment: {},
-                        show: 'list',
-                      },
-                    }));
-                }}
-                style={{
-                  fontSize: '2rem',
-                  color: 'crimson',
-                  cursor: 'pointer',
-                  float: 'right',
-                }}
-              />
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <GlobalCustomButton
+                  onClick={() => {
+                    setShowModal(0),
+                      setState((prevstate) => ({
+                        ...prevstate,
+                        AppointmentModule: {
+                          selectedAppointment: {},
+                          show: 'list',
+                        },
+                      }));
+                  }}
+                  text={'Back'}
+                  color="warning"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  type="submit"
+                  text={'Save'}
+                  color="success"
+                />
+              </Box>
             </Grid>
           </Grid>
-
-          {/* <McText
-            txt={'Patient Information'}
-            color={'#0064CC'}
-            type={'p'}
-            bold={'700'}
-            size={'18px'}
-          />
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input name="patientname" label="Patient Name" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <RadioButton
-                name="gender"
-                title="Gender"
-                options={[
-                  {
-                    label: 'Male',
-                    value: 'male',
-                  },
-                  {
-                    label: 'Female',
-                    value: 'female',
-                  },
-                ]}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input name="address" label="Address" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Input
-                name="healthCareProvider"
-                label="Health Care Provider"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input name="preAuthId" label="Pre-auth ID" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Input name="claimId" label="Claim ID" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
-              <BasicDateTimePicker
-                name="dateOfRequest"
-                label="Date of Request"
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <RadioButton
-                name="emergency"
-                title="Emergency"
-                options={[
-                  {
-                    label: 'Yes',
-                    value: 'yes',
-                  },
-                  {
-                    label: 'No',
-                    value: 'no',
-                  },
-                ]}
-              />
-            </Grid>
-          </Grid> */}
 
           <Grid container spacing={2} my={2}>
             <Grid item xs={12} sm={6}>
-              <McText
-                txt={'Clinical Information'}
-                color={'#0064CC'}
-                type={'p'}
-                bold={'700'}
-                size={'18px'}
-              />
+              <FormsHeaderText text={'Clinical Information'} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <button
-                style={{
+              <GlobalCustomButton
+                customStyles={{
                   float: 'right',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
                 }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add complaints
-              </button>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="complaints"
-                label="Complaints"
-                options={CustomSelectData}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="duration"
-                label="Duration"
-                options={CustomSelectData}
+                text={'Add Complaint'}
+                color="primary"
+                variant="outlined"
+                onClick={() => setOpenComplaint(true)}
               />
             </Grid>
           </Grid>
+          <CustomTable
+            title={''}
+            columns={complaintSchema}
+            data={dummyData}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
 
           <Grid container spacing={2} my={2}>
             <Grid item xs={12} sm={12}>
-              <McText
+              <FormsHeaderText
                 txt={'Clinic Findings'}
                 color={'#0064CC'}
                 type={'p'}
@@ -450,92 +433,30 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} my={1}>
+          <Grid container spacing={2} my={2}>
             <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="provisionalDiagnosis"
-                label="Provisional Diagnosis"
-                options={CustomSelectData}
+              <FormsHeaderText text={'Clinical Findings'} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <GlobalCustomButton
+                customStyles={{
+                  float: 'right',
+                }}
+                text={'Add Findings'}
+                color="primary"
+                variant="outlined"
+                onClick={() => setOpenFindings(true)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <button
-                style={{
-                  float: 'left',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
-                }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add Diagnosis
-              </button>
-            </Grid>
           </Grid>
-
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="plannedDiagnosis"
-                label="Planned Procedure"
-                options={CustomSelectData}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <button
-                style={{
-                  float: 'left',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
-                }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add Procedure
-              </button>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2} my={1}>
-            <Grid item xs={12} sm={6}>
-              <CustomSelect
-                name="plannedService"
-                label="Planned Service"
-                options={CustomSelectData}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <button
-                style={{
-                  float: 'left',
-                  backgroundColor: '#ECF3FF',
-                  color: '#0064CC',
-                  border: 'none',
-                  padding: '10px',
-                  cursor: 'pointer',
-                }}
-              >
-                <MdAddCircle
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
-                Add Service
-              </button>
-            </Grid>
-          </Grid>
+          <CustomTable
+            title={''}
+            columns={findingsSchema}
+            data={dummyData2}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -557,23 +478,49 @@ export function PreAuthorizationCreate({ showModal, setShowModal }) {
               />
             </Grid>
           </Grid>
-
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
         </form>
       </div>
+      {openComplaint && (
+        <ModalBox
+          open={openComplaint}
+          onClose={() => setOpenComplaint(false)}
+          header="Add Complaint"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Input name="complaints" label="Complaints" />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Input name="duration" label="Duration" />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <GlobalCustomButton text={'Add'} color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
+      {openFindings && (
+        <ModalBox
+          open={openFindings}
+          onClose={() => setOpenFindings(false)}
+          header="Add Findings"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Input label="Provisional Diagnosis" />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Input label="Planned Procedure" />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Input label="Planned Service" />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <GlobalCustomButton text={'Add'} color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
     </>
   );
 }
@@ -600,6 +547,7 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('list');
+  const navigate = useNavigate();
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -630,6 +578,7 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
       ...prevstate,
       AppointmentModule: newClientModule,
     }));
+    navigate('/app/managed-care/preauthorizationDetails');
   };
   //console.log(state.employeeLocation)
 
@@ -1074,9 +1023,8 @@ export function PreAuthorizationList({ showModal, setShowModal }) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label="Add new "
+                  <GlobalCustomButton
+                    text="Add new "
                     onClick={handleCreateNew}
                   />
                 )}
@@ -1272,27 +1220,6 @@ export function PreAuthDetails() {
           </Grid>
         </div>
 
-        {/* <div
-          style={{
-            marginTop: '10px',
-            border: '1px solid #8F8F8F',
-            padding: '1rem',
-          }}
-        >
-          <p>Request Sent 08/05/2022 9:45pm</p>
-          <p>
-            Request Status: <span style={{ color: '#17935C' }}>Approved</span>
-          </p>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-              <p>Dr. John Doe</p>
-              <p>Lagos State Hospital</p>
-            </Grid>
-          </Grid>
-        </div> */}
-        {/* reject */}
         <div
           style={{
             marginTop: '10px',
