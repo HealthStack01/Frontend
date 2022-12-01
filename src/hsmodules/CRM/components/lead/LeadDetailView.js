@@ -33,6 +33,7 @@ import {toast} from "react-toastify";
 import CrmAppointment from "../../Appointment";
 import CrmProposals from "../../Proposals";
 import Contact from "../../Contact";
+import RadioButton from "../../../../components/inputs/basic/Radio";
 
 export const CustomerView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -45,6 +46,7 @@ export const CustomerView = () => {
     local_govt: "Bamidele",
     city: "Ikeja",
     state: "Ogun",
+    customer_type: "Personal",
     deal_probability: "90%",
     deal_size: "Extra Large",
     deal_status: "Closed",
@@ -116,7 +118,7 @@ export const CustomerView = () => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <Input
             register={register("address", {required: true})}
             label="Residential Address"
@@ -149,6 +151,24 @@ export const CustomerView = () => {
             label="State"
             disabled={!editCustomer}
             //placeholder="Enter customer number"
+          />
+        </Grid>
+
+        <Grid item lg={4} md={4} sm={6}>
+          <Input
+            register={register("country", {required: true})}
+            label="Country"
+            disabled={!editCustomer}
+            //placeholder="Enter customer number"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <RadioButton
+            //title="Customer Type"
+            options={["Personal", "Organization"]}
+            register={register("customer_type", {required: true})}
+            defaultValue="Personal"
           />
         </Grid>
       </Grid>

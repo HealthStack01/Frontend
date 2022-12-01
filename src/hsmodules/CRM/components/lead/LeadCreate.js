@@ -22,6 +22,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AdditionalInformationCard, {
   CreateAdditionalInfo,
 } from "./AdditionalInfo";
+import RadioButton from "../../../../components/inputs/basic/Radio";
 
 const LeadsCreate = ({closeModal}) => {
   const {register, handleSubmit, control} = useForm();
@@ -85,6 +86,12 @@ const LeadsCreate = ({closeModal}) => {
               <FormsHeaderText text="Customer Details" />
 
               <Grid container spacing={1} mt={0.5}>
+                <Grid item xs={12}>
+                  <RadioButton
+                    title="Customer Type"
+                    options={["Individual", "Organization"]}
+                  />
+                </Grid>
                 <Grid item xs={6}>
                   <Input
                     register={register("customer_name", {required: true})}
