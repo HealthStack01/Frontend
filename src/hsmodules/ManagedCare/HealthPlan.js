@@ -30,6 +30,8 @@ import { MdCancel } from 'react-icons/md';
 import Input from '../../components/inputs/basic/Input';
 import CustomSelect from '../../components/inputs/basic/Select';
 import { McText } from './text';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { FormsHeaderText } from '../../components/texts';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -43,17 +45,18 @@ export default function HealthPlan() {
 
   return (
     <section className="section remPadTop">
-      <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
+      {showModal === 0 && (
+        <HealthPlanList showModal={showModal} setShowModal={setShowModal} />
+      )}
       {showModal === 1 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <HealthPlanCreate showModal={showModal} setShowModal={setShowModal} />
+        <ModalBox open={showModal} onClose={() => setShowModal(0)}>
+          <HealthPlanCreate
+            showModal={showModal}
+            setShowModal={() => setShowModal(0)}
+          />
         </ModalBox>
       )}
-      {showModal === 2 && (
-        <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-          <HealthPlanDetails />
-        </ModalBox>
-      )}
+      {showModal === 2 && <HealthPlanDetails setShowModal={setShowModal} />}
     </section>
   );
 }
@@ -273,14 +276,27 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
           minWidth: '600px',
         }}
       >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <FormsHeaderText text={'Create Health Plan'} />
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <GlobalCustomButton
+              type="button"
+              variant="contained"
+              color="secondary"
+              onClick={() => setShowBenefit(true)}
+              text="Add Benefit"
+              customStyles={{ marginRight: '.8rem' }}
+            />
+            <GlobalCustomButton
+              type="submit"
+              variant="contained"
+              color="success"
+              text="Save"
+            />
+          </Box>
+        </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <McText
-            txt={'Create Health Plan'}
-            type={'p'}
-            bold={'700'}
-            size={'16px'}
-          />
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={6}>
               <Input
                 name="plan"
@@ -288,7 +304,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 register={register('plan')}
               />
             </Grid>
-            <Grid item xs={12} sm={6} my={1.5}>
+            <Grid item xs={12} sm={6}>
               <CustomSelect
                 name="planCategory"
                 label="Category"
@@ -299,9 +315,7 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 ]}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6} my={1.5}>
+            <Grid item xs={12} sm={6}>
               <CustomSelect
                 name="planType"
                 label="Type"
@@ -318,20 +332,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
                 label="Premium Amount"
                 register={register('planAmount')}
               />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} my={2}>
-            <Grid item xs={12} sm={6} my={1}>
-              <Button
-                type="button"
-                variant="contained"
-                style={{
-                  backgroundColor: '#3f51b5',
-                }}
-                onClick={() => setShowBenefit(true)}
-              >
-                Add Benefit
-              </Button>
             </Grid>
           </Grid>
           {showBenefit && (
@@ -417,37 +417,6 @@ export function HealthPlanCreate({ showModal, setShowModal }) {
               </ModalBox>
             </>
           )}
-          <Grid container spacing={2} mt={1}>
-            <Grid item xs={12} sm={12} md={3}>
-              <Button
-                type="submit"
-                style={{
-                  backgroundColor: '#0364FF',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                fullwidth
-              >
-                Save
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3}>
-              <Button
-                type="button"
-                onClick={(e) => e.target.reset()}
-                style={{
-                  backgroundColor: '#ffffff',
-                  width: '100%',
-                  color: '#0364FF',
-                  border: '1px solid #0364FF',
-                  cursor: 'pointer',
-                }}
-                fullwidth
-              >
-                Clear
-              </Button>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </>
@@ -866,9 +835,8 @@ export function HealthPlanList({ showModal, setShowModal }) {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label="Add new "
+                  <GlobalCustomButton
+                    text="Add new "
                     onClick={handleCreateNew}
                   />
                 )}
@@ -898,7 +866,7 @@ export function HealthPlanList({ showModal, setShowModal }) {
   );
 }
 
-export function HealthPlanDetails() {
+export function HealthPlanDetails({ showModal, setShowModal }) {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [viewBenefit, setViewBenefit] = useState(false);
@@ -1056,13 +1024,20 @@ export function HealthPlanDetails() {
       <div
         className="card"
         style={{
-          height: '50vh',
+          height: 'auto',
           overflowY: 'scroll',
-          width: '40vw',
+          width: '98%',
           margin: '0 auto',
         }}
       >
-        <ModalHeader text={'Anti Fungal'} />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }} my={1}>
+          <FormsHeaderText text={'Anti Fungal'} />
+          <GlobalCustomButton
+            text="Back"
+            color="warning"
+            onClick={() => setShowModal(0)}
+          />
+        </Box>
         <div style={{ backgroundColor: '#EBEBEB', padding: '.5rem 1rem' }}>
           <p>Details</p>
           <Grid container spacing={2}>
@@ -1079,8 +1054,9 @@ export function HealthPlanDetails() {
         <div
           style={{
             marginTop: '10px',
-            border: '1px solid #8F8F8F',
             padding: '1rem',
+            boxShadow:
+              '0px 3px 3px -2px rgb(0 0 0 / 20%),0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)',
           }}
         >
           <Grid container spacing={2} style={{ alignItems: 'top' }}>
@@ -1107,9 +1083,9 @@ export function HealthPlanDetails() {
             </Grid>
             <Grid item xs={3}>
               <div style={{ marginLeft: 'auto' }}>
-                <Button
-                  label="View Benefit"
-                  style={{ marginLeft: 'auto' }}
+                <GlobalCustomButton
+                  text="View Benefit"
+                  customStyles={{ float: 'right' }}
                   onClick={() => setViewBenefit(true)}
                 />
               </div>
