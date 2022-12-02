@@ -4,7 +4,7 @@ import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-import { Box, Grid, Button as MuiButton } from '@mui/material';
+import { Box, Grid, Button as MuiButton, IconButton } from '@mui/material';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
@@ -38,6 +38,9 @@ import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import PatientProfile from '../Client/PatientProfile';
 import { FormsHeaderText } from '../../components/texts';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import Drawer from '@mui/material/Drawer';
+import ChatInterface from '../../components/chat/ChatInterface';
+import CloseIcon from '@mui/icons-material/Close';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -66,6 +69,8 @@ export default function ClaimsDetails({ standAlone }) {
 export function Details() {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
   return (
     <>
       <Grid container spacing={3}>
@@ -182,6 +187,12 @@ export function Details() {
                   onClick={() => setDeny(true)}
                   text="Reject"
                   color="error"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  onClick={() => setOpenDrawer(true)}
+                  text="Chat"
+                  color="success"
                 />
               </Box>
             </Box>
@@ -292,6 +303,28 @@ export function Details() {
           </ModalBox>
         </>
       )}
+      <Drawer
+        open={openDrawer}
+        sx={{
+          width: 'fit-content',
+          height: 'fit-content',
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: 'fit-content',
+            height: 'fit-content',
+          },
+        }}
+        variant="persistent"
+        anchor="right"
+      >
+        <IconButton
+          onClick={() => setOpenDrawer(false)}
+          sx={{ float: 'left', width: 'fit-content' }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <ChatInterface />
+      </Drawer>
     </>
   );
 }
