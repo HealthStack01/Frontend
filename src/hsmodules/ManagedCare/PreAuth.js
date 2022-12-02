@@ -1310,11 +1310,11 @@ export function Details() {
         open={openDrawer}
         sx={{
           width: 'fit-content',
-          height: 'fit-content',
+          // height: 'fit-content',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: 'fit-content',
-            height: 'fit-content',
+            // height: 'fit-content',
           },
         }}
         variant="persistent"
