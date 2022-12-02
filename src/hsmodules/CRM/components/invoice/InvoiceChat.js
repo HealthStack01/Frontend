@@ -104,7 +104,7 @@ const InvoiceChat = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "0 10px",
+          padding: "10px 15px",
         }}
         ref={chatBoxContainerRef}
       >
@@ -225,6 +225,7 @@ const InvoiceChat = () => {
           alignItems: "center",
           justifyContent: "space-between",
           height: "60px",
+          padding: "0 15px",
         }}
       >
         <Box
