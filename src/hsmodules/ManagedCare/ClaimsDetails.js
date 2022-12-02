@@ -4,7 +4,13 @@ import { Route, useNavigate, Link, NavLink } from 'react-router-dom';
 import client from '../../feathers';
 import { DebounceInput } from 'react-debounce-input';
 import { useForm } from 'react-hook-form';
-import { Box, Grid, Button as MuiButton, IconButton } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Button as MuiButton,
+  IconButton,
+  Badge,
+} from '@mui/material';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
@@ -189,11 +195,17 @@ export function Details() {
                   color="error"
                   customStyles={{ marginRight: '.8rem' }}
                 />
-                <GlobalCustomButton
-                  onClick={() => setOpenDrawer(true)}
-                  text="Chat"
+                <Badge
+                  badgeContent={4}
                   color="success"
-                />
+                  sx={{ marginRight: '10px' }}
+                >
+                  <GlobalCustomButton
+                    onClick={() => setOpenDrawer(true)}
+                    text="Chat"
+                    color="primary"
+                  />
+                </Badge>
               </Box>
             </Box>
 
@@ -317,13 +329,15 @@ export function Details() {
         variant="persistent"
         anchor="right"
       >
-        <IconButton
-          onClick={() => setOpenDrawer(false)}
-          sx={{ float: 'left', width: 'fit-content' }}
+        <Box
+          sx={{
+            width: '25vw',
+            height: '100vh',
+            overflowY: 'hidden',
+          }}
         >
-          <CloseIcon />
-        </IconButton>
-        <ChatInterface />
+          <ChatInterface closeChat={() => setOpenDrawer(false)} />
+        </Box>
       </Drawer>
     </>
   );

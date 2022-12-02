@@ -24,7 +24,7 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
-import { Box, Grid, Typography, IconButton } from '@mui/material';
+import { Box, Grid, Typography, IconButton, Badge } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
@@ -1114,11 +1114,17 @@ export function Details() {
                   color="error"
                   customStyles={{ marginRight: '.8rem' }}
                 />
-                <GlobalCustomButton
-                  onClick={() => setOpenDrawer(true)}
-                  text="Chat"
+                <Badge
+                  badgeContent={4}
                   color="success"
-                />
+                  sx={{ marginRight: '10px' }}
+                >
+                  <GlobalCustomButton
+                    onClick={() => setOpenDrawer(true)}
+                    text="Chat"
+                    color="primary"
+                  />
+                </Badge>
               </Box>
             </Box>
 
@@ -1320,13 +1326,15 @@ export function Details() {
         variant="persistent"
         anchor="right"
       >
-        <IconButton
-          onClick={() => setOpenDrawer(false)}
-          sx={{ float: 'left', width: 'fit-content' }}
+        <Box
+          sx={{
+            width: '25vw',
+            height: '100vh',
+            overflowY: 'hidden',
+          }}
         >
-          <CloseIcon />
-        </IconButton>
-        <ChatInterface />
+          <ChatInterface closeChat={() => setOpenDrawer(false)} />
+        </Box>
       </Drawer>
     </>
   );
