@@ -14,10 +14,11 @@ const ContactsList = ({
   deleteContact,
   standalone,
 }) => {
+  const handleRow = () => [openDetailModal()];
   //first param is passed to the delete element on the table and the second param (false) decides whether or not the delete button is disabled
   const contactColumns = getContactColumns(deleteContact, false, standalone);
   return (
-    <Box>
+    <Box pl={2} pr={2}>
       <Box>
         <Box
           sx={{
@@ -26,7 +27,7 @@ const ContactsList = ({
             alignItems: "center",
             justifyContent: "space-between",
           }}
-          mb={1}
+          mb={2}
         >
           <FormsHeaderText text="Contact Details" />
 
@@ -47,7 +48,7 @@ const ContactsList = ({
             pointerOnHover
             highlightOnHover
             striped
-            //onRowClicked={handleRow}
+            onRowClicked={handleRow}
             CustomEmptyData="You haven't added any contact yet, Click edit to add.."
             progressPending={false}
           />

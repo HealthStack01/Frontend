@@ -143,7 +143,7 @@ const InvoicePlansTab = () => {
         </Grid>
       </Grid>
 
-      <Box mt={1} mb={1}>
+      {/* <Box mt={1} mb={1}>
         <CustomTable
           columns={planColumns}
           data={plans}
@@ -154,7 +154,7 @@ const InvoicePlansTab = () => {
           CustomEmptyData="You haven't added any Plan yet..."
           progressPending={false}
         />
-      </Box>
+      </Box> */}
 
       <ModalBox open={detailModal} onClose={() => setDetailModal(false)}>
         <EachPlanDetail

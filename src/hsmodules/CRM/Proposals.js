@@ -4,20 +4,32 @@ import {Box} from "@mui/material";
 import ModalBox from "../../components/modal";
 import ProposalCreate from "./components/proposal/ProposalCreate";
 import ProposalList from "./components/proposal/ProposalList";
+import ProposalDetail from "./components/proposal/ProposalDetail";
 
 const CrmProposals = ({standAlone}) => {
   const [createModal, setCreateModal] = useState(false);
-  return (
-    <Box p={standAlone ? 0 : 2}>
-      <ProposalList openCreateModal={() => setCreateModal(true)} />
+  const [currentView, setCurrentView] = useState("lists");
 
-      <ModalBox
-        open={createModal}
-        onClose={() => setCreateModal(false)}
-        header="New Proposal"
-      >
-        <ProposalCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox>
+  const handleGoBack = () => {
+    setCurrentView("lists");
+  };
+
+  return (
+    <Box>
+      {currentView === "lists" && (
+        <ProposalList
+          showCreate={() => setCurrentView("create")}
+          showDetail={() => setCurrentView("detail")}
+        />
+      )}
+
+      {currentView === "detail" && (
+        <ProposalDetail handleGoBack={handleGoBack} />
+      )}
+
+      {currentView === "create" && (
+        <ProposalCreate handleGoBack={handleGoBack} />
+      )}
     </Box>
   );
 };

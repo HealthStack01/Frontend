@@ -1,18 +1,22 @@
-import {useState, useRef, useEffect} from "react";
+import {useState, useRef, useEffect, useCallback} from "react";
 import {Avatar, Box, Button, IconButton, Typography} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import SendIcon from "@mui/icons-material/Send";
 import {ThreeCircles} from "react-loader-spinner";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import Zoom from "@mui/material/Zoom";
 
 import "./styles.scss";
 import moment from "moment";
 
 import {messages} from "./data";
 
-const ChatInterface = () => {
+const ChatInterface = ({closeChat}) => {
   const [chatMessages, setChatMessages] = useState([...messages]);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
+  const [goDownIcon, setGoDownIcon] = useState(false);
 
   const messagesContainerRef = useRef(null);
   const chatBoxContainerRef = useRef(null);
@@ -43,16 +47,38 @@ const ChatInterface = () => {
     }, 1000);
   };
 
-  const scrollToBottom = () => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollIntoView({behavior: "smooth"});
+  // const scrollToBottom = () => {
+  //   if (messagesContainerRef.current) {
+  //     messagesContainerRef.current.scrollIntoView({behavior: "smooth"});
+  //   }
+  // };
+
+  const scrollToBottom = useCallback(() => {
+    const scroll =
+      chatBoxContainerRef.current.scrollHeight -
+      chatBoxContainerRef.current.clientHeight;
+
+    chatBoxContainerRef.current.scrollTo({
+      top: scroll,
+      behaviour: "smooth",
+    });
+  }, [chatBoxContainerRef]);
+
+  const handleOnScroll = event => {
+    const {scrollHeight, scrollTop, clientHeight} = event.target;
+    const scrollPosition = scrollHeight - scrollTop - clientHeight;
+
+    if (scrollPosition > 200) {
+      setGoDownIcon(true);
+    } else if (scrollPosition <= 0) {
+      setGoDownIcon(false);
     }
   };
 
   useEffect(() => {
     //scroll to bottom everytime new chat message is added
     scrollToBottom();
-  }, [chatMessages]);
+  }, [chatMessages, scrollToBottom]);
 
   const messageStatus = status => {
     switch (status.toLowerCase()) {
@@ -87,28 +113,39 @@ const ChatInterface = () => {
   return (
     <Box
       sx={{
-        width: "500px",
-        height: "80vh",
+        width: "100%",
+        height: "100%",
         overflow: "hidden",
+        position: "relative",
       }}
     >
-      {/* <Box
+      <Box
         sx={{
           height: "50px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          backgroundColor: "#f0f0f0",
+          padding: "0 15px",
         }}
-      ></Box> */}
+      >
+        <IconButton onClick={closeChat}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
 
       <Box
         sx={{
           width: "100%",
-          height: "calc(100% - 60px)",
+          height: "calc(100% - 110px)",
           overflowY: "scroll",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "0 10px",
+          padding: "10px 15px",
         }}
         ref={chatBoxContainerRef}
+        onScroll={handleOnScroll}
       >
         {chatMessages.map(messageItem => {
           const {message, _id, userId, time, name, status, dp} = messageItem;
@@ -218,7 +255,7 @@ const ChatInterface = () => {
             </Slide>
           );
         })}
-        <div ref={messagesContainerRef} />
+        {/* <div ref={messagesContainerRef} /> */}
       </Box>
 
       <Box
@@ -227,6 +264,7 @@ const ChatInterface = () => {
           alignItems: "center",
           justifyContent: "space-between",
           height: "60px",
+          padding: "0 15px",
         }}
       >
         <Box
@@ -258,6 +296,25 @@ const ChatInterface = () => {
           {sending ? <ThreeCirclesSpinner /> : <SendIcon />}
         </Button>
       </Box>
+
+      <Zoom in={goDownIcon}>
+        <IconButton
+          sx={{
+            position: "absolute",
+            right: "5%",
+            bottom: "10%",
+            zIndex: 9999,
+            backgroundColor: "#386641",
+            "&:hover": {
+              backgroundColor: "#386641",
+            },
+            color: "#ffffff",
+          }}
+          onClick={scrollToBottom}
+        >
+          <ArrowCircleDownIcon />
+        </IconButton>
+      </Zoom>
     </Box>
   );
 };

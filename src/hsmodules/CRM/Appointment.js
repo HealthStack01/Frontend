@@ -8,7 +8,7 @@ import ModalBox from "../../components/modal";
 const CrmAppointment = ({standAlone}) => {
   const [createModal, setCreateModal] = useState(false);
   return (
-    <Box p={standAlone ? 0 : 2}>
+    <Box>
       <AppointmentList openCreateModal={() => setCreateModal(true)} />
 
       <ModalBox

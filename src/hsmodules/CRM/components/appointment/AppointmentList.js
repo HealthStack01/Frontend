@@ -140,7 +140,7 @@ const AppointmentList = ({openCreateModal}) => {
   const handleRow = () => {};
 
   return (
-    <Box>
+    <Box pl={2} pr={2}>
       <Box
         sx={{
           display: "flex",
