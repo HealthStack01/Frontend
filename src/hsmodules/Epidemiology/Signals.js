@@ -17,6 +17,10 @@ import {TableMenu} from "../../ui/styled/global";
 import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
+import CustomSelect from "../../components/inputs/basic/Select";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../components/inputs/basic/Textarea";
+import Input from "../../components/inputs/basic/Input";
 import {
   MapContainer,
   TileLayer,
@@ -28,10 +32,16 @@ import {
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import ModalBox from "../../components/modal";
 /* import *  as hospData from "../../data/nigeriahealthfacilities.json" */
 
 import "leaflet/dist/leaflet.css";
 import {Box} from "@mui/system";
+import LocationSearch from "../helpers/LocationSearch";
+import EmployeeSearch from "../helpers/EmployeeSearch";
+import { FacilitySearch } from "../helpers/FacilitySearch";
 // let DefaultIcon = L.icon({
 //     iconUrl: icon,
 //     shadowUrl: iconShadow
@@ -43,34 +53,58 @@ const searchfacility = {};
 
 export default function EpidemiologySignals() {
   const {state} = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
-  const [selectedStore, setSelectedStore] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [modifyModal, setModifyModal] = useState(false);
+
+
+
+  const handleShowDetailModal = () => {
+    setDetailModal(true);
+  };
+
+  const handleHideDetailModal = () => {
+    setDetailModal(false);
+  };
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+
+  const handleHideCreateModal = () => {
+    setCreateModal(false);
+  };
+  const handleModifyModal = () => {
+    setModifyModal(true);
+  };
+
+  const handleHideModifyModal = () => {
+    setModifyModal(false);
+  };
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Store  Module</span></div>
-            </div> */}
       <div>
-        <SignalsList />
-      </div>
-      <div className="columns ">
-        <div className="column is-1 "></div>
-        {/*             <div className="column is-4 ">
-                {(state.StoreModule.show ==='create')&&<StoreCreate />}
-                {(state.StoreModule.show ==='detail')&&<StoreDetail  />}
-                {(state.StoreModule.show ==='modify')&&<StoreModify Store={selectedStore} />}
-               
-            </div>
- */}
+        <SignalsList 
+          showCreateModal={handleCreateModal}
+          showDetailModal={handleShowDetailModal}
+        />
+        <ModalBox  open={createModal} onClose={handleHideCreateModal}>
+          <SignalCreate />
+        </ModalBox>
+
+        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+          <SignalDetail showModifyModal={handleModifyModal} />
+        </ModalBox>
+        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+          <SignalModify />
+        </ModalBox>
       </div>
     </section>
   );
 }
 
-export function StoreCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+export function SignalCreate() {
+  const {register, handleSubmit, setValue,control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -152,27 +186,66 @@ export function StoreCreate() {
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small" {...register("x",{required: true})}  name="StoreType" type="text" placeholder="Type of Store" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <input
-                  className="input is-small"
-                  {...register("x", {required: true})}
-                  name="name"
-                  type="text"
-                  placeholder="Name of Laboratory"
+             <div style={{paddingBottom:"1rem"}}>
+             <MuiCustomDatePicker
+                  label="Date"
+                  register={register("date", {required: true})}
+                  name="date"
+                  control={control}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
+                </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <CustomSelect
+                  label="Disease"
+                  name="status"
+                  options={["Measles","Covid-19","Cholera"]}
+                  register={register("disease", {required: true})}
+                  
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <LocationSearch
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <FacilitySearch
+                
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <EmployeeSearch
+               
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <Input
+                register={register("notification", {required: true})}
+                name="notificaton"
+                type="text"
+                label="Notification Type"
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Comfirmed","Uncomfirmed","Suspected","Unsuspected"]}
+                  
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Attended","Unattended"]}
+                  
+                 
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <EmployeeSearch
+               
+              />
             </div>
             {/*  <div className="field">
                 <p className="control has-icons-left">
@@ -265,10 +338,13 @@ export function StoreCreate() {
                     </span>
                 </p>
             </div> */}
-            <div className="field">
-              <p className="control">
-                <button className="button is-success is-small">Create</button>
-              </p>
+            <div >
+            <GlobalCustomButton 
+                
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Create
+                </GlobalCustomButton>
             </div>
           </form>
         </div>
@@ -277,7 +353,7 @@ export function StoreCreate() {
   );
 }
 
-export function SignalsList({standalone, closeModal}) {
+export function SignalsList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -318,7 +394,8 @@ export function SignalsList({standalone, closeModal}) {
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
     //console.log(state)
-    //closeModal()
+    // closeModal()
+    showDetailModal();
   };
 
   const handleSearch = val => {
@@ -533,12 +610,14 @@ export function SignalsList({standalone, closeModal}) {
                 </h2>
               </div>
 
-              {!standalone && (
-                <Button
-                  style={{fontSize: "14px", fontWeight: "600"}}
-                  label="Add new "
-                  onClick={handleCreateNew}
-                />
+              {handleCreateNew && (
+                
+                <GlobalCustomButton 
+                onClick={showCreateModal}
+                >
+                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                Add New Signal
+                </GlobalCustomButton>
               )}
             </TableMenu>
 
@@ -790,8 +869,8 @@ export function StoreListStandalone({standalone, closeModal}) {
     </>
   );
 }
-export function StoreDetail() {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+export function SignalDetail({showModifyModal}) {
+  const { control} = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
   //const [success, setSuccess] =useState(false)
@@ -811,16 +890,92 @@ export function StoreDetail() {
     };
     await setState(prevstate => ({...prevstate, StoreModule: newStoreModule}));
     //console.log(state)
+    showModifyModal();
   };
 
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Laboratory Details</p>
+      <div className="card-header" style={{display:"flex", justifyContent:"space-between",alignItems:"center", padding:"1rem"}}>
+         <div style={{marginRight:"4rem"}}> <p>Signal Details</p></div>
+          <div>
+          <GlobalCustomButton
+                  onClick={handleEdit}
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Edit
+                  </GlobalCustomButton>
+          </div>
         </div>
-        <div className="card-content vscrollable">
-          <table>
+         <div>
+         <div style={{paddingBottom:"1rem"}}>
+             <MuiCustomDatePicker
+                  label="Date"
+                  name="date"
+                  control={control}
+                  defaultValue="21-30-22"
+                />
+                </div>
+         <div style={{paddingBottom:"1rem"}}>
+            <CustomSelect
+                  label="Disease"
+                  name="status"
+                  options={["Measles","Covid-19","Cholera"]}
+                  defaultValue="Covid-19"
+                />
+            </div>
+        
+            <div style={{paddingBottom:"1rem"}}>
+            <LocationSearch
+             
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <FacilitySearch
+                
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <EmployeeSearch
+               
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+          
+          <Input
+              
+              name="notificaton"
+              type="text"
+              label="Notification Type"
+              defaultValue="Documentation"
+            />
+          </div>
+          <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Confirmed","Unconfirmed","Suspected","Unsuspected"]}
+                  defaultValue="Confirmed"
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Attended","Unattended"]}
+                  defaultValue="Attended"
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <EmployeeSearch
+               
+              />
+               </div>
+       
+          {/* <table>
             <tbody>
               <tr>
                 <td>
@@ -853,7 +1008,7 @@ export function StoreDetail() {
                     {Store.locationType}{" "}
                   </span>
                 </td>
-              </tr>
+              </tr> */}
               {/*   <tr>
                     <td>
             <label className="label is-small"><span className="icon is-small is-left">
@@ -921,28 +1076,16 @@ export function StoreDetail() {
                     <span className="is-size-7 padleft "  name= "StoreCategory">{Store.StoreCategory}</span>
                 </label>
                  </div> */}
-            </tbody>
-          </table>
-
-          <div className="field mt-2">
-            <p className="control">
-              <button
-                className="button is-success is-small"
-                onClick={handleEdit}
-              >
-                Edit
-              </button>
-            </p>
-          </div>
-          {error && <div className="message"> {message}</div>}
+            {/* </tbody>
+          </table> */}
         </div>
       </div>
     </>
   );
 }
 
-export function StoreModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+export function SignalModify() {
+  const {register, handleSubmit, setValue, reset, errors,control} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
@@ -1088,47 +1231,85 @@ export function StoreModify() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Store Details-Modify</p>
+      <div className="card-header" style={{display:"flex", justifyContent:"space-between",alignItems:"center", padding:"1rem"}}>
+         <div style={{marginRight:"4rem"}}> <p>Modify Signal</p></div>
+         <Box sx={{display: "flex", gap:"1rem"}}>
+           
+           <GlobalCustomButton type="submit" onClick={handleSubmit(onSubmit)}>
+             Save
+           </GlobalCustomButton>
+        
+        
+           <GlobalCustomButton color="warning" onClick={handleCancel}>Cancel</GlobalCustomButton>
+        
+           <GlobalCustomButton color="error" onClick={() => handleDelete()} type="delete">
+             Delete
+           </GlobalCustomButton>
+       
+         </Box>
         </div>
         <div className="card-content vscrollable">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input  is-small"
-                    {...register("x", {required: true})}
-                    name="name"
-                    type="text"
-                    placeholder="Name"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
+        <div style={{paddingBottom:"1rem"}}>
+             <MuiCustomDatePicker
+                  label="Date"
+                  register={register("date", {required: true})}
+                  name="date"
+                  control={control}
+                />
+                </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <CustomSelect
+                  label="Disease"
+                  name="status"
+                  options={["Measles","Covid-19","Cholera"]}
+                  register={register("disease", {required: true})}
+                  
+                />
             </div>
-            <div className="field">
-              <label className="label is-small">
-                Location Type
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small "
-                    {...register("x", {required: true})}
-                    disabled
-                    name="StoreType"
-                    type="text"
-                    placeholder="Store Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
+            <div style={{paddingBottom:"1rem"}}>
+            <LocationSearch
+              />
             </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <FacilitySearch
+                
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <EmployeeSearch
+               
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <Input
+                register={register("notification", {required: true})}
+                name="notificaton"
+                type="text"
+                label="Notification Type"
+              />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Comfirmed","Uncomfirmed","Suspected","Unsuspected"]}
+                  
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Attended","Unattended"]}
+                   
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+            <EmployeeSearch
+               
+              />
+            </div>
+       
             {/* <div className="field">
             <label className="label is-small">Profession
                 <p className="control has-icons-left">
@@ -1190,32 +1371,6 @@ export function StoreModify() {
                 </p>
                 </label>
             </div> */}
-          </form>
-
-          <div className="field  is-grouped mt-2">
-            <p className="control">
-              <button
-                type="submit"
-                className="button is-success is-small"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
-            </p>
-            <p className="control">
-              <button
-                className="button is-warning is-small"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            </p>
-            {/* <p className="control">
-                    <button className="button is-danger is-small" onClick={()=>handleDelete()} type="delete">
-                       Delete
-                    </button>
-                </p> */}
-          </div>
         </div>
       </div>
     </>

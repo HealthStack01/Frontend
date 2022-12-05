@@ -53,11 +53,6 @@ const CreateComplaint = ({closeModal}) => {
            <FacilitySearch/>
            </Box>
            <Box>
-           {/* <Input
-              register={register("address", {required: true})}
-              placeholder="Type here"
-              label="Copy"
-            /> */}
             <FacilitySearch/>
            </Box>
         

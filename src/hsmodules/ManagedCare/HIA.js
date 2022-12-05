@@ -17,8 +17,8 @@ import HiaCreate from './components/HIAcreate';
 import ViewText from '../../components/viewtext';
 import { Box, Grid, Button as MuiButton } from '@mui/material';
 import Input from '../../components/inputs/basic/Input';
-import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 import {
   BottomWrapper,
   GrayWrapper,
@@ -31,9 +31,7 @@ export default function HiaOrganizationClient() {
   // eslint-disable-next-line
   const [selectedFacility, setSelectedFacility] = useState();
   const [success, setSuccess] = useState(false);
-  const [createModal, setCreateModal] = useState(false);
-  const [detailModal, setDetailModal] = useState(false);
-  const [modifyModal, setModifyModal] = useState(false);
+  const [showModal, setShowModal] = useState(0);
 
   //const [showState,setShowState]=useState() //create|modify|detail
 
@@ -41,44 +39,18 @@ export default function HiaOrganizationClient() {
 
   return (
     <section className="section remPadTop">
-      {/*  <div className="level">
-            <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Organization  Module</span></div>
-            </div> */}
-      <div className="columns ">
-        <div className="column is-8 ">
-          <OrganizationList
-            openCreateModal={() => setCreateModal(true)}
-            openDetailModal={() => setDetailModal(true)}
-          />
-
-          <ModalBox
-            open={createModal}
-            onClose={() => setCreateModal(false)}
-            header="HIA Emplanelment"
-          >
-            <HiaCreate closeModal={() => setCreateModal(false)} />
-          </ModalBox>
-
-          <ModalBox open={detailModal} onClose={() => setDetailModal(false)}>
-            <OrganizationDetail
-              closeModal={() => setDetailModal(false)}
-              closeDetailModal={() => setDetailModal(false)}
-              openModifyModal={() => setModifyModal(true)}
-            />
-          </ModalBox>
-
-          <ModalBox open={modifyModal} onClose={() => setModifyModal(false)}>
-            <OrganizationModify />
-          </ModalBox>
-        </div>
-        <div className="column is-4 ">
-          {/* {(state.facilityModule.show ==='create')&&<OrganizationCreate />} */}
-          {/* {state.facilityModule.show === "detail" && <OrganizationDetail />} */}
-          {/* {state.facilityModule.show === "modify" && (
-            <OrganizationModify facility={selectedFacility} />
-          )} */}
-        </div>
-      </div>
+      {showModal === 0 && <OrganizationList setShowModal={setShowModal} />}
+      {showModal === 1 && <HiaCreate goBack={() => setShowModal(0)} />}
+      {showModal === 2 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(0)}>
+          <OrganizationDetail setShowModal={setShowModal} />
+        </ModalBox>
+      )}
+      {/* {showModal === 3 && (
+        <ModalBox open={showModal} onClose={() => setShowModal(2)}>
+          <OrganizationModify />
+        </ModalBox>
+      )} */}
     </section>
   );
 }
@@ -266,7 +238,7 @@ export function OrganizationCreate({ showModal, setShowModal }) {
   );
 }
 
-export function OrganizationList({ openCreateModal, openDetailModal }) {
+export function OrganizationList({ showModal, setShowModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -296,6 +268,7 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
+    setShowModal(1);
   };
   const handleRow = async (facility) => {
     //console.log("b4",state)
@@ -313,7 +286,7 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
       facilityModule: newfacilityModule,
     }));
     //console.log(state)
-    openDetailModal();
+    setShowModal(2);
   };
 
   const handleSearch = (val) => {
@@ -507,13 +480,13 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
               </h2>
             </div>
             {handleCreateNew && (
-              <GlobalCustomButton
-              onClick={openCreateModal}
-              
-            >
-               <AddCircleOutline  fontSize="small" sx={{marginRight: "5px"}}/> 
-              Add New
-               </GlobalCustomButton>  
+              <GlobalCustomButton onClick={handleCreateNew}>
+                <AddCircleOutline
+                  fontSize="small"
+                  sx={{ marginRight: '5px' }}
+                />
+                Add New
+              </GlobalCustomButton>
             )}
           </TableMenu>
 
@@ -542,7 +515,7 @@ export function OrganizationList({ openCreateModal, openDetailModal }) {
   );
 }
 
-export function OrganizationDetail({ openModifyModal }) {
+export function OrganizationDetail({ showModal, setShowModal }) {
   //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -558,18 +531,17 @@ export function OrganizationDetail({ openModifyModal }) {
 
   const facility = state.facilityModule.selectedFacility;
 
-  const handleEdit = async () => {
-    const newfacilityModule = {
-      selectedFacility: facility,
-      show: 'modify',
-    };
-    await setState((prevstate) => ({
-      ...prevstate,
-      facilityModule: newfacilityModule,
-    }));
-    //console.log(state)
-    openModifyModal();
-  };
+  // const handleEdit = async () => {
+  //   const newfacilityModule = {
+  //     selectedFacility: facility,
+  //     show: 'modify',
+  //   };
+  //   await setState((prevstate) => ({
+  //     ...prevstate,
+  //     facilityModule: newfacilityModule,
+  //   }));
+  //   setShowModal(3);
+  // };
   const closeForm = async () => {
     const newfacilityModule = {
       selectedFacility: facility,
@@ -592,6 +564,7 @@ export function OrganizationDetail({ openModifyModal }) {
       facilityModule: newfacilityModule,
     }));
     setEditHia(false);
+    setShowModal(0);
   };
 
   const handleDelete = async () => {
@@ -659,11 +632,15 @@ export function OrganizationDetail({ openModifyModal }) {
       shouldDirty: true,
     });
 
-    setValue('facilityCategory', facility.organizationDetail?.facilityCategory, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  },[]);
+    setValue(
+      'facilityCategory',
+      facility.organizationDetail?.facilityCategory,
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      }
+    );
+  }, []);
   const onSubmit = (data, e) => {
     e.preventDefault();
 
@@ -700,17 +677,43 @@ export function OrganizationDetail({ openModifyModal }) {
             </span>
           </Box>
           <BottomWrapper>
-            <MuiButton
-              variant="contained"
-              size="small"
-              sx={{
-                textTransform: 'capitalize',
-                marginLeft: '10px',
-              }}
-              onClick={() => setEditHia(true)}
-            >
-              Edit Hia
-            </MuiButton>
+            {!editHia && (
+              <GlobalCustomButton
+                onClick={() => setEditHia(true)}
+                text="Edit Hia"
+              />
+            )}
+            {editHia && (
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                }}
+                mt={2}
+              >
+                <GlobalCustomButton
+                  color="success"
+                  onClick={handleSubmit(onSubmit)}
+                  text="Update Corporate"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+
+                <GlobalCustomButton
+                  color="error"
+                  onClick={handleDelete}
+                  text="Delete Corporate"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+
+                <GlobalCustomButton
+                  color="warning"
+                  onClick={handleCancel}
+                  text=" Cancel Update"
+                />
+              </Box>
+            )}
           </BottomWrapper>
         </HeadWrapper>
       </Box>
@@ -798,39 +801,6 @@ export function OrganizationDetail({ openModifyModal }) {
           </Grid>
         </form>
       </Box>
-      {editHia && (
-        <Box
-          sx={{ width: '100%', display: 'flex', alignItems: 'center' }}
-          mt={2}
-        >
-          <MuiButton
-            variant="contained"
-            color="success"
-            sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-            onClick={handleSubmit(onSubmit)}
-          >
-            Update Hia
-          </MuiButton>
-
-          <MuiButton
-            variant="contained"
-            color="error"
-            sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-            onClick={handleDelete}
-          >
-            Delete Hia
-          </MuiButton>
-
-          <MuiButton
-            variant="contained"
-            color="warning"
-            sx={{ textTransform: 'capitalize', marginRight: '10px' }}
-            onClick={handleCancel}
-          >
-            Cancel Update
-          </MuiButton>
-        </Box>
-      )}
     </>
   );
 }

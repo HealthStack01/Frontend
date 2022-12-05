@@ -37,19 +37,31 @@ function WalletOTP() {
     const {otp, phone_number} = data;
     try {
       const res = await api.get(`/verify-otp/${otp}/${phone_number}`, {
-        otp: "008907",
-        phoneNumber: "+2347032041903",
+        otp: "148997",
+        phoneNumber: "+2347050917563",
       });
-      // console.log(res.data)
-      toast.success("Wallet Created Successfully");
+      console.log(res.data)
+      toast.success("Phone Number Verified");
       return res.data;
     } catch (error) {
       toast.error(error);
-      // console.log(error)
+      console.log(error)
     }
   };
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async ({phoneNumber}) => {
+    try {
+      const res = await api.get(`/send-otp/${phoneNumber}`, {
+        phoneNumber: "+2347050917563",
+      });
+      console.log(phoneNumber)
+      console.log(res.data)
+      toast.success("OTP Sent!!!");
+      return res.data;
+    } catch (error) {
+      toast.error(error);
+      console.log(error)
+    }
     //Resend the OTP when successful reset timer
     setCount(prev => prev + 1);
     setTimer(60);
