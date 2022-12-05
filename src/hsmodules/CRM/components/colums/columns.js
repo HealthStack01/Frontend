@@ -6,6 +6,16 @@ import moment from "moment";
 export const getStaffColumns = (action, disableAction = false) => {
   const staffColumns = [
     {
+      name: "SN",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "50px",
+    },
+    {
       name: "Name",
       key: "row",
       description: "Enter Date",
@@ -69,6 +79,16 @@ export const getStaffColumns = (action, disableAction = false) => {
 
 export const getContactColumns = (action, disableAction, omit) => {
   const contactColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "DATE",
+      width: "50px",
+    },
     {
       name: "Name",
       key: "contact_name",
@@ -134,6 +154,25 @@ export const getContactColumns = (action, disableAction, omit) => {
 
 export const getTaskColumns = (action, disableAction) => {
   const contactColumns = [
+    {
+      name: "SN",
+      key: "sn",
+      description: "Enter Date",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+      width: "50px",
+    },
+    {
+      name: "Employee",
+      key: "employee",
+      description: "Enter Staff",
+      selector: row => row.employee,
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
     {
       name: "Title",
       key: "title",

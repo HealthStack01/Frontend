@@ -18,6 +18,7 @@ import LeadDetail from "./components/lead/LeadDetailView";
 import OldLeadDetail from "./components/lead/LeadDetail";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import {Box} from "@mui/material";
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -29,13 +30,23 @@ export default function Leads() {
   //const [showState,setShowState]=useState() //create|modify|detail
   const [createModal, setCreateModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
+  const [currentView, setCurrentView] = useState("lists");
+
+  const handleGoBack = () => {
+    setCurrentView("lists");
+  };
 
   return (
-    <section>
-      <LeadList
-        openCreateModal={() => setCreateModal(true)}
-        openDetailModal={() => setDetailModal(true)}
-      />
+    <Box>
+      {currentView === "lists" && (
+        <LeadList
+          openCreateModal={() => setCreateModal(true)}
+          openDetailModal={() => setDetailModal(true)}
+          showDetail={() => setCurrentView("detail")}
+        />
+      )}
+
+      {currentView === "detail" && <LeadDetail handleGoBack={handleGoBack} />}
 
       <ModalBox
         open={createModal}
@@ -44,19 +55,19 @@ export default function Leads() {
       >
         <LeadsCreate closeModal={() => setCreateModal(false)} />
       </ModalBox>
-
+      {/* 
       <ModalBox
         open={detailModal}
         onClose={() => setDetailModal(false)}
         header="Lead Detail"
       >
         <LeadDetail closeModal={() => setDetailModal(false)} />
-      </ModalBox>
-    </section>
+      </ModalBox> */}
+    </Box>
   );
 }
 
-export function LeadList({openCreateModal, openDetailModal}) {
+export function LeadList({openCreateModal, openDetailModal, showDetail}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -77,150 +88,15 @@ export function LeadList({openCreateModal, openDetailModal}) {
   const [loading, setLoading] = useState(false);
 
   const handleCreateNew = async () => {
-    setShowModal(true);
+    openCreateModal(true);
   };
 
   const handleRow = async data => {
-    openDetailModal();
+    //openDetailModal();
+    showDetail();
   };
 
-  const handleSearch = val => {
-    const field = "firstname";
-    //  console.log(val)
-
-    let query = {
-      $or: [
-        {
-          firstname: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          lastname: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          middlename: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          phone: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          appointment_type: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          appointment_status: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          appointment_reason: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          location_type: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          location_name: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          practitioner_department: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          practitioner_profession: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-        {
-          practitioner_name: {
-            $regex: val,
-            $options: "i",
-          },
-        },
-      ],
-      facility: user.currentEmployee.facilityDetail._id, // || "",
-      $limit: 20,
-      $sort: {
-        createdAt: -1,
-      },
-    };
-    if (state.employeeLocation.locationType !== "Front Desk") {
-      query.locationId = state.employeeLocation.locationId;
-    }
-
-    ClientServ.find({query: query})
-      .then(res => {
-        console.log(res);
-        setFacilities(res.data);
-        setMessage(" Client  fetched successfully");
-        setSuccess(true);
-      })
-      .catch(err => {
-        console.log(err);
-        setMessage("Error fetching Client, probable network issues " + err);
-        setError(true);
-      });
-  };
-
-  const getFacilities = async () => {
-    console.log(user);
-    if (user.currentEmployee) {
-      let stuff = {
-        facility: user.currentEmployee.facilityDetail._id,
-        // locationId:state.employeeLocation.locationId,
-        $limit: 100,
-        $sort: {
-          createdAt: -1,
-        },
-      };
-      // if (state.employeeLocation.locationType !== "Front Desk") {
-      //   stuff.locationId = state.employeeLocation.locationId;
-      // }
-
-      const findClient = await ClientServ.find({query: stuff});
-
-      await setFacilities(findClient.data);
-      console.log(findClient.data);
-    } else {
-      if (user.stacker) {
-        const findClient = await ClientServ.find({
-          query: {
-            $limit: 100,
-            $sort: {
-              createdAt: -1,
-            },
-          },
-        });
-
-        await setFacilities(findClient.data);
-      }
-    }
-  };
+  const handleSearch = val => {};
 
   const dummyData = [
     {
@@ -318,51 +194,38 @@ export function LeadList({openCreateModal, openDetailModal}) {
 
   return (
     <>
-      {user ? (
-        <>
-          <div className="level">
-            <PageWrapper
-              style={{flexDirection: "column", padding: "0.6rem 1rem"}}
-            >
-              <TableMenu>
-                <div style={{display: "flex", alignItems: "center"}}>
-                  {handleSearch && (
-                    <div className="inner-table">
-                      <FilterMenu onSearch={handleSearch} />
-                    </div>
-                  )}
-                  <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Leads</h2>
+      <div className="level">
+        <PageWrapper style={{flexDirection: "column", padding: "0.6rem 1rem"}}>
+          <TableMenu>
+            <div style={{display: "flex", alignItems: "center"}}>
+              {handleSearch && (
+                <div className="inner-table">
+                  <FilterMenu onSearch={handleSearch} />
                 </div>
+              )}
+              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Leads</h2>
+            </div>
 
-                {handleCreateNew && (
-                  <GlobalCustomButton onClick={openCreateModal}>
-                    <AddCircleOutline
-                      fontSize="small"
-                      sx={{marginRight: "5px"}}
-                    />
-                    Add new Lead
-                  </GlobalCustomButton>
-                )}
-              </TableMenu>
-              <div style={{width: "100%", overflow: "auto"}}>
-                <CustomTable
-                  title={""}
-                  columns={LeadSchema}
-                  data={dummyData}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={loading}
-                  //conditionalRowStyles={conditionalRowStyles}
-                />
-              </div>
-            </PageWrapper>
+            <GlobalCustomButton onClick={handleCreateNew}>
+              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
+              Add new Lead
+            </GlobalCustomButton>
+          </TableMenu>
+          <div style={{width: "100%", overflow: "auto"}}>
+            <CustomTable
+              title={""}
+              columns={LeadSchema}
+              data={dummyData}
+              pointerOnHover
+              highlightOnHover
+              striped
+              onRowClicked={handleRow}
+              progressPending={loading}
+              //conditionalRowStyles={conditionalRowStyles}
+            />
           </div>
-        </>
-      ) : (
-        <div>loading</div>
-      )}
+        </PageWrapper>
+      </div>
     </>
   );
 }

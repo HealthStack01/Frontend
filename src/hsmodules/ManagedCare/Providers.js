@@ -22,7 +22,13 @@ import Switch from '../../components/switch';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
-import { Box, Grid, Button as MuiButton, TextField } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Button as MuiButton,
+  TextField,
+  IconButton,
+} from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
@@ -42,6 +48,7 @@ import { G } from '@react-pdf/renderer';
 import { Modal } from 'semantic-ui-react';
 import { generalData } from './accData';
 import Accreditation from './Accreditation';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -1313,6 +1320,7 @@ export function OrganizationDetail({ showModal, setShowModal }) {
   const [confirmDeactivate, setConfirmDeactivate] = useState(false);
   const [confirmActivate, setConfirmActivate] = useState(false);
   const [display, setDisplay] = useState(1);
+  const [addBank, setAddBank] = useState(false);
 
   const facility = state.facilityModule.selectedFacility;
 
@@ -1439,6 +1447,21 @@ export function OrganizationDetail({ showModal, setShowModal }) {
       selector: (row) => row.sort_code,
       sortable: true,
       inputType: 'TEXT',
+    },
+    isEdit && {
+      name: 'Del',
+      width: '50px',
+      center: true,
+      key: 'contact_email',
+      description: 'Enter Date',
+      selector: (row) => (
+        <IconButton onClick={() => action(row)} color="error">
+          <DeleteOutline fontSize="small" />
+        </IconButton>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'NUMBER',
     },
   ];
   return (
@@ -1576,8 +1599,32 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                     disabled={!isEdit}
                   />
                 </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    register={register('band')}
+                    label="Band"
+                    value="A"
+                    disabled={!isEdit}
+                  />
+                </Grid>
                 <Grid item xs={12}>
-                  <FormsHeaderText text="Bank Details" />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormsHeaderText text="Bank Details" />
+                    {isEdit && (
+                      <GlobalCustomButton
+                        text="Add Bank"
+                        onClick={() => setAddBank(true)}
+                        color="primary"
+                        variant="outlined"
+                      />
+                    )}
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
                   <CustomTable
@@ -1732,6 +1779,44 @@ export function OrganizationDetail({ showModal, setShowModal }) {
                     color="warning"
                   />
                 </Box>
+              </ModalBox>
+            )}
+            {addBank && (
+              <ModalBox
+                open
+                onClose={() => setAddBank(false)}
+                header="Add Bank"
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Input register={register('bankName')} label="Bank Name" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Input
+                      register={register('accountName')}
+                      label="Account Name"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Input
+                      register={register('accountNumber')}
+                      label="Account Number"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Input register={register('bankBranch')} label="Branch" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Input register={register('bankCode')} label="Sort Code" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <GlobalCustomButton
+                      text="Save"
+                      onClick={() => toast.success('Bank Added Successfully')}
+                      color="success"
+                    />
+                  </Grid>
+                </Grid>
               </ModalBox>
             )}
           </Box>

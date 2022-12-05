@@ -76,7 +76,8 @@ export default function Accreditation({ standAlone }) {
         />
         {showModal === 1 && (
           <ModalBox open={showModal} onClose={() => setShowModal(false)}>
-            <OrganizationCreate />
+            {/* <OrganizationCreate /> */}
+            {/* *********** Fix Error : OrganizationCreate is not defined ************ */}
           </ModalBox>
         )}
 
@@ -721,7 +722,7 @@ export function AccreditationList({ showModal, setShowModal, standAlone }) {
                         sx={{ marginRight: '5px' }}
                         fontSize="small"
                       />
-                      Register Provider
+                      Add Accreditation
                     </MuiButton>
                   </div>
                 )}
@@ -1062,8 +1063,8 @@ export function NewOrganizationCreate() {
                     <GlobalCustomButton
                       text={'Add'}
                       onClick={() => {
-                        setShowScore(index + 1),
-                          handleFormToDisplay(item.value);
+                        setShowScore(index + 1);
+                        handleFormToDisplay(item.value);
                       }}
                     />
                   </Box>
@@ -1119,7 +1120,8 @@ export function NewOrganizationCreate() {
                         <GlobalCustomButton
                           text={'Save'}
                           onClick={() => {
-                            setShowScore(0), toast.success('Saved');
+                            setShowScore(0);
+                            toast.success('Saved');
                           }}
                         />
                       </Box>
@@ -1173,8 +1175,8 @@ export function NewOrganizationCreate() {
                     <GlobalCustomButton
                       text={'Add'}
                       onClick={() => {
-                        setShowScore(item.value),
-                          handleFormToDisplay(item.value);
+                        setShowScore(item.value);
+                        handleFormToDisplay(item.value);
                       }}
                     />
                   </Box>

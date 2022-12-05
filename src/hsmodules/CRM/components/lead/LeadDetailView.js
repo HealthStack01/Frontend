@@ -6,6 +6,7 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import UpgradeOutlinedIcon from "@mui/icons-material/UpgradeOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import moment from "moment";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import {FormsHeaderText} from "../../../../components/texts";
 import CustomSelect from "../../../../components/inputs/basic/Select";
@@ -33,6 +34,9 @@ import {toast} from "react-toastify";
 import CrmAppointment from "../../Appointment";
 import CrmProposals from "../../Proposals";
 import Contact from "../../Contact";
+import RadioButton from "../../../../components/inputs/basic/Radio";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
+import CRMTasks from "../../Tasks";
 
 export const CustomerView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -45,6 +49,7 @@ export const CustomerView = () => {
     local_govt: "Bamidele",
     city: "Ikeja",
     state: "Ogun",
+    customer_type: "Personal",
     deal_probability: "90%",
     deal_size: "Extra Large",
     deal_status: "Closed",
@@ -116,7 +121,7 @@ export const CustomerView = () => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <Input
             register={register("address", {required: true})}
             label="Residential Address"
@@ -151,6 +156,24 @@ export const CustomerView = () => {
             //placeholder="Enter customer number"
           />
         </Grid>
+
+        <Grid item lg={4} md={4} sm={6}>
+          <Input
+            register={register("country", {required: true})}
+            label="Country"
+            disabled={!editCustomer}
+            //placeholder="Enter customer number"
+          />
+        </Grid>
+        {/* 
+        <Grid item xs={12}>
+          <RadioButton
+            //title="Customer Type"
+            options={["Personal", "Organization"]}
+            register={register("customer_type", {required: true})}
+            defaultValue="Personal"
+          />
+        </Grid> */}
       </Grid>
     </Box>
   );
@@ -289,8 +312,21 @@ export const LeadView = () => {
 export const DetailView = () => {
   return (
     <>
-      <CustomerView />
-      <LeadView />
+      <Grid container spacing={2} pr={2} pl={2}>
+        <Grid item lg={6} md={6} sm={12}>
+          <Box mb={1}>
+            <LeadView />
+          </Box>
+
+          <Box>
+            <CustomerView />
+          </Box>
+        </Grid>
+
+        <Grid item lg={6} md={6} sm={12}>
+          <AdditionalInformationView />
+        </Grid>
+      </Grid>
     </>
   );
 };
@@ -392,14 +428,14 @@ export const StaffsListView = () => {
   const staffColumns = getStaffColumns(handleRemoveStaff, false);
 
   return (
-    <Box container>
+    <Box container pl={2} pr={2}>
       <Box
         sx={{
           display: "flex",
           alignItem: "center",
           justifyContent: "space-between",
         }}
-        mb={1}
+        mb={2}
       >
         <FormsHeaderText text="Assigned Staffs" />
 
@@ -440,71 +476,6 @@ export const StaffsListView = () => {
   );
 };
 
-export const TasksDetailView = () => {
-  const [assignModal, setAssignModal] = useState(false);
-  const [tasks, setTasks] = useState([]);
-
-  const handleAddTask = task => {
-    if (!task.title) return;
-    setTasks(prev => [task, ...prev]);
-  };
-
-  const handleRemoveTask = task => {
-    setTasks(prev => prev.filter(item => item.title !== task.title));
-  };
-
-  const tasksColumns = getTaskColumns(handleRemoveTask, false);
-
-  return (
-    <Box container>
-      <Box
-        sx={{
-          display: "flex",
-          alignItem: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <FormsHeaderText text="Assigned Tasks" />
-
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize"}}
-          onClick={() => setAssignModal(true)}
-        >
-          <AddCircleOutlineOutlinedIcon sx={{mr: "5px"}} fontSize="small" /> New
-          Task
-        </Button>
-      </Box>
-
-      <Box mt={1} mb={1}>
-        <CustomTable
-          title={"Contact List"}
-          columns={tasksColumns}
-          data={tasks}
-          pointerOnHover
-          highlightOnHover
-          striped
-          //onRowClicked={handleRow}
-          CustomEmptyData="You haven't Assigned any Tasks yet..."
-          progressPending={false}
-        />
-      </Box>
-
-      <ModalBox
-        open={assignModal}
-        onClose={() => setAssignModal(false)}
-        header="Assign Tasks"
-      >
-        <LeadAssignTask
-          closeModal={() => setAssignModal(false)}
-          addTask={handleAddTask}
-        />
-      </ModalBox>
-    </Box>
-  );
-};
-
 export const UploadView = () => {
   const [uploads, setUploads] = useState([]);
   const [uploadModal, setUploadModal] = useState(false);
@@ -522,6 +493,8 @@ export const UploadView = () => {
           alignItem: "center",
           justifyContent: "space-between",
         }}
+        pl={2}
+        pr={2}
       >
         <FormsHeaderText text="Uploaded Docs" />
 
@@ -579,7 +552,7 @@ const ProposalsView = () => {
   );
 };
 
-const LeadDetail = () => {
+const LeadDetail = ({handleGoBack}) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
 
@@ -602,7 +575,7 @@ const LeadDetail = () => {
         return <StaffsListView />;
 
       case "tasks":
-        return <TasksDetailView />;
+        return <CRMTasks />;
 
       case "uploads":
         return <UploadView />;
@@ -621,90 +594,93 @@ const LeadDetail = () => {
   return (
     <Box
       sx={{
-        width: "800px",
-        minHeight: "300px",
-        maxHeight: "80vh",
+        width: "100%",
       }}
     >
-      <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2}>
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          color="secondary"
-          onClick={() => handleSetCurrentView("detail")}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #f8f8f8",
+          backgroundColor: "#f8f8f8",
+        }}
+        mb={2}
+        p={2}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          gap={1}
         >
-          Detail
-        </Button>
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </GlobalCustomButton>
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          color="warning"
-          onClick={() => handleSetCurrentView("information")}
-        >
-          Added Info
-        </Button>
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Lead Details
+          </Typography>
+        </Box>
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          onClick={() => handleSetCurrentView("tasks")}
-        >
-          Tasks
-        </Button>
+        <Box sx={{display: "flex", justifyContent: "flex-end"}} mb={2} gap={1}>
+          <GlobalCustomButton
+            color="secondary"
+            onClick={() => handleSetCurrentView("detail")}
+          >
+            Detail
+          </GlobalCustomButton>
 
-        <Button
-          variant="contained"
-          color="success"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          onClick={() => handleSetCurrentView("uploads")}
-        >
-          Uploads
-        </Button>
+          {/* <GlobalCustomButton
+            color="warning"
+            onClick={() => handleSetCurrentView("information")}
+          >
+            Added Info
+          </GlobalCustomButton> */}
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          color="info"
-          //onClick={() => handleSetCurrentView("appointments")}
-          onClick={() => handleSetCurrentView("appointments")}
-        >
-          Appointments
-        </Button>
+          <GlobalCustomButton onClick={() => handleSetCurrentView("tasks")}>
+            Tasks
+          </GlobalCustomButton>
 
-        <Button
-          variant="outlined"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          onClick={() => handleSetCurrentView("proposal")}
-        >
-          Proposal
-        </Button>
+          <GlobalCustomButton
+            color="success"
+            onClick={() => handleSetCurrentView("uploads")}
+          >
+            Uploads
+          </GlobalCustomButton>
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize", marginRight: "10px"}}
-          color="info"
-          onClick={() => handleSetCurrentView("staffs")}
-        >
-          Staffs
-        </Button>
+          <GlobalCustomButton
+            color="info"
+            onClick={() => handleSetCurrentView("appointments")}
+          >
+            Appointments
+          </GlobalCustomButton>
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{textTransform: "capitalize"}}
-          color="info"
-          onClick={() => handleSetCurrentView("contacts")}
-        >
-          contacts
-        </Button>
+          <GlobalCustomButton onClick={() => handleSetCurrentView("proposal")}>
+            Proposal
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
+            color="info"
+            onClick={() => handleSetCurrentView("staffs")}
+          >
+            Staffs
+          </GlobalCustomButton>
+
+          <GlobalCustomButton
+            color="info"
+            onClick={() => handleSetCurrentView("contacts")}
+          >
+            contacts
+          </GlobalCustomButton>
+        </Box>
       </Box>
 
       <Box>

@@ -69,7 +69,7 @@ export default function ClientDiagnoisHistory() {
         <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
           <ClientDiagnoisHistoryCreate />
         </ModalBox>
-
+        
         <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
           <ClientDiagnoisHistoryDetail showModifyModal={handleModifyModal} />
         </ModalBox>

@@ -21,6 +21,7 @@ import { MdEmail, MdLocalHospital } from 'react-icons/md';
 import ModalHeader from '../Appointment/ui-components/Heading/modalHeader';
 import Input from '../../components/inputs/basic/Input';
 import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { FormsHeaderText } from '../../components/texts';
 
 export default function OrganizationClient() {
   const { state } = useContext(ObjectContext); //,setState
@@ -200,7 +201,7 @@ export function OrganizationCreate() {
 
   return (
     <>
-      <ModalHeader text="Add Organization" />
+      <FormsHeaderText text="Add Organization" />
       <FacilitySearch getSearchfacility={getSearchfacility} clear={success} />
       <select
         name="bandType"
@@ -230,7 +231,12 @@ export function OrganizationCreate() {
       </select>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={12}>
-          <Button label="Add" type="submit" onClick={handleClick} />
+          <GlobalCustomButton
+            text="Add"
+            type="submit"
+            onClick={handleClick}
+            color="success"
+          />
         </Grid>
       </Grid>
     </>

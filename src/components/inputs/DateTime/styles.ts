@@ -1,5 +1,6 @@
+import styled from "styled-components";
+
 export let styles: () => void;
-import styled from 'styled-components';
 
 export const InputLabel = styled.label`
   position: absolute;

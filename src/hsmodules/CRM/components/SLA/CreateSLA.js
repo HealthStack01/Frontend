@@ -10,9 +10,13 @@ import CustomSelect from "../../../../components/inputs/basic/Select";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {DetailView} from "../lead/LeadDetailView";
+import {CustomerView, LeadView} from "../lead/LeadDetailView";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import OutboxIcon from "@mui/icons-material/Outbox";
+import ArticleIcon from "@mui/icons-material/Article";
 
-const CreateSLA = ({closeModal}) => {
+const CreateSLA = ({handleGoBack}) => {
   const {register, control} = useForm();
   const [descriptionModal, setDescriptionModal] = useState(false);
   const [description, setDescription] = useState("");
@@ -24,22 +28,82 @@ const CreateSLA = ({closeModal}) => {
   return (
     <Box
       sx={{
-        maxHeigth: "80vh",
-        width: "50vw",
+        width: "100%",
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item lg={12} md={12} sm={12}>
-          <DetailView />
-        </Grid>
-        <Grid item lg={12} md={12} sm={12}>
-          <Box mb={2} sx={{display: "flex", justifyContent: "space-between"}}>
-            <FormsHeaderText text="Description" />
-            {/* <GlobalCustomButton onClick={toggleDescriptionModal}>
-              Update Description
-            </GlobalCustomButton> */}
-          </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #f8f8f8",
+          backgroundColor: "#f8f8f8",
+        }}
+        mb={2}
+        p={2}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          gap={1}
+        >
+          <GlobalCustomButton onClick={handleGoBack}>
+            <ArrowBackIcon />
+            Go Back
+          </GlobalCustomButton>
 
+          <Typography
+            sx={{
+              fontSize: "0.95rem",
+              fontWeight: "600",
+            }}
+          >
+            Create SLA
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+          }}
+          gap={1}
+        >
+          <GlobalCustomButton
+            color="info"
+            sx={{marginRight: "10px"}}
+            onClick={() => console.log(description)}
+          >
+            <SaveAsIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Save as Draft
+          </GlobalCustomButton>
+
+          <GlobalCustomButton color="success">
+            <ArticleIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Generate SLA
+          </GlobalCustomButton>
+
+          <GlobalCustomButton>
+            <OutboxIcon fontSize="small" sx={{marginRight: "5px"}} />
+            Send SLA
+          </GlobalCustomButton>
+        </Box>
+      </Box>
+
+      <Grid container spacing={2} p={2}>
+        <Grid item lg={12} md={12} sm={12}>
+          <Grid container spacing={2}>
+            <Grid item lg={6} md={6} small={12}>
+              <CustomerView />
+            </Grid>
+
+            <Grid item lg={6} md={6} small={12}>
+              <LeadView />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item lg={12} md={12} sm={12}>
           <Box>
             <Box
               sx={{
@@ -59,30 +123,13 @@ const CreateSLA = ({closeModal}) => {
                 SLA Description
               </Typography>
             </Box>
-            <CKEditor editor={ClassicEditor} data={description} />
+            <Box className="ck-edition-sla">
+              <CKEditor editor={ClassicEditor} data={description} />
+            </Box>
           </Box>
         </Grid>
       </Grid>
 
-      <Box sx={{display: "flex", alignItems: "center"}} mt={2}>
-        <GlobalCustomButton
-          variant="outlined"
-          color="error"
-          sx={{marginRight: "10px"}}
-        >
-          Cancel
-        </GlobalCustomButton>
-
-        <GlobalCustomButton
-          color="info"
-          sx={{marginRight: "10px"}}
-          onClick={() => console.log(description)}
-        >
-          Save as Draft
-        </GlobalCustomButton>
-
-        <GlobalCustomButton>Send SLA</GlobalCustomButton>
-      </Box>
       <ModalBox
         open={descriptionModal}
         onClose={toggleDescriptionModal}

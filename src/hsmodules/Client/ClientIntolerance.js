@@ -35,9 +35,7 @@ export default function ClientIntolerance() {
   const [detailModal, setDetailModal] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
   // eslint-disable-next-line
-  const [selectedBand, setSelectedBand] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
-
+ 
   const handleShowDetailModal = () => {
     setDetailModal(true);
   };

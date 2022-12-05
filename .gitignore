@@ -26,3 +26,7 @@ package-lock.json
 yarn.lock
 .env
 Dockerfile.dev
+
+# Local Netlify folder
+.netlify
+.env
