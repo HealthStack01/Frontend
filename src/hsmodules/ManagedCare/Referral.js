@@ -474,6 +474,31 @@ export function ReferralCreate({ showModal, setShowModal }) {
             striped
           />
 
+          <Grid container spacing={2} my={2}>
+            <Grid item xs={12} sm={6}>
+              <FormsHeaderText text={'Clinical Findings'} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <GlobalCustomButton
+                customStyles={{
+                  float: 'right',
+                }}
+                text={'Add Findings'}
+                color="primary"
+                variant="outlined"
+                onClick={() => setOpenFindings(true)}
+              />
+            </Grid>
+          </Grid>
+          <CustomTable
+            title={''}
+            columns={findingsSchema}
+            data={dummyData2}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Textarea
