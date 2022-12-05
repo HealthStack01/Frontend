@@ -13,6 +13,7 @@ import {
   Portal,
   Radio,
   RadioGroup,
+  Grid,
 } from '@mui/material';
 import ModalBox from '../../components/modal';
 import ServiceSearch from '../helpers/ServiceSearch';
@@ -24,6 +25,8 @@ import Textarea from '../../components/inputs/basic/Textarea';
 import CustomSelect from '../../components/inputs/basic/Select';
 import SearchSelect from '../helpers/SearchSelect';
 import { toast, ToastContainer } from 'react-toastify';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
+import { FormsHeaderText } from '../../components/texts';
 
 const tariffSchema = [
   {
@@ -39,7 +42,7 @@ const tariffSchema = [
     name: 'Description',
     key: 'description',
     description: 'Description',
-    selector: row => row.name,
+    selector: (row) => row.name,
     sortable: true,
     required: true,
     inputType: 'TEXT',
@@ -48,7 +51,7 @@ const tariffSchema = [
     name: 'Categories',
     key: 'categories',
     description: 'Categories',
-    selector: row => row.category,
+    selector: (row) => row.category,
     sortable: true,
     required: true,
     inputType: 'TEXT',
@@ -78,14 +81,14 @@ const TarrifList = () => {
     const getTariffs = async () => {
       try {
         const findTarrifs = await ServicesServ.find();
-        setTariffs(findTarrifs?.data);
+        setTariffs(findTarrifs?.data?.slice(0, 20));
+        console.log(tariffs);
       } catch (err) {}
     };
-
     getTariffs();
-  });
+  }, []);
 
-  const handleRow = row => {
+  const handleRow = (row) => {
     setShowView(true);
     setTariff(row);
   };
@@ -96,7 +99,7 @@ const TarrifList = () => {
         <ModalBox
           open={showModal}
           onClose={() => setShowModal(false)}
-          width='50vw'
+          width="50vw"
         >
           <TariffCreate />
         </ModalBox>
@@ -105,14 +108,14 @@ const TarrifList = () => {
         <ModalBox
           open={showView}
           onClose={() => setShowView(false)}
-          width='50vw'
+          width="50vw"
         >
           <TariffView tariff={tariff} />
         </ModalBox>
       </Portal>
 
       <PageWrapper>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '98%', margin: '0 auto' }}>
           <TableMenu>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <h2 style={{ marginLeft: '10px', fontSize: '0.95rem' }}>
@@ -120,11 +123,9 @@ const TarrifList = () => {
               </h2>
             </div>
 
-            <Button
-              style={{ fontSize: '14px', fontWeight: '600' }}
-              label='Add new '
+            <GlobalCustomButton
+              text="Add new "
               onClick={() => setShowModal(true)}
-              showicon={true}
             />
           </TableMenu>
           <div
@@ -141,7 +142,7 @@ const TarrifList = () => {
               pointerOnHover
               highlightOnHover
               striped
-              onRowClicked={row => handleRow(row)}
+              onRowClicked={(row) => handleRow(row)}
             />
           </div>
         </Box>
@@ -182,12 +183,12 @@ const TariffCreate = () => {
 
     await setServices
       .create(data)
-      .then(res => {
+      .then((res) => {
         toast.success(`Client successfully created`);
 
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error(`Sorry, You weren't able to create an client. ${err}`);
         setLoading(false);
       });
@@ -209,44 +210,63 @@ const TariffCreate = () => {
     getData();
   }, []);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setState({
       ...state,
       [event.target.name]: event.target.checked,
     });
   };
 
-  const reformedBands = bands.map(band => ({
+  const reformedBands = bands.map((band) => ({
     label: band.name,
     value: band._id,
   }));
 
   return (
-    <Box sx={{ overflowY: 'auto', height: '800px' }}>
-      <Box py={4}>
-        <h2>Create Tariff</h2>
+    <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <FormsHeaderText text="Create Tariff" />
+        <GlobalCustomButton
+          text="Create Tariff"
+          type="submit"
+          color="success"
+        />
       </Box>
-      <Box>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ToastContainer theme='colored' />
-        </form>
 
-        <Input placeholder='Tariff Name' label='Tariff Name' />
-
-        <SearchSelect
-          service={ServicesServ}
-          data={data}
-          setData={setData}
-          placeholder='Search Services'
-        />
-        <SearchSelect
-          service={ServicesServ}
-          data={catergory}
-          setData={setCategory}
-          placeholder='Search Services Category'
-        />
-        <Textarea label='Comments' />
-        <Input label='Price' />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2} mt={1}>
+          <Grid item xs={12} sm={6}>
+            <Input label="Tariff Name" />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SearchSelect
+              service={ServicesServ}
+              data={data}
+              setData={setData}
+              placeholder="Search Services"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SearchSelect
+              service={ServicesServ}
+              data={catergory}
+              setData={setCategory}
+              placeholder="Search Services Category"
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Textarea label="Comments" />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Input label="Price" />
+          </Grid>
+        </Grid>
         {/* <CustomSelect label='Company Band' options={reformedBands} /> */}
 
         <Box>
@@ -254,12 +274,12 @@ const TariffCreate = () => {
           <FormGroup>
             <FormControlLabel
               control={<Checkbox onChange={handleChange} />}
-              label='Bronze'
-              name='bronze'
+              label="Bronze"
+              name="bronze"
             />
             {state.bronze && (
               <Box>
-                <Input placeholder='Co-pay payout' label='Co-pay payout' />
+                <Input placeholder="Co-pay payout" label="Co-pay payout" />
                 <Box
                   sx={{
                     display: 'flex',
@@ -268,9 +288,9 @@ const TariffCreate = () => {
                   }}
                 >
                   <RadioGroup
-                    aria-labelledby='demo-radio-buttons-group-label'
-                    defaultValue='capitation'
-                    name='radio-buttons-group'
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="capitation"
+                    name="radio-buttons-group"
                     sx={{
                       display: 'flex !important',
                       justifyContent: 'space-between',
@@ -278,32 +298,32 @@ const TariffCreate = () => {
                     }}
                   >
                     <FormControlLabel
-                      value='capitation'
+                      value="capitation"
                       control={<Radio />}
-                      label='Capitation'
+                      label="Capitation"
                     />
                     <FormControlLabel
-                      value='feeForService'
+                      value="feeForService"
                       control={<Radio />}
-                      label='Fee for Service'
+                      label="Fee for Service"
                     />
                   </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
-                    label='Requires Pre-Authorization Code'
+                    label="Requires Pre-Authorization Code"
                   />
                 </Box>
               </Box>
             )}
             <FormControlLabel
               control={<Checkbox onChange={handleChange} />}
-              label='Gold'
-              name='gold'
+              label="Gold"
+              name="gold"
             />
             {state.gold && (
               <Box>
-                <Input placeholder='Co-pay payout' label='Co-pay payout' />
+                <Input placeholder="Co-pay payout" label="Co-pay payout" />
                 <Box
                   sx={{
                     display: 'flex',
@@ -312,9 +332,9 @@ const TariffCreate = () => {
                   }}
                 >
                   <RadioGroup
-                    aria-labelledby='demo-radio-buttons-group-label'
-                    defaultValue='capitation'
-                    name='radio-buttons-group'
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="capitation"
+                    name="radio-buttons-group"
                     sx={{
                       display: 'flex !important',
                       justifyContent: 'space-between',
@@ -322,32 +342,32 @@ const TariffCreate = () => {
                     }}
                   >
                     <FormControlLabel
-                      value='capitation'
+                      value="capitation"
                       control={<Radio />}
-                      label='Capitation'
+                      label="Capitation"
                     />
                     <FormControlLabel
-                      value='feeForService'
+                      value="feeForService"
                       control={<Radio />}
-                      label='Fee for Service'
+                      label="Fee for Service"
                     />
                   </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
-                    label='Requires Pre-Authorization Code'
+                    label="Requires Pre-Authorization Code"
                   />
                 </Box>
               </Box>
             )}
             <FormControlLabel
               control={<Checkbox onChange={handleChange} />}
-              label='Silver'
-              name='silver'
+              label="Silver"
+              name="silver"
             />
             {state.silver && (
               <Box>
-                <Input placeholder='Co-pay payout' label='Co-pay payout' />
+                <Input placeholder="Co-pay payout" label="Co-pay payout" />
                 <Box
                   sx={{
                     display: 'flex',
@@ -356,9 +376,9 @@ const TariffCreate = () => {
                   }}
                 >
                   <RadioGroup
-                    aria-labelledby='demo-radio-buttons-group-label'
-                    defaultValue='capitation'
-                    name='radio-buttons-group'
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="capitation"
+                    name="radio-buttons-group"
                     sx={{
                       display: 'flex !important',
                       justifyContent: 'space-between',
@@ -366,32 +386,32 @@ const TariffCreate = () => {
                     }}
                   >
                     <FormControlLabel
-                      value='capitation'
+                      value="capitation"
                       control={<Radio />}
-                      label='Capitation'
+                      label="Capitation"
                     />
                     <FormControlLabel
-                      value='feeForService'
+                      value="feeForService"
                       control={<Radio />}
-                      label='Fee for Service'
+                      label="Fee for Service"
                     />
                   </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
-                    label='Requires Pre-Authorization Code'
+                    label="Requires Pre-Authorization Code"
                   />
                 </Box>
               </Box>
             )}
             <FormControlLabel
               control={<Checkbox onChange={handleChange} />}
-              label='Platinium'
-              name='platinium'
+              label="Platinium"
+              name="platinium"
             />
             {state.platinium && (
               <Box>
-                <Input placeholder='Co-pay payout' label='Co-pay payout' />
+                <Input placeholder="Co-pay payout" label="Co-pay payout" />
                 <Box
                   sx={{
                     display: 'flex',
@@ -400,9 +420,9 @@ const TariffCreate = () => {
                   }}
                 >
                   <RadioGroup
-                    aria-labelledby='demo-radio-buttons-group-label'
-                    defaultValue='capitation'
-                    name='radio-buttons-group'
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="capitation"
+                    name="radio-buttons-group"
                     sx={{
                       display: 'flex !important',
                       justifyContent: 'space-between',
@@ -410,35 +430,32 @@ const TariffCreate = () => {
                     }}
                   >
                     <FormControlLabel
-                      value='capitation'
+                      value="capitation"
                       control={<Radio />}
-                      label='Capitation'
+                      label="Capitation"
                     />
                     <FormControlLabel
-                      value='feeForService'
+                      value="feeForService"
                       control={<Radio />}
-                      label='Fee for Service'
+                      label="Fee for Service"
                     />
                   </RadioGroup>
 
                   <FormControlLabel
                     control={<Checkbox onChange={handleChange} />}
-                    label='Requires Pre-Authorization Code'
+                    label="Requires Pre-Authorization Code"
                   />
                 </Box>
               </Box>
             )}
           </FormGroup>
         </Box>
-        <BottomWrapper>
-          <Button label='Create Tariff' type='submit' />
-        </BottomWrapper>
-      </Box>
+      </form>
     </Box>
   );
 };
 
-const TariffView = tariff => {
+const TariffView = (tariff) => {
   const [editing, setEditing] = useState(false);
   const {
     register,
@@ -453,31 +470,84 @@ const TariffView = tariff => {
   });
   return (
     <Box>
-      <Box py={4}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <FormsHeaderText text={tariff?.tariff?.name} />
+        <Box>
+          {!editing && (
+            <GlobalCustomButton text="Edit" onClick={() => setEditing(true)} />
+          )}
+          {editing && (
+            <GlobalCustomButton
+              text="Save Form"
+              type="submit"
+              color="success"
+            />
+          )}
+        </Box>
+      </Box>
+      <Grid container spacing={2} mt={1}>
+        <Grid item xs={12} sm={6}>
+          {!editing ? (
+            <Input label="Name" value={tariff?.tariff?.name} disabled />
+          ) : (
+            <Input label="Name" register={register('name')} />
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          {!editing ? (
+            <Input label="Category" value={tariff?.tariff?.category} disabled />
+          ) : (
+            <Input label="Category" register={register('categoryname')} />
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          {!editing ? (
+            <Input
+              label="Facility Name"
+              value={tariff?.tariff?.facilityname}
+              disabled
+            />
+          ) : (
+            <Input label="Facility Name" register={register('bandType')} />
+          )}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          {!editing ? (
+            <Input
+              label="Price"
+              value={`₦${tariff?.tariff?.contracts[0]?.price}`}
+              disabled
+            />
+          ) : (
+            <Input label="Price" register={register('costprice')} />
+          )}
+        </Grid>
+      </Grid>
+      {/* <Box py={4}>
         <h2>{tariff?.tariff?.name} Tariff</h2>
       </Box>
       <Box>
         <GridBox>
           {!editing ? (
-            <ViewText label='Name' text={tariff?.tariff?.name} />
+            <ViewText label="Name" text={tariff?.tariff?.name} />
           ) : (
-            <Input label='Name' register={register('name')} />
+            <Input label="Name" register={register('name')} />
           )}
           {!editing ? (
-            <ViewText label='Category' text={tariff.tariff.category} />
+            <ViewText label="Category" text={tariff.tariff.category} />
           ) : (
-            <Input label='Name' register={register('category')} />
+            <Input label="Name" register={register('category')} />
           )}
-          <ViewText label='Facility Name' text={tariff?.tariff?.facilityname} />
+          <ViewText label="Facility Name" text={tariff?.tariff?.facilityname} />
           <ViewText
-            label='Price'
+            label="Price"
             text={`₦${tariff?.tariff?.contracts[0]?.price}`}
           />
         </GridBox>
         <BottomWrapper>
-          <Button label='Save Form' type='submit' />
+          <Button label="Save Form" type="submit" />
         </BottomWrapper>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

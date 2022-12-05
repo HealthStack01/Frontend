@@ -874,6 +874,7 @@ export function PremiumPaymentList({ showModal, setShowModal }) {
       inputType: 'TEXT',
     },
   ];
+  console.log(isPaid);
 
   return (
     <>
@@ -899,8 +900,8 @@ export function PremiumPaymentList({ showModal, setShowModal }) {
 
                     {handleCreateNew && (
                       <GlobalCustomButton
-                        text={isPaid ? 'Paid List' : 'Unpaid List'}
-                        onClick={() => setIsPaid(false)}
+                        text={isPaid ? 'Unpaid List' : 'Paid List'}
+                        onClick={() => setIsPaid(!isPaid)}
                       />
                     )}
                   </TableMenu>
@@ -943,7 +944,7 @@ export function PremiumPaymentList({ showModal, setShowModal }) {
 
                     {handleCreateNew && (
                       <GlobalCustomButton
-                        text={isPaid ? 'Paid List' : 'Unpaid List'}
+                        text={isPaid ? 'Unpaid List' : 'Paid List'}
                         onClick={() => setIsPaid(true)}
                       />
                     )}
