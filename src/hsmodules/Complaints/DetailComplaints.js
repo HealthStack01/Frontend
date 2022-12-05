@@ -6,6 +6,12 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {BsArrowLeftShort} from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import {Collapse} from "@mui/material";
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 const DetailComplaint = () => {
     const [text, setText] = useState('')
@@ -13,7 +19,7 @@ const DetailComplaint = () => {
 
 const handleOpen = (clickedIndex) => {
   if (isOpen === clickedIndex) {
-    setIsOpen(null);
+    setIsOpen(clickedIndex);
   } else {
     setIsOpen(clickedIndex);
   }
@@ -28,30 +34,30 @@ const handleOpen = (clickedIndex) => {
             status: "Pending",
             date: "27-10-21"
         },
-        {
-            id:1,
-            name:"Teejay Teko",
-            category: "Medic care",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            status: "Resolved",
-            date: "27-10-21"
-        },
-        {
-            id:2,
-            name:"Teejay Teko",
-            category: "Medic care",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            status: "Pending",
-            date: "27-10-21"
-        },
-        {
-            id:3,
-            name:"Teejay Teko",
-            category: "Medic care",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            status: "Resolved",
-            date: "27-10-21"
-        },
+        // {
+        //     id:1,
+        //     name:"Teejay Teko",
+        //     category: "Medic care",
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        //     status: "Resolved",
+        //     date: "27-10-21"
+        // },
+        // {
+        //     id:2,
+        //     name:"Teejay Teko",
+        //     category: "Medic care",
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        //     status: "Pending",
+        //     date: "27-10-21"
+        // },
+        // {
+        //     id:3,
+        //     name:"Teejay Teko",
+        //     category: "Medic care",
+        //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        //     status: "Resolved",
+        //     date: "27-10-21"
+        // },
       ]
       const navigate = useNavigate();
   return (
@@ -66,35 +72,100 @@ const handleOpen = (clickedIndex) => {
                 overflow: 'auto',
                 margin: '0 auto',
                 marginTop: '3rem',
+                
+                
               }}
             >              {
                 dummyComplaints.map((data,index) => ( 
-                    <div key={data.id} className="complaint_wrapper2" onClick={() => handleOpen(index)}>
-                        <div className="complaint_head">
-                            <div className="complaint_head_left">
-                                <Avatar src="/img_avatar.png" alt="" />
-                                <h1>{data.name}</h1>
-                            </div>
-                            <p>Category: <strong>{data.category}</strong></p>
-                        </div>
-                        <div className="complaint_foot">
-                            <p style={{color: "#979DAC", width: "60%"}}>{data.description}</p>
-                            <p style={{color: data.status == 'Pending' ? "#17935C" : "#F1A153", fontWeight: 700, margin: '0.5rem'}}>{data.status}</p>
-                            {/* <img src={<BiChevronDown/>} alt='' style={{color: 'blue', height: '1rem', width: '1rem', margin: '0', marginTop: '-2rem'}} /> */}
-                        </div>
-                        <p style={{color:"#979DAC", margin: '0 0 0 50px'}}>{data.date}</p>
-            
+                  <Box>
+                  <Card sx={{ maxWidth: "100%",overflow: 'auto', margin:"2rem",boxShadow:'5px 5px 5px 5px rgba(0,0,0,0.12)'}} key={index} onClick={() => handleOpen(index)}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:"space-between" }}>
+                      <CardHeader
+                  avatar={
+                    <Avatar src="/img_avatar.png" alt=""  aria-label="recipe"/>
+                  }
+                  fontSize="16px" fontWeight="bold"
+                  title={
+                    <Typography variant="h1" fontSize="16px" fontWeight="bold" color="text.secondary">
+                      {data.name}
+                  </Typography>
+                  }
+                  
+                  />
+                  <CardContent>
+
+                  <Typography variant="h1" fontSize="16px" fontWeight="bold" color="text.secondary">
+                  Category: {data.category}
+                  </Typography>
+                  <Typography style={{color: data.status == 'Pending' ? "#17935C" : "#F1A153", fontWeight: 700, margin: '0.5rem'}} variant="p">
+                    {data.status}
+                  </Typography>
+                  </CardContent>
+                  </Box>
+                 
+
+                  <CardContent>
+                  <Typography  variant="body2" fontSize="14px" color="black">
+                     {data.description}
+                  </Typography>
+                  </CardContent>
+                  <CardContent>
+                  <Typography variant="h1" fontSize="12px" fontWeight="bold" color="text.secondary">
+                     {data.date}
+                  </Typography>
+                  </CardContent>
+
+                  </Card>
+                  <Card sx={{maxWidth: "100%",margin:"3rem"}}>
                   <Collapse in={isOpen === index}>
-                  <CKEditor 
-                editor={ClassicEditor}
-                data={text}
-                onChange={(event, editor) => {
-                const data = editor.getData()
-                setText(data)
-            }}
-            />
-                  </Collapse>
-                    </div>
+                    <Box >
+                 
+                 <Card sx={{maxWidth: "100%", height:'100%', padding:"0.2rem",marginBottom:"2rem"}}>
+                 <Box style={{width:"100%",display:"flex", flexDirection:"row"}}>
+                    <CardHeader
+                  avatar={
+                    <Avatar src="/img_avatar.png" alt=""  aria-label="recipe"/>
+                  }
+                  title={
+                    <Typography variant="h1" fontWeight="600" fontSize="14px" color="text.secondary">
+                      Dr Adewale Idowu
+                  </Typography>
+                  }
+                  />
+                    </Box>
+                      <Box sx={{background:"blue",padding:"1rem",width:"20%",borderRadius:"2rem",marginLeft:"1rem"}}>
+                      <Typography variant="p" fontSize="16px" sx={{color:"white"}}>
+                      Hi,i am fyn and you
+                  </Typography>
+                      </Box>
+                    </Card>
+                 
+                   {/* <Card sx={{maxWidth: "100%",height:'80px'}}>
+                    <Box style={{width:"100%",display:"flex", flexDirection:"row-reverse"}}>
+                    <CardHeader
+                  avatar={
+                    <Avatar src="/img_avatar.png" alt=""  aria-label="recipe"/>
+                  }
+                  title={
+                    <Typography variant="p" background="green" fontSize="14px" color="text.secondary">
+                      Hiiiiiii0iiiiiiiiiiiiiiiii
+                  </Typography>
+                  }
+                  />
+                    </Box>
+                    </Card> */}
+                
+                    </Box>
+                  
+                    <form>
+                    <CKEditor editor={ClassicEditor} data={text}/>
+
+                    <GlobalCustomButton sx={{marginTop:"1rem"}} type="submit">Submit
+                    </GlobalCustomButton>
+                    </form>
+                  </Collapse> 
+                  </Card>
+                  </Box>
                 ))
               }
             </div>
@@ -103,5 +174,8 @@ const handleOpen = (clickedIndex) => {
   )
 }
 
+
+
 export default DetailComplaint
+
 

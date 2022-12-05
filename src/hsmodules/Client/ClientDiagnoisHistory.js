@@ -16,6 +16,11 @@ import FilterMenu from "../../components/utilities/FilterMenu";
 import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
+import Textarea from "../../components/inputs/basic/Textarea";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import CustomSelect from "../../components/inputs/basic/Select";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -57,28 +62,28 @@ export default function ClientDiagnoisHistory() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        <BandList
+        <ClientDiagnoisHistoryList
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox open={createModal} onClose={handleHideCreateModal}>
-          <BandCreate />
+        <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
+          <ClientDiagnoisHistoryCreate />
+        </ModalBox>
+        
+        <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
+          <ClientDiagnoisHistoryDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
-          <BandDetail showModifyModal={handleModifyModal} />
-        </ModalBox>
-
-        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
-          <BandModify />
+        <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
+          <ClientDiagnoisHistoryModify />
         </ModalBox>
       </div>
     </section>
   );
 }
 
-export function BandCreate() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+export function ClientDiagnoisHistoryCreate() {
+  const {register, handleSubmit, setValue,control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -167,153 +172,43 @@ export function BandCreate() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create Band</p>
+          <p className="card-header-title">Create Diagnois History</p>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/*  <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                        <input className="input is-small"  {...register("x",{required: true})}  name="bandType" type="text" placeholder="Type of Band" />
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-hospital"></i>
-                        </span>                    
-                    </p>
-                </div> */}
-            <div className="field">
-              <div className="control">
+          <div style={{paddingBottom:"1rem"}}>
+            <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
                 <CustomSelect
-                  label="choose band type"
-                  name="bandType"
-                  options={bandTypeOptions}
-                  register={register("bandtype", {required: true})}
+                  label="Status"
+                  name="status"
+                  options={["Approved","Decline"]}
+                  register={register("status", {required: true})}
                   onChange={e => handleChangeMode(e.target.value)}
                 />
-              </div>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("name", {required: true})}
-                  name="name"
+            <div style={{paddingBottom:"1rem"}}>
+                <Textarea
+                  label="Diagnosis"
+                  register={register("diagnosis", {required: true})}
+                  name="diagnosis"
                   type="text"
-                  placeholder="Name of Band"
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
             </div>
-            <div className="field">
-              <p className="control has-icons-left has-icons-right">
-                <Input
-                  className="input is-small"
-                  register={register("description", {required: true})}
-                  name="description"
-                  type="text"
-                  placeholder="Description of Band"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-map-signs"></i>
-                </span>
-              </p>
-            </div>
-            {/*  <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="profession" type="text" placeholder="Profession"/>
-                    <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                    </span>
-                </p>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="phone" type="text" placeholder=" Phone No"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-phone-alt"></i>
-                    </span>
-                </p>
-            </div>
-           
-            <div className="field">
-                <p className="control has-icons-left">
-                
-                    <input className="input is-small" {...register("x",{required: true})} name="email" type="email" placeholder="Email"  />
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                    </span>
-                </p>
-            </div> */}
-            <div
-              className="field"
-              style={!user.stacker ? {display: "none"} : {}}
-            >
-              <InputSearch
-                getSearchfacility={getSearchfacility}
-                clear={success}
-              />
-              <p className="control has-icons-left " style={{display: "none"}}>
-                <Input
-                  className="input is-small"
-                  register={register("facility", {required: true})}
-                  name="facility"
-                  type="text"
-                  placeholder="Facility"
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas  fa-map-marker-alt"></i>
-                </span>
-              </p>
-            </div>
-            {/*  <div className="field">
-                <div className="control has-icons-left">
-                    <div className="dropdown ">
-                        <div className="dropdown-trigger">
-                            <input className="input is-small" {...register("x",{required: true})} name="department" type="text" placeholder="Department"/>
-                            <span className="icon is-small is-left">
-                            <i className="fas fa-hospital-symbol"></i>
-                            </span>
-                        </div>
-                        <div className="dropdown-menu">
-                            <div className="dropdown-content">
-                                <div className="dropdown-item">
-                                    simpa
-                                </div>
-                                <div className="dropdown-item is-active">
-                                    simpa 2
-                                </div>
-                                <div className="dropdown-item">
-                                    simpa 3
-                                </div>
-                                <div className="dropdown-item">
-                                    simpa 4
-                                </div>
-                            </div>
-                        </div>   
-                    </div>
-                </div>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="deptunit" type="text" placeholder="Department Unit"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-            </div>
-            <div className="field">
-                <p className="control has-icons-left">
-                    <input className="input is-small" {...register("x",{required: true})} name="password" type="text" placeholder="password"/>
-                    <span className="icon is-small is-left">
-                    <i className="fas fa-clinic-medical"></i>
-                    </span>
-                </p>
-            </div> */}
-            <div className="field">
-              <p className="control">
-                <Button>Create</Button>
-              </p>
-            </div>
+            <GlobalCustomButton
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Create
+                  </GlobalCustomButton>
           </form>
         </div>
       </div>
@@ -321,7 +216,7 @@ export function BandCreate() {
   );
 }
 
-export function BandList({showCreateModal, showDetailModal}) {
+export function ClientDiagnoisHistoryList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -332,8 +227,8 @@ export function BandList({showCreateModal, showDetailModal}) {
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
   // const {user,setUser} = useContext(UserContext)
-  const [facilities, setFacilities] = useState([]);
-
+  // const [facilities, setFacilities] = useState([]);
+ const [diagnosis,setDiagnosis] = useState([])
   const [loading, setLoading] = useState([]);
   // eslint-disable-next-line
   const [selectedBand, setSelectedBand] = useState(); //
@@ -465,7 +360,7 @@ export function BandList({showCreateModal, showDetailModal}) {
   }, []);
 
   //todo: pagination and vertical scroll bar
-  const BandSchema = [
+  const DiagnosisSchema = [
     {
       name: "S/N",
       key: "_id",
@@ -474,38 +369,61 @@ export function BandList({showCreateModal, showDetailModal}) {
       inputType: "HIDDEN",
     },
     {
-      name: "Name of Band",
-      key: "name",
-      description: "Enter name of band",
-      selector: row => row.name,
+      name: "Date",
+      key: "date",
+      description: "Enter date",
+      selector: row => row.date,
       sortable: true,
       required: true,
       inputType: "TEXT",
     },
     {
-      name: "Band Type",
-      key: "bandType",
-      description: "Enter name of band",
-      selector: row => row.bandType,
+      name: "Status",
+      key: "status",
+      description: "Enter status",
+      selector: row => row.status,
       sortable: true,
       required: true,
       inputType: "SELECT_LIST",
-      options: ["Provider", "Company", "Patient", "Plan"],
     },
     {
-      name: "Description of Band",
-      key: "description",
-      description: "Enter description of band",
-      selector: row => row.description,
+      name: "Diagnosis",
+      key: "diagnosis",
+      description: "Enter diagnosis",
+      selector: row => row.diagnosis,
       sortable: true,
       required: false,
       inputType: "TEXT",
     },
   ];
 
+
+  const drugData = [
+    {
+      date: "27-10-2022",
+      status: "Approved",
+      diagnosis: "Lorem iprom.......",
+    },
+    {
+      date: "27-10-2022",
+      status: "Decline",
+      diagnosis: "Lorem iprom.......",
+    },
+    {
+      date: "27-10-2022",
+      status: "Approved",
+      diagnosis: "Lorem iprom.......",
+    },
+    {
+      date: "27-10-2022",
+      status: "Decline",
+      diagnosis: "Lorem iprom.......",
+    },
+  ]
+
   return (
     <>
-      {facilities ? (
+      {diagnosis ? (
         <>
           <div className="level">
             <PageWrapper
@@ -519,29 +437,35 @@ export function BandList({showCreateModal, showDetailModal}) {
                     </div>
                   )}
                   <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                    Problem List
+                  Diagnois History List
                   </h2>
                 </div>
 
                 {handleCreateNew && (
-                  <Button
-                    style={{fontSize: "14px", fontWeight: "600"}}
-                    label="Add new "
-                    onClick={showCreateModal}
-                  />
+                 <GlobalCustomButton
+                 style={{fontSize: "14px", fontWeight: "600"}}
+                
+                 onClick={showCreateModal}
+               >
+                 <AddCircleOutline
+                   sx={{marginRight: "5px"}}
+                   fontSize="small"
+                 />
+                 Add New
+               </GlobalCustomButton>
                 )}
               </TableMenu>
 
-              <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+              <div style={{width: "50vw", height: "100%", overflow: "auto"}}>
                 <CustomTable
                   title={""}
-                  columns={BandSchema}
-                  data={facilities}
+                  columns={DiagnosisSchema}
+                  data={drugData}
                   pointerOnHover
                   highlightOnHover
                   striped
                   onRowClicked={handleRow}
-                  progressPending={loading}
+                  // progressPending={loading}
                 />
               </div>
             </PageWrapper>
@@ -554,10 +478,11 @@ export function BandList({showCreateModal, showDetailModal}) {
   );
 }
 
-export function BandDetail({showModifyModal}) {
-  //const { register, handleSubmit, watch, setValue } = useForm(); //errors,
+export function ClientDiagnoisHistoryDetail({showModifyModal}) {
+  const { register, control} = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
+  const [editing,setEditing] = useState(false)
   //const [success, setSuccess] =useState(false)
   // eslint-disable-next-line
   const [message, setMessage] = useState(""); //,
@@ -583,82 +508,64 @@ export function BandDetail({showModifyModal}) {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <ModalHeader text={"Client Details"} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <MdCancel
-            onClick={() => {
-              setShowModal(false),
-                setState(prevstate => ({
-                  ...prevstate,
-                  BandModule: {
-                    selectedBand: {},
-                    show: "list",
-                  },
-                }));
-            }}
-            style={{
-              fontSize: "2rem",
-              color: "crimson",
-              cursor: "pointer",
-              float: "right",
-            }}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={4}>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Name:
-          </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
-            {Band?.name}
-          </span>
-        </Grid>
-        <Grid item xs={12} sm={3} md={4}>
-          <span
-            style={{
-              color: " #0364FF",
-              fontSize: "20px",
-              marginRight: ".8rem",
-            }}
-          >
-            Band Type:
-          </span>
-          <span style={{color: " #000000", fontSize: "20px"}}>
-            {Band?.bandType}
-          </span>
-        </Grid>
-
-        <Button
-          sx={{fontSize: "14px", fontWeight: "600", width: "80px"}}
+     <div>
+     <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+          <p className="card-header-title">Diagnois History Details</p>
+          <GlobalCustomButton
           onClick={handleEdit}
-        >
-          Edit
-        </Button>
-
-        {error && <div className="message"> {message}</div>}
-      </Grid>
+                  >
+                    <AddCircleOutline
+                      sx={{marginRight: "5px"}}
+                      fontSize="small"
+                    />
+                    Edit
+                  </GlobalCustomButton>
+        </div>
+      <div style={{paddingTop:"1rem",paddingBottom:"1rem"}}>
+     <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
+                  defaultValue="12-10-2033"
+                  disabled={!editing}
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Approved","Decline"]}
+                  defaultValue="Approved"
+                  register={register("status", {required: true})}
+                  disabled={!editing}
+                />
+            </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <Textarea
+                  label="Diagnosis"
+                  register={register("diagnosis", {required: true})}
+                  name="diagnosis"
+                  type="text"
+                  defaultValue="Lorem ipoms........"
+                  disabled={!editing}
+                />
+            </div>
+            
+     </div>
     </>
   );
 }
 
-export function BandModify() {
-  const {register, handleSubmit, setValue, reset, errors} = useForm(); //watch, errors,
+export function ClientDiagnoisHistoryModify() {
+  const {register, handleSubmit, setValue, reset, errors,control} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [success, setSuccess] = useState(false);
   // eslint-disable-next-line
   const [message, setMessage] = useState("");
+  
   // eslint-disable-next-line
   const BandServ = client.service("bands");
   //const navigate=useNavigate()
@@ -801,64 +708,67 @@ export function BandModify() {
   return (
     <>
       <div className="card ">
+        <div style={{display:"flex", justifyContent:"space-between"}}>
         <div className="card-header">
-          <p className="card-header-title">Band Details-Modify</p>
+          <p className="card-header-title">Diagnois History Modify</p>
         </div>
+        <Box sx={{display: "flex",gap:"0.5rem"}}>
+          <GlobalCustomButton
+          type="submit" onClick={handleSubmit(onSubmit)}
+                  >
+                    Save
+                  </GlobalCustomButton>
+            <GlobalCustomButton
+            color="warning"
+            onClick={handleCancel}
+                  >
+                    Cancel
+                  </GlobalCustomButton>
+            <GlobalCustomButton
+            color="error"
+            onClick={() => handleDelete()} type="delete"
+                  >
+                  
+                    Delete
+                  </GlobalCustomButton>
+          </Box>
+        </div>
+        
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="field">
-              <label className="label is-small">
-                {" "}
-                Name
-                <p className="control has-icons-left has-icons-right">
-                  <Input
-                    className="input is-small"
-                    register={register("name", {required: true})}
-                    name="name"
-                    type="text"
-                    placeholder="Name of Band"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </label>
+          <div>
+      <div style={{paddingBottom:"1rem",paddingTop:"1rem"}}>
+     <MuiCustomDatePicker
+                  label="Date of Assessment"
+                  register={register("assessment", {required: true})}
+                  name="assessment"
+                  control={control}
+                  
+                />
             </div>
-            <div className="field">
-              <label className="label is-small">
-                Band Type
-                <p className="control has-icons-left has-icons-right">
-                  <Input
-                    className="input is-small "
-                    {...register("bandType", {required: true})}
-                    disabled
-                    name="bandType"
-                    type="text"
-                    placeholder="Band Type"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </label>
+            <div style={{paddingBottom:"1rem"}}>
+                <CustomSelect
+                  label="Status"
+                  name="status"
+                  options={["Approved","Decline"]}
+                  
+                  register={register("status", {required: true})}
+                  
+                />
             </div>
+            <div style={{paddingBottom:"1rem"}}>
+                <Textarea
+                  label="Diagnosis"
+                  register={register("diagnosis", {required: true})}
+                  name="diagnosis"
+                  type="text"
+                />
+            </div>
+            
+     </div>
           </form>
 
-          <Box sx={{display: "flex"}}>
-            <p className="control">
-              <Button type="submit" onClick={handleSubmit(onSubmit)}>
-                Save
-              </Button>
-            </p>
-            <p className="control">
-              <Button onClick={handleCancel}>Cancel</Button>
-            </p>
-            <p className="control">
-              <Button onClick={() => handleDelete()} type="delete">
-                Delete
-              </Button>
-            </p>
-          </Box>
+          
         </div>
       </div>
     </>

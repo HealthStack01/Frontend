@@ -263,7 +263,6 @@ export const menuItems = [
     iconClassName: "bi bi-person",
     subMenus: [
       {name: "Incoming", to: "/app/referral/incoming"},
-      {name: "Outgoing", to: "/app/referral/outgoing"},
       {
         name: "Referral account",
         to: "/app/referral/account",
