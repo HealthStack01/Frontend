@@ -45,6 +45,7 @@ const Input: React.FC<InputProps> = ({
   autoComplete = true,
   onBlur,
   sx,
+  inputRef,
 }) => (
   <div>
     <InputBox>
@@ -60,6 +61,7 @@ const Input: React.FC<InputProps> = ({
         onBlur={onBlur}
         autoComplete={autoComplete}
         sx={{width: "16px", ...sx}}
+        ref={inputRef}
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}

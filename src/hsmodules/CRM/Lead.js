@@ -15,7 +15,7 @@ import ModalBox from "../../components/modal";
 import LeadsCreate from "./components/lead/LeadCreate";
 import LeadAssignStaff from "./components/lead/AssignTask";
 import LeadDetail from "./components/lead/LeadDetailView";
-import OldLeadDetail from "./components/lead/LeadDetail";
+//import OldLeadDetail from "./components/lead/LeadDetail";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import {Box} from "@mui/material";

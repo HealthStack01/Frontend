@@ -1,7 +1,7 @@
 import React from "react";
-import { DebounceInput } from "react-debounce-input";
+import {DebounceInput} from "react-debounce-input";
 
-import { SearchBox, SearchField } from "./styles";
+import {SearchBox, SearchField} from "./styles";
 
 interface Props {
   onChange?: (e) => void;
@@ -26,9 +26,9 @@ const SearchInput: React.FC<Props> = ({
         minLength={1}
         debounceTimeout={400}
         element={SearchField}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
       />
-      <i className="bi bi-search" style={{ fontSize: "10px" }}></i>
+      <i className="bi bi-search" style={{fontSize: "10px"}}></i>
     </SearchBox>
   );
 };

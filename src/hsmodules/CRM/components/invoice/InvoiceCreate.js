@@ -11,6 +11,7 @@ import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../../../components/customtable";
 import moment from "moment";
 import {CustomerView} from "../lead/LeadDetailView";
+import CustomerDetail from "../global/CustomerDetail";
 
 const random = require("random-string-generator");
 
@@ -25,77 +26,16 @@ const InvoiceCreate = ({closeModal}) => {
     <>
       <Box
         sx={{
-          width: "85vw",
+          width: "800px",
           maxHeight: "80vw",
         }}
       >
         <Grid container spacing={2}>
-          <Grid item lg={6} md={6} sm={6}>
-            <CustomerView />
-            {/* <Box>
-              <Box mb={1}>
-                <FormsHeaderText text="Customer Detail" />
-              </Box>
-
-              <Grid container spacing={1}>
-                <Grid item lg={6} md={6} sm={6}>
-                  <Input
-                    register={register("customer_name", {required: true})}
-                    label="Customer Name"
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-                <Grid item lg={6} md={6} sm={6}>
-                  <Input
-                    register={register("phone_number", {required: true})}
-                    label="Phone Number"
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-
-                <Grid item lg={8} md={8} sm={12}>
-                  <Input
-                    register={register("address", {required: true})}
-                    label="Residential Address"
-                    //placeholder="Enter customer name"
-                  />
-                </Grid>
-                <Grid item lg={4} md={4} sm={6}>
-                  <Input
-                    register={register("local_govt", {required: true})}
-                    label="LGA"
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-
-                <Grid item lg={4} md={4} sm={6}>
-                  <Input
-                    register={register("city", {required: true})}
-                    label="City"
-                    // placeholder="Enter customer name"
-                  />
-                </Grid>
-
-                <Grid item lg={4} md={4} sm={6}>
-                  <Input
-                    register={register("state", {required: true})}
-                    label="State"
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-
-                <Grid item lg={4} md={4} sm={6}>
-                  <Input
-                    register={register("country", {required: true})}
-                    label="Country"
-                    //placeholder="Enter customer number"
-                  />
-                </Grid>
-              </Grid>
-            </Box> */}
+          <Grid item lg={12} md={12} sm={12}>
+            <CustomerDetail />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={6}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box mb={1} sx={{display: "flex", justifyContent: "space-between"}}>
               <FormsHeaderText text="Invoice Information" />
             </Box>

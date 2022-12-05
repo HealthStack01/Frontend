@@ -28,25 +28,25 @@ const RadioButton: React.FC<RadioProps> = ({
   defaultValue = "",
   register,
   checked,
+  value,
 }) => (
-  <FormControl
-    disabled={disabled}
-    component="fieldset"
-    sx={{width: "100%", mt: 1, mb: 1}}
-  >
-    <FormLabel component="legend">{title}</FormLabel>
+  <FormControl disabled={disabled} component="fieldset" sx={{width: "100%"}}>
+    <FormLabel sx={{color: "#000000", fontSize: "0.85rem"}} component="legend">
+      {title}
+    </FormLabel>
     <RadioGroup
       row
       aria-label={name}
       name={name}
       onChange={onChange}
-      value={checked}
+      value={value}
+      defaultValue={defaultValue}
     >
       {options.map((option, i) => (
         <FormControlLabel
           key={i}
           value={option.value || option || ""}
-          control={<Radio {...register} />}
+          control={<Radio {...register} sx={{margin: 0}} />}
           label={option.label || option || ""}
           disabled={option.disabled}
           defaultValue={defaultValue}
