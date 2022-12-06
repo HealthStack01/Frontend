@@ -40,7 +40,7 @@ export const crmRoutes = [
   },
   {
     path: "/app/crm/deal",
-    Component: Deal,
+    Component: Deals,
   },
 
   {
