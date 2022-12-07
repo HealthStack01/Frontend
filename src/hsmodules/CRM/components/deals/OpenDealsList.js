@@ -1,85 +1,22 @@
 /* eslint-disable */
 import React, {useState, useContext, useEffect, useRef} from "react";
 //import {useNavigate} from 'react-router-dom'
-import {UserContext, ObjectContext} from "../../context";
-import {formatDistanceToNowStrict, format, subDays, addDays} from "date-fns";
+import {UserContext, ObjectContext} from "../../../../context";
 import "react-datepicker/dist/react-datepicker.css";
 
-import {PageWrapper} from "../../ui/styled/styles";
-import {TableMenu} from "../../ui/styled/global";
-import FilterMenu from "../../components/utilities/FilterMenu";
-import CustomTable from "../../components/customtable";
-import CalendarGrid from "../../components/calender";
-import ModalBox from "../../components/modal";
+import {PageWrapper} from "../../../../ui/styled/styles";
+import {TableMenu} from "../../../../ui/styled/global";
+import FilterMenu from "../../../../components/utilities/FilterMenu";
+import CustomTable from "../../../../components/customtable";
 
-import LeadsCreate from "./components/lead/LeadCreate";
-import LeadAssignStaff from "./components/lead/AssignTask";
-import LeadDetail from "./components/lead/LeadDetailView";
 //import OldLeadDetail from "./components/lead/LeadDetail";
-import GlobalCustomButton from "../../components/buttons/CustomButton";
+import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
-import {Box} from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function Leads() {
-  const {state} = useContext(ObjectContext); //,setState
-  // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState();
-  const [selectedAppointment, setSelectedAppointment] = useState();
-  //const [showState,setShowState]=useState() //create|modify|detail
-  const [createModal, setCreateModal] = useState(false);
-  const [detailModal, setDetailModal] = useState(false);
-  const [currentView, setCurrentView] = useState("lists");
-
-  const handleGoBack = () => {
-    setCurrentView("lists");
-  };
-
-  return (
-    <Box>
-      {currentView === "lists" && (
-        <LeadList
-          openCreateModal={() => setCreateModal(true)}
-          openDetailModal={() => setDetailModal(true)}
-          showDetail={() => setCurrentView("detail")}
-        />
-      )}
-
-      {currentView === "detail" && <LeadDetail handleGoBack={handleGoBack} />}
-
-      <ModalBox
-        open={createModal}
-        onClose={() => setCreateModal(false)}
-        header="Create New Lead"
-      >
-        <LeadsCreate closeModal={() => setCreateModal(false)} />
-      </ModalBox>
-      {/* 
-      <ModalBox
-        open={detailModal}
-        onClose={() => setDetailModal(false)}
-        header="Lead Detail"
-      >
-        <LeadDetail closeModal={() => setDetailModal(false)} />
-      </ModalBox> */}
-    </Box>
-  );
-}
-
-export function LeadList({openCreateModal, openDetailModal, showDetail}) {
-  // const { register, handleSubmit, watch, errors } = useForm();
-  // eslint-disable-next-line
-  const [error, setError] = useState(false);
-  // eslint-disable-next-line
-  const [success, setSuccess] = useState(false);
-  // eslint-disable-next-line
-  const [message, setMessage] = useState("");
-  //const navigate=useNavigate()
-  // const {user,setUser} = useContext(UserContext)
-  const [facilities, setFacilities] = useState([]);
-  // eslint-disable-next-line
-  const [selectedClient, setSelectedClient] = useState(); //
+const OpenDealsList = ({showClosedDeals, setDealDetail, showDetail}) => {
   // eslint-disable-next-line
   const {state, setState} = useContext(ObjectContext);
   // eslint-disable-next-line
@@ -87,13 +24,14 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   const [loading, setLoading] = useState(false);
 
-  const handleCreateNew = async () => {
-    openCreateModal(true);
+  const handleShowClosedDeals = async () => {
+    showClosedDeals();
   };
 
   const handleRow = async data => {
     //openDetailModal();
-    showDetail();
+    console.log(setDealDetail);
+    setDealDetail("open-detail");
   };
 
   const handleSearch = val => {};
@@ -143,7 +81,7 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
     }
   };
 
-  const LeadSchema = [
+  const dealsColumns = [
     {
       name: "Company Name",
       key: "sn",
@@ -203,18 +141,20 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
                   <FilterMenu onSearch={handleSearch} />
                 </div>
               )}
-              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>Leads</h2>
+              <h2 style={{margin: "0 10px", fontSize: "0.95rem"}}>
+                List of Open Deals
+              </h2>
             </div>
 
-            <GlobalCustomButton onClick={handleCreateNew}>
-              <AddCircleOutline fontSize="small" sx={{marginRight: "5px"}} />
-              Add new Lead
+            <GlobalCustomButton onClick={handleShowClosedDeals}>
+              <LockIcon fontSize="small" sx={{marginRight: "5px"}} />
+              View Closed Deals
             </GlobalCustomButton>
           </TableMenu>
           <div style={{width: "100%", overflow: "auto"}}>
             <CustomTable
               title={""}
-              columns={LeadSchema}
+              columns={dealsColumns}
               data={dummyData}
               pointerOnHover
               highlightOnHover
@@ -228,4 +168,6 @@ export function LeadList({openCreateModal, openDetailModal, showDetail}) {
       </div>
     </>
   );
-}
+};
+
+export default OpenDealsList;

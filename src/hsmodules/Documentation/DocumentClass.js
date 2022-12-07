@@ -5,8 +5,10 @@ import {DebounceInput} from "react-debounce-input";
 import {useForm} from "react-hook-form";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import documentListForm from "../clientForm/documentList";
+import documentListForm from "../clientForm/oldDocumentList";
 import chartListForm from "../clientForm/chartList";
+import documentList from "../clientForm/documentList";
+
 import {toast} from "bulma-toast";
 // eslint-disable-next-line
 const searchfacility = {};
@@ -201,8 +203,10 @@ export function DocumentClassList({standalone, closeModal}) {
   // eslint-disable-next-line
   const {user, setUser} = useContext(UserContext);
 
-  let classList = [...facilities];
-  /*  classList.push(...documentListForm); */
+  let classList = documentList;
+
+  //classList.push(...documentListForm);
+  //console.log(facilities);
 
   const handleCreateNew = async () => {
     const newDocumentClassModule = {
@@ -331,6 +335,7 @@ export function DocumentClassList({standalone, closeModal}) {
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Name",
@@ -369,7 +374,8 @@ export function DocumentClassList({standalone, closeModal}) {
         <>
           <Box
             sx={{
-              width: "600px",
+              maxHeight: "80vh",
+              maxWidth: "600px",
             }}
           >
             <TableMenu>
@@ -393,7 +399,7 @@ export function DocumentClassList({standalone, closeModal}) {
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+            <div style={{width: "100%", overflowY: "scroll"}}>
               <CustomTable
                 title={""}
                 columns={classListSchema}

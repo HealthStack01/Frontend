@@ -45,24 +45,33 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
       component="fieldset"
       sx={{width: "100%", mt: 1, mb: 1}}
     >
-      {/* <FormLabel component='legend'>{label}</FormLabel> */}
+      {label && (
+        <FormLabel
+          sx={{color: "#000000", fontSize: "0.85rem"}}
+          component="legend"
+        >
+          {label}
+        </FormLabel>
+      )}
+
       <FormGroup
+        onChange={handleChange}
+        defaultValue={defaultValue}
         sx={{
           display: "flex",
           flexDirection: "row",
-          flexWrap: "wrap",
-          alignItems: "center",
+          margin: 0,
         }}
       >
         {options.map((option, i) => (
           <FormControlLabel
             key={i}
             defaultValue={defaultValue}
+            sx={{transform: "scale(0.8)"}}
             control={
               <Checkbox
                 name={name}
                 value={option.value || option || ""}
-                onChange={handleChange}
                 disabled={disabled}
                 {...register}
               />

@@ -38,7 +38,7 @@ export const SearchBox = styled.div`
     left: 20px;
     transform: translate(-50%, -50%);
     font-size: 20px;
-    color: ${({ theme }) => theme.grayTwo};
+    color: ${({theme}) => theme.grayTwo};
     transition: 0.4s;
   }
 
@@ -59,16 +59,16 @@ export const SearchField = styled.input`
   background: none;
   border-radius: 50px;
   box-sizing: border-box;
-  color: ${({ theme }) => theme.grayTwo};
+  color: ${({theme}) => theme.grayTwo};
   outline: none;
   transition: 0.5s;
   padding: 0.9rem;
   border-radius: 4px;
   background: #fff;
-  border: 1.5px solid ${({ theme }) => theme.grayTwo};
+  border: 1.5px solid ${({theme}) => theme.grayTwo};
   width: 100%;
 
   &:focus {
-    border: 2px solid ${({ theme }) => theme.blueTwo};
+    border: 2px solid ${({theme}) => theme.blueTwo};
   }
 `;

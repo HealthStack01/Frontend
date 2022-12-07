@@ -58,6 +58,7 @@ import {
   BilledOrdersPrintOut,
   DoctorsNotePrintOut,
 } from "./print-outs/Print-Outs";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function EncounterMain({nopresc, chosenClient}) {
   // const { register, handleSubmit, watch, errors } = useForm();
@@ -129,6 +130,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
     }));
     //console.log(state)
   };
+
   const handleRow = async (Clinic, i) => {
     //console.log("b4",state)
     // alert(i)
@@ -264,6 +266,7 @@ export default function EncounterMain({nopresc, chosenClient}) {
       }
     }
   };
+
   const handleLabOrders = async () => {
     await setShowLabModal(true);
     handleHideActions();
@@ -287,18 +290,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
     await setShowEncounterModal(true);
     handleHideActions();
   };
-
-  const dummyRef = useRef(null);
-
-  const handlePrintDocument = useReactToPrint({
-    content: () => {
-      return myRefs.current[1];
-    },
-  });
-
-  // const handlePrintDocument = () => {
-  //   console.log(myRefs);
-  // };
 
   const handlePrint = async i => {
     var content = document.getElementById(i);
@@ -523,11 +514,6 @@ export default function EncounterMain({nopresc, chosenClient}) {
         flexGrow: "1",
       }}
     >
-      <ModalBox open={false}>
-        <Box sx={{width: "595px", height: "842px", border: "1px solid gray"}}>
-          {/* <BilledOrdersPrintOut /> */}
-        </Box>
-      </ModalBox>
       <Box
         container
         sx={{
@@ -536,13 +522,14 @@ export default function EncounterMain({nopresc, chosenClient}) {
           alignItems: "center",
           justifyContent: "space-between",
         }}
+        mb={2}
       >
         <Box
           item
           sx={{
             width: !nopresc
-              ? "calc(100% - 350px - 190px)"
-              : "calc(100% - 190px)",
+              ? "calc(100% - 350px - 180px)"
+              : "calc(100% - 180px)",
           }}
         >
           <Input
@@ -563,19 +550,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
             }}
           >
             {activateCall && (
-              <MuiButton
+              <GlobalCustomButton
                 sx={{
-                  widht: "100%",
-                  height: "48px",
-                  fontSize: "0.75rem,",
-                  textTransform: "capitalize",
+                  width: "100%",
                 }}
                 onClick={() => setActivateCall(false)}
-                variant="contained"
                 color="error"
               >
                 End Teleconsultation
-              </MuiButton>
+              </GlobalCustomButton>
             )}
 
             <VideoConference
@@ -590,22 +573,15 @@ export default function EncounterMain({nopresc, chosenClient}) {
             width: "180px",
           }}
         >
-          <MuiButton
-            variant="contained"
+          <GlobalCustomButton
+            color="secondary"
             sx={{
-              fontSize: "0.9rem",
               width: "100%",
-              minHeight: "48px",
-              textTransform: "capitalize",
-              backgroundColor: "green",
-              "&:hover": {
-                backgroundColor: "green",
-              },
             }}
             onClick={handleNewDocument}
           >
             New Document
-          </MuiButton>
+          </GlobalCustomButton>
         </Box>
 
         {!nopresc && (
@@ -622,16 +598,18 @@ export default function EncounterMain({nopresc, chosenClient}) {
                 width: "100%",
               }}
             >
-              <MuiButton
+              <GlobalCustomButton
                 onClick={handleShowActions}
-                variant="outlined"
-                sx={{height: "48px", width: "100%"}}
+                variant="contained"
+                sx={{
+                  width: "100%",
+                }}
                 aria-controls={showActions ? "basic-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={showActions ? "true" : undefined}
               >
                 Actions <ExpandMoreIcon />
-              </MuiButton>
+              </GlobalCustomButton>
 
               <Menu
                 id="basic-menu"

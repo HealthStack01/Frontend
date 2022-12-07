@@ -39,6 +39,7 @@ import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CRMTasks from "../../Tasks";
 import CustomerDetail from "../global/CustomerDetail";
 import LeadDetailView from "../global/LeadDetail";
+import DealDetailView from "../global/DealDetail";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -176,7 +177,7 @@ export const DetailView = () => {
       <Grid container spacing={2} pr={2} pl={2}>
         <Grid item lg={6} md={12} sm={12}>
           <Box mb={1}>
-            <LeadDetailView />
+            <DealDetailView />
           </Box>
 
           <Box>
@@ -413,7 +414,7 @@ const ProposalsView = () => {
   );
 };
 
-const LeadDetail = ({handleGoBack}) => {
+const OpenDealDetail = ({handleGoBack}) => {
   const [currentView, setCurrentView] = useState("detail");
   const [scheduleAppointment, setScheduleAppointment] = useState(false);
 
@@ -478,7 +479,7 @@ const LeadDetail = ({handleGoBack}) => {
         >
           <GlobalCustomButton onClick={handleGoBack}>
             <ArrowBackIcon />
-            Go Back
+            Back
           </GlobalCustomButton>
 
           <Typography
@@ -487,7 +488,7 @@ const LeadDetail = ({handleGoBack}) => {
               fontWeight: "600",
             }}
           >
-            Lead Details
+            Open Deal Details
           </Typography>
         </Box>
 
@@ -559,4 +560,4 @@ const LeadDetail = ({handleGoBack}) => {
   );
 };
 
-export default LeadDetail;
+export default OpenDealDetail;

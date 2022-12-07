@@ -3,7 +3,7 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
 import client from "../../feathers";
-import api from "../../utils/api"
+import api from "../../utils/api";
 import {DebounceInput} from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
@@ -653,7 +653,7 @@ export function ClientList({showModal, openDetailModal}) {
   const handleSearch = val => {
     // eslint-disable-next-line
     const field = "firstname";
-    console.log(val);
+    //console.log(val);
     ClientServ.find({
       query: {
         $or: [
@@ -1110,8 +1110,8 @@ export function ClientDetail({closeDetailModal}) {
       const res = await api.post("/register?scheme=4865616c7468737461636b", {
         firstName: Client.firstname,
         lastName: Client.lastname,
-        phoneNumber:"+2347050917563",
-        password:"Kennis0007##",
+        phoneNumber: "+2347050917563",
+        password: "Kennis0007##",
       });
       console.log(res);
       toast.success("Wallet Created Successfully");
