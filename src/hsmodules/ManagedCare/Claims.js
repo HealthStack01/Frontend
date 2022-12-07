@@ -49,12 +49,22 @@ export default function Claims({ standAlone }) {
   const [selectedAppointment, setSelectedAppointment] = useState();
   //const [showState,setShowState]=useState() //create|modify|detail
   const [showModal, setShowModal] = useState(false);
-
+  console.log('standAlone', standAlone);
   return (
     <>
       <section className="section remPadTop">
         {!showModal ? (
-          <ClaimsList showModal={showModal} setShowModal={setShowModal} />
+          <>
+            {standAlone ? (
+              <ClaimsList
+                showModal={showModal}
+                setShowModal={setShowModal}
+                standAlone={standAlone}
+              />
+            ) : (
+              <ClaimsList showModal={showModal} setShowModal={setShowModal} />
+            )}
+          </>
         ) : (
           <Grid container spacing={2}>
             <Grid item xs={3}>
@@ -283,7 +293,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
       inputType: 'TEXT',
     },
     {
-      name: 'submittedQuantity',
+      name: 'QTY',
       key: 'submittedQuantity',
       description: 'Submitted QTY',
       selector: (row) => row.submittedQuantity,
@@ -291,23 +301,15 @@ export function ClaimsCreate({ showModal, setShowModal }) {
       inputType: 'TEXT',
     },
     {
-      name: 'submittedBill',
+      name: 'Unit Price',
       key: 'submittedBill',
-      description: 'Submitted Bill',
+      description: 'Unit Price',
       selector: (row) => row.submittedBill,
       sortable: true,
       inputType: 'TEXT',
     },
     {
-      name: 'payableQuantity',
-      key: 'payableQuantity',
-      description: 'Payable QTY',
-      selector: (row) => row.payableQuantity,
-      sortable: true,
-      inputType: 'TEXT',
-    },
-    {
-      name: 'payableBill',
+      name: 'Total Amount',
       key: 'payableBill',
       description: 'Payable Bill',
       selector: (row) => row.payableBill,
@@ -405,21 +407,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <Input name="amount" label="Claim Amount" type="tel" />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <FormsHeaderText text={'Services / Products'} />
-              <CustomTable
-                title={''}
-                columns={serviceSchema}
-                data={dummyData}
-                pointerOnHover
-                highlightOnHover
-                striped
-                //conditionalRowStyles={conditionalRowStyles}
-              />
-            </Grid>
-          </Grid>
-
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <FormsHeaderText text={'Clinic Information'} />
@@ -558,6 +545,20 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               </button>
             </Grid> */}
           </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <FormsHeaderText text={'Services / Products'} />
+              <CustomTable
+                title={''}
+                columns={serviceSchema}
+                data={dummyData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //conditionalRowStyles={conditionalRowStyles}
+              />
+            </Grid>
+          </Grid>
 
           <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12} md={4} lg={3}>
@@ -580,7 +581,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <Input name="quantity" label="Quantity" type="number" />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Input name="unitPrice" label="Bill" type="text" />
+              <Input name="unitPrice" label="Amount" type="text" />
             </Grid>
             <Grid item xs={12} md={12}>
               <Textarea label="Comments" name="comments" />

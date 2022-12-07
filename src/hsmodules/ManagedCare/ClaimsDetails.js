@@ -107,7 +107,7 @@ export function Details() {
       inputType: 'TEXT',
     },
     {
-      name: 'Submitted QTY',
+      name: 'QTY',
       key: 'submittedQuantity',
       description: 'Submitted QTY',
       selector: (row) => row.submittedQuantity,
@@ -115,7 +115,7 @@ export function Details() {
       inputType: 'TEXT',
     },
     {
-      name: 'Submitted Bill',
+      name: 'Submitted Amount',
       key: 'submittedBill',
       description: 'Submitted Bill',
       selector: (row) => row.submittedBill,
@@ -131,7 +131,7 @@ export function Details() {
       inputType: 'TEXT',
     },
     {
-      name: 'Payable Bill',
+      name: 'Payable Amount',
       key: 'payableBill',
       description: 'Payable Bill',
       selector: (row) => row.payableBill,
@@ -404,13 +404,7 @@ export function Details() {
               <ModalHeader text={`Approve Claim  13229-BA`} />
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Comment'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Approve'} color="success" />
@@ -428,13 +422,7 @@ export function Details() {
 
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Reject'} color="error" />
