@@ -19,6 +19,7 @@ import client from '../../feathers';
 import { toast, ToastContainer } from 'react-toastify';
 import { HeadWrapper } from './styles';
 import ViewText from '../../components/viewtext';
+import GlobalCustomButton from '../../components/buttons/CustomButton';
 
 const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
   const CaseServ = client.service('casedefinition');
@@ -244,133 +245,25 @@ const CaseDefinitionView = ({ casedefinition, open, setOpen }) => {
 
   return (
     <>
-      <PageWrapper>
-        <HeadWrapper>
-          <div>
-            <h2>Case Definition Detail</h2>
-            <span>Case Definition detail of Case Definition</span>
-          </div>
-          <BottomWrapper>
-            <Button
-              label='Delete Case Definition'
-              background='#FFE9E9'
-              color='#ED0423'
-              onClick={() => handleDelete()}
-            />
-
-            <Button
-              label={`${!editing ? 'Edit Case Definition' : 'Cancel Editing'}`}
-              background='#ECF3FF'
-              color='#0364FF'
-              showicon
-              icon='bi bi-pen-fill'
-              disabled={editing}
-              onClick={() => {
-                setEditing(!editing);
-              }}
-            />
-          </BottomWrapper>
-        </HeadWrapper>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ToastContainer theme='colored' />
-
-          <PageWrapper>
-            <GrayWrapper>
-              <Box>
-                <DetailsWrapper title='Notification Type and Name of Disease '>
-                  <GridWrapper>
-                    {!editing ? (
-                      <ViewText
-                        label='Notification Type'
-                        text={casedefinition?.notificationtype}
-                      />
-                    ) : (
+      
+        <Box display="flex" justifyContent="flex-end" mb="1rem">
+            <GlobalCustomButton
+            >Edit</GlobalCustomButton>
+        </Box>
+     
+         
+              <Box display="flex" flexDirection="column" gap="1rem">
                       <CustomSelect
                         label='Choose notification type'
-                        name='notification type'
                         options={notificationOptions}
-                        register={register('notificationtype')}
+                        defaultValue={casedefinition?.notificationtype}
+                        disabled={!editing}
                       />
-                    )}
-                    {!editing ? (
-                      <ViewText
-                        label='Name of Disease'
-                        text={casedefinition?.disease?.name}
-                      />
-                    ) : (
-                      <Input
-                        label='Name of disease'
-                        register={register('disease')}
-                        name='disease'
-                      />
-                    )}
-                  </GridWrapper>
-                </DetailsWrapper>
-
-                <DetailsWrapper title='Symptoms'>
-                  <GridWrapper className='four-columns'>
-                    <Input
-                      label='Symptoms'
-                      type='text'
-                      value={symptom}
-                      onChange={e => {
-                        setSymptom(e.target.value);
-                      }}
-                      placeholder='Specify'
-                    />
-                    <Input
-                      label='Duration'
-                      value={duration}
-                      onChange={e => {
-                        setDuration(e.target.value);
-                      }}
-                      name='duration'
-                    />
-
-                    <Box sx={{ jusifyContent: 'space-between' }}>
-                      <input
-                        type='checkbox'
-                        value={sympreq}
-                        name='sympreq'
-                        onChange={e => {
-                          handleChecked(e);
-                        }}
-                        register={register('sympreq')}
-                      />
-                      required
-                    </Box>
-
-                    <div
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        width: '80px',
-                      }}
-                      onClick={handleAddSymptoms}
-                    >
-                      +Add
-                    </div>
-                  </GridWrapper>
-
-                  <DataTable
-                    customStyles={customStyles}
-                    title={'Syptom'}
-                    columns={syptomSchema}
-                    data={symptoms}
-                    pointerOnHover
-                    highlightOnHover
-                    striped
-                  />
-                </DetailsWrapper>
-
-                <BottomWrapper>
-                  <Button label='Save ' loading={loading} type='submit' />
-                </BottomWrapper>
-              </Box>
-            </GrayWrapper>
-          </PageWrapper>
-        </form>
-      </PageWrapper>
+                   
+                       <Input 
+                        defaultValue={casedefinition?.disease?.name}
+                       name="disease" type="text" label="Name of Disease" disabled={!editing}/>
+               </Box>
     </>
   );
 };

@@ -88,16 +88,16 @@ export default function EpidemiologySignals() {
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
-        <ModalBox  open={createModal} onClose={handleHideCreateModal}>
+        {/* <ModalBox  open={createModal} onClose={handleHideCreateModal}>
           <SignalCreate />
-        </ModalBox>
+        </ModalBox> */}
 
-        <ModalBox open={detailModal} onClose={handleHideDetailModal}>
+        {/* <ModalBox open={detailModal} onClose={handleHideDetailModal}>
           <SignalDetail showModifyModal={handleModifyModal} />
-        </ModalBox>
-        <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
+        </ModalBox> */}
+        {/* <ModalBox open={modifyModal} onClose={handleHideModifyModal}>
           <SignalModify />
-        </ModalBox>
+        </ModalBox> */}
       </div>
     </section>
   );
@@ -611,13 +611,13 @@ export function SignalsList({showCreateModal, showDetailModal}) {
               </div>
 
               {handleCreateNew && (
-                
-                <GlobalCustomButton 
-                onClick={showCreateModal}
-                >
-                  <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
-                Add New Signal
-                </GlobalCustomButton>
+                null
+                // <GlobalCustomButton 
+                // onClick={showCreateModal}
+                // >
+                //   <AddCircleOutline sx={{marginRight: "5px"}} fontSize="small" />
+                // Add New Signal
+                // </GlobalCustomButton>
               )}
             </TableMenu>
 

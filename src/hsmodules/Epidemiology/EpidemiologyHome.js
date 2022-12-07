@@ -31,14 +31,14 @@ export default function EpidemiologyHome({children}) {
   }, []);
 
   useEffect(() => {
-    setSelectedStore(state.EpidemiologyModule.selectedEpid);
+    setSelectedStore(state?.EpidemiologyModule?.selectedEpid);
 
     const newEmployeeLocation = {
-      locationName: state.EpidemiologyModule.selectedEpid.name,
-      locationType: state.EpidemiologyModule.selectedEpid.locationType,
-      locationId: state.EpidemiologyModule.selectedEpid._id,
-      facilityId: user.currentEmployee.facilityDetail._id,
-      facilityName: user.currentEmployee.facilityDetail.facilityName,
+      locationName: state?.EpidemiologyModule?.selectedEpid?.name,
+      locationType: state?.EpidemiologyModule?.selectedEpid?.locationType,
+      locationId: state?.EpidemiologyModule?.selectedEpid?._id,
+      facilityId: user?.currentEmployee?.facilityDetail?._id,
+      facilityName: user?.currentEmployee?.facilityDetail?.facilityName,
       case: "epidemnology",
     };
     setState(prevstate => ({

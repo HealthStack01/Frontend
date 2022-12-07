@@ -90,6 +90,7 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
+  const [accountType, setAccountType] = useState();
 
   let appointee; //  =state.ClientModule.selectedClient
   /*  const getSearchfacility=(obj)=>{
@@ -308,19 +309,28 @@ export function FundsManagementCreate({ showModal, setShowModal }) {
                 { label: 'Expense account', value: 'Expense account' },
                 { label: 'Revenue', value: 'Revenue' },
               ]}
+              onChange={(e) => setAccountType(e.target.value)}
             />
           </Grid>
+          {accountType === 'Investment account' && (
+            <Grid item xs={12} md={6}>
+              <BasicDatePicker label="Maturity Date" />
+            </Grid>
+          )}
           <Grid item xs={12} md={6}>
-            <BasicDatePicker label="Maturity Date" />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Input label="Account Description" />
+            <Input label="Account Name" />
           </Grid>
           <Grid item xs={12} md={6}>
             <Input label="Account Number" />
           </Grid>
           <Grid item xs={12} md={6}>
             <Input label="Sort Code" />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Input label="Branch Name" />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Input label="Account Description" />
           </Grid>
         </Grid>
       </div>
@@ -757,6 +767,51 @@ export function FundsManagementList({ showModal, setShowModal }) {
 export function FundsManagementDetails({ showModal, setShowModal }) {
   const [edit, setEdit] = useState(false);
 
+  const dummyData = [
+    {
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: 'Transfer and cash',
+      amount: '2000',
+    },
+    {
+      s_n: 'S/N',
+      date: '27/11/22 17:33',
+      description: 'Transfer and cash',
+      amount: '200',
+    },
+  ];
+
+  const FundsManagementSchema = [
+    {
+      name: 'S/N',
+      key: 's_n',
+      description: 'Enter s/n',
+      selector: (row, i) => i + 1,
+      sortable: true,
+      required: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'Date',
+      key: 'date',
+      description: 'Enter date',
+      selector: (row) => row.date,
+      sortable: true,
+      required: true,
+      inputType: 'DATE',
+    },
+    {
+      name: 'Amount',
+      key: 'amount',
+      description: 'Enter amount',
+      selector: (row) => row.amount,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
   return (
     <>
       <Box
@@ -808,6 +863,30 @@ export function FundsManagementDetails({ showModal, setShowModal }) {
         </Grid>
         <Grid item xs={12} md={6}>
           <Input label="Sort Code" value="GH389KN" disabled={!edit} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormsHeaderText text="Debit" />
+          <CustomTable
+            title={''}
+            columns={FundsManagementSchema}
+            data={dummyData}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //conditionalRowStyles={conditionalRowStyles}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <FormsHeaderText text="Credit" />
+          <CustomTable
+            title={''}
+            columns={FundsManagementSchema}
+            data={dummyData}
+            pointerOnHover
+            highlightOnHover
+            striped
+            //conditionalRowStyles={conditionalRowStyles}
+          />
         </Grid>
       </Grid>
     </>
