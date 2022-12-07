@@ -5,23 +5,21 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button,Typography} from "@mui/material";
+import {Button, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
-import Textarea from "../../components/inputs/basic/Textarea";
-import CheckboxInput from "../../components/inputs/basic/Checkbox";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-
+import CloseIcon from "@mui/icons-material/Close";
+import {FormsHeaderText} from "../../components/texts";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CustomTable from "../../components/customtable";
 
 export default function MedicationList() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -245,6 +243,11 @@ export default function MedicationList() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
     //console.log(document)
 
     if (
@@ -252,13 +255,9 @@ export default function MedicationList() {
       !document.createdByname ||
       !document.facilityname
     ) {
-      toast({
-        message:
-          " Documentation data missing, requires location and facility details",
-        type: "is-danger",
-        dismissible: true,
-        pauseOnHover: true,
-      });
+      toast.error(
+        "Documentation data missing, requires location and facility details"
+      );
       return;
     }
     let confirm = window.confirm(
@@ -274,21 +273,11 @@ export default function MedicationList() {
             setSymptoms([]);
             /*  setMessage("Created Client successfully") */
             setSuccess(true);
-            toast({
-              message: "Pediatric Pulmonology Form updated succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.success("Pediatric Pulmonology Form updated succesfully");
             setSuccess(false);
           })
           .catch(err => {
-            toast({
-              message: "Error updating Pediatric Pulmonology Form " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.error("Error updating Pediatric Pulmonology Form " + err);
           });
       } else {
         ClientServ.create(document)
@@ -299,22 +288,12 @@ export default function MedicationList() {
             setSymptoms([]);
             /*  setMessage("Created Client successfully") */
             setSuccess(true);
-            toast({
-              message: "Medication List created succesfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.success("Medication List created succesfully");
             setSuccess(false);
             closeForm();
           })
           .catch(err => {
-            toast({
-              message: "Error creating Medication List " + err,
-              type: "is-danger",
-              dismissible: true,
-              pauseOnHover: true,
-            });
+            toast.error("Error creating Medication List " + err);
           });
       }
     }
@@ -363,6 +342,7 @@ export default function MedicationList() {
     setReaction("");
     setAllergine("");
   };
+
   const handleAddMedication = () => {
     let newMedication = {
       drugname,
@@ -380,10 +360,9 @@ export default function MedicationList() {
     documentobj.name = "";
     documentobj.facility = "";
     documentobj.document = "";
-    //  alert("I am in draft mode : " + Clinic.documentname)
     const newDocumentClassModule = {
       selectedDocumentClass: documentobj,
-      //state.DocumentClassModule.selectedDocumentClass.name
+      encounter_right: false,
       show: "detail",
     };
     await setState(prevstate => ({
@@ -398,170 +377,290 @@ export default function MedicationList() {
     setSymptoms(prevstate => prevstate.filter((el, index) => index !== i));
   };
 
+  const removeAllergy = index => {
+    setAllergies(prev => prev.filter((el, i) => i !== index));
+  };
+
+  const removeMedications = index => {
+    setSymptoms(prev => prev.filter((el, i) => i !== index));
+  };
+
+  const allergiesColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Allergine",
+      key: "allergine",
+      description: "Enter Allergy",
+      selector: row => row.allergine,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Reaction",
+      key: "reaction",
+      description: "Enter Allergy",
+      selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Action",
+      key: "reaction",
+      description: "Enter Allergy",
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          fontSize="small"
+          sx={{color: "red"}}
+          onClick={() => removeAllergy(i)}
+        />
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
+  const medicationColumns = [
+    {
+      name: "S/N",
+      key: "sn",
+      description: "SN",
+      selector: (row, i) => i + 1,
+      sortable: true,
+      inputType: "HIDDEN",
+      width: "50px",
+    },
+    {
+      name: "Drug Name",
+      key: "allergine",
+      description: "Enter Allergy",
+      selector: row => row.drugname,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Strength/Frequency",
+      key: "reaction",
+      description: "Enter Allergy",
+      selector: row => row.strengthfreq,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Notes",
+      key: "allergine",
+      description: "Enter Allergy",
+      selector: row => row.notes,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Action",
+      key: "reaction",
+      description: "Enter Allergy",
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          fontSize="small"
+          sx={{color: "red"}}
+          onClick={() => removeMedications(i)}
+        />
+      ),
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+  ];
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Medication List</p>
-          <button
-            className="delete pushleft"
-            aria-label="close"
-            onClick={() => closeForm(false)}
-          ></button>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          {/*   <label className="label is-size-7">
-                  Client:  {order.orderInfo.orderObj.clientname}
-                </label>
-                <label className="label is-size-7">
-                 Test:  {order.serviceInfo.name}
-                </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>  
-    <Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="date"
-                  placeholder="Date"
-                />
-    </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"Medication List"} />
 
-
-    <Box> 
-       <Typography><b>Allergies</b></Typography> 
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Specify"
-                />
-    </Box>
-      <Box>
-       <Typography>Allergine</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Specify"
-                />
-    </Box>
-
-      <Box>
-       <Typography>Reaction</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  label="Specify"
-                />
-    </Box> 
-  <Box>
-    <Button variant="contained" type="button" onClick={handleAdd}>Add</Button>
-  </Box>
-  <Box sx={{marginBlock:"1rem"}}>
-      <Table sx={{ minWidth: 150 }}>
-        <TableHead>
-          <TableRow>
-            <TableCell>S/No</TableCell>
-            <TableCell align="right">ALLERGINE</TableCell> 
-            <TableCell align="right">REACTION</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {allergies.map((ProductEntry, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                {i + 1}
-              </TableCell>
-              <TableCell align="right">{ProductEntry.allergine}</TableCell>
-              <TableCell align="right">{ProductEntry.reaction}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-  </Box>
-         
-    <Box> 
-       <Typography><b>Medication</b></Typography> 
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Specify"
-                />
-    </Box>
-
-      <Box>
-       <Typography>Drug Name</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Name"
-                />
-    </Box> 
-
-      <Box>
-       <Typography>Strength/Frequency</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Strength/Frequency"
-                />
-    </Box> 
-      <Box>
-       <Typography>Notes</Typography>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Specify"
-                />
-    </Box> 
-  <Box>
-    <Button variant="contained" type="button" onClick={handleAdd}>Add</Button>
-  </Box>
-  <Box sx={{marginBlock:"1rem"}}>
-      <Table sx={{ minWidth: 150 }}>
-        <TableHead>
-          <TableRow>
-            <TableCell>S/No</TableCell>
-            <TableCell align="right">ALLERGINE</TableCell> 
-            <TableCell align="right">REACTION</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {allergies.map((ProductEntry, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                {i + 1}
-              </TableCell>
-              <TableCell align="right">{ProductEntry.allergine}</TableCell>
-              <TableCell align="right">{ProductEntry.reaction}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-  </Box>
-    <Box> 
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Draft",
-                "Final",
-              ]}
-            />
-</Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
+          <IconButton onClick={closeForm}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </Box>
+
+        <div className="card-content vscrollable remPad1">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box mb={2}>
+              <MuiCustomDatePicker control={control} name="Date" label="Date" />
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              gap={1.5}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <FormsHeaderText text="Allergies" />
+
+                <GlobalCustomButton onClick={handleAdd}>
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add Allergy
+                </GlobalCustomButton>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Allergine"
+                  value={allergine}
+                  onChange={e => {
+                    setAllergine(e.target.value);
+                  }}
+                  name="allergine"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Reaction"
+                  value={reaction}
+                  onChange={e => {
+                    setReaction(e.target.value);
+                  }}
+                  name="reaction"
+                />
+              </Box>
+
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={allergiesColumns}
+                  data={allergies}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  CustomEmptyData="No Allergy added yet..."
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <FormsHeaderText text="Medications" />
+
+                <GlobalCustomButton onClick={handleAddMedication}>
+                  <AddCircleOutline
+                    sx={{marginRight: "5px"}}
+                    fontSize="small"
+                  />
+                  Add Medication
+                </GlobalCustomButton>
+              </Box>
+
+              <Box>
+                <Input
+                  label="Drug Name"
+                  value={drugname}
+                  onChange={e => {
+                    setDrugName(e.target.value);
+                  }}
+                  name="Drugname"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Strength/Frequency"
+                  value={strengthfreq}
+                  onChange={e => {
+                    setStrengthFreq(e.target.value);
+                  }}
+                  name="strengthfreq"
+                />
+              </Box>
+
+              <Box>
+                <Input
+                  label="Notes"
+                  value={notes}
+                  onChange={e => {
+                    setNotes(e.target.value);
+                  }}
+                  name="notes"
+                />
+              </Box>
+
+              <Box>
+                <CustomTable
+                  title={""}
+                  columns={medicationColumns}
+                  data={symptoms}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  CustomEmptyData="No Medication added yet..."
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              </Box>
+
+              <Box>
+                <RadioButton
+                  onChange={handleChangeStatus}
+                  name="status"
+                  options={["Draft", "Final"]}
+                  value={docStatus}
+                />
+              </Box>
+
+              <Box
+                spacing={1}
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                }}
+              >
+                <GlobalCustomButton
+                  color="secondary"
+                  variant="contained"
+                  type="submit"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Submit Medication List
+                </GlobalCustomButton>
+              </Box>
+            </Box>
           </form>
         </div>
       </div>

@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {DocumentClassList} from "./DocumentClass";
 //import {useNavigate} from 'react-router-dom'
 import {UserContext, ObjectContext} from "../../context";
-import {toast} from "bulma-toast";
+import {toast} from "react-toastify";
 import {Box} from "@mui/system";
 import {Collapse, Grid, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,6 +18,8 @@ import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
+import RefInput from "../../components/inputs/basic/Input/ref-input";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 export default function AsthmaIntake() {
   const {register, handleSubmit, setValue, getValues, watch, control} =
@@ -39,6 +41,9 @@ export default function AsthmaIntake() {
   const [dataset, setDataset] = useState();
   const {state, setState} = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
+
+  const allergineInputRef = useRef(null);
+  const reactionInputRef = useRef(null);
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
 
@@ -223,14 +228,28 @@ export default function AsthmaIntake() {
   };
 
   const handleAdd = () => {
+    const allergine = allergineInputRef.current.value;
+    const reaction = reactionInputRef.current.value;
+
+    if (allergine === "") {
+      return toast.error("Enter an Allergy");
+    }
+    if (reaction === "") {
+      return toast.error("Enter Allergy Reaction");
+    }
+
     let allergy = {
       allergine: allergine,
       reaction: reaction,
     };
     setAllergies(prev => [...prev, allergy]);
     setAllergy({});
-    setReaction("");
-    setAllergine("");
+    allergineInputRef.current.value = "";
+    reactionInputRef.current.value = "";
+  };
+
+  const removeAllergy = index => {
+    setAllergies(prev => prev.filter((el, i) => i !== index));
   };
 
   //USE THIS TO SHOW OTHER RACES INPUT WHEN USER SELECT OTHERS// CAN BE IMPLEMENTED FOR SIMILAR RADIO INPUTS TOO
@@ -268,6 +287,22 @@ export default function AsthmaIntake() {
       key: "reaction",
       description: "Enter Allergy",
       selector: row => row.reaction,
+      sortable: true,
+      required: true,
+      inputType: "HIDDEN",
+    },
+
+    {
+      name: "Action",
+      key: "reaction",
+      description: "Enter Allergy",
+      selector: (row, i) => (
+        <DeleteOutlineIcon
+          fontSize="small"
+          sx={{color: "red"}}
+          onClick={() => removeAllergy(i)}
+        />
+      ),
       sortable: true,
       required: true,
       inputType: "HIDDEN",
@@ -1921,26 +1956,20 @@ export default function AsthmaIntake() {
           </Box>
 
           <Box mb={1}>
-            <Input
+            <RefInput
               label="Allergy"
               placeholder="specify..."
-              value={allergine}
-              onChange={e => {
-                setAllergine(e.target.value);
-              }}
+              inputRef={allergineInputRef}
               name="allergine"
               type="text"
             />
           </Box>
 
           <Box mb={1}>
-            <Input
+            <RefInput
               label="Reaction"
               placeholder="specify..."
-              value={reaction}
-              onChange={e => {
-                setReaction(e.target.value);
-              }}
+              inputRef={reactionInputRef}
               name="reaction"
               type="text"
             />

@@ -82,6 +82,8 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('list');
   const [selectedClient, setSelectedClient] = useState();
+  const [amount, setAmount] = useState(0);
+  const [inselected, setInselected] = useState();
 
   const handleCreateNew = async () => {
     const newClientModule = {
@@ -339,27 +341,21 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
       s_n: 'S/N',
       provider_name: 'Sulaiman Olaniran',
       billing_for_month: 'Family Plan',
-      date_of_payment: '11/11/2022',
-      amount: '10000:00',
-      claim_id: '50',
+      amount: 10000,
       status: 'Approved',
     },
     {
       s_n: 'S/N',
       provider_name: 'Sulaiman Olaniran',
       billing_for_month: 'Family Plan',
-      date_of_payment: '11/11/2022',
-      amount: '10000:00',
-      claim_id: '50',
+      amount: 10000,
       status: 'Approved',
     },
     {
       s_n: 'S/N',
       provider_name: 'Sulaiman Olaniran',
       billing_for_month: 'Family Plan',
-      date_of_payment: '11/11/2022',
-      amount: '10000:00',
-      claim_id: '50',
+      amount: 10000,
       status: 'Approved',
     },
 
@@ -367,9 +363,7 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
       s_n: 'S/N',
       provider_name: 'Sulaiman Olaniran',
       billing_for_month: 'Family Plan',
-      date_of_payment: '11/11/2022',
-      amount: '10000:00',
-      claim_id: '50',
+      amount: 10000,
       status: 'Approved',
     },
   ];
@@ -377,19 +371,21 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
   const dummyData2 = [
     {
       s_n: 'S/N',
+      _id: 1,
       provider_name: 'Sulaiman Olaniran',
       billing_for_month: 'Family Plan',
       date_of_payment: '11/11/2022',
-      amount: '10000:00',
+      amount: 50000,
       claim_id: '50',
       status: 'Approved',
     },
     {
       s_n: 'S/N',
+      _id: 2,
       provider_name: 'Sulaiman Olaniran',
       billing_for_month: 'Family Plan',
       date_of_payment: '11/11/2022',
-      amount: '10000:00',
+      amount: 10000,
       claim_id: '50',
       status: 'Approved',
     },
@@ -414,7 +410,9 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
   const handlePay = () => {
     setPayModal(true);
   };
-
+  const handleChoseClient = (client, e, amount) => {
+    setAmount(amount);
+  };
   const ProviderPaymentSchema = [
     {
       name: 'S/N',
@@ -444,15 +442,6 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
       inputType: 'TEXT',
     },
     {
-      name: 'Date of Payment',
-      key: 'date_of_payment',
-      description: 'Enter Date of Payment',
-      selector: (row) => row.date_of_payment,
-      sortable: true,
-      required: true,
-      inputType: 'DATE',
-    },
-    {
       name: 'Amount',
       key: 'amount',
       description: 'Enter Amount',
@@ -460,15 +449,6 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
       sortable: true,
       required: true,
       inputType: 'NUMBER',
-    },
-    {
-      name: 'Claim ID',
-      key: 'claim_id',
-      description: 'Enter Claim ID',
-      selector: (row, i) => row.claim_id,
-      sortable: true,
-      required: true,
-      inputType: 'TEXT',
     },
     {
       name: 'Status',
@@ -501,6 +481,69 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
     },
   ];
 
+  const ProviderPaymentSchema2 = [
+    {
+      name: 'S/NO',
+      width: '70px',
+      key: 'sn',
+      description: 'Enter name of Disease',
+      selector: (row) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type="checkbox"
+            //name={order._id}
+            style={{ marginRight: '3px' }}
+            onChange={(e) => {
+              handleChoseClient(selectedClient, e, row.amount);
+            }}
+            checked={row.amount.checked}
+          />
+          {row.sn}
+        </div>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: ' Provider Name',
+      key: 'provider_name',
+      description: 'Enter name of Provider',
+      selector: (row) => row.provider_name,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Billing for Month',
+      key: 'billing_for_month',
+      description: 'Enter Billing for Month',
+      selector: (row) => row.billing_for_month,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Amount',
+      key: 'amount',
+      description: 'Enter Amount',
+      selector: (row, i) => row.amount,
+      sortable: true,
+      required: true,
+      inputType: 'NUMBER',
+    },
+    {
+      name: 'Status',
+      key: 'status',
+      description: 'Enter bills',
+      selector: 'status',
+      cell: (row) => returnCell(row.status),
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
   return (
     <>
       {user ? (
@@ -520,14 +563,21 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
                     Provider Payment
                   </h2>
                 </div>
-
-                {/* {handleCreateNew && (
-                  <Button
-                    style={{ fontSize: '14px', fontWeight: '600' }}
-                    label="Add new "
-                    onClick={openCreateModal}
-                  />
-                )} */}
+                {amount !== '' && (
+                  <h2 style={{ marginLeft: '10px', fontSize: '0.9rem' }}>
+                    Amount Due : <span>&#8358;</span>
+                    {amount}
+                  </h2>
+                )}
+                {amount !== '' && (
+                  <GlobalCustomButton onClick={() => setPayModal(true)}>
+                    <PaymentsIcon
+                      sx={{ marginRight: '5px' }}
+                      fontSize="small"
+                    />
+                    Make Payment
+                  </GlobalCustomButton>
+                )}
               </TableMenu>
               <div
                 className="columns"
@@ -569,7 +619,7 @@ export function ProviderPaymentList({ openCreateModal, setPayModal }) {
                     >
                       <CustomTable
                         title={''}
-                        columns={ProviderPaymentSchema}
+                        columns={ProviderPaymentSchema2}
                         data={dummyData2}
                         pointerOnHover
                         highlightOnHover
@@ -633,10 +683,10 @@ export function ProviderPaymentCreate({ openCreateModal, setPayModal }) {
           Pay Bills for Sulaiman Olaniran
         </Typography>
 
-        <GlobalCustomButton onClick={() => setDepositModal(true)}>
+        {/* <GlobalCustomButton onClick={() => setDepositModal(true)}>
           <LocalAtmIcon fontSize="small" sx={{ marginRight: '5px' }} />
           Make Deposit
-        </GlobalCustomButton>
+        </GlobalCustomButton> */}
       </Box>
 
       <Box
@@ -790,38 +840,6 @@ export function ProviderPaymentCreate({ openCreateModal, setPayModal }) {
               <PaymentsIcon sx={{ marginRight: '5px' }} fontSize="small" />
               Pay
             </GlobalCustomButton>
-            <GlobalCustomButton sx={{ marginRight: '15px' }}>
-              <PaymentsIcon sx={{ marginRight: '5px' }} fontSize="small" />
-              Pay with Wallet
-            </GlobalCustomButton>
-            <GlobalCustomButton
-              // onClick={() => {
-              //   handleFlutterPayment({
-              //     callback: (response) => {
-              //       console.log(response);
-              //       closePaymentModal();
-              //     },
-              //     onClose: () => {
-              //       closeModal;
-              //     },
-              //   });
-              // }}
-              sx={{ marginRight: '15px' }}
-            >
-              <PaymentsIcon sx={{ marginRight: '5px' }} fontSize="small" />
-              Pay with Flutterwave
-            </GlobalCustomButton>
-            <PaystackConsumer>
-              {({ initializePayment }) => (
-                <GlobalCustomButton
-                  // onClick={() => initializePayment(handleSuccess, closeModal)}
-                  sx={{ marginRight: '15px' }}
-                >
-                  <PaymentsIcon sx={{ marginRight: '5px' }} fontSize="small" />
-                  Pay with PayStack
-                </GlobalCustomButton>
-              )}
-            </PaystackConsumer>
           </div>
         </div>
       </div>

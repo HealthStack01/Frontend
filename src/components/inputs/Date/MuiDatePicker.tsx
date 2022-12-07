@@ -67,6 +67,10 @@ const MuiCustomDatePicker = ({
                     color: "black",
                   },
 
+                  "& .MuiFormLabel-root": {
+                    color: "black",
+                  },
+
                   "& .MuiFormLabel-root.Mui-disabled": {
                     color: "black",
                   },
