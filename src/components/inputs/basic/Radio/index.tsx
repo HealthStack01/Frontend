@@ -4,6 +4,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Typography,
 } from "@mui/material";
 import React from "react";
 
@@ -31,7 +32,10 @@ const RadioButton: React.FC<RadioProps> = ({
   value,
 }) => (
   <FormControl disabled={disabled} component="fieldset" sx={{width: "100%"}}>
-    <FormLabel sx={{color: "#000000", fontSize: "0.85rem"}} component="legend">
+    <FormLabel
+      sx={{color: "#000000", fontSize: "0.85rem", margin: 0, padding: 0}}
+      component="legend"
+    >
       {title}
     </FormLabel>
     <RadioGroup
@@ -46,11 +50,15 @@ const RadioButton: React.FC<RadioProps> = ({
         <FormControlLabel
           key={i}
           value={option.value || option || ""}
-          control={<Radio {...register} sx={{margin: 0}} />}
-          label={option.label || option || ""}
+          control={<Radio {...register} sx={{margin: 0}} size="small" />}
+          label={
+            <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+              {option.label || option || ""}
+            </Typography>
+          }
           disabled={option.disabled}
           defaultValue={defaultValue}
-          sx={{transform: "scale(0.8)"}}
+          //sx={{transform: "scale(0.8)"}}
           // checked={defaultValue === (option.value || option || '')}
         />
       ))}

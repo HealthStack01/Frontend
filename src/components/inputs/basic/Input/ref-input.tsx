@@ -28,39 +28,22 @@ interface InputProps {
 
 // https://stackoverflow.com/questions/57419955/how-to-set-or-clear-value-of-material-ui-input-in-reactjs
 
-const Input: React.FC<InputProps> = ({
+const RefInput: React.FC<InputProps> = ({
   label,
   errorText,
   type = "text",
   name,
-  defaultValue = "",
-  onChange,
-  onKeyDown,
-  placeholder,
-  // size = 'medium',
-  disabled = false,
-  register,
-  value,
-  autoComplete = true,
-  onBlur,
   sx,
   inputRef,
+  register,
 }) => (
   <div>
     <InputBox>
       <InputField
-        onChange={onChange}
         type={type}
-        defaultValue={defaultValue}
-        onKeyDown={onKeyDown}
-        placeholder={placeholder}
-        disabled={disabled}
-        value={value}
         {...register}
-        onBlur={onBlur}
-        autoComplete={autoComplete}
         sx={{width: "16px", ...sx}}
-        //ref={inputRef}
+        ref={inputRef}
       />
       <InputLabel className="form__label" htmlFor={name}>
         {label}
@@ -74,4 +57,4 @@ const Input: React.FC<InputProps> = ({
   </div>
 );
 
-export default Input;
+export default RefInput;

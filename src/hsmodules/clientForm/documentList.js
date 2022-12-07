@@ -47,14 +47,14 @@ const documentList = [
     updatedAt: "2022-08-12T21:46:01.136Z",
     __v: 0,
   },
-  {
-    _id: "60db29af1525480015b78f27",
-    name: "New Patient Consultation Form *",
-    facility: "60203e1c1ec8a00015baa357",
-    createdAt: "2021-06-29T14:09:51.617Z",
-    updatedAt: "2022-09-04T23:15:27.524Z",
-    __v: 0,
-  },
+  // {
+  //   _id: "60db29af1525480015b78f27",
+  //   name: "New Patient Consultation Form *",
+  //   facility: "60203e1c1ec8a00015baa357",
+  //   createdAt: "2021-06-29T14:09:51.617Z",
+  //   updatedAt: "2022-09-04T23:15:27.524Z",
+  //   __v: 0,
+  // },
   {
     _id: "61c53ed33fd2e000160efd4c",
     name: "Nursing Note",

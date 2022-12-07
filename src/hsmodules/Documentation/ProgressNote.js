@@ -9,14 +9,17 @@ import {toast} from "bulma-toast";
 import Roaster from "../Admin/Roaster";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button,Typography} from "@mui/material";
+import {Button, IconButton, Typography} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
 import Textarea from "../../components/inputs/basic/Textarea";
 import CheckboxInput from "../../components/inputs/basic/Checkbox";
 import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import {FormsHeaderText} from "../../components/texts";
+import CloseIcon from "@mui/icons-material/Close";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function ProgressNote() {
-  const {register, handleSubmit, setValue} = useForm(); //, watch, errors, reset
+  const {register, handleSubmit, setValue, control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -72,286 +75,8 @@ export default function ProgressNote() {
     return () => {};
   }, [user]);
 
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
-    if (!user.stacker) {
-      /*    console.log(currentUser)
-        setValue("facility", user.currentEmployee.facilityDetail._id,  {
-            shouldValidate: true,
-            shouldDirty: true
-        })  */
-    }
-  });
-
-  const coughinfo = [
-    "productive",
-    "dry",
-    "barking",
-    "paroxysimal",
-    "post-tusive vomiting ",
-    "worse at night ",
-    "worse at any time of the day ",
-    "worse in certain posture ",
-    "progressive",
-  ];
-  const coughsymptoms = [
-    "fever",
-    "catarrh",
-    "night sweats",
-    "weight loss",
-    "contact with someone with chronic cough",
-    "facial swelling",
-    "leg swelling",
-  ];
-  const coughsputum = ["creamy", "brown", "blood stained", "whitish"];
-  const resp = [
-    "Difficulty breathing",
-    "fast breathing",
-    "excessive sneezing",
-    "allergy salute",
-    "chest pain",
-    "atopy",
-    "family history of atopy",
-  ];
-  const cvs = [
-    "cough",
-    "easy defatigability",
-    "breathelessness",
-    "breathelessness  at rest",
-    "breathelessness on exertion",
-    "Othopnea",
-    "Paroxymal nocturnal orthopnea",
-    "palpitation",
-    "chest pain",
-  ];
-  const yesno = ["Yes", "No"];
-  const urinary = [
-    "frequency",
-    "nocturia",
-    "polyuria",
-    "poor stream",
-    "incomplete bladder empty",
-    "urgency",
-    "hesistancy",
-  ];
-  const neuro = [
-    "headache",
-    "neck pain",
-    "neck stiffness",
-    "vertigo",
-    "dizziness",
-    "fainting spells",
-    "akward gait",
-    "weakness of upper limbs",
-    "weakness of lower limbs",
-  ];
-  const headache = [
-    "throbing",
-    "dull",
-    "generalised",
-    "frontal",
-    "right-sided",
-    "left sided",
-    "photophia",
-  ];
-  const limbs = ["Right Limb", "Left Limb", "Both Limbs"];
-  const side = ["Right", "Left", "Both"];
-  const eardis = ["Right", "Left", "Both", "Purulent", "bloody"];
-  const ent = [
-    "Sore throat",
-    "change in voice",
-    "nasal discharge",
-    "excessive sneezing",
-    "allergy salute",
-  ];
-  const endo = [
-    "heat intolerance",
-    "apathy",
-    "excessive sweating",
-    "excessive hair growth",
-    "weight gain",
-    "weight loss",
-    "menstral irregularity",
-  ];
-  const birthmode = [
-    "Spontenous varginal delivery",
-    "Elective Suregery",
-    "Emergency Surgery",
-  ];
-  const vachist = ["caregiver's report", "child health card"];
-  const pernotes = ["dull", "resonant", "hyper-resonant"];
-  const pulsenature = [
-    "Regular",
-    "Irregular",
-    "Normal volume",
-    "Pounding",
-    "Synchronous",
-    "Asynchronous",
-  ];
-  const heartsound = ["S1", "S2", "S3", "S4"];
-  const abd = [
-    "Full",
-    "Distended",
-    "Flat",
-    "moves with respiration",
-    "Abdominal vein visible",
-  ];
-  const bowelsound = [
-    "Normal",
-    "absent",
-    "hyperactive",
-    "reduced or hypoactive",
-  ];
-  const ROS = [
-    "chest discomfort",
-    "SOB",
-    "orthopnea",
-    "PND",
-    "edema",
-    "palpitations",
-    "lighthead/dizzy",
-    "syncope",
-    "cough/wheezing",
-    "snoring",
-    "use of CPAP",
-    "hemoptysis",
-    "fever",
-    "weight loss/gain",
-    "neurological symptoms",
-    "stomach/digestive symptoms",
-    "melena/hematochezia",
-    "dry skin, brusing",
-    "muscle aches",
-    "hematuria",
-    "trouble hearing",
-    "decreased visual acquity",
-    "anxiety/depression",
-    "all other system negative",
-  ];
-
-  const risk = [
-    "High Cholesterol",
-    "Low LDL",
-    "Hypertension",
-    "LVH",
-    "Diabetes",
-    "Family History",
-    "Smoker",
-    "PVD",
-    "CRI/CRF",
-    "Diet Pill Use",
-  ];
-  const socialhistory = [
-    "smoker",
-    "Alchol",
-    "Caffeine",
-    "Ocupation",
-    "Hobbies",
-    "Other Substances",
-    "Exercise",
-    "Marital status",
-    "Other",
-  ];
-  const familyHx = ["Sibling", "Dad", "Mom", "Other"];
-  const physicalexam = [
-    "BP Sitting",
-    "BP Standing",
-    "BP Supine",
-    "HR",
-    "RR",
-    "Height",
-    "Weight",
-    "Change",
-    "BMI",
-  ];
-  const PMH = [
-    "stroke",
-    "seizures",
-    "COPD",
-    "GI Bleeding",
-    "Pneumonia",
-    "Asthma",
-    "Aneamia",
-    "Gastric reflux",
-    "Diverticulitis",
-    "intestinal disease",
-    "Gastric Ulcer",
-    "Frequent falls",
-    "Kidney disease",
-    "kidney stone",
-    "Gout",
-    "Hyperthyriod",
-    "Previous hemorrhage",
-    "Cancer/Chemotherpay/Radiation",
-    "Rheumatological disease/Lupus",
-    "Emphysema",
-    "Kawasaki disease",
-    "DVT/PE",
-    "Coumadin Treatment",
-  ];
-  const hx = [
-    "Past Cardiac Hx",
-    "Past Cardiac Surgery",
-    "Past Cardiac Procedure",
-    "Past Cardiac Testing",
-    "Past Surgical Hx",
-    "Other",
-  ];
-  const appear = ["Well developed", "Ill Appearing", "Cachetic", "Obese"];
-  const abn = ["Normal", "Abnormal"];
-  const eyes = ["Conjunctiva", "Lids"];
-  const ENMT = ["Teeth", "Gums", "Palate", "Oral mucosa"];
-  const Neck = ["Jugular Veins", "Bruits"];
-  const Resp = ["Effort", "Breath Sound"];
-  const GI = [
-    "Tenderness",
-    "Hepatosplenomegaly",
-    "Abdominal Aorta (size, bruits)",
-  ];
-  const vasc = ["radial", "femoral", "pedal"];
-  const vasc2 = ["edema", "bruits"];
-  const MS = ["gait", "Kyphosis/Scoliosis"];
-  const poor = ["good", "poor"];
-  const affect = ["flat", "appropriate", "anxious"];
-  const presnt = ["Absent", "Present"];
-  const skinex = ["Xanthoma", "Tugor"];
-  const tests = [
-    "2D Echocardiogram",
-    "Exercise",
-    "Chemical Stress Cardiolyte",
-    "Myoview",
-    "Carotid Ultrasound",
-    "ABI",
-    "Renal Doppler",
-    "Arterial Doppler of BLE",
-    "Arterial Doppler of RLE",
-    "Arterial Doppler of LLE",
-    "CT",
-  ];
-  const neu = ["A&O x3", "Affect"];
-  const labo = [
-    "BMP",
-    "Mag",
-    "CBC",
-    "PT/INR",
-    "Fasting Lipids",
-    "LFT",
-    "TSH",
-    "T3Uptake",
-    "T4",
-  ];
-  const followup = [
-    "1-2 weeks",
-    "1-2 months",
-    "3-4 months",
-    "5-6 months",
-    "7-8 months",
-    "9-10 months",
-    "1 year",
-  ];
   const physiciandetails = ["Attending_Physician_Name", "Date_Seen"];
-  const clerk = ["Assessment", "Plan"];
+
   const progtype = ["New", "Return", "Periodic"];
   const appointgoal = [
     "Decrease Symptoms",
@@ -362,14 +87,6 @@ export default function ProgressNote() {
   const SOAP = ["Subjective", "Objective", "Assessment", "Plan"];
   const progreq = ["Prepare for Discharge", "Other", "Next Review Plan Date"];
 
-  /*  const joins=(p)=>{ "Chest Discomfort","SOB, 
-        let x=p.split(" ")
-        console.log(x)
-        x.forEach((el,i)=>({
-            setSub(prev => (prev+"_"+el))
-        }
-        ))
-    } */
   const onSubmit = (data, e) => {
     e.preventDefault();
     setMessage("");
@@ -397,7 +114,11 @@ export default function ProgressNote() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
-    //console.log(document)
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
 
     if (
       document.location === undefined ||
@@ -536,6 +257,7 @@ export default function ProgressNote() {
       selectedDocumentClass: documentobj,
       //state.DocumentClassModule.selectedDocumentClass.name
       show: "detail",
+      encounter_right: false,
     };
     await setState(prevstate => ({
       ...prevstate,
@@ -546,162 +268,172 @@ export default function ProgressNote() {
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Progress Note</p>
-          <button
-            className="delete pushleft"
-            aria-label="close"
-            onClick={() => closeForm()}
-          ></button>
-        </div>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"Progress Note"} />
+
+          <IconButton onClick={closeForm}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
+
         <div className="card-content vscrollable remPad1">
           <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
+              <MuiCustomDatePicker label="Date" name="Date" control={control} />
+            </Box>
 
-    <Box>
-    <MuiCustomDatePicker label="Date" register={register("Date")} />
-    </Box>
-<Box>
-  <CheckboxInput
-            register={register("input_name")}
-            options={[
-              "New",
-              "Return",
-              "Periodic"
-            ]}
-          />
-    </Box>
+            <Box>
+              <CheckboxInput
+                label="Progress Note Type"
+                register={register("Progress_note_type")}
+                options={["New", "Return", "Periodic"]}
+              />
+            </Box>
 
-    <Box>  
-       <Typography><b>Subjective</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
+            <Box>
+              <Textarea
+                label="Subjective"
+                register={register("Subjective")}
+                type="text"
+                placeholder="Write here......"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("Objective")}
+                type="text"
+                label="Objective"
+                placeholder="Write here......"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("Assessment")}
+                name="text"
+                type="text"
+                label="Assessment"
+                placeholder="Write here......"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("Plan")}
+                type="text"
+                label="Plan"
+                placeholder="Write here......"
+              />
+            </Box>
+
+            <Box sx={{paddingTop: "1rem"}}>
+              <Typography sx={{fontSize: "0.85rem"}}>
+                Next appontment to be scheduled for
+              </Typography>
+              <Input
+                register={register("Next_appointment_scheduled_for")}
+                name="text"
+                type="text"
+              />
+            </Box>
+
+            <Box>
+              <CheckboxInput
+                label="Needs Next Appointment For"
+                register={register("Ros")}
+                options={[
+                  "Decrease Symptoms",
+                  "Improve Functioning",
+                  "Consolidate Gains",
+                  "Improve compliance",
+                ]}
+              />
+            </Box>
+
+            <Box>
+              <Typography sx={{fontSize: "0.85rem"}}>
+                Prepare for Discharge
+              </Typography>
+              <Input
+                register={register("Prepare_for_discharge")}
+                name="text"
+                type="text"
+              />
+            </Box>
+
+            <Box>
+              <Typography sx={{fontSize: "0.85rem"}}>Other</Typography>
+              <Input register={register("Other")} name="text" type="text" />
+            </Box>
+
+            <Box>
+              <Typography sx={{fontSize: "0.85rem"}}>
+                Next Review Plan Date
+              </Typography>
+              <MuiCustomDatePicker
+                name="Next_review_plan_date"
+                control={control}
+              />
+            </Box>
+
+            <Box mt={2} mb={1}>
+              <FormsHeaderText text="Physician Sign Off" />
+            </Box>
+
+            <Box sx={{display: "flex", flexDirection: "column"}}>
+              <Box>
+                <Typography sx={{fontSize: "0.85rem", fontWeight: "600"}}>
+                  All information on this form has been reviewed by me,
+                  indictated by my full name below:
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography sx={{fontSize: "0.85rem"}}>
+                  Attending Physician Name
+                </Typography>
+                <Input
+                  register={register("Attending_Physician_Name")}
                   type="text"
-                  placeholder="Subjective"
-           />
-  </Box>
+                />
+              </Box>
 
-    <Box sx={{paddingTop:"1rem"}}>  
-       <Typography><b>Objective</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Objective"
-           />
-  </Box>
+              <Box>
+                <Typography sx={{fontSize: "0.85rem"}}>
+                  Date Seen By Attending Physician
+                </Typography>
+                <MuiCustomDatePicker name="Date_Seen" control={control} />
+              </Box>
+            </Box>
 
-    <Box sx={{paddingTop:"1rem"}}>  
-       <Typography><b>Assessment</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Assessment"
-           />
-  </Box>
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
 
-    <Box sx={{paddingTop:"1rem"}}>  
-       <Typography><b>Plan</b></Typography>
-      <Textarea
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Plan"
-           />
-  </Box>
-
-    <Box sx={{paddingTop:"1rem"}}>  
-        <Typography>Next appontment to be scheduled for</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-
-
-<Box>
-       <Typography><b>Needs next appointment for</b></Typography>
-  <CheckboxInput
-            register={register("input_name")}
-            options={[
-              "Decrease Symptoms",
-              "Improve Functioning",
-              "Consolidate Gains",
-              "Improve compliance"
-            ]}
-          />
-    </Box>
-
-    <Box>  
-        <Typography>Prepare for Discharge</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-
-    <Box>  
-        <Typography>Other</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-    <Box>  
-        <Typography>Next Review Plan Date</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-<Box sx={{paddingTop:"1rem"}}>
-       <Typography><b>Physician Sign Off</b></Typography>
-    <Box >
-    <Typography>
-    All information on this form has been reviewed by me, indictated by ny name below:
-    </Typography>
-    </Box>
-    <Box sx={{paddingTop:"1rem"}}>  
-        <Typography>Attending_Physician_Name</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-
-    <Box>  
-        <Typography>Date_Seen</Typography>
-      <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-           />
-  </Box>
-    </Box> 
-    <Box> 
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Draft",
-                "Final",
-              ]}
-            />
-</Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
-        </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton color="secondary" type="button">
+                Submit Progress Note
+              </GlobalCustomButton>
+            </Box>
           </form>
         </div>
       </div>

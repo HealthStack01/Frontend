@@ -31,6 +31,7 @@ import {FormsHeaderText} from "../../components/texts";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import CustomTable from "../../components/customtable";
+import RefInput from "../../components/inputs/basic/Input/ref-input";
 
 export default function PulmonologyIntake() {
   const {register, handleSubmit, setValue, resetField} = useForm(); //, watch, errors, reset
@@ -614,13 +615,17 @@ export default function PulmonologyIntake() {
             </Box>
 
             <Box sx={{display: "flex", flexDirection: "column"}} gap={1}>
-              <Input
+              <RefInput
                 label="Symptom"
                 name="Symptom"
                 inputRef={symptomInputRef}
               />
 
-              <Input inputRef={durationInputRef} type="text" label="Duration" />
+              <RefInput
+                inputRef={durationInputRef}
+                type="text"
+                label="Duration"
+              />
             </Box>
 
             <Box mb={1}>
@@ -3053,7 +3058,7 @@ export default function PulmonologyIntake() {
             </Box>
 
             <Box mb={1}>
-              <Input
+              <RefInput
                 label="Allergy"
                 placeholder="specify..."
                 type="text"
@@ -3062,7 +3067,7 @@ export default function PulmonologyIntake() {
             </Box>
 
             <Box mb={1}>
-              <Input
+              <RefInput
                 label="Reaction"
                 placeholder="specify..."
                 inputRef={reactionInputRef}
