@@ -4,9 +4,15 @@ import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
 import client from '../../../feathers';
 import { toast } from 'bulma-toast';
 import { UserContext, ObjectContext } from '../../../context';
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+import { Box, Grid } from "@mui/material";
+import CustomTable from '../../../components/customtable';
 
 const VitalSignChart = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue ,control} = useForm();
   const fluidTypeOptions = ['Input', 'Output'];
   const { user, setUser } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
@@ -230,6 +236,101 @@ const VitalSignChart = () => {
     }
   };
 
+  const vitalSignsSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+
+    {
+      name: "Date",
+      key: "Date",
+      description: "date",
+      selector: row => format(new Date(row.date_time), "HH:mm:ss"),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+
+    {
+      name: 'Temperature',
+      key: 'temperature',
+      description: 'temperature',
+      selector: (row) => row.temperature,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+
+    {
+      name: "Pulse",
+      key: "pulse",
+      description: "pulse",
+      selector: row => (row.pulse),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "RR",
+      key: "RR",
+      description: "Respiratory Rate",
+      selector: row => (row.respiratory_rate),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "BP",
+      key: "BP",
+      description: "Diastolic BP",
+      selector: row => (row.diastolic_bp),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "SPO2",
+      key: "SPO2",
+      description: "SPO2",
+      selector: row => (row.sp02),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: "Pain",
+      key: "pain",
+      description: "Pain",
+      selector: row => (row.pain),
+      sortable: true,
+      required: true,
+      inputType: "TEXT",
+    },
+    {
+      name: 'Comments',
+      key: 'comments',
+      description: 'comments',
+      selector: (row) => row.comments,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Entry Time',
+      key: 'entryTime',
+      description: 'entrytime',
+      selector: (row) => row.entrytime,
+      sortable: true,
+      required: true,
+      inputType: 'TEXT',
+    },
+  ];
+
   return (
     <div className="card">
       <div className="card-header">
@@ -237,300 +338,109 @@ const VitalSignChart = () => {
       </div>
       <div className="card-content vscrollable  pt-0">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="columns mb-0 mt-0">
-            <div className="column">
-              <div className="field ">
-                <label className="label is-small">Date & Time</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register('vitals_time', { required: true })}
-                    name="vitals_time"
-                    className="input is-small"
-                    type="datetime-local"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column"></div>
-            <div className="column"></div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register('Temperature')}
-                    name="Temperature"
-                    type="text"
-                    placeholder="Temperature"
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-hospital"></i>
-                  </span>
-                </p>
-              </div>
 
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input is-small"
-                    {...register('Pulse')}
-                    name="Pulse"
-                    type="text"
-                    placeholder="Pulse"
+       
+        <Box mb="1rem">
+          <MuiCustomDatePicker
+                     name="date_time"
+                     label="Date & Time"
+                    control={control}
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-map-signs"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Respiratory_rate')}
-                    name="Respiratory_rate"
-                    type="text"
-                    placeholder="Respiratory rate"
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('temperature')}
+                  name="temperature"
+                  label="Temperature"
+                  type="text"
                   />
-                  <span className="icon is-small is-left">
-                    <i className=" fas fa-user-md "></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Random_glucose')}
-                    name="Random_glucose"
-                    type="text"
-                    placeholder="Blood Glucose"
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('pulse')}
+                  name="pulse"
+                  label="Pulse"
+                  type="text"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Systolic_BP')}
-                    name="Systolic_BP"
-                    type="text"
-                    placeholder="Systolic BP"
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('respiratory_rate')}
+                  name="respiration_rate"
+                  label="Respiration Rate"
+                  type="text"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Diastolic_BP')}
-                    name="Diastolic_BP"
-                    type="text"
-                    placeholder="Diastolic_BP"
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('blood_glucose')}
+                  name="blood_glucose"
+                  label="Blood Glucose"
+                  type="text"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field is-horizontal">
-            <div className="field-body">
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('SPO2')}
-                    name="SPO2"
-                    type="text"
-                    placeholder="SPO2"
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('systolic_bp')}
+                  name="systolic_bp"
+                  label="Systolic BP"
+                  type="text"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input is-small"
-                    {...register('Pain')}
-                    name="Pain"
-                    type="text"
-                    placeholder="Pain"
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('diastolic_bp')}
+                  name="diastolic_bp"
+                  label="Diastolic BP"
+                  type="text"
                   />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* <div className="field is-horizontal">
-            <div className="field-body">
-            <div className="field">
-                    <p className="control has-icons-left">
-                    
-                        <input className="input is-small" {...register("x")} name="Height" type="text" placeholder="Height (m)"  />
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span>
-                    </p>
-                </div> 
-                <div className="field">
-                    <p className="control has-icons-left">
-                    
-                        <input className="input is-small" {...register("x")} name="Weight" type="text" placeholder="Weight (Kg)"  />
-                        <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
-                        </span>
-                    </p>
-                </div> 
-                
-            </div> 
-        </div>  */}
-          {/* <div className="field">
-                    <label className=" is-small">
-                        <input  type="radio"  checked={docStatus==="Draft"} name="status" value="Draft"  onChange={(e)=>{handleChangeStatus(e)}}/>
-                        <span > Draft</span>
-                    </label> <br/>
-                    <label className=" is-small">
-                        <input type="radio" checked={docStatus==="Final"} name="status"  value="Final" onChange={(e)=>handleChangeStatus(e)}/>
-                        <span> Final </span>
-                    </label>
-                </div>   */}
-
-          <div className="field-body">
-            <div className="field">
-              <label className="label is-small">Comments</label>
-              <div className="control">
-                <input
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('sp02')}
+                  name="sp02"
+                  label="SP02"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('pain')}
+                  name="pain"
+                  label="Pain"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Textarea
                   {...register('comments')}
                   name="comments"
-                  className="input is-small"
+                  label="Comments"
                   type="text"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field mt-4">
-                <button className="button is-info is-small">Enter</button>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field mt-4">
-                {/*  <button className="button is-success is-small is-pulled-right" disabled={chosen} onClick={handleSave}>save</button> */}
-              </div>
-            </div>
-          </div>
+                  />
+          </Box>
+          <Box mb="1rem">
+          <GlobalCustomButton
+              text="Enter"
+              customStyles={{
+                marginRight: "5px",
+              }}
+            />
+          </Box>
         </form>
       </div>
-      <div className="mx-4 ">
-        <div className="table-container pullup vscrola">
-          <table className="table is-striped is-narrow is-hoverable is-fullwidth is-scrollable ">
-            <thead>
-              <tr>
-                <th>
-                  <abbr title="Serial No">S/No</abbr>
-                </th>
-                <th>
-                  <abbr title="Time">Date/Time</abbr>
-                </th>
-                {/* <th>Type</th> */}
-                <th>
-                  <abbr title="Last Name">Temp</abbr>
-                </th>
-                <th>
-                  <abbr title="Class">Pulse</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">RR </abbr>
-                </th>
-                <th>
-                  <abbr title="Location">BP </abbr>
-                </th>
-                <th>
-                  <abbr title="Location">SPO2</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">Pain</abbr>
-                </th>
-                <th>
-                  <abbr title="Location">RBG</abbr>
-                </th>
-                <th>
-                  <abbr title="Type">Comments</abbr>
-                </th>
-                <th>
-                  <abbr title="Status">Entry Time</abbr>
-                </th>
-                {/* <th><abbr title="Reason">Reason</abbr></th>
-                                        <th><abbr title="Practitioner">Practitioner</abbr></th> */}
-                {/* <th><abbr title="Actions">Actions</abbr></th> */}
-              </tr>
-            </thead>
-            <tfoot></tfoot>
-            <tbody>
-              {facilities.map((Client, i) => (
-                <tr
-                  key={Client._id}
-                  onClick={() => handleRow(Client)}
-                  className={
-                    Client._id === (selectedFluid?._id || null)
-                      ? 'is-selected'
-                      : ''
-                  }
-                >
-                  <th>{i + 1}</th>
-                  <td>
-                    <strong>
-                      {format(new Date(Client.vitals_time), 'HH:mm:ss')}
-                    </strong>
-                  </td>
-                  <th>{Client.Temperature}</th>
-                  <th>{Client.Pulse}</th>
-                  <td>{Client.Respiratory_rate}</td>
-                  <td>
-                    {Client.Systolic_BP}/{Client.Diastolic_BP}
-                  </td>
-                  <td>{Client.SPO2}</td>
-                  <td>{Client.Pain}</td>
-                  <td>{Client.Random_glucose}</td>
-                  {/*    <td>{Client.Height}</td>
-                                           <td>{Client.Weight}</td> */}
-
-                  <td>{Client.comments}</td>
-                  {Client.entrytime && (
-                    <td>
-                      {format(new Date(Client.entrytime), 'dd-MM HH:mm:ss')}
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <Box>
+         <CustomTable
+            title={'Fluid Intake'}
+            columns={vitalSignsSchema}
+            // data={dummydata}
+            // onRowClicked={handleRow}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+         </Box>
       </div>
-    </div>
   );
 };
 
