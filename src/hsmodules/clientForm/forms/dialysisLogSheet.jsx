@@ -1,675 +1,406 @@
 import {useForm} from "react-hook-form";
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+import { Box, Grid } from "@mui/material";
+
 
 const DialysisLogSheet = ({onSubmit}) => {
-  const {register, handleSubmit} = useForm();
+  const {register, handleSubmit,control} = useForm();
   return (
+    <div className="card">
+    <div className="card-header">
+      <p className="card-header-title">Dialysis Log Sheet</p>
+    </div>
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="card">
-        <div className="card-header">
-          <p className="card-header-title">Dialysis Log Sheet</p>
-        </div>
-        <div className="card-content vscrollable">
-          <div className="field">
-            <label className="label is-small">Name</label>
-            <p className="control is-expanded">
-              <input
-                {...register("input_name")}
-                name="name"
-                className="input is-small"
-                type="text"
-              />
-            </p>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Date</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="date"
-                    className="input is-small"
-                    type="date"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">No of Dialysis</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="noOfDialysis"
-                    className="input is-small"
-                    type="number"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Age</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="age"
-                    className="input is-small"
-                    type="number"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Sex</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="sex"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Diagnosis</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="diagnosis"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Dry Weight</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="dryWgt"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Last Dialysis WT</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="lastDialysisWgt"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Current WT</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="currentWgt"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Weight Loss/Gain</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="wgtLossOrGain"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Ultra Filtration</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="ultraFiltration"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Post Dialysis WT</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="postDialysisWgt"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Weight Loss</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="wgtLoss"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Machine Type</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="macType"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Time Started</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="timeStarted"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Time Ended</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="timeEnded"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">B/P</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="bP"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Pulse</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="pulseRate"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Resp</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="resp"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Temp</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="temp"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Sp02</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="sp02"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">HIV</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="hiv"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">HEP.C</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="hepC"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">HEP.B</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="hepB"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">PVC</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="pvc"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">BLOOOD GROUP</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="bldGrp"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label is-small">Pre Assessment</label>
-            <div className="control">
-              <textarea
-                {...register("input_name")}
-                name="preAssessment"
-                className="textarea is-small"
-              ></textarea>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label is-small">Post Assessment</label>
-            <div className="control">
-              <textarea
-                {...register("input_name")}
-                name="postAsssessment"
-                className="textarea is-small"
-              ></textarea>
-            </div>
-          </div>
-          <label className="label is-medium mt-4">Prescription</label>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">HR of Dialysis</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="hrOfDialysis"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Type of Dialysis</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="typeOfDialysis"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Concentrate</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="conc"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Access Route</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="accessRoute"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Heparin</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="heparin"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Blood</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="bld"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Infusion</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="infusion"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Drugs</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="drugs"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Epogen</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="epogen"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Cannulation</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="cannulation"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Sodium</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="sodium"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Potassium</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="potassium"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Chloride</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="chloride"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Bicerp</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="bicerp"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Urea</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="urea"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Nurse</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="nurse"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Salvage</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="salvage"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">Maintenance</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="maintenance"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">KTV</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="ktv"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">EODEMA</label>
-                <p className="control is-expanded">
-                  <input
-                    {...register("input_name")}
-                    name="eodema"
-                    className="input is-small"
-                    type="text"
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
 
-          {/* <div className="columns">
-            <div className="column">
-              <div className="field">
-                <label className="label is-small">EODEMA</label>
-                <p className="control is-expanded">
-                  <input {...register("input_name")} name="" className="input is-small" type="text" />
-                </p>
-              </div>
-            </div>
-          </div> */}
+<Box mb="1rem">
+          <Input
+                  {...register("Name")}
+                  name="Name"
+                  label="Name"
+                  type="text"
+                  />
+          </Box>
+        
+          <Box mb="1rem">
+          <MuiCustomDatePicker
+                     name="date"
+                     label="Date"
+                    control={control}
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('dialysis')}
+                  name="dialysis"
+                  label="No of Dialysis"
+                  type="number"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('age')}
+                  name="age"
+                  label="Age"
+                  type="number"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('sex')}
+                  name="sex"
+                  label="Sex"
+                  type="text"
+                  />
+          </Box>
 
-          <div className="field mt-4">
-            <button className="button is-success is-small">Submit Form</button>
-          </div>
-        </div>
-      </div>
+          <Box mb="1rem">
+          <Input
+                  {...register('dry_weight')}
+                  name="dry_weight"
+                  label="Dry Weight"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('last_dialysis')}
+                  name="last_dialysis"
+                  label="Last Dialysis WT"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('current')}
+                  name="current"
+                  label="Current WT"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('weight')}
+                  name="weight"
+                  label="Weight Loses/Gain"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('ultra_filtration')}
+                  name="ultra_filtration"
+                  label="Ultra Filtration"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('weight_loss')}
+                  name="weight_loss"
+                  label="Weight Loss"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('machine_type')}
+                  name="machine_type"
+                  label="Machine Type"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('time_started')}
+                  name="time_started"
+                  label="Time Started"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('time_ended')}
+                  name="time_ended"
+                  label="Time Ended"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('bp')}
+                  name="bp"
+                  label="B/P"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('pulse')}
+                  name="pulse"
+                  label="Pulse"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('resp')}
+                  name="resp"
+                  label="Resp"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('temp')}
+                  name="temp"
+                  label="Temp"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('sp02')}
+                  name="sp02"
+                  label="Sp02"
+                  type="text"
+                  />
+          </Box>
+
+          <Box mb="1rem">
+          <Input
+                  {...register('hiv')}
+                  name="hiv"
+                  label="HIV"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('hepc')}
+                  name="hepc"
+                  label="HEP.C"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('hepb')}
+                  name="hepb"
+                  label="HEP.B"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('pvc')}
+                  name="pvc"
+                  label="PVC"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('blood_group')}
+                  name="blood_group"
+                  label="Blood Group"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Textarea
+                  {...register('pre_assessment')}
+                  name="pre_assessment"
+                  label="Pre Assessment"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Textarea
+                  {...register('post_assessment')}
+                  name="post_assessment"
+                  label="Post Assessment"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <h2>Prescription</h2>
+          </Box>
+          <Box mb="1rem">
+           
+          <Input
+                  {...register('hr_dialysis')}
+                  name="hr_dialysis"
+                  label="HR of Dialysis"
+                  type="text"
+                  />
+          </Box>
+
+          <Box mb="1rem">
+          <Input
+                  {...register('type_dialysis')}
+                  name="type_dialysis"
+                  label="Type of Dialysis"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('concentrate')}
+                  name="concentrate"
+                  label="Concentrate"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('access_route')}
+                  name="access_route"
+                  label="Access Route"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('heparin')}
+                  name="heparin"
+                  label="Heparin"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('blood')}
+                  name="blood"
+                  label="Blood"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('infusion')}
+                  name="infusion"
+                  label="Infusion"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('drugs')}
+                  name="drugs"
+                  label="Drugs"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('epogen')}
+                  name="epogen"
+                  label="Epogen"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('cannulation')}
+                  name="cannulation"
+                  label="Cannulation"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('sodium')}
+                  name="sodium"
+                  label="Sodium"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('potassium')}
+                  name="potassium"
+                  label="Potassium"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('chloride')}
+                  name="chloride"
+                  label="Chloride"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('bicerp')}
+                  name="bicerp"
+                  label="Bicerp"
+                  type="text"
+                  />
+          </Box>
+
+          <Box mb="1rem">
+          <Input
+                  {...register('urea')}
+                  name="urea"
+                  label="Urea"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('nurse')}
+                  name="nurse"
+                  label="Nurse"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('salvage')}
+                  name="salvage"
+                  label="Salvage"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('maintenance')}
+                  name="maintenance"
+                  label="Maintenance"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('ktv')}
+                  name="ktv"
+                  label="KTV"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('eodema')}
+                  name="eodema"
+                  label="EODEMA"
+                  type="text"
+                  />
+          </Box>
+          <Box>
+          <GlobalCustomButton
+              text="Submit Form"
+              customStyles={{
+                marginRight: "5px",
+              }}
+            />
+          </Box>
     </form>
+    </div>
   );
 };
 

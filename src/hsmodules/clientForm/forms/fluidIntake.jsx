@@ -4,10 +4,17 @@ import { formatDistanceToNowStrict, format, subDays, addDays } from 'date-fns';
 import client from '../../../feathers';
 import { toast } from 'bulma-toast';
 import { UserContext, ObjectContext } from '../../../context';
+import { Box, Grid } from "@mui/material";
 import CustomTable from '../../../components/customtable';
+import GlobalCustomButton from "../../../components/buttons/CustomButton";
+import Input from "../../../components/inputs/basic/Input";
+import CustomSelect from "../../../components/inputs/basic/Select";
+import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
+import Textarea from "../../../components/inputs/basic/Textarea";
+// import CustomTable from "../../components/customtable";
 
 const FluidIntakeOutput = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue ,control} = useForm();
   const fluidTypeOptions = ['Input', 'Output'];
   const { user, setUser } = useContext(UserContext);
   const [facilities, setFacilities] = useState([]);
@@ -302,19 +309,88 @@ const FluidIntakeOutput = () => {
       </div>
       <div className="card-content vscrollable  pt-0">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="columns mb-0 mt-0">
+          <Box mb="1rem">
+          <MuiCustomDatePicker
+                     name="fluid_time"
+                     label="Fluid Time"
+                    control={control}
+                  />
+          </Box>
+          <Box mb="1rem">
+          <CustomSelect
+                  label="Input/Output?"
+                  name="fluidType"
+                  {...register('fluidType', { required: true })}
+                  options={fluidTypeOptions}
+                  defaultValue="Irrition"
+                />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                  {...register('route')}
+                  name="route"
+                  label="Route"
+                  type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                   {...register('fluid')}
+                   name="fluid"
+                   label="Fluid" 
+                   type="text"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Input
+                   {...register('volume')}
+                   name="volume"
+                   label="Volume (mls)"
+                   type="number"
+                  />
+          </Box>
+          <Box mb="1rem">
+          <Textarea
+             {...register('comments')}
+             name="comments"
+             label="Comments"
+             type="text"
+            />
+          </Box>
+          <Box mb="1rem">
+          <GlobalCustomButton
+              text="Enter"
+              customStyles={{
+                marginRight: "5px",
+              }}
+            />
+          </Box>
+          </form>
+        </div>
+         <Box>
+         <CustomTable
+            title={'Fluid Intake'}
+            columns={inputFluidSchema}
+            data={dummydata}
+            onRowClicked={handleRow}
+            pointerOnHover
+            highlightOnHover
+            striped
+          />
+         </Box>
+          {/* <div className="columns mb-0 mt-0">
             <div className="column">
-              <div className="field ">
-                <label className="label is-small">Date & Time</label>
+              <div className="field "> */}
+                {/* <label className="label is-small">Date & Time</label>
                 <p className="control is-expanded">
-                  <input
+                  <Input
                     {...register('fluid_time', { required: true })}
                     name="fluid_time"
-                    className="input is-small"
+                    label="Fluid Time"
                     type="datetime-local"
                   />
-                </p>
-              </div>
+                </p> */}
+              {/* </div>
             </div>
             <div className="column">
               <div className="field">
@@ -324,7 +400,7 @@ const FluidIntakeOutput = () => {
                     <select
                       name="fluidType"
                       {...register('fluidType', { required: true })}
-                      /* onChange={(e)=>handleChangeMode(e.target.value)} */ className="selectadd"
+                      onChange={(e)=>handleChangeMode(e.target.value)}  className="selectadd"
                     >
                       <option value="">Choose Type </option>
                       {fluidTypeOptions.map((option, i) => (
@@ -402,13 +478,13 @@ const FluidIntakeOutput = () => {
             </div>
             <div className="column">
               <div className="field mt-4">
-                {/*  <button className="button is-success is-small is-pulled-right" disabled={chosen} onClick={handleSave}>save</button> */}
+                 <button className="button is-success is-small is-pulled-right" disabled={chosen} onClick={handleSave}>save</button>
               </div>
             </div>
           </div>
         </form>
-      </div>
-      <div className="mx-4 ">
+      </div> */}
+      {/* <div className="mx-4 ">
         <div className="table-container pullup vscrola">
           <CustomTable
             title={'Fluid Intake'}
@@ -420,7 +496,7 @@ const FluidIntakeOutput = () => {
             striped
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -11,12 +11,15 @@ import {toast} from "react-toastify";
 function WalletOTP() {
   const [timer, setTimer] = useState(60);
   const [count, setCount] = useState(2); //Number of times user has requested for OTP
+  const [phoneNumber,setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: {errors, isValid},
-  } = useForm({mode: "onChange", criteriaMode: "all"});
+  // console.log(phoneNumber)
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: {errors, isValid},
+  // } = useForm({mode: "onChange", criteriaMode: "all"});
 
   const timeOutCallback = useCallback(
     () => setTimer(currTimer => currTimer - 1),
@@ -33,34 +36,30 @@ function WalletOTP() {
     }
   }
 
-  const handleOtp = async data => {
-    const {otp, phone_number} = data;
+  const handleOtp = async () => {
+    // const {otp, phone_number} = data;
     try {
-      const res = await api.get(`/verify-otp/${otp}/${phone_number}`, {
-        otp: "148997",
-        phoneNumber: "+2347050917563",
-      });
+      const res = await api.get(`/verify-otp/${otp}/${phoneNumber}`);
       console.log(res.data)
       toast.success("Phone Number Verified");
+      localStorage.setItem('wallet', JSON.stringify(res.data))
       return res.data;
+
     } catch (error) {
-      toast.error(error);
-      console.log(error)
+      toast.error(error.message);
+      console.log(error.message)
     }
   };
 
-  const handleResendOtp = async ({phoneNumber}) => {
+  const handleResendOtp = async () => {
     try {
-      const res = await api.get(`/send-otp/${phoneNumber}`, {
-        phoneNumber: "+2347050917563",
-      });
-      console.log(phoneNumber)
-      console.log(res.data)
+      const res = await api.get(`/send-otp/${phoneNumber}`);
+      // console.log(res.data)
       toast.success("OTP Sent!!!");
       return res.data;
     } catch (error) {
-      toast.error(error);
-      console.log(error)
+      toast.error(error.message);
+      // console.log(error)
     }
     //Resend the OTP when successful reset timer
     setCount(prev => prev + 1);
@@ -177,7 +176,7 @@ function WalletOTP() {
           </Box>
 
           <form
-            onSubmit={handleSubmit(handleOtp)}
+            // onSubmit={handleSubmit(handleOtp)}
             style={{
               width: "100%",
               padding: "0 15px",
@@ -192,7 +191,8 @@ function WalletOTP() {
               <Grid container spacing={1}>
                 <Grid item xs={12} mb={1}>
                   <Input
-                    register={register("otp", {required: true})}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value) }
                     label="OTP"
                     placeholder="Enter the OTP code"
                   />
@@ -202,14 +202,8 @@ function WalletOTP() {
                   <Input
                     label="Phone Number"
                     placeholder="Enter your phone number"
-                    errorText={errors.username?.message}
-                    register={register("phone_number", {
-                      required: "Phone number is Required",
-                      pattern: {
-                        value: /^[5-9]\d{9}$/,
-                        message: "Enter a valid phone number",
-                      },
-                    })}
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </Grid>
               </Grid>
@@ -218,7 +212,7 @@ function WalletOTP() {
 
           <Box mb={2}>
             <GlobalCustomButton
-              onClick={handleSubmit(handleOtp)}
+              onClick={handleOtp}
               sx={{
                 marginRight: "15px",
               }}
