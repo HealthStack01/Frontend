@@ -76,6 +76,114 @@ export function Details() {
   const [deny, setDeny] = useState(false);
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [openClaims, setOpenClaims] = useState(false);
+  const dummyData = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      comments: 'Inline with agreement',
+    },
+  ];
+
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+      width: '50px',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Submitted QTY',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Submitted Bill',
+      key: 'submittedBill',
+      description: 'Submitted Bill',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Payable QTY',
+      key: 'payableQuantity',
+      description: 'Payable QTY',
+      selector: (row) => row.payableQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Payable Bill',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'Comments',
+      key: 'comments',
+      description: 'Comments',
+      selector: (row) => row.comments,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: '',
+      key: 'bills',
+      description: 'Enter Grand Total',
+      selector: (row) => (
+        <>
+          <GlobalCustomButton
+            sx={{ marginRight: '15px' }}
+            onClick={() => setApprove(true)}
+          >
+            Review
+          </GlobalCustomButton>
+        </>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'BUTTON',
+    },
+    {
+      name: '',
+      key: 'bills',
+      description: 'Enter Grand Total',
+      selector: (row) => (
+        <>
+          <GlobalCustomButton
+            sx={{ marginRight: '15px' }}
+            color="error"
+            onClick={() => setDeny(true)}
+          >
+            Reject
+          </GlobalCustomButton>
+        </>
+      ),
+      sortable: true,
+      required: true,
+      inputType: 'BUTTON',
+    },
+  ];
 
   return (
     <>
@@ -93,10 +201,10 @@ export function Details() {
               <Grid item xs={12} style={{ width: 'fit-content' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div
-                    style={{
-                      maxWidth: '100px',
-                      height: '100px',
-                    }}
+                  // style={{
+                  //   maxWidth: '100px',
+                  //   height: '100px',
+                  // }}
                   >
                     <img
                       src="/img_avatar.png"
@@ -162,7 +270,7 @@ export function Details() {
             style={{
               width: '100%',
               height: 'calc(100vh - 90px)',
-              overflow: 'auto',
+              overflow: 'scroll',
               paddingRight: '1rem',
             }}
           >
@@ -193,6 +301,13 @@ export function Details() {
                   onClick={() => setDeny(true)}
                   text="Reject"
                   color="error"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
+                  onClick={() => setOpenClaims(true)}
+                  text="Assign Claim"
+                  color="primary"
+                  variant="outlined"
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <Badge
@@ -242,8 +357,22 @@ export function Details() {
                 </p>
               </Grid>
             </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
+                <FormsHeaderText text={'Services / Products'} />
+                <CustomTable
+                  title={''}
+                  columns={serviceSchema}
+                  data={dummyData}
+                  pointerOnHover
+                  highlightOnHover
+                  striped
+                  //conditionalRowStyles={conditionalRowStyles}
+                />
+              </Grid>
+            </Grid>
 
-            <McText txt={'Amount'} />
+            {/* <McText txt={'Amount'} />
             <Grid container spacing={2}>
               <Grid item xs={4}>
                 <Input />
@@ -264,7 +393,7 @@ export function Details() {
                 <p>Dr. John Doe</p>
                 <p>Lagos State Hospital</p>
               </Grid>
-            </Grid>
+            </Grid> */}
           </div>
         </Grid>
       </Grid>
@@ -281,7 +410,7 @@ export function Details() {
                   <Input label={'Institution'} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Input label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Approve'} color="success" />
@@ -309,6 +438,46 @@ export function Details() {
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Reject'} color="error" />
+                </Grid>
+              </Grid>
+            </form>
+          </ModalBox>
+        </>
+      )}
+      {openClaims && (
+        <>
+          <ModalBox open={openClaims} onClose={() => setOpenClaims(false)}>
+            <form>
+              <FormsHeaderText text={'Assign'} />
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={12}>
+                  <RadioButton
+                    title="Select User to Assign selected Claim"
+                    options={[
+                      { label: 'Vetting', value: 'Vetting' },
+                      { label: 'Auditing', value: 'AUditing' },
+                    ]}
+                  />
+                </Grid>
+                <Grid item xs={12} mb={1}>
+                  <CustomSelect
+                    label="Select User"
+                    options={[
+                      { label: 'User 1', value: 'User 1' },
+                      { label: 'User 2', value: 'User 2' },
+                      { label: 'User 3', value: 'User 3' },
+                    ]}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Box sx={{ width: '100%' }}>
+                    <GlobalCustomButton
+                      text={'Assign'}
+                      color="success"
+                      customStyles={{ marginRight: '.8rem' }}
+                    />
+                    <GlobalCustomButton text={'Cancel'} color="error" />
+                  </Box>
                 </Grid>
               </Grid>
             </form>
