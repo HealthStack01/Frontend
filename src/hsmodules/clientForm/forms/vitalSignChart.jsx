@@ -10,6 +10,7 @@ import MuiCustomDatePicker from "../../../components/inputs/Date/MuiDatePicker";
 import Textarea from "../../../components/inputs/basic/Textarea";
 import { Box, Grid } from "@mui/material";
 import CustomTable from '../../../components/customtable';
+import moment from "moment";
 
 const VitalSignChart = () => {
   const { register, handleSubmit, setValue ,control} = useForm();
@@ -250,7 +251,7 @@ const VitalSignChart = () => {
       name: "Date",
       key: "Date",
       description: "date",
-      selector: row => format(new Date(row.date_time), "HH:mm:ss"),
+      selector: row => moment(row.date_time).calendar("L"),
       sortable: true,
       required: true,
       inputType: "TEXT",
@@ -433,7 +434,7 @@ const VitalSignChart = () => {
          <CustomTable
             title={'Fluid Intake'}
             columns={vitalSignsSchema}
-            // data={dummydata}
+            data={facilities}
             // onRowClicked={handleRow}
             pointerOnHover
             highlightOnHover
