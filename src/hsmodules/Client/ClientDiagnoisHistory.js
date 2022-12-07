@@ -25,7 +25,7 @@ import ModalBox from "../../components/modal";
 // eslint-disable-next-line
 const searchfacility = {};
 
-export default function ClientDiagnoisHistory() {
+export default function ClientDiagnosisHistory() {
   console.log("bands bands bands");
   const {state} = useContext(ObjectContext); //,setState
   const [createModal, setCreateModal] = useState(false);
@@ -62,27 +62,27 @@ export default function ClientDiagnoisHistory() {
             <div className="level-item"> <span className="is-size-6 has-text-weight-medium">Band  Module</span></div>
             </div> */}
       <div>
-        <ClientDiagnoisHistoryList
+        <ClientDiagnosisHistoryList
           showCreateModal={handleCreateModal}
           showDetailModal={handleShowDetailModal}
         />
         <ModalBox width="40vw" open={createModal} onClose={handleHideCreateModal}>
-          <ClientDiagnoisHistoryCreate />
+          <ClientDiagnosisHistoryCreate />
         </ModalBox>
         
         <ModalBox width="40vw" open={detailModal} onClose={handleHideDetailModal}>
-          <ClientDiagnoisHistoryDetail showModifyModal={handleModifyModal} />
+          <ClientDiagnosisHistoryDetail showModifyModal={handleModifyModal} />
         </ModalBox>
 
         <ModalBox width="40vw" open={modifyModal} onClose={handleHideModifyModal}>
-          <ClientDiagnoisHistoryModify />
+          <ClientDiagnosisHistoryModify />
         </ModalBox>
       </div>
     </section>
   );
 }
 
-export function ClientDiagnoisHistoryCreate() {
+export function ClientDiagnosisHistoryCreate() {
   const {register, handleSubmit, setValue,control} = useForm(); //, watch, errors, reset
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -172,7 +172,7 @@ export function ClientDiagnoisHistoryCreate() {
     <>
       <div className="card ">
         <div className="card-header">
-          <p className="card-header-title">Create Diagnois History</p>
+          <p className="card-header-title">Create Diagnosis History</p>
         </div>
         <div className="card-content vscrollable">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -216,7 +216,7 @@ export function ClientDiagnoisHistoryCreate() {
   );
 }
 
-export function ClientDiagnoisHistoryList({showCreateModal, showDetailModal}) {
+export function ClientDiagnosisHistoryList({showCreateModal, showDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -437,7 +437,7 @@ export function ClientDiagnoisHistoryList({showCreateModal, showDetailModal}) {
                     </div>
                   )}
                   <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                  Diagnois History List
+                  Diagnosis History List
                   </h2>
                 </div>
 
@@ -478,7 +478,7 @@ export function ClientDiagnoisHistoryList({showCreateModal, showDetailModal}) {
   );
 }
 
-export function ClientDiagnoisHistoryDetail({showModifyModal}) {
+export function ClientDiagnosisHistoryDetail({showModifyModal}) {
   const { register, control} = useForm(); //errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false); //,
@@ -510,7 +510,7 @@ export function ClientDiagnoisHistoryDetail({showModifyModal}) {
     <>
      <div>
      <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-          <p className="card-header-title">Diagnois History Details</p>
+          <p className="card-header-title">Diagnosis History Details</p>
           <GlobalCustomButton
           onClick={handleEdit}
                   >
@@ -557,7 +557,7 @@ export function ClientDiagnoisHistoryDetail({showModifyModal}) {
   );
 }
 
-export function ClientDiagnoisHistoryModify() {
+export function ClientDiagnosisHistoryModify() {
   const {register, handleSubmit, setValue, reset, errors,control} = useForm(); //watch, errors,
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -710,7 +710,7 @@ export function ClientDiagnoisHistoryModify() {
       <div className="card ">
         <div style={{display:"flex", justifyContent:"space-between"}}>
         <div className="card-header">
-          <p className="card-header-title">Diagnois History Modify</p>
+          <p className="card-header-title">Diagnosis History Modify</p>
         </div>
         <Box sx={{display: "flex",gap:"0.5rem"}}>
           <GlobalCustomButton
