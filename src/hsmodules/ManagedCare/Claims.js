@@ -95,10 +95,12 @@ export function ClaimsCreate({ showModal, setShowModal }) {
   const [appointment_status, setAppointment_status] = useState('');
   const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false);
 
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
+
   const appClass = ['On-site', 'Teleconsultation', 'Home Visit'];
 
   let appointee; //  =state.ClientModule.selectedClient
@@ -252,23 +254,75 @@ export function ClaimsCreate({ showModal, setShowModal }) {
     return () => {};
   }, [state.ClientModule.selectedClient]);
 
-  /*   const showBilling = () =>{
-        setBillingModal(true)
-       //history.push('/app/finance/billservice')
-        }
-        const  handlecloseModal1 = () =>{
-            setBillingModal(false)
-            }
+  const dummyData = [
+    {
+      item: 'Today',
+      submittedQuantity: 1,
+      submittedBill: 1000,
+      payableQuantity: 1,
+      payableBill: 1000,
+      // comments: 'Inline with agreement',
+    },
+  ];
 
-
-            const handleRow= async(Client)=>{
-              //  await setSelectedClient(Client)
-                const    newClientModule={
-                    selectedClient:Client,
-                    show :'detail'
-                }
-               await setState((prevstate)=>({...prevstate, ClientModule:newClientModule}))
-            } */
+  const serviceSchema = [
+    {
+      name: 'S/N',
+      key: 'sn',
+      description: 'SN',
+      selector: (row) => row.sn,
+      sortable: true,
+      inputType: 'HIDDEN',
+    },
+    {
+      name: 'item',
+      key: 'item',
+      description: 'Item',
+      selector: (row) => row.item,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'submittedQuantity',
+      key: 'submittedQuantity',
+      description: 'Submitted QTY',
+      selector: (row) => row.submittedQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'submittedBill',
+      key: 'submittedBill',
+      description: 'Submitted Bill',
+      selector: (row) => row.submittedBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'payableQuantity',
+      key: 'payableQuantity',
+      description: 'Payable QTY',
+      selector: (row) => row.payableQuantity,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    {
+      name: 'payableBill',
+      key: 'payableBill',
+      description: 'Payable Bill',
+      selector: (row) => row.payableBill,
+      sortable: true,
+      inputType: 'TEXT',
+    },
+    // {
+    //   name: 'comments',
+    //   key: 'comments',
+    //   description: 'Comments',
+    //   selector: (row) => row.comments,
+    //   sortable: true,
+    //   inputType: 'TEXT',
+    // },
+  ];
   const CustomSelectData = [
     {
       label: 'Today',
@@ -291,56 +345,23 @@ export function ClaimsCreate({ showModal, setShowModal }) {
               <ModalHeader text={'Claims'} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              {showModal && (
+              <Box display="flex" justifyContent="flex-end">
                 <GlobalCustomButton
-                  onClick={() => setShowModal(false)}
-                  color="warning"
-                  customStyles={{ float: 'right' }}
-                  text="Back"
+                  onClick={() => setShowServiceModal(true)}
+                  color="secondary"
+                  text="Add Service"
+                  customStyles={{ marginRight: '.8rem' }}
                 />
-              )}
+                {showModal && (
+                  <GlobalCustomButton
+                    onClick={() => setShowModal(false)}
+                    color="warning"
+                    text="Back"
+                  />
+                )}
+              </Box>
             </Grid>
           </Grid>
-
-          {/* <McText
-            txt={`Employer's Details`}
-            color={'#0064CC'}
-            type={'p'}
-            bold={'700'}
-            size={'18px'}
-          />
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Input name="patientname" label="Patient Name" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="lashmaId" label="LASHMA ID" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Input name="hospitalName" label="Hospital Name" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="doctorName" label="Name of Doctor" type="text" />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Input
-                name="healthPlan"
-                label="Type of Health Plan"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Input name="authCode" label="Authorozation Code" type="text" />
-            </Grid>
-          </Grid> */}
-
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <RadioButton
@@ -382,6 +403,20 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Input name="amount" label="Claim Amount" type="tel" />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <FormsHeaderText text={'Services / Products'} />
+              <CustomTable
+                title={''}
+                columns={serviceSchema}
+                data={dummyData}
+                pointerOnHover
+                highlightOnHover
+                striped
+                //conditionalRowStyles={conditionalRowStyles}
+              />
             </Grid>
           </Grid>
 
@@ -531,6 +566,31 @@ export function ClaimsCreate({ showModal, setShowModal }) {
           </Grid>
         </form>
       </div>
+      {showServiceModal && (
+        <ModalBox
+          open={showServiceModal}
+          onClose={() => setShowServiceModal(false)}
+          header="Add Service / Product"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Input name="service" label="Service Name" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="quantity" label="Quantity" type="number" />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Input name="unitPrice" label="Bill" type="text" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Textarea label="Comments" name="comments" />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <GlobalCustomButton text="Add Service" color="success" />
+            </Grid>
+          </Grid>
+        </ModalBox>
+      )}
     </>
   );
 }
