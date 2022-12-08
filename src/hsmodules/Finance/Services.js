@@ -470,16 +470,6 @@ export function ServicesCreate({closeModal}) {
           >
             <Grid container spacing={2}>
               <Grid item xs={5}>
-                <input
-                  className="input is-small"
-                  value={categoryname}
-                  name="categoryname"
-                  type="text"
-                  onChange={e => setCategoryName(e.target.value)}
-                  style={{display: "none"}}
-                  placeholder="Category of Service"
-                />
-
                 <Input
                   //onBlur={handleCheck}
                   name="source"
@@ -490,6 +480,16 @@ export function ServicesCreate({closeModal}) {
                 />
               </Grid>
               <Grid item xs={7}>
+                <input
+                  className="input is-small"
+                  value={categoryname}
+                  name="categoryname"
+                  type="text"
+                  onChange={e => setCategoryName(e.target.value)}
+                  style={{display: "none"}}
+                  placeholder="Category of Service"
+                />
+
                 <CategorySearch
                   getSearchfacility={getSearchfacility2}
                   clear={success2}
@@ -541,9 +541,8 @@ export function ServicesCreate({closeModal}) {
           </Grid>
 
           {productItem.length > 0 && (
-            <div style={{width: "100%", maxHeight: "250px"}}>
+            <div style={{width: "100%"}}>
               <CustomTable
-                title={""}
                 columns={productItemSchema}
                 data={productItem}
                 pointerOnHover
@@ -582,55 +581,6 @@ export function ServicesCreate({closeModal}) {
             </GlobalCustomButton>
           </Box>
         </div>
-        {/* 
-        <div className="field is-horizontal">
-          <div className="field-body">
-            {panel && (
-              <>
-                <div className="field">
-                  <div
-                    className="field is-expanded"
-                  >
-                    <ServiceSearch
-                      getSearchService={getSearchService}
-                      clearService={successService}
-                    />
-                    <p
-                      className="control has-icons-left "
-                      style={{display: "none"}}
-                    >
-                      <input
-                        className="input is-small" 
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas  fa-map-marker-alt"></i>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <p className="control">
-                  <button className="button is-info is-small  is-pulled-right selectadd">
-                    <span className="is-small" onClick={() => handleAddPanel()}>
-               
-                      +
-                    </span>
-                  </button>
-                </p>
-              </>
-            )}
-          </div>
-        </div> */}
-        {/* 
-        {panelList.length > 0 && (
-          <div>
-            <strong> Panel Items:</strong>{" "}
-            {panelList.map((plan, i) => (
-              <span key={i} className="ml-1">
-                {plan.service_name};
-              </span>
-            ))}
-          </div>
-        )} */}
       </div>
     </>
   );

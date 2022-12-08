@@ -9,10 +9,11 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {formatDistanceToNowStrict, format} from "date-fns";
 import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import CustomTable from "../../components/customtable";
 // eslint-disable-next-line
 //const searchfacility={};
-import {Box, Card, Grow} from "@mui/material";
+import {Box, Card, Grow, Typography} from "@mui/material";
 import ModalBox from "./ui-components/modal";
 import Input from "../../components/inputs/basic/Input";
 
@@ -34,7 +35,7 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler]);
 };
 
-export function ClientSearch({getSearchfacility, clear}) {
+export function ClientSearch({getSearchfacility, clear, label}) {
   const ClientServ = client.service("client");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -268,13 +269,105 @@ export function ClientSearch({getSearchfacility, clear}) {
     },
   ];
 
+  // <div>
+  //   <span>{facility.firstname}</span>
+  //   <span className="padleft">{facility.middlename}</span>
+  //   <span className="padleft">{facility.lastname}</span>
+  //   <span className="padleft">
+  //     {facility.dob && formatDistanceToNowStrict(new Date(facility.dob))}
+  //   </span>
+  //   <span className="padleft">{facility.gender}</span>
+  //   <span className="padleft">{facility.profession}</span>
+  //   <span className="padleft">{facility.phone}</span>
+  // </div>;
+
   return (
     <div
       style={{
         width: "100%",
       }}
     >
-      <div
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.firstname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Category found"
+        renderOption={(props, option) => (
+          <Box
+            {...props}
+            style={{display: "flex", flexWrap: "wrap"}}
+            gap={1}
+            onClick={() => handleRow(option)}
+          >
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option.firstname}
+            </Typography>
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option.middlename}
+            </Typography>
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option.lastname}
+            </Typography>
+
+            {option.dob && (
+              <Typography sx={{fontSize: "0.75rem"}}>
+                {option.dob && formatDistanceToNowStrict(new Date(option.dob))}
+              </Typography>
+            )}
+
+            <Typography sx={{fontSize: "0.75rem"}}>{option.gender}</Typography>
+
+            <Typography sx={{fontSize: "0.75rem"}}>
+              {option.profession}
+            </Typography>
+
+            <Typography sx={{fontSize: "0.75rem"}}>{option.phone}</Typography>
+          </Box>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Client"}
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+
+      {/* <div
         style={{
           width: "100%",
         }}
@@ -327,7 +420,7 @@ export function ClientSearch({getSearchfacility, clear}) {
             </Card>
           </Grow>
         </div>
-      </div>
+      </div> */}
 
       <ModalBox open={productModal} onClose={handlecloseModal}>
         <div className={`modal ${productModal ? "is-active" : ""}`}>
@@ -345,10 +438,6 @@ export function ClientSearch({getSearchfacility, clear}) {
               {/* <StoreList standalone="true" /> */}
               {/* <ProductCreate /> */}
             </section>
-            {/* <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer> */}
           </div>
         </div>
       </ModalBox>

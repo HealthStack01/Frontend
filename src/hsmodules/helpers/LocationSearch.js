@@ -8,10 +8,13 @@ import {UserContext, ObjectContext} from "../../context";
 import {toast} from "bulma-toast";
 import {formatDistanceToNowStrict, format} from "date-fns";
 import DebouncedInput from "../Appointment/ui-components/inputs/DebouncedInput";
+
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 // eslint-disable-next-line
 //const searchfacility={};
 
-export default function LocationSearch({id, getSearchfacility, clear}) {
+export default function LocationSearch({id, getSearchfacility, clear, label}) {
   const ClientServ = client.service("location");
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -180,7 +183,66 @@ export default function LocationSearch({id, getSearchfacility, clear}) {
   }, [clear]);
   return (
     <div>
-      <div className="field">
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.categoryname;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Location found"
+        renderOption={(props, option) => (
+          <li
+            {...props}
+            style={{fontSize: "0.75rem"}}
+            onClick={() => {
+              handleRow(option);
+              setCloseDropdown(true);
+            }}
+          >
+            {option.name} {option.locationType}
+          </li>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Location"}
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
+
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? "is-active" : ""}`}
@@ -216,16 +278,12 @@ export default function LocationSearch({id, getSearchfacility, clear}) {
                         <></>
                       ) : (
                         <>
-                          {/* <span>{facility.firstname}</span> */}
+                     
                           <span className="padleft">{facility.name}</span>
                           <span className="padleft">
                             {facility.locationType}
                           </span>
-                          {/* <span className="padleft"> {facility.dob && formatDistanceToNowStrict(new Date(facility.dob))}</span>
-                                        <span className="padleft">{facility.gender}</span>
-                                        <span className="padleft">{facility.profession}</span>
-                                        <span className="padleft">{facility.phone}</span> */}
-                          {/* <span className="padleft">{facility.email}</span> */}
+                       
                         </>
                       )}
                     </div>
@@ -236,27 +294,6 @@ export default function LocationSearch({id, getSearchfacility, clear}) {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      {/* <div className={`modal ${productModal ? 'is-active' : ''}`}>
-        <div className="modal-background"></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Choose Store</p>
-            <button
-              className="delete"
-              aria-label="close"
-              onClick={handlecloseModal}
-            ></button>
-          </header>
-          <section className="modal-card-body">
-            <StoreList standalone="true" />
-            <ProductCreate />
-          </section>
-          <footer className="modal-card-foot">
-                                        <button className="button is-success">Save changes</button>
-                                        <button className="button">Cancel</button>
-                                        </footer>
         </div>
       </div> */}
     </div>

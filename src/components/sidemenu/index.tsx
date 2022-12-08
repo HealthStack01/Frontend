@@ -50,7 +50,7 @@ export const menuItems = [
     subMenus: [
       {name: "Bill Client", to: "/app/laboratory/billclient"},
       {name: "Bill Lab Orders", to: "/app/laboratory/billlaborders"},
-      {name: "Payment", to: "/app/laboratory/payment"},
+      // {name: "Payment", to: "/app/laboratory/payment"},
       {name: "Lab Result", to: "/app/laboratory/labresult"},
       {name: "Dashboard", to: "/app/laboratory/dashboard"},
     ],

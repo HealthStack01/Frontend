@@ -506,14 +506,6 @@ export default function BillServiceCreate() {
           toast.error(`Error creating Billed Orders" + ${err}`);
         });
     }
-
-    /*  const    newProductEntryModule={
-            selectedMedication:{},
-            show :'create'
-        }
-      await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule})) */
-    //console.log(state)
-    // ProductEntry.show=!ProductEntry.show
   };
 
   const onSubmit = async e => {
@@ -826,9 +818,9 @@ export default function BillServiceCreate() {
   ];
   return (
     <>
-      <Box sx={{width: "85vw", maxHeight: "85vh"}}>
-        <Grid container spacing={2}>
-          <Grid item lg={6} md={6} sm={12}>
+      <Box sx={{width: "800px", maxHeight: "85vh"}}>
+        <Grid container spacing={0.5}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box>
               <Box mb={0.5} sx={{height: "40px"}}>
                 <FormsHeaderText text="Bill Information" />
@@ -844,7 +836,7 @@ export default function BillServiceCreate() {
                 <Grid item xs={4} mb={1}>
                   <CustomSelect
                     name="paymentmode"
-                    value={paymentmode}
+                    defaultValue={paymentmode}
                     onChange={e => handleChangeMode(e.target.value)}
                     options={paymentOptions.map(item => item.name)}
                     initialOption="Payment option"
@@ -884,7 +876,7 @@ export default function BillServiceCreate() {
               </Grid>
             </Box>
           </Grid>
-          <Grid item lg={6} md={6} sm={12}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -963,8 +955,9 @@ export default function BillServiceCreate() {
                         user.stacker
                       }
                       sx={{
-                        marginTop: "10px",
+                        marginTop: "7px",
                       }}
+                      onClick={handleChangeAmount}
                     >
                       Adjust
                     </GlobalCustomButton>
@@ -1004,26 +997,24 @@ export default function BillServiceCreate() {
           }}
         >
           <GlobalCustomButton
-            variant="outlined"
             disabled={!productItem.length > 0}
             onClick={handleCreateBill}
             sx={{
               marginRight: "10px",
             }}
           >
-            Done
+            Complete
           </GlobalCustomButton>
 
           <GlobalCustomButton
-            color="warning"
-            variant="outlined"
-            disabled={!productItem.length > 0}
+            color="error"
             //onClick={onSubmit}
           >
-            Clear
+            Cancel
           </GlobalCustomButton>
         </Box>
       </Box>
+
       <div
         className="card card-overflow"
         style={{width: "600px", maxHeight: "70vh"}}
