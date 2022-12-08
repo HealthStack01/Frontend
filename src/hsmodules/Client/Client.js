@@ -17,6 +17,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ClientBilledPrescription from "../Finance/ClientBill";
 import ClientGroup from "./ClientGroup";
 import DatePicker from "react-datepicker";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import "react-datepicker/dist/react-datepicker.css";
 
 import dayjs from "dayjs";
@@ -47,6 +48,7 @@ import CustomSelect from "../../components/inputs/basic/Select";
 import {AppointmentCreate} from "./Appointments";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -57,15 +59,15 @@ export default function Client() {
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
-  //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(true);
-    console.log("Show Modal");
   };
 
   const handleHideModal = () => {
     setShowModal(false);
   };
+
   const handleShowRegisteredModal = () => {};
   const handleHideRegisteredModal = () => {};
 
@@ -73,20 +75,12 @@ export default function Client() {
     setDetailModal(true);
   };
 
-  // const createClientSchema = yup.object().shape({
-  //   firstName: yup.string().required("Enter a first name"),
-  //   middleName: yup.string().required("Enter a middle name"),
-  //   lastName: yup.string().required("Enter a last name"),
-  //   gender: yup.string().required("Select a Gender"),
-  //   maritalstatus: yup.string().required("Select a Marital Status"),
-  //   mrn: yup.string().required("Enter a Medical Record Number"),
-  // });
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6 ">
           <ClientList
-            showModal={handleShowModal}
+            openCreateModal={() => setCreateModal(true)}
             openDetailModal={handleOpenDetailModal}
           />
         </div>
@@ -95,8 +89,12 @@ export default function Client() {
           {state.ClientModule.show === "modify" && (
             <ClientModify Client={selectedClient} />
           )}
-          <ModalBox open={showModal} setOpen={handleHideModal}>
-            <ClientForm open={showModal} setOpen={handleHideModal} />
+          <ModalBox
+            open={createModal}
+            onClose={() => setCreateModal(false)}
+            header="Create a New Client/Patient"
+          >
+            <ClientForm closeModal={() => setCreateModal(false)} />
           </ModalBox>
 
           <ModalBox
@@ -583,7 +581,7 @@ export function ClientCreate({open, setOpen}) {
   );
 }
 
-export function ClientList({showModal, openDetailModal}) {
+export function ClientList({openCreateModal, openDetailModal}) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
   const [error, setError] = useState(false);
@@ -613,7 +611,6 @@ export function ClientList({showModal, openDetailModal}) {
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
 
-  console.log("Users", user);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
@@ -623,12 +620,8 @@ export function ClientList({showModal, openDetailModal}) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
+    openCreateModal(true);
     //console.log(state)
-  };
-
-  const handleRowClicked = row => {
-    setSelectedUser(row);
-    setOpen(true);
   };
 
   const handleCloseModal = () => {
@@ -837,15 +830,10 @@ export function ClientList({showModal, openDetailModal}) {
                 </h2>
               </div>
 
-              {handleCreateNew && (
-                <GlobalCustomButton onClick={showModal}>
-                  <AddCircleOutline
-                    fontSize="small"
-                    sx={{marginRight: "5px"}}
-                  />
-                  Create Client
-                </GlobalCustomButton>
-              )}
+              <GlobalCustomButton onClick={handleCreateNew}>
+                <PersonAddIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Create New Client
+              </GlobalCustomButton>
             </TableMenu>
 
             <div
@@ -896,7 +884,7 @@ export function ClientDetail({closeDetailModal}) {
 
   const [success, setSuccess] = useState(false);
 
-  const {register, handleSubmit, setValue, reset} = useForm();
+  const {register, handleSubmit, setValue, reset, control} = useForm();
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -1257,20 +1245,11 @@ export function ClientDetail({closeDetailModal}) {
 
               {(Client.dob || editClient) && (
                 <Grid item lg={3} md={4} sm={6}>
-                  {/* <Input
+                  <MuiCustomDatePicker
+                    control={control}
                     label="Date of Birth"
-                    // defaultValue={new Date(Client.dob).toLocaleDateString(
-                    //   "en-GB"
-                    // )}
+                    name="dob"
                     disabled={!editClient}
-                    register={register("dob")}
-                  /> */}
-
-                  <BasicDatePicker
-                    label="Date of Birth"
-                    //register={register("dob")}
-                    defaultValue={dayjs(Client?.dob).format("YYYY/MM/DD")}
-                    // errorText={errors?.dob?.message}
                   />
                 </Grid>
               )}
