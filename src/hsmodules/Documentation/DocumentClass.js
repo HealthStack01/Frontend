@@ -573,6 +573,7 @@ export function ChartClassList({standalone, closeModal}) {
       description: "Enter name of band",
       sortable: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Name",
@@ -611,7 +612,8 @@ export function ChartClassList({standalone, closeModal}) {
         <>
           <Box
             sx={{
-              width: "40vw",
+              maxWidth: "80vw",
+              maxHeight: "80vh",
             }}
           >
             <TableMenu>
@@ -635,7 +637,7 @@ export function ChartClassList({standalone, closeModal}) {
               )}
             </TableMenu>
 
-            <div style={{width: "100%", height: "430px", overflowY: "scroll"}}>
+            <div style={{width: "100%", overflowY: "scroll"}}>
               <CustomTable
                 title={""}
                 columns={classListSchema}
