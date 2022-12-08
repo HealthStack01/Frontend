@@ -30,6 +30,7 @@ import {Box, Grid, Typography} from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import BasicDatePicker from "../../components/inputs/Date";
 import GlobalCustomButton from "../../components/buttons/CustomButton";
+import {customStyles} from "../../components/customtable/styles";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -594,14 +595,14 @@ export function InventoryList({showcreateModal, openDetailModal}) {
         query: {
           facility: user.currentEmployee.facilityDetail._id,
           storeId: state.StoreModule.selectedStore._id,
-          $limit: 2000, //limit,
+          $limit: limit,
           /*  $skip:page * limit, */
           $sort: {
             name: 1,
           },
         },
       });
-
+      console.log("this is data", allInventory);
       // await setFacilities(findInventory.data)
       await setTotal(allInventory.total);
       await setFacilities(allInventory.data);
@@ -610,7 +611,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
         // setNext(true)
         setPage(page => page + 1);
       } else {
-        //setNext(fals
+        //setNext(false)
       }
 
       // pages++
@@ -682,56 +683,6 @@ export function InventoryList({showcreateModal, openDetailModal}) {
     },
   ];
 
-  const customStyles = {
-    header: {
-      style: {
-        minHeight: "40px",
-      },
-    },
-    headRow: {
-      style: {
-        background: "#2d2d2d",
-        color: "#000",
-        fontWeight: "bold",
-        fontSize: "0.75rem",
-        border: "none",
-        boxShadow: "0 3px 3px 0 rgba(3,4,94,0.2)",
-      },
-    },
-    headCells: {
-      style: {
-        "&:not(:last-of-type)": {
-          border: "none",
-        },
-        background: "#F8F8F8",
-        fontWeight: "bold",
-        fontSize: "0.75rem",
-        border: "none",
-      },
-    },
-    cells: {
-      style: {
-        border: "none",
-      },
-    },
-    rows: {
-      style: {
-        border: "none",
-        background: "#F8F8F8",
-        //padding: "16px",
-        fontSize: "0.75rem",
-        fontWeight: "500",
-        fontFamily: "Manrope, sans-serif",
-        display: "flex",
-        alignItems: "center",
-      },
-      stripedStyle: {
-        background: "#fff",
-        border: "none",
-      },
-    },
-  };
-
   return (
     <>
       {user ? (
@@ -760,7 +711,7 @@ export function InventoryList({showcreateModal, openDetailModal}) {
               )} */}
             </TableMenu>
 
-            <div style={{width: "100%", height: "600px", overflow: "auto"}}>
+            <div style={{width: "100%", height: "calc(100vh - 170px)"}}>
               <DataTable
                 title={""}
                 columns={InventoryStoreSchema.filter(

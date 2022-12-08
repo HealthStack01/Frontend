@@ -1190,11 +1190,14 @@ export function ClientDetail({closeDetailModal}) {
           <GlobalCustomButton
             text="Schedule Appointment"
             onClick={handleSchedule}
-            customStyles={{
+            sx={{
               marginRight: "5px",
+              backgroundColor: "#ee9b00",
+              color: "#ffffff",
+              "&:hover": {
+                backgroundColor: "#ee9b00",
+              },
             }}
-            variant="outlined"
-            color="secondary"
           />
           <GlobalCustomButton
             text="Attend to Client"

@@ -423,7 +423,7 @@ export function BillPrescriptionList({showCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedDispense ? "30%" : "100%",
             }}
@@ -444,7 +444,7 @@ export function BillPrescriptionList({showCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "69.5%",
                 }}
               >

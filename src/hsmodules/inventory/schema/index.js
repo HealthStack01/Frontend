@@ -23,6 +23,7 @@ export const InventoryStoreSchema = [
     sortable: true,
     required: true,
     inputType: "HIDDEN",
+    width: "50px",
   },
   {
     name: "product",
@@ -72,7 +73,7 @@ export const InventoryStoreSchema = [
     inputType: "TEXT",
   },
   {
-    name: "Selling Price",
+    name: "Sell Price",
     key: "sellingprice",
     description: "Enter Selling Price",
     selector: row => row.sellingprice,
@@ -84,10 +85,11 @@ export const InventoryStoreSchema = [
     name: "Re-Order level",
     key: "Re-order",
     description: "Enter Re-order Level",
-    selector: row => row.reorder_level,
+    selector: row => (row.reorder_level ? row.reorder_level : "----------"),
     sortable: true,
     required: true,
     inputType: "TEXT",
+    center: true,
   },
   {
     name: "Expiry",

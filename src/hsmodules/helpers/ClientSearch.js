@@ -309,7 +309,7 @@ export function ClientSearch({getSearchfacility, clear, label}) {
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        noOptionsText="No Category found"
+        noOptionsText="No Client found"
         renderOption={(props, option) => (
           <Box
             {...props}
@@ -366,61 +366,6 @@ export function ClientSearch({getSearchfacility, clear, label}) {
           />
         )}
       />
-
-      {/* <div
-        style={{
-          width: "100%",
-        }}
-      >
-        <div style={{width: "100%", position: "relative"}}>
-          <DebounceInput
-            className="input is-small  is-expanded mb-0"
-            type="text"
-            label="Search for Client"
-            value={simpa}
-            minLength={3}
-            debounceTimeout={400}
-            onBlur={e => handleBlur(e)}
-            onChange={e => handleSearch(e.target.value)}
-            inputRef={inputEl}
-            element={Input}
-          />
-
-          <Grow in={showPanel}>
-            <Card>
-              <Box
-                ref={dropDownRef}
-                container
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  maxHeight: "250px",
-                  overflowY: "scroll",
-                  zIndex: "5",
-                  position: "absolute",
-                  background: "#ffffff",
-                  width: "100%",
-                  //boxShadow: "3",
-                  zIndex: "100",
-                  border: "1px solid lightgray",
-                }}
-              >
-                <CustomTable
-                  title={""}
-                  columns={tableSchema}
-                  data={facilities}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  onRowClicked={handleRow}
-                  progressPending={false}
-                  noHeader={true}
-                />
-              </Box>
-            </Card>
-          </Grow>
-        </div>
-      </div> */}
 
       <ModalBox open={productModal} onClose={handlecloseModal}>
         <div className={`modal ${productModal ? "is-active" : ""}`}>

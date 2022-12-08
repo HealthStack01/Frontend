@@ -14,6 +14,7 @@ import Input from "../../components/inputs/basic/Input";
 import {Box, Card, Collapse, Divider, Grid, Typography} from "@mui/material";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -710,18 +711,20 @@ export default function BillServiceCreate() {
   }, [state.ClientModule.selectedClient]);
 
   const handleRemoveBill = (item, index) => {
+    console.log(item);
     setProductItem(prev => prev.filter((el, i) => i !== index));
   };
 
   const productSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       key: "sn",
       description: "SN",
       selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Category",
@@ -742,13 +745,14 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Quantity",
+      name: "qty",
       key: "quantity",
       description: "Enter Quantity",
       selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "50px",
     },
     {
       name: "Unit",
@@ -760,7 +764,7 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Selling Price",
+      name: "Price",
       key: "sellingprice",
       description: "Enter selling price",
       selector: row => row.sellingprice,
@@ -769,7 +773,7 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Amount",
+      name: "Amt",
       key: "amount",
       description: "Enter Amount",
       selector: row => row.amount,
@@ -787,29 +791,19 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Action",
+      name: "Del",
       key: "name",
       description: "Enter Name",
-      selector: row => (
-        <Button
-          color="error"
-          className="button is-info is-small"
+      selector: (row, index) => (
+        <DeleteOutlineIcon
           sx={{
-            background: "none",
-            //color: "red",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.27rem 1rem",
-            border: "none",
-            cursor: "pointer",
-            textTransform: "capitalize",
+            color: "red",
           }}
+          fontSize="small"
           onClick={() => {
-            handleRemoveBill(row);
+            handleRemoveBill(row, index);
           }}
-        >
-          Delete
-        </Button>
+        />
       ),
       sortable: true,
       required: true,
@@ -827,10 +821,18 @@ export default function BillServiceCreate() {
               </Box>
               <Grid container spacing={1} mb={1}>
                 <Grid item xs={8}>
-                  <ClientSearch
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
+                  {source === "" ? (
+                    <ClientSearch
+                      getSearchfacility={getSearchfacility1}
+                      clear={success1}
+                    />
+                  ) : (
+                    <Input
+                      defaultValue={source}
+                      disabled={true}
+                      label="Client"
+                    />
+                  )}
                 </Grid>
 
                 <Grid item xs={4} mb={1}>
@@ -1015,14 +1017,13 @@ export default function BillServiceCreate() {
         </Box>
       </Box>
 
-      <div
+      {/* <div
         className="card card-overflow"
         style={{width: "600px", maxHeight: "70vh"}}
       >
         <div className="card-content ">
           <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
+         
             <div className="field is-horizontal">
               <div className="field-body">
                 {state.ClientModule.selectedClient.firstname !== undefined ? (
@@ -1040,7 +1041,7 @@ export default function BillServiceCreate() {
             </div>
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

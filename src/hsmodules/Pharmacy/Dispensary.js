@@ -523,7 +523,7 @@ export function DispenseList({openCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Paid Prescription
+              List of Paid Prescriptions
             </h2>
           </div>
 
@@ -553,7 +553,7 @@ export function DispenseList({openCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedClient ? "40%" : "100%",
             }}
@@ -574,7 +574,7 @@ export function DispenseList({openCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "59%",
                   transition: "width 0.5s ease-in",
                 }}

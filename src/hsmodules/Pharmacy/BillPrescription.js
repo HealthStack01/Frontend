@@ -71,14 +71,15 @@ export default function PharmacyBillPrescription() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "85vw",
+            width: "1000px",
             maxHeight: "80vh",
           }}
+          gap={1}
         >
           <Box
             item
             sx={{
-              width: "330px",
+              width: "300px",
               height: "100%",
               overflowY: "scroll",
             }}
@@ -89,7 +90,7 @@ export default function PharmacyBillPrescription() {
           <Box
             item
             sx={{
-              width: "calc(100% - 340px)",
+              width: "calc(100% - 300px)",
             }}
           >
             <BillPrescriptionCreate closeModal={handleCloseCreateModal} />
@@ -411,7 +412,7 @@ export function BillPrescriptionList({showCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedDispense ? "30%" : "100%",
             }}
@@ -432,7 +433,7 @@ export function BillPrescriptionList({showCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "69.5%",
                 }}
               >
