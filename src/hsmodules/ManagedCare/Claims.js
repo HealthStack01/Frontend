@@ -106,7 +106,8 @@ export function ClaimsCreate({ showModal, setShowModal }) {
   const [appointment_type, setAppointment_type] = useState('');
   const [billingModal, setBillingModal] = useState(false);
   const [showServiceModal, setShowServiceModal] = useState(false);
-
+  const [patient, setPatient] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
   const [chosen, setChosen] = useState();
   const [chosen1, setChosen1] = useState();
   const [chosen2, setChosen2] = useState();
@@ -169,13 +170,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
     //console.log(currentUser)
     return () => {};
   }, [user]);
-
-  //check user for facility or get list of facility
-  useEffect(() => {
-    //setFacility(user.activeClient.FacilityId)//
-    if (!user.stacker) {
-    }
-  });
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -258,6 +252,9 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
   useEffect(() => {
     getSearchfacility(state.ClientModule.selectedClient);
+    var today = new Date();
+    var date = today.toISOString().substring(0, 10);
+    setCurrentDate(date);
 
     /* appointee=state.ClientModule.selectedClient 
         console.log(appointee.firstname) */
@@ -348,12 +345,6 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box display="flex" justifyContent="flex-end">
-                <GlobalCustomButton
-                  onClick={() => setShowServiceModal(true)}
-                  color="secondary"
-                  text="Add Service"
-                  customStyles={{ marginRight: '.8rem' }}
-                />
                 {showModal && (
                   <GlobalCustomButton
                     onClick={() => setShowModal(false)}
@@ -379,6 +370,7 @@ export function ClaimsCreate({ showModal, setShowModal }) {
                     value: 'In Patient',
                   },
                 ]}
+                onChange={(e) => setPatient(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -387,17 +379,29 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             <Grid item xs={12} sm={6}>
               <Input name="patientName" label="Search Beneficiary" />
             </Grid>
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="addmissionDate"
+                  label="Date of Admission"
+                />
+              </Grid>
+            )}
+            {patient === 'In Patient' && (
+              <Grid item xs={12} sm={6}>
+                <BasicDatePicker
+                  name="dischargeDate"
+                  label="Date of Discharge"
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <BasicDatePicker
-                name="addmissionDate"
-                label="Date of Admission"
+                name="entryDate"
+                label="Date of Entry"
+                value={currentDate}
+                defaultValue={currentDate}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <BasicDatePicker name="dischargeDate" label="Date of Discharge" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <BasicDatePicker name="entryDate" label="Date of Entry" />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Input name="preAuthCode" label="Pre-Authorization Code" />
@@ -553,7 +557,18 @@ export function ClaimsCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <FormsHeaderText text={'Services / Products'} />
+              <Box
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
+                my={1}
+              >
+                <FormsHeaderText text={'Services / Products'} />
+                <GlobalCustomButton
+                  onClick={() => setShowServiceModal(true)}
+                  color="secondary"
+                  text="Add Service"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+              </Box>
               <CustomTable
                 title={''}
                 columns={serviceSchema}

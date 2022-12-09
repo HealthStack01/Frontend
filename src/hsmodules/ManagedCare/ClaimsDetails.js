@@ -82,6 +82,8 @@ export function Details() {
   const [unitPrice, setUnitPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedService, setSelectedService] = useState();
+  const [showServiceDetails, setShowServiceDetails] = useState(false);
   const navigate = useNavigate();
   const dummyData = [
     {
@@ -152,124 +154,54 @@ export function Details() {
       sortable: true,
       inputType: 'TEXT',
     },
-    {
-      name: '',
-      key: 'bills',
-      description: 'Enter Grand Total',
-      selector: (row) => (
-        <>
-          <GlobalCustomButton
-            sx={{ marginRight: '15px' }}
-            onClick={() => setOpenReview(true)}
-          >
-            Review
-          </GlobalCustomButton>
-        </>
-      ),
-      sortable: true,
-      required: true,
-      inputType: 'BUTTON',
-    },
-    {
-      name: '',
-      key: 'bills',
-      description: 'Enter Grand Total',
-      selector: (row) => (
-        <>
-          <GlobalCustomButton
-            sx={{ marginRight: '15px' }}
-            color="error"
-            onClick={() => setDeny(true)}
-          >
-            Reject
-          </GlobalCustomButton>
-        </>
-      ),
-      sortable: true,
-      required: true,
-      inputType: 'BUTTON',
-    },
+    // {
+    //   name: '',
+    //   key: 'bills',
+    //   description: 'Enter Grand Total',
+    //   selector: (row) => (
+    //     <>
+    //       <GlobalCustomButton
+    //         sx={{ marginRight: '15px' }}
+    //         onClick={() => setOpenReview(true)}
+    //       >
+    //         Review
+    //       </GlobalCustomButton>
+    //     </>
+    //   ),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: 'BUTTON',
+    // },
+    // {
+    //   name: '',
+    //   key: 'bills',
+    //   description: 'Enter Grand Total',
+    //   selector: (row) => (
+    //     <>
+    //       <GlobalCustomButton
+    //         sx={{ marginRight: '15px' }}
+    //         color="error"
+    //         onClick={() => setDeny(true)}
+    //       >
+    //         Reject
+    //       </GlobalCustomButton>
+    //     </>
+    //   ),
+    //   sortable: true,
+    //   required: true,
+    //   inputType: 'BUTTON',
+    // },
   ];
+  const handleRow = (row) => {
+    setSelectedService(row);
+    setShowServiceDetails(true);
+  };
 
   return (
     <>
       <Grid container spacing={3}>
         <Grid item md={3}>
-          <div
-            style={{
-              backgroundColor: '#EBEBEB',
-              height: 'auto',
-              borderRadius: '8px',
-              marginLeft: '5px',
-            }}
-          >
-            <Grid container spacing={2} mt={1} px={2}>
-              <Grid item xs={12} style={{ width: 'fit-content' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <div
-                  // style={{
-                  //   maxWidth: '100px',
-                  //   height: '100px',
-                  // }}
-                  >
-                    <img
-                      src="/img_avatar.png"
-                      alt="avatar"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                      }}
-                    />
-                  </div>
-                  <div style={{ marginLeft: '10px' }}>
-                    <p style={{ fontWeight: 'bold', margin: 0 }}>
-                      Tejiri Tabor
-                    </p>
-                    <p style={{ fontWeight: 'bold', margin: 0 }}>
-                      +2348123456789
-                    </p>
-                  </div>
-                </div>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} mt={1} px={2}>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>DOB: 23/06/2022</p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Age: 52</p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Gender: Male</p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>
-                  Hospital Name: Lagos State Clinic{' '}
-                </p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>
-                  Health Plan: Former sector plan
-                </p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>
-                  Date of Admission: 23/06/2022
-                </p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>
-                  Date of Discharge: 23/06/2022
-                </p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Capitation: Filed</p>
-              </Grid>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Fee of Service: Filed</p>
-              </Grid>
-            </Grid>
-          </div>
+          <PatientProfile />
         </Grid>
         <Grid item md={9}>
           <div
@@ -347,6 +279,26 @@ export function Details() {
             {currentPage === 1 && (
               <>
                 <p>Request Sent 08/05/2022 9:45pm</p>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <p>Hospital Name: Lagos State Clinic </p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Health Plan: Former sector plan</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Date of Admission: 23/06/2022</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Date of Discharge: 23/06/2022</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Capitation: Filed</p>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <p>Fee for Service: Applicable</p>
+                  </Grid>
+                </Grid>
                 <McText txt={'Clinical Information'} />
                 <Grid container spacing={2} mb={1}>
                   <Grid item xs={12}>
@@ -393,6 +345,7 @@ export function Details() {
                       pointerOnHover
                       highlightOnHover
                       striped
+                      onRowClicked={handleRow}
                       //conditionalRowStyles={conditionalRowStyles}
                     />
                   </Grid>
@@ -407,6 +360,74 @@ export function Details() {
           </div>
         </Grid>
       </Grid>
+      {showServiceDetails && (
+        <ModalBox
+          open={showServiceDetails}
+          onClose={() => setShowServiceDetails(false)}
+        >
+          <Box sx={{ width: '60vw' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}
+              mb={2}
+            >
+              <GlobalCustomButton
+                sx={{ marginRight: '15px' }}
+                onClick={() => setOpenReview(true)}
+              >
+                Review
+              </GlobalCustomButton>
+              <GlobalCustomButton
+                color="error"
+                onClick={() => setDeny(true)}
+                sx={{ marginRight: '15px' }}
+              >
+                Reject
+              </GlobalCustomButton>
+              <GlobalCustomButton color="success" text={'Save'} />
+            </Box>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <Input label={'Item'} value={selectedService?.item} disabled />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'QTY'}
+                  value={selectedService?.submittedQuantity}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'Submitted Amount'}
+                  value={selectedService?.submittedBill}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'Payable QTY'}
+                  value={selectedService?.payableQuantity}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input
+                  label={'Payable Amount'}
+                  value={selectedService?.payableBill}
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Input label={'Comment'} />
+              </Grid>
+            </Grid>
+          </Box>
+        </ModalBox>
+      )}
       {approve && (
         <>
           <ModalBox open={approve} onClose={() => setApprove(false)}>
@@ -514,7 +535,7 @@ export function Details() {
             </Grid>
             <Grid item xs={12}>
               <GlobalCustomButton
-                text={'Review'}
+                text={'Save'}
                 color="success"
                 customStyles={{ marginRight: '.8rem' }}
               />
