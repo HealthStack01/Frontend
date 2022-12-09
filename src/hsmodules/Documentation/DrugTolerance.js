@@ -15,6 +15,7 @@ import Button from "../../components/buttons/Button";
 import CustomTable from "../../components/customtable";
 import {fontSize} from "@mui/system";
 import ModalBox from "../Client/ui-components/modal";
+
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -493,7 +494,7 @@ export function BandList() {
                 </div>
 
                 {handleCreateNew && (
-                  <Button
+                  <GlobalCustomButton
                     style={{fontSize: "14px", fontWeight: "600"}}
                     label="Add new "
                     onClick={handleCreateNew}

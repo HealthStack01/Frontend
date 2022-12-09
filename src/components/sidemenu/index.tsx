@@ -48,11 +48,11 @@ export const menuItems = [
     to: '/app/laboratory',
     iconClassName: 'bi bi-binoculars',
     subMenus: [
-      { name: 'Bill Client', to: '/app/laboratory/billclient' },
-      { name: 'Bill Lab Orders', to: '/app/laboratory/billlaborders' },
-      { name: 'Payment', to: '/app/laboratory/payment' },
-      { name: 'Lab Result', to: '/app/laboratory/labresult' },
-      { name: 'Dashboard', to: '/app/laboratory/dashboard' },
+      {name: "Bill Client", to: "/app/laboratory/billclient"},
+      {name: "Bill Lab Orders", to: "/app/laboratory/billlaborders"},
+      // {name: "Payment", to: "/app/laboratory/payment"},
+      {name: "Lab Result", to: "/app/laboratory/labresult"},
+      {name: "Dashboard", to: "/app/laboratory/dashboard"},
     ],
   },
 
@@ -262,8 +262,7 @@ export const menuItems = [
     to: '/app/referral',
     iconClassName: 'bi bi-person',
     subMenus: [
-      { name: 'Incoming', to: '/app/referral/incoming' },
-      { name: 'Outgoing', to: '/app/referral/outgoing' },
+      {name: "Incoming", to: "/app/referral/incoming"},
       {
         name: 'Referral account',
         to: '/app/referral/account',

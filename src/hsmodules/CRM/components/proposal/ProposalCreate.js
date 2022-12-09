@@ -8,11 +8,12 @@ import {useForm} from "react-hook-form";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {CustomerView, LeadView} from "../lead/LeadDetailView";
+import {LeadView} from "../lead/LeadDetailView";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import ArticleIcon from "@mui/icons-material/Article";
+import CustomerDetail from "../global/CustomerDetail";
 
 const CreateProposal = ({handleGoBack}) => {
   const {register, control} = useForm();
@@ -92,7 +93,7 @@ const CreateProposal = ({handleGoBack}) => {
         <Grid item lg={12} md={12} sm={12}>
           <Grid container spacing={2}>
             <Grid item lg={6} md={6} small={12}>
-              <CustomerView />
+              <CustomerDetail />
             </Grid>
 
             <Grid item lg={6} md={6} small={12}>

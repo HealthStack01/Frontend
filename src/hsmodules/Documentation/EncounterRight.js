@@ -46,14 +46,22 @@ import {usePosition} from "../../components/hooks/getUserLocation";
 import Textarea from "../../components/inputs/basic/Textarea";
 import {Box, getValue} from "@mui/system";
 import RadioButton from "../../components/inputs/basic/Radio";
-import {Button} from "@mui/material";
+import {Button, Grid, IconButton} from "@mui/material";
 import Input from "../../components/inputs/basic/Input";
+import {FormsHeaderText} from "../../components/texts";
+import CloseIcon from "@mui/icons-material/Close";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 
 export default function EncounterRight() {
   const {state, setState} = useContext(ObjectContext);
   console.log(state.DocumentClassModule.selectedDocumentClass);
+
   const submitDocument = data => {
-    console.log({data});
+    const geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
+    console.log({...data, geolocation: geolocation});
   };
 
   return (
@@ -205,7 +213,7 @@ export function VitalSignCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state} = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
@@ -250,14 +258,6 @@ export function VitalSignCreate() {
         })  */
     }
   });
-
-  const checkGeolocation = coordinates => {
-    return coordinates.every(item => {
-      return typeof item === "number" && item !== "";
-    });
-  };
-
-  console.log(state.coordinates);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -311,7 +311,7 @@ export function VitalSignCreate() {
       coordinates: [state.coordinates.latitude, state.coordinates.longitude],
     };
 
-    const coordPass = checkGeolocation(document.geolocation.coordinates);
+    //const coordPass = checkGeolocation(document.geolocation.coordinates);
 
     if (
       document.location === undefined ||
@@ -321,9 +321,6 @@ export function VitalSignCreate() {
       toast.error(
         "Documentation data missing, requires location and facility details"
       );
-      return;
-    } else if (!coordPass) {
-      toast.error("Please grant location access to the web application");
       return;
     }
 
@@ -365,8 +362,6 @@ export function VitalSignCreate() {
     }
   };
 
-  useEffect(() => {}, []);
-
   const handleChangeStatus = async e => {
     // await setAppointment_type(e.target.value)
 
@@ -375,108 +370,134 @@ export function VitalSignCreate() {
     //console.log(e.target.value)
   };
 
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">
-            {state?.DocumentClassModule.selectedDocumentClass.name || ""}
-          </p>
-        </div>
-        <div className="card-content vscrollable">
-          {/* <p className=" is-small">
-                    Kindly search Client list before creating new Clients!
-                </p> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-<Box>
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Temperature"
-                />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText
+            text={state?.DocumentClassModule.selectedDocumentClass.name || ""}
+          />
 
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Pulse"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Respiratory rate"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Blood Glucose"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Systolic_BP"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Diastolic_BP"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="SPO2"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Pain"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Height(m)"
-                />
-
-                <Input
-                  register={register("input_name")}
-                  name="text"
-                  type="text"
-                  placeholder="Weight(Kg)"
-                />
-    </Box>
-    <Box> 
-      <RadioButton
-        register={register("input_name")}
-        options={[
-                "Draft",
-                "Final",
-              ]}
-            />
-</Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </Box>
+        <div className="card-content vscrollable">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Input
+                  register={register("Temperature")}
+                  type="text"
+                  label="Temperature"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input register={register("Pulse")} type="text" label="Pulse" />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input
+                  register={register("Respiratory_rate")}
+                  type="text"
+                  label="Respiratory rate"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input
+                  register={register("Blood Glucose")}
+                  name="text"
+                  type="text"
+                  label="Blood Glucose"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input
+                  register={register("Systolic_BP")}
+                  type="text"
+                  label="Systolic_BP"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input
+                  register={register("Diastolic_BP")}
+                  type="text"
+                  label="Diastolic_BP"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input register={register("SPO2")} type="text" label="SPO2" />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input register={register("Pain")} type="text" label="Pain" />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input
+                  register={register("Height")}
+                  type="text"
+                  label="Height(m)"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Input
+                  register={register("Weight")}
+                  type="text"
+                  label="Weight(Kg)"
+                />
+              </Grid>
+            </Grid>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton
+                color="secondary"
+                variant="contained"
+                type="submit"
+              >
+                Submit Vital Signs
+              </GlobalCustomButton>
+
+              {/* <GlobalCustomButton variant="outlined">Cancel</GlobalCustomButton> */}
+            </Box>
           </form>
         </div>
       </div>
@@ -496,7 +517,7 @@ export function ClinicalNoteCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state} = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
   const [docStatus, setDocStatus] = useState("Draft");
 
   let draftDoc = state.DocumentClassModule.selectedDocumentClass.document;
@@ -568,7 +589,11 @@ export function ClinicalNoteCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
-    //console.log(document)
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
 
     if (
       document.location === undefined ||
@@ -654,70 +679,96 @@ export function ClinicalNoteCreate() {
 
     //console.log(e.target.value)
   };
+
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">
-            {state?.DocumentClassModule.selectedDocumentClass.name || ""}
-          </p>
-        </div>
-        <div className="card-content vscrollable">
-          {/* <p className=" is-small">
-                    Kindly search Client list before creating new Clients!
-                </p> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-             
-       <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="Symptoms"
-                  type="text"
-                  placeholder="Symptoms"
-                /> 
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="clinical_findings"
-                  type="text"
-                  placeholder="Clinical Findings"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="diagnosis"
-                  type="text"
-                  placeholder="Diagnosis"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="Plan"
-                  type="text"
-                  placeholder="Plan"
-                />
-              </Box>  
-              <Box>   
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Draft",
-                "Final"
-              ]}
-            /> 
-               </Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText
+            text={state?.DocumentClassModule.selectedDocumentClass.name || ""}
+          />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </Box>
+        <div className="card-content vscrollable">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
+              <Textarea
+                register={register("Symptoms")}
+                type="text"
+                label="Symptoms"
+                placeholder="Enter Symptoms......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("clinical_findings")}
+                type="text"
+                label="Clinical Findings"
+                placeholder="Enter clinical findings......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("diagnosis")}
+                name=""
+                type="text"
+                label="Diagnosis"
+                placeholder="Enter diagnosis......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("plan")}
+                name="Plan"
+                type="text"
+                label="Plan"
+                placeholder="Enter plan......"
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton color="secondary" type="submit">
+                Submit Clinical Note
+              </GlobalCustomButton>
+
+              {/* <Button variant="outlined" type="button">
+                Cancel
+              </Button> */}
+            </Box>
           </form>
         </div>
       </div>
@@ -737,7 +788,7 @@ export function LabNoteCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state} = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const [docStatus, setDocStatus] = useState("Draft");
 
@@ -809,6 +860,11 @@ export function LabNoteCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
     // console.log(document)
 
     if (
@@ -891,56 +947,88 @@ export function LabNoteCreate() {
   const handleChangePart = e => {
     console.log(e);
   };
+
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Lab Result</p>
-        </div>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"Lab Result"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
         <div className="card-content vscrollable remPad1">
           <form onSubmit={handleSubmit(onSubmit)}>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Input
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Investigation"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="findings"
-                  type="text"
-                  placeholder="Findings"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </Box>  
-              <Box>   
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Draft",
-                "Final"
-              ]}
-            /> 
-               </Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
-        </Box>
+            <Box mb={1}>
+              <Input
+                register={register("investigation")}
+                name="text"
+                type="text"
+                label="Investigation"
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("findings")}
+                name="findings"
+                type="text"
+                label="Findings"
+                placeholder="Write here....."
+              />
+            </Box>
+
+            <Box>
+              <Textarea
+                register={register("recommendation")}
+                name="text"
+                type="text"
+                label="Recommendation"
+                placeholder="Write here....."
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton color="secondary" type="submit">
+                Submit Lab Result
+              </GlobalCustomButton>
+              {/* <Button variant="outlined" type="button">
+                Cancel
+              </Button> */}
+            </Box>
           </form>
         </div>
       </div>
@@ -960,7 +1048,7 @@ export function NursingNoteCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state} = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const [docStatus, setDocStatus] = useState("Draft");
 
@@ -1032,6 +1120,11 @@ export function NursingNoteCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
     // console.log(document)
 
     if (
@@ -1114,64 +1207,74 @@ export function NursingNoteCreate() {
   const handleChangePart = e => {
     console.log(e);
   };
+
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Nursing Note</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          {/*   <label className="label is-size-7">
-                  Client:  {order.orderInfo.orderObj.clientname}
-                </label>
-                <label className="label is-size-7">
-                 Test:  {order.serviceInfo.name}
-                </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-               
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Input
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Title"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="findings"
-                  type="text"
-                  placeholder="Documentation"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </Box>  
-              <Box>   
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Draft",
-                "Final"
-              ]}
-            /> 
-               </Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"Nursing Note"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </Box>
-          
+        <div className="card-content vscrollable remPad1">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box mb={1}>
+              <Input register={register("Title")} type="text" label="Title" />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Documentation")}
+                type="text"
+                label="Documentation"
+                placeholder="Write here......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Recommendation")}
+                type="text"
+                label="Recommendation"
+                placeholder="Write here......"
+              />
+            </Box>
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton color="secondary" type="button">
+                Submit Nursing Note
+              </GlobalCustomButton>
+            </Box>
           </form>
         </div>
       </div>
@@ -1191,7 +1294,7 @@ export function DoctorsNoteCreate() {
   const {user} = useContext(UserContext); //,setUser
   // eslint-disable-next-line
   const [currentUser, setCurrentUser] = useState();
-  const {state} = useContext(ObjectContext);
+  const {state, setState} = useContext(ObjectContext);
 
   const [docStatus, setDocStatus] = useState("Draft");
 
@@ -1199,6 +1302,7 @@ export function DoctorsNoteCreate() {
 
   useEffect(() => {
     if (!!draftDoc && draftDoc.status === "Draft") {
+      console.log(draftDoc.documentdetail);
       Object.entries(draftDoc.documentdetail).map(([keys, value], i) =>
         setValue(keys, value, {
           shouldValidate: true,
@@ -1263,6 +1367,11 @@ export function DoctorsNoteCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = docStatus === "Draft" ? "Draft" : "completed";
+
+    document.geolocation = {
+      type: "Point",
+      coordinates: [state.coordinates.latitude, state.coordinates.longitude],
+    };
     // console.log(document)
 
     if (
@@ -1342,66 +1451,82 @@ export function DoctorsNoteCreate() {
 
     //console.log(e.target.value)
   };
+
   const handleChangePart = e => {
     console.log(e);
   };
+
+  const closeEncounterRight = async () => {
+    setState(prevstate => ({
+      ...prevstate,
+      DocumentClassModule: {
+        ...prevstate.DocumentClassModule,
+        encounter_right: false,
+      },
+    }));
+  };
+
   return (
     <>
       <div className="card ">
-        <div className="card-header">
-          <p className="card-header-title">Doctor's Note</p>
-        </div>
-        <div className="card-content vscrollable remPad1">
-          {/*   <label className="label is-size-7">
-                  Client:  {order.orderInfo.orderObj.clientname}
-                </label>
-                <label className="label is-size-7">
-                 Test:  {order.serviceInfo.name}
-                </label> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-               
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Input
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Title"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="findings"
-                  type="text"
-                  placeholder="Documentation"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </Box>  
-              <Box>   
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Draft",
-                "Final"
-              ]}
-            /> 
-               </Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          mb={1}
+        >
+          <FormsHeaderText text={"Doctor's Note"} />
+
+          <IconButton onClick={closeEncounterRight}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </Box>
+        <div className="card-content vscrollable remPad1">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
+              <Input register={register("Title")} type="text" label="Title" />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Documentation")}
+                type="text"
+                label="Documentation"
+                placeholder="Write here......"
+              />
+            </Box>
+            <Box>
+              <Textarea
+                register={register("Recommendation")}
+                type="text"
+                label="Recommendation"
+                placeholder="Write here......"
+              />
+            </Box>
+
+            <Box>
+              <RadioButton
+                onChange={handleChangeStatus}
+                name="status"
+                options={["Draft", "Final"]}
+                value={docStatus}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <GlobalCustomButton color="secondary" type="button">
+                Submit Doctor's Note
+              </GlobalCustomButton>
+              {/* <Button variant="outlined" type="button">
+                Cancel
+              </Button> */}
+            </Box>
           </form>
         </div>
       </div>
@@ -1512,50 +1637,51 @@ export function PrescriptionCreate() {
                     Kindly search Client list before creating new Clients!
                 </p> */}
           <form onSubmit={handleSubmit(onSubmit)}>
-                
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Input
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Title"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="findings"
-                  type="text"
-                  placeholder="Documentation"
-                />
-    </Box>
-    <Box sx={{paddingBlock:"1rem"}}>
-                <Textarea
-                  register={register("input_text")}
-                  name="text"
-                  type="text"
-                  placeholder="Recommendation"
-                />
-              </Box>  
-              <Box>   
-            <RadioButton
-              register={register("input_text")}
-              options={[
-                "Draft",
-                "Final"
-              ]}
-            /> 
-               </Box>
-         <Box  
-        spacing={1}
-        sx={{
-          display: "flex",
-          gap: "2rem",
-        }}>
-          <Button variant="contained" type="button">Save</Button>
-          <Button variant="outlined" type="button">Cancel</Button>
-        </Box>
-              
+            <Box sx={{paddingBlock: "1rem"}}>
+              <Input
+                register={register("input_text")}
+                name="text"
+                type="text"
+                placeholder="Title"
+              />
+            </Box>
+            <Box sx={{paddingBlock: "1rem"}}>
+              <Textarea
+                register={register("input_text")}
+                name="findings"
+                type="text"
+                placeholder="Documentation"
+              />
+            </Box>
+            <Box sx={{paddingBlock: "1rem"}}>
+              <Textarea
+                register={register("input_text")}
+                name="text"
+                type="text"
+                placeholder="Recommendation"
+              />
+            </Box>
+            <Box>
+              <RadioButton
+                register={register("input_text")}
+                options={["Draft", "Final"]}
+              />
+            </Box>
+            <Box
+              spacing={1}
+              sx={{
+                display: "flex",
+                gap: "2rem",
+              }}
+            >
+              <Button variant="contained" type="button">
+                Save
+              </Button>
+              <Button variant="outlined" type="button">
+                Cancel
+              </Button>
+            </Box>
+
             <div className="field is-horizontal">
               <div className="field-body">
                 <div className="field">

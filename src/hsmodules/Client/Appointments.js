@@ -1070,6 +1070,7 @@ export function ClientModify({ showModal, setShowModal }) {
 
     return () => {};
   }, []);
+
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
     setValue('appointment_type', e.target.value, {

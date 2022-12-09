@@ -14,6 +14,7 @@ import Input from "../../components/inputs/basic/Input";
 import {Box, Card, Collapse, Divider, Grid, Typography} from "@mui/material";
 import BasicDatePicker from "../../components/inputs/Date";
 import CustomSelect from "../../components/inputs/basic/Select";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 var random = require("random-string-generator");
 // eslint-disable-next-line
 const searchfacility = {};
@@ -79,12 +80,12 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeMode = async value => {
-    //console.log("value", value);
+    console.log("value", value);
     await setPaymentMode(value);
-    //console.log(value);
+    console.log(value);
     let billm = paymentOptions.filter(el => el.name === value);
     await setBillMode(billm[0]);
-    //console.log(billm);
+    console.log(billm);
     // at startup
     // check payment mode options from patient financial info
     // load that to select options
@@ -97,9 +98,9 @@ export default function BillServiceCreate() {
   };
 
   const handleRow = async ProductEntry => {
-    ////console.log("b4",state)
+    //console.log("b4",state)
 
-    ////console.log("handlerow",ProductEntry)
+    //console.log("handlerow",ProductEntry)
 
     //await setMedication(ProductEntry)
 
@@ -111,7 +112,7 @@ export default function BillServiceCreate() {
       ...prevstate,
       medicationModule: newProductEntryModule,
     }));
-    ////console.log(state)
+    //console.log(state)
     // ProductEntry.show=!ProductEntry.show
   };
 
@@ -145,7 +146,7 @@ export default function BillServiceCreate() {
                 //find contract for NHIS
                 let contract=contracts.filter(el=>el.source_org_name==="NHIS")
                 if (contract.length){
-                   // //console.log(contract[0].price)
+                   // console.log(contract[0].price)
                   await  setSellingPrice(contract[0].price)     
              }else{
                 toast({
@@ -163,7 +164,7 @@ export default function BillServiceCreate() {
         el => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
-        //  //console.log(contract[0].price)
+        //  console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
@@ -179,7 +180,7 @@ export default function BillServiceCreate() {
         el => el.source_org === billMode.detail.organizationId
       );
       if (contract.length) {
-        // //console.log(contract[0].price)
+        // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
@@ -192,7 +193,7 @@ export default function BillServiceCreate() {
       //paymentmode
       let contract = contracts.filter(el => el.source_org === el.dest_org);
       if (contract.length) {
-        // //console.log(contract[0].price)
+        // console.log(contract[0].price)
         await setSellingPrice(contract[0].price);
       } else {
         toast.error(
@@ -204,7 +205,7 @@ export default function BillServiceCreate() {
   };
 
   const getSearchfacility = async service => {
-    //  //console.log(JSON.stringify(service))
+    //  console.log(JSON.stringify(service))
     if (!service) {
       //"clear stuff"
       setProductId("");
@@ -231,7 +232,7 @@ export default function BillServiceCreate() {
     setInventoryId(service.inventoryId);
     setBilllingId(service._id);
     await setObj(service);
-    //console.log(service.contracts);
+    console.log(service.contracts);
   };
 
   const getSearchfacility1 = async person => {
@@ -255,7 +256,7 @@ export default function BillServiceCreate() {
 
   useEffect(() => {
     setCurrentUser(user);
-    ////console.log(currentUser)
+    //console.log(currentUser)
     return () => {};
   }, [user]);
 
@@ -264,7 +265,7 @@ export default function BillServiceCreate() {
   };
 
   const handleChangeType = async e => {
-    // //console.log(e.target.value)
+    // console.log(e.target.value)
     await setType(e.target.value);
   };
 
@@ -274,9 +275,9 @@ export default function BillServiceCreate() {
   };
 
   const handleClickProd = async () => {
-    /*   //console.log("amount: ",productItemI.amount)
-         //console.log("qamount: ",qamount)
-         //console.log("calcamount: ",calcamount) */
+    /*   console.log("amount: ",productItemI.amount)
+         console.log("qamount: ",qamount)
+         console.log("calcamount: ",calcamount) */
     if (
       source === "" ||
       quantity === "" ||
@@ -302,13 +303,13 @@ export default function BillServiceCreate() {
             billInfo,
         }).then((resp)=>{
            // medication=resp
-           // //console.log(resp)
+           // console.log(resp)
              handleRow(resp) 
             //update dispense
 
         })
         .catch((err)=>{
-            //console.log(err)
+            console.log(err)
         })
          */
     //update status(billed) + action()
@@ -326,9 +327,9 @@ export default function BillServiceCreate() {
     await setSuccess(true);
     getSearchfacility(false);
     setObj("");
-    //console.log(sellingprice);
-    /* //console.log(qamount)
-        //console.log(productItem) */
+    console.log(sellingprice);
+    /* console.log(qamount)
+        console.log(productItem) */
     setChangeAmount(true);
     setContracts("");
     // alert("finished")
@@ -350,7 +351,7 @@ export default function BillServiceCreate() {
     }
     /* calcamount1=quantity*sellingprice
          await setCalcAmount(calcamount1)
-         //console.log(calcamount) */
+         console.log(calcamount) */
   };
 
   useEffect(() => {
@@ -391,7 +392,7 @@ export default function BillServiceCreate() {
       document.facilityname = user.currentEmployee.facilityDetail.facilityName; // or from facility dropdown
     }
     document.documentdetail = productItem;
-    //console.log(document.documentdetail);
+    console.log(document.documentdetail);
     document.documentname = "Billed Orders"; //state.DocumentClassModule.selectedDocumentClass.name
     // document.documentClassId=state.DocumentClassModule.selectedDocumentClass._id
     document.location =
@@ -406,7 +407,7 @@ export default function BillServiceCreate() {
     document.createdBy = user._id;
     document.createdByname = user.firstname + " " + user.lastname;
     document.status = "completed";
-    //console.log(document);
+    console.log(document);
 
     //order
     document.documentdetail.forEach(async element => {
@@ -479,8 +480,8 @@ export default function BillServiceCreate() {
       serviceList.push(items);
     });
 
-    //console.log("==================");
-    //console.log(document, serviceList);
+    console.log("==================");
+    console.log(document, serviceList);
 
     let confirm = window.confirm(
       `You are about to bill ${document.clientname} for ${serviceList.length} service(s)?`
@@ -497,7 +498,7 @@ export default function BillServiceCreate() {
           setProductItem([]);
           setCalcAmount(0);
           const today = new Date().toLocaleString();
-          ////console.log(today)
+          //console.log(today)
           setDate(today);
           const invoiceNo = random(6, "uppernumeric");
           setDocumentNo(invoiceNo);
@@ -506,14 +507,6 @@ export default function BillServiceCreate() {
           toast.error(`Error creating Billed Orders" + ${err}`);
         });
     }
-
-    /*  const    newProductEntryModule={
-            selectedMedication:{},
-            show :'create'
-        }
-      await setState((prevstate)=>({...prevstate, medicationModule:newProductEntryModule})) */
-    ////console.log(state)
-    // ProductEntry.show=!ProductEntry.show
   };
 
   const onSubmit = async e => {
@@ -532,7 +525,7 @@ export default function BillServiceCreate() {
     productEntry.createdby = user._id;
     productEntry.transactioncategory = "debit";
 
-    // //console.log("b4 facility",productEntry);
+    // console.log("b4 facility",productEntry);
     if (user.currentEmployee) {
       productEntry.facility = user.currentEmployee.facilityDetail._id; // or from facility dropdown
     } else {
@@ -572,7 +565,7 @@ export default function BillServiceCreate() {
   useEffect(() => {
     //update selling price
     if (!!billMode && !!contracts) {
-      // //console.log(contracts)
+      // console.log(contracts)
       checkPrice(contracts, billMode);
     }
 
@@ -587,7 +580,7 @@ export default function BillServiceCreate() {
     let billme;
     let obj;
     if (!!patient) {
-      // //console.log(patient)
+      // console.log(patient)
 
       patient.paymentinfo.forEach((pay, i) => {
         if (pay.active) {
@@ -599,7 +592,7 @@ export default function BillServiceCreate() {
               paymentoptions.push(obj);
               setPaymentMode("Cash");
               billme = obj;
-              // //console.log("billme",billme)
+              // console.log("billme",billme)
               break;
             case "Family":
               // code block
@@ -612,7 +605,7 @@ export default function BillServiceCreate() {
               paymentoptions.push(obj);
               setPaymentMode("Family Cover");
               billme = obj;
-              // //console.log("billme",billme)
+              // console.log("billme",billme)
               break;
             case "Company":
               // code block
@@ -625,11 +618,11 @@ export default function BillServiceCreate() {
                 "Company: " + pay.organizationName + "(" + pay.plan + ")"
               );
               billme = obj;
-              // //console.log("billme",billme)
+              // console.log("billme",billme)
               break;
             case "HMO":
               // code block
-              //console.log(pay);
+              console.log(pay);
               let sname = "HMO: " + pay.organizationName + "(" + pay.plan + ")";
 
               obj = createObj(pay, sname, "HMOCover", "HMO Cover");
@@ -638,7 +631,7 @@ export default function BillServiceCreate() {
                 "HMO: " + pay.organizationName + "(" + pay.plan + ")"
               );
               billme = obj;
-              //  //console.log("billme",billme)
+              //  console.log("billme",billme)
               break;
             default:
             // code block
@@ -649,23 +642,23 @@ export default function BillServiceCreate() {
       setPaymentOptions(paymentoptions);
       setBillMode(billme);
     }
-    ////console.log(paymentoptions)
-    // //console.log(billMode)
+    //console.log(paymentoptions)
+    // console.log(billMode)
     return () => {};
   }, [source]);
 
   useEffect(() => {
-    //console.log("startup");
+    console.log("startup");
     // const medication =state.medicationModule.selectedMedication
     const today = new Date().toLocaleString();
-    ////console.log(today)
+    //console.log(today)
     setDate(today);
     const invoiceNo = random(6, "uppernumeric");
     setDocumentNo(invoiceNo);
     return () => {
-      //console.log("closeup");
+      console.log("closeup");
       const today = new Date().toLocaleString();
-      ////console.log(today)
+      //console.log(today)
       setDate(today);
       const invoiceNo = random(6, "uppernumeric");
       setDocumentNo(invoiceNo);
@@ -676,20 +669,20 @@ export default function BillServiceCreate() {
   useEffect(() => {
     calcamount1 = quantity * sellingprice;
     setCalcAmount(calcamount1);
-    ////console.log(calcamount1)
+    //console.log(calcamount1)
     setChangeAmount(true);
     return () => {};
   }, [quantity, sellingprice]);
 
   useEffect(() => {
-    // //console.log("success", success)
+    // console.log("success", success)
     if (success) {
       setSuccess(false);
     }
   }, [success]);
 
   useEffect(() => {
-    // //console.log("success", success)
+    // console.log("success", success)
     if (success1) {
       setSuccess1(false);
     }
@@ -697,7 +690,7 @@ export default function BillServiceCreate() {
 
   useEffect(() => {
     if (!!billMode && !!contracts) {
-      ////console.log(contracts)
+      //console.log(contracts)
       checkPrice(contracts, billMode);
     }
 
@@ -705,7 +698,7 @@ export default function BillServiceCreate() {
   }, [billMode]);
 
   useEffect(() => {
-    // //console.log(sellingprice)
+    // console.log(sellingprice)
     return () => {};
   }, [sellingprice]);
 
@@ -713,23 +706,25 @@ export default function BillServiceCreate() {
     getSearchfacility1(state.ClientModule.selectedClient);
 
     /* appointee=state.ClientModule.selectedClient 
-        //console.log(appointee.firstname) */
+        console.log(appointee.firstname) */
     return () => {};
   }, [state.ClientModule.selectedClient]);
 
   const handleRemoveBill = (item, index) => {
+    console.log(item);
     setProductItem(prev => prev.filter((el, i) => i !== index));
   };
 
   const productSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       key: "sn",
       description: "SN",
       selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
+      width: "50px",
     },
     {
       name: "Category",
@@ -750,13 +745,14 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Quantity",
+      name: "qty",
       key: "quantity",
       description: "Enter Quantity",
       selector: row => row.quantity,
       sortable: true,
       required: true,
       inputType: "TEXT",
+      width: "50px",
     },
     {
       name: "Unit",
@@ -768,7 +764,7 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Selling Price",
+      name: "Price",
       key: "sellingprice",
       description: "Enter selling price",
       selector: row => row.sellingprice,
@@ -777,7 +773,7 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Amount",
+      name: "Amt",
       key: "amount",
       description: "Enter Amount",
       selector: row => row.amount,
@@ -795,29 +791,19 @@ export default function BillServiceCreate() {
       inputType: "TEXT",
     },
     {
-      name: "Action",
+      name: "Del",
       key: "name",
       description: "Enter Name",
-      selector: row => (
-        <Button
-          color="error"
-          className="button is-info is-small"
+      selector: (row, index) => (
+        <DeleteOutlineIcon
           sx={{
-            background: "none",
-            //color: "red",
-            fontSize: "0.75rem",
-            borderRadius: "2px",
-            padding: "0.27rem 1rem",
-            border: "none",
-            cursor: "pointer",
-            textTransform: "capitalize",
+            color: "red",
           }}
+          fontSize="small"
           onClick={() => {
-            handleRemoveBill(row);
+            handleRemoveBill(row, index);
           }}
-        >
-          Delete
-        </Button>
+        />
       ),
       sortable: true,
       required: true,
@@ -826,25 +812,33 @@ export default function BillServiceCreate() {
   ];
   return (
     <>
-      <Box sx={{width: "85vw", maxHeight: "85vh"}}>
-        <Grid container spacing={2}>
-          <Grid item lg={6} md={6} sm={12}>
+      <Box sx={{width: "800px", maxHeight: "85vh"}}>
+        <Grid container spacing={0.5}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box>
               <Box mb={0.5} sx={{height: "40px"}}>
                 <FormsHeaderText text="Bill Information" />
               </Box>
               <Grid container spacing={1} mb={1}>
                 <Grid item xs={8}>
-                  <ClientSearch
-                    getSearchfacility={getSearchfacility1}
-                    clear={success1}
-                  />
+                  {source === "" ? (
+                    <ClientSearch
+                      getSearchfacility={getSearchfacility1}
+                      clear={success1}
+                    />
+                  ) : (
+                    <Input
+                      defaultValue={source}
+                      disabled={true}
+                      label="Client"
+                    />
+                  )}
                 </Grid>
 
                 <Grid item xs={4} mb={1}>
                   <CustomSelect
                     name="paymentmode"
-                    value={paymentmode}
+                    defaultValue={paymentmode}
                     onChange={e => handleChangeMode(e.target.value)}
                     options={paymentOptions.map(item => item.name)}
                     initialOption="Payment option"
@@ -884,7 +878,7 @@ export default function BillServiceCreate() {
               </Grid>
             </Box>
           </Grid>
-          <Grid item lg={6} md={6} sm={12}>
+          <Grid item lg={12} md={12} sm={12}>
             <Box
               sx={{
                 display: "flex",
@@ -963,8 +957,9 @@ export default function BillServiceCreate() {
                         user.stacker
                       }
                       sx={{
-                        marginTop: "10px",
+                        marginTop: "7px",
                       }}
+                      onClick={handleChangeAmount}
                     >
                       Adjust
                     </GlobalCustomButton>
@@ -1004,34 +999,31 @@ export default function BillServiceCreate() {
           }}
         >
           <GlobalCustomButton
-            variant="outlined"
             disabled={!productItem.length > 0}
             onClick={handleCreateBill}
             sx={{
               marginRight: "10px",
             }}
           >
-            Done
+            Complete
           </GlobalCustomButton>
 
           <GlobalCustomButton
-            color="warning"
-            variant="outlined"
-            disabled={!productItem.length > 0}
+            color="error"
             //onClick={onSubmit}
           >
-            Clear
+            Cancel
           </GlobalCustomButton>
         </Box>
       </Box>
-      <div
+
+      {/* <div
         className="card card-overflow"
         style={{width: "600px", maxHeight: "70vh"}}
       >
         <div className="card-content ">
           <form onSubmit={onSubmit}>
-            {" "}
-            {/* handleSubmit(onSubmit) */}
+         
             <div className="field is-horizontal">
               <div className="field-body">
                 {state.ClientModule.selectedClient.firstname !== undefined ? (
@@ -1049,7 +1041,7 @@ export default function BillServiceCreate() {
             </div>
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
@@ -1088,24 +1080,24 @@ export function ServiceSearch2({getSearchfacility, clear}) {
             show :'detail'
         }
    await setState((prevstate)=>({...prevstate, facilityModule:newfacilityModule})) */
-    ////console.log(state)
+    //console.log(state)
   };
   const handleBlur = async e => {
     /* if (count===2){
-             //console.log("stuff was chosen")
+             console.log("stuff was chosen")
          } */
-    /*  //console.log("blur")
+    /*  console.log("blur")
          setShowPanel(false)
-        //console.log(JSON.stringify(simpa))
+        console.log(JSON.stringify(simpa))
         if (simpa===""){
-            //console.log(facilities.length)
+            console.log(facilities.length)
             setSimpa("abc")
             setSimpa("")
             setFacilities([])
             inputEl.current.setValue=""
         }
-        //console.log(facilities.length)
-        //console.log(inputEl.current) */
+        console.log(facilities.length)
+        console.log(inputEl.current) */
   };
   const handleSearch = async value => {
     setVal(value);
@@ -1134,8 +1126,8 @@ export function ServiceSearch2({getSearchfacility, clear}) {
           },
         })
         .then(res => {
-          ////console.log("product  fetched successfully")
-          ////console.log(res.data)
+          //console.log("product  fetched successfully")
+          //console.log(res.data)
           setFacilities(res.data);
           setSearchMessage(" product  fetched successfully");
           setShowPanel(true);
@@ -1144,11 +1136,11 @@ export function ServiceSearch2({getSearchfacility, clear}) {
           toast.error(`Error creating ProductEntry  ${err}`);
         });
     } else {
-      ////console.log("less than 3 ")
-      // //console.log(val)
+      //console.log("less than 3 ")
+      // console.log(val)
       setShowPanel(false);
       await setFacilities([]);
-      // //console.log(facilities)
+      // console.log(facilities)
     }
   };
 
@@ -1161,7 +1153,7 @@ export function ServiceSearch2({getSearchfacility, clear}) {
   };
   useEffect(() => {
     if (clear) {
-      // //console.log("success has changed",clear)
+      // console.log("success has changed",clear)
       setSimpa("");
     }
     return () => {};

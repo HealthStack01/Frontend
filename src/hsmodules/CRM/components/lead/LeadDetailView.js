@@ -37,147 +37,8 @@ import Contact from "../../Contact";
 import RadioButton from "../../../../components/inputs/basic/Radio";
 import GlobalCustomButton from "../../../../components/buttons/CustomButton";
 import CRMTasks from "../../Tasks";
-
-export const CustomerView = () => {
-  const {register, reset, control, handleSubmit} = useForm();
-  const [editCustomer, setEditCustomer] = useState(false);
-
-  const initFormState = {
-    customer_name: "Dr. Simpa Dania",
-    customer_number: "08074567832",
-    address: "No 15, gateway road, off Awo complex",
-    local_govt: "Bamidele",
-    city: "Ikeja",
-    state: "Ogun",
-    customer_type: "Personal",
-    deal_probability: "90%",
-    deal_size: "Extra Large",
-    deal_status: "Closed",
-    deal_next_action: "Unknown",
-    weight_forcast: "Unknown",
-    submission_date: moment().subtract(100, "days").calendar(),
-    closing_date: moment().add(3, "years").calendar(),
-  };
-
-  const updateDetail = data => {
-    toast.success("Customer Detail Updated");
-    setEditCustomer(false);
-  };
-
-  useEffect(() => {
-    reset(initFormState);
-  }, []);
-
-  return (
-    <Box mb={2}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItem: "center",
-          justifyContent: "space-between",
-        }}
-        mb={1}
-      >
-        <FormsHeaderText text="Customer Details" />
-
-        {editCustomer ? (
-          <Button
-            variant="contained"
-            size="small"
-            sx={{textTransform: "capitalize"}}
-            color="success"
-            onClick={handleSubmit(updateDetail)}
-          >
-            <UpgradeOutlinedIcon fontSize="small" />
-            Update
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            size="small"
-            sx={{textTransform: "capitalize"}}
-            onClick={() => setEditCustomer(true)}
-          >
-            <ModeEditOutlineOutlinedIcon fontSize="small" /> Edit
-          </Button>
-        )}
-      </Box>
-
-      <Grid container spacing={1}>
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            register={register("customer_name", {required: true})}
-            label="Customer Name"
-            disabled={!editCustomer}
-          />
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={6}>
-          <Input
-            register={register("customer_number", {required: true})}
-            label="Customer Number"
-            disabled={!editCustomer}
-            //placeholder="Enter customer number"
-          />
-        </Grid>
-
-        <Grid item xs={8}>
-          <Input
-            register={register("address", {required: true})}
-            label="Residential Address"
-            disabled={!editCustomer}
-            //placeholder="Enter customer name"
-          />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6}>
-          <Input
-            register={register("local_govt", {required: true})}
-            label="LGA"
-            disabled={!editCustomer}
-            //placeholder="Enter customer number"
-          />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6}>
-          <Input
-            register={register("city", {required: true})}
-            label="City"
-            disabled={!editCustomer}
-            // placeholder="Enter customer name"
-          />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6}>
-          <Input
-            register={register("state", {required: true})}
-            label="State"
-            disabled={!editCustomer}
-            //placeholder="Enter customer number"
-          />
-        </Grid>
-
-        <Grid item lg={4} md={4} sm={6}>
-          <Input
-            register={register("country", {required: true})}
-            label="Country"
-            disabled={!editCustomer}
-            //placeholder="Enter customer number"
-          />
-        </Grid>
-        {/* 
-        <Grid item xs={12}>
-          <RadioButton
-            //title="Customer Type"
-            options={["Personal", "Organization"]}
-            register={register("customer_type", {required: true})}
-            defaultValue="Personal"
-          />
-        </Grid> */}
-      </Grid>
-    </Box>
-  );
-};
+import CustomerDetail from "../global/CustomerDetail";
+import LeadDetailView from "../global/LeadDetail";
 
 export const LeadView = () => {
   const {register, reset, control, handleSubmit} = useForm();
@@ -313,17 +174,17 @@ export const DetailView = () => {
   return (
     <>
       <Grid container spacing={2} pr={2} pl={2}>
-        <Grid item lg={6} md={6} sm={12}>
+        <Grid item lg={6} md={12} sm={12}>
           <Box mb={1}>
-            <LeadView />
+            <LeadDetailView />
           </Box>
 
           <Box>
-            <CustomerView />
+            <CustomerDetail />
           </Box>
         </Grid>
 
-        <Grid item lg={6} md={6} sm={12}>
+        <Grid item lg={6} md={12} sm={12}>
           <AdditionalInformationView />
         </Grid>
       </Grid>

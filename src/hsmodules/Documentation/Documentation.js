@@ -76,7 +76,7 @@ export default function Documentation({standalone}) {
           <Box
             item
             sx={{
-              width: "calc(100% - 320px)",
+              width: "calc(100% - 310px)",
             }}
           >
             <EncounterMain chosenClient={selectedClient} />

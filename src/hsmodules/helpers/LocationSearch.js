@@ -184,58 +184,6 @@ export default function LocationSearch({
   }, [clear]);
   return (
     <div>
-      {/* <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
-          >
-            <div className="dropdown-trigger" style={{width: "100%"}}>
-              <DebouncedInput
-                label="Search for location"
-                value={simpa}
-                minLength={3}
-                onBlur={handleBlur}
-                onChangeValue={handleSearch}
-                inputRef={inputEl}
-                style={{height: "38px"}}
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            <div className="dropdown-menu expanded" style={{width: "100%"}}>
-              <div className="dropdown-content">
-                {facilities.map((facility, i) => (
-                  <div
-                    className="dropdown-item selectadd "
-                    key={facility._id}
-                    onClick={() => {
-                      handleRow(facility);
-                      setCloseDropdown(true);
-                    }}
-                  >
-                    <div style={{cursor: "pointer"}}>
-                      {closeDropdown ? (
-                        <></>
-                      ) : (
-                        <>
-                          <span className="padleft">{facility.name}</span>
-                          <span className="padleft">
-                            {facility.locationType}
-                          </span>
-                        </>
-                      )}
-                    </div>
-
-                    <br />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <Autocomplete
         size="small"
         value={simpa}

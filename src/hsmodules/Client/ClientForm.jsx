@@ -23,19 +23,25 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import {Box, Grid} from "@mui/material";
 import {FormsHeaderText} from "../../components/texts";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
+import ClientGroup from "./ClientGroup";
 
-const ClientForm = ({open, setOpen}) => {
+const ClientForm = ({closeModal, setOpen}) => {
   const ClientServ = client.service("client");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isFullRegistration, setFullRegistration] = useState(false);
   const data = localStorage.getItem("user");
+  const [patList, setPatList] = useState([]);
+  const [duplicateModal, setDuplicateModal] = useState(false);
   const user = JSON.parse(data);
 
   const {
     register,
     handleSubmit,
     formState: {isSubmitSuccessful, errors},
+    control,
+    getValues,
   } = useForm({
     resolver: yupResolver(createClientSchema),
 
@@ -67,14 +73,173 @@ const ClientForm = ({open, setOpen}) => {
     setOpen(false);
     setLoading(false);
   };
-  const showRegister = data => console.log(">>>>>>", data);
+
+  const checkClient = () => {
+    console.log("checking client");
+    const data = getValues();
+    //data.dob = date;
+    const obj = {
+      firstname: data.firstname,
+      middlename: data.middlename,
+      lastname: data.lastname,
+      gender: data.gender,
+      email: data.email,
+      phone: data.phone,
+      dob: data.dob,
+    };
+
+    let query = {};
+
+    if (!!data.phone) {
+      query.phone = data.phone;
+      checkQuery(query);
+    }
+
+    if (!!data.email) {
+      query.email = data.email;
+      checkQuery(query);
+    }
+
+    if (!!data.firstname && !!data.lastname && !!data.gender && !!data.dob) {
+      // console.log("simpa")
+      data.middlename = data.middlename || "";
+      (query.gender = data.gender),
+        (query.dob = data.dob),
+        (query.$or = [
+          {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            middlename: data.middlename,
+          },
+          {
+            firstname: data.firstname,
+            lastname: data.middlename,
+            middlename: data.lastname,
+          },
+          {
+            firstname: data.middlename,
+            lastname: data.lastname,
+            middlename: data.firstname,
+          },
+          {
+            firstname: data.middlename,
+            lastname: data.firstname,
+            middlename: data.lastname,
+          },
+          {
+            firstname: data.lastname,
+            lastname: data.firstname,
+            middlename: data.middlename,
+          },
+          {
+            firstname: data.lastname,
+            lastname: data.middlename,
+            middlename: data.firstname,
+          },
+        ]);
+      checkQuery(query);
+    }
+  };
+
+  const checkQuery = query => {
+    setPatList([]);
+    if (
+      !(
+        query &&
+        Object.keys(query).length === 0 &&
+        query.constructor === Object
+      )
+    ) {
+      ClientServ.find({query: query})
+        .then(res => {
+          console.log(res);
+          if (res.total > 0) {
+            // alert(res.total)
+            setPatList(res.data);
+            setDuplicateModal(true);
+            return;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
+
+  const dupl = client => {
+    toast({
+      message: "Client previously registered in this facility",
+      type: "is-danger",
+      dismissible: true,
+      pauseOnHover: true,
+    });
+    reset();
+    setPatList([]);
+  };
+
+  const reg = async client => {
+    if (
+      client.relatedfacilities.findIndex(
+        el => el.facility === user.currentEmployee.facilityDetail._id
+      ) === -1
+    ) {
+      //create mpi record
+      const newPat = {
+        client: client._id,
+        facility: user.currentEmployee.facilityDetail._id,
+        mrn: client.mrn,
+        clientTags: client.clientTags,
+        relfacilities: client.relatedfacilities,
+      };
+      //console.log(newPat)
+      await mpiServ
+        .create(newPat)
+        .then(resp => {
+          toast({
+            message: "Client created succesfully",
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        })
+        .catch(err => {
+          toast({
+            message: "Error creating Client " + err,
+            type: "is-danger",
+            dismissible: true,
+            pauseOnHover: true,
+          });
+        });
+    }
+    //reset form
+    reset();
+    setPatList([]);
+    //cash payment
+  };
+
+  const depen = client => {
+    setDependant(true);
+  };
 
   return (
-    <ModalBox open={open} onClose={setOpen}>
+    <>
+      <ModalBox
+        open={duplicateModal}
+        onClose={() => setDuplicateModal(false)}
+        header="Client With Similar Information already Exist"
+      >
+        <ClientGroup
+          list={patList}
+          closeModal={() => setDuplicateModal(false)}
+          //choosen={choosen}
+          dupl={dupl}
+          reg={reg}
+          depen={depen}
+        />
+      </ModalBox>
+
       <form onSubmit={handleSubmit(submit)}>
         <ToastContainer theme="colored" />
-
-        {/* Start form */}
         <PageWrapper>
           <div>
             <HeadWrapper>
@@ -84,11 +249,12 @@ const ClientForm = ({open, setOpen}) => {
                     ? "Complete Client Registeration"
                     : "Quick Client Registeration"
                 }`}</h2>
-                <span>
-                  Create a New client by filling out the form below to get
-                  started.
-                </span>
+                {/* <span>
+                Create a New client by filling out the form below to get
+                started.
+              </span> */}
               </div>
+
               {isFullRegistration ? (
                 <GlobalCustomButton onClick={() => setFullRegistration(false)}>
                   <ElectricBoltIcon
@@ -116,6 +282,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="First Name"
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -123,6 +290,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="Middle Name"
                         register={register("middlename")}
                         errorText={errors?.middlename?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -130,6 +298,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="Last Name"
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -138,6 +307,7 @@ const ClientForm = ({open, setOpen}) => {
                         register={register("phone")}
                         type="tel"
                         errorText={errors?.phone?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
@@ -146,19 +316,21 @@ const ClientForm = ({open, setOpen}) => {
                         register={register("email")}
                         type="email"
                         errorText={errors?.email?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
-                      <BasicDatePicker
-                        label="dob"
-                        register={register("dob")}
-                        errorText={errors?.dob?.message}
+                      <MuiCustomDatePicker
+                        control={control}
+                        label="DOB"
+                        name="dob"
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={6}>
                       <CustomSelect
                         label="Gender"
                         register={register("gender", {required: true})}
+                        onBlur={checkClient}
                         options={[
                           {label: "Male", value: "Male"},
                           {label: "Female", value: "Memale"},
@@ -227,7 +399,7 @@ const ClientForm = ({open, setOpen}) => {
                   >
                     <GlobalCustomButton
                       color="warning"
-                      onClick={() => setOpen(false)}
+                      onClick={closeModal}
                       sx={{marginRight: "15px"}}
                     >
                       Cancel
@@ -256,6 +428,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="First Name"
                         register={register("firstname")}
                         errorText={errors?.firstname?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={4}>
@@ -263,6 +436,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="Middle Name"
                         register={register("middlename")}
                         errorText={errors?.middlename?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={3} md={4} sm={4}>
@@ -270,6 +444,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="Last Name"
                         register={register("lastname")}
                         errorText={errors?.lastname?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                   </Grid>
@@ -279,10 +454,10 @@ const ClientForm = ({open, setOpen}) => {
                       <FormsHeaderText text="Client Biodata" />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
-                      <BasicDatePicker
-                        label="Date of Birth"
-                        register={register("dob")}
-                        errorText={errors?.dob?.message}
+                      <MuiCustomDatePicker
+                        control={control}
+                        label="DOB"
+                        name="dob"
                       />
                     </Grid>
 
@@ -290,6 +465,7 @@ const ClientForm = ({open, setOpen}) => {
                       <CustomSelect
                         label="Gender"
                         register={register("gender")}
+                        onBlur={checkClient}
                         options={[
                           {label: "Male", value: "male"},
                           {label: "Female", value: "female"},
@@ -331,6 +507,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="Phone No"
                         register={register("phone")}
                         errorText={errors?.phone?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
                     <Grid item lg={2} md={4} sm={6}>
@@ -338,6 +515,7 @@ const ClientForm = ({open, setOpen}) => {
                         label="Email"
                         register={register("email")}
                         errorText={errors?.email?.message}
+                        onBlur={checkClient}
                       />
                     </Grid>
 
@@ -459,7 +637,7 @@ const ClientForm = ({open, setOpen}) => {
                   >
                     <GlobalCustomButton
                       color="warning"
-                      onClick={() => setOpen(false)}
+                      onClick={closeModal}
                       sx={{marginRight: "15px"}}
                     >
                       Cancel
@@ -480,7 +658,7 @@ const ClientForm = ({open, setOpen}) => {
           </div>
         </PageWrapper>
       </form>
-    </ModalBox>
+    </>
   );
 };
 
