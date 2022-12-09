@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import moment from "moment";
+import {formatDistanceToNowStrict} from "date-fns";
 
 export const ClientMiniSchema = [
   {
@@ -9,12 +10,13 @@ export const ClientMiniSchema = [
     selector: (row, i) => i + 1,
     sortable: true,
     inputType: "HIDDEN",
+    width: "50px",
   },
   {
     name: "First Name",
     key: "firstname",
     description: "First Name",
-    selector: (row) => row.firstname,
+    selector: row => row.firstname,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -24,7 +26,7 @@ export const ClientMiniSchema = [
     name: "Middlle Name",
     key: "middlename",
     description: "Midlle Name",
-    selector: (row) => row.middlename,
+    selector: row => (row.middlename ? row.middlename : "----------"),
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -34,7 +36,7 @@ export const ClientMiniSchema = [
     name: "Last Name",
     key: "lastname",
     description: "Last Name",
-    selector: (row) => row.lastname,
+    selector: row => row.lastname,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -44,7 +46,7 @@ export const ClientMiniSchema = [
     name: "Age",
     key: "dob",
     description: "Date of Birth",
-    selector: (row) => moment(row.dob).fromNow().split(" ")[0],
+    selector: row => formatDistanceToNowStrict(new Date(row.dob)),
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -54,7 +56,7 @@ export const ClientMiniSchema = [
     name: "Gender",
     key: "gender",
     description: "Male",
-    selector: (row) => row.gender,
+    selector: row => (row.gender ? row.gender : "----------"),
     sortable: true,
     required: true,
     inputType: "SELECT_LIST",
@@ -65,7 +67,7 @@ export const ClientMiniSchema = [
     name: "Email",
     key: "email",
     description: "johndoe@mail.com",
-    selector: (row) => row.email,
+    selector: row => (row.email ? row.email : "----------"),
     sortable: true,
     required: true,
     inputType: "EMAIL",
@@ -75,7 +77,7 @@ export const ClientMiniSchema = [
     name: "Phone Number",
     key: "phone",
     description: "0806478263",
-    selector: (row) => row.phone,
+    selector: row => row.phone,
     sortable: true,
     required: true,
     inputType: "PHONE",
@@ -85,7 +87,7 @@ export const ClientMiniSchema = [
     name: "Residential Address",
     key: "residentialaddress",
     description: "Ozumba Mbadiwe",
-    selector: (row) => row.residentialaddress,
+    selector: row => row.residentialaddress,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -96,7 +98,7 @@ export const ClientMiniSchema = [
     name: "Town",
     key: "town",
     description: "Ikate Elegushi",
-    selector: (row) => row.town,
+    selector: row => row.town,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -128,7 +130,7 @@ export const ClientMiniSchema = [
     name: "Next of Kin",
     key: "nextofkin",
     description: "Next of Kin",
-    selector: (row) => row.nextofkin,
+    selector: row => row.nextofkin,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -139,7 +141,7 @@ export const ClientMiniSchema = [
     name: "Next of kin Phone",
     key: "nextofkinphone",
     description: "Next of Kin",
-    selector: (row) => row.nextofkinphone,
+    selector: row => row.nextofkinphone,
     sortable: true,
     required: true,
     inputType: "TEXT",
@@ -147,13 +149,16 @@ export const ClientMiniSchema = [
   },
 ];
 
-// validation schema
+const nigerianPhoneRegExp = /^([0]{1})[0-9]{10}$/;
 
 export const createClientSchema = yup.object().shape({
   firstname: yup.string().required("Enter the first name of the client!"),
   lastname: yup.string().required("Enter the last name of the client!"),
   dob: yup.string().required("Enter the date of birth of the client!"),
-  phone: yup.string().required("Enter the phone number of the client!"),
+  phone: yup
+    .string()
+    .matches(nigerianPhoneRegExp, "Enter a valid phone number (0900000000000).")
+    .required("Enter the phone number of the client!"),
   email: yup
     .string()
     .email("Must be a valid email!")

@@ -1,10 +1,10 @@
 /* eslint-disable */
 
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; //Route, Switch,Link, NavLink,
-import client from '../../feathers';
-import api from '../../utils/api';
-import { DebounceInput } from 'react-debounce-input';
+import React, {useState, useContext, useEffect, useRef} from "react";
+import {useNavigate} from "react-router-dom"; //Route, Switch,Link, NavLink,
+import client from "../../feathers";
+import api from "../../utils/api";
+import {DebounceInput} from "react-debounce-input";
 //import {useNavigate} from 'react-router-dom'
 import { UserContext, ObjectContext } from '../../context';
 import { toast } from 'react-toastify';
@@ -13,40 +13,42 @@ import ClientFinInfo from './ClientFinInfo';
 import BillServiceCreate from '../Finance/BillServiceCreate';
 var random = require('random-string-generator');
 // import { AppointmentCreate } from "../Clinic/Appointments";
-import InfiniteScroll from 'react-infinite-scroll-component';
-import ClientBilledPrescription from '../Finance/ClientBill';
-import ClientGroup from './ClientGroup';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import InfiniteScroll from "react-infinite-scroll-component";
+import ClientBilledPrescription from "../Finance/ClientBill";
+import ClientGroup from "./ClientGroup";
+import DatePicker from "react-datepicker";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import "react-datepicker/dist/react-datepicker.css";
 
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
-import FilterMenu from '../../components/utilities/FilterMenu';
-import Button from '../../components/buttons/Button';
-import { PageWrapper } from '../../ui/styled/styles';
-import { TableMenu } from '../../ui/styled/global';
-import { ClientMiniSchema } from './schema';
-import { useForm } from 'react-hook-form';
+import FilterMenu from "../../components/utilities/FilterMenu";
+import Button from "../../components/buttons/Button";
+import {PageWrapper} from "../../ui/styled/styles";
+import {TableMenu} from "../../ui/styled/global";
+import {ClientMiniSchema} from "./schema";
+import {useForm} from "react-hook-form";
 import {
   BottomWrapper,
   DetailsWrapper,
   GrayWrapper,
   GridWrapper,
   HeadWrapper,
-} from '../app/styles';
-import Input from '../../components/inputs/basic/Input';
-import { Box, Portal, Grid, Button as MuiButton } from '@mui/material';
-import CustomTable from '../../components/customtable';
-import ModalBox from '../../components/modal';
-import ClientView from './ClientView';
-import ClientForm from './ClientForm';
-import CircleChart from '../dashBoardUiComponent/charts/CircleChart';
-import AreaChart from '../dashBoardUiComponent/charts/AreaChart';
-import BasicDatePicker from '../../components/inputs/Date';
-import CustomSelect from '../../components/inputs/basic/Select';
-import { AppointmentCreate } from './Appointments';
-import GlobalCustomButton from '../../components/buttons/CustomButton';
-import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
+} from "../app/styles";
+import Input from "../../components/inputs/basic/Input";
+import {Box, Portal, Grid, Button as MuiButton} from "@mui/material";
+import CustomTable from "../../components/customtable";
+import ModalBox from "../../components/modal";
+import ClientView from "./ClientView";
+import ClientForm from "./ClientForm";
+import CircleChart from "../dashBoardUiComponent/charts/CircleChart";
+import AreaChart from "../dashBoardUiComponent/charts/AreaChart";
+import BasicDatePicker from "../../components/inputs/Date";
+import CustomSelect from "../../components/inputs/basic/Select";
+import {AppointmentCreate} from "./Appointments";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
+import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
+import MuiCustomDatePicker from "../../components/inputs/Date/MuiDatePicker";
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -57,15 +59,15 @@ export default function Client() {
   const [selectedClient, setSelectedClient] = useState();
   const [showModal, setShowModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
-  //const [showState,setShowState]=useState() //create|modify|detail
+  const [createModal, setCreateModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(true);
-    console.log('Show Modal');
   };
 
   const handleHideModal = () => {
     setShowModal(false);
   };
+
   const handleShowRegisteredModal = () => {};
   const handleHideRegisteredModal = () => {};
 
@@ -73,20 +75,12 @@ export default function Client() {
     setDetailModal(true);
   };
 
-  // const createClientSchema = yup.object().shape({
-  //   firstName: yup.string().required("Enter a first name"),
-  //   middleName: yup.string().required("Enter a middle name"),
-  //   lastName: yup.string().required("Enter a last name"),
-  //   gender: yup.string().required("Select a Gender"),
-  //   maritalstatus: yup.string().required("Select a Marital Status"),
-  //   mrn: yup.string().required("Enter a Medical Record Number"),
-  // });
   return (
     <section className="section remPadTop">
       <div className="columns ">
         <div className="column is-6 ">
           <ClientList
-            showModal={handleShowModal}
+            openCreateModal={() => setCreateModal(true)}
             openDetailModal={handleOpenDetailModal}
           />
         </div>
@@ -95,8 +89,12 @@ export default function Client() {
           {state.ClientModule.show === 'modify' && (
             <ClientModify Client={selectedClient} />
           )}
-          <ModalBox open={showModal} setOpen={handleHideModal}>
-            <ClientForm open={showModal} setOpen={handleHideModal} />
+          <ModalBox
+            open={createModal}
+            onClose={() => setCreateModal(false)}
+            header="Create a New Client/Patient"
+          >
+            <ClientForm closeModal={() => setCreateModal(false)} />
           </ModalBox>
 
           <ModalBox
@@ -583,6 +581,7 @@ export function ClientCreate({ open, setOpen }) {
   );
 }
 
+
 export function ClientList({ showModal, openDetailModal }) {
   // const { register, handleSubmit, watch, errors } = useForm();
   // eslint-disable-next-line
@@ -612,8 +611,6 @@ export function ClientList({ showModal, openDetailModal }) {
   const [total, setTotal] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [open, setOpen] = useState(false);
-
-  console.log('Users', user);
   const handleCreateNew = async () => {
     const newClientModule = {
       selectedClient: {},
@@ -623,9 +620,9 @@ export function ClientList({ showModal, openDetailModal }) {
       ...prevstate,
       ClientModule: newClientModule,
     }));
+    openCreateModal(true);
     //console.log(state)
   };
-
   const handleRowClicked = (row) => {
     setSelectedUser(row);
     setOpen(true);
@@ -652,8 +649,8 @@ export function ClientList({ showModal, openDetailModal }) {
 
   const handleSearch = (val) => {
     // eslint-disable-next-line
-    const field = 'firstname';
-    console.log(val);
+    const field = "firstname";
+    //console.log(val);
     ClientServ.find({
       query: {
         $or: [
@@ -836,16 +833,10 @@ export function ClientList({ showModal, openDetailModal }) {
                   List of Clients
                 </h2>
               </div>
-
-              {handleCreateNew && (
-                <GlobalCustomButton onClick={showModal}>
-                  <AddCircleOutline
-                    fontSize="small"
-                    sx={{ marginRight: '5px' }}
-                  />
-                  Create Client
-                </GlobalCustomButton>
-              )}
+              <GlobalCustomButton onClick={handleCreateNew}>
+                <PersonAddIcon fontSize="small" sx={{marginRight: "5px"}} />
+                Create New Client
+              </GlobalCustomButton>
             </TableMenu>
 
             <div
@@ -896,7 +887,8 @@ export function ClientDetail({ closeDetailModal }) {
 
   const [success, setSuccess] = useState(false);
 
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const {register, handleSubmit, setValue, reset, control} = useForm();
+
 
   let Client = state.ClientModule.selectedClient;
   // eslint-disable-next-line
@@ -1110,8 +1102,8 @@ export function ClientDetail({ closeDetailModal }) {
       const res = await api.post('/register?scheme=4865616c7468737461636b', {
         firstName: Client.firstname,
         lastName: Client.lastname,
-        phoneNumber: Client.phone,
-        password: random(6, 'uppernumeric'),
+        phoneNumber: "+2347050917563",
+        password: "Kennis0007##",
       });
       console.log(res);
       toast.success('Wallet Created Successfully');
@@ -1202,11 +1194,14 @@ export function ClientDetail({ closeDetailModal }) {
           <GlobalCustomButton
             text="Schedule Appointment"
             onClick={handleSchedule}
-            customStyles={{
-              marginRight: '5px',
+            sx={{
+              marginRight: "5px",
+              backgroundColor: "#ee9b00",
+              color: "#ffffff",
+              "&:hover": {
+                backgroundColor: "#ee9b00",
+              },
             }}
-            variant="outlined"
-            color="secondary"
           />
           <GlobalCustomButton
             text="Attend to Client"
@@ -1257,20 +1252,11 @@ export function ClientDetail({ closeDetailModal }) {
 
               {(Client.dob || editClient) && (
                 <Grid item lg={3} md={4} sm={6}>
-                  {/* <Input
+                  <MuiCustomDatePicker
+                    control={control}
                     label="Date of Birth"
-                    // defaultValue={new Date(Client.dob).toLocaleDateString(
-                    //   "en-GB"
-                    // )}
+                    name="dob"
                     disabled={!editClient}
-                    register={register("dob")}
-                  /> */}
-
-                  <BasicDatePicker
-                    label="Date of Birth"
-                    //register={register("dob")}
-                    defaultValue={dayjs(Client?.dob).format('YYYY/MM/DD')}
-                    // errorText={errors?.dob?.message}
                   />
                 </Grid>
               )}

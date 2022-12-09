@@ -12,6 +12,8 @@ import Input from "../../components/inputs/basic/Input";
 import {Box, Card, Grow} from "@mui/material";
 // eslint-disable-next-line
 //const searchfacility={};
+import TextField from "@mui/material/TextField";
+import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 
 const useOnClickOutside = (ref, handler) => {
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function CategorySearch({
   getSearchfacility,
   clear,
   disable = false,
+  label,
 }) {
   const ClientServ = client.service("billing");
   const [facilities, setFacilities] = useState([]);
@@ -211,104 +214,58 @@ export default function CategorySearch({
 
   return (
     <div>
-      <div className="field">
-        <div className="control has-icons-left  ">
-          <div
-            className={`dropdown ${showPanel ? "is-active" : ""}`}
-            style={{width: "100%"}}
-          >
-            <div
-              className="dropdown-trigger"
-              style={{width: "100%", position: "relative"}}
-            >
-              <DebounceInput
-                className="input is-small  is-expanded mb-0"
-                type="text"
-                label="Search Service Category"
-                value={simpa}
-                minLength={3}
-                debounceTimeout={400}
-                onBlur={e => handleBlur(e)}
-                onChange={e => handleSearch(e.target.value)}
-                inputRef={inputEl}
-                element={Input}
-                disabled={disable}
-              />
-              <Grow in={showPanel}>
-                <Card>
-                  <Box
-                    ref={dropDownRef}
-                    container
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      maxHeight: "150px",
-                      overflowY: "scroll",
-                      zIndex: "5",
-                      position: "absolute",
-                      background: "#ffffff",
-                      width: "100%",
-                      border: "1px solid lightgray",
-                      zIndex: "100",
-                    }}
-                  >
-                    {facilities.length > 0 ? (
-                      facilities.map((facility, i) => (
-                        <Box
-                          item
-                          key={i}
-                          onClick={() => handleRow(facility)}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0 8px",
-                            width: "100%",
-                            minHeight: "50px",
-                            borderTop: i !== 0 ? "1px solid gray" : "",
-                            cursor: "pointer",
-                            zIndex: "100",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "0.75rem",
-                            }}
-                          >
-                            {facility.categoryname}
-                          </span>
-                        </Box>
-                      ))
-                    ) : (
-                      <Box
-                        className="dropdown-item"
-                        // onClick={handleAddproduct}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          padding: "0 8px",
-                          width: "100%",
-                          minHeight: "50px",
-                          borderTop: "1px solid gray",
-                          cursor: "pointer",
-                          zIndex: "100",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: "0.75rem",
-                          }}
-                        >
-                          {val} is not a know service category
-                        </span>{" "}
-                      </Box>
-                    )}
-                  </Box>
-                </Card>
-              </Grow>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa("");
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={option => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.categoryname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Category found"
+        renderOption={(props, option) => (
+          <li {...props} style={{fontSize: "0.75rem"}}>
+            {option.categoryname}
+          </li>
+        )}
+        sx={{
+          width: "100%",
+        }}
+        freeSolo={false}
+        renderInput={params => (
+          <TextField
+            {...params}
+            label={label || "Search for Category"}
+            onChange={e => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#ffffff",
+              "& .MuiInputBase-input": {
+                height: "0.9rem",
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: {color: "#2d2d2d"},
+            }}
+          />
+        )}
+      />
 
       <ModalBox
         open={productModal}

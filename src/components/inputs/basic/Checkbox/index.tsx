@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Typography,
 } from "@mui/material";
 import React, {useState} from "react";
 
@@ -45,29 +46,42 @@ const CheckboxInput: React.FC<CheckboxProps> = ({
       component="fieldset"
       sx={{width: "100%", mt: 1, mb: 1}}
     >
-      {/* <FormLabel component='legend'>{label}</FormLabel> */}
+      {label && (
+        <FormLabel
+          sx={{color: "#000000", fontSize: "0.85rem"}}
+          component="legend"
+        >
+          {label}
+        </FormLabel>
+      )}
+
       <FormGroup
+        onChange={handleChange}
+        defaultValue={defaultValue}
         sx={{
           display: "flex",
           flexDirection: "row",
-          flexWrap: "wrap",
-          alignItems: "center",
+          alignContent: "flex-start",
         }}
       >
         {options.map((option, i) => (
           <FormControlLabel
             key={i}
             defaultValue={defaultValue}
+            label={
+              <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+                {option}
+              </Typography>
+            }
             control={
               <Checkbox
                 name={name}
                 value={option.value || option || ""}
-                onChange={handleChange}
                 disabled={disabled}
                 {...register}
+                size="small"
               />
             }
-            label={option.label || option}
           />
         ))}
         <label>{errorText}</label>

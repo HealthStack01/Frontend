@@ -20,6 +20,7 @@ import ChatInterface from "../../../../components/chat/ChatInterface";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CustomTable from "../../../../components/customtable";
+import CustomerDetail from "../global/CustomerDetail";
 
 const data = [
   {
@@ -142,7 +143,7 @@ const InvoiceDetail = ({handleGoBack}) => {
       >
         <GlobalCustomButton onClick={handleGoBack}>
           <ArrowBackIcon />
-          Back To Lists
+          Back
         </GlobalCustomButton>
 
         <Box
@@ -183,7 +184,7 @@ const InvoiceDetail = ({handleGoBack}) => {
 
       <Grid container spacing={2} p={2}>
         <Grid item lg={6} md={6} sm={12}>
-          <InvoiceDetailsTab />
+          <CustomerDetail />
         </Grid>
 
         <Grid item lg={6} md={6} sm={12}>
@@ -230,7 +231,7 @@ const InvoiceDetail = ({handleGoBack}) => {
       >
         <Box
           sx={{
-            width: "25vw",
+            width: "500px",
             height: "100vh",
             overflowY: "hidden",
           }}

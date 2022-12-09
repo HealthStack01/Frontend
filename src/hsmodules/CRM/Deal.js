@@ -366,7 +366,7 @@ export function CheckIn({pageView, setPageView, showModal, setShowModal}) {
                     </div>
                   )}
                   <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                    Incoming Clients
+                    OPEN DEALS
                   </h2>
                   <CustomButton
                     style={{
@@ -678,7 +678,7 @@ export function CheckOut({pageView, setPageView, showModal, setShowModal}) {
                     </div>
                   )}
                   <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-                    Outgoing Clients
+                    CLOSED DEALS
                   </h2>
                   <CustomButton
                     style={{

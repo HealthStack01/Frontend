@@ -304,11 +304,11 @@ export function BillPrescriptionList({showCreateModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Number of Prescriptions",
+      name: "Number of Investigations",
       key: "order",
       description: "Enter number of prescription",
       selector: row =>
-        `${row.orders.length} pending prescription${
+        `${row.orders.length} pending investigation${
           row.orders.length > 1 ? "s" : ""
         }`,
       sortable: true,
@@ -401,7 +401,7 @@ export function BillPrescriptionList({showCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Pending Prescription
+              List of Pending Investigations
             </h2>
           </div>
           {/* 

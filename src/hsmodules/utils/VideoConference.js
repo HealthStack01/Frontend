@@ -4,6 +4,7 @@ import {Button} from "@mui/material";
 import React, {useState, useContext, useEffect, useRef} from "react";
 import Draggable from "react-draggable";
 import {Jutsu} from "react-jutsu";
+import GlobalCustomButton from "../../components/buttons/CustomButton";
 //import Button from "../../components/buttons/Button";
 //import { useJitsi } from 'react-jutsu' // Custom hook
 import {UserContext, ObjectContext} from "../../context";
@@ -23,7 +24,8 @@ const VideoConference = ({activateCall, setActivateCall}) => {
     event.preventDefault();
     setRoom(client._id);
     setName(user.firstname);
-    if (room && name) setActivateCall(true);
+    setActivateCall(true);
+
     // alert(`Kindly share link with client and other collaborators: https://meet.jit.si/${client._id}`)
   };
 
@@ -102,19 +104,15 @@ const VideoConference = ({activateCall, setActivateCall}) => {
       {/* <input id='room' type='text' placeholder='Room' value={room} onChange={(e) => setRoom(e.target.value)} />
       <input id='name' type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} /> */}
       {/*  <input id='password' type='text' placeholder='Password (optional)' value={password} onChange={(e) => setPassword(e.target.value)} /> */}
-      <Button
-        variant="contained"
+      <GlobalCustomButton
+        color="success"
         onClick={e => handleClick(e)}
-        type="submit"
         sx={{
-          fontSize: "0.9rem",
           width: "100%",
-          minHeight: "48px",
-          textTransform: "capitalize",
         }}
       >
         Teleconsultation
-      </Button>
+      </GlobalCustomButton>
     </form>
   );
 };

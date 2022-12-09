@@ -285,14 +285,14 @@ export function BillPrescriptionList({showCreateModal}) {
 
   const billPrescriptionSchema = [
     {
-      name: "S/NO",
+      name: "S/N",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
       sortable: true,
       required: true,
       inputType: "HIDDEN",
-      width: "80px",
+      width: "50px",
     },
     {
       name: "Name",
@@ -304,13 +304,11 @@ export function BillPrescriptionList({showCreateModal}) {
       inputType: "TEXT",
     },
     {
-      name: "Number of Prescriptions",
+      name: "Pending Tests",
       key: "order",
       description: "Enter number of prescription",
       selector: row =>
-        `${row.orders.length} pending prescription${
-          row.orders.length > 1 ? "s" : ""
-        }`,
+        `${row.orders.length} pending test${row.orders.length > 1 ? "s" : ""}`,
       sortable: true,
       required: true,
       inputType: "NUMBER",
@@ -319,8 +317,8 @@ export function BillPrescriptionList({showCreateModal}) {
 
   const selectedDispenseSchema = [
     {
-      name: "S/NO",
-      width: "80px",
+      name: "S/N",
+      width: "50px",
       key: "sn",
       description: "Enter name of Disease",
       selector: row => row.sn,
@@ -370,9 +368,7 @@ export function BillPrescriptionList({showCreateModal}) {
     },
     {
       name: "Requesting Physician",
-      headerStyle: (selector, id) => {
-        return {textAlign: "center"};
-      },
+      center: true,
       key: "name",
       description: "Enter Name",
       selector: row => row.requestingdoctor_Name,
@@ -401,17 +397,9 @@ export function BillPrescriptionList({showCreateModal}) {
               </div>
             )}
             <h2 style={{marginLeft: "10px", fontSize: "0.95rem"}}>
-              Pending Bills
+              List of Pending Tests
             </h2>
           </div>
-          {/* 
-          {handleCreateNew && (
-            <Button
-              style={{fontSize: "14px", fontWeight: "600"}}
-              label="Add new "
-              onClick={handleCreateNew}
-            />
-          )} */}
         </TableMenu>
         <div
           //className="columns"
@@ -423,7 +411,7 @@ export function BillPrescriptionList({showCreateModal}) {
         >
           <div
             style={{
-              height: "calc(100% - 70px)",
+              height: "calc(100vh - 170px)",
               transition: "width 0.5s ease-in",
               width: selectedDispense ? "30%" : "100%",
             }}
@@ -444,7 +432,7 @@ export function BillPrescriptionList({showCreateModal}) {
             <>
               <div
                 style={{
-                  height: "calc(100% - 70px)",
+                  height: "calc(100vh - 170px)",
                   width: "69.5%",
                 }}
               >

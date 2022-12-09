@@ -6,17 +6,21 @@ import {ThreeCircles} from "react-loader-spinner";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import Zoom from "@mui/material/Zoom";
+import Highlighter from "react-highlight-words";
 
 import "./styles.scss";
 import moment from "moment";
 
 import {messages} from "./data";
+import FilterMenu from "../utilities/FilterMenu";
+import ExpandableSearchInput from "../inputs/Search/ExpandableSearch";
 
 const ChatInterface = ({closeChat}) => {
   const [chatMessages, setChatMessages] = useState([...messages]);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [goDownIcon, setGoDownIcon] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const messagesContainerRef = useRef(null);
   const chatBoxContainerRef = useRef(null);
@@ -110,6 +114,17 @@ const ChatInterface = ({closeChat}) => {
 
   const formatChatMessages = [];
 
+  const handleSearchChange = e => {
+    const value = e.target.value;
+    setSearchValue(value);
+  };
+
+  const searchedMessages = messages.filter(message => {
+    if (searchValue === "") return message;
+    if (message.message?.toLowerCase().includes(searchValue.toLowerCase()))
+      return message;
+  });
+
   return (
     <Box
       sx={{
@@ -124,11 +139,19 @@ const ChatInterface = ({closeChat}) => {
           height: "50px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           backgroundColor: "#f0f0f0",
           padding: "0 15px",
         }}
       >
+        <Box sx={{width: "calc(100% - 100px)"}}>
+          {/* <FilterMenu onSearch={handleSearch} value={searchValue} /> */}
+          <ExpandableSearchInput
+            onChange={handleSearchChange}
+            value={searchValue}
+          />
+        </Box>
+
         <IconButton onClick={closeChat}>
           <CloseIcon />
         </IconButton>
@@ -147,7 +170,7 @@ const ChatInterface = ({closeChat}) => {
         ref={chatBoxContainerRef}
         onScroll={handleOnScroll}
       >
-        {chatMessages.map(messageItem => {
+        {searchedMessages.map(messageItem => {
           const {message, _id, userId, time, name, status, dp} = messageItem;
           const currentUser = "00";
           const isUserMsg = currentUser === userId;
@@ -228,7 +251,14 @@ const ChatInterface = ({closeChat}) => {
                         color: isUserMsg ? "#000000" : "#ffffff",
                       }}
                     >
-                      {message} <div style={{width: "50px"}} />
+                      <Highlighter
+                        highlightClassName="chat-message-highlight-search"
+                        searchWords={[`${searchValue}`]}
+                        autoEscape={true}
+                        textToHighlight={message}
+                        activeIndex={1}
+                      />
+                      <div style={{width: "50px"}} />
                     </Typography>
 
                     <Box

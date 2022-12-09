@@ -33,7 +33,10 @@ import ModalBox from "../../components/modal";
 import "./complaint.css";
 import CreateComplaint from "./CreateComplaint";
 import DetailComplaints from "./DetailComplaints"
-
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 const searchfacility = {};
 
@@ -878,38 +881,49 @@ export  function ComplaintList({openCreateModal}) {
                 progressPending={loading}
               /> */}
           {dummyComplaints.map(data => (
-            <div
-            key={data.id}
-              className="complaint_wrapper"
-              onClick={() => navigate("/app/complaints/detailComplaints")}
-            >
-              <div className="complaint_head">
-                <div className="complaint_head_left">
-                  <Avatar src="/img_avatar.png" alt=""/>
-                  <h1>{data.name}</h1>
-                </div>
-                <p>
-                  Category: <strong>{data.category}</strong>
-                </p>
-              </div>
-              <div className="complaint_foot">
-                <p style={{color: "#979DAC", width: "60%"}}>
-                  {data.description}
-                </p>
-                {/* <p
-                  style={{
-                    color: data.status == "Pending" ? "#17935C" : "#F1A153",
-                    fontWeight: 700,
-                    margin: "0",
-                  }}
-                >
-                  {data.status}
-                </p> */}
-              </div>
-              <p style={{color: "#979DAC", margin: "0 0 0 50px"}}>
-                {data.date}
-              </p>
-            </div>
+            // <div
+            // key={data.id}
+            //   className="complaint_wrapper"
+            //   onClick={() => navigate("/app/complaints/detailComplaints")}
+            // >
+            <Card sx={{ maxWidth: "100%",overflow: 'auto', margin:"2rem",boxShadow:'5px 5px 5px 5px rgba(0,0,0,0.12)'}} key={data.id} onClick={() => navigate("/app/complaints/detailComplaints")}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:"space-between" }}>
+                <CardHeader
+            avatar={
+              <Avatar src="/img_avatar.png" alt=""  aria-label="recipe"/>
+            }
+            fontSize="16px" fontWeight="bold"
+            title={
+              <Typography variant="h1" fontSize="16px" fontWeight="bold" color="text.secondary">
+                {data.name}
+            </Typography>
+            }
+            
+            />
+            <CardContent>
+
+            <Typography variant="h1" fontSize="16px" fontWeight="bold" color="text.secondary">
+            Category: {data.category}
+            </Typography>
+            <Typography style={{color: data.status == 'Pending' ? "#17935C" : "#F1A153", fontWeight: 700, margin: '0.5rem'}} variant="p">
+              {data.status}
+            </Typography>
+            </CardContent>
+            </Box>
+           
+
+            <CardContent>
+            <Typography  variant="body2" fontSize="14px" color="black">
+               {data.description}
+            </Typography>
+            </CardContent>
+            <CardContent>
+            <Typography variant="h1" fontSize="12px" fontWeight="bold" color="text.secondary">
+               {data.date}
+            </Typography>
+            </CardContent>
+            
+            </Card>
           ))}
         </div>
       </PageWrapper>

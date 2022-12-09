@@ -4,8 +4,10 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-} from '@mui/material';
-import React from 'react';
+  Typography,
+} from "@mui/material";
+import React from "react";
+
 
 interface RadioProps {
   name: string;
@@ -30,28 +32,34 @@ const RadioButton: React.FC<RadioProps> = ({
   checked,
   value,
 }) => (
-  <FormControl
-    disabled={disabled}
-    component="fieldset"
-    sx={{ width: '100%', mt: 1, mb: 1 }}
-  >
-    <FormLabel component="legend">{title}</FormLabel>
+  <FormControl disabled={disabled} component="fieldset" sx={{width: "100%"}}>
+    <FormLabel
+      sx={{color: "#000000", fontSize: "0.85rem", margin: 0, padding: 0}}
+      component="legend"
+    >
+      {title}
+    </FormLabel>
     <RadioGroup
       row
       aria-label={name}
       name={name}
       onChange={onChange}
       value={value}
+      defaultValue={defaultValue}
     >
       {options.map((option, i) => (
         <FormControlLabel
           key={i}
-          value={option.value || option || ''}
-          control={<Radio {...register} />}
-          label={option.label || option || ''}
+          value={option.value || option || ""}
+          control={<Radio {...register} sx={{margin: 0}} size="small" />}
+          label={
+            <Typography sx={{fontSize: "0.8rem", marginLeft: "-5px"}}>
+              {option.label || option || ""}
+            </Typography>
+          }
           disabled={option.disabled}
           defaultValue={defaultValue}
-          sx={{ transform: 'scale(0.8)' }}
+          //sx={{transform: "scale(0.8)"}}
           // checked={defaultValue === (option.value || option || '')}
         />
       ))}
