@@ -47,6 +47,7 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import Drawer from '@mui/material/Drawer';
 import ChatInterface from '../../components/chat/ChatInterface';
 import CloseIcon from '@mui/icons-material/Close';
+import CRMTasks from '../CRM/Tasks';
 
 // eslint-disable-next-line
 const searchfacility = {};
@@ -77,6 +78,11 @@ export function Details() {
   const [approve, setApprove] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openClaims, setOpenClaims] = useState(false);
+  const [openReview, setOpenReview] = useState(false);
+  const [unitPrice, setUnitPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
   const dummyData = [
     {
       item: 'Today',
@@ -107,7 +113,7 @@ export function Details() {
       inputType: 'TEXT',
     },
     {
-      name: 'Submitted QTY',
+      name: 'QTY',
       key: 'submittedQuantity',
       description: 'Submitted QTY',
       selector: (row) => row.submittedQuantity,
@@ -115,7 +121,7 @@ export function Details() {
       inputType: 'TEXT',
     },
     {
-      name: 'Submitted Bill',
+      name: 'Submitted Amount',
       key: 'submittedBill',
       description: 'Submitted Bill',
       selector: (row) => row.submittedBill,
@@ -131,7 +137,7 @@ export function Details() {
       inputType: 'TEXT',
     },
     {
-      name: 'Payable Bill',
+      name: 'Payable Amount',
       key: 'payableBill',
       description: 'Payable Bill',
       selector: (row) => row.payableBill,
@@ -154,7 +160,7 @@ export function Details() {
         <>
           <GlobalCustomButton
             sx={{ marginRight: '15px' }}
-            onClick={() => setApprove(true)}
+            onClick={() => setOpenReview(true)}
           >
             Review
           </GlobalCustomButton>
@@ -304,6 +310,16 @@ export function Details() {
                   customStyles={{ marginRight: '.8rem' }}
                 />
                 <GlobalCustomButton
+                  onClick={
+                    currentPage === 1
+                      ? () => setCurrentPage(2)
+                      : () => setCurrentPage(1)
+                  }
+                  text={currentPage === 1 ? 'Task' : 'Details'}
+                  variant="outlined"
+                  customStyles={{ marginRight: '.8rem' }}
+                />
+                <GlobalCustomButton
                   onClick={() => setOpenClaims(true)}
                   text="Assign Claim"
                   color="primary"
@@ -321,79 +337,73 @@ export function Details() {
                     color="primary"
                   />
                 </Badge>
+                <GlobalCustomButton
+                  onClick={() => navigate('/app/managed-care/claims')}
+                  text="Back"
+                  color="warning"
+                />
               </Box>
             </Box>
+            {currentPage === 1 && (
+              <>
+                <p>Request Sent 08/05/2022 9:45pm</p>
+                <McText txt={'Clinical Information'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                  </Grid>
+                </Grid>
 
-            <p>Request Sent 08/05/2022 9:45pm</p>
-            <McText txt={'Clinical Information'} />
-            <Grid container spacing={2} mb={1}>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Presenting Complaints:</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt
-                </p>
-              </Grid>
-            </Grid>
+                <McText txt={'Clinical Findings'} />
+                <Grid container spacing={2} mb={1}>
+                  <Grid item xs={12}>
+                    <p style={{ fontWeight: 'bold' }}>Examination Findings:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
 
-            <McText txt={'Clinical Findings'} />
-            <Grid container spacing={2} mb={1}>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Examination Findings:</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt
-                </p>
-
-                <p style={{ fontWeight: 'bold' }}>Diagonsis:</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt
-                </p>
-                <p style={{ fontWeight: 'bold' }}>Investigations:</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt
-                </p>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <FormsHeaderText text={'Services / Products'} />
-                <CustomTable
-                  title={''}
-                  columns={serviceSchema}
-                  data={dummyData}
-                  pointerOnHover
-                  highlightOnHover
-                  striped
-                  //conditionalRowStyles={conditionalRowStyles}
-                />
-              </Grid>
-            </Grid>
-
-            {/* <McText txt={'Amount'} />
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Input />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Reason for Request:</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt
-                </p>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <p style={{ fontWeight: 'bold' }}>Physician Name:</p>
-                <p>Dr. John Doe</p>
-                <p>Lagos State Hospital</p>
-              </Grid>
-            </Grid> */}
+                    <p style={{ fontWeight: 'bold' }}>Diagonsis:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                    <p style={{ fontWeight: 'bold' }}>Investigations:</p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt
+                    </p>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FormsHeaderText text={'Amount'} />
+                    <Input value={'10,000'} disabled />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12}>
+                    <FormsHeaderText text={'Services / Products'} />
+                    <CustomTable
+                      title={''}
+                      columns={serviceSchema}
+                      data={dummyData}
+                      pointerOnHover
+                      highlightOnHover
+                      striped
+                      //conditionalRowStyles={conditionalRowStyles}
+                    />
+                  </Grid>
+                </Grid>
+              </>
+            )}
+            {currentPage === 2 && (
+              <div style={{ marginTop: '1rem' }}>
+                <CRMTasks />
+              </div>
+            )}
           </div>
         </Grid>
       </Grid>
@@ -404,13 +414,7 @@ export function Details() {
               <ModalHeader text={`Approve Claim  13229-BA`} />
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Comment'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Approve'} color="success" />
@@ -428,13 +432,7 @@ export function Details() {
 
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
-                  <Input label={'Name of Referral'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Institution'} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Input label={'Reason'} />
+                  <Textarea label={'Comment'} />
                 </Grid>
                 <Grid item xs={12}>
                   <GlobalCustomButton text={'Reject'} color="error" />
@@ -483,6 +481,47 @@ export function Details() {
             </form>
           </ModalBox>
         </>
+      )}
+      {openReview && (
+        <ModalBox open={openReview} onClose={() => setOpenReview(false)}>
+          <FormsHeaderText text={'Review Service / Product'} />
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={6}>
+              <Input
+                label="Unit Price"
+                type="number"
+                onChange={(e) => {
+                  setUnitPrice(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Input
+                label="Quantity"
+                type="number"
+                onChange={(e) => {
+                  setQuantity(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Input
+                label="Total Amount"
+                type="number"
+                value={unitPrice * quantity}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <GlobalCustomButton
+                text={'Review'}
+                color="success"
+                customStyles={{ marginRight: '.8rem' }}
+              />
+              <GlobalCustomButton text={'Cancel'} color="error" />
+            </Grid>
+          </Grid>
+        </ModalBox>
       )}
       <Drawer
         open={openDrawer}
