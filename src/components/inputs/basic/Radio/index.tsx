@@ -51,7 +51,7 @@ const RadioButton: React.FC<RadioProps> = ({
           label={option.label || option || ''}
           disabled={option.disabled}
           defaultValue={defaultValue}
-          sx={{ transform: 'scale(0.8)' }}
+          sx={{ transform: 'scale(0.8)', marginLeft: '-1.2rem' }}
           // checked={defaultValue === (option.value || option || '')}
         />
       ))}
