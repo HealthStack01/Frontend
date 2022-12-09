@@ -24,7 +24,7 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 import CalendarGrid from '../../components/calender';
 import ModalBox from '../../components/modal';
 import ModalHeader from './ui-components/Heading/modalHeader';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Autocomplete } from '@mui/material';
 import DebouncedInput from '../Appointment/ui-components/inputs/DebouncedInput';
 import { MdCancel } from 'react-icons/md';
 import Input from '../../components/inputs/basic/Input';
@@ -32,6 +32,9 @@ import GlobalCustomButton from '../../components/buttons/CustomButton';
 import BasicDatePicker from '../../components/inputs/Date';
 import MuiCustomTimePicker from '../../components/inputs/Date/MuiTimePicker';
 import BasicDateTimePicker from '../../components/inputs/DateTime';
+import RadioButton from '../../components/inputs/basic/Radio';
+import TextField from '@mui/material/TextField';
+import { FormsHeaderText } from '../../components/texts';
 // eslint-disable-next-line
 const searchfacility = {};
 
@@ -229,7 +232,6 @@ export function AppointmentCreate({ showModal, setShowModal }) {
     ClientServ.create(data)
       .then((res) => {
         //console.log(JSON.stringify(res))
-        e.target.reset();
         setAppointment_type('');
         setAppointment_status('');
         setClientId('');
@@ -303,25 +305,11 @@ export function AppointmentCreate({ showModal, setShowModal }) {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12}>
-              <div className="field ml-3 ">
-                {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
-                    <input
-                      type="radio"
-                      value={c}
-                      name="appointmentClass"
-                      {...register('appointmentClass', { required: true })}
-                      style={{
-                        border: '1px solid #0364FF',
-                        // transform: 'scale(1.5)',
-                        color: '#0364FF',
-                        margin: '0 .5rem',
-                      }}
-                    />
-                    {c + ' '}
-                  </label>
-                ))}
-              </div>
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -427,18 +415,17 @@ export function AppointmentCreate({ showModal, setShowModal }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GlobalCustomButton
-              variant="outlined"
-              color="error"
-              text="Cancel"
+              text="Submit"
+              onClick={handleSubmit(onSubmit)}
               customStyles={{
                 marginRight: '15px',
               }}
-              onClick={() => setShowModal(false)}
             />
-
             <GlobalCustomButton
-              text="Submit"
-              onClick={handleSubmit(onSubmit)}
+              variant="outlined"
+              color="error"
+              text="Cancel"
+              onClick={() => setShowModal(false)}
             />
           </Box>
         </form>
@@ -1082,10 +1069,17 @@ export function ClientModify({ showModal, setShowModal }) {
     });
 
     return () => {};
-  });
+  }, []);
   const handleChangeType = async (e) => {
     // await setAppointment_type(e.target.value)
     setValue('appointment_type', e.target.value, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+  const handleChangeClass = async (e) => {
+    // await setAppointment_type(e.target.value)
+    setValue('appointmentClass', e.target.value, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -1199,15 +1193,9 @@ export function ClientModify({ showModal, setShowModal }) {
     <>
       <div className="card ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <p>
-                {Client.firstname} {Client.lastname}
-              </p>
-            </Grid>
-          </Grid>
+          <FormsHeaderText text={`${Client.firstname} ${Client.lastname}`} />
 
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <LocationSearch
                 id={Client.locationId}
@@ -1224,13 +1212,13 @@ export function ClientModify({ showModal, setShowModal }) {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <div className="field ml-3 ">
-                {/* <label className= "mr-2 "> <b>Modules:</b></label> */}
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              {/* <div className="field ml-3 ">
                 {appClass.map((c, i) => (
-                  <label className=" is-small" key={c}>
+                  <>
                     <input
                       type="radio"
+                      key={i}
                       value={c}
                       name="appointmentClass"
                       {...register('appointmentClass', { required: true })}
@@ -1240,10 +1228,17 @@ export function ClientModify({ showModal, setShowModal }) {
                         margin: '.5rem',
                       }}
                     />
-                    {c + ' '}
-                  </label>
+                    <label>{c}</label>
+                  </>
                 ))}
-              </div>
+              </div> */}
+              <RadioButton
+                name="appointmentClass"
+                register={register('appointmentClass', { required: true })}
+                options={appClass}
+                value={Client?.appointmentClass}
+                onChange={handleChangeClass}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ alignItems: 'center' }}>
@@ -1286,8 +1281,13 @@ export function ClientModify({ showModal, setShowModal }) {
                 }}
               >
                 <option defaultChecked>Choose Appointment Type </option>
-                <option value="New">New Procedure</option>
-                <option value="Repeat">Repeat Procedure</option>
+                <option value="New">New</option>
+                <option value="Followup">Followup</option>
+                <option value="Readmission with 24hrs">
+                  Readmission with 24hrs
+                </option>
+                <option value="Annual Checkup">Annual Checkup</option>
+                <option value="Walk in">Walk-in</option>
               </select>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -1302,21 +1302,16 @@ export function ClientModify({ showModal, setShowModal }) {
                   width: '100%',
                 }}
               >
-                <option value="" defaultChecked>
-                  Appointment Status{' '}
-                </option>
+                <option defaultChecked>Appointment Status </option>
                 <option value="Scheduled">Scheduled</option>
                 <option value="Confirmed">Confirmed</option>
-                <option value="Billed">Billed</option>
-                <option value="Paid">Paid</option>
                 <option value="Checked In">Checked In</option>
-                <option value="Procedure in Progress">
-                  Procedure in Progress
-                </option>
-                <option value="Completed Procedure">Completed Procedure</option>
-                <option value="Checked Out">Checked Out</option>
+                <option value="Vitals Taken">Vitals Taken</option>
+                <option value="With Nurse">With Nurse</option>
+                <option value="With Doctor">With Doctor</option>
                 <option value="No Show">No Show</option>
                 <option value="Cancelled">Cancelled</option>
+                <option value="Billed">Billed</option>
               </select>
             </Grid>
           </Grid>
@@ -1331,28 +1326,6 @@ export function ClientModify({ showModal, setShowModal }) {
                 {...register('appointment_reason', { required: true })}
                 type="text"
                 placeholder="Appointment Reason"
-                rows="3"
-                cols="50"
-                style={{
-                  border: '1px solid #b6b6b6',
-                  borderRadius: '4px',
-                  color: ' #979DAC',
-                  width: '100%',
-                }}
-              >
-                {' '}
-              </textarea>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <label className="label" htmlFor="information">
-                Other Information
-              </label>
-              <textarea
-                className="input is-small"
-                name="information"
-                {...register('information', { required: true })}
-                type="text"
-                placeholder="Other Information"
                 rows="3"
                 cols="50"
                 style={{
@@ -1391,7 +1364,7 @@ export function ClientModify({ showModal, setShowModal }) {
   );
 }
 
-export function ClientSearch({ getSearchfacility, clear }) {
+export function ClientSearch({ id, getSearchfacility, clear, label }) {
   const ClientServ = client.service('client');
   const [facilities, setFacilities] = useState([]);
   // eslint-disable-next-line
@@ -1573,7 +1546,7 @@ export function ClientSearch({ getSearchfacility, clear }) {
 
   return (
     <div>
-      <div className="field">
+      {/* <div className="field">
         <div className="control has-icons-left  ">
           <div
             className={`dropdown ${showPanel ? 'is-active' : ''}`}
@@ -1595,17 +1568,6 @@ export function ClientSearch({ getSearchfacility, clear }) {
             </div>
             <div className="dropdown-menu expanded" style={{ width: '100%' }}>
               <div className="dropdown-content">
-                {/* {facilities.length > 0 ? (
-                  ''
-                ) : (
-                  <div
-                    className="dropdown-item" 
-                  >
-                    {' '}
-                    <span> {val} is not yet your client</span>{' '}
-                  </div>
-                )} */}
-
                 {facilities.map((facility, i) => (
                   <div
                     className="dropdown-item"
@@ -1639,7 +1601,59 @@ export function ClientSearch({ getSearchfacility, clear }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Autocomplete
+        size="small"
+        value={simpa}
+        onChange={(event, newValue) => {
+          handleRow(newValue);
+          setSimpa('');
+        }}
+        id="free-solo-dialog-demo"
+        options={facilities}
+        getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.firstname;
+        }}
+        //isOptionEqualToValue={(option, value) => option.id === value.id}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        noOptionsText="No Client found"
+        renderOption={(props, option) => (
+          <li {...props} style={{ fontSize: '0.75rem' }}>
+            {option.firstname}, {option.middlename}, {option.lastname},{' '}
+          </li>
+        )}
+        sx={{
+          width: '100%',
+        }}
+        freeSolo={false}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label || 'Search for Client'}
+            onChange={(e) => handleSearch(e.target.value)}
+            ref={inputEl}
+            sx={{
+              fontSize: '0.75rem',
+              backgroundColor: '#ffffff',
+              '& .MuiInputBase-input': {
+                height: '0.9rem',
+              },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              style: { color: '#2d2d2d' },
+            }}
+          />
+        )}
+      />
     </div>
   );
 }

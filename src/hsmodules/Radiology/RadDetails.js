@@ -154,8 +154,6 @@ export function RadiologyNoteCreate() {
     if (bill_report_status === 'Pending') {
       ClientServ.create(document)
         .then((res) => {
-          e.target.reset();
-
           setSuccess(true);
           toast.success('Lab Result created succesfully');
           setSuccess(false);
@@ -168,8 +166,6 @@ export function RadiologyNoteCreate() {
     if (bill_report_status === 'Draft') {
       ClientServ.patch(order.resultDetail._id, document)
         .then((res) => {
-          e.target.reset();
-
           setSuccess(true);
           toast.success('Radiology Result updated succesfully');
           setSuccess(false);
@@ -276,140 +272,149 @@ export function RadiologyNoteCreate() {
       </Grid>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Textarea
-              name="Procedure"
-              type="text"
-              register={register('Procedure', { required: true })}
-              label="Procedure"
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} mt={1}>
-            <Textarea
-              label="Clinical Indication"
-              name="Clinical Indication"
-              type="text"
-              register={register('Clinical Indication', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} mt={1}>
-            <Textarea
-              label="Technique"
-              name="Technique"
-              type="text"
-              register={register('Technique', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} mt={1}>
-            <Textarea
-              label="Comparison"
-              name="Comparison"
-              type="text"
-              register={register('Comparison', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} mt={1}>
-            <Textarea
-              label="Finding"
-              name="Finding"
-              type="text"
-              register={register('Finding', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} mt={1}>
-            <Textarea
-              label="Impression"
-              name="Impression"
-              type="text"
-              register={register('Impression', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} mt={1}>
-            <Textarea
-              label="Recommendation"
-              name="recommendation"
-              type="text"
-              register={register('recommendation', { required: true })}
-              disabled={bill_report_status === 'Final'}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            <input
-              type="radio"
-              name="status"
-              value="Draft"
-              checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
-              onChange={(e) => {
-                handleChangePart(e);
-              }}
-              disabled={bill_report_status === 'Final'}
-              style={{
-                margin: '1rem',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '.8rem',
-              }}
-            >
-              {' '}
-              Draft
-            </span>
-          </Grid>{' '}
-          <Grid item xs={12} sm={4}>
-            <input
-              type="radio"
-              name="status"
-              value="Final"
-              checked={reportStatus === 'Final'}
-              onChange={(e) => handleChangePart(e)}
-              disabled={bill_report_status === 'Final'}
-              style={{
-                margin: '1rem',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '.8rem',
-              }}
-            >
-              {' '}
-              Final{' '}
-            </span>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            {bill_report_status !== 'Final' && (
-              <GlobalCustomButton
-                text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
-                onClick={handleSubmit(onSubmit)}
+        <div
+          style={{
+            width: '100%',
+            height: 'calc(100vh - 150px)',
+            overflow: 'auto',
+            paddingRight: '1rem',
+          }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Textarea
+                name="Procedure"
+                type="text"
+                register={register('Procedure', { required: true })}
+                label="Procedure"
+                disabled={bill_report_status === 'Final'}
               />
-            )}
+            </Grid>
           </Grid>
-        </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} mt={1}>
+              <Textarea
+                label="Clinical Indication"
+                name="Clinical Indication"
+                type="text"
+                register={register('Clinical Indication', { required: true })}
+                disabled={bill_report_status === 'Final'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} mt={1}>
+              <Textarea
+                label="Technique"
+                name="Technique"
+                type="text"
+                register={register('Technique', { required: true })}
+                disabled={bill_report_status === 'Final'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} mt={1}>
+              <Textarea
+                label="Comparison"
+                name="Comparison"
+                type="text"
+                register={register('Comparison', { required: true })}
+                disabled={bill_report_status === 'Final'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} mt={1}>
+              <Textarea
+                label="Finding"
+                name="Finding"
+                type="text"
+                register={register('Finding', { required: true })}
+                disabled={bill_report_status === 'Final'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} mt={1}>
+              <Textarea
+                label="Impression"
+                name="Impression"
+                type="text"
+                register={register('Impression', { required: true })}
+                disabled={bill_report_status === 'Final'}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} mt={1}>
+              <Textarea
+                label="Recommendation"
+                name="recommendation"
+                type="text"
+                register={register('recommendation', { required: true })}
+                disabled={bill_report_status === 'Final'}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              <input
+                type="radio"
+                name="status"
+                value="Draft"
+                checked={reportStatus === 'Draft' || reportStatus === 'Pending'}
+                onChange={(e) => {
+                  handleChangePart(e);
+                }}
+                disabled={bill_report_status === 'Final'}
+                style={{
+                  margin: '1rem',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '.8rem',
+                }}
+              >
+                {' '}
+                Draft
+              </span>
+            </Grid>{' '}
+            <Grid item xs={12} sm={4}>
+              <input
+                type="radio"
+                name="status"
+                value="Final"
+                checked={reportStatus === 'Final'}
+                onChange={(e) => handleChangePart(e)}
+                disabled={bill_report_status === 'Final'}
+                style={{
+                  margin: '1rem',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '.8rem',
+                }}
+              >
+                {' '}
+                Final{' '}
+              </span>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              {bill_report_status !== 'Final' && (
+                <GlobalCustomButton
+                  text={bill_report_status === 'Pending' ? 'Save' : 'Update'}
+                  onClick={handleSubmit(onSubmit)}
+                />
+              )}
+            </Grid>
+          </Grid>
+        </div>
       </form>
       {productModal && (
         <ModalBox open onClose={() => setProductModal(false)}>

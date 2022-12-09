@@ -223,7 +223,7 @@ export function LabOrderList({ openReportFormModal }) {
       },
     })
       .then((res) => {
-        // console.log(res)
+        console.log(res);
         setFacilities(res.groupedOrder);
         setMessage(' ProductEntry  fetched successfully');
         setSuccess(true);

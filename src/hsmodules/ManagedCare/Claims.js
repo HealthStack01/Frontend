@@ -385,6 +385,9 @@ export function ClaimsCreate({ showModal, setShowModal }) {
 
           <Grid container spacing={2} mt={1}>
             <Grid item xs={12} sm={6}>
+              <Input name="patientName" label="Search Beneficiary" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <BasicDatePicker
                 name="addmissionDate"
                 label="Date of Admission"
@@ -395,6 +398,9 @@ export function ClaimsCreate({ showModal, setShowModal }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <BasicDatePicker name="entryDate" label="Date of Entry" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Input name="preAuthCode" label="Pre-Authorization Code" />
             </Grid>
             <Grid item xs={12} sm={6}>
               <CustomSelect
